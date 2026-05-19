@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/website.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=IBM+Plex+Sans:wght@400&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:24px;background:var(--section-soft);font-family:var(--font-body);}
+  .tag{font-size:10px;color:var(--text-4);text-transform:uppercase;letter-spacing:.04em;margin-bottom:16px;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:640px;}
+  .card{border-radius:4px;padding:20px;border:1px solid var(--border);}
+  .card h3{margin:0 0 12px;font-family:var(--font-heading);font-size:18px;font-weight:600;}
+  .card ul{margin:0;padding-left:18px;font-size:14px;line-height:1.6;color:var(--text-3);}
+  .weak{background:#f0f0ee;color:rgba(23,26,34,.55);}
+  .weak h3{color:rgba(23,26,34,.7);}
+  .strong{background:var(--green-soft-2);border-color:var(--green-border);}
+  .strong h3{color:var(--text);}
+</style>
+</head>
+<body>
+<p class="tag">company-website · comparison</p>
+<div class="grid">
+  <article class="card weak">
+    <h3>Traditional integration</h3>
+    <ul>
+      <li>Point-to-point adapters</li>
+      <li>Long SI cycles per line change</li>
+    </ul>
+  </article>
+  <article class="card strong">
+    <h3>Tier0 Unified Namespace</h3>
+    <ul>
+      <li>One namespace contract</li>
+      <li>Repeatable connect → publish → consume</li>
+    </ul>
+  </article>
+</div>
+</body>
+</html>
