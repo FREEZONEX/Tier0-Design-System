@@ -215,13 +215,31 @@ C) 对照 surfaces/marketing-deck/checklist.md 自检
 
 ## 本地预览
 
-在本仓库根目录启动 HTTP 服务后，在浏览器打开 `preview/` 下各 HTML 文件，例如：
+在本仓库根目录启动 HTTP 服务后，用浏览器查看 `preview/` 下的组件卡。两种方式共用 **8899 端口**，只需起一个服务。
+
+### 方式 A — 经典单页（改门户之前）
 
 ```bash
 cd "<本仓库根目录>"
 python3 -m http.server 8899
-# 例如 http://localhost:8899/preview/marketing-deck/footer-copyright.html
 ```
+
+浏览器打开组件索引：**http://localhost:8899/preview/classic.html**
+
+或直接打开某一个 HTML，例如：
+
+`http://localhost:8899/preview/marketing-deck/footer-copyright.html`
+
+### 方式 B — 维护门户（推荐，含全仓库目录树）
+
+```bash
+cd "<本仓库根目录>"
+./scripts/serve-preview.sh
+```
+
+浏览器打开：**http://localhost:8899/preview/**
+
+新增/移动文件后运行 `python3 scripts/build-preview-manifest.py` 更新索引（`classic.html` 与门户会一并更新）。
 
 详见 [`preview/README.md`](preview/README.md) — `_shared/` 原子 token；`tier0-product/`、`company-website/`、`marketing-deck/` 场景组件卡。
 
@@ -234,7 +252,9 @@ python3 -m http.server 8899
 | Figma — Tier0 设计素材 | https://www.figma.com/design/msabW3Xudtn6cCtdsxE7g2/Tier0-%E8%AE%BE%E8%AE%A1%E7%B4%A0%E6%9D%90 |
 | 产品站 | https://tier0.app/ |
 | GitHub | https://github.com/FREEZONEX/Tier0-Edge |
-| 文档 | https://tier0edge.vercel.app/ |
+| 文档 — Cloud | https://clouddoc.tier0.dev/ |
+| 文档 — Enterprise | https://enterprisedoc.tier0.dev/ |
+| 文档 — Edge | https://edgedoc.tier0.dev/ |
 
 **冲突时优先级：** Figma / 线上产品 > `sources/` 归档 > 本仓库叙述。
 
