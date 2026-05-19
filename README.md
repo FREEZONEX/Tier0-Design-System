@@ -2,8 +2,6 @@
 
 **Tier0** 是 FREEZONEX 面向工业 IoT 的开源 Unified Namespace (UNS) 平台。本仓库为 **多表面（multi-surface）设计系统**：共享品牌基础，并按场景拆分规范、Token 与 UI Kit。
 
-> 原版未拆分目录的备份见同级目录：`Tier0 Design System`（未改动）。本目录为重组后的工作副本。
-
 ---
 
 ## 场景选择器
