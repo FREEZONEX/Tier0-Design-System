@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/product.css">
+<style>
+  html,body{margin:0;padding:24px;background:#fff;font-family:var(--font-sans);}
+  .tag{font-size:10px;color:var(--tier0-text-tertiary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:16px;}
+  .row{display:flex;gap:24px;flex-wrap:wrap;}
+  .status{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;letter-spacing:-0.2px;}
+  .dot{width:8px;height:8px;border-radius:50%;}
+  .live .dot{background:var(--fx-lime);box-shadow:0 0 0 2px rgba(178,237,29,.35);}
+  .live{color:var(--fx-deep-green);}
+  .idle .dot{background:var(--fx-black-2);}
+  .idle{color:var(--tier0-text-tertiary);}
+</style>
+</head>
+<body>
+<p class="tag">tier0-product · status</p>
+<div class="row">
+  <span class="status live"><span class="dot"></span>LIVE</span>
+  <span class="status idle"><span class="dot"></span>Idle</span>
+</div>
+</body>
+</html>

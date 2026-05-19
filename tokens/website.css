@@ -1,0 +1,54 @@
+/* Tier0 Company Website (editorial / UNS long-form) — surface tokens */
+@import url("./core.css");
+@import url("./icon-card.css");
+
+:root {
+  --page: #ffffff;
+  --section-soft: #f7f8f4;
+  --surface: #ffffff;
+  --surface-soft: #f6f7f3;
+  --surface-soft-2: #f9faf6;
+
+  --text: #171a22;
+  --text-2: #454c57;
+  --text-3: #707780;
+  --text-4: #99a1aa;
+
+  --border: #e2e6de;
+  --border-2: #d6ddcf;
+
+  --green-brand: #a7cf3a;
+  --green-brand-2: #8ebb1d;
+  --green-soft: #eef6d7;
+  --green-soft-2: #f4f9e9;
+  --green-border: #ccde9d;
+
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "IBM Plex Sans", "IBM Plex Sans SC", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --frame-desktop: 1440px;
+  --container: 1280px;
+  --measure: 620px;
+
+  --fs-hero: 76px;
+  --fs-h2: 46px;
+  --radius-panel: 4px;
+  --radius-card: 4px;
+
+  /* Lucide icon tile (grid card) */
+  --icon-box-size: 42px;
+  --icon-box-radius: 6px;
+  --icon-box-bg: var(--green-soft);
+  --icon-box-color: var(--green-brand-2);
+  --icon-size: 22px;
+  --icon-stroke: 1.75;
+  --icon-box-gap: 18px;
+  --icon-card-border: var(--border);
+  --icon-card-bg: var(--surface);
+  --icon-card-radius: var(--radius-card);
+  --icon-card-padding: 26px;
+  --icon-card-min-height: 184px;
+  --icon-card-title-color: var(--text);
+  --icon-card-copy-color: var(--text-3);
+}

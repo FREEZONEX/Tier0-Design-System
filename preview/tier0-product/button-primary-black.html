@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/product.css">
+<style>
+  html,body{margin:0;padding:24px;background:var(--tier0-bg-secondary);font-family:var(--font-sans);}
+  .label{font-size:11px;color:var(--tier0-text-tertiary);margin-bottom:12px;letter-spacing:.04em;text-transform:uppercase;}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  button{border:0;cursor:pointer;font-family:var(--font-sans);font-weight:500;font-size:14px;letter-spacing:-0.27px;padding:8px 16px;height:36px;border-radius:4px;}
+  .primary{background:var(--tier0-button-primary);color:#fff;}
+  .primary:hover{background:#1a2330;}
+  .highlight{background:var(--tier0-button-highlight);color:var(--fx-on-lime);}
+  .highlight:hover{background:#bfe85a;}
+  .secondary{background:transparent;color:var(--tier0-text-color);border:1px solid var(--tier0-border);}
+  .secondary:hover{background:var(--tier0-bg-accent);}
+  .ghost{background:transparent;color:var(--tier0-text-secondary);}
+  .disabled{background:var(--fx-black-1);color:#fff;cursor:not-allowed;opacity:.9;}
+</style>
+</head>
+<body>
+<p class="label">tier0-product · buttons</p>
+<div class="row">
+  <button class="primary">Save changes</button>
+  <button class="highlight">Publish namespace</button>
+  <button class="secondary">Cancel</button>
+  <button class="ghost">Reset</button>
+  <button class="disabled" disabled>Disabled</button>
+</div>
+</body>
+</html>

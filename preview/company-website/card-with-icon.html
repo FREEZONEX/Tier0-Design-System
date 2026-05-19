@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/website.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=IBM+Plex+Sans:wght@400&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:24px;background:var(--page);font-family:var(--font-body);}
+  .tag{font-size:10px;color:var(--text-4);text-transform:uppercase;letter-spacing:.04em;margin-bottom:16px;}
+  .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:960px;}
+  .tier0-card-icon .card-title{font-family:var(--font-heading);font-size:22px;font-weight:600;}
+  .tier0-card-icon .card-copy{font-size:14px;}
+</style>
+</head>
+<body>
+<p class="tag">company-website · card with icon</p>
+<div class="card-grid">
+  <article class="tier0-card-icon">
+    <div class="tier0-icon-box"><i data-lucide="database" aria-hidden="true"></i></div>
+    <h3 class="card-title">Semantic MQTT</h3>
+    <p class="card-copy">Topic hierarchies OT and IT can share without point-to-point maps.</p>
+  </article>
+  <article class="tier0-card-icon">
+    <div class="tier0-icon-box"><i data-lucide="workflow" aria-hidden="true"></i></div>
+    <h3 class="card-title">Event Flow</h3>
+    <p class="card-copy">Orchestrate higher-level flows on top of the namespace.</p>
+  </article>
+  <article class="tier0-card-icon">
+    <div class="tier0-icon-box"><i data-lucide="shield-check" aria-hidden="true"></i></div>
+    <h3 class="card-title">Edge deploy</h3>
+    <p class="card-copy">Self-hosted or managed — built for production boundaries.</p>
+  </article>
+</div>
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<script>document.addEventListener("DOMContentLoaded",()=>lucide.createIcons());</script>
+</body>
+</html>

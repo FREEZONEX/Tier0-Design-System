@@ -1,0 +1,21 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens/core.css">
+<style>
+  html,body{margin:0;padding:0;background:#fff;font-family:var(--font-sans);color:#050B14;font-size:13px;}
+  table{width:100%;border-collapse:collapse;}
+  th,td{text-align:left;padding:12px 16px;border-bottom:1px solid #CCC;letter-spacing:-0.2px;}
+  th{font-weight:500;color:#585C62;font-size:11px;letter-spacing:0.4px;text-transform:uppercase;background:#fff;}
+  tr.hover{background:#F0FBD2;}
+  .mono{font-family:var(--font-mono);font-size:12px;}
+  .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:8px;vertical-align:middle;}
+</style></head><body>
+<table>
+  <thead><tr><th>Topic</th><th>Type</th><th>Rate</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td class="mono">factory/A/CNC/01</td><td>Time-series</td><td>24 Hz</td><td><span class="dot" style="background:#73B200"></span>Live</td></tr>
+    <tr class="hover"><td class="mono">factory/A/CNC/02</td><td>Time-series</td><td>24 Hz</td><td><span class="dot" style="background:#73B200"></span>Live</td></tr>
+    <tr><td class="mono">factory/B/WMS/orders</td><td>Relational</td><td>—</td><td><span class="dot" style="background:#ACAEB1"></span>Idle</td></tr>
+    <tr><td class="mono">factory/A/env/temp</td><td>Time-series</td><td>1 Hz</td><td><span class="dot" style="background:#73B200"></span>Live</td></tr>
+  </tbody>
+</table>
+</body></html>

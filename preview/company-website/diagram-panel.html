@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/website.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:24px;background:var(--section-soft);font-family:var(--font-body);}
+  .tag{font-size:10px;color:var(--text-4);text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px;}
+  .panel{max-width:560px;background:var(--surface-soft-2);border:1px solid var(--border);border-radius:4px;padding:32px;}
+  .caption{font-family:var(--font-mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--green-brand-2);margin-bottom:16px;}
+  .diagram{display:flex;align-items:center;justify-content:center;gap:16px;min-height:120px;}
+  .node{padding:12px 16px;border:1px solid var(--border);border-radius:4px;background:#fff;font-size:13px;color:var(--text-2);}
+  .arrow{color:var(--green-brand-2);font-size:18px;}
+</style>
+</head>
+<body>
+<p class="tag">company-website · diagram panel</p>
+<div class="panel">
+  <p class="caption">Source flow</p>
+  <div class="diagram">
+    <span class="node">PLC</span>
+    <span class="arrow">→</span>
+    <span class="node">Namespace</span>
+    <span class="arrow">→</span>
+    <span class="node">MES</span>
+  </div>
+</div>
+</body>
+</html>

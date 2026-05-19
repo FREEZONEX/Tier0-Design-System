@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/product.css">
+<style>
+  html,body{margin:0;padding:20px;background:#fff;font-family:var(--font-sans);font-size:14px;color:var(--tier0-text-color);}
+  .tag{font-size:10px;color:var(--tier0-text-tertiary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px;}
+  table{width:100%;max-width:520px;border-collapse:collapse;border:1px solid var(--tier0-border);}
+  th{text-align:left;font-weight:500;padding:10px 14px;border-bottom:1px solid var(--tier0-border);background:var(--tier0-bg-secondary);font-size:13px;color:var(--tier0-text-secondary);}
+  td{padding:12px 14px;border-bottom:1px solid var(--tier0-border);letter-spacing:-0.2px;}
+  tr:hover td{background:var(--tier0-bg-accent);}
+  tr.selected td{background:var(--tier0-bg-accent);}
+  .mono{font-family:var(--font-mono);font-size:12px;color:var(--tier0-text-secondary);}
+</style>
+</head>
+<body>
+<p class="tag">tier0-product · table rows</p>
+<table>
+  <thead>
+    <tr><th>Topic</th><th>Path</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cnc-01</td>
+      <td class="mono">plant/line1/cnc-01</td>
+      <td>Idle</td>
+    </tr>
+    <tr class="selected">
+      <td>press-02</td>
+      <td class="mono">plant/line1/press-02</td>
+      <td>Selected</td>
+    </tr>
+    <tr>
+      <td>robot-03</td>
+      <td class="mono">plant/line2/robot-03</td>
+      <td>Hover me</td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

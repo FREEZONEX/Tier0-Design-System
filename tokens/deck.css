@@ -1,0 +1,53 @@
+/* Tier0 Marketing Deck (PPT) — surface tokens */
+@import url("./core.css");
+@import url("./icon-card.css");
+
+:root {
+  /* Theme colors (PowerPoint theme1 aligned) */
+  --ppt-tx1: #050b14;
+  --ppt-bg1: #ffffff;
+  --ppt-lt2: #efece0;
+  --ppt-accent1: #b2ed1d;
+  --ppt-accent2: #73b200;
+  /* Emphasis title text (pick by canvas) */
+  --ppt-emphasis-on-dark: var(--ppt-accent1);   /* #B2ED1D — dark slides: title pick-words */
+  --ppt-emphasis-on-light: var(--ppt-accent2); /* #73B200 — white slides: eyebrow, title pick-words, KPI */
+  /* Structure on white slides: bullets, card top rule — always accent1 */
+  --ppt-accent-marker: var(--ppt-accent1);      /* #B2ED1D — dots, card top border */
+  --ppt-accent3: #196b24;
+  --ppt-accent4: #1d77fe;
+  --ppt-accent5: #a02b93;
+  --ppt-accent6: #4ea72e;
+  --ppt-highlight-wash: #e6f9b4;
+  /* deprecated: old parent-company footer bar — do not use on new slides */
+  --ppt-footer-pill: #040b13;
+
+  --font-cover: "Poppins", sans-serif;
+  --font-chapter: "Tektur", sans-serif;
+  --font-body-latin: "IBM Plex Sans", sans-serif;
+  --font-body-cjk: "IBM Plex Sans SC", sans-serif;
+  --font-footer: "IBM Plex Mono", monospace;
+
+  --slide-safe-margin: 48px;
+  --fs-slide-cover: 60px;
+  --fs-slide-chapter: 48px;
+  --fs-slide-page-title: 32px;
+  --fs-slide-body: 16px;
+  --radius-slide-card: 4px;
+
+  /* Lucide icon tile (white-slide cards) */
+  --icon-box-size: 40px;
+  --icon-box-radius: 6px;
+  --icon-box-bg: #eef6d7;
+  --icon-box-color: #8ebb1d;
+  --icon-size: 20px;
+  --icon-stroke: 1.75;
+  --icon-box-gap: 14px;
+  --icon-card-border: rgba(5, 11, 20, 0.1);
+  --icon-card-bg: var(--ppt-bg1);
+  --icon-card-radius: var(--radius-slide-card);
+  --icon-card-padding: 20px;
+  --icon-card-min-height: 160px;
+  --icon-card-title-color: var(--ppt-tx1);
+  --icon-card-copy-color: rgba(5, 11, 20, 0.65);
+}
