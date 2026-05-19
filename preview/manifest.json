@@ -1,0 +1,832 @@
+{
+  "version": 1,
+  "generatedAt": "2026-05-19T09:05:21.507272+00:00",
+  "repoName": "Tier0 Design System",
+  "stats": {
+    "totalIndexed": 89,
+    "htmlPreviews": 39,
+    "sections": 8
+  },
+  "sections": [
+    {
+      "id": "root",
+      "label": "仓库入口",
+      "subtitle": "README · Agent 路由",
+      "hint": "设计系统总索引与 AI 场景说明",
+      "fileCount": 2,
+      "groups": [
+        {
+          "id": "root--docs",
+          "label": "根目录",
+          "path": "",
+          "files": [
+            {
+              "path": "README.md",
+              "name": "README.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": ""
+            },
+            {
+              "path": "SKILL.md",
+              "name": "SKILL.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "foundations",
+      "label": "Foundations",
+      "subtitle": "全场景共享基础",
+      "hint": "品牌、色、字、间距、图标、语气",
+      "fileCount": 8,
+      "groups": [
+        {
+          "id": "foundations--foundations",
+          "label": "foundations",
+          "path": "foundations",
+          "files": [
+            {
+              "path": "foundations/README.md",
+              "name": "README.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "foundations"
+            },
+            {
+              "path": "foundations/brand.md",
+              "name": "brand.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "foundations"
+            },
+            {
+              "path": "foundations/color.md",
+              "name": "color.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "foundations"
+            },
+            {
+              "path": "foundations/iconography.md",
+              "name": "iconography.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "foundations"
+            },
+            {
+              "path": "foundations/icons-lucide.md",
+              "name": "icons-lucide.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "foundations"
+            },
+            {
+              "path": "foundations/spacing-layout.md",
+              "name": "spacing-layout.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "foundations"
+            },
+            {
+              "path": "foundations/typography.md",
+              "name": "typography.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "foundations"
+            },
+            {
+              "path": "foundations/voice-content.md",
+              "name": "voice-content.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "foundations"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tokens",
+      "label": "Tokens",
+      "subtitle": "设计变量 CSS",
+      "hint": "core + 各场景覆盖",
+      "fileCount": 5,
+      "groups": [
+        {
+          "id": "tokens--tokens",
+          "label": "tokens",
+          "path": "tokens",
+          "files": [
+            {
+              "path": "tokens/core.css",
+              "name": "core.css",
+              "kind": "css",
+              "previewable": false,
+              "group": "tokens"
+            },
+            {
+              "path": "tokens/deck.css",
+              "name": "deck.css",
+              "kind": "css",
+              "previewable": false,
+              "group": "tokens"
+            },
+            {
+              "path": "tokens/icon-card.css",
+              "name": "icon-card.css",
+              "kind": "css",
+              "previewable": false,
+              "group": "tokens"
+            },
+            {
+              "path": "tokens/product.css",
+              "name": "product.css",
+              "kind": "css",
+              "previewable": false,
+              "group": "tokens"
+            },
+            {
+              "path": "tokens/website.css",
+              "name": "website.css",
+              "kind": "css",
+              "previewable": false,
+              "group": "tokens"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "surfaces",
+      "label": "Surfaces",
+      "subtitle": "分场景规范文档",
+      "hint": "tier0-product · company-website · marketing-deck",
+      "fileCount": 12,
+      "groups": [
+        {
+          "id": "surfaces--surfaces/company-website",
+          "label": "company-website",
+          "path": "surfaces/company-website",
+          "files": [
+            {
+              "path": "surfaces/company-website/README.md",
+              "name": "README.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "surfaces/company-website"
+            },
+            {
+              "path": "surfaces/company-website/components.md",
+              "name": "components.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "surfaces/company-website"
+            },
+            {
+              "path": "surfaces/company-website/layout.md",
+              "name": "layout.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "surfaces/company-website"
+            }
+          ]
+        },
+        {
+          "id": "surfaces--surfaces/marketing-deck",
+          "label": "marketing-deck",
+          "path": "surfaces/marketing-deck",
+          "files": [
+            {
+              "path": "surfaces/marketing-deck/README.md",
+              "name": "README.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "surfaces/marketing-deck"
+            },
+            {
+              "path": "surfaces/marketing-deck/checklist.md",
+              "name": "checklist.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "surfaces/marketing-deck"
+            },
+            {
+              "path": "surfaces/marketing-deck/components.md",
+              "name": "components.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "surfaces/marketing-deck"
+            },
+            {
+              "path": "surfaces/marketing-deck/export.md",
+              "name": "export.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "surfaces/marketing-deck"
+            },
+            {
+              "path": "surfaces/marketing-deck/slide-templates.md",
+              "name": "slide-templates.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "surfaces/marketing-deck"
+            }
+          ]
+        },
+        {
+          "id": "surfaces--surfaces/tier0-product",
+          "label": "tier0-product",
+          "path": "surfaces/tier0-product",
+          "files": [
+            {
+              "path": "surfaces/tier0-product/README.md",
+              "name": "README.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "surfaces/tier0-product"
+            },
+            {
+              "path": "surfaces/tier0-product/checklist.md",
+              "name": "checklist.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "surfaces/tier0-product"
+            },
+            {
+              "path": "surfaces/tier0-product/components.md",
+              "name": "components.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "surfaces/tier0-product"
+            },
+            {
+              "path": "surfaces/tier0-product/layout.md",
+              "name": "layout.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "surfaces/tier0-product"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "preview",
+      "label": "Preview",
+      "subtitle": "组件 HTML 预览卡",
+      "hint": "浏览器内可直接查看效果",
+      "fileCount": 39,
+      "groups": [
+        {
+          "id": "preview--preview/_shared",
+          "label": "_shared",
+          "path": "preview/_shared",
+          "files": [
+            {
+              "path": "preview/_shared/buttons.html",
+              "name": "buttons.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/cards.html",
+              "name": "cards.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/colors-brand.html",
+              "name": "colors-brand.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/colors-neutrals.html",
+              "name": "colors-neutrals.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/colors-semantic.html",
+              "name": "colors-semantic.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/flow-diagram.html",
+              "name": "flow-diagram.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/hero-dark.html",
+              "name": "hero-dark.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/icons-lucide.html",
+              "name": "icons-lucide.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/icons.html",
+              "name": "icons.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/inputs.html",
+              "name": "inputs.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/labels-tags.html",
+              "name": "labels-tags.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/logo-dark.html",
+              "name": "logo-dark.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/radii.html",
+              "name": "radii.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/shadows.html",
+              "name": "shadows.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/spacing-scale.html",
+              "name": "spacing-scale.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/table.html",
+              "name": "table.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/type-body.html",
+              "name": "type-body.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/type-display.html",
+              "name": "type-display.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            },
+            {
+              "path": "preview/_shared/type-headings.html",
+              "name": "type-headings.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/_shared"
+            }
+          ]
+        },
+        {
+          "id": "preview--preview/company-website",
+          "label": "company-website",
+          "path": "preview/company-website",
+          "files": [
+            {
+              "path": "preview/company-website/buttons-cta.html",
+              "name": "buttons-cta.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/company-website"
+            },
+            {
+              "path": "preview/company-website/card-with-icon.html",
+              "name": "card-with-icon.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/company-website"
+            },
+            {
+              "path": "preview/company-website/comparison-cards.html",
+              "name": "comparison-cards.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/company-website"
+            },
+            {
+              "path": "preview/company-website/diagram-panel.html",
+              "name": "diagram-panel.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/company-website"
+            },
+            {
+              "path": "preview/company-website/eyebrow-chip.html",
+              "name": "eyebrow-chip.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/company-website"
+            },
+            {
+              "path": "preview/company-website/feature-card.html",
+              "name": "feature-card.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/company-website"
+            },
+            {
+              "path": "preview/company-website/hero-title-block.html",
+              "name": "hero-title-block.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/company-website"
+            }
+          ]
+        },
+        {
+          "id": "preview--preview/marketing-deck",
+          "label": "marketing-deck",
+          "path": "preview/marketing-deck",
+          "files": [
+            {
+              "path": "preview/marketing-deck/card-with-icon.html",
+              "name": "card-with-icon.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/marketing-deck"
+            },
+            {
+              "path": "preview/marketing-deck/footer-copyright.html",
+              "name": "footer-copyright.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/marketing-deck"
+            },
+            {
+              "path": "preview/marketing-deck/kpi-block.html",
+              "name": "kpi-block.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/marketing-deck"
+            },
+            {
+              "path": "preview/marketing-deck/slide-chapter-B.html",
+              "name": "slide-chapter-B.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/marketing-deck"
+            },
+            {
+              "path": "preview/marketing-deck/slide-content-C.html",
+              "name": "slide-content-C.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/marketing-deck"
+            },
+            {
+              "path": "preview/marketing-deck/slide-cover-A.html",
+              "name": "slide-cover-A.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/marketing-deck"
+            },
+            {
+              "path": "preview/marketing-deck/theme-colors-strip.html",
+              "name": "theme-colors-strip.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/marketing-deck"
+            }
+          ]
+        },
+        {
+          "id": "preview--preview/tier0-product",
+          "label": "tier0-product",
+          "path": "preview/tier0-product",
+          "files": [
+            {
+              "path": "preview/tier0-product/button-primary-black.html",
+              "name": "button-primary-black.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/tier0-product"
+            },
+            {
+              "path": "preview/tier0-product/section-strip.html",
+              "name": "section-strip.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/tier0-product"
+            },
+            {
+              "path": "preview/tier0-product/sidebar-nav-item.html",
+              "name": "sidebar-nav-item.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/tier0-product"
+            },
+            {
+              "path": "preview/tier0-product/status-live-idle.html",
+              "name": "status-live-idle.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/tier0-product"
+            },
+            {
+              "path": "preview/tier0-product/table-row-states.html",
+              "name": "table-row-states.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/tier0-product"
+            },
+            {
+              "path": "preview/tier0-product/workspace-header.html",
+              "name": "workspace-header.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/tier0-product"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ui_kits",
+      "label": "UI Kits",
+      "subtitle": "参考实现",
+      "hint": "HTML / JSX 示例，供开发对照",
+      "fileCount": 15,
+      "groups": [
+        {
+          "id": "ui_kits--ui_kits/company-website",
+          "label": "company-website",
+          "path": "ui_kits/company-website",
+          "files": [
+            {
+              "path": "ui_kits/company-website/Features.jsx",
+              "name": "Features.jsx",
+              "kind": "jsx",
+              "previewable": false,
+              "group": "ui_kits/company-website"
+            },
+            {
+              "path": "ui_kits/company-website/Footer.jsx",
+              "name": "Footer.jsx",
+              "kind": "jsx",
+              "previewable": false,
+              "group": "ui_kits/company-website"
+            },
+            {
+              "path": "ui_kits/company-website/Hero.jsx",
+              "name": "Hero.jsx",
+              "kind": "jsx",
+              "previewable": false,
+              "group": "ui_kits/company-website"
+            },
+            {
+              "path": "ui_kits/company-website/Nav.jsx",
+              "name": "Nav.jsx",
+              "kind": "jsx",
+              "previewable": false,
+              "group": "ui_kits/company-website"
+            },
+            {
+              "path": "ui_kits/company-website/Pricing.jsx",
+              "name": "Pricing.jsx",
+              "kind": "jsx",
+              "previewable": false,
+              "group": "ui_kits/company-website"
+            },
+            {
+              "path": "ui_kits/company-website/README.md",
+              "name": "README.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "ui_kits/company-website"
+            },
+            {
+              "path": "ui_kits/company-website/index.html",
+              "name": "index.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "ui_kits/company-website"
+            }
+          ]
+        },
+        {
+          "id": "ui_kits--ui_kits/marketing-deck",
+          "label": "marketing-deck",
+          "path": "ui_kits/marketing-deck",
+          "files": [
+            {
+              "path": "ui_kits/marketing-deck/README.md",
+              "name": "README.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "ui_kits/marketing-deck"
+            }
+          ]
+        },
+        {
+          "id": "ui_kits--ui_kits/tier0-product",
+          "label": "tier0-product",
+          "path": "ui_kits/tier0-product",
+          "files": [
+            {
+              "path": "ui_kits/tier0-product/Icons.jsx",
+              "name": "Icons.jsx",
+              "kind": "jsx",
+              "previewable": false,
+              "group": "ui_kits/tier0-product"
+            },
+            {
+              "path": "ui_kits/tier0-product/NamespaceTree.jsx",
+              "name": "NamespaceTree.jsx",
+              "kind": "jsx",
+              "previewable": false,
+              "group": "ui_kits/tier0-product"
+            },
+            {
+              "path": "ui_kits/tier0-product/README.md",
+              "name": "README.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "ui_kits/tier0-product"
+            },
+            {
+              "path": "ui_kits/tier0-product/Sidebar.jsx",
+              "name": "Sidebar.jsx",
+              "kind": "jsx",
+              "previewable": false,
+              "group": "ui_kits/tier0-product"
+            },
+            {
+              "path": "ui_kits/tier0-product/Topbar.jsx",
+              "name": "Topbar.jsx",
+              "kind": "jsx",
+              "previewable": false,
+              "group": "ui_kits/tier0-product"
+            },
+            {
+              "path": "ui_kits/tier0-product/TopicDetail.jsx",
+              "name": "TopicDetail.jsx",
+              "kind": "jsx",
+              "previewable": false,
+              "group": "ui_kits/tier0-product"
+            },
+            {
+              "path": "ui_kits/tier0-product/index.html",
+              "name": "index.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "ui_kits/tier0-product"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sources",
+      "label": "Sources",
+      "subtitle": "规范原文归档",
+      "hint": "历史 spec，冲突时见 README 优先级",
+      "fileCount": 5,
+      "groups": [
+        {
+          "id": "sources--sources",
+          "label": "sources",
+          "path": "sources",
+          "files": [
+            {
+              "path": "sources/README.md",
+              "name": "README.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "sources"
+            },
+            {
+              "path": "sources/spec.company-website.editorial.md",
+              "name": "spec.company-website.editorial.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "sources"
+            },
+            {
+              "path": "sources/spec.company-website.tokens.md",
+              "name": "spec.company-website.tokens.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "sources"
+            },
+            {
+              "path": "sources/spec.marketing-deck.ppt.md",
+              "name": "spec.marketing-deck.ppt.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "sources"
+            },
+            {
+              "path": "sources/spec.product-ui.md",
+              "name": "spec.product-ui.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "sources"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "assets",
+      "label": "Assets",
+      "subtitle": "Logo 等资源",
+      "hint": "SVG 等品牌资产",
+      "fileCount": 3,
+      "groups": [
+        {
+          "id": "assets--assets",
+          "label": "assets",
+          "path": "assets",
+          "files": [
+            {
+              "path": "assets/tier0-logo-black.svg",
+              "name": "tier0-logo-black.svg",
+              "kind": "image",
+              "previewable": false,
+              "group": "assets"
+            },
+            {
+              "path": "assets/tier0-logo-lime.svg",
+              "name": "tier0-logo-lime.svg",
+              "kind": "image",
+              "previewable": false,
+              "group": "assets"
+            },
+            {
+              "path": "assets/tier0-logo-white.svg",
+              "name": "tier0-logo-white.svg",
+              "kind": "image",
+              "previewable": false,
+              "group": "assets"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "tier0-product",
+      "label": "产品后台",
+      "token": "tokens/product.css",
+      "surface": "surfaces/tier0-product/"
+    },
+    {
+      "id": "company-website",
+      "label": "公司官网",
+      "token": "tokens/website.css",
+      "surface": "surfaces/company-website/"
+    },
+    {
+      "id": "marketing-deck",
+      "label": "PPT / 市场材料",
+      "token": "tokens/deck.css",
+      "surface": "surfaces/marketing-deck/"
+    }
+  ]
+}

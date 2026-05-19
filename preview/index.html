@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tier0 Design System — 维护门户</title>
+  <link rel="stylesheet" href="../tokens/core.css">
+  <style>
+    :root {
+      --portal-sidebar: clamp(260px, 22vw, 320px);
+      --portal-header: 56px;
+      --portal-border: #e5e7eb;
+      --portal-bg: #f6f7f9;
+      --portal-accent: var(--fx-deep-green, #73B200);
+      --portal-content-pad: clamp(20px, 3vw, 48px);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      font-size: 14px;
+      color: var(--fx-black-0, #050B14);
+      background: var(--portal-bg);
+    }
+    .app {
+      display: grid;
+      grid-template-columns: var(--portal-sidebar) minmax(0, 1fr);
+      grid-template-rows: var(--portal-header) 1fr;
+      height: 100vh;
+      width: 100%;
+    }
+    header {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 20px;
+      background: var(--fx-black, #050B14);
+      color: #fff;
+      border-bottom: 3px solid var(--fx-lime, #B2ED1D);
+    }
+    header .logo {
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    header .logo span { color: var(--fx-lime, #B2ED1D); }
+    header .meta {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-left: auto;
+    }
+    header button {
+      background: transparent;
+      border: 1px solid #4b5563;
+      color: #e5e7eb;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-family: inherit;
+    }
+    header button:hover { border-color: var(--fx-lime); color: var(--fx-lime); }
+    aside {
+      overflow: auto;
+      background: #fff;
+      border-right: 1px solid var(--portal-border);
+      padding: 12px 0 24px;
+    }
+    .search-wrap { padding: 0 12px 12px; position: sticky; top: 0; background: #fff; z-index: 2; }
+    #search {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--portal-border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 13px;
+    }
+    #search:focus {
+      outline: 2px solid var(--fx-green-2, #DDF59C);
+      border-color: var(--portal-accent);
+    }
+    .surface-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 0 12px 12px;
+    }
+    .pill {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--portal-border);
+      background: var(--fx-green-1, #F0FBD2);
+      color: var(--fx-black-0);
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .pill:hover { border-color: var(--portal-accent); }
+    .section-block { margin-bottom: 4px; }
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 12px;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .section-head:hover { background: var(--fx-green-1, #F0FBD2); }
+    .section-head .count {
+      margin-left: auto;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--fx-black-4, #585C62);
+      background: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .section-hint {
+      padding: 0 12px 8px 28px;
+      font-size: 11px;
+      color: var(--fx-black-4);
+      line-height: 1.4;
+    }
+    .group-label {
+      padding: 6px 12px 4px 24px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--fx-black-2, #ACAEB1);
+    }
+    .file-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px 6px 32px;
+      color: inherit;
+      text-decoration: none;
+      font-size: 13px;
+      border-left: 3px solid transparent;
+    }
+    .file-link:hover { background: #f9fafb; }
+    .file-link.active {
+      background: var(--fx-green-1, #F0FBD2);
+      border-left-color: var(--portal-accent);
+      font-weight: 500;
+    }
+    .file-link.hidden { display: none; }
+    .badge {
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+    .badge-html { background: #dbeafe; color: #1e40af; }
+    .badge-md { background: #f3f4f6; color: #374151; }
+    .badge-css { background: #fef3c7; color: #92400e; }
+    .badge-jsx { background: #ede9fe; color: #5b21b6; }
+    .badge-image { background: #d1fae5; color: #065f46; }
+    main {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      min-width: 0;
+      width: 100%;
+    }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      background: #fff;
+      border-bottom: 1px solid var(--portal-border);
+      font-size: 12px;
+    }
+    .toolbar code {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      background: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    .toolbar a {
+      color: var(--portal-accent);
+      text-decoration: none;
+    }
+    .toolbar a:hover { text-decoration: underline; }
+    .viewer {
+      flex: 1;
+      overflow: auto;
+      background: #fff;
+      min-height: 0;
+      min-width: 0;
+      width: 100%;
+    }
+    .viewer > iframe,
+    .viewer > article,
+    .viewer > pre,
+    .viewer > .img-wrap,
+    .viewer > .callout-wrap {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .viewer iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      min-height: calc(100vh - var(--portal-header) - 48px);
+    }
+    .viewer .md-body {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: var(--portal-content-pad) var(--portal-content-pad) 56px;
+      line-height: 1.65;
+    }
+    .viewer .md-body h1 { font-size: clamp(1.35rem, 2vw, 1.75rem); margin-top: 0; }
+    .viewer .md-body h2 { margin-top: 1.5em; border-bottom: 1px solid var(--portal-border); padding-bottom: 0.3em; }
+    .viewer .md-body h3 { margin-top: 1.25em; }
+    .viewer .md-body p,
+    .viewer .md-body li {
+      max-width: 72ch;
+    }
+    .viewer .md-body table {
+      display: block;
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 100%;
+      font-size: 13px;
+      overflow-x: auto;
+      margin: 1em 0;
+    }
+    .viewer .md-body th, .viewer .md-body td {
+      border: 1px solid var(--portal-border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .viewer .md-body th { background: #f9fafb; white-space: nowrap; }
+    .viewer .md-body code { font-family: "IBM Plex Mono", monospace; font-size: 0.9em; background: #f3f4f6; padding: 2px 4px; border-radius: 3px; }
+    .viewer .md-body pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 16px;
+      border-radius: 4px;
+      overflow: auto;
+      max-width: 100%;
+    }
+    .viewer .md-body pre code { background: transparent; padding: 0; color: inherit; }
+    .viewer .md-body blockquote {
+      margin: 1em 0;
+      padding: 12px 16px;
+      border-left: 4px solid var(--portal-accent);
+      background: var(--fx-green-1, #F0FBD2);
+      max-width: none;
+    }
+    .viewer pre.raw {
+      margin: 0;
+      padding: var(--portal-content-pad);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .viewer .callout-wrap {
+      padding: var(--portal-content-pad) var(--portal-content-pad) 0;
+    }
+    .viewer .img-wrap {
+      padding: var(--portal-content-pad);
+      text-align: center;
+      background: repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 50% / 16px 16px;
+    }
+    .viewer .img-wrap img { max-width: min(560px, 100%); }
+    .empty, .loading, .error {
+      padding: 48px var(--portal-content-pad);
+      text-align: center;
+      color: var(--fx-black-4);
+      max-width: 40rem;
+      margin: 0 auto;
+    }
+    .error { color: #b91c1c; }
+    .callout {
+      margin: 0 0 16px;
+      padding: 12px 16px;
+      background: var(--fx-green-1);
+      border-radius: 4px;
+      font-size: 13px;
+      border-left: 4px solid var(--portal-accent);
+    }
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; }
+      aside { max-height: 40vh; }
+      .viewer .md-body p,
+      .viewer .md-body li { max-width: none; }
+    }
+    @media (min-width: 1400px) {
+      .viewer .md-body { padding-left: clamp(32px, 4vw, 64px); padding-right: clamp(32px, 4vw, 64px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="logo">Tier<span>0</span> · Design System</div>
+      <div class="meta" id="header-meta">加载目录…</div>
+      <a href="classic.html" style="color:#9ca3af;font-size:12px;text-decoration:none;margin-right:8px">经典单页索引</a>
+      <button type="button" id="btn-rebuild" title="重新加载 manifest.json">刷新索引</button>
+    </header>
+    <aside>
+      <div class="search-wrap">
+        <input type="search" id="search" placeholder="搜索文件或文件夹…" autocomplete="off">
+      </div>
+      <div class="surface-pills" id="surface-pills"></div>
+      <nav id="tree" aria-label="仓库结构"></nav>
+    </aside>
+    <main>
+      <div class="toolbar" id="toolbar" hidden>
+        <span id="toolbar-path"></span>
+        <a id="toolbar-open" href="#" target="_blank" rel="noopener">新标签打开</a>
+      </div>
+      <div class="viewer" id="viewer">
+        <div class="empty" id="welcome">
+          <p><strong>设计系统维护门户</strong></p>
+          <p>左侧按仓库真实目录浏览：规范文档、Token、Preview 组件卡等。</p>
+          <p style="font-size:12px;color:#6b7280">新增/移动文件后，在仓库根目录运行：<br><code>python3 scripts/build-preview-manifest.py</code></p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    const REPO_BASE = "..";
+    let manifest = null;
+    let activePath = null;
+
+    const $ = (sel) => document.querySelector(sel);
+    const treeEl = $("#tree");
+    const viewerEl = $("#viewer");
+    const searchEl = $("#search");
+
+    const ALLOWED_KINDS = new Set(["html", "markdown", "css", "jsx", "image", "file"]);
+
+    function safeKind(kind) {
+      return ALLOWED_KINDS.has(kind) ? kind : "file";
+    }
+
+    function badgeClass(kind) {
+      const k = safeKind(kind);
+      return "badge badge-" + (k === "markdown" ? "md" : k === "image" ? "image" : k);
+    }
+
+    function badgeLabel(kind) {
+      const map = { html: "HTML", markdown: "MD", css: "CSS", jsx: "JSX", image: "SVG", file: "FILE" };
+      return map[safeKind(kind)] || "FILE";
+    }
+
+    function repoUrl(path) {
+      return REPO_BASE + "/" + path.split("/").map(encodeURIComponent).join("/");
+    }
+
+    async function loadManifest() {
+      const res = await fetch("manifest.json?t=" + Date.now());
+      if (!res.ok) throw new Error("无法读取 manifest.json，请先运行 build-preview-manifest.py");
+      manifest = await res.json();
+      renderHeader();
+      renderSurfacePills();
+      renderTree();
+    }
+
+    function renderHeader() {
+      const t = new Date(manifest.generatedAt);
+      const when = isNaN(t) ? manifest.generatedAt : t.toLocaleString("zh-CN");
+      $("#header-meta").textContent =
+        manifest.stats.totalIndexed + " 个文件 · " +
+        manifest.stats.htmlPreviews + " 个 HTML 预览 · 索引 " + when;
+    }
+
+    /** Strip script/event handlers from parsed Markdown HTML (repo files, not manifest). */
+    function sanitizeParsedHtml(html) {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      doc.querySelectorAll("script, iframe, object, embed, form").forEach((n) => n.remove());
+      doc.querySelectorAll("*").forEach((el) => {
+        [...el.attributes].forEach((attr) => {
+          if (/^on/i.test(attr.name) || attr.name === "srcdoc") {
+            el.removeAttribute(attr.name);
+          }
+        });
+      });
+      return doc.body;
+    }
+
+    function renderSurfacePills() {
+      const el = $("#surface-pills");
+      el.replaceChildren();
+      (manifest.surfaces || []).forEach((s) => {
+        const a = document.createElement("a");
+        a.className = "pill";
+        a.href = "#";
+        a.textContent = s.label;
+        a.title = s.surface;
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          searchEl.value = s.id;
+          filterTree();
+          const first = treeEl.querySelector('[data-path*="' + CSS.escape(s.id) + '"]');
+          if (first) first.click();
+        });
+        el.appendChild(a);
+      });
+    }
+
+    function renderTree() {
+      treeEl.replaceChildren();
+      manifest.sections.forEach((section) => {
+        const block = document.createElement("div");
+        block.className = "section-block";
+        block.dataset.section = section.id;
+
+        const head = document.createElement("button");
+        head.type = "button";
+        head.className = "section-head";
+        const arrow = document.createElement("span");
+        arrow.textContent = "▾";
+        const titleSpan = document.createElement("span");
+        titleSpan.textContent = section.label;
+        const countSpan = document.createElement("span");
+        countSpan.className = "count";
+        countSpan.textContent = String(section.fileCount);
+        head.append(arrow, titleSpan, countSpan);
+        const body = document.createElement("div");
+        body.className = "section-body";
+
+        if (section.hint) {
+          const hint = document.createElement("p");
+          hint.className = "section-hint";
+          hint.textContent = section.subtitle ? section.subtitle + " — " + section.hint : section.hint;
+          body.appendChild(hint);
+        }
+
+        section.groups.forEach((group) => {
+          if (group.path && group.path !== section.id) {
+            const gl = document.createElement("div");
+            gl.className = "group-label";
+            gl.textContent = group.path;
+            body.appendChild(gl);
+          }
+          group.files.forEach((file) => {
+            const a = document.createElement("a");
+            a.href = "#";
+            a.className = "file-link";
+            a.dataset.path = file.path;
+            a.dataset.kind = safeKind(file.kind);
+            const badge = document.createElement("span");
+            badge.className = badgeClass(file.kind);
+            badge.textContent = badgeLabel(file.kind);
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = file.name;
+            a.append(badge, nameSpan);
+            a.addEventListener("click", (e) => {
+              e.preventDefault();
+              selectFile(file.path, file.kind);
+            });
+            body.appendChild(a);
+          });
+        });
+
+        block.dataset.userCollapsed = "false";
+        head.addEventListener("click", () => {
+          body.hidden = !body.hidden;
+          block.dataset.userCollapsed = body.hidden ? "true" : "false";
+          head.querySelector("span").textContent = body.hidden ? "▸" : "▾";
+        });
+
+        block.appendChild(head);
+        block.appendChild(body);
+        treeEl.appendChild(block);
+      });
+    }
+
+    function filterTree() {
+      const q = searchEl.value.trim().toLowerCase();
+      treeEl.querySelectorAll(".file-link").forEach((a) => {
+        const path = (a.dataset.path || "").toLowerCase();
+        const show = !q || path.includes(q) || a.textContent.toLowerCase().includes(q);
+        a.classList.toggle("hidden", !show);
+      });
+      treeEl.querySelectorAll(".section-block").forEach((block) => {
+        const body = block.querySelector(".section-body");
+        const arrow = block.querySelector(".section-head span");
+        const visible = block.querySelectorAll(".file-link:not(.hidden)").length;
+
+        if (q.length > 0) {
+          block.hidden = visible === 0;
+          if (visible > 0 && body && arrow) {
+            body.hidden = false;
+            arrow.textContent = "▾";
+          }
+        } else {
+          block.hidden = false;
+          const collapsed = block.dataset.userCollapsed === "true";
+          if (body && arrow) {
+            body.hidden = collapsed;
+            arrow.textContent = collapsed ? "▸" : "▾";
+          }
+        }
+      });
+    }
+
+    searchEl.addEventListener("input", filterTree);
+
+    function setActive(path) {
+      treeEl.querySelectorAll(".file-link").forEach((a) => {
+        a.classList.toggle("active", a.dataset.path === path);
+      });
+    }
+
+    async function selectFile(path, kind) {
+      activePath = path;
+      setActive(path);
+      const toolbar = $("#toolbar");
+      toolbar.hidden = false;
+      const pathEl = $("#toolbar-path");
+      pathEl.replaceChildren();
+      const pathCode = document.createElement("code");
+      pathCode.textContent = path;
+      pathEl.appendChild(pathCode);
+      $("#toolbar-open").href = repoUrl(path);
+
+      viewerEl.replaceChildren();
+      const loading = document.createElement("div");
+      loading.className = "loading";
+      loading.textContent = "加载中…";
+      viewerEl.appendChild(loading);
+
+      try {
+        if (kind === "html") {
+          viewerEl.replaceChildren();
+          const iframe = document.createElement("iframe");
+          iframe.title = "preview";
+          iframe.src = repoUrl(path);
+          viewerEl.appendChild(iframe);
+          return;
+        }
+        if (kind === "image") {
+          viewerEl.replaceChildren();
+          const wrap = document.createElement("div");
+          wrap.className = "img-wrap";
+          const img = document.createElement("img");
+          img.src = repoUrl(path);
+          img.alt = path;
+          wrap.appendChild(img);
+          viewerEl.appendChild(wrap);
+          return;
+        }
+
+        const res = await fetch(repoUrl(path));
+        if (!res.ok) throw new Error(res.statusText);
+        const text = await res.text();
+
+        if (kind === "markdown" && window.marked) {
+          viewerEl.replaceChildren();
+          const article = document.createElement("article");
+          article.className = "md-body";
+          article.append(...sanitizeParsedHtml(marked.parse(text)).childNodes);
+          viewerEl.appendChild(article);
+          return;
+        }
+
+        if (kind === "jsx") {
+          viewerEl.replaceChildren();
+          const calloutWrap = document.createElement("div");
+          calloutWrap.className = "callout-wrap";
+          const callout = document.createElement("div");
+          callout.className = "callout";
+          callout.textContent = "JSX 需在业务项目中编译运行；此处为源码只读预览。";
+          calloutWrap.appendChild(callout);
+          const preJsx = document.createElement("pre");
+          preJsx.className = "raw";
+          const codeJsx = document.createElement("code");
+          codeJsx.textContent = text;
+          preJsx.appendChild(codeJsx);
+          viewerEl.append(calloutWrap, preJsx);
+          return;
+        }
+
+        viewerEl.replaceChildren();
+        const preRaw = document.createElement("pre");
+        preRaw.className = "raw";
+        const codeRaw = document.createElement("code");
+        codeRaw.textContent = text;
+        preRaw.appendChild(codeRaw);
+        viewerEl.appendChild(preRaw);
+      } catch (err) {
+        viewerEl.replaceChildren();
+        const errDiv = document.createElement("div");
+        errDiv.className = "error";
+        errDiv.textContent = "无法加载：" + err.message;
+        viewerEl.appendChild(errDiv);
+      }
+    }
+
+    $("#btn-rebuild").addEventListener("click", () => {
+      loadManifest().catch((e) => alert(e.message));
+    });
+
+    loadManifest().catch((e) => {
+      treeEl.replaceChildren();
+      const manifestErr = document.createElement("div");
+      manifestErr.className = "error";
+      manifestErr.style.padding = "16px";
+      manifestErr.textContent = e.message;
+      treeEl.appendChild(manifestErr);
+    });
+  </script>
+</body>
+</html>
