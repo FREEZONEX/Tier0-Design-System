@@ -4,6 +4,8 @@ description: Multi-surface design system for Tier0 (product UI, company website,
 user-invocable: true
 ---
 
+> **路径约定：** 本文件中 `foundations/`、`tokens/`、`surfaces/`、`sources/`、`preview/`、`ui_kits/`、`assets/` 等均为**技能内置资源**，相对本技能目录 `${CLAUDE_SKILL_DIR}/`（即本 SKILL.md 所在目录）解析、读取与复制。`decks/`、`packages/*` 等指**用户当前项目**目录，不在技能内。
+
 ## 1. 识别场景（必做）
 
 | 用户任务关键词 | Surface | 必读 |
@@ -45,4 +47,4 @@ user-invocable: true
 
 ## 6. Prompt 例句（按角色）
 
-开发 / 销售 / 设计向 Agent 描述需求时的模板与例句，见仓库根 [`README.md`](../README.md)。
+开发 / 销售 / 设计向 Agent 描述需求时的模板与例句，见 [`README.md`](README.md)。
