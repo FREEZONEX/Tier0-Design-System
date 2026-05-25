@@ -15,4 +15,4 @@
 ## 字体嵌入
 
 演示包需嵌入：**Tektur、Poppins、IBM Plex Sans、IBM Plex Sans SC、IBM Plex Mono**  
-离线可从 [IBM Plex](https://github.com/IBM/plex) 获取 Sans / Mono；SC 需单独授权包。
+这些字体已放入本仓库 `fonts/`，HTML 预览通过 `tokens/core.css` 本地加载；导出 PPT / 离线演示包时仍需在目标文件中嵌入同一套字体。

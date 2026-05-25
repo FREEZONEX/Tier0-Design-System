@@ -39,7 +39,7 @@
 │   ├── company-website/      # 官网组件卡
 │   └── marketing-deck/       # 幻灯片组件卡（16:9）
 ├── ui_kits/                  # 可打开的 HTML/JSX 参考实现
-└── fonts/                    # 本地 IBM Plex Mono（如有）
+└── fonts/                    # 本地字体：Poppins、IBM Plex Sans/SC、Mono、Tektur
 ```
 
 ---
@@ -49,7 +49,7 @@
 | 维度 | 产品 UI | 公司官网 | PPT / 市场材料 |
 |------|---------|----------|----------------|
 | **气质** | 高密度工作台 | 长文编辑、图示叙事 | 深色章节 + 白底内容交替 |
-| **主字体** | IBM Plex Sans | Poppins 标题 + Plex 正文 | Poppins 封面 / Tektur 章节 / Plex 正文 |
+| **主字体** | IBM Plex Sans | Poppins 标题 + Plex 正文 | Poppins 封面 / Tektur 章节 / Plex/SC 正文 |
 | **主强调色** | FX Green 高亮态（克制） | `#A7CF3A` 标题挑词 | `#B2ED1D` accent1 |
 | **主 CTA** | 近黑主按钮 + 绿色高亮 | 轻量、非营销 Hero | 主题色按钮少，结构线为主 |
 | **圆角** | 4px 默认 | 4px 面板 | 4px 卡片 |

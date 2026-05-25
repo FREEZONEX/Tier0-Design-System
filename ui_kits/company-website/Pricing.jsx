@@ -15,10 +15,10 @@ function Pricing() {
   return (
     <section style={{padding:"100px 40px",background:"#fff",fontFamily:"var(--font-sans)",color:"#050B14"}}>
       <div style={{maxWidth:1040,margin:"0 auto"}}>
-        <h2 style={{fontSize:40,fontWeight:500,letterSpacing:"-0.4px",lineHeight:1.1,margin:"0 0 56px"}}>Pricing.</h2>
+        <h2 style={{fontFamily:"var(--font-heading)",fontSize:46,fontWeight:700,letterSpacing:"-0.04em",lineHeight:1.08,margin:"0 0 56px"}}>Pricing.</h2>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:20}}>
           {plans.map(p => (
-            <div key={p.name} style={{background:"#fff",border:p.featured?"1px solid #B2ED1D":"1px solid #ECECEC",borderRadius:10,padding:28,display:"flex",flexDirection:"column",gap:20}}>
+            <div key={p.name} style={{background:"#fff",border:p.featured?"1px solid #A7CF3A":"1px solid #E2E6DE",borderRadius:4,padding:28,display:"flex",flexDirection:"column",gap:20}}>
               <div>
                 <div style={{fontSize:14,color:"#585C62",letterSpacing:"-0.2px"}}>{p.name}</div>
                 <div style={{display:"flex",alignItems:"baseline",gap:4,marginTop:8}}>

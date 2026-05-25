@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-19T09:05:21.507272+00:00",
+  "generatedAt": "2026-05-25T06:10:33.646183+00:00",
   "repoName": "Tier0 Design System",
   "stats": {
-    "totalIndexed": 89,
+    "totalIndexed": 123,
     "htmlPreviews": 39,
-    "sections": 8
+    "sections": 9
   },
   "sections": [
     {
@@ -803,6 +803,260 @@
               "kind": "image",
               "previewable": false,
               "group": "assets"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fonts",
+      "label": "Fonts",
+      "subtitle": "本地字体文件",
+      "hint": "Poppins · IBM Plex Sans/SC · Tektur · Mono",
+      "fileCount": 34,
+      "groups": [
+        {
+          "id": "fonts--fonts",
+          "label": "fonts",
+          "path": "fonts",
+          "files": [
+            {
+              "path": "fonts/IBMPlexMono-Regular.ttf",
+              "name": "IBMPlexMono-Regular.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/IBMPlexSans-Italic-VariableFont_wdth,wght.ttf",
+              "name": "IBMPlexSans-Italic-VariableFont_wdth,wght.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/IBMPlexSans-VariableFont_wdth,wght.ttf",
+              "name": "IBMPlexSans-VariableFont_wdth,wght.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/IBMPlexSansSC-Bold.ttf",
+              "name": "IBMPlexSansSC-Bold.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/IBMPlexSansSC-ExtraLight.ttf",
+              "name": "IBMPlexSansSC-ExtraLight.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/IBMPlexSansSC-Light.ttf",
+              "name": "IBMPlexSansSC-Light.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/IBMPlexSansSC-Medium.ttf",
+              "name": "IBMPlexSansSC-Medium.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/IBMPlexSansSC-Regular.ttf",
+              "name": "IBMPlexSansSC-Regular.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/IBMPlexSansSC-SemiBold.ttf",
+              "name": "IBMPlexSansSC-SemiBold.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/IBMPlexSansSC-Text.ttf",
+              "name": "IBMPlexSansSC-Text.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/IBMPlexSansSC-Thin.ttf",
+              "name": "IBMPlexSansSC-Thin.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/IBMPlexSansSC-license.txt",
+              "name": "IBMPlexSansSC-license.txt",
+              "kind": "file",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Inter-Italic-VariableFont_opsz,wght.ttf",
+              "name": "Inter-Italic-VariableFont_opsz,wght.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Inter-VariableFont_opsz,wght.ttf",
+              "name": "Inter-VariableFont_opsz,wght.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-Black.ttf",
+              "name": "Poppins-Black.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-BlackItalic.ttf",
+              "name": "Poppins-BlackItalic.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-Bold.ttf",
+              "name": "Poppins-Bold.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-BoldItalic.ttf",
+              "name": "Poppins-BoldItalic.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-ExtraBold.ttf",
+              "name": "Poppins-ExtraBold.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-ExtraBoldItalic.ttf",
+              "name": "Poppins-ExtraBoldItalic.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-ExtraLight.ttf",
+              "name": "Poppins-ExtraLight.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-ExtraLightItalic.ttf",
+              "name": "Poppins-ExtraLightItalic.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-Italic.ttf",
+              "name": "Poppins-Italic.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-Light.ttf",
+              "name": "Poppins-Light.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-LightItalic.ttf",
+              "name": "Poppins-LightItalic.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-Medium.ttf",
+              "name": "Poppins-Medium.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-MediumItalic.ttf",
+              "name": "Poppins-MediumItalic.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-OFL.txt",
+              "name": "Poppins-OFL.txt",
+              "kind": "file",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-Regular.ttf",
+              "name": "Poppins-Regular.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-SemiBold.ttf",
+              "name": "Poppins-SemiBold.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-SemiBoldItalic.ttf",
+              "name": "Poppins-SemiBoldItalic.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-Thin.ttf",
+              "name": "Poppins-Thin.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Poppins-ThinItalic.ttf",
+              "name": "Poppins-ThinItalic.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
+            },
+            {
+              "path": "fonts/Tektur-VariableFont_wdth,wght.ttf",
+              "name": "Tektur-VariableFont_wdth,wght.ttf",
+              "kind": "font",
+              "previewable": false,
+              "group": "fonts"
             }
           ]
         }

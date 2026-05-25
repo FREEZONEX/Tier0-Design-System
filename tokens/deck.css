@@ -22,10 +22,10 @@
   /* deprecated: old parent-company footer bar — do not use on new slides */
   --ppt-footer-pill: #040b13;
 
-  --font-cover: "Poppins", sans-serif;
-  --font-chapter: "Tektur", sans-serif;
-  --font-body-latin: "IBM Plex Sans", sans-serif;
-  --font-body-cjk: "IBM Plex Sans SC", sans-serif;
+  --font-cover: "Poppins", "IBM Plex Sans", sans-serif;
+  --font-chapter: "Tektur", "IBM Plex Sans", sans-serif;
+  --font-body-latin: "IBM Plex Sans", system-ui, sans-serif;
+  --font-body-cjk: "IBM Plex Sans SC", "IBM Plex Sans", system-ui, sans-serif;
   --font-footer: "IBM Plex Mono", monospace;
 
   --slide-safe-margin: 48px;

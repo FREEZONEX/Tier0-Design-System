@@ -2,6 +2,8 @@
 
 ## 字体族
 
+字体文件已随仓库放入 `fonts/`，由 `tokens/core.css` 统一注册；预览页和 UI Kit 不再需要外链 Google Fonts。
+
 | 角色 | 字体 | 场景 |
 |------|------|------|
 | Display / Logo | IBM Plex Mono Medium | 产品、部分品牌页 |
@@ -9,7 +11,7 @@
 | 官网标题 | **Poppins** | 仅 `company-website` |
 | PPT 封面 | **Poppins SemiBold** | 仅 `marketing-deck` |
 | PPT 章节 | **Tektur Regular** | 仅 `marketing-deck` |
-| PPT / 中文 | **IBM Plex Sans SC** | 东亚与简体 |
+| 中文 / 东亚 | **IBM Plex Sans SC** | PPT 优先；官网/文档中文可复用 |
 | 页脚技术字 | IBM Plex Mono | PPT 版权 |
 
 ## 共享字号阶梯（`core.css`）

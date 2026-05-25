@@ -23,8 +23,8 @@
   --green-soft-2: #f4f9e9;
   --green-border: #ccde9d;
 
-  --font-heading: "Poppins", sans-serif;
-  --font-body: "IBM Plex Sans", "IBM Plex Sans SC", sans-serif;
+  --font-heading: "Poppins", "IBM Plex Sans", sans-serif;
+  --font-body: "IBM Plex Sans", "IBM Plex Sans SC", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", monospace;
 
   --frame-desktop: 1440px;

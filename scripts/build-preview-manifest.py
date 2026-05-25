@@ -65,6 +65,11 @@ SECTION_META = {
         "subtitle": "Logo 等资源",
         "hint": "SVG 等品牌资产",
     },
+    "fonts": {
+        "label": "Fonts",
+        "subtitle": "本地字体文件",
+        "hint": "Poppins · IBM Plex Sans/SC · Tektur · Mono",
+    },
 }
 
 EXT_KIND = {
@@ -289,6 +294,7 @@ def main() -> None:
         "ui_kits": collect_files(ROOT / "ui_kits", {".html", ".jsx", ".md"}),
         "sources": collect_files(ROOT / "sources", {".md"}),
         "assets": collect_files(ROOT / "assets", {".svg"}),
+        "fonts": collect_files(ROOT / "fonts", {".ttf", ".txt"}),
     }
 
     for sid, paths in section_paths.items():
