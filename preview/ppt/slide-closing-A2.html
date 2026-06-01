@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/deck.css">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+</style>
+</head>
+<body>
+<!-- Type A2 — Closing slide
+     Structure mirrors the cover: dark bg + right visual SVG.
+     All text in English. h1 = "Thank you!" · aside = 2–3 resource links.
+-->
+<section class="deck-slide deck-slide--cover" data-slide-type="A" data-theme="dark">
+  <header class="deck-chrome">
+    <div class="deck-chrome__l">Next Step</div>
+    <div class="deck-chrome__r">12 / 12</div>
+  </header>
+
+  <div class="deck-main deck-main--cover" style="position:relative;z-index:2;">
+    <div style="max-width:50vw;padding-top:2vh;">
+      <p class="deck-cover__sub">Let's map your factory's unified namespace — prove the value in two weeks.</p>
+    </div>
+
+    <aside style="align-self:start;padding-top:2vh;min-width:240px;">
+      <p style="font-family:var(--font-label);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ppt-emphasis-on-dark);margin:0 0 14px;">Resources</p>
+      <ul style="list-style:none;margin:0;padding:0;border-top:1px solid rgba(255,255,255,.12);">
+        <li style="padding:12px 0 12px 14px;border-bottom:1px solid rgba(255,255,255,.1);">
+          <span style="display:block;font-size:max(14px,1.4vw);font-weight:500;color:#fff;">tier0.app</span>
+          <span style="display:block;font-size:12px;color:rgba(255,255,255,.55);">Product website</span>
+        </li>
+        <li style="padding:12px 0 12px 14px;border-bottom:1px solid rgba(255,255,255,.1);">
+          <span style="display:block;font-size:max(14px,1.4vw);font-weight:500;color:#fff;">github.com/FREEZONEX/Tier0-Edge</span>
+          <span style="display:block;font-size:12px;color:rgba(255,255,255,.55);">Open source repository</span>
+        </li>
+        <li style="padding:12px 0 12px 14px;border-left:2px solid var(--ppt-accent-marker);background:rgba(178,237,29,.08);">
+          <span style="display:block;font-size:max(14px,1.4vw);font-weight:500;color:var(--ppt-emphasis-on-dark);">Start a PoC · ≈ 4 weeks</span>
+          <span style="display:block;font-size:12px;color:rgba(255,255,255,.55);">Single-line pilot · Source → Namespace → Event</span>
+        </li>
+      </ul>
+    </aside>
+  </div>
+
+  <!-- Right visual — same as cover, reduced opacity -->
+  <img class="deck-cover__visual" src="../../assets/marketing-cover-visual.svg" alt="" style="opacity:0.55;">
+
+  <div class="deck-cover__bar">
+    <img class="deck-cover__logo" src="../../assets/tier0-logo-lime.svg" alt="Tier0">
+    <p class="deck-footer" style="margin:0;padding:0;">Copyright © 2026 Tier0. All rights reserved.</p>
+  </div>
+</section>
+</body>
+</html>

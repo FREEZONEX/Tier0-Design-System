@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/deck.css">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;overflow:hidden;}
+  .grid{display:flex;gap:2vw;flex-wrap:wrap;margin-top:2vh;}
+  .kpi{flex:1;min-width:140px;max-width:220px;padding:20px;border:1px solid #e2e6de;border-radius:4px;background:#fff;}
+  .num{font-size:clamp(40px,5vw,48px);font-weight:500;line-height:1;color:var(--ppt-emphasis-on-light);letter-spacing:-0.03em;}
+</style>
+</head>
+<body>
+<section class="deck-slide deck-slide--content" data-slide-type="C" data-theme="light">
+  <header class="deck-chrome">
+    <div class="deck-chrome__l">05 · Proof</div>
+    <div class="deck-chrome__r">07 / 12</div>
+  </header>
+  <div class="deck-main">
+    <h1>Operating at <span class="accent">plant scale</span></h1>
+    <div class="grid">
+      <article class="kpi"><p class="num">1.2k</p><p class="deck-kpi__label">Messages / sec</p></article>
+      <article class="kpi"><p class="num">4 wk</p><p class="deck-kpi__label">Typical PoC</p></article>
+      <article class="kpi"><p class="num">OSS</p><p class="deck-kpi__label">Open source core</p></article>
+    </div>
+  </div>
+  <p class="deck-footer">Copyright © 2026 Tier0. All rights reserved.</p>
+</section>
+</body>
+</html>

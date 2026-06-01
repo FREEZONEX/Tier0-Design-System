@@ -9,8 +9,8 @@
 
 - **双模态**：**深色章节页**（节奏断点、大字号标题）与 **白底内容页**（信息密度、图表与列表）交替，形成路演节奏。  
 - **工业编辑感**：少装饰、多结构；强调色只做「标点」，不做满屏荧光。  
-- **字体分工**：**封面**主展示字用 **Poppins**（拉丁为主）；**深色章节页**大标题用 **Tektur Regular**（拉丁为主）；**白底内容页**顶栏页面标题 **IBM Plex Sans Medium**（拉丁）/ **IBM Plex Sans SC Medium**（简中），**不用 Poppins**；**拉丁正文**用 **IBM Plex Sans**，**东亚与简体中文**一律 **IBM Plex Sans SC**（与西文同档 Regular / Medium / SemiBold 等配对）；页脚/技术感细字 **IBM Plex Mono**。  
-- **字体白名单**：全稿**仅允许** **Tektur、Poppins、IBM Plex Sans、IBM Plex Sans SC、IBM Plex Mono** 五族；其中 **IBM Plex Sans SC** **专用于东亚与简体中文字形**，不得改用其他中文字体；拉丁与基本标点用 **IBM Plex Sans**；母版与样式中须显式指定 **拉丁 / 东亚** 字体槽，避免系统回退到非白名单字体。
+- **字体分工**：**封面**与**深色章节页**主展示字均用 **Tektur Regular**（拉丁为主）；**白底内容页**顶栏页面标题 **IBM Plex Sans Medium**（拉丁）/ **IBM Plex Sans SC Medium**（简中）；**拉丁正文**用 **IBM Plex Sans**，**东亚与简体中文**一律 **IBM Plex Sans SC**（与西文同档 Regular / Medium / SemiBold 等配对）；页脚/技术感细字 **IBM Plex Mono**。  
+- **字体白名单**：全稿**仅允许** **Tektur、IBM Plex Sans、IBM Plex Sans SC、IBM Plex Mono** 四族；**禁止 Poppins**（含历史母版残留）。其中 **IBM Plex Sans SC** **专用于东亚与简体中文字形**，不得改用其他中文字体；拉丁与基本标点用 **IBM Plex Sans**；母版与样式中须显式指定 **拉丁 / 东亚** 字体槽，避免系统回退到非白名单字体。
 - **品牌呈现（Tier0 only）**：幻灯片画面与文案**仅呈现 Tier0**（Logo、产品名、版权）。**禁止**出现母公司 **FREEZONEX** 字样、Logo、页脚条或「FREEZONEX's …」类归属表述。历史母版若仍含母公司页脚条，改版时应删除。
 - **重点标题绿色（按底区分）**：**深色底**挑词 / 重点标题用 **`#B2ED1D`（accent1）**；**白底** eyebrow、页内挑词、KPI 数字、流程卡小标题等用 **`#73B200`（accent2）**。
 - **结构标记（白底亦用亮绿）**：项目符号方块、卡片**顶边描边**、时间轴结构线等仍用 **`#B2ED1D`（accent1）**，不用 `#73B200`。CSS：`--ppt-emphasis-on-dark` / `--ppt-emphasis-on-light` / `--ppt-accent-marker`（见 `tokens/deck.css`）。
@@ -29,7 +29,7 @@
 | **文字 / 深色 1（dk1 → tx1）** | `#050B14` | 白底页主标题、正文默认色；**深色页全屏背景**（通过 `schemeClr val="tx1"` 使用，与 clrMap 一致） |
 | **背景 / 浅色 1（lt1 → bg1）** | `#FFFFFF` | 内容页默认画布 |
 | **深色 2（dk2 → tx2）** | `#050B14` | 与 dk1 同值；作次级标题、强调块文字时配合亮度变换 |
-| **浅色 2（lt2 → bg2）** | `#EFECE0` | 浅灰米辅助底、卡片可选底色 |
+| **浅色 2（lt2 → bg2）** | `#F4F4F4` | 浅灰辅助底、卡片可选底色 |
 | **强调色 1（accent1）** | `#B2ED1D` | **深色底**上的重点标题挑词、结构线、时间轴、高亮条 |
 | **强调色 2（accent2）** | `#73B200` | **白底**上的重点标题 / eyebrow / KPI 数字；图标填充、渐变第二站 |
 | **强调色 3（accent3）** | `#196B24` | 森林绿：图表系列、生态/增长语义 |
@@ -59,12 +59,12 @@
 
 | 角色 | 字体 | 说明 |
 |------|------|------|
-| **Major（标题，拉丁）** | **Poppins SemiBold** | 对应母版 `+mj-lt`；封面等 |
+| **Major（标题，拉丁）** | **Tektur Regular**（`+mj-lt`）；改版时替换历史 **Poppins** |
 | **Major（标题，东亚）** | **IBM Plex Sans SC SemiBold** | 对应母版 `+mj-ea`；封面/标题中简中与东亚字符 |
 | **Minor（正文，拉丁）** | **IBM Plex Sans** | 对应 `+mn-lt`；英文、数字、拉丁标点 |
 | **Minor（正文，东亚）** | **IBM Plex Sans SC** | 对应 `+mn-ea`；**简体中文及东亚文本**（Regular / Medium / SemiBold 等与西文同级配对） |
 
-**允许的字体族名**：`Tektur`、`Poppins`、`IBM Plex Sans`、`IBM Plex Sans SC`、`IBM Plex Mono`。其中 **IBM Plex Sans** 与 **IBM Plex Sans SC** 为 **拉丁 / 东亚分栈**，字重档位一一对应（如 Medium 在西文用 Sans、在中文用 Sans SC）。
+**允许的字体族名**：`Tektur`、`IBM Plex Sans`、`IBM Plex Sans SC`、`IBM Plex Mono`。**禁止** `Poppins`。其中 **IBM Plex Sans** 与 **IBM Plex Sans SC** 为 **拉丁 / 东亚分栈**，字重档位一一对应（如 Medium 在西文用 Sans、在中文用 Sans SC）。
 
 > **母版操作**：在 **幻灯片母版 → 字体 → 自定义字体** 中，将 **东亚语言字体** 设为 **IBM Plex Sans SC**（与 **拉丁文字体** 的 **IBM Plex Sans** 配对），避免仍指向历史主题中的其他东亚字体。
 
@@ -74,7 +74,7 @@ PowerPoint 中 **幻灯片母版 → 字体** 应反映下列层级（`sz` 单�
 
 | 样式 | 默认字号 | 字色 | 拉丁 / 东亚字体 |
 |------|-----------|------|-------------------|
-| **标题样式（titleStyle）** | **44 pt** | `tx1`（`#050B14`） | `+mj-lt` → Poppins SemiBold；**`+mj-ea` → IBM Plex Sans SC SemiBold** |
+| **标题样式（titleStyle）** | **44 pt** | `tx1`（`#050B14`） | `+mj-lt` → Tektur Regular；**`+mj-ea` → IBM Plex Sans SC SemiBold** |
 | **正文 1 级（bodyStyle lvl1）** | **28 pt** | `tx1` | `+mn-lt` → IBM Plex Sans；**`+mn-ea` → IBM Plex Sans SC** |
 | **正文 2 级** | 24 pt | `tx1` | 同上 |
 | **正文 3 级** | 20 pt | `tx1` | 同上 |
@@ -97,10 +97,10 @@ PowerPoint 中 **幻灯片母版 → 字体** 应反映下列层级（`sz` 单�
 
 | 用途 | 字体 | 字重 | 备注 |
 |------|------|------|------|
-| **封面**主标题（类型 A） | Poppins | **SemiBold 600** | 仅封面；可拆词上 accent1 |
-| **白底内容页**页面标题（顶栏一行） | **IBM Plex Sans** / **IBM Plex Sans SC** | **Medium 500** | 拉丁用 **Sans**，简中用 **Sans SC**；**32 pt** 起，可至 **34–40 pt** 仍保持 Medium；**不**改用 Poppins |
+| **封面**主标题（类型 A） | **Tektur** | **Regular 400** | 与深色章节一致；可拆词上 accent1 |
+| **白底内容页**页面标题（顶栏一行） | **IBM Plex Sans** / **IBM Plex Sans SC** | **Medium 500** | 拉丁用 **Sans**，简中用 **Sans SC**；**32 pt** 起，可至 **34–40 pt** 仍保持 Medium |
 | 深色背景章节 / 过渡页大标题 | **Tektur** | **Regular 400** | 黑底大标题；勿用 Bold 冒充 |
-| 白底页 eyebrow / 小节条 | **IBM Plex Sans** / **IBM Plex Sans SC** | **Medium** | 字色 **accent2（`#73B200`）**，**18–24 pt** |
+| 白底页 eyebrow / 管线小标（chrome 下方） | **IBM Plex Mono** | **Medium 500** | 字色 **accent2（`#73B200`）**，**12 pt**，**全大写** |
 | 正文 / 要点 | **IBM Plex Sans** / **IBM Plex Sans SC** | **Regular 400** | 常见 **12–16 pt**；**拉丁 Sans、东亚/中文 Sans SC** |
 | 强调行内词 | **IBM Plex Sans** / **IBM Plex Sans SC** | **SemiBold / Italic** | 慎用斜体大段 |
 | 页脚版权 | IBM Plex Mono | **Regular** | 常见 **10–12 pt**、灰色 |
@@ -111,10 +111,10 @@ PowerPoint 中 **幻灯片母版 → 字体** 应反映下列层级（`sz` 单�
 
 | 层级 | 字号 | 字重 | 典型场景 |
 |------|------|------|----------|
-| **L0 封面主标题** | **54–72 pt** | Poppins SemiBold | 封面「TIER 0」级；可拆词上色 |
-| **L1 章节标题** | **48–60 pt** | **Tektur Regular**（深底） | 深色过渡页；浅底节标题用 **IBM Plex Sans Medium / IBM Plex Sans SC Medium**，不用 Poppins |
-| **L2 页面标题（白底内容页）** | **32–40 pt** | **IBM Plex Sans Medium / IBM Plex Sans SC Medium** | 顶栏单行；**禁止** Poppins；中文须 **Sans SC** |
-| **L3 小节 /  eyebrow** | **18–24 pt** | **Sans / Sans SC**、Medium、**accent2（`#73B200`）** | 白底页；中文用 **Sans SC** |
+| **L0 封面主标题** | **54–72 pt** | **Tektur Regular** | 封面「TIER 0」级；可拆词上色 |
+| **L1 章节标题** | **48–60 pt** | **Tektur Regular**（深底） | 深色过渡页；浅底节标题用 **IBM Plex Sans Medium / IBM Plex Sans SC Medium** |
+| **L2 页面标题（白底内容页）** | **32–40 pt** | **IBM Plex Sans Medium / IBM Plex Sans SC Medium** | 顶栏单行；中文须 **Sans SC** |
+| **L3 管线 eyebrow**（可选） | **12 pt** | **IBM Plex Mono**、**全大写**、**accent2（`#73B200`）** | 白底页；章节序号在顶栏 chrome，不放 eyebrow |
 | **L4 正文** | **14–16 pt** | Regular | 项目符号正文 |
 | **L5 注释 / 图表标签** | **10–12 pt** | Regular | 图内标签、脚注 |
 | **L6 页脚** | **10–12 pt** | IBM Plex Mono | `Copyright © 2026 Tier0…` |
@@ -133,8 +133,8 @@ PowerPoint 中 **幻灯片母版 → 字体** 应反映下列层级（`sz` 单�
 
 ### 4.1 类型 A — 封面（深色 + 品牌主视觉）
 
-- **背景**：`#050B14`（`tx1`）+ 斜向点阵/细线 + **单条 accent1 对角线**（可选）。  
-- **主标题**：白 + **accent1 挑词**（如「0」或关键词）。  
+- **背景**：`#050B14`（`tx1`）+ 低对比径向点阵（`tokens/deck.css` · `.deck-slide--cover`）；**禁止**额外 accent1 装饰斜线或 HTML 装饰线。  
+- **主标题**：**Tektur Regular**，白 + **accent1 挑词**（如「0」或关键词）；**54–72 pt**。  
 - **副标题**：白或浅灰，**20–24 pt**，Regular。  
 - **Logo（可选）**：左下 **Tier0** wordmark（如 lime 反白 SVG），**无**母公司条形色块。  
 - **右侧**：等轴测 / 3D 模块插画（**accent1**、**`#1D77FE`（可调透明度）**、白、深灰组合）。
@@ -149,12 +149,13 @@ PowerPoint 中 **幻灯片母版 → 字体** 应反映下列层级（`sz` 单�
 ### 4.3 类型 C — 白底标准内容页（标题 + 正文 / 图）
 
 - **背景**：`#FFFFFF`。  
-- **顶区页面标题**：**IBM Plex Sans Medium**（拉丁）/ **IBM Plex Sans SC Medium**（简中），默认 **32 pt**（与版式 `objTx`/`picTx` 左栏标题一致）；信息较多时 **34–40 pt** 可略放大，**字重仍为 Medium**，不改为 SemiBold/Bold、不换成 Poppins。  
-- **Eyebrow**：**accent2（`#73B200`）**，**18–24 pt**，**IBM Plex Sans Medium / IBM Plex Sans SC Medium**，可与章节序号「01 / 02」同排。  
+- **顶区页面标题**：**IBM Plex Sans Medium**（拉丁）/ **IBM Plex Sans SC Medium**（简中），默认 **32 pt**（与版式 `objTx`/`picTx` 左栏标题一致）；信息较多时 **34–40 pt** 可略放大，**字重仍为 Medium**，不改为 SemiBold/Bold。  
+- **顶栏 Chrome**：**IBM Plex Mono**，**12 pt**，**全大写** — 左章节栏目、右页码（封面含日期）；字色深底约 62% 白、白底约 55% 黑。  
+- **Eyebrow**（可选，chrome 之下）：**accent2（`#73B200`）**，**12 pt**，**IBM Plex Mono**，**全大写** — 用于管线提示等；**不**重复 chrome 章节序号。  
 - **页标题内挑词**（若有）：同色 **accent2（`#73B200`）**；正文与未强调标题用 `tx1`。  
 - **正文**：**14–16 pt**，`#050B14`，行距 **1.2**；项目符号使用 **方点**（**`#B2ED1D` / accent1**，非 `#73B200`）。  
 - **右栏插画**：**细线等轴测 + accent1 局部填色**，线稿为主、绿色仅作结构高光。  
-- **页脚**：左下 **10–12 pt** 灰字版权；可选右下页码 **10 pt**（**IBM Plex Sans** 或 **Poppins** 均可——页码不属于「页面标题」，不受顶栏仅 Medium 约束）。
+- **页脚**：左下 **10–12 pt** 灰字版权；可选右下页码 **10 pt**（**IBM Plex Sans** 或 **IBM Plex Mono**）。
 
 ### 4.4 类型 D — 信息图 / 时间轴 / 客户墙
 
@@ -214,7 +215,7 @@ PowerPoint 中 **幻灯片母版 → 字体** 应反映下列层级（`sz` 单�
 
 ### 5.6 卡片、色带与容器
 
-- **白底上的白卡片**：卡片填 `#FFFFFF` 且画布为 `#FFFFFF` 时，**必须**二选一：**极浅灰描边**（`tx1` **约 8–12% 不透明**、**1 pt**）或 **极浅填充**（`lt2` `#EFECE0` 或 `#F7F7F5` 级），否则层次丢失。  
+- **白底上的白卡片**：卡片填 `#FFFFFF` 且画布为 `#FFFFFF` 时，**必须**二选一：**极浅灰描边**（`tx1` **约 8–12% 不透明**、**1 pt**）或 **极浅填充**（`lt2` `#F4F4F4` 或 `#F7F7F5` 级），否则层次丢失。  
 - **圆角**：全稿圆角矩形（含卡片、裁图容器、色带圆角）统一 **4 pt** 半径；**禁止**逐页改圆角造成方圆混乱。  
 - **内边距**：卡片内文字与形状边缘保留 **统一内边距**（建议垂直方向 **≥ 页面标题字高 × 0.5**；多列卡片 **列间距相等**）。  
 - **色带 / 高亮条**（结论条、摘要条）：底可用 **accent1 的浅 tint** 或 **`#E6F9B4` 类低透明洗**；条内正文用 **`#050B14` 或 `#196B24`**。**禁止**在 **饱和 `#B2ED1D` 满铺条** 上再叠浅色字（对比不足）。  
@@ -236,11 +237,11 @@ PowerPoint 中 **幻灯片母版 → 字体** 应反映下列层级（`sz` 单�
 ## 7. 新建 / 改版检查清单（供设计或审核）
 
 1. [ ] 主题色与上表 HEX 一致，主要文字用 **主题 tx1**；**蓝色**仅为 **`#1D77FE`** 及**其不透明度变化**，不用离散的「接近黑」或其他蓝 HEX。  
-2. [ ] **白底内容页**顶栏标题：**IBM Plex Sans Medium**（拉丁）/ **IBM Plex Sans SC Medium**（简中），默认 **32 pt** 起；**封面**主标题拉丁用 **Poppins SemiBold**，东亚文字用 **IBM Plex Sans SC** 与母版 `+mj-ea` 一致；内容页标题 **不得** 用 Poppins 顶替。  
+2. [ ] **白底内容页**顶栏标题：**IBM Plex Sans Medium**（拉丁）/ **IBM Plex Sans SC Medium**（简中），默认 **32 pt** 起；**封面**主标题用 **Tektur Regular**（与深色章节一致）。  
 3. [ ] 深色章节页与封面共享 **同一深底**；页脚仅为 **Tier0 版权行**（无母公司条、无 FREEZONEX 字样）。  
 4. [ ] 白底页标题与正文层级不超过 **3 级字号差**（避免 32 pt 标题配 9 pt 正文除非图表内）。  
 5. [ ] **accent1** 仅用于强调与结构线，不铺满大段背景（特殊 KPI 页除外）。  
-6. [ ] 全稿字体仅在 **Tektur / Poppins / IBM Plex Sans / IBM Plex Sans SC / IBM Plex Mono** 之内；**东亚与简体中文**均为 **IBM Plex Sans SC**，无其他中文字体。  
+6. [ ] 全稿字体仅在 **Tektur / IBM Plex Sans / IBM Plex Sans SC / IBM Plex Mono** 之内；**无 Poppins**；**东亚与简体中文**均为 **IBM Plex Sans SC**，无其他中文字体。  
 7. [ ] 深色背景上的章节大标题已统一为 **Tektur Regular**，未误用 Bold / SemiBold。  
 8. [ ] 新增或替换的 **配图 / 插画** 符合 **§5.5**（等轴、线色、上色、与顶栏留白）。  
 9. [ ] 新增 **卡片、色带、双栏容器** 符合 **§5.6**（白底对比、**圆角 4 pt**、绿条上字色、阴影克制）。  

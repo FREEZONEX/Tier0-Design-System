@@ -9,8 +9,7 @@
 | Display / Logo | IBM Plex Mono Medium | 产品、部分品牌页 |
 | UI / 正文 | IBM Plex Sans | 产品、官网正文 |
 | 官网标题 | **Poppins** | 仅 `company-website` |
-| PPT 封面 | **Poppins SemiBold** | 仅 `marketing-deck` |
-| PPT 章节 | **Tektur Regular** | 仅 `marketing-deck` |
+| PPT 封面 / 章节大标题 | **Tektur Regular** | 仅 `ppt`（封面与深色章节页） |
 | 中文 / 东亚 | **IBM Plex Sans SC** | PPT 优先；官网/文档中文可复用 |
 | 页脚技术字 | IBM Plex Mono | PPT 版权 |
 

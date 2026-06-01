@@ -12,7 +12,7 @@
 - 16 / 18 / 20 / 24px，1.5–2px 描边  
 - CDN 参考：`https://unpkg.com/@carbon/icons/svg/32/<name>.svg`
 
-## Lucide（官网 / 市场材料）
+## Lucide（官网 / PPT）
 
 见 **[icons-lucide.md](icons-lucide.md)** — 引用方式、按位置选标、**带 Icon 卡片**规格。
 
@@ -28,4 +28,4 @@
 - 黑/灰结构线 + `#B2ED1D` 数据流高光  
 - 无 stock 摄影、无厚重 3D  
 
-PPT 主视觉细则见 `surfaces/marketing-deck/README.md`。
+PPT 主视觉细则见 `surfaces/ppt/README.md`。

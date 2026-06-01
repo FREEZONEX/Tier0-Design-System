@@ -11,7 +11,7 @@
 | [`spec.product-ui.md`](spec.product-ui.md) | 产品界面 UI | `Downloads/DESIGN.md` |
 | [`spec.company-website.editorial.md`](spec.company-website.editorial.md) | 官网 — 长页叙事与版式 | `Downloads/tier0-web design 2.0/tier_0_design_full_pdf_aligned.md` |
 | [`spec.company-website.tokens.md`](spec.company-website.tokens.md) | 官网 — Token 与组件 CSS | `Downloads/tier0-web design 2.0/tier_0_tokens_component_spec_pdf_aligned.md` |
-| [`spec.marketing-deck.ppt.md`](spec.marketing-deck.ppt.md) | PPT / Masterdeck | `roadmap/.../tier0_ppt_design_system.md` |
+| [`spec.ppt.md`](spec.ppt.md) | PPT / Masterdeck | `roadmap/.../tier0_ppt_design_system.md` |
 
 ## 更新流程
 

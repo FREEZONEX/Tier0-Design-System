@@ -1,6 +1,6 @@
 # 图标 — Lucide（全局）
 
-除 **产品 UI** 侧栏/表格等仍用 **Carbon 风格**（见 [iconography.md](iconography.md)）外，**官网、PPT / 市场材料、HTML 原型** 统一使用 **[Lucide](https://lucide.dev/icons/)**。
+除 **产品 UI** 侧栏/表格等仍用 **Carbon 风格**（见 [iconography.md](iconography.md)）外，**官网、PPT、HTML 原型** 统一使用 **[Lucide](https://lucide.dev/icons/)**。
 
 ## 引用方式
 
@@ -54,7 +54,7 @@ import { Database } from "lucide-react";
 3. **少而准** — 一卡一图标；列表行内 16px 即可  
 4. **访问性** — 装饰性图标 `aria-hidden="true"`；仅图标按钮加 `aria-label`
 
-## 带 Icon 的卡片（官网 & 市场材料）
+## 带 Icon 的卡片（官网 & PPT）
 
 两表面共用组件类 **`.tier0-card-icon`** + **`.tier0-icon-box`**（`tokens/icon-card.css`）。
 
@@ -67,7 +67,7 @@ import { Database } from "lucide-react";
 预览：
 
 - 官网：[`preview/company-website/card-with-icon.html`](../preview/company-website/card-with-icon.html)  
-- PPT：[`preview/marketing-deck/card-with-icon.html`](../preview/marketing-deck/card-with-icon.html)  
+- PPT：[`preview/ppt/card-with-icon.html`](../preview/ppt/card-with-icon.html)  
 - 索引：[`preview/_shared/icons-lucide.html`](../preview/_shared/icons-lucide.html)
 
 完整尺寸见 `sources/spec.company-website.editorial.md` §9.7 Grid Tile。

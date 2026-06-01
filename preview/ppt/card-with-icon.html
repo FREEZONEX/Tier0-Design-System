@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/core.css">
+<link rel="stylesheet" href="../../tokens/deck.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  .deck-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .card-with-icon__stack {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(24px, 4vh, 79px);
+    width: min(100%, 22rem);
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+<section class="deck-slide deck-slide--content" data-slide-type="C" data-theme="light">
+  <header class="deck-chrome">
+    <div class="deck-chrome__l">03 · Capabilities</div>
+    <div class="deck-chrome__r">05 / 12</div>
+  </header>
+  <main class="deck-main">
+    <p class="deck-eyebrow">Card with icon · 4059:2453</p>
+    <div class="card-with-icon__stack">
+      <article class="tier0-card-icon tier0-card-icon--accent">
+        <header class="tier0-card-icon__head">
+          <h3 class="card-title">Core Perspective</h3>
+          <span class="tier0-icon-box" aria-hidden="true"><i data-lucide="hard-drive"></i></span>
+        </header>
+        <hr class="tier0-card-icon__rule" />
+        <div class="tier0-card-icon__body">
+          <p class="card-lead">Real-Time &amp; Historical Calculation</p>
+          <ul class="card-list">
+            <li>OEE is calculated continuously from persisted Tier-0 data</li>
+            <li>Supports real-time visibility and long-term performance analysis</li>
+          </ul>
+        </div>
+      </article>
+      <article class="tier0-card-icon tier0-card-icon--neutral">
+        <header class="tier0-card-icon__head">
+          <h3 class="card-title">Core Perspective</h3>
+          <span class="tier0-icon-box" aria-hidden="true"><i data-lucide="hard-drive"></i></span>
+        </header>
+        <hr class="tier0-card-icon__rule" />
+        <div class="tier0-card-icon__body">
+          <p class="card-lead">Real-Time &amp; Historical Calculation</p>
+          <ul class="card-list">
+            <li>OEE is calculated continuously from persisted Tier-0 data</li>
+            <li>Supports real-time visibility and long-term performance analysis</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </main>
+  <footer class="deck-footer">
+    <span>Tier0</span>
+    <span>card-with-icon</span>
+  </footer>
+</section>
+<script>lucide.createIcons();</script>
+</body>
+</html>

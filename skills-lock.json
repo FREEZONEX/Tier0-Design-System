@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "tier0-design": {
+      "source": "FREEZONEX/Tier0-Design-System",
+      "sourceType": "local",
+      "skillPath": "SKILL.md",
+      "computedHash": "local-install"
+    }
+  }
+}

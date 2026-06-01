@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/deck.css">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;overflow:hidden;}
+  .deck-slide--content{background:var(--ppt-lt2);}
+  .row{display:flex;gap:1vw;flex-wrap:wrap;max-width:56rem;margin-top:2vh;}
+  .swatch{width:min(120px,14vw);border-radius:4px;overflow:hidden;border:1px solid rgba(0,0,0,.08);background:#fff;}
+  .chip{height:56px;}
+  .meta{padding:8px;font-size:10px;color:#333;}
+  .meta strong{display:block;font-size:11px;margin-bottom:2px;}
+</style>
+</head>
+<body>
+<section class="deck-slide deck-slide--content" data-slide-type="C" data-theme="light">
+  <header class="deck-chrome">
+    <div class="deck-chrome__l">Reference · Theme colors</div>
+    <div class="deck-chrome__r">—</div>
+  </header>
+  <div class="deck-main">
+    <p class="deck-label" style="margin:0 0 2vh;">Token reference</p>
+    <div class="row">
+      <div class="swatch"><div class="chip" style="background:var(--ppt-tx1)"></div><div class="meta"><strong>tx1</strong>#050B14</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--ppt-emphasis-on-dark)"></div><div class="meta"><strong>dark · 重点</strong>#B2ED1D</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--ppt-emphasis-on-light)"></div><div class="meta"><strong>light · 重点</strong>#73B200</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--ppt-accent4)"></div><div class="meta"><strong>accent4</strong>#1D77FE</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--ppt-lt2)"></div><div class="meta"><strong>lt2</strong>#F4F4F4</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--ppt-bg1);border-bottom:1px solid #eee"></div><div class="meta"><strong>bg1</strong>#FFFFFF</div></div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

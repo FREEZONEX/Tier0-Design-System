@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-25T06:10:33.646183+00:00",
+  "generatedAt": "2026-05-27T08:16:54.986738+00:00",
   "repoName": "Tier0 Design System",
   "stats": {
-    "totalIndexed": 123,
-    "htmlPreviews": 39,
-    "sections": 9
+    "totalIndexed": 140,
+    "htmlPreviews": 43,
+    "sections": 10
   },
   "sections": [
     {
@@ -165,7 +165,7 @@
       "id": "surfaces",
       "label": "Surfaces",
       "subtitle": "分场景规范文档",
-      "hint": "tier0-product · company-website · marketing-deck",
+      "hint": "tier0-product · company-website · ppt",
       "fileCount": 12,
       "groups": [
         {
@@ -197,44 +197,44 @@
           ]
         },
         {
-          "id": "surfaces--surfaces/marketing-deck",
-          "label": "marketing-deck",
-          "path": "surfaces/marketing-deck",
+          "id": "surfaces--surfaces/ppt",
+          "label": "ppt",
+          "path": "surfaces/ppt",
           "files": [
             {
-              "path": "surfaces/marketing-deck/README.md",
+              "path": "surfaces/ppt/README.md",
               "name": "README.md",
               "kind": "markdown",
               "previewable": false,
-              "group": "surfaces/marketing-deck"
+              "group": "surfaces/ppt"
             },
             {
-              "path": "surfaces/marketing-deck/checklist.md",
+              "path": "surfaces/ppt/checklist.md",
               "name": "checklist.md",
               "kind": "markdown",
               "previewable": false,
-              "group": "surfaces/marketing-deck"
+              "group": "surfaces/ppt"
             },
             {
-              "path": "surfaces/marketing-deck/components.md",
+              "path": "surfaces/ppt/components.md",
               "name": "components.md",
               "kind": "markdown",
               "previewable": false,
-              "group": "surfaces/marketing-deck"
+              "group": "surfaces/ppt"
             },
             {
-              "path": "surfaces/marketing-deck/export.md",
+              "path": "surfaces/ppt/export.md",
               "name": "export.md",
               "kind": "markdown",
               "previewable": false,
-              "group": "surfaces/marketing-deck"
+              "group": "surfaces/ppt"
             },
             {
-              "path": "surfaces/marketing-deck/slide-templates.md",
+              "path": "surfaces/ppt/slide-templates.md",
               "name": "slide-templates.md",
               "kind": "markdown",
               "previewable": false,
-              "group": "surfaces/marketing-deck"
+              "group": "surfaces/ppt"
             }
           ]
         },
@@ -280,7 +280,7 @@
       "label": "Preview",
       "subtitle": "组件 HTML 预览卡",
       "hint": "浏览器内可直接查看效果",
-      "fileCount": 39,
+      "fileCount": 43,
       "groups": [
         {
           "id": "preview--preview/_shared",
@@ -479,58 +479,86 @@
           ]
         },
         {
-          "id": "preview--preview/marketing-deck",
-          "label": "marketing-deck",
-          "path": "preview/marketing-deck",
+          "id": "preview--preview/ppt",
+          "label": "ppt",
+          "path": "preview/ppt",
           "files": [
             {
-              "path": "preview/marketing-deck/card-with-icon.html",
+              "path": "preview/ppt/card-with-icon.html",
               "name": "card-with-icon.html",
               "kind": "html",
               "previewable": true,
-              "group": "preview/marketing-deck"
+              "group": "preview/ppt"
             },
             {
-              "path": "preview/marketing-deck/footer-copyright.html",
+              "path": "preview/ppt/flow-styles.html",
+              "name": "flow-styles.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/ppt"
+            },
+            {
+              "path": "preview/ppt/footer-copyright.html",
               "name": "footer-copyright.html",
               "kind": "html",
               "previewable": true,
-              "group": "preview/marketing-deck"
+              "group": "preview/ppt"
             },
             {
-              "path": "preview/marketing-deck/kpi-block.html",
+              "path": "preview/ppt/kpi-block.html",
               "name": "kpi-block.html",
               "kind": "html",
               "previewable": true,
-              "group": "preview/marketing-deck"
+              "group": "preview/ppt"
             },
             {
-              "path": "preview/marketing-deck/slide-chapter-B.html",
+              "path": "preview/ppt/slide-anim-demo.html",
+              "name": "slide-anim-demo.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/ppt"
+            },
+            {
+              "path": "preview/ppt/slide-chapter-B.html",
               "name": "slide-chapter-B.html",
               "kind": "html",
               "previewable": true,
-              "group": "preview/marketing-deck"
+              "group": "preview/ppt"
             },
             {
-              "path": "preview/marketing-deck/slide-content-C.html",
+              "path": "preview/ppt/slide-closing-A2.html",
+              "name": "slide-closing-A2.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/ppt"
+            },
+            {
+              "path": "preview/ppt/slide-content-C.html",
               "name": "slide-content-C.html",
               "kind": "html",
               "previewable": true,
-              "group": "preview/marketing-deck"
+              "group": "preview/ppt"
             },
             {
-              "path": "preview/marketing-deck/slide-cover-A.html",
+              "path": "preview/ppt/slide-cover-A.html",
               "name": "slide-cover-A.html",
               "kind": "html",
               "previewable": true,
-              "group": "preview/marketing-deck"
+              "group": "preview/ppt"
             },
             {
-              "path": "preview/marketing-deck/theme-colors-strip.html",
+              "path": "preview/ppt/slide-pipeline-D5.html",
+              "name": "slide-pipeline-D5.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/ppt"
+            },
+            {
+              "path": "preview/ppt/theme-colors-strip.html",
               "name": "theme-colors-strip.html",
               "kind": "html",
               "previewable": true,
-              "group": "preview/marketing-deck"
+              "group": "preview/ppt"
             }
           ]
         },
@@ -649,16 +677,16 @@
           ]
         },
         {
-          "id": "ui_kits--ui_kits/marketing-deck",
-          "label": "marketing-deck",
-          "path": "ui_kits/marketing-deck",
+          "id": "ui_kits--ui_kits/ppt",
+          "label": "ppt",
+          "path": "ui_kits/ppt",
           "files": [
             {
-              "path": "ui_kits/marketing-deck/README.md",
+              "path": "ui_kits/ppt/README.md",
               "name": "README.md",
               "kind": "markdown",
               "previewable": false,
-              "group": "ui_kits/marketing-deck"
+              "group": "ui_kits/ppt"
             }
           ]
         },
@@ -754,8 +782,8 @@
               "group": "sources"
             },
             {
-              "path": "sources/spec.marketing-deck.ppt.md",
-              "name": "spec.marketing-deck.ppt.md",
+              "path": "sources/spec.ppt.md",
+              "name": "spec.ppt.md",
               "kind": "markdown",
               "previewable": false,
               "group": "sources"
@@ -776,13 +804,20 @@
       "label": "Assets",
       "subtitle": "Logo 等资源",
       "hint": "SVG 等品牌资产",
-      "fileCount": 3,
+      "fileCount": 6,
       "groups": [
         {
           "id": "assets--assets",
           "label": "assets",
           "path": "assets",
           "files": [
+            {
+              "path": "assets/marketing-cover-visual.svg",
+              "name": "marketing-cover-visual.svg",
+              "kind": "image",
+              "previewable": false,
+              "group": "assets"
+            },
             {
               "path": "assets/tier0-logo-black.svg",
               "name": "tier0-logo-black.svg",
@@ -803,6 +838,27 @@
               "kind": "image",
               "previewable": false,
               "group": "assets"
+            }
+          ]
+        },
+        {
+          "id": "assets--assets/diagrams",
+          "label": "diagrams",
+          "path": "assets/diagrams",
+          "files": [
+            {
+              "path": "assets/diagrams/flow-integration-horizontal.svg",
+              "name": "flow-integration-horizontal.svg",
+              "kind": "image",
+              "previewable": false,
+              "group": "assets/diagrams"
+            },
+            {
+              "path": "assets/diagrams/flow-uns-vertical.svg",
+              "name": "flow-uns-vertical.svg",
+              "kind": "image",
+              "previewable": false,
+              "group": "assets/diagrams"
             }
           ]
         }
@@ -1061,6 +1117,92 @@
           ]
         }
       ]
+    },
+    {
+      "id": "references",
+      "label": "References",
+      "subtitle": "Skill 工作流参考",
+      "hint": "按需加载的 agent workflow 与检查清单",
+      "fileCount": 10,
+      "groups": [
+        {
+          "id": "references--references",
+          "label": "references",
+          "path": "references",
+          "files": [
+            {
+              "path": "references/README.md",
+              "name": "README.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "references"
+            },
+            {
+              "path": "references/ppt-checklist.md",
+              "name": "ppt-checklist.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "references"
+            },
+            {
+              "path": "references/ppt-components.md",
+              "name": "ppt-components.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "references"
+            },
+            {
+              "path": "references/ppt-diagrams.md",
+              "name": "ppt-diagrams.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "references"
+            },
+            {
+              "path": "references/ppt-flowcharts.md",
+              "name": "ppt-flowcharts.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "references"
+            },
+            {
+              "path": "references/ppt-layout-lock.md",
+              "name": "ppt-layout-lock.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "references"
+            },
+            {
+              "path": "references/ppt-layouts.md",
+              "name": "ppt-layouts.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "references"
+            },
+            {
+              "path": "references/ppt-screenshots.md",
+              "name": "ppt-screenshots.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "references"
+            },
+            {
+              "path": "references/ppt-themes.md",
+              "name": "ppt-themes.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "references"
+            },
+            {
+              "path": "references/ppt-workflow.md",
+              "name": "ppt-workflow.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "references"
+            }
+          ]
+        }
+      ]
     }
   ],
   "surfaces": [
@@ -1077,10 +1219,10 @@
       "surface": "surfaces/company-website/"
     },
     {
-      "id": "marketing-deck",
-      "label": "PPT / 市场材料",
+      "id": "ppt",
+      "label": "PPT",
       "token": "tokens/deck.css",
-      "surface": "surfaces/marketing-deck/"
+      "surface": "surfaces/ppt/"
     }
   ]
 }

@@ -1,8 +1,10 @@
 ---
 name: tier0-design
-description: Multi-surface design system for Tier0 (product UI, company website, marketing deck). Route to the correct surface before generating UI.
+description: Multi-surface design system for Tier0 (product UI, company website, PPT). Route to the correct surface before generating UI.
 user-invocable: true
 ---
+
+> **路径约定：** 本文件中 `foundations/`、`tokens/`、`surfaces/`、`sources/`、`preview/`、`ui_kits/`、`assets/` 等均为**技能内置资源**，相对本技能目录 `${CLAUDE_SKILL_DIR}/`（即本 SKILL.md 所在目录）解析、读取与复制。`decks/`、`packages/*` 等指**用户当前项目**目录，不在技能内。
 
 ## 1. 识别场景（必做）
 
@@ -10,7 +12,7 @@ user-invocable: true
 |----------------|---------|------|
 | 后台、Namespace、Broker、表格、表单、侧栏、工作台 | `tier0-product` | `surfaces/tier0-product/README.md` + `sources/spec.product-ui.md` + `tokens/product.css` |
 | 官网、定价、UNS 长页、产品叙事、tier0.app | `company-website` | `surfaces/company-website/README.md` + `sources/spec.company-website.*.md` + `tokens/website.css` |
-| PPT、幻灯片、Masterdeck、路演、Keynote | `marketing-deck` | `surfaces/marketing-deck/README.md` + `sources/spec.marketing-deck.ppt.md` + `tokens/deck.css` |
+| PPT、幻灯片、Masterdeck、路演、Keynote | `ppt` | `surfaces/ppt/README.md` + `references/README.md` → `references/ppt-workflow.md` + `tokens/deck.css` |
 
 若未说明场景，**先问**：产品 UI / 官网 / PPT？以及深色或浅色、受众、交付格式（HTML / React / PPTX）。
 
@@ -26,7 +28,8 @@ user-invocable: true
 - **Token 预览：** `preview/_shared/`（原子）· `preview/<surface>/`（场景组件，见各目录 README）
 - **产品 UI 组合稿：** 打开 `ui_kits/tier0-product/index.html`
 - **官网组合稿：** 打开 `ui_kits/company-website/index.html`
-- **PPT：** 见 `surfaces/marketing-deck/`；完整规范 `sources/spec.marketing-deck.ppt.md`
+- **PPT：** 见 `surfaces/ppt/`；完整规范 `sources/spec.ppt.md`
+- **PPT 工作流：** `references/README.md`（索引）→ `references/ppt-workflow.md` → `references/ppt-layout-lock.md` / `references/ppt-layouts.md` / `references/ppt-components.md`；有截图：`references/ppt-screenshots.md`；交付前：`references/ppt-checklist.md`
 - **图标：** 产品 UI 用 Carbon；官网 / PPT / HTML 用 **Lucide**（`foundations/icons-lucide.md`）；带 Icon 卡片用 `.tier0-card-icon`
 
 ## 4. 硬规则（全场景）
@@ -35,14 +38,14 @@ user-invocable: true
 - 饱和 lime `#B2ED1D`：**品牌点缀**，不是产品浅色 UI 的主按钮色（用 `#CCF368`）。
 - 产品 UI：**无 emoji**、无大面积渐变、不要把内部页做成营销 Landing。
 - 官网：Poppins 仅作**标题**；正文 IBM Plex Sans。
-- PPT：字体白名单 **Tektur / Poppins / IBM Plex Sans / IBM Plex Sans SC / IBM Plex Mono**；品牌蓝仅 **`#1D77FE`**；**禁止**画面出现 **FREEZONEX**（仅 Tier0 Logo / 版权）；**重点标题绿**：深底 **`#B2ED1D`**、白底 **`#73B200`**；**项目符号与卡片顶边**始终 **`#B2ED1D`**。
+- PPT：字体仅 **Tektur / IBM Plex Sans / IBM Plex Sans SC / IBM Plex Mono**（**禁止 Poppins**）；封面与章节大标题 **Tektur Regular**；品牌蓝仅 **`#1D77FE`**；**禁止**画面出现 **FREEZONEX**（仅 Tier0 Logo / 版权）；**重点标题绿**：深底 **`#B2ED1D`**、白底 **`#73B200`**；**项目符号与卡片顶边**始终 **`#B2ED1D`**。
 
 ## 5. 输出
 
 - 原型 / 幻灯片 HTML：可复制 `assets/`，引用对应 `tokens/*.css`。
-- **销售演示稿等成稿：** 输出到仓库根 `decks/<项目>/`，**不要**写入本设计系统目录。
+- **销售演示稿等成稿：** 输出到**本仓库外**（如 `~/Desktop/<项目>/` 或用户指定的业务仓库），**不要**在本设计系统仓库内创建 `decks/` 或任何成稿 HTML。
 - 生产代码：遵守各 surface 文档中的工程事实来源（产品 UI 见 `packages/theme`）。
 
-## 6. Prompt 例句（按角色）
+## 6. Prompt 例句
 
-开发 / 销售 / 设计向 Agent 描述需求时的模板与例句，见仓库根 [`README.md`](../README.md)。
+自然语言描述需求即可，路由规则与例句见 [`README.md`](README.md)。

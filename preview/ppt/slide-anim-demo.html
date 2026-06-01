@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Tier0 · 动画效果演示</title>
+<link rel="stylesheet" href="../../tokens/core.css">
+<link rel="stylesheet" href="../../tokens/icon-card.css">
+<link rel="stylesheet" href="../../tokens/deck.css">
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #111; }
+
+/* ── 幻灯片切换 ── */
+.deck-slide { display: none; }
+.deck-slide.is-active { display: flex; }
+
+/* ── 封面 visual: 改 absolute 防跨页穿透 ── */
+.deck-cover__visual {
+  position: absolute !important;
+}
+
+/* ── 底部导航栏（进度点 + 提示） ── */
+#nav-bar {
+  position: fixed;
+  bottom: 18px;
+  left: 0; right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 9999;
+  pointer-events: none;
+}
+#progress {
+  display: flex;
+  gap: 8px;
+}
+#progress span {
+  width: 28px; height: 3px;
+  border-radius: 2px;
+  background: rgba(255,255,255,.2);
+  transition: background .3s;
+}
+#progress span.active { background: rgba(255,255,255,.85); }
+#hint {
+  font-family: var(--font-label, monospace);
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: rgba(255,255,255,.3);
+}
+
+/* ── 卡片页：deck-main gap 加大（issue 3） ── */
+#s3 .deck-main,
+#s4 .deck-main {
+  gap: 3vh;
+}
+
+/* ── 卡片网格铺满剩余高度（issue 2） ── */
+#s3 .deck-card-grid {
+  flex: 1 1 0;
+  min-height: 0;
+  align-content: stretch;
+  align-items: stretch;
+}
+#s3 .deck-card-grid .tier0-card-icon {
+  height: 100%;
+  min-height: 0;
+}
+
+/* ── icon-card 变量覆盖（浅色 content 页） ── */
+.deck-slide--content {
+  --icon-card-padding: clamp(14px, 1.8vw, 22px);
+  --icon-card-min-height: auto;
+  --icon-box-size: 36px;
+  --icon-size: 18px;
+  --icon-box-radius: 4px;
+}
+.deck-slide .tier0-card-icon--accent {
+  --icon-box-bg: var(--ppt-highlight-wash, #f0fad0);
+  --icon-box-color: var(--ppt-emphasis-on-light, #73b200);
+}
+.deck-slide .tier0-card-icon--neutral {
+  --icon-box-bg: #f4f4f4;
+  --icon-box-color: rgba(5,11,20,.45);
+}
+
+/* deck.css 现已处理 deck-cover__sub / deck-lead 间距与宽度，无需覆盖 */
+
+/* ── Cover 额外 tag 行 ── */
+.cover-tags {
+  display: flex;
+  gap: clamp(12px, 1.4vw, 18px);
+  flex-wrap: wrap;
+  margin-top: 2.5vh;
+}
+.cover-tag {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: max(15px, 1.2vw);
+  color: rgba(255,255,255,.5);
+}
+
+/* deck.css 中 .deck-slide--chapter h1 已设 max-width:50vw，无需覆盖 */
+
+/* ── Pipeline 说明卡 ── */
+.pipeline-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(10px, 1.2vw, 16px);
+}
+.pipeline-info-card {
+  padding: 14px 18px;
+  background: var(--ppt-lt2);
+  border-radius: 4px;
+}
+.pipeline-info-card--hl { background: var(--ppt-highlight-wash); }
+.pipeline-info-card__label {
+  font-family: var(--font-label);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ppt-emphasis-on-light);
+  margin: 0 0 6px;
+}
+.pipeline-info-card__num {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.8vw, 28px);
+  font-weight: 700;
+  color: var(--ppt-tx1);
+  margin: 0;
+  line-height: 1;
+}
+.pipeline-info-card__sub {
+  font-size: 11px;
+  color: rgba(5,11,20,.5);
+  margin: 4px 0 0;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 1 · A — Cover
+════════════════════════════════════════════ -->
+<section class="deck-slide deck-slide--cover" data-slide-type="A" data-theme="dark" id="s1">
+  <header class="deck-chrome">
+    <div class="deck-chrome__l" data-anim>Technical Overview · 技术概览</div>
+    <div class="deck-chrome__r" data-anim>2026-05-27 · 01 / 04</div>
+  </header>
+  <div class="deck-main deck-main--cover">
+    <div class="deck-cover__content">
+      <p class="deck-eyebrow" data-anim>Unified Namespace · 统一命名空间</p>
+      <h1 data-anim>Tier<span class="accent">0</span><br>工业数据<br>统一平台</h1>
+      <p class="deck-cover__sub" data-anim>
+        在边缘实时连接、建模并编排 OT/IT 数据，让全厂共享同一套语义化事实源
+      </p>
+      <div class="cover-tags" data-anim>
+        <span class="cover-tag">
+          <i data-lucide="zap" style="width:1.2vw;height:1.2vw;min-width:16px;min-height:16px;color:var(--ppt-accent-marker);stroke-width:2.5;"></i>实时边缘处理
+        </span>
+        <span class="cover-tag">
+          <i data-lucide="layers" style="width:1.2vw;height:1.2vw;min-width:16px;min-height:16px;color:var(--ppt-accent-marker);stroke-width:2.5;"></i>协议归一化
+        </span>
+        <span class="cover-tag">
+          <i data-lucide="shield-check" style="width:1.2vw;height:1.2vw;min-width:16px;min-height:16px;color:var(--ppt-accent-marker);stroke-width:2.5;"></i>零信任安全
+        </span>
+      </div>
+    </div>
+    <img class="deck-cover__visual" src="../../assets/marketing-cover-visual.svg" alt="" data-anim>
+  </div>
+  <div class="deck-cover__bar">
+    <img class="deck-cover__logo" src="../../assets/tier0-logo-lime.svg" alt="Tier0" data-anim>
+    <p class="deck-footer" style="margin:0;padding:0;" data-anim>Copyright © 2026 Tier0. All rights reserved.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 2 · B — Chapter
+════════════════════════════════════════════ -->
+<section class="deck-slide deck-slide--chapter" data-slide-type="B" data-theme="dark" id="s2">
+  <header class="deck-chrome">
+    <div class="deck-chrome__l" data-anim>核心功能</div>
+    <div class="deck-chrome__r" data-anim>02 / 04</div>
+  </header>
+  <div class="deck-main">
+    <h1 data-anim>连接 · 建模 · 编排<br><span style="color:var(--ppt-accent-marker);">全生命周期覆盖</span></h1>
+  </div>
+  <p class="deck-footer">Copyright © 2026 Tier0. All rights reserved.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 3 · C3 — Icon Card Grid
+════════════════════════════════════════════ -->
+<section class="deck-slide deck-slide--content" data-slide-type="C" data-theme="light" id="s3">
+  <header class="deck-chrome">
+    <div class="deck-chrome__l">02 · Core Features · 核心功能</div>
+    <div class="deck-chrome__r">03 / 04</div>
+  </header>
+  <div class="deck-main">
+    <h1 data-anim>六大能力<span class="accent">全覆盖</span></h1>
+    <div class="deck-card-grid deck-card-grid--3x2">
+      <article class="tier0-card-icon tier0-card-icon--accent" data-anim>
+        <header class="tier0-card-icon__head">
+          <h3 class="card-title">多协议接入</h3>
+          <span class="tier0-icon-box" aria-hidden="true"><i data-lucide="cable"></i></span>
+        </header>
+        <hr class="tier0-card-icon__rule">
+        <div class="tier0-card-icon__body">
+          <p class="card-lead">统一协议适配层</p>
+          <ul class="card-list">
+            <li>OPC UA · Modbus · MQTT · HTTP</li>
+            <li>30+ 驱动，零代码接入</li>
+          </ul>
+        </div>
+      </article>
+      <article class="tier0-card-icon tier0-card-icon--accent" data-anim>
+        <header class="tier0-card-icon__head">
+          <h3 class="card-title">语义命名空间</h3>
+          <span class="tier0-icon-box" aria-hidden="true"><i data-lucide="layers"></i></span>
+        </header>
+        <hr class="tier0-card-icon__rule">
+        <div class="tier0-card-icon__body">
+          <p class="card-lead">ISA-95 主题树</p>
+          <ul class="card-list">
+            <li>设备 / 工艺 / 质量统一建模</li>
+            <li>发布一次，全厂订阅无限</li>
+          </ul>
+        </div>
+      </article>
+      <article class="tier0-card-icon tier0-card-icon--accent" data-anim>
+        <header class="tier0-card-icon__head">
+          <h3 class="card-title">实时边缘处理</h3>
+          <span class="tier0-icon-box" aria-hidden="true"><i data-lucide="zap"></i></span>
+        </header>
+        <hr class="tier0-card-icon__rule">
+        <div class="tier0-card-icon__body">
+          <p class="card-lead">亚 50ms 低延迟</p>
+          <ul class="card-list">
+            <li>本地计算，断网续传</li>
+            <li>边缘 → 云双向同步</li>
+          </ul>
+        </div>
+      </article>
+      <article class="tier0-card-icon tier0-card-icon--neutral" data-anim>
+        <header class="tier0-card-icon__head">
+          <h3 class="card-title">事件编排</h3>
+          <span class="tier0-icon-box" aria-hidden="true"><i data-lucide="git-branch"></i></span>
+        </header>
+        <hr class="tier0-card-icon__rule">
+        <div class="tier0-card-icon__body">
+          <p class="card-lead">规则 → 动作</p>
+          <ul class="card-list">
+            <li>触发工单 · 告警 · 联动 MES</li>
+            <li>可视化编排，无代码配置</li>
+          </ul>
+        </div>
+      </article>
+      <article class="tier0-card-icon tier0-card-icon--neutral" data-anim>
+        <header class="tier0-card-icon__head">
+          <h3 class="card-title">零信任安全</h3>
+          <span class="tier0-icon-box" aria-hidden="true"><i data-lucide="shield-check"></i></span>
+        </header>
+        <hr class="tier0-card-icon__rule">
+        <div class="tier0-card-icon__body">
+          <p class="card-lead">端到端加密</p>
+          <ul class="card-list">
+            <li>mTLS · RBAC · 审计日志</li>
+            <li>合规可追溯，满足等保</li>
+          </ul>
+        </div>
+      </article>
+      <article class="tier0-card-icon tier0-card-icon--neutral" data-anim>
+        <header class="tier0-card-icon__head">
+          <h3 class="card-title">开放 API</h3>
+          <span class="tier0-icon-box" aria-hidden="true"><i data-lucide="bar-chart-2"></i></span>
+        </header>
+        <hr class="tier0-card-icon__rule">
+        <div class="tier0-card-icon__body">
+          <p class="card-lead">标准集成接口</p>
+          <ul class="card-list">
+            <li>REST · WebSocket · gRPC</li>
+            <li>Webhook 推送，SDK 可用</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+  <p class="deck-footer">Copyright © 2026 Tier0. All rights reserved.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SLIDE 4 · D5 — Pipeline（进场后自动逐步点亮）
+════════════════════════════════════════════ -->
+<section class="deck-slide deck-slide--content" data-slide-type="D" data-theme="light"
+         data-animate="pipeline" id="s4">
+  <header class="deck-chrome">
+    <div class="deck-chrome__l">03 · Adoption Path · 落地路径</div>
+    <div class="deck-chrome__r">04 / 04</div>
+  </header>
+  <div class="deck-main">
+    <h1 data-anim>从试点到<span class="accent">规模化</span></h1>
+    <p class="deck-eyebrow" data-anim>四步低风险推进 — 每步独立验证，先证明价值再复制</p>
+
+    <div class="deck-pipeline">
+      <div class="deck-pipeline__step" data-anim="step">
+        <div class="deck-pipeline__nb">01</div>
+        <p class="deck-pipeline__title">Discovery</p>
+        <p class="deck-pipeline__desc">现状梳理 · OT 资产普查 · 命名规范制定</p>
+      </div>
+      <div class="deck-pipeline__step" data-anim="step">
+        <div class="deck-pipeline__nb">02</div>
+        <p class="deck-pipeline__title">PoC</p>
+        <p class="deck-pipeline__desc">单产线全链路验证 · 关键指标基准 · ≈ 4 周</p>
+      </div>
+      <div class="deck-pipeline__step" data-anim="step">
+        <div class="deck-pipeline__nb">03</div>
+        <p class="deck-pipeline__title">Pilot Line</p>
+        <p class="deck-pipeline__desc">接入 MES / BI · 试运行 · 用户培训</p>
+      </div>
+      <div class="deck-pipeline__step" data-anim="step">
+        <div class="deck-pipeline__nb">04</div>
+        <p class="deck-pipeline__title">Scale-out</p>
+        <p class="deck-pipeline__desc">多产线 / 多厂区 · 模板化复制 · 持续运营</p>
+      </div>
+    </div>
+
+    <div class="pipeline-info-grid" data-anim>
+      <div class="pipeline-info-card">
+        <p class="pipeline-info-card__label">平均交付周期</p>
+        <p class="pipeline-info-card__num">8 <span style="font-size:.6em;font-weight:400;">wk</span></p>
+        <p class="pipeline-info-card__sub">PoC → Pilot 上线</p>
+      </div>
+      <div class="pipeline-info-card pipeline-info-card--hl">
+        <p class="pipeline-info-card__label">接入协议数</p>
+        <p class="pipeline-info-card__num">30<span style="font-size:.6em;font-weight:400;">+</span></p>
+        <p class="pipeline-info-card__sub">开箱即用驱动</p>
+      </div>
+      <div class="pipeline-info-card">
+        <p class="pipeline-info-card__label">ROI 回收</p>
+        <p class="pipeline-info-card__num">&lt;12 <span style="font-size:.6em;font-weight:400;">mo</span></p>
+        <p class="pipeline-info-card__sub">典型客户案例</p>
+      </div>
+    </div>
+  </div>
+  <p class="deck-footer">Copyright © 2026 Tier0. All rights reserved.</p>
+</section>
+
+<!-- ── 底部导航 ── -->
+<div id="nav-bar">
+  <div id="progress"></div>
+  <div id="hint">← 上一张 &nbsp;·&nbsp; → / Space 下一张</div>
+</div>
+
+<script>
+lucide.createIcons();
+
+// ══════════════════════════════════════
+// 动效引擎
+// ══════════════════════════════════════
+function animateIn(slide) {
+  // 普通淡入（非 step）
+  const elems = [...slide.querySelectorAll('[data-anim]')]
+    .filter(el => el.getAttribute('data-anim') !== 'step');
+  elems.forEach((el, i) => {
+    el.classList.remove('is-visible');
+    setTimeout(() => el.classList.add('is-visible'), 80 * i + 40);
+  });
+
+  // Pipeline：进场后自动依次点亮
+  if (slide.dataset.animate === 'pipeline') {
+    const steps = [...slide.querySelectorAll('[data-anim="step"]')];
+    steps.forEach(s => s.classList.remove('is-lit'));
+    steps.forEach((s, i) => {
+      setTimeout(() => s.classList.add('is-lit'), 600 * (i + 1) + 200);
+    });
+  }
+}
+
+// ══════════════════════════════════════
+// 幻灯片管理
+// ══════════════════════════════════════
+const slides = [...document.querySelectorAll('.deck-slide')];
+let current = 0;
+
+const prog = document.getElementById('progress');
+slides.forEach((_, i) => {
+  const dot = document.createElement('span');
+  dot.id = 'dot' + i;
+  prog.appendChild(dot);
+});
+
+function updateDots() {
+  slides.forEach((_, i) =>
+    document.getElementById('dot' + i).classList.toggle('active', i === current)
+  );
+}
+
+function goTo(idx) {
+  slides[current].classList.remove('is-active');
+  current = (idx + slides.length) % slides.length;
+  slides[current].classList.add('is-active');
+  animateIn(slides[current]);
+  updateDots();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+});
+
+goTo(0);
+</script>
+</body>
+</html>

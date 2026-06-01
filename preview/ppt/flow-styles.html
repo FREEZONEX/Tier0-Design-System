@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/core.css">
+<link rel="stylesheet" href="../../tokens/deck.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  .deck-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5vh;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .flow-styles__cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(16px, 2.5vw, 40px);
+    justify-content: center;
+    align-items: stretch;
+  }
+  .flow-styles__cards .deck-flow-card {
+    flex: 0 1 auto;
+    min-width: 10rem;
+  }
+  .flow-styles__label {
+    margin: 0 0 0.8vh;
+    font-family: var(--font-label);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(5, 11, 20, 0.5);
+    text-align: center;
+  }
+  .flow-styles__line-types {
+    width: min(100%, 28rem);
+    margin: 0 auto;
+    padding: 2vh 1vw;
+    border: 1px solid rgba(5, 11, 20, 0.06);
+    border-radius: 4px;
+    background: var(--ppt-bg1);
+  }
+  .flow-styles__line-types svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .flow-styles__line-types text {
+    font-family: var(--font-label);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    fill: rgba(5, 11, 20, 0.45);
+  }
+</style>
+</head>
+<body>
+<section class="deck-slide deck-slide--content" data-slide-type="D" data-theme="light">
+  <header class="deck-chrome">
+    <span class="deck-chrome__chapter">Flow styles</span>
+    <span class="deck-chrome__meta">Preview</span>
+  </header>
+  <main class="deck-main">
+    <p class="deck-eyebrow">Cards · line types</p>
+
+    <p class="flow-styles__label">Node cards (4057:2384)</p>
+    <div class="flow-styles__cards">
+      <div class="deck-flow-card deck-flow-card--soft">
+        <div class="deck-flow-card__row">
+          <span class="deck-flow-card__icon"><i data-lucide="database"></i></span>
+          <span class="deck-flow-card__title">Data Source</span>
+        </div>
+        <p class="deck-flow-card__subtitle">Equipments &amp; Systems</p>
+      </div>
+      <div class="deck-flow-card deck-flow-card--lime">
+        <div class="deck-flow-card__row">
+          <span class="deck-flow-card__icon"><i data-lucide="database"></i></span>
+          <span class="deck-flow-card__title">Data Source</span>
+        </div>
+        <p class="deck-flow-card__subtitle">Equipments &amp; Systems</p>
+      </div>
+      <div class="deck-flow-card deck-flow-card--white">
+        <div class="deck-flow-card__row">
+          <span class="deck-flow-card__icon"><i data-lucide="database"></i></span>
+          <span class="deck-flow-card__title">Data Source</span>
+        </div>
+        <p class="deck-flow-card__subtitle">Equipments &amp; Systems</p>
+      </div>
+      <div class="deck-flow-card deck-flow-card--blue">
+        <div class="deck-flow-card__row">
+          <span class="deck-flow-card__icon"><i data-lucide="database"></i></span>
+          <span class="deck-flow-card__title">Data Source</span>
+        </div>
+        <p class="deck-flow-card__subtitle">Equipments &amp; Systems</p>
+      </div>
+    </div>
+
+    <p class="flow-styles__label">Line types 1.5px (4057:2393)</p>
+    <div class="flow-styles__line-types">
+      <svg class="deck-flow-connectors" viewBox="0 0 400 56" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <defs>
+          <marker id="deck-flow-arrowhead-end" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto" markerUnits="userSpaceOnUse">
+            <path class="deck-flow-arrow" d="M0 1 L9 5 L0 9 Z" />
+          </marker>
+          <marker id="deck-flow-arrowhead-start" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+            <path class="deck-flow-arrow" d="M0 1 L9 5 L0 9 Z" />
+          </marker>
+        </defs>
+        <text x="58" y="14" text-anchor="middle">No arrow</text>
+        <path class="deck-flow-line deck-flow-line--none" d="M10 28 H106" />
+        <text x="200" y="14" text-anchor="middle">Single</text>
+        <path class="deck-flow-line deck-flow-line--single" d="M152 28 H248" />
+        <text x="342" y="14" text-anchor="middle">Double</text>
+        <path class="deck-flow-line deck-flow-line--double" d="M294 28 H390" />
+      </svg>
+    </div>
+  </main>
+  <footer class="deck-footer">
+    <span>Tier0</span>
+    <span>flow-styles</span>
+  </footer>
+</section>
+<script>lucide.createIcons();</script>
+</body>
+</html>

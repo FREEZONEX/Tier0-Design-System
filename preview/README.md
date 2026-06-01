@@ -29,7 +29,7 @@ python3 scripts/build-preview-manifest.py
 | [`_shared/`](_shared/) | `tokens/core.css` | 色板、字号、间距、圆角等原子 token |
 | [`tier0-product/`](tier0-product/) | `tokens/product.css` | 工作台：黑按钮、侧栏、表格行、LIVE 状态 |
 | [`company-website/`](company-website/) | `tokens/website.css` | 官网：Eyebrow、Poppins Hero、图示面板、对比卡 |
-| [`marketing-deck/`](marketing-deck/) | `tokens/deck.css` | PPT：封面/章节/内容页、主题色、页脚、KPI |
+| [`ppt/`](ppt/) | `tokens/deck.css` | PPT：封面/章节/内容页、主题色、页脚、KPI |
 
 | 文件 | 说明 |
 |------|------|

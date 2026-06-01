@@ -22,7 +22,7 @@
 | 布局 | Header + Controls + Content | 长滚动叙事节 | 幻灯片版式 |
 | 密度 | 高 | 中 | 低 |
 | 主按钮 | **近黑** + 绿高亮 | 轻量 CTA | 少按钮 |
-| 标题字体 | Plex Sans | Poppins | Poppins/Tektur |
+| 标题字体 | Plex Sans | Poppins | Tektur |
 | 渐变/大 Hero | **禁止** | 节制 | 仅封面装饰 |
 
 ## 代码事实来源（产品仓库）

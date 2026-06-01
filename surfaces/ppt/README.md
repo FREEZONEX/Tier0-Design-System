@@ -1,6 +1,20 @@
-# Surface — PPT / 市场材料（Masterdeck）
+# Surface — PPT（Masterdeck）
 
-> 完整规范：[`sources/spec.marketing-deck.ppt.md`](../../sources/spec.marketing-deck.ppt.md)（v1.5，对齐 `26.01.14-Tier0 Masterdeck.pptx`）。
+> 完整规范：[`sources/spec.ppt.md`](../../sources/spec.ppt.md)（v1.5，对齐 `26.01.14-Tier0 Masterdeck.pptx`）。
+
+## Agent 深度参考（生成 deck 时优先）
+
+| 步骤 | 文档 |
+|------|------|
+| 工作流 | [`references/ppt-workflow.md`](../../references/ppt-workflow.md) |
+| 硬锁 | [`references/ppt-layout-lock.md`](../../references/ppt-layout-lock.md) |
+| 主题色 | [`references/ppt-themes.md`](../../references/ppt-themes.md) |
+| 版式骨架 | [`references/ppt-layouts.md`](../../references/ppt-layouts.md) |
+| 组件 | [`references/ppt-components.md`](../../references/ppt-components.md) |
+| 图示 | [`references/ppt-diagrams.md`](../../references/ppt-diagrams.md) |
+| 自检 | [`references/ppt-checklist.md`](../../references/ppt-checklist.md) |
+
+索引与目录分工：[`references/README.md`](../../references/README.md)。
 
 ## 定位
 
@@ -19,9 +33,9 @@
 
 | 维度 | PPT | 产品 UI | 官网 |
 |------|-----|---------|------|
-| 封面标题 | **Poppins SemiBold** | — | Poppins |
+| 封面标题 | **Tektur Regular** | — | — |
 | 章节大标题 | **Tektur Regular** | — | — |
-| 白底页标题 | **Plex Sans Medium**（禁 Poppins） | Plex | Poppins |
+| 白底页标题 | **Plex Sans Medium** | Plex | — |
 | 品牌蓝 | **`#1D77FE` only** | 不用 | 极少 |
 | 中文 | **IBM Plex Sans SC** | 可选 | Sans SC |
 
@@ -34,13 +48,13 @@
 | accent1 | `#B2ED1D` | 深色页重点标题 / 挑词 |
 | accent2 | `#73B200` | **白底页**重点标题、eyebrow、KPI 数字 |
 | accent4 / 链接 | **`#1D77FE`** | 唯一品牌蓝（可用透明度阶） |
-| lt2 | `#EFECE0` | 浅米辅助底 |
+| lt2 | `#F4F4F4` | 浅灰辅助底 |
 
 改版时写回 `theme1.xml`，禁止手绘吸色脱离主题。
 
 ## 字体白名单
 
-**仅允许：** Tektur、Poppins、IBM Plex Sans、**IBM Plex Sans SC**、IBM Plex Mono  
+**仅允许：** Tektur、IBM Plex Sans、**IBM Plex Sans SC**、IBM Plex Mono（**禁止 Poppins**）  
 
 - 拉丁：`IBM Plex Sans`  
 - 简中/东亚：**IBM Plex Sans SC**（不得换其他中文字体）  
@@ -49,19 +63,19 @@
 
 | 类型 | 说明 |
 |------|------|
-| **A 封面** | 深底 `#050B14` + 点阵 + accent1 挑词 + 右等轴测 |
+| **A 封面** | 深底 `#050B14` + 左侧标题 + 右侧偏下 `assets/marketing-cover-visual.svg` 主视觉 |
 | **B 深色章节** | Tektur Regular 白字 ≥48pt |
 | **C 白底内容** | 顶栏标题 Plex Medium 32pt+，正文 14–16pt |
 | **D 信息图** | accent1 轴线 + `#1D77FE` 辅助 |
 | **E 对比双栏** | 浅绿洗 vs 浅灰洗 |
 
-详见 [slide-templates.md](slide-templates.md) · 带 Icon 卡片见 [components.md](components.md)。
+版式摘要见 [slide-templates.md](slide-templates.md)（Office 映射）；可粘贴 HTML 骨架见 [references/ppt-layouts.md](../../references/ppt-layouts.md)。带 Icon 卡片见 [components.md](components.md) / [references/ppt-components.md](../../references/ppt-components.md)。
 
 ## 字号阶梯（内容页）
 
 | 层级 | 字号 | 字体 |
 |------|------|------|
-| L0 封面 | 54–72pt | Poppins SemiBold |
+| L0 封面 | 54–72pt | Tektur Regular |
 | L1 章节 | 48–60pt | Tektur Regular（深底） |
 | L2 页标题 | 32–40pt | Plex Sans/SC Medium |
 | L4 正文 | 14–16pt | Plex Regular |
@@ -89,8 +103,8 @@
 
 ## UI Kit
 
-`ui_kits/marketing-deck/` — 待补 HTML 幻灯片模板；规范以 PPT 母版为准。
+`ui_kits/ppt/` — 待补 HTML 幻灯片模板；规范以 PPT 母版为准。
 
 ## 检查清单
 
-[checklist.md](checklist.md)
+交付前：[references/ppt-checklist.md](../../references/ppt-checklist.md)（P0–P3）。本目录 [checklist.md](checklist.md) 为母版规范摘要。

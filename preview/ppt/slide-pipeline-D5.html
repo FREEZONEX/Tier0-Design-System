@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/deck.css">
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+</style>
+</head>
+<body>
+
+<!-- ——— 变体 D5a：白底管线（自动淡入 + 逐步点亮） ——— -->
+<section class="deck-slide deck-slide--content"
+         data-slide-type="D" data-theme="light"
+         data-animate="pipeline"
+         style="display:none;" id="d5a">
+  <header class="deck-chrome">
+    <div class="deck-chrome__l">08 · Adoption · 落地路径</div>
+    <div class="deck-chrome__r">10 / 12</div>
+  </header>
+  <div class="deck-main" style="gap:1vh;">
+    <h1 data-anim>从试点到<span class="accent">规模化</span></h1>
+    <p class="deck-eyebrow" data-anim>PoC → Pilot → Scale-out</p>
+
+    <div class="deck-pipeline">
+      <div class="deck-pipeline__step" data-anim="step">
+        <div class="deck-pipeline__nb">01</div>
+        <p class="deck-pipeline__title">Discovery</p>
+        <p class="deck-pipeline__desc">现状梳理 · 命名规范制定</p>
+      </div>
+      <div class="deck-pipeline__step" data-anim="step">
+        <div class="deck-pipeline__nb">02</div>
+        <p class="deck-pipeline__title">PoC</p>
+        <p class="deck-pipeline__desc">单产线全链路验证 · ≈ 4 wk</p>
+      </div>
+      <div class="deck-pipeline__step" data-anim="step">
+        <div class="deck-pipeline__nb">03</div>
+        <p class="deck-pipeline__title">Pilot Line</p>
+        <p class="deck-pipeline__desc">接入 MES / BI · 试运行</p>
+      </div>
+      <div class="deck-pipeline__step" data-anim="step">
+        <div class="deck-pipeline__nb">04</div>
+        <p class="deck-pipeline__title">Scale-out</p>
+        <p class="deck-pipeline__desc">多产线 / 多厂区推广复制</p>
+      </div>
+    </div>
+
+    <p style="margin-top:4vh;font-size:14px;color:rgba(5,11,20,.5);" data-anim>
+      每一步可独立验证 · 低风险推进 — 先在一条产线证明价值，再复制
+    </p>
+  </div>
+  <p class="deck-footer">Copyright © 2026 Tier0. All rights reserved.</p>
+</section>
+
+<!-- ——— 变体 D5b：Icon 增强版（带图标 + 说明卡） ——— -->
+<section class="deck-slide deck-slide--content"
+         data-slide-type="D" data-theme="light"
+         data-animate="pipeline"
+         id="d5b">
+  <header class="deck-chrome">
+    <div class="deck-chrome__l">03 · Architecture · 架构</div>
+    <div class="deck-chrome__r">05 / 12</div>
+  </header>
+  <div class="deck-main" style="gap:1.5vh;">
+    <h1 data-anim>Source → <span class="accent">Namespace</span> → Event</h1>
+    <p class="deck-eyebrow" data-anim>三层即全局</p>
+
+    <div class="deck-pipeline" style="margin-top:4vh;">
+      <div class="deck-pipeline__step" data-anim="step">
+        <div class="deck-pipeline__nb"><i data-lucide="cable" style="width:16px;height:16px;stroke-width:2;"></i></div>
+        <p class="deck-pipeline__title">Source Flow</p>
+        <p class="deck-pipeline__desc">PLC · OPC UA · Modbus · 归一化</p>
+      </div>
+      <div class="deck-pipeline__step" data-anim="step">
+        <div class="deck-pipeline__nb"><i data-lucide="layers" style="width:16px;height:16px;stroke-width:2;"></i></div>
+        <p class="deck-pipeline__title">Namespace</p>
+        <p class="deck-pipeline__desc">MQTT Broker · SSOT · 语义主题树</p>
+      </div>
+      <div class="deck-pipeline__step" data-anim="step">
+        <div class="deck-pipeline__nb"><i data-lucide="git-branch" style="width:16px;height:16px;stroke-width:2;"></i></div>
+        <p class="deck-pipeline__title">Event Flow</p>
+        <p class="deck-pipeline__desc">规则 · 编排 · MES / ERP / BI</p>
+      </div>
+    </div>
+
+    <!-- 补充说明卡（可选） -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.6vw,20px);margin-top:3vh;" data-anim>
+      <div style="padding:16px 20px;background:var(--ppt-lt2);border-radius:4px;">
+        <p style="font-family:var(--font-label);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ppt-emphasis-on-light);margin:0 0 8px;">Edge Sources</p>
+        <p style="font-size:13px;color:rgba(5,11,20,.7);margin:0;line-height:1.5;">贴近产线采集，协议归一化后上报</p>
+      </div>
+      <div style="padding:16px 20px;background:var(--ppt-highlight-wash);border-radius:4px;">
+        <p style="font-family:var(--font-label);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ppt-emphasis-on-light);margin:0 0 8px;">Unified Namespace</p>
+        <p style="font-size:13px;color:rgba(5,11,20,.7);margin:0;line-height:1.5;">全厂共享单一事实源，发布一次订阅无限</p>
+      </div>
+      <div style="padding:16px 20px;background:var(--ppt-lt2);border-radius:4px;">
+        <p style="font-family:var(--font-label);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ppt-emphasis-on-light);margin:0 0 8px;">Consumers</p>
+        <p style="font-size:13px;color:rgba(5,11,20,.7);margin:0;line-height:1.5;">MES / ERP / AI 按需订阅，即插即用</p>
+      </div>
+    </div>
+  </div>
+  <p class="deck-footer">Copyright © 2026 Tier0. All rights reserved.</p>
+</section>
+
+<script>
+lucide.createIcons();
+
+// ——— 动效引擎（可直接复制到业务 deck 的导航脚本里）———
+function animateIn(slide) {
+  // 普通淡入元素（排除 step）
+  const elems = [...slide.querySelectorAll('[data-anim]')]
+    .filter(el => el.getAttribute('data-anim') !== 'step');
+  elems.forEach((el, i) => {
+    el.classList.remove('is-visible');
+    setTimeout(() => el.classList.add('is-visible'), 80 * i + 40);
+  });
+
+  // Pipeline 步骤初始化
+  const section = slide.querySelector('[data-animate="pipeline"]') || slide;
+  if (section.dataset && section.dataset.animate === 'pipeline') {
+    slide._steps = [...slide.querySelectorAll('[data-anim="step"]')];
+    slide._stepIdx = 0;
+    slide._steps.forEach(s => s.classList.remove('is-lit'));
+  } else {
+    slide._steps = null;
+  }
+}
+
+function tryAdvancePipeline(slide) {
+  if (!slide._steps || slide._stepIdx >= slide._steps.length) return false;
+  slide._steps[slide._stepIdx].classList.add('is-lit');
+  slide._stepIdx++;
+  return true;
+}
+
+// ——— 预览：两种变体切换 ———
+const slides = [document.getElementById('d5b'), document.getElementById('d5a')];
+let idx = 0;
+
+// 显示第一张
+slides.forEach((s, i) => s.style.display = i === 0 ? 'flex' : 'none');
+animateIn(slides[0]);
+
+document.addEventListener('keydown', e => {
+  const cur = slides[idx];
+  if (e.key === 'ArrowRight' || e.key === ' ') {
+    e.preventDefault();
+    if (tryAdvancePipeline(cur)) return;
+    // 切换到另一张变体
+    cur.style.display = 'none';
+    idx = (idx + 1) % slides.length;
+    slides[idx].style.display = 'flex';
+    animateIn(slides[idx]);
+  }
+  if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    cur.style.display = 'none';
+    idx = (idx - 1 + slides.length) % slides.length;
+    slides[idx].style.display = 'flex';
+    animateIn(slides[idx]);
+  }
+});
+
+// 提示
+const hint = document.createElement('div');
+hint.style.cssText = 'position:fixed;top:12px;right:16px;font-family:monospace;font-size:11px;color:rgba(5,11,20,.4);pointer-events:none;';
+hint.textContent = '→ 逐步点亮 · ← 切换变体';
+document.body.appendChild(hint);
+</script>
+</body>
+</html>

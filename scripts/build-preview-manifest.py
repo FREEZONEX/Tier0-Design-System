@@ -43,7 +43,7 @@ SECTION_META = {
     "surfaces": {
         "label": "Surfaces",
         "subtitle": "分场景规范文档",
-        "hint": "tier0-product · company-website · marketing-deck",
+        "hint": "tier0-product · company-website · ppt",
     },
     "preview": {
         "label": "Preview",
@@ -69,6 +69,11 @@ SECTION_META = {
         "label": "Fonts",
         "subtitle": "本地字体文件",
         "hint": "Poppins · IBM Plex Sans/SC · Tektur · Mono",
+    },
+    "references": {
+        "label": "References",
+        "subtitle": "Skill 工作流参考",
+        "hint": "按需加载的 agent workflow 与检查清单",
     },
 }
 
@@ -173,7 +178,7 @@ def write_classic_html(paths: list[Path]) -> None:
         "_shared": "_shared/ — 原子 token（core.css）",
         "tier0-product": "tier0-product/ — 产品后台（product.css）",
         "company-website": "company-website/ — 公司官网（website.css）",
-        "marketing-deck": "marketing-deck/ — PPT / 市场材料（deck.css）",
+        "ppt": "ppt/ — PPT（deck.css）",
     }
 
     def classic_href(path: Path) -> str:
@@ -295,6 +300,7 @@ def main() -> None:
         "sources": collect_files(ROOT / "sources", {".md"}),
         "assets": collect_files(ROOT / "assets", {".svg"}),
         "fonts": collect_files(ROOT / "fonts", {".ttf", ".txt"}),
+        "references": collect_files(ROOT / "references", {".md"}),
     }
 
     for sid, paths in section_paths.items():
@@ -329,10 +335,10 @@ def main() -> None:
                 "surface": "surfaces/company-website/",
             },
             {
-                "id": "marketing-deck",
-                "label": "PPT / 市场材料",
+                "id": "ppt",
+                "label": "PPT",
                 "token": "tokens/deck.css",
-                "surface": "surfaces/marketing-deck/",
+                "surface": "surfaces/ppt/",
             },
         ],
     }

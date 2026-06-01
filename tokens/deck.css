@@ -6,7 +6,7 @@
   /* Theme colors (PowerPoint theme1 aligned) */
   --ppt-tx1: #050b14;
   --ppt-bg1: #ffffff;
-  --ppt-lt2: #efece0;
+  --ppt-lt2: #f4f4f4;
   --ppt-accent1: #b2ed1d;
   --ppt-accent2: #73b200;
   /* Emphasis title text (pick by canvas) */
@@ -19,35 +19,709 @@
   --ppt-accent5: #a02b93;
   --ppt-accent6: #4ea72e;
   --ppt-highlight-wash: #e6f9b4;
+  /* E-type column divider — gray, not accent green */
+  --ppt-divider: rgba(5, 11, 20, 0.14);
   /* deprecated: old parent-company footer bar — do not use on new slides */
   --ppt-footer-pill: #040b13;
 
-  --font-cover: "Poppins", "IBM Plex Sans", sans-serif;
+  --font-cover: "Tektur", "IBM Plex Sans", sans-serif;
   --font-chapter: "Tektur", "IBM Plex Sans", sans-serif;
   --font-body-latin: "IBM Plex Sans", system-ui, sans-serif;
   --font-body-cjk: "IBM Plex Sans SC", "IBM Plex Sans", system-ui, sans-serif;
   --font-footer: "IBM Plex Mono", monospace;
+  --font-label: "IBM Plex Mono", monospace;
 
   --slide-safe-margin: 48px;
-  --fs-slide-cover: 60px;
-  --fs-slide-chapter: 48px;
-  --fs-slide-page-title: 32px;
-  --fs-slide-body: 16px;
+  --deck-slide-padding: 5.5vh 5vw 7vh;
+  --deck-chrome-size: 14px;     /* UI 标签：固定，不随屏幕变 */
+  --deck-chrome-tracking: 0.14em;
+  --deck-chrome-gap-bottom: 4vh;
+  /* 字号 token（floor 值）：实际 font-size 用 max(floor, Xvw) */
+  --fs-floor-cover: 52px;       /* 封面 h1 下限 */
+  --fs-floor-chapter: 50px;     /* 章节 h1 下限 */
+  --fs-floor-title: 28px;       /* 内容页 h1 下限 */
+  --fs-floor-body: 16px;        /* 正文下限 */
   --radius-slide-card: 4px;
 
-  /* Lucide icon tile (white-slide cards) */
-  --icon-box-size: 40px;
-  --icon-box-radius: 6px;
-  --icon-box-bg: #eef6d7;
-  --icon-box-color: #8ebb1d;
-  --icon-size: 20px;
+  /* Lucide icon card on slides (Figma 4059:2453) */
+  --icon-box-size: 28px;
+  --icon-size: 28px;
   --icon-stroke: 1.75;
-  --icon-box-gap: 14px;
-  --icon-card-border: rgba(5, 11, 20, 0.1);
-  --icon-card-bg: var(--ppt-bg1);
-  --icon-card-radius: var(--radius-slide-card);
-  --icon-card-padding: 20px;
-  --icon-card-min-height: 160px;
-  --icon-card-title-color: var(--ppt-tx1);
-  --icon-card-copy-color: rgba(5, 11, 20, 0.65);
+  --icon-card-bg-accent: #f0fbd2;
+  --icon-card-border-accent: #73b200;
+  --icon-card-rule-accent: #73b200;
+  --icon-card-bg-neutral: #f4f4f4;
+  --icon-card-border-neutral: #acaeb1;
+  --icon-card-rule-neutral: #cdcdd0;
+  --icon-card-body: #585c62;
+  --icon-card-radius: 4px;
+  --icon-card-padding: 16px 24px;
+  --icon-card-min-height: 0;
+}
+
+/* —— Slide shell + top chrome (chapter left · page/date right) —— */
+.deck-slide {
+  box-sizing: border-box;
+  width: 100vw;
+  min-width: 100vw;   /* prevent flex shrink in multi-slide deck */
+  flex-shrink: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--deck-slide-padding);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Small labels: IBM Plex Mono · uppercase (chrome, eyebrow, meta) */
+.deck-label,
+.deck-chrome,
+.deck-chrome__l,
+.deck-chrome__r,
+.deck-eyebrow {
+  font-family: var(--font-label);
+  font-size: var(--deck-chrome-size);
+  font-weight: 500;
+  letter-spacing: var(--deck-chrome-tracking);
+  text-transform: uppercase;
+  line-height: 1.45;
+  font-feature-settings: "tnum", "lnum";
+}
+
+.deck-chrome {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex: 0 0 auto;
+  gap: 2vw;
+  margin-bottom: var(--deck-chrome-gap-bottom);
+}
+
+.deck-chrome__l {
+  max-width: 58vw;
+}
+
+.deck-chrome__r {
+  max-width: 38vw;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.deck-slide[data-theme="dark"] .deck-chrome,
+.deck-slide[data-theme="dark"] .deck-label {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.deck-slide[data-theme="light"] .deck-chrome,
+.deck-slide[data-theme="light"] .deck-label {
+  color: rgba(5, 11, 20, 0.55);
+}
+
+.deck-main {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.deck-footer {
+  flex: 0 0 auto;
+  margin: 0;
+  margin-top: auto;
+  padding-top: 2vh;
+  font-family: var(--font-footer);
+  font-size: 10px;
+  line-height: 1.4;
+  color: #99a1aa;
+}
+
+.deck-slide[data-theme="dark"] .deck-footer {
+  color: rgba(153, 161, 170, 0.92);
+}
+
+.deck-eyebrow {
+  margin: 0 0 12px; /* 位于 h1 上方时：与标题间隔 12px */
+}
+
+.deck-slide[data-theme="light"] .deck-eyebrow {
+  color: var(--ppt-emphasis-on-light);
+}
+
+.deck-slide[data-theme="dark"] .deck-eyebrow {
+  color: var(--ppt-emphasis-on-dark);
+}
+
+.deck-kpi__label {
+  margin-top: 8px;
+  color: var(--ppt-tx1);
+}
+
+.deck-body {
+  margin: 0;
+  padding-left: 1.2em;
+  font-family: var(--font-body-latin);
+  font-size: max(var(--fs-floor-body), 1.2vw);
+  line-height: 1.55;
+  color: var(--ppt-tx1);
+  max-width: 36rem;
+}
+
+.deck-body li {
+  margin: 8px 0;
+}
+
+.deck-body li::marker {
+  color: var(--ppt-accent-marker);
+}
+
+/* Type A — cover */
+.deck-slide--cover {
+  background: var(--ppt-tx1);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+.deck-slide--cover .deck-main--cover {
+  flex: 1;
+  position: static;
+}
+
+.deck-cover__content {
+  position: relative;
+  z-index: 2;
+  max-width: 44vw;
+  padding-top: 2vh;
+}
+
+.deck-cover__content h1 {
+  margin: 0;
+  font-family: var(--font-cover);
+  font-size: max(var(--fs-floor-cover), 6.5vw); /* 纯 vw，随屏等比 */
+  font-weight: 400;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.deck-cover__content .accent {
+  color: var(--ppt-emphasis-on-dark);
+}
+
+.deck-cover__sub {
+  margin: 16px 0 0;
+  font-family: var(--font-body-latin);
+  font-size: max(17px, 1.9vw); /* 只设下限 */
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.deck-cover__visual {
+  position: absolute;  /* fixed → absolute: prevents bleed into adjacent slides */
+  z-index: 1;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  object-position: right center;
+  pointer-events: none;
+}
+
+.deck-cover__bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex: 0 0 auto;
+  padding-top: 2vh;
+}
+
+.deck-cover__logo {
+  height: 22px;
+  width: auto;
+}
+
+/* Type B — chapter */
+.deck-slide--chapter {
+  background: var(--ppt-tx1);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+
+.deck-slide--chapter .deck-main {
+  justify-content: center;
+}
+
+.deck-slide--chapter h1 {
+  margin: 0;
+  font-family: var(--font-chapter);
+  font-size: max(var(--fs-floor-chapter), 5.8vw); /* 纯 vw，随屏等比 */
+  font-weight: 400;
+  line-height: 1.05;
+  color: #fff;
+  max-width: 50vw;
+}
+
+/* Type C — white content */
+.deck-slide--content {
+  background: var(--ppt-bg1);
+  font-family: var(--font-body-latin);
+}
+
+/* 内容页标题区：无副句 → 标题下 24px；有副句 → 标题下 4px，副句下 24px */
+.deck-slide--content .deck-main > h1 {
+  margin: 0 0 24px;
+  font-size: max(var(--fs-floor-title), 3.2vw);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--ppt-tx1);
+  letter-spacing: -0.02em;
+  max-width: 70vw;
+}
+
+.deck-slide--content .deck-main > h1:has(+ .deck-sub, + .deck-lead, + .deck-eyebrow) {
+  margin-bottom: 4px;
+}
+
+.deck-sub,
+.deck-lead {
+  margin: 0 0 24px;
+  font-family: var(--font-body-latin);
+  font-size: max(16px, 1.3vw);
+  line-height: 1.5;
+  color: rgba(5, 11, 20, 0.72);
+  max-width: none;
+  width: 100%; /* 一句话尽量铺满内容区宽度后再换行 */
+}
+
+.deck-slide--content .deck-main > h1 + .deck-eyebrow {
+  margin: 0 0 24px;
+  max-width: none;
+  width: 100%;
+}
+
+/* 章节页：标题 + 副句（deck-cover__sub） */
+.deck-slide--chapter .deck-main > h1:has(+ .deck-cover__sub) {
+  margin-bottom: 4px;
+}
+
+.deck-slide--chapter .deck-main > h1 + .deck-cover__sub {
+  margin: 0;
+  max-width: none;
+  width: 100%;
+}
+
+/* 封面：标题与副句 8px */
+.deck-cover__content h1:has(+ .deck-cover__sub) {
+  margin-bottom: 4px;
+}
+
+.deck-cover__content h1 + .deck-cover__sub {
+  margin-top: 0;
+}
+
+/* 代码块铺满剩余高度 */
+.deck-main pre {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.deck-slide--content h1 .accent {
+  color: var(--ppt-emphasis-on-light);
+}
+
+/* —— Flow diagrams (Type D · Figma 4057:2384) —— */
+:root {
+  --flow-card-soft: #e5f9b4;
+  --flow-card-lime: #b2ed1d;
+  --flow-card-white: #ffffff;
+  --flow-card-blue: #d2e4ff;
+  --flow-stroke-green: #73b200;
+  --flow-stroke-blue: #1d77fe;
+  --flow-subtitle-muted: #585c62;
+  --flow-line: #73b200;
+  --flow-radius-card: 4px;
+  --flow-stroke-width: 1.5px;
+  --flow-line-width: 1.5px;
+}
+
+/* 四种节点卡（仅样式；布局自定） */
+.deck-flow-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 24px;
+  border-radius: var(--flow-radius-card);
+  border: var(--flow-stroke-width) solid var(--flow-stroke-green);
+  background: var(--flow-card-soft);
+  font-family: var(--font-body-latin);
+  text-align: center;
+}
+
+.deck-flow-card--soft {
+  background: var(--flow-card-soft);
+  border-color: var(--flow-stroke-green);
+}
+
+.deck-flow-card--soft .deck-flow-card__subtitle {
+  color: var(--flow-stroke-green);
+}
+
+.deck-flow-card--lime {
+  background: var(--flow-card-lime);
+  border-color: var(--flow-stroke-green);
+}
+
+.deck-flow-card--lime .deck-flow-card__subtitle {
+  color: var(--flow-subtitle-muted);
+}
+
+.deck-flow-card--white {
+  background: var(--flow-card-white);
+  border-color: var(--flow-stroke-blue);
+}
+
+.deck-flow-card--white .deck-flow-card__subtitle {
+  color: var(--flow-stroke-blue);
+}
+
+.deck-flow-card--blue {
+  background: var(--flow-card-blue);
+  border-color: var(--flow-stroke-blue);
+}
+
+.deck-flow-card--blue .deck-flow-card__subtitle {
+  color: var(--flow-subtitle-muted);
+}
+
+.deck-flow-card__row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 6px;
+}
+
+.deck-flow-card__title {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ppt-tx1);
+}
+
+.deck-flow-card__subtitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.deck-flow-card__icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--ppt-tx1);
+}
+
+.deck-flow-card__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  fill: none;
+}
+
+/* 连线与箭头 */
+.deck-flow-connectors {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.deck-flow-connectors .deck-flow-line {
+  fill: none;
+  stroke: var(--flow-line);
+  stroke-width: var(--flow-line-width);
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
+
+/* 线型（Figma 4057:2393）：无箭头 / 单箭头 / 双箭头 */
+.deck-flow-line--none {
+  marker-start: none;
+  marker-end: none;
+}
+
+.deck-flow-line--single {
+  marker-start: none;
+  marker-end: url(#deck-flow-arrowhead-end);
+}
+
+.deck-flow-line--double {
+  marker-start: url(#deck-flow-arrowhead-start);
+  marker-end: url(#deck-flow-arrowhead-end);
+}
+
+.deck-flow-connectors .deck-flow-arrow {
+  fill: var(--flow-line);
+  stroke: none;
+}
+
+/* —— Card grid layouts (C2 / C3 / C4) —— */
+.deck-card-grid {
+  display: grid;
+  gap: clamp(12px, 1.5vw, 20px);
+  align-items: stretch;
+  flex: 1;          /* 撑满 deck-main 剩余高度 */
+  min-height: 0;    /* 允许 flex 子元素收缩 */
+}
+.deck-card-grid--2x1 { grid-template-columns: repeat(2, 1fr); }
+.deck-card-grid--2x2 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
+.deck-card-grid--3x1 { grid-template-columns: repeat(3, 1fr); }
+.deck-card-grid--3x2 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); }
+.deck-card-grid--4x1 { grid-template-columns: repeat(4, 1fr); }
+
+/* 流程图卡片容器：不铺满，保持内容自然高度 */
+.deck-flow-grid {
+  display: grid;
+  gap: clamp(12px, 1.6vw, 20px);
+  align-items: start;  /* 卡片自然高度，不拉伸 */
+}
+
+/* —— Icon cards on slides (Figma 4059:2453 · .tier0-card-icon) —— */
+.deck-slide .tier0-card-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  padding: var(--icon-card-padding);
+  min-height: var(--icon-card-min-height);
+  height: 100%;          /* 撑满 grid 格子高度 */
+  border-radius: var(--icon-card-radius);
+  border: none;
+  background: var(--icon-card-bg-accent);
+  font-family: var(--font-body-latin);
+  text-align: left;
+}
+
+.deck-slide .tier0-card-icon--accent {
+  background: var(--icon-card-bg-accent);
+}
+
+.deck-slide .tier0-card-icon--accent .tier0-card-icon__rule {
+  border-top-color: var(--icon-card-rule-accent);
+}
+
+.deck-slide .tier0-card-icon--neutral {
+  background: var(--icon-card-bg-neutral);
+}
+
+.deck-slide .tier0-card-icon--neutral .tier0-card-icon__rule {
+  border-top-color: var(--icon-card-rule-neutral);
+}
+
+.deck-slide .tier0-card-icon__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.deck-slide .tier0-card-icon .tier0-icon-box {
+  margin: 0;
+  width: var(--icon-box-size);
+  height: var(--icon-box-size);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ppt-tx1);
+}
+
+.deck-slide .tier0-card-icon .card-title {
+  margin: 0;
+  font-size: max(16px, 1.7vw);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.019em;
+  color: var(--ppt-tx1);
+}
+
+.deck-slide .tier0-card-icon__rule {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--icon-card-rule-accent);
+}
+
+.deck-slide .tier0-card-icon__body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 0;
+  flex: 1;       /* body 撑满卡片剩余高度，顶部标题区固定 */
+  color: var(--icon-card-body);
+}
+
+.deck-slide .tier0-card-icon .card-lead {
+  margin: 0;
+  font-size: max(13px, 1.3vw);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.019em;
+  color: var(--icon-card-body);
+}
+
+.deck-slide .tier0-card-icon .card-list {
+  margin: 0;
+  padding-left: 1.3em;
+  font-size: max(12px, 1.1vw);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: -0.019em;
+  color: var(--icon-card-body);
+}
+
+.deck-slide .tier0-card-icon .card-list li + li {
+  margin-top: 8px;
+}
+
+/* ============================================================
+   动效系统 · Animation System
+   data-anim    → 进场淡入（cascade）
+   data-anim="step" → Pipeline 步骤，默认暗淡，逐步点亮
+   data-animate="pipeline" → 加在 section 上，启用逐步模式
+   ============================================================ */
+
+/* 进场动画基础：初始隐藏，等 JS 加 .is-visible 后过渡 */
+[data-anim] {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.38s ease, transform 0.38s ease;
+}
+[data-anim].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Pipeline 步骤：默认暗淡可见（非完全隐藏），逐步点亮 */
+[data-anim="step"] {
+  opacity: 0.18;
+  transform: none;
+  transition: opacity 0.28s ease;
+}
+[data-anim="step"].is-lit,
+[data-anim="step"].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* 深色背景页（cover / chapter）进场节奏稍慢 */
+.deck-slide--cover [data-anim],
+.deck-slide--chapter [data-anim] {
+  transition-duration: 0.55s;
+}
+
+/* ============================================================
+   D5 · 水平管线步骤（Pipeline Steps）
+   .deck-pipeline > .deck-pipeline__step × N
+   ============================================================ */
+.deck-pipeline {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  margin-top: 3vh;
+  gap: 0;
+}
+
+/* 步骤间连接线：用相邻兄弟的 ::before 绘制 */
+.deck-pipeline__step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  padding: 0 clamp(8px, 1.2vw, 16px);
+}
+
+.deck-pipeline__step + .deck-pipeline__step::before {
+  content: "";
+  position: absolute;
+  left: calc(-50% + 21px);
+  right: calc(50% + 21px);
+  top: 20px;
+  height: 2px;
+  background: var(--ppt-accent-marker);
+}
+
+/* 编号圆圈 */
+.deck-pipeline__nb {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--ppt-tx1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-label);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  transition: background 0.28s ease, color 0.28s ease;
+}
+
+/* 高亮步骤圆圈（accent，或由 JS 在 .is-lit 时触发） */
+.deck-pipeline__step--accent .deck-pipeline__nb,
+[data-anim="step"].is-lit .deck-pipeline__nb {
+  background: var(--ppt-accent-marker);
+  color: var(--ppt-tx1);
+}
+
+.deck-pipeline__title {
+  margin: 14px 0 6px;
+  font-size: max(14px, 1.5vw);
+  font-weight: 500;
+  color: var(--ppt-tx1);
+  line-height: 1.25;
+  transition: color 0.28s ease;
+}
+
+.deck-pipeline__desc {
+  font-size: max(12px, 1.1vw);
+  color: rgba(5, 11, 20, 0.6);
+  line-height: 1.5;
+  max-width: 16ch;
+  margin: 0 auto;
+}
+
+/* 深色底版本 */
+.deck-slide--chapter .deck-pipeline__step + .deck-pipeline__step::before,
+.deck-slide[data-theme="dark"] .deck-pipeline__step + .deck-pipeline__step::before {
+  background: rgba(178, 237, 29, 0.5);
+}
+
+.deck-slide[data-theme="dark"] .deck-pipeline__nb {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.deck-slide[data-theme="dark"] [data-anim="step"].is-lit .deck-pipeline__nb {
+  background: var(--ppt-accent-marker);
+  color: var(--ppt-tx1);
+}
+
+.deck-slide[data-theme="dark"] .deck-pipeline__title {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.deck-slide[data-theme="dark"] .deck-pipeline__desc {
+  color: rgba(255, 255, 255, 0.55);
 }
