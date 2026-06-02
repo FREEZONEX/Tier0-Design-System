@@ -8,6 +8,7 @@
 
 - [顶部 Chrome（章节 · 页码 / 日期）](#顶部-chrome章节--页码--日期)
 - [页脚 Footer](#页脚-footer)
+- [封底二维码 QR](#封底二维码-qr)
 - [Eyebrow 小节标签](#eyebrow-小节标签)
 - [标题与挑词](#标题与挑词)
 - [列表与项目符号](#列表与项目符号)
@@ -121,6 +122,33 @@ Copyright © 2026 Tier0. All rights reserved.
 ```
 
 **禁止：** FREEZONEX、母公司色条、双品牌并列。
+
+---
+
+## 封底二维码 QR
+
+**仅**变体 A2（Closing，最后一页）。扫描目标 `https://tier0.app`。
+
+| 属性 | 值 |
+|------|-----|
+| 类名 | `.deck-qrcode`（`tokens/deck.css`） |
+| 封底修饰 | section 加 `deck-slide--closing`（Logo + 版权左对齐，右侧预留 QR 区域） |
+| 深底资产 | `assets/website-qrcode-white.png` |
+| 浅底资产（备用） | `assets/website-qrcode-black.png` |
+| 位置 | 右下；`right: var(--slide-safe-margin)` · `bottom: 16px` |
+| 尺寸 | `clamp(72px, 9vw, 112px)` 宽 |
+| alt | `QR code — tier0.app` |
+
+```html
+<section class="deck-slide deck-slide--cover deck-slide--closing" data-slide-type="A" data-theme="dark">
+  …
+  <img class="deck-qrcode" src="assets/website-qrcode-white.png" alt="QR code — tier0.app" width="96" height="96">
+</section>
+```
+
+左下 Logo + 版权仍在 `.deck-cover__bar`；QR 独立绝对定位，不与 bar 混排。封面 A1 **不放** QR。
+
+预览：[slide-closing-A2.html](../preview/ppt/slide-closing-A2.html) · 图示规则见 [ppt-diagrams.md](ppt-diagrams.md) §2。
 
 ---
 

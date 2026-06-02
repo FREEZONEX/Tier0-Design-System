@@ -23,7 +23,22 @@ user-invocable: true
 
 再加载对应 surface 的 `tokens/*.css` 与 `surfaces/*/README.md`。
 
-## 3. 实现与预览
+## 3. 产品 UI 读库检查（仅 tier0-product，生成代码前必做）
+
+收到产品 UI 任务后，**在读设计系统文档之前**，先执行以下检查：
+
+1. 用 Glob 搜索 `packages/theme/src/themes.scss`（任意路径）。
+2. **找到了** → 以前端库为事实来源：
+   - 必读：`packages/theme/src/themes.scss`、`packages/theme/src/variables.scss`、`packages/theme/src/tailwind.css`、`packages/theme/src/token.ts`
+   - 按需读：`packages/ui/components/<与任务相关的组件目录>`
+   - 设计系统 spec 文档作为气质与原则补充，不覆盖库的 prop 名 / className / token 名
+3. **找不到** → 告知用户：
+
+   > 当前 workspace 中未检测到 [Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) 前端库。将库克隆到本地并在 Cursor 中加入 workspace 后，生成代码会更贴近真实实现。是否继续用设计系统文档生成？
+
+   等用户确认后，仅凭设计系统文档继续。
+
+## 4. 实现与预览
 
 - **Token 预览：** `preview/_shared/`（原子）· `preview/<surface>/`（场景组件，见各目录 README）
 - **产品 UI 组合稿：** 打开 `ui_kits/tier0-product/index.html`
@@ -32,7 +47,7 @@ user-invocable: true
 - **PPT 工作流：** `references/README.md`（索引）→ `references/ppt-workflow.md` → `references/ppt-layout-lock.md` / `references/ppt-layouts.md` / `references/ppt-components.md`；有截图：`references/ppt-screenshots.md`；交付前：`references/ppt-checklist.md`
 - **图标：** 产品 UI 用 Carbon；官网 / PPT / HTML 用 **Lucide**（`foundations/icons-lucide.md`）；带 Icon 卡片用 `.tier0-card-icon`
 
-## 4. 硬规则（全场景）
+## 5. 硬规则（全场景）
 
 - **Tier0** 写作：零不是字母 O；**FREEZONEX** 全大写。
 - 饱和 lime `#B2ED1D`：**品牌点缀**，不是产品浅色 UI 的主按钮色（用 `#CCF368`）。
@@ -40,12 +55,12 @@ user-invocable: true
 - 官网：Poppins 仅作**标题**；正文 IBM Plex Sans。
 - PPT：字体仅 **Tektur / IBM Plex Sans / IBM Plex Sans SC / IBM Plex Mono**（**禁止 Poppins**）；封面与章节大标题 **Tektur Regular**；品牌蓝仅 **`#1D77FE`**；**禁止**画面出现 **FREEZONEX**（仅 Tier0 Logo / 版权）；**重点标题绿**：深底 **`#B2ED1D`**、白底 **`#73B200`**；**项目符号与卡片顶边**始终 **`#B2ED1D`**。
 
-## 5. 输出
+## 6. 输出
 
 - 原型 / 幻灯片 HTML：可复制 `assets/`，引用对应 `tokens/*.css`。
 - **销售演示稿等成稿：** 输出到**本仓库外**（如 `~/Desktop/<项目>/` 或用户指定的业务仓库），**不要**在本设计系统仓库内创建 `decks/` 或任何成稿 HTML。
 - 生产代码：遵守各 surface 文档中的工程事实来源（产品 UI 见 `packages/theme`）。
 
-## 6. Prompt 例句
+## 7. Prompt 例句
 
 自然语言描述需求即可，路由规则与例句见 [`README.md`](README.md)。

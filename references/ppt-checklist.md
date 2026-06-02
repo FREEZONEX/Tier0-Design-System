@@ -76,6 +76,7 @@
 - [ ] 卡片圆角 4px；浅描边或 `lt2` 填充；阴影克制
 - [ ] 无饱和 lime 满铺条 + 浅字
 - [ ] 页脚 Plex Mono，文案正确
+- [ ] 封底（A2）右下有官方 QR；深底用 `website-qrcode-white.png`（见 [ppt-diagrams.md](ppt-diagrams.md) §2）
 - [ ] 颜色来自 `var(--ppt-*)`，无随手 hex
 - [ ] 流程图样式符合 [`ppt-flowcharts.md`](ppt-flowcharts.md)（四类卡 + 线型 `--none`/`--single`/`--double`，`#73B200` 1.5px；无 `#67E8F9`）
 

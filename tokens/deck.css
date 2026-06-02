@@ -242,6 +242,30 @@
   width: auto;
 }
 
+/* Closing slide — tier0.app QR (bottom-right) */
+.deck-qrcode {
+  position: absolute;
+  right: var(--slide-safe-margin, 48px);
+  bottom: 16px;
+  z-index: 3;
+  width: clamp(72px, 9vw, 112px);
+  height: auto;
+  object-fit: contain;
+}
+
+/* A2 closing: logo + copyright stay left; reserve right strip for QR */
+.deck-slide--closing .deck-cover__bar {
+  justify-content: flex-start;
+  gap: 20px;
+  padding-right: calc(clamp(72px, 9vw, 112px) + 24px);
+}
+
+.deck-slide--closing .deck-cover__bar .deck-footer {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+}
+
 /* Type B — chapter */
 .deck-slide--chapter {
   background: var(--ppt-tx1);

@@ -22,7 +22,25 @@ Logo：左下 **Tier0** wordmark（如 `tier0-logo-lime.svg`），**无** 母公
 
 ---
 
-## 2. 架构 / 数据流图（类型 D） 
+## 2. 封底二维码（类型 A2 · 仅最后一页）
+
+
+| 项   | 规则 |
+| --- | --- |
+| 文件（深底） | [assets/website-qrcode-white.png](../assets/website-qrcode-white.png) |
+| 文件（浅底，备用） | [assets/website-qrcode-black.png](../assets/website-qrcode-black.png) |
+| 角色 | 封底 **唯一** 扫码入口；链接 `https://tier0.app` |
+| 落位 | 右下角；类名 `.deck-qrcode`（`tokens/deck.css`） |
+| 尺寸 | `clamp(72px, 9vw, 112px)` 宽；`bottom: 16px`，与页脚同底边 |
+| 层级 | `z-index: 3`，高于右侧 `deck-cover__visual` |
+
+**仅**变体 A2（Closing）使用；封面 A1 **不放** QR。section 加 `deck-slide--closing`：Logo + 版权左对齐，右侧预留 QR 条带。
+
+HTML 参考：[preview/ppt/slide-closing-A2.html](../preview/ppt/slide-closing-A2.html)。
+
+---
+
+## 3. 架构 / 数据流图（类型 D） 
 
 推荐语义（销售叙事顺序）：
 
@@ -44,7 +62,7 @@ Source Flow  →  Namespace  →  Event Flow
 
 ---
 
-## 3. 等轴测 / 模块插画（白底右栏）
+## 4. 等轴测 / 模块插画（白底右栏）
 
 类型 C 常见 **右栏线稿模块**：
 
@@ -54,7 +72,7 @@ Source Flow  →  Namespace  →  Event Flow
 
 ---
 
-## 4. 时间轴（类型 D 变体）
+## 5. 时间轴（类型 D 变体）
 
 - 主轴：`--ppt-accent-marker`
 - 节点：小方块或圆点同色
@@ -62,9 +80,9 @@ Source Flow  →  Namespace  →  Event Flow
 
 ---
 
-## 5. 截图与配图
+## 6. 截图与配图
 
-### 5.1 路径与交付
+### 6.1 路径与交付
 
 
 | 阶段          | 规则                                               |
@@ -73,7 +91,7 @@ Source Flow  →  Namespace  →  Event Flow
 | **交付 HTML** | Base64 或审核过的 HTTPS；**禁止** `file://`、`/Users/...` |
 
 
-### 5.2 比例建议
+### 6.2 比例建议
 
 
 | 落位       | 比例                              |
@@ -83,7 +101,7 @@ Source Flow  →  Namespace  →  Event Flow
 | UI 截图再设计 | 16:10，`object-fit: contain` 保文字 |
 
 
-### 5.3 截图保真
+### 6.3 截图保真
 
 用户要求 **保留 UI 像素** 时：
 
@@ -91,7 +109,7 @@ Source Flow  →  Namespace  →  Event Flow
 - 可加浅底 `#F4F4F4` 或白卡描边，与 Masterdeck 卡片一致
 - 不要画进 PPT 页脚、页码、假 chrome
 
-### 5.4 AI 生成配图（可选）
+### 6.4 AI 生成配图（可选）
 
 Tier0 **无** 内置 image-prompt 库。若用外部图像模型：
 
@@ -102,7 +120,7 @@ Tier0 **无** 内置 image-prompt 库。若用外部图像模型：
 
 ---
 
-## 6. 深色页装饰
+## 7. 深色页装饰
 
 - B 章节目：低对比 **网格点** 即可
 - **避免** 大块 accent1 铺底
@@ -110,9 +128,10 @@ Tier0 **无** 内置 image-prompt 库。若用外部图像模型：
 
 ---
 
-## 7. 自检（图示专项）
+## 8. 自检（图示专项）
 
 - 封面是否为官方 `marketing-cover-visual.svg`
+- 封底（A2）右下是否为官方 QR（深底用 `website-qrcode-white.png`）
 - 架构是否 Source → Namespace → Event 顺序（除非改既有故事）
 - 是否只有一种 stroke 风格的 Lucide
 - 交付 HTML 是否无本地路径

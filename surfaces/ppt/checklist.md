@@ -10,4 +10,5 @@
 - [ ] 封面与章节：Tektur Regular；白底标题：Plex Sans/SC Medium
 - [ ] 深底挑词 `#B2ED1D`；白底挑词 `#73B200`；结构标记始终 `#B2ED1D`
 - [ ] 封面使用 `assets/marketing-cover-visual.svg`
+- [ ] 封底（A2）右下使用 `assets/website-qrcode-white.png`
 - [ ] HTML 交付全屏、无本地路径

@@ -64,6 +64,7 @@
 | 类型 | 说明 |
 |------|------|
 | **A 封面** | 深底 `#050B14` + 左侧标题 + 右侧偏下 `assets/marketing-cover-visual.svg` 主视觉 |
+| **A 封底** | 同封面结构（A2）；右下 `assets/website-qrcode-white.png` 扫码至 tier0.app |
 | **B 深色章节** | Tektur Regular 白字 ≥48pt |
 | **C 白底内容** | 顶栏标题 Plex Medium 32pt+，正文 14–16pt |
 | **D 信息图** | accent1 轴线 + `#1D77FE` 辅助 |

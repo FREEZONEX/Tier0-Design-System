@@ -228,9 +228,7 @@ function go(n) {
 **预览：** [`slide-closing-A2.html`](../preview/ppt/slide-closing-A2.html)
 
 ```html
-<section class="deck-slide deck-slide--cover" data-slide-type="A" data-theme="dark">
-  <header class="deck-chrome">
-    <div class="deck-chrome__l">Next Step</div>
+<section class="deck-slide deck-slide--cover deck-slide--closing" data-slide-type="A" data-theme="dark">
     <div class="deck-chrome__r">12 / 12</div>
   </header>
   <div class="deck-main deck-main--cover" style="position:relative;z-index:2;">
@@ -260,6 +258,7 @@ function go(n) {
     <img class="deck-cover__logo" src="assets/tier0-logo-lime.svg" alt="Tier0">
     <p class="deck-footer" style="margin:0;padding:0;">Copyright © 2026 Tier0. All rights reserved.</p>
   </div>
+  <img class="deck-qrcode" src="assets/website-qrcode-white.png" alt="QR code — tier0.app" width="96" height="96">
 </section>
 ```
 
@@ -268,6 +267,8 @@ function go(n) {
 - 封底**全文英文**；无大标题，直接以 `deck-cover__sub` 副句开场
 - 右侧主视觉 SVG 保留，加 `opacity:0.55` 降低权重、突出文字
 - aside 放 2–3 条资源链接，最后一条用 `border-left: accent-marker` 高亮 CTA
+- 右下 `.deck-qrcode` 放 `website-qrcode-white.png`（深底专用）；仅封底使用，封面不放
+- section 加 `deck-slide--closing`：版权与 Logo 左对齐，右侧预留 QR 条带，避免与 `.deck-cover__bar` 重叠
 
 ---
 

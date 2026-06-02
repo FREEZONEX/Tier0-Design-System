@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-27T08:16:54.986738+00:00",
+  "generatedAt": "2026-06-02T05:08:13.325281+00:00",
   "repoName": "Tier0 Design System",
   "stats": {
-    "totalIndexed": 140,
+    "totalIndexed": 142,
     "htmlPreviews": 43,
     "sections": 10
   },
@@ -804,7 +804,7 @@
       "label": "Assets",
       "subtitle": "Logo 等资源",
       "hint": "SVG 等品牌资产",
-      "fileCount": 6,
+      "fileCount": 8,
       "groups": [
         {
           "id": "assets--assets",
@@ -836,6 +836,20 @@
               "path": "assets/tier0-logo-white.svg",
               "name": "tier0-logo-white.svg",
               "kind": "image",
+              "previewable": false,
+              "group": "assets"
+            },
+            {
+              "path": "assets/website-qrcode-black.png",
+              "name": "website-qrcode-black.png",
+              "kind": "file",
+              "previewable": false,
+              "group": "assets"
+            },
+            {
+              "path": "assets/website-qrcode-white.png",
+              "name": "website-qrcode-white.png",
+              "kind": "file",
               "previewable": false,
               "group": "assets"
             }

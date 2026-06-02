@@ -27,6 +27,12 @@ HTML deck 与 `preview/ppt/` 预览均为**全屏 slide**（`100vw × 100vh`）�
 - 副标题 20–24pt Regular
 - 左下（可选）：**Tier0** wordmark（lime SVG）；**禁止**母公司条形色块或 FREEZONEX Logo
 
+## 类型 A2 — 封底 Closing
+
+- 结构与类型 A 封面一致（深底 · 左文右图 · `marketing-cover-visual.svg` @ `opacity:0.55`）
+- 左下 Logo + 版权；**右下**官方 QR：`assets/website-qrcode-white.png`（`.deck-qrcode`）
+- 仅最后一页使用；封面 A1 不放 QR
+
 ## 类型 B — 深色章节
 
 - 全屏深底，Tektur Regular 白字

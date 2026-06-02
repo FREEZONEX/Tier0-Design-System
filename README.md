@@ -35,7 +35,7 @@
 ├── references/               # Agent 深度参考（ppt：workflow / layouts / components / checklist…）
 │   ├── README.md
 │   └── ppt-*.md
-├── assets/                   # Logo
+├── assets/                   # Logo · 封面 SVG · 官网 QR
 ├── preview/                  # 见 preview/README.md
 │   ├── _shared/              # 原子 token 卡
 │   ├── tier0-product/        # 产品组件卡

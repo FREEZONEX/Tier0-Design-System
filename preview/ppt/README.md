@@ -9,6 +9,7 @@
 | 文件 | 版式 |
 |------|------|
 | [slide-cover-A.html](slide-cover-A.html) | 类型 A — 封面（右侧 SVG 主视觉 + Tier0 logo + 版权） |
+| [slide-closing-A2.html](slide-closing-A2.html) | 类型 A2 — 封底（同封面结构 + 右下 tier0.app QR） |
 | [slide-chapter-B.html](slide-chapter-B.html) | 类型 B — 深色章节 |
 | [slide-content-C.html](slide-content-C.html) | 类型 C — 白底内容（Plex 页标题） |
 | [theme-colors-strip.html](theme-colors-strip.html) | PPT 主题色条 |

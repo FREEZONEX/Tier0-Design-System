@@ -298,7 +298,7 @@ def main() -> None:
         "preview": preview_component_paths(),
         "ui_kits": collect_files(ROOT / "ui_kits", {".html", ".jsx", ".md"}),
         "sources": collect_files(ROOT / "sources", {".md"}),
-        "assets": collect_files(ROOT / "assets", {".svg"}),
+        "assets": collect_files(ROOT / "assets", {".svg", ".png"}),
         "fonts": collect_files(ROOT / "fonts", {".ttf", ".txt"}),
         "references": collect_files(ROOT / "references", {".md"}),
     }
