@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-02T05:08:13.325281+00:00",
+  "generatedAt": "2026-07-07T07:50:59.357944+00:00",
   "repoName": "Tier0 Design System",
   "stats": {
-    "totalIndexed": 142,
-    "htmlPreviews": 43,
+    "totalIndexed": 144,
+    "htmlPreviews": 44,
     "sections": 10
   },
   "sections": [
@@ -280,7 +280,7 @@
       "label": "Preview",
       "subtitle": "组件 HTML 预览卡",
       "hint": "浏览器内可直接查看效果",
-      "fileCount": 43,
+      "fileCount": 44,
       "groups": [
         {
           "id": "preview--preview/_shared",
@@ -491,6 +491,13 @@
               "group": "preview/ppt"
             },
             {
+              "path": "preview/ppt/cards-style-b.html",
+              "name": "cards-style-b.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "preview/ppt"
+            },
+            {
               "path": "preview/ppt/flow-styles.html",
               "name": "flow-styles.html",
               "kind": "html",
@@ -618,7 +625,7 @@
       "label": "UI Kits",
       "subtitle": "参考实现",
       "hint": "HTML / JSX 示例，供开发对照",
-      "fileCount": 15,
+      "fileCount": 16,
       "groups": [
         {
           "id": "ui_kits--ui_kits/company-website",
@@ -673,6 +680,20 @@
               "kind": "html",
               "previewable": true,
               "group": "ui_kits/company-website"
+            }
+          ]
+        },
+        {
+          "id": "ui_kits--ui_kits/marketing-deck",
+          "label": "marketing-deck",
+          "path": "ui_kits/marketing-deck",
+          "files": [
+            {
+              "path": "ui_kits/marketing-deck/index.html",
+              "name": "index.html",
+              "kind": "html",
+              "previewable": true,
+              "group": "ui_kits/marketing-deck"
             }
           ]
         },

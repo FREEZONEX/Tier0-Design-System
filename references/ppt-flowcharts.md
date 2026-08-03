@@ -12,7 +12,7 @@
 
 | 修饰类 | 填充 | 描边 | 副标题色 |
 |--------|------|------|----------|
-| `.deck-flow-card--soft` | `#E5F9B4` | `#73B200` | `#73B200` |
+| `.deck-flow-card--soft` | `#C5E855` | `#73B200` | `#050B14` |
 | `.deck-flow-card--lime` | `#B2ED1D` | `#73B200` | `#585C62` |
 | `.deck-flow-card--white` | `#FFFFFF` | `#1D77FE` | `#1D77FE` |
 | `.deck-flow-card--blue` | `#D2E4FF` | `#1D77FE` | `#585C62` |
@@ -81,7 +81,7 @@
 
 | 变量 | 值 |
 |------|-----|
-| `--flow-card-soft` | `#E5F9B4` |
+| `--flow-card-soft` | `#C5E855`（`--ppt-card-fill-green-mid`） |
 | `--flow-card-lime` | `#B2ED1D` |
 | `--flow-card-white` | `#FFFFFF` |
 | `--flow-card-blue` | `#D2E4FF` |

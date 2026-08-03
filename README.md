@@ -10,9 +10,11 @@
 |--------|------|-------|--------|------|
 | **产品后台**（Namespace、表格、表单、侧栏） | [`surfaces/tier0-product/`](surfaces/tier0-product/) | [`tokens/product.css`](tokens/product.css) | [`ui_kits/tier0-product/`](ui_kits/tier0-product/) | [`preview/tier0-product/`](preview/tier0-product/) |
 | **公司官网**（长文产品页、UNS 叙事、定价风） | [`surfaces/company-website/`](surfaces/company-website/) | [`tokens/website.css`](tokens/website.css) | [`ui_kits/company-website/`](ui_kits/company-website/) | [`preview/company-website/`](preview/company-website/) |
-| **PPT**（Masterdeck、路演） | [`surfaces/ppt/`](surfaces/ppt/) | [`tokens/deck.css`](tokens/deck.css) | `ui_kits/ppt/` | [`preview/ppt/`](preview/ppt/) |
+| **PPT 规范**（Masterdeck、路演视觉） | [`surfaces/ppt/`](surfaces/ppt/) | [`tokens/deck.css`](tokens/deck.css) | `ui_kits/ppt/` | [`preview/ppt/`](preview/ppt/) |
+| **做一份销售 Deck**（HTML + 可编辑 PPTX） | [`skills/tier0-slide-skill/`](skills/tier0-slide-skill/) | 同上（VI 锁） | skill 内 Gallery | 见 skill README 三步上手 |
 
-**Agent 入口：** [`SKILL.md`](SKILL.md) — 先识别场景，再读对应 `surfaces/*`。
+**怎么选：** 只查颜色/字体/组件 → `surfaces/ppt/`；要从素材生成演示稿 → [`skills/tier0-slide-skill/README.md`](skills/tier0-slide-skill/README.md)。  
+**Agent 入口：** [`SKILL.md`](SKILL.md)。Skill 注册表：[`skills/README.md`](skills/README.md)。
 
 ---
 
@@ -35,14 +37,17 @@
 ├── references/               # Agent 深度参考（ppt：workflow / layouts / components / checklist…）
 │   ├── README.md
 │   └── ppt-*.md
+├── skills/                   # 可独立触发的 Agent Skills（注册表见 skills/README.md）
+│   └── tier0-slide-skill/    # 销售/售前 deck：intake → Gallery → HTML + 可编辑 PPTX
 ├── assets/                   # Logo · 封面 SVG · 官网 QR
 ├── preview/                  # 见 preview/README.md
 │   ├── _shared/              # 原子 token 卡
 │   ├── tier0-product/        # 产品组件卡
 │   ├── company-website/      # 官网组件卡
-│   └── ppt/       # 幻灯片组件卡（16:9）
+│   └── ppt/                  # 幻灯片组件卡（16:9）
 ├── ui_kits/                  # 可打开的 HTML/JSX 参考实现
-└── fonts/                    # 本地字体：Poppins、IBM Plex Sans/SC、Mono、Tektur
+├── fonts/                    # 本地字体：Poppins、IBM Plex Sans/SC、Mono、Tektur
+└── .cursor/skills/           # Cursor 发现用软链 → ../../skills/<name>
 ```
 
 ---
@@ -69,7 +74,8 @@
 |---------|--------|
 | 产品后台、工作台、Namespace、表格、侧栏… | `tier0-product` |
 | 官网、产品页、落地页、叙事… | `company-website` |
-| PPT、演示稿、路演、Deck… | `ppt` |
+| PPT 规范、Masterdeck 组件… | `surfaces/ppt` |
+| 生成 / 改一份 HTML+PPTX 演示稿… | `skills/tier0-slide-skill` |
 
 说不清楚时直接描述需求，AI 会先问你确认场景。
 
@@ -82,11 +88,11 @@
 ```
 
 ```
-@tier0-design 做一份给汽车零部件厂 OT 负责人的 PPT，约 15 页英文，讲 Tier0/UNS 是什么、架构示意和下一步 PoC，输出到 ~/projects/demo-deck/
+用 tier0-slide-skill 做一份给汽车零部件厂 OT 负责人的 PPT，约 8 页英文，讲 Tier0/UNS 和下一步 PoC，要 HTML + 可编辑 PPTX
 ```
 
 ```
-@tier0-design 帮我检查一下 ~/projects/demo-deck/index.html 这份演示稿，对照 checklist 看哪里不符合规范
+@tier0-design 帮我检查一下这份演示稿，对照 checklist 看哪里不符合规范
 ```
 
 ---

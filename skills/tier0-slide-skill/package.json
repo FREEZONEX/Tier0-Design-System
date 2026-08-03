@@ -1,0 +1,10 @@
+{
+  "name": "tier0-slide-skill-runtime",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Runtime for generating a Tier0 HTML deck and an editable PPTX from one deck.json source.",
+  "dependencies": {
+    "pptxgenjs": "4.0.1"
+  }
+}

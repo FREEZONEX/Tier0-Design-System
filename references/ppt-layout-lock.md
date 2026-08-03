@@ -23,6 +23,7 @@ Tier0 Masterdeck **不是**「换一套 CSS 就变风格」——而是一套 **
 - 封面（A）与深色章节（B）主标题必须用 **Tektur Regular**
 - 画面出现 **FREEZONEX** 字样、Logo、母公司色条、口播归属
 - 用饱和 `#B2ED1D` **满铺条** 再叠浅色正文
+- 白底 / 浅灰 / 浅绿洗上用 `#B2ED1D` 作**文字**（小标题、Mono 标签）—— 见 **P0-8**
 - 品牌蓝使用 `#1D77FE` **以外** 的蓝色 HEX（层次只允许该色的 **opacity** 变化）
 
 每个交付 slide 建议写：`data-slide-type="C"`，便于自检 grep。
@@ -56,6 +57,7 @@ Masterdeck **只有一套主题色**，不从多 preset 里混搭。变量定义
 | 深底挑词 | `--ppt-emphasis-on-dark` | `#B2ED1D` | A/B 标题挑词 |
 | 白底挑词 / eyebrow / KPI 数字 | `--ppt-emphasis-on-light` | `#73B200` | C/D/E 强调字 |
 | 结构标记 | `--ppt-accent-marker` | `#B2ED1D` | 项目符号、卡片顶边、时间轴线（**白底也用亮绿**） |
+| 浅底小字标签 | `--ppt-label-on-light` | `#050B14` | Mono 10–12px on 白/灰；**禁止 accent1 文字** |
 | 品牌蓝 | `--ppt-accent4` | `#1D77FE` | 链接、冷侧结构、轴线辅助 |
 
 ---

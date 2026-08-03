@@ -68,12 +68,39 @@
 
 ---
 
+### P0-8 · 浅底上错用亮绿作文字（对比度不足）
+
+**现象：** 卡片小标题、Mono 标签、副标题用了 **`#B2ED1D`**（`--ppt-accent1` / `--ppt-accent-marker`）叠在 **`#FFFFFF` / `#F4F4F4` / 浅绿洗** 上，字发虚、投影看不清。
+
+**根因：** 把「结构线/深底挑词」的 accent1 误用于白底/浅底 **文字**；或卡片大面积仍用 `#F0FBD2` / `#E6F9B4` 极浅填充导致画面发淡。
+
+**做法：**
+
+| 画布 | 允许的文字色 | 禁止 |
+|------|-------------|------|
+| 白底 / 浅灰 `#F4F4F4` | `#050B14`；≥14px 的 eyebrow / KPI 可用 `#73B200` | **`#B2ED1D` 作任何字号文字** |
+| 主题绿填充 `#B2ED1D` | `#050B14` 深字 | 白字 / 浅灰字 |
+| 深黑填充 `#050B14` | 白字；标签可用 `#B2ED1D` | — |
+| 深绿填充 `#196B24` | 白字 | 亮绿字 |
+
+**卡片填充：** 优先 `--ppt-card-fill-dark` / `--ppt-card-fill-green` / `--ppt-card-fill-gray` / `--ppt-card-fill-green-deep`（见 `tokens/deck.css`）；浅洗仅作小面积点缀。
+
+**grep（白底 slide 内应无 accent1 文字）：**
+
+```bash
+rg -i 'color:\s*var\(--ppt-accent-marker\)|color:\s*var\(--ppt-accent1\)|color:\s*#b2ed1d' path/to/deck.html
+# 深底 slide 内 accent-marker 文字除外
+```
+
+---
+
 ## P1 · 视觉系统
 
 - [ ] 每页有 `.deck-chrome`：左章节 / 栏目，右页码（封面含日期）；小标均为 **IBM Plex Mono + 全大写**
 - [ ] 深底 `#050B14`；深底挑词 `#B2ED1D`
 - [ ] 白底挑词 / eyebrow / KPI `#73B200`
-- [ ] 卡片圆角 4px；浅描边或 `lt2` 填充；阴影克制
+- [ ] 卡片圆角 4px；大面积填充用 `--ppt-card-fill-*`（深黑/绿/灰），不用极浅洗满铺
+- [ ] 浅底小字标签用 `#050B14`（`--ppt-label-on-light`），禁止 `#B2ED1D` 文字
 - [ ] 无饱和 lime 满铺条 + 浅字
 - [ ] 页脚 Plex Mono，文案正确
 - [ ] 封底（A2）右下有官方 QR；深底用 `website-qrcode-white.png`（见 [ppt-diagrams.md](ppt-diagrams.md) §2）

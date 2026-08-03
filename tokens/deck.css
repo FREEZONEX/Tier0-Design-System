@@ -18,7 +18,21 @@
   --ppt-accent4: #1d77fe;
   --ppt-accent5: #a02b93;
   --ppt-accent6: #4ea72e;
-  --ppt-highlight-wash: #e6f9b4;
+  --ppt-highlight-wash: #c5e855; /* mid green fill — pair with --ppt-text-on-green */
+  --ppt-highlight-wash-soft: #e6f9b4; /* legacy weak wash — avoid large-area fills */
+  /* Card surface fills (Swiss Style B · large-area blocks) */
+  --ppt-card-fill-dark: var(--ppt-tx1);
+  --ppt-card-fill-gray: var(--ppt-lt2);
+  --ppt-card-fill-green: var(--ppt-accent1);
+  --ppt-card-fill-green-mid: var(--ppt-highlight-wash);
+  --ppt-card-fill-green-deep: var(--ppt-accent3);
+  /* Text on fills — never invert these pairings */
+  --ppt-text-on-dark: #ffffff;
+  --ppt-text-on-green: var(--ppt-tx1);
+  --ppt-text-on-green-deep: #ffffff;
+  --ppt-text-on-light: var(--ppt-tx1);
+  --ppt-label-on-light: var(--ppt-tx1); /* mono labels on white/gray — NOT accent1 */
+  --ppt-label-on-light-accent: var(--ppt-emphasis-on-light); /* ≥14px eyebrow / KPI only */
   /* E-type column divider — gray, not accent green */
   --ppt-divider: rgba(5, 11, 20, 0.14);
   /* deprecated: old parent-company footer bar — do not use on new slides */
@@ -47,13 +61,15 @@
   --icon-box-size: 28px;
   --icon-size: 28px;
   --icon-stroke: 1.75;
-  --icon-card-bg-accent: #f0fbd2;
-  --icon-card-border-accent: #73b200;
-  --icon-card-rule-accent: #73b200;
-  --icon-card-bg-neutral: #f4f4f4;
-  --icon-card-border-neutral: #acaeb1;
-  --icon-card-rule-neutral: #cdcdd0;
-  --icon-card-body: #585c62;
+  --icon-card-bg-accent: var(--ppt-card-fill-green);
+  --icon-card-border-accent: var(--ppt-accent2);
+  --icon-card-rule-accent: rgba(5, 11, 20, 0.18);
+  --icon-card-bg-neutral: var(--ppt-card-fill-gray);
+  --icon-card-bg-dark: var(--ppt-card-fill-dark);
+  --icon-card-border-neutral: rgba(5, 11, 20, 0.14);
+  --icon-card-rule-neutral: rgba(5, 11, 20, 0.12);
+  --icon-card-body: rgba(5, 11, 20, 0.72);
+  --icon-card-body-on-dark: rgba(255, 255, 255, 0.72);
   --icon-card-radius: 4px;
   --icon-card-padding: 16px 24px;
   --icon-card-min-height: 0;
@@ -358,8 +374,8 @@
 
 /* —— Flow diagrams (Type D · Figma 4057:2384) —— */
 :root {
-  --flow-card-soft: #e5f9b4;
-  --flow-card-lime: #b2ed1d;
+  --flow-card-soft: var(--ppt-card-fill-green-mid);
+  --flow-card-lime: var(--ppt-card-fill-green);
   --flow-card-white: #ffffff;
   --flow-card-blue: #d2e4ff;
   --flow-stroke-green: #73b200;
@@ -392,7 +408,7 @@
 }
 
 .deck-flow-card--soft .deck-flow-card__subtitle {
-  color: var(--flow-stroke-green);
+  color: var(--ppt-text-on-green);
 }
 
 .deck-flow-card--lime {
@@ -536,10 +552,22 @@
 
 .deck-slide .tier0-card-icon--accent {
   background: var(--icon-card-bg-accent);
+  color: var(--ppt-text-on-green);
 }
 
 .deck-slide .tier0-card-icon--accent .tier0-card-icon__rule {
   border-top-color: var(--icon-card-rule-accent);
+}
+
+.deck-slide .tier0-card-icon--accent .card-title,
+.deck-slide .tier0-card-icon--accent .card-lead,
+.deck-slide .tier0-card-icon--accent .card-list {
+  color: var(--ppt-text-on-green);
+}
+
+.deck-slide .tier0-card-icon--accent .card-lead,
+.deck-slide .tier0-card-icon--accent .card-list {
+  color: var(--icon-card-body);
 }
 
 .deck-slide .tier0-card-icon--neutral {
@@ -548,6 +576,28 @@
 
 .deck-slide .tier0-card-icon--neutral .tier0-card-icon__rule {
   border-top-color: var(--icon-card-rule-neutral);
+}
+
+.deck-slide .tier0-card-icon--dark {
+  background: var(--icon-card-bg-dark);
+  color: var(--ppt-text-on-dark);
+}
+
+.deck-slide .tier0-card-icon--dark .tier0-card-icon__rule {
+  border-top-color: rgba(178, 237, 29, 0.35);
+}
+
+.deck-slide .tier0-card-icon--dark .card-title {
+  color: var(--ppt-text-on-dark);
+}
+
+.deck-slide .tier0-card-icon--dark .card-lead,
+.deck-slide .tier0-card-icon--dark .card-list {
+  color: var(--icon-card-body-on-dark);
+}
+
+.deck-slide .tier0-card-icon--dark .tier0-icon-box {
+  color: var(--ppt-emphasis-on-dark);
 }
 
 .deck-slide .tier0-card-icon__head {
@@ -749,3 +799,289 @@
 .deck-slide[data-theme="dark"] .deck-pipeline__desc {
   color: rgba(255, 255, 255, 0.55);
 }
+
+/* ============================================================
+   Style B · Swiss grid cards (`.deck-card-b`)
+   Large-area fills: dark / gray / green / green-deep
+   ============================================================ */
+.deck-card-b {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-slide-card);
+  font-family: var(--font-body-latin);
+  text-align: left;
+  height: 100%;
+  min-height: 0;
+}
+
+/* Fill modifiers */
+.deck-card-b--fill-dark {
+  background: var(--ppt-card-fill-dark);
+  color: var(--ppt-text-on-dark);
+}
+
+.deck-card-b--fill-gray {
+  background: var(--ppt-card-fill-gray);
+  color: var(--ppt-text-on-light);
+}
+
+.deck-card-b--fill-green {
+  background: var(--ppt-card-fill-green);
+  color: var(--ppt-text-on-green);
+}
+
+.deck-card-b--fill-green-mid {
+  background: var(--ppt-card-fill-green-mid);
+  color: var(--ppt-text-on-green);
+}
+
+.deck-card-b--fill-green-deep {
+  background: var(--ppt-card-fill-green-deep);
+  color: var(--ppt-text-on-green-deep);
+}
+
+/* B1 · Index card — large number + title + body */
+.deck-card-b--index {
+  padding: clamp(16px, 2vh, 24px) clamp(18px, 2.2vw, 28px);
+  gap: clamp(8px, 1vh, 14px);
+}
+
+.deck-card-b__index {
+  font-family: var(--font-label);
+  font-size: clamp(28px, 3.6vw, 40px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.deck-card-b--fill-dark .deck-card-b__index {
+  color: var(--ppt-emphasis-on-dark);
+}
+
+.deck-card-b--fill-gray .deck-card-b__index,
+.deck-card-b--fill-green .deck-card-b__index,
+.deck-card-b--fill-green-mid .deck-card-b__index {
+  color: var(--ppt-text-on-green);
+}
+
+.deck-card-b--fill-green-deep .deck-card-b__index {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.deck-card-b__title {
+  margin: 0;
+  font-size: max(16px, 1.7vw);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.deck-card-b__body {
+  margin: 0;
+  font-size: max(13px, 1.2vw);
+  line-height: 1.45;
+  opacity: 0.78;
+}
+
+.deck-card-b--fill-dark .deck-card-b__body {
+  opacity: 0.72;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* B2 · Panel — label strip + content block */
+.deck-card-b--panel {
+  padding: 0;
+  overflow: hidden;
+}
+
+.deck-card-b__band {
+  margin: 0;
+  padding: 10px clamp(16px, 2vw, 24px);
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.deck-card-b--fill-dark .deck-card-b__band {
+  background: rgba(178, 237, 29, 0.12);
+  color: var(--ppt-emphasis-on-dark);
+}
+
+.deck-card-b--fill-gray .deck-card-b__band,
+.deck-card-b--fill-green .deck-card-b__band,
+.deck-card-b--fill-green-mid .deck-card-b__band {
+  background: rgba(5, 11, 20, 0.06);
+  color: var(--ppt-label-on-light);
+  border-bottom: 2px solid var(--ppt-accent-marker);
+}
+
+.deck-card-b--fill-green-deep .deck-card-b__band {
+  background: rgba(0, 0, 0, 0.12);
+  color: rgba(255, 255, 255, 0.88);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.deck-card-b--panel .deck-card-b__content {
+  padding: clamp(14px, 1.8vh, 20px) clamp(16px, 2vw, 24px);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* B3 · Stripe — left accent bar */
+.deck-card-b--stripe {
+  flex-direction: row;
+  align-items: stretch;
+  padding: clamp(14px, 1.8vh, 20px) clamp(16px, 2vw, 24px);
+  gap: clamp(12px, 1.4vw, 18px);
+  border-left: 4px solid var(--ppt-accent-marker);
+}
+
+.deck-card-b--fill-dark.deck-card-b--stripe {
+  border-left-color: var(--ppt-emphasis-on-dark);
+}
+
+.deck-card-b--fill-green-deep.deck-card-b--stripe {
+  border-left-color: rgba(255, 255, 255, 0.55);
+}
+
+.deck-card-b--stripe .deck-card-b__aside {
+  flex: 0 0 auto;
+  font-family: var(--font-label);
+  font-size: clamp(22px, 2.8vw, 32px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  min-width: 2.5ch;
+}
+
+/* B4 · Stat — KPI block on fill */
+.deck-card-b--stat {
+  padding: clamp(16px, 2vh, 24px) clamp(18px, 2.2vw, 28px);
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.deck-card-b__value {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.deck-card-b--fill-dark .deck-card-b__value {
+  color: var(--ppt-emphasis-on-dark);
+}
+
+.deck-card-b--fill-gray .deck-card-b__value,
+.deck-card-b--fill-green .deck-card-b__value,
+.deck-card-b--fill-green-mid .deck-card-b__value {
+  color: var(--ppt-text-on-green);
+}
+
+.deck-card-b--fill-green-deep .deck-card-b__value {
+  color: var(--ppt-text-on-green-deep);
+}
+
+.deck-card-b__label {
+  margin: 0;
+  font-size: max(12px, 1.1vw);
+  line-height: 1.35;
+  opacity: 0.72;
+}
+
+.deck-card-b--fill-dark .deck-card-b__label {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* B5 · Split — color block + text (Swiss asymmetric) */
+.deck-card-b--split {
+  flex-direction: row;
+  padding: 0;
+  overflow: hidden;
+}
+
+.deck-card-b__side {
+  flex: 0 0 38%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(14px, 1.8vh, 20px) clamp(12px, 1.4vw, 18px);
+  gap: 6px;
+}
+
+.deck-card-b--fill-dark.deck-card-b--split .deck-card-b__side {
+  background: var(--ppt-emphasis-on-dark);
+  color: var(--ppt-text-on-green);
+}
+
+.deck-card-b--fill-gray.deck-card-b--split .deck-card-b__side {
+  background: var(--ppt-card-fill-dark);
+  color: var(--ppt-text-on-dark);
+}
+
+.deck-card-b--fill-green.deck-card-b--split .deck-card-b__side {
+  background: var(--ppt-card-fill-green-deep);
+  color: var(--ppt-text-on-green-deep);
+}
+
+.deck-card-b--split .deck-card-b__content {
+  flex: 1;
+  padding: clamp(14px, 1.8vh, 20px) clamp(16px, 2vw, 24px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.deck-card-b--fill-dark.deck-card-b--split {
+  background: var(--ppt-card-fill-dark);
+  color: var(--ppt-text-on-dark);
+}
+
+.deck-card-b--fill-gray.deck-card-b--split {
+  background: var(--ppt-card-fill-gray);
+  color: var(--ppt-text-on-light);
+}
+
+.deck-card-b--fill-green.deck-card-b--split {
+  background: var(--ppt-card-fill-green);
+  color: var(--ppt-text-on-green);
+}
+
+/* Shared mono label on light fills — never accent1 */
+.deck-card-b__meta {
+  margin: 0;
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ppt-label-on-light);
+}
+
+.deck-card-b--fill-dark .deck-card-b__meta {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.deck-card-b--fill-green-deep .deck-card-b__meta {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* Grid helper for Style B cards */
+.deck-card-b-grid {
+  display: grid;
+  gap: clamp(12px, 1.5vw, 20px);
+  align-items: stretch;
+  flex: 1;
+  min-height: 0;
+}
+
+.deck-card-b-grid--2x2 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
+.deck-card-b-grid--3x1 { grid-template-columns: repeat(3, 1fr); }
+.deck-card-b-grid--4x1 { grid-template-columns: repeat(4, 1fr); }
