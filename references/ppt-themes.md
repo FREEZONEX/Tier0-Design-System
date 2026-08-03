@@ -24,7 +24,13 @@ Tier0 Masterdeck 使用 **一套绑定 PPT 主题色的品牌盘**。**不允许
 | accent1 | `--ppt-accent1` | `#B2ED1D` | 深底挑词、结构线、标记 |
 | accent2 | `--ppt-accent2` | `#73B200` | **白底** eyebrow、KPI、流程卡小标题 |
 | 品牌蓝 | `--ppt-accent4` | `#1D77FE` | 链接、冷侧强调、轴线（**唯一蓝**） |
-| 高亮洗 | `--ppt-highlight-wash` | `#E6F9B4` @ 低透明 | 白底大色块弱强调 |
+| 高亮洗 | `--ppt-highlight-wash` | `#C5E855` | Style B 中绿块 / 对比侧栏 |
+| 高亮洗（弱） | `--ppt-highlight-wash-soft` | `#E6F9B4` | 小面积点缀；勿大面积满铺 |
+| 卡片填充 · 深黑 | `--ppt-card-fill-dark` | `#050B14` | Style B / Icon `--dark` |
+| 卡片填充 · 浅灰 | `--ppt-card-fill-gray` | `#F4F4F4` | Style B / Icon `--neutral` |
+| 卡片填充 · 主题绿 | `--ppt-card-fill-green` | `#B2ED1D` | Style B / Icon `--accent`；**配深字** |
+| 卡片填充 · 中绿 | `--ppt-card-fill-green-mid` | `#C5E855` | Style B 次要色块 |
+| 卡片填充 · 深绿 | `--ppt-card-fill-green-deep` | `#196B24` | Style B 强调块；**配白字** |
 
 ### 强调色分工（最常踩坑）
 
@@ -34,6 +40,18 @@ Tier0 Masterdeck 使用 **一套绑定 PPT 主题色的品牌盘**。**不允许
 | **白色**（C/D/E） | `#73B200` → `--ppt-emphasis-on-light` | **仍用** `#B2ED1D` → `--ppt-accent-marker` |
 
 > 白底页 **不要** 把结构标记改成 `#73B200`——那是 accent2 的语义，不是 marker。
+
+### 文字 vs 填充对比（P0-8 · 必查）
+
+| 场景 | 正确 | 错误 |
+|------|------|------|
+| 白底 / 浅灰上 **≤12px Mono 标签** | `#050B14`（`--ppt-label-on-light`） | `#B2ED1D` 亮绿字 |
+| 白底 **eyebrow / H1 挑词 / KPI**（≥14px） | `#73B200`（`--ppt-emphasis-on-light`） | `#B2ED1D` |
+| **`#B2ED1D` 大面积填充** | 正文/标题 `#050B14` | 白字 / 浅灰字 |
+| **`#050B14` 填充** | 白字；点缀 `#B2ED1D` | — |
+| **`#196B24` 填充** | 白字 | 亮绿字 |
+
+结构线 / 顶边 / 项目符号：任意底均可用 `#B2ED1D` 作 **1–4px 线**，不作文字色。
 
 ### 品牌蓝透明度阶（允许）
 

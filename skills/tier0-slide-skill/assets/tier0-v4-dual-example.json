@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "title": "Tier0 V4 Hybrid · Dual Output Example",
+    "author": "Tier0",
+    "company": "Tier0",
+    "subject": "Unified data foundation and connected applications",
+    "language": "en-US",
+    "theme": "tier0-v4-hybrid",
+    "width": 960,
+    "height": 540
+  },
+  "slides": [
+    {
+      "id": "01-cover",
+      "kind": "cover-editorial",
+      "title": "Build the Unified Data Foundation.\nGenerate Connected Applications.",
+      "sideNote": "Data First for\nIndustrial Digitalization.",
+      "speaker": "Tier0",
+      "speakerRole": "INDUSTRIAL DATA PLATFORM",
+      "date": "2026"
+    },
+    {
+      "id": "02-challenge",
+      "kind": "challenge-3",
+      "logo": "@skill/assets/brand/logos/tier0-logo-black.png",
+      "kicker": "CHALLENGE",
+      "title": "Why Industrial Digitalization Projects Mostly Fail",
+      "subtitle": "Every new system gets integrated, customized and deployed from scratch. Cost rises while reuse disappears.",
+      "cards": [
+        {
+          "title": "No two factories are alike",
+          "body": "Different equipment, cadence and process make every rollout a new integration and modeling project."
+        },
+        {
+          "title": "Digital systems cost a fortune",
+          "body": "The license is the small part. Consulting, customization, integration and operations dominate total cost."
+        },
+        {
+          "title": "Fragmented data, tangled integrations",
+          "body": "Each new application adds another dedicated interface and makes the next change harder."
+        }
+      ],
+      "result": "TCO becomes a recurring cost center instead of a compounding operational asset."
+    },
+    {
+      "id": "03-compare",
+      "kind": "compare-2",
+      "logo": "@skill/assets/brand/logos/tier0-logo-black.png",
+      "title": "From Point-to-Point Integration to a Unified Namespace",
+      "panels": [
+        {
+          "title": "Point-to-point integration",
+          "points": [
+            "Every application connects to every source separately.",
+            "Semantic context is duplicated across projects.",
+            "A small change breaks multiple interfaces.",
+            "Integration cost grows with every new app."
+          ],
+          "caption": "Repeat again and again."
+        },
+        {
+          "title": "Unified Namespace",
+          "points": [
+            "Sources publish once into a governed namespace.",
+            "Operational context is shared and reusable.",
+            "Applications read and write through one contract.",
+            "The next use case starts with the foundation in place."
+          ],
+          "caption": "Build once. Reuse across applications."
+        }
+      ]
+    },
+    {
+      "id": "04-section",
+      "kind": "section-dark",
+      "chapterLabel": "CHAPTER 02 · APPLICATIONS",
+      "title": "The foundation is only",
+      "accentTitle": "the beginning.",
+      "note": "With governed industrial context in place, the next question is what teams can build on top of it."
+    },
+    {
+      "id": "05-builder",
+      "kind": "feature-split",
+      "logo": "@skill/assets/brand/logos/tier0-logo-black.png",
+      "kicker": "APP GENERATION",
+      "title": "App Builder · Bringing Vibe Coding to the Industrial World",
+      "bullets": [
+        {
+          "title": "A whole app from a single brief",
+          "body": "Describe the task in plain English and receive a running application."
+        },
+        {
+          "title": "Auto-wired to plant data via UNS",
+          "body": "Applications use live operational context without another integration project."
+        },
+        {
+          "title": "Enterprise governance, built in",
+          "body": "Users, permissions, audit and versioning are present from day one."
+        },
+        {
+          "title": "Your code, your future",
+          "body": "Standard web technology keeps the application extensible and portable."
+        }
+      ],
+      "flow": [
+        "USER · brief",
+        "AppBuilder",
+        "Generated app"
+      ],
+      "unsBody": "Read and write live operational context through a governed namespace.",
+      "outputBody": "A running application with users, permissions, audit and versioning."
+    },
+    {
+      "id": "06-cost",
+      "kind": "cost-compare",
+      "logo": "@skill/assets/brand/logos/tier0-logo-black.png",
+      "kicker": "COST CALCULATIONS",
+      "title": "The same applications — at 0.75X instead of 2X.",
+      "rows": [
+        {
+          "label": "Traditional Dev",
+          "dev": "X",
+          "integration": "X",
+          "total": "2X",
+          "accent": false,
+          "note": "Integration normally equals development cost."
+        },
+        {
+          "label": "UNS Dev",
+          "dev": "0.5X",
+          "integration": "0.25X",
+          "total": "0.75X",
+          "accent": true,
+          "note": "Integration falls as the reusable foundation compounds."
+        }
+      ],
+      "result": "Customer resources are saved as the namespace and application patterns are reused."
+    },
+    {
+      "id": "07-adoption",
+      "kind": "process-4",
+      "logo": "@skill/assets/brand/logos/tier0-logo-black.png",
+      "kicker": "RECOMMENDED ADOPTION PATH",
+      "title": "Start with a valuable use case. Build the reusable foundation behind it.",
+      "steps": [
+        {
+          "title": "Select a valuable operational use case",
+          "body": "Choose a use case with clear users, assets, data sources and business outcomes."
+        },
+        {
+          "title": "Build the Unified Data Foundation",
+          "body": "Create the namespace, establish operational context and connect relevant systems."
+        },
+        {
+          "title": "Deliver the first Connected Application",
+          "body": "Generate an application on top of the shared foundation and validate it with users."
+        },
+        {
+          "title": "Expand and reuse",
+          "body": "Add more assets, applications, analytics, digital twins and AI workflows."
+        }
+      ],
+      "result": "The first application delivers immediate value. The foundation makes every future use case easier."
+    },
+    {
+      "id": "08-closing",
+      "kind": "closing-dark",
+      "logo": "@skill/assets/brand/logos/tier0-logo-white.png",
+      "lines": [
+        {
+          "text": "Build the Unified Data Foundation.",
+          "color": "#FFFFFF"
+        },
+        {
+          "text": "Generate Connected Applications.",
+          "color": "#B2ED1D"
+        },
+        {
+          "text": "Move toward Operational Intelligence.",
+          "color": "#7C838C"
+        }
+      ],
+      "footer": "Tier0 Platform · www.tier0.app",
+      "contact": "[ sales@tier0.app ]"
+    }
+  ]
+}

@@ -9,8 +9,9 @@
 | [`sources/spec.ppt.md`](../sources/spec.ppt.md) | 设计 / 母版维护 | 从 Masterdeck 导出的完整规范（冲突时以此为准） |
 | [`tokens/deck.css`](../tokens/deck.css) | 实现 | CSS 变量与类名事实来源 |
 | [`preview/ppt/`](../preview/ppt/) | 视觉验收 | 全屏 slide 预览（与交付 HTML 同尺寸） |
+| [`skills/tier0-slide-skill/`](../skills/tier0-slide-skill/) | 销售/售前执行 | intake → Layout Gallery → HTML + 可编辑 PPTX（与本目录规范层分工，见 [`skills/README.md`](../skills/README.md)） |
 
-当前仅 **ppt** 试点本结构；产品 UI / 官网仍读 `surfaces/*`。
+当前仅 **ppt** 试点本结构；产品 UI / 官网仍读 `surfaces/*`。更多可触发 skill 见 [`skills/`](../skills/)。
 
 ---
 
@@ -22,7 +23,7 @@
 | [`ppt-layout-lock.md`](ppt-layout-lock.md) | **定稿前**：字体 / 色 / 版式类型 / 全屏 / FREEZONEX 硬锁 |
 | [`ppt-themes.md`](ppt-themes.md) | 选色与强调色分工（Masterdeck 单主题，禁止自定义 hex） |
 | [`ppt-layouts.md`](ppt-layouts.md) | **写 HTML 时**：类型 A–E 骨架与 Pre-flight |
-| [`ppt-components.md`](ppt-components.md) | 页脚、KPI、Icon 卡（4059:2453）、流程三栏、列表标记 |
+| [`ppt-components.md`](ppt-components.md) | 页脚、KPI、Icon 卡（4059:2453）、**Style B 色块卡**、流程三栏、列表标记 |
 | [`ppt-flowcharts.md`](ppt-flowcharts.md) | **Flow 四类卡片** + **三线型**（无/单/双箭头，4057:2384 · 4057:2393） |
 | [`ppt-diagrams.md`](ppt-diagrams.md) | 封面 SVG、等轴测 / 截图、Lucide 通用约定 |
 | [`ppt-checklist.md`](ppt-checklist.md) | **交付前**：P0–P3 自检（含现象 / 根因 / 做法） |

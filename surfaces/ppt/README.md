@@ -16,6 +16,8 @@
 
 索引与目录分工：[`references/README.md`](../../references/README.md)。
 
+**销售/售前 deck 执行（HTML + 可编辑 PPTX）：** 走 [`skills/tier0-slide-skill/`](../../skills/tier0-slide-skill/)；规范冲突时仍以本 surface + `tokens/deck.css` 为准。注册表：[`skills/README.md`](../../skills/README.md)。
+
 ## 定位
 
 路演与对外演示的 **PowerPoint 设计系统**，与产品 UI、官网 **字体与蓝色用法不同**。
@@ -28,6 +30,7 @@
 - **Tier0 only**：画面与文案仅呈现 **Tier0**；**禁止 FREEZONEX**（无母公司页脚条、Logo、副标题、口播归属句）
 - **重点标题绿**：深底 **`#B2ED1D`** · 白底 **`#73B200`**（`--ppt-emphasis-on-dark` / `--ppt-emphasis-on-light`）
 - **结构标记**：项目符号、卡片顶边线 → 始终 **`#B2ED1D`**（`--ppt-accent-marker`），白底也不例外
+- **卡片色块**：大面积用 **`--ppt-card-fill-*`**（深黑 / 主题绿 / 浅灰）；Style B 瑞士网格卡见 [`references/ppt-components.md`](../../references/ppt-components.md) · **P0-8** 禁止浅底亮绿字
 
 ## 与其他场景差异
 

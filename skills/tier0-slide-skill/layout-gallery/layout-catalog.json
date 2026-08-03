@@ -1,0 +1,281 @@
+{
+  "schemaVersion": "1.0",
+  "purpose": "Canonical visual source for Tier0 presentation layouts. Read this catalog together with the live Layout Gallery before adapting another deck.",
+  "canvas": {
+    "ratio": "16:9",
+    "shell": "canvas-card",
+    "gutter": "max(40px, 5vw)",
+    "blockGap": "40px minimum unless a registered layout specifies a denser rhythm",
+    "titleAxis": "left aligned; kicker above title"
+  },
+  "tokens": {
+    "ink": "#050B14",
+    "paper": "#FFFFFF",
+    "signal": "#B2ED1D",
+    "signalText": "#73B200",
+    "paleSignal": "#ECFFD2",
+    "neutralSurface": "#F3F3F3"
+  },
+  "layouts": [
+    {
+      "slide": 1,
+      "id": "TIER0-COVER-EDITORIAL",
+      "motion": "hero",
+      "role": "Opening / positioning",
+      "useWhen": "Start a customer or product narrative with one category statement.",
+      "visualRule": "White editorial field; bracket one keyword and reserve green for the adjacent signal field.",
+      "avoid": "Do not turn this into a full-green cover or add a feature grid.",
+      "primaryEvidence": "Brand mark + one positioning statement"
+    },
+    {
+      "slide": 2,
+      "id": "S01",
+      "motion": "hero",
+      "role": "Agenda / navigation",
+      "useWhen": "Introduce sections, chapters, or a guided discussion.",
+      "visualRule": "Use oversized sequence numbers and six-or-fewer destinations; preserve the open field.",
+      "avoid": "Do not use as a generic content page or stack cards inside it.",
+      "primaryEvidence": "Deck structure"
+    },
+    {
+      "slide": 3,
+      "id": "S02",
+      "motion": "progression",
+      "role": "Time-based change",
+      "useWhen": "Show an evolution, maturity path, or measured before-to-after progression.",
+      "visualRule": "One vertical chronology plus a single active end state and supporting KPI row.",
+      "avoid": "Do not use when the sequence is not temporal or the figures are not sourced.",
+      "primaryEvidence": "Timeline + KPI evidence"
+    },
+    {
+      "slide": 4,
+      "id": "S03",
+      "motion": "split-statement",
+      "role": "Core thesis",
+      "useWhen": "Land one decisive claim, section transition, or memorable framing statement.",
+      "visualRule": "Ink half holds the thesis; neutral half gives only a short proof or clarification.",
+      "avoid": "Do not put two competing headlines or dense feature lists on either half.",
+      "primaryEvidence": "One statement + short proof"
+    },
+    {
+      "slide": 5,
+      "id": "S04",
+      "motion": "grid-reveal",
+      "role": "Six-part overview",
+      "useWhen": "Explain six capabilities, dimensions, or recurring concepts at equal weight.",
+      "visualRule": "Keep the 2×3 field uniform; use labels and short descriptions, not mini dashboards.",
+      "avoid": "Do not force fewer or more than six concepts into this structure.",
+      "primaryEvidence": "Six concise concepts"
+    },
+    {
+      "slide": 6,
+      "id": "S05",
+      "motion": "stack-build",
+      "role": "Layered model",
+      "useWhen": "Explain a three-level architecture, operating model, or value stack.",
+      "visualRule": "Read top-to-bottom or bottom-to-top; one layer can receive the green focus treatment.",
+      "avoid": "Do not use for a chronological process or an unstructured list.",
+      "primaryEvidence": "Three named layers"
+    },
+    {
+      "slide": 7,
+      "id": "S06",
+      "motion": "measure-up",
+      "role": "KPI tower",
+      "useWhen": "Make one business measure feel consequential while retaining a small amount of context.",
+      "visualRule": "One dominant number; every supporting measure must explain the same outcome.",
+      "avoid": "Do not add decorative statistics or mix unrelated metrics.",
+      "primaryEvidence": "One hero KPI + support"
+    },
+    {
+      "slide": 8,
+      "id": "S07",
+      "motion": "bar-grow",
+      "role": "Measured comparison",
+      "useWhen": "Compare alternatives, adoption states, or a small ranked set of real values.",
+      "visualRule": "Neutral bars carry context; green identifies only the decision-driving focus value.",
+      "avoid": "Do not use with unsourced values or more than one green winner.",
+      "primaryEvidence": "Comparable data series"
+    },
+    {
+      "slide": 9,
+      "id": "S08",
+      "motion": "duo-mirror",
+      "role": "Two-way contrast",
+      "useWhen": "Contrast current versus future, isolated versus connected, or two operating choices.",
+      "visualRule": "Mirror both sides on the same axis and reserve contrast for the conclusion, not decoration.",
+      "avoid": "Do not use for three-or-more options or unpaired information.",
+      "primaryEvidence": "Paired comparison"
+    },
+    {
+      "slide": 10,
+      "id": "S09",
+      "motion": "grid-reveal",
+      "role": "Chapter statement",
+      "useWhen": "Create a pause before a new idea, method, or point of view.",
+      "visualRule": "One idea, ample whitespace, and a restrained dot matrix as environmental texture.",
+      "avoid": "Do not place body copy, metrics, or multiple modules over the matrix.",
+      "primaryEvidence": "One memorable statement"
+    },
+    {
+      "slide": 11,
+      "id": "S10",
+      "motion": "statement",
+      "role": "Ink section divider",
+      "useWhen": "Introduce a major chapter, change the narrative gear, or give a single thesis room before detailed content begins.",
+      "visualRule": "Use a deep ink field, one oversized left-aligned title, and only a restrained chapter label plus a small footer.",
+      "avoid": "Do not add a right-side takeaway list, CTA grid, decorative illustration, or a second headline.",
+      "primaryEvidence": "Chapter title / thesis only"
+    },
+    {
+      "slide": 12,
+      "id": "S11",
+      "motion": "timeline-walk",
+      "role": "Workflow / sequence",
+      "useWhen": "Show four to five ordered handoffs with the three capabilities that make the flow repeatable.",
+      "visualRule": "Use the upper field for three short enabling forces, then let one horizontal spine carry the ordered steps.",
+      "avoid": "Do not invent KPI numbers or turn this into a cyclical loop.",
+      "primaryEvidence": "Ordered sequence + capability frame"
+    },
+    {
+      "slide": 13,
+      "id": "S12",
+      "motion": "manifesto",
+      "role": "Three-pillar manifesto",
+      "useWhen": "Summarize a positioning argument in three co-dependent pillars.",
+      "visualRule": "Use full-width columns, large sequence numbers at the base, and one restrained signal emphasis.",
+      "avoid": "Do not turn pillars into cards or place the proof line too close to the columns.",
+      "primaryEvidence": "Three linked arguments"
+    },
+    {
+      "slide": 14,
+      "id": "S13",
+      "motion": "architecture-flow",
+      "role": "Site-to-cloud architecture",
+      "useWhen": "Show how on-site sources connect through a Tier0 site or namespace to cloud-scale applications and models.",
+      "visualRule": "Use two equal system zones, one clear central core per zone, and one single directional bridge. Keep labels in HTML and connectors geometric.",
+      "avoid": "Do not use a point-to-point mesh, duplicate the core, or put unlabeled crossings inside the board.",
+      "primaryEvidence": "On-site system boundary + cloud system boundary + one governed bridge"
+    },
+    {
+      "slide": 15,
+      "id": "S14",
+      "motion": "loop-form",
+      "role": "Closed loop",
+      "useWhen": "Explain an iterative learning, governance, or improvement cycle.",
+      "visualRule": "Keep dashed and directional rings spatially separate; nodes sit on the shared axes and the center remains unfilled.",
+      "avoid": "Do not add decorative icons, overlapping arrows, or vague relationship labels.",
+      "primaryEvidence": "Four-step loop diagram"
+    },
+    {
+      "slide": 16,
+      "id": "S15",
+      "motion": "matrix-fill",
+      "role": "Image evidence grid",
+      "useWhen": "Show 2–4 related images with short captions: product states, site evidence, process steps, or case-study proof.",
+      "visualRule": "Use one primary image and 1–3 supporting images in a shared rectangular grid; keep image treatment and captions consistent.",
+      "avoid": "Do not mix image ratios, make a decorative collage, or use generic stock imagery without an evidentiary role.",
+      "primaryEvidence": "2–4 real images + concise captions"
+    },
+    {
+      "slide": 17,
+      "id": "S16",
+      "motion": "demo-stage",
+      "role": "Demo video / live prototype",
+      "useWhen": "Show one product task through a video, a live web prototype, or one controlled UI state.",
+      "visualRule": "Left side explains what to watch; the right side is a 16:9 rectangular player frame with a single task and a visible final state.",
+      "avoid": "Do not embed a generic dashboard, multiple product flows, autoplay audio, or a rounded video card.",
+      "primaryEvidence": "Video, real product recording, or bounded web prototype"
+    },
+    {
+      "slide": 18,
+      "id": "S17",
+      "motion": "system-diagram",
+      "role": "System architecture",
+      "useWhen": "Pair a business statement with a compact relationship diagram or technical system model.",
+      "visualRule": "Left side explains the value; the right half is full-bleed neutral surface containing the diagram only.",
+      "avoid": "Do not put a white filled center behind the system label or crowd the diagram with iconography.",
+      "primaryEvidence": "Narrative + architecture diagram"
+    },
+    {
+      "slide": 19,
+      "id": "S18",
+      "motion": "why-now",
+      "role": "Business value proof",
+      "useWhen": "Explain three durable business outcomes with concise operational proof and one readable metric per argument.",
+      "visualRule": "Bring the title high; three equal pale-green argument columns use one summary, two proof points, and an aligned outcome band.",
+      "avoid": "Do not use permanent active cards, oversized icons, bold display numerals, or uneven metric footers.",
+      "primaryEvidence": "Three outcomes + concise proof + outcome metric"
+    },
+    {
+      "slide": 20,
+      "id": "S19",
+      "motion": "four-cards",
+      "role": "Four compounding advantages",
+      "useWhen": "Explain four linked platform benefits with one clear visual metaphor each.",
+      "visualRule": "Use a dense 20px four-column rhythm and one simple black/green line illustration per module; alternate neutral and pale-green surfaces.",
+      "avoid": "Do not use complex architecture illustrations, excessive card gaps, repeated stock-style icons, or a decorative top signal bar.",
+      "primaryEvidence": "Four advantages + simple line diagrams"
+    },
+    {
+      "slide": 21,
+      "id": "S20",
+      "motion": "stacked-ledger",
+      "role": "KPI ledger",
+      "useWhen": "List a concise set of operational measures, commercial facts, or named commitments.",
+      "visualRule": "Use horizontal rows, consistent labels, and a single signal marker for the active record.",
+      "avoid": "Do not turn it into a dashboard or use invented performance numbers.",
+      "primaryEvidence": "Metric ledger"
+    },
+    {
+      "slide": 22,
+      "id": "S21",
+      "motion": "tech-spec",
+      "role": "Data visualization grammar",
+      "useWhen": "Choose a chart grammar according to the decision: rank, change, contribution, or composition.",
+      "visualRule": "Use one reading task per figure; black and grey carry context, green signals only the focal value or state.",
+      "avoid": "Do not decorate data with arbitrary icons, rainbow palettes, or several green winners.",
+      "primaryEvidence": "Illustrative visual grammars · DATA PENDING"
+    },
+    {
+      "slide": 23,
+      "id": "S22",
+      "motion": "image-hero",
+      "role": "Product evidence hero",
+      "useWhen": "Show one real product scene, customer evidence image, or controlled product demo with three measures.",
+      "visualRule": "Keep the 21:9 image as evidence, title block on white, and lower KPI strip aligned to the main grid.",
+      "avoid": "Do not use a generic fake dashboard, rounded screenshot shell, or a decorative background image.",
+      "primaryEvidence": "One 21:9 product / customer image"
+    },
+    {
+      "slide": 24,
+      "id": "S23",
+      "motion": "grid-reveal",
+      "role": "Code and execution-logic evidence",
+      "useWhen": "Use for source-faithful routing logic, configuration, API payloads, workflow rules, or a long technical text block.",
+      "visualRule": "Keep literal tokens, indentation and sequence in a large readable code field; use the left rail only for source context and how to read it.",
+      "avoid": "Do not shrink technical content into caption text, invent syntax, turn it into decorative cards, or use green as ordinary white-background text.",
+      "primaryEvidence": "Literal source code / workflow logic"
+    },
+    {
+      "slide": 25,
+      "id": "TIER0-ARCHITECTURE-REFERENCE",
+      "motion": "grid-reveal",
+      "role": "Architecture diagram reference",
+      "useWhen": "Choose a relationship grammar before generating or drawing a system diagram: namespace hub, linear flow, layered tree, or a point-to-point anti-pattern comparison.",
+      "visualRule": "Use a small number of named systems, one clear relationship type, 1px connectors, and a single green core or active path. Labels live in HTML, never inside the SVG.",
+      "avoid": "Do not combine hub, tree, and mesh relationships in one diagram; do not use noisy shadows, decorative icons, or unlabeled crossing connectors.",
+      "primaryEvidence": "Architecture grammar + user-provided reference catalogue"
+    },
+    {
+      "slide": 26,
+      "id": "TIER0-CLOSING-SPLIT",
+      "motion": "split-statement",
+      "role": "Closing / next step",
+      "useWhen": "End a deck with a declarative conclusion and three concise takeaways.",
+      "visualRule": "Ink left field closes emotionally; white right field makes three practical takeaways, with only the final row signaled.",
+      "avoid": "Do not add a second CTA, contact grid, or extra visual motif.",
+      "primaryEvidence": "Closing statement + takeaways"
+    }
+  ]
+}

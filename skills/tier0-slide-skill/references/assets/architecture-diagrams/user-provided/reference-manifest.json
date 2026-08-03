@@ -1,0 +1,53 @@
+{
+  "purpose": "User-provided architecture-diagram references for Tier0 generation and review. These records preserve the relationship grammar and visual lessons even when conversation attachments are not available as local binaries.",
+  "references": [
+    {
+      "id": "namespace-source-app-spine",
+      "suggestedFilename": "01-namespace-source-app-spine.png",
+      "grammar": "namespace hub / linear flow",
+      "use": "Show data sources and applications meeting in one unified namespace through flow adapters.",
+      "keep": ["left-to-right direction", "one visible semantic core", "separate source and application groups"],
+      "avoid": ["dense labels", "mixed connector meanings"]
+    },
+    {
+      "id": "namespace-layer-stack",
+      "suggestedFilename": "02-namespace-layer-stack.png",
+      "grammar": "layered core",
+      "use": "Show namespace as the semantic center between source, application, and sink layers.",
+      "keep": ["vertical dependency", "single core", "clear upstream/downstream roles"],
+      "avoid": ["multiple visual centers"]
+    },
+    {
+      "id": "namespace-system-hub",
+      "suggestedFilename": "03-namespace-system-hub.png",
+      "grammar": "namespace hub",
+      "use": "Show ERP, EMS, EAM, WMS, LIMS, MDM, SCADA, and Edge connected to one governed core.",
+      "keep": ["one central namespace", "external systems around the perimeter", "bidirectional relations only when factual"],
+      "avoid": ["shadows or decorative app icons in Tier0 output"]
+    },
+    {
+      "id": "point-to-point-antipattern",
+      "suggestedFilename": "04-point-to-point-antipattern.png",
+      "grammar": "mesh anti-pattern",
+      "use": "Explain integration debt before introducing a unified namespace target state.",
+      "keep": ["visible crossing connectors", "limited system count", "before-state only"],
+      "avoid": ["using the mesh as the recommended architecture"]
+    },
+    {
+      "id": "source-namespace-event-app-flow",
+      "suggestedFilename": "05-source-namespace-event-app-flow.png",
+      "grammar": "linear flow with vertical branches",
+      "use": "Explain Source Flow → Namespace → Event Flow → App Space, with dashboard and sink as optional branches.",
+      "keep": ["primary horizontal path", "secondary vertical branches", "verb-like relationship labels"],
+      "avoid": ["box shadows and oversized iconography"]
+    },
+    {
+      "id": "namespace-tree",
+      "suggestedFilename": "06-namespace-tree.png",
+      "grammar": "layered tree",
+      "use": "Explain factory, line, device, file, and measurement hierarchy.",
+      "keep": ["one root", "clear parent-child order", "leaf metric only at the end"],
+      "avoid": ["cross-links that contradict the hierarchy"]
+    }
+  ]
+}

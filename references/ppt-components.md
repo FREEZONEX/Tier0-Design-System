@@ -14,6 +14,7 @@
 - [列表与项目符号](#列表与项目符号)
 - [KPI 数字块](#kpi-数字块)
 - [带 Icon 能力卡片](#带-icon-能力卡片)
+- [Style B · 瑞士网格色块卡](#style-b--瑞士网格色块卡)
 - [流程三栏卡（Type D）](#流程三栏卡type-d)
 - [对比双栏（Type E）](#对比双栏type-e)
 - [Lucide 图标](#lucide-图标)
@@ -244,10 +245,13 @@ Copyright © 2026 Tier0. All rights reserved.
 
 类名 **`.tier0-card-icon`**（`deck.css` 引入 `icon-card.css`）。**幻灯片内**对齐 Figma **`4059:2453`**（官网仍用 `icon-card.css` 默认竖排栅格，勿混用结构）。
 
-| 修饰类 | 填充 | 描边 / 分隔线 |
-|--------|------|----------------|
-| `.tier0-card-icon--accent` | `#F0FBD2` | `#73B200` |
-| `.tier0-card-icon--neutral` | `#F4F4F4` | 描边 `#ACAEB1` · 分隔线 `#CDCED0` |
+| 修饰类 | 填充 | 描边 / 分隔线 | 字色 |
+|--------|------|----------------|------|
+| `.tier0-card-icon--accent` | `#B2ED1D`（`--ppt-card-fill-green`） | 分隔线 `rgba(5,11,20,.18)` | 标题/正文 `#050B14` |
+| `.tier0-card-icon--neutral` | `#F4F4F4`（`--ppt-card-fill-gray`） | 描边 + 分隔线灰 | `#050B14` |
+| `.tier0-card-icon--dark` | `#050B14`（`--ppt-card-fill-dark`） | 分隔线 `accent1` 35% | 白字 + 图标 `#B2ED1D` |
+
+**禁止：** 白底或浅灰底卡片的小标题使用 `#B2ED1D` 文字；亮绿仅作**填充底**（配深字）或 1–2px 结构线。见 [ppt-checklist.md](ppt-checklist.md) **P0-8**。
 
 | 元素 | 样式 |
 |------|------|
@@ -275,6 +279,56 @@ Copyright © 2026 Tier0. All rights reserved.
 ```
 
 预览：[`preview/ppt/card-with-icon.html`](../preview/ppt/card-with-icon.html)
+
+---
+
+## Style B · 瑞士网格色块卡
+
+类名 **`.deck-card-b`**（`tokens/deck.css`）。瑞士国际主义风格：**网格对齐、大色块、强对比、编号索引**，颜色锁定 Tier0 主题盘。
+
+预览：[`preview/ppt/cards-style-b.html`](../preview/ppt/cards-style-b.html)
+
+### 填充修饰（必选其一）
+
+| 修饰类 | 填充 | 字色 |
+|--------|------|------|
+| `.deck-card-b--fill-dark` | `#050B14` | 白字；编号/数值可用 `#B2ED1D` |
+| `.deck-card-b--fill-gray` | `#F4F4F4` | `#050B14` |
+| `.deck-card-b--fill-green` | `#B2ED1D` | **`#050B14` 深字** |
+| `.deck-card-b--fill-green-mid` | `#C5E855` | `#050B14` |
+| `.deck-card-b--fill-green-deep` | `#196B24` | 白字 |
+
+### 结构变体
+
+| 变体 | 类名 | 用途 |
+|------|------|------|
+| **B1 Index** | `.deck-card-b--index` | 大编号 + 标题 + 正文（2×2 / 3×1 栅格） |
+| **B2 Panel** | `.deck-card-b--panel` | 顶栏 band 标签 + 内容区 |
+| **B3 Stripe** | `.deck-card-b--stripe` | 左侧 4px accent 竖条 + 侧栏缩写 |
+| **B4 Stat** | `.deck-card-b--stat` | KPI 大数字 + 说明 |
+| **B5 Split** | `.deck-card-b--split` | 非对称色块侧栏 + 正文（Swiss 分栏） |
+
+栅格容器：`.deck-card-b-grid` + `--2x2` / `--3x1` / `--4x1`。
+
+```html
+<div class="deck-card-b-grid deck-card-b-grid--2x2">
+  <article class="deck-card-b deck-card-b--index deck-card-b--fill-dark">
+    <span class="deck-card-b__index">01</span>
+    <h3 class="deck-card-b__title">Source Flow</h3>
+    <p class="deck-card-b__body">Connect shop-floor sources at the edge.</p>
+  </article>
+  <article class="deck-card-b deck-card-b--panel deck-card-b--fill-green">
+    <p class="deck-card-b__band">Namespace · 命名空间</p>
+    <div class="deck-card-b__content">
+      <h3 class="deck-card-b__title">Semantic MQTT tree</h3>
+      <p class="deck-card-b__body">Publish once, subscribe everywhere.</p>
+    </div>
+  </article>
+  <!-- … -->
+</div>
+```
+
+**对比度硬规则（P0-8）：** 白底/浅灰上的 `.deck-card-b__meta`、`.deck-card-b__band`（浅底）用 `--ppt-label-on-light`（`#050B14`）；**不得**用 `#B2ED1D` 作文字。绿底 `#B2ED1D` 上正文/标题一律深字。
 
 图标名见 [`foundations/icons-lucide.md`](../foundations/icons-lucide.md)。流程图节点卡见 [`ppt-flowcharts.md`](ppt-flowcharts.md)。
 

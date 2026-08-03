@@ -15,7 +15,8 @@
 | [theme-colors-strip.html](theme-colors-strip.html) | PPT 主题色条 |
 | [footer-copyright.html](footer-copyright.html) | 页脚版权（仅 Tier0） |
 | [kpi-block.html](kpi-block.html) | KPI 数字块 |
-| [card-with-icon.html](card-with-icon.html) | 带 Icon 卡 accent / neutral（4059:2453） |
+| [card-with-icon.html](card-with-icon.html) | 带 Icon 卡 accent / neutral / dark（4059:2453） |
+| [cards-style-b.html](cards-style-b.html) | Style B — 瑞士网格色块卡（Index / Panel / Stripe / Stat / Split） |
 | [flow-styles.html](flow-styles.html) | Flow 四类节点卡 + 三线型无/单/双箭头 1.5px（4057:2384 · 4057:2393） |
 | [slide-pipeline-D5.html](slide-pipeline-D5.html) | D5 — 水平管线步骤（Pipeline Steps）两种变体 |
 | [slide-anim-demo.html](slide-anim-demo.html) | 动画效果演示：Cover / Chapter / 卡片网格 / Pipeline 四张完整幻灯片 |

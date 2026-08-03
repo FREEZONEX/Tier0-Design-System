@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/core.css">
+<link rel="stylesheet" href="../../tokens/deck.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  .deck-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .style-b__section-label {
+    margin: 0 0 0.6vh;
+    font-family: var(--font-label);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(5, 11, 20, 0.45);
+  }
+</style>
+</head>
+<body>
+<section class="deck-slide deck-slide--content" data-slide-type="C" data-theme="light">
+  <header class="deck-chrome">
+    <div class="deck-chrome__l">04 · Components · Style B</div>
+    <div class="deck-chrome__r">Preview</div>
+  </header>
+  <main class="deck-main">
+    <h1>Swiss Style B · 色块卡片</h1>
+    <p class="deck-lead">大面积用深黑 / 主题绿 / 浅灰底；亮绿 (#B2ED1D) 作填充时配深字，不作白底小标题字色。</p>
+
+    <p class="style-b__section-label">B1 Index · B4 Stat</p>
+    <div class="deck-card-b-grid deck-card-b-grid--4x1">
+      <article class="deck-card-b deck-card-b--index deck-card-b--fill-dark">
+        <span class="deck-card-b__index">01</span>
+        <h3 class="deck-card-b__title">Source Flow</h3>
+        <p class="deck-card-b__body">边缘接入车间数据源</p>
+      </article>
+      <article class="deck-card-b deck-card-b--index deck-card-b--fill-green">
+        <span class="deck-card-b__index">02</span>
+        <h3 class="deck-card-b__title">Namespace</h3>
+        <p class="deck-card-b__body">语义 MQTT 主题树</p>
+      </article>
+      <article class="deck-card-b deck-card-b--index deck-card-b--fill-gray">
+        <span class="deck-card-b__index">03</span>
+        <h3 class="deck-card-b__title">Event Flow</h3>
+        <p class="deck-card-b__body">可视化编排数据流</p>
+      </article>
+      <article class="deck-card-b deck-card-b--stat deck-card-b--fill-green-deep">
+        <span class="deck-card-b__value">4 wk</span>
+        <p class="deck-card-b__label">Typical PoC</p>
+      </article>
+    </div>
+
+    <p class="style-b__section-label">B2 Panel · B3 Stripe · B5 Split</p>
+    <div class="deck-card-b-grid deck-card-b-grid--3x1">
+      <article class="deck-card-b deck-card-b--panel deck-card-b--fill-gray">
+        <p class="deck-card-b__band">Edge · 边缘</p>
+        <div class="deck-card-b__content">
+          <h3 class="deck-card-b__title">Tier0 Edge</h3>
+          <p class="deck-card-b__body">贴近产线接入与缓存，断网续传不丢数。</p>
+        </div>
+      </article>
+      <article class="deck-card-b deck-card-b--stripe deck-card-b--fill-green-mid">
+        <span class="deck-card-b__aside">UNS</span>
+        <div>
+          <p class="deck-card-b__meta">Unified Namespace</p>
+          <h3 class="deck-card-b__title">一次建模，全厂订阅</h3>
+          <p class="deck-card-b__body">MQTT 主题树即数据契约，新增消费者零改造。</p>
+        </div>
+      </article>
+      <article class="deck-card-b deck-card-b--split deck-card-b--fill-gray">
+        <div class="deck-card-b__side">
+          <span class="deck-card-b__index" style="font-size:clamp(20px,2.4vw,28px);">AI</span>
+          <p class="deck-card-b__meta" style="color:rgba(255,255,255,.65);">Consumer</p>
+        </div>
+        <div class="deck-card-b__content">
+          <h3 class="deck-card-b__title">Agent-ready data</h3>
+          <p class="deck-card-b__body">语义化命名空间让 LLM / 分析应用即插即用。</p>
+        </div>
+      </article>
+    </div>
+  </main>
+  <footer class="deck-footer">
+    <span>Tier0</span>
+    <span>cards-style-b</span>
+  </footer>
+</section>
+<script>lucide.createIcons();</script>
+</body>
+</html>

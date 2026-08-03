@@ -77,8 +77,8 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #111; }
   --icon-box-radius: 4px;
 }
 .deck-slide .tier0-card-icon--accent {
-  --icon-box-bg: var(--ppt-highlight-wash, #f0fad0);
-  --icon-box-color: var(--ppt-emphasis-on-light, #73b200);
+  --icon-box-bg: rgba(5, 11, 20, 0.08);
+  --icon-box-color: var(--ppt-text-on-green);
 }
 .deck-slide .tier0-card-icon--neutral {
   --icon-box-bg: #f4f4f4;
@@ -112,17 +112,20 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #111; }
 }
 .pipeline-info-card {
   padding: 14px 18px;
-  background: var(--ppt-lt2);
+  background: var(--ppt-card-fill-gray);
   border-radius: 4px;
 }
-.pipeline-info-card--hl { background: var(--ppt-highlight-wash); }
+.pipeline-info-card--hl { background: var(--ppt-card-fill-green); }
 .pipeline-info-card__label {
   font-family: var(--font-label);
   font-size: 10px;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--ppt-emphasis-on-light);
+  color: var(--ppt-label-on-light);
   margin: 0 0 6px;
+}
+.pipeline-info-card--hl .pipeline-info-card__label {
+  color: var(--ppt-text-on-green);
 }
 .pipeline-info-card__num {
   font-family: var(--font-display);
