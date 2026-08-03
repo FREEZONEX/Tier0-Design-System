@@ -6,7 +6,7 @@ Run this gate after completing **every slide**, at final render size and after i
 
 1. **Source fidelity** — Does `data-source-ids` identify the exact source section? Do title, terms, user story, exception and technical names retain their source meaning? Check the coverage ledger before evaluating aesthetics.
 2. **Message** — Can a viewer identify the page conclusion in five seconds? Is there one dominant title and one evidence path?
-3. **Evidence** — Does each image, screenshot, diagram, number, and icon explain the conclusion? Remove decorative elements and unverified figures.
+3. **Evidence** — Does each image, screenshot, diagram, number, and icon explain the conclusion? Remove decorative elements and unverified figures. Concept illustrations must follow `tier0_illustration_style` (see `illustration-slots-tier0.md`); product claims prefer real screenshots over illustrations.
 4. **Hierarchy** — Is the reading path title → explanation → proof clear? Are emphasis, labels, and body text readable from a presentation distance? On a light surface, ordinary text must be ink/grey; use a green surface with ink text, or `--accent-text-dark` only for essential readable signals.
 5. **Geometry** — Check canvas bounds, chrome/nav safe area, image crop, connector endpoints, chart labels, and all grid columns. No clipping, overlap, or hidden content is acceptable. Screenshot/video frames must declare `data-media-fit`; `contain` is only valid when the intentional letterbox supports the evidence.
 6. **Balance** — Is whitespace intentional? Check for a crowded side opposite an empty side, large unanchored blank areas, unequal card density, and gaps below 40px equivalent between independent blocks. If a page has little source content, enlarge/recompose the evidence and title block rather than leaving a gallery-sized void.
@@ -20,7 +20,7 @@ Run this gate after completing **every slide**, at final render size and after i
 | Copy | Short, scannable, evidence-led | Paragraphs compete with the visual or labels become smaller than readable body text |
 | Layout | All content fits with safe breathing room | Any canvas overflow, collision, crop, nav collision, or arbitrary blank hole appears |
 | Graphic | One relationship grammar and clear labels | Lines cross without meaning, arrows hit nodes, icons are decorative, or the diagram needs explanation to be legible |
-| Media | Real image / video evidence is correctly framed | A subject is cropped, distorted, too small, or treated as wallpaper |
+| Media | Real image / video / Tier0-styled illustration is correctly framed and role-tagged | A subject is cropped, distorted, too small, treated as wallpaper, or uses a non-Tier0 illustration style |
 | Emphasis | One green focus and consistent hierarchy | Green is used as ordinary text color on white, or several elements compete as “active” |
 | Source coverage | Every required item is mapped and visible | A source heading, scenario sub-step, boundary, exception, or literal technical block silently disappears |
 | Product media | Frame fits the evidence at a useful scale | UI sits inside an oversized empty black/grey frame, is distorted, cropped, or has accidental letterbox bars |

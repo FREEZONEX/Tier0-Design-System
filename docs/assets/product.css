@@ -1,0 +1,20 @@
+/* Tier0 Product UI — surface tokens (extends core) */
+@import url("./core.css");
+
+:root {
+  /* Workspace density */
+  --sidebar-width: 220px;
+  --row-height-table: 48px;
+  --grid-base: 4px;
+
+  /* Product semantic aliases (align with packages/theme --tier0-*) */
+  --tier0-bg-color: var(--fx-white);
+  --tier0-bg-secondary: #f5f5f5;
+  --tier0-bg-accent: var(--fx-green-1);
+  --tier0-text-color: var(--fx-black-0);
+  --tier0-text-secondary: var(--fx-black-4);
+  --tier0-text-tertiary: var(--fx-black-2);
+  --tier0-border: var(--fx-border);
+  --tier0-button-primary: var(--fx-black-0);
+  --tier0-button-highlight: var(--fx-button-lime);
+}

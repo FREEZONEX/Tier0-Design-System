@@ -399,7 +399,10 @@ function compare2(slide, ctx) {
     );
     if (panel.image) {
       elements.push(image(x + 24, 160, 380, 250, resolveAsset(ctx.sourceDir, panel.image), {
-        alt: panel.title ?? 'Comparison evidence', fit: panel.fit ?? 'contain',
+        alt: panel.imageAlt ?? panel.title ?? 'Comparison evidence',
+        fit: panel.imageFit ?? panel.fit ?? 'contain',
+        slot: panel.imageSlot ?? 'compare-panel',
+        role: panel.imageRole ?? slide.imageRole ?? 'product-evidence',
       }));
     } else {
       const points = panel.points ?? [panel.body ?? 'Evidence pending'];
@@ -448,7 +451,10 @@ function featureSplit(slide, ctx) {
   elements.push(rect(390, 143, 528, 330, C.white, { line: C.border, lineWidth: 1 }));
   if (slide.image) {
     elements.push(image(406, 159, 496, 298, resolveAsset(ctx.sourceDir, slide.image), {
-      alt: slide.imageAlt ?? 'Product evidence', fit: slide.imageFit ?? 'contain',
+      alt: slide.imageAlt ?? 'Product evidence',
+      fit: slide.imageFit ?? 'contain',
+      slot: slide.imageSlot ?? 'feature-split-right',
+      role: slide.imageRole ?? 'product-evidence',
     }));
   } else {
     const flow = slide.flow ?? ['USER · brief', 'AppBuilder', 'Generated app'];
@@ -724,10 +730,12 @@ function htmlElement(el) {
   }
   if (el.type === 'image') {
     const src = resolveImageData(el.src);
+    const slotAttr = el.slot ? ` data-image-slot="${esc(el.slot)}"` : '';
+    const roleAttr = el.role ? ` data-image-role="${esc(el.role)}"` : '';
     if (!src) {
-      return `<div class="el image-missing" style="${base.join(';')}"><span>${esc(el.alt ?? path.basename(el.src ?? 'image'))}</span></div>`;
+      return `<div class="el image-missing"${slotAttr}${roleAttr} style="${base.join(';')}"><span>${esc(el.alt ?? path.basename(el.src ?? 'image'))}</span></div>`;
     }
-    return `<img class="el" src="${src}" alt="${esc(el.alt ?? '')}" style="${[...base, `object-fit:${el.fit ?? 'contain'}`, `object-position:${el.objectPosition ?? 'center'}`].join(';')}">`;
+    return `<img class="el"${slotAttr}${roleAttr} src="${src}" alt="${esc(el.alt ?? '')}" style="${[...base, `object-fit:${el.fit ?? 'contain'}`, `object-position:${el.objectPosition ?? 'center'}`].join(';')}">`;
   }
   if (el.type === 'ascii') {
     const tone = el.tone === 'light' ? 'light' : 'ink';

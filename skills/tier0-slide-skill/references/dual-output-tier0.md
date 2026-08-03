@@ -215,12 +215,33 @@ PPTX 中以下对象必须是原生对象：
 
 内置页型用于快速建立与 `Tier0 Intro - EN-V4.pptx` 相近的视觉节奏。复杂页面先用已登记页型；只有现有页型无法承载内容时才使用 `canvas`。
 
+## 6b. 配图字段（风格统一）
+
+需要配图的 slide 除 `image` 外，还应写清角色与槽位（详见 `illustration-slots-tier0.md`）：
+
+| 字段 | 说明 |
+|------|------|
+| `imageRole` | `product-evidence` \| `illustration` \| `documentary` \| `architecture-native` \| `none` |
+| `imageSlot` | 如 `feature-split-right`、`s15-grid-item`、`s22-hero` |
+| `image` | 相对项目目录的图片路径 |
+| `imageAlt` | 无障碍 / PPTX 替代文本 |
+| `imageFit` | `cover` 或 `contain` |
+| `imageAspect` | 如 `16:10`、`21:9` |
+| `imagePrompt` | `illustration` 必填；必须以 `tier0_illustration_style` 开头 |
+
+```bash
+node <SKILL_ROOT>/scripts/validate-tier0-illustrations.mjs 项目/deck.json
+```
+
+`feature-split`：有 `image` 时右栏显示图片；无图且未声明 `imageRole: none` 时回退到内置流程示意块。
+
 ## 7. 验收
 
 运行：
 
 ```bash
 node <SKILL_ROOT>/scripts/validate-tier0-dual.mjs 项目/deck.json
+node <SKILL_ROOT>/scripts/validate-tier0-illustrations.mjs 项目/deck.json
 node <SKILL_ROOT>/scripts/validate-tier0-pptx.mjs 项目/ppt/Tier0-deck.pptx
 ```
 
@@ -230,7 +251,8 @@ node <SKILL_ROOT>/scripts/validate-tier0-pptx.mjs 项目/ppt/Tier0-deck.pptx
 2. HTML 在 16:9、4:3 投屏窗口中都不裁切。
 3. PPTX 标题、正文、标签能双击编辑。
 4. PPTX 每页有多个原生对象；不是一张全屏截图。
-5. 图片保持比例，没有拉伸。
+5. 图片保持比例，没有拉伸；插画风格与 `tier0_illustration_style` 一致。
 6. 深墨页与白底页交替形成节奏。
 7. 荧光绿只用于路径、结论或关键数值。
 8. 字体缺失时记录 Tektur / IBM Plex 的替换风险。
+9. 架构页仍为可编辑对象，不是整页插画。

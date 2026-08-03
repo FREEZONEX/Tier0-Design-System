@@ -97,24 +97,31 @@
 
 ---
 
-## 本地预览
+## 公开站（GitHub Pages）
 
-在本仓库根目录启动 HTTP 服务后，用浏览器查看 `preview/` 下的组件卡。两种方式共用 **8899 端口**，只需起一个服务。
+对外说明与效果预览（intake 视觉风格）：
 
-### 方式 A — 经典单页（改门户之前）
+**https://freezonex.github.io/Tier0-Design-System/**
+
+| 路径 | 内容 |
+|------|------|
+| `/` | Design System 首页（三场景 + Skill） |
+| `/slide-skill/` | Skill 功能、用法、Gallery、Demo、SKILL.md |
+| `/tokens/` | 色板与绿的用法 |
+
+本地预览公开站：
 
 ```bash
-cd "<本仓库根目录>"
-python3 -m http.server 8899
+node scripts/build-public-site.mjs
+python3 -m http.server 8898 --directory docs
+# http://127.0.0.1:8898/
 ```
 
-浏览器打开组件索引：**http://localhost:8899/preview/classic.html**
+更新 Gallery / Demo 快照后重新 build 再提交 `docs/`。
 
-或直接打开某一个 HTML，例如：
+## 本地维护门户
 
-`http://localhost:8899/preview/ppt/footer-copyright.html`
-
-### 方式 B — 维护门户（推荐，含全仓库目录树）
+在本仓库根目录启动维护门户（**8899**，仅本机）：
 
 ```bash
 cd "<本仓库根目录>"
@@ -123,10 +130,13 @@ cd "<本仓库根目录>"
 
 浏览器打开：**http://localhost:8899/preview/**
 
-新增/移动文件后运行 `python3 scripts/build-preview-manifest.py` 更新索引（`classic.html` 与门户会一并更新）。
+也可直接打开某一个组件卡，例如：
+
+`http://localhost:8899/preview/ppt/footer-copyright.html`
+
+新增/移动文件后运行 `python3 scripts/build-preview-manifest.py` 更新索引。
 
 详见 [`preview/README.md`](preview/README.md) — `_shared/` 原子 token；`tier0-product/`、`company-website/`、`ppt/` 场景组件卡。
-
 ---
 
 ## 外部事实来源

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SKILL.md · Tier0 Slide Skill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../site.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <nav class="topnav">
+      <a class="topnav__brand" href="../"><img src="../assets/brand/tier0-logo-black.png" alt="Tier0"><span>Slide Skill</span></a>
+      <div class="topnav__links">
+        <a href="../">Home</a>
+        <a href="./">Overview</a>
+        <a href="./guide.html">Guide</a>
+        <a href="./gallery.html">Gallery</a>
+        <a href="./demo.html">Demo</a>
+        <a class="is-active" href="./skill.html">SKILL.md</a>
+      </div>
+    </nav>
+    <header class="page-header">
+      <div>
+        <div class="eyebrow">Agent contract</div>
+        <h1>SKILL.md</h1>
+        <p class="lede">Agent 完整工作流原文。构建时从 skill 包快照到本目录。</p>
+      </div>
+      <div class="meta">SOURCE OF TRUTH<br>FOR AGENTS</div>
+    </header>
+    <section class="group">
+      <div class="group-head"><h2>正文</h2><p>渲染失败时请打开原始 Markdown。</p><div class="step">MD</div></div>
+      <div class="chips" style="margin-bottom:16px">
+        <a class="chip" href="./SKILL.md" target="_blank" rel="noopener"><b>Raw SKILL.md →</b></a>
+        <a class="chip" href="./README.md" target="_blank" rel="noopener"><b>README.md →</b></a>
+      </div>
+      <article class="md-body" id="md">加载中…</article>
+    </section>
+  </main>
+  <script>
+    fetch('./SKILL.md').then(r => r.text()).then(text => {
+      // strip YAML front matter for display
+      const body = text.replace(/^---[\s\S]*?---\s*/, '');
+      document.getElementById('md').innerHTML = marked.parse(body);
+    }).catch(err => {
+      document.getElementById('md').innerHTML = '<p>无法加载 SKILL.md：' + err.message + '</p>';
+    });
+  </script>
+</body>
+</html>

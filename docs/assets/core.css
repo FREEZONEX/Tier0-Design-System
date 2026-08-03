@@ -1,0 +1,348 @@
+/* =========================================================
+   Tier0 Design System — Core Tokens
+   Shared brand colors, type, spacing, radii, shadows (all surfaces).
+   Fonts: IBM Plex Mono (display/logo) + IBM Plex Sans (UI/body)
+   ========================================================= */
+
+/* Local font stack for offline previews and handoff files. */
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("../fonts/IBMPlexMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("../fonts/IBMPlexSans-VariableFont_wdth,wght.ttf") format("truetype");
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("../fonts/IBMPlexSans-Italic-VariableFont_wdth,wght.ttf") format("truetype");
+  font-weight: 100 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans SC";
+  src: url("../fonts/IBMPlexSansSC-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans SC";
+  src: url("../fonts/IBMPlexSansSC-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans SC";
+  src: url("../fonts/IBMPlexSansSC-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans SC";
+  src: url("../fonts/IBMPlexSansSC-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/Poppins-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/Poppins-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/Poppins-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/Poppins-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Tektur";
+  src: url("../fonts/Tektur-VariableFont_wdth,wght.ttf") format("truetype");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- Brand ---------- */
+  --fx-black:        #050B14;   /* deep canvas, primary text, logo ground */
+  --fx-lime:         #B2ED1D;   /* "Tier0 Green" — brand accent on dark */
+  --fx-deep-green:   #73B200;   /* deep-green text, links, emphasis */
+
+  /* ---------- Green scale ---------- */
+  --fx-green-1:      #F0FBD2;   /* section divider bg, tag bg, feature bg */
+  --fx-green-2:      #DDF59C;   /* hover / tag sub-shades */
+  --fx-green-4:      #CCF368;   /* primary button fill, checkbox */
+  --fx-green-5:      #B2ED1D;   /* = brand lime */
+  --fx-green-6:      #73B200;   /* = deep green */
+
+  /* ---------- Button lime alias ---------- */
+  --fx-button-lime:  #CCF368;
+
+  /* ---------- Neutral (black) scale ---------- */
+  --fx-black-0:      #050B14;   /* primary text, dense ink */
+  --fx-black-4:      #585C62;   /* body secondary */
+  --fx-black-2:      #ACAEB1;   /* tertiary / placeholder */
+  --fx-black-1:      #CDCED0;   /* disabled / faint hint */
+
+  /* ---------- Surface & border ---------- */
+  --fx-white:        #FFFFFF;
+  --fx-border:       #CCCCCC;
+  --fx-on-lime:      #333333;   /* text on button lime */
+  --fx-on-black:     var(--fx-white);
+
+  /* ---------- Semantic mappings ---------- */
+  --fg-1:            var(--fx-black-0);   /* headings, emphasis */
+  --fg-2:            var(--fx-black-4);   /* body */
+  --fg-3:            var(--fx-black-2);   /* captions, placeholders */
+  --fg-muted:        var(--fx-black-1);   /* disabled */
+  --fg-on-dark:      var(--fx-white);
+  --fg-link:         var(--fx-deep-green);
+  --bg-canvas:       var(--fx-white);
+  --bg-canvas-dark:  var(--fx-black);
+  --bg-subtle:       var(--fx-green-1);
+  --bg-hover-row:    var(--fx-green-1);
+  --accent:          var(--fx-lime);
+  --accent-on-dark:  var(--fx-lime);
+
+  /* ---------- Radii ---------- */
+  --radius-button:   4px;
+  --radius-card:     10px;
+  --radius-pill:     999px;
+
+  /* ---------- Spacing (8px grid) ---------- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-7:  28px;
+  --sp-8:  32px;
+  --sp-10: 41px;
+  --sp-11: 44px;
+
+  /* ---------- Shadows ---------- */
+  --shadow-card:     1px 2px 8px 0 rgba(5,11,20,0.10);
+  --shadow-hover:    2px 4px 16px 0 rgba(5,11,20,0.14);
+
+  /* ---------- Typography ---------- */
+  --font-mono:   "IBM Plex Mono", Menlo, Consolas, monospace;
+  --font-sans:   "IBM Plex Sans", "Source Han Sans", "PingFang SC",
+                 "Microsoft YaHei", system-ui, sans-serif;
+
+  /* Type scale (px, as design tokens) */
+  --fs-display: 88px;
+  --fs-h1: 48px;
+  --fs-h2: 32px;
+  --fs-h3: 24px;
+  --fs-h4: 18px;
+  --fs-body-l: 16px;
+  --fs-body: 14px;
+  --fs-caption: 12px;
+  --fs-price-xl: 28px;
+}
+
+/* ---------- Base element styles (optional, semantic defaults) ---------- */
+.tier0-typography,
+.tier0-typography * {
+  font-family: var(--font-sans);
+  color: var(--fg-1);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.tier0-typography .display,
+.tier0-typography h1.display {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--fs-display);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+}
+
+.tier0-typography h1 {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-h1);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.tier0-typography h2 {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-h2);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.tier0-typography h3 {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-h3);
+  line-height: 1.0;
+  letter-spacing: -0.24px;
+  margin: 0;
+}
+
+.tier0-typography h4 {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--fs-h4);
+  line-height: 1.2;
+  letter-spacing: -0.18px;
+  margin: 0;
+}
+
+.tier0-typography p {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body-l);
+  line-height: 1.2;
+  letter-spacing: -0.16px;
+  color: var(--fg-2);
+  margin: 0;
+}
+
+.tier0-typography .body-sm,
+.tier0-typography small {
+  font-size: var(--fs-body);
+  letter-spacing: -0.27px;
+  color: var(--fg-2);
+}
+
+.tier0-typography .caption {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-caption);
+  line-height: 1.2;
+  letter-spacing: -0.23px;
+  color: var(--fg-3);
+}
+
+.tier0-typography code,
+.tier0-typography .mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-body);
+}
+
+.tier0-typography a {
+  color: var(--fg-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---------- Primitive component classes ---------- */
+.tier0-btn,
+.tier0-btn-lime,
+.tier0-btn-primary {
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-button);
+  padding: 12px 20px;
+  height: 43px;
+  border: 0;
+  cursor: pointer;
+}
+
+.tier0-btn-lime,
+.tier0-btn-primary {
+  background: var(--fx-button-lime);
+  color: var(--fx-on-lime);
+  font: 500 16px/1.2 var(--font-sans);
+  letter-spacing: -0.3px;
+}
+.tier0-btn-lime:hover,
+.tier0-btn-primary:hover { background: #BFE85A; }
+.tier0-btn-lime:active,
+.tier0-btn-primary:active { background: #A5D94A; }
+
+.tier0-btn-product-primary {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--tier0-button-primary, var(--fx-black-0));
+  color: var(--fx-on-black);
+  font: 500 14px/1.2 var(--font-sans);
+  letter-spacing: -0.27px;
+  border-radius: var(--radius-button);
+  padding: 8px 16px;
+  height: 36px;
+  border: 0;
+  cursor: pointer;
+}
+.tier0-btn-product-primary:hover {
+  background: #111827;
+  box-shadow: inset 0 -2px 0 var(--tier0-button-highlight, var(--fx-button-lime));
+}
+
+.tier0-btn-secondary {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent;
+  color: var(--fx-black);
+  border: 1px solid var(--fx-border);
+  border-radius: var(--radius-button);
+  padding: 12px 20px;
+  height: 43px;
+  font: 500 16px/1.2 var(--font-sans);
+  letter-spacing: -0.3px;
+  cursor: pointer;
+}
+.tier0-btn-secondary:hover { background: var(--fx-green-1); }
+
+.tier0-btn-brand {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--fx-lime);
+  color: var(--fx-black);
+  border-radius: var(--radius-button);
+  padding: 12px 20px;
+  height: 43px;
+  font: 500 16px/1.2 var(--font-sans);
+  border: 0;
+  cursor: pointer;
+}
+
+.tier0-card {
+  background: var(--fx-white);
+  border: 1px solid var(--fx-border);
+  border-radius: var(--radius-card);
+  padding: var(--sp-7);
+  box-shadow: var(--shadow-card);
+}
+
+.tier0-section-label {
+  display: inline-block;
+  background: var(--fx-green-1);
+  color: var(--fx-deep-green);
+  font: 400 18px/1 var(--font-sans);
+  letter-spacing: -0.18px;
+  padding: 6px 20px;
+  text-transform: capitalize;
+  border-radius: 2px;
+}

@@ -51,6 +51,7 @@ Tier0 Slide Skill 专用清单。P0 项必须全部通过。完整 VI 见 `tier0
 - 图标: IBM Carbon only，不用 Lucide/emoji
 - Logo: 用 `assets/brand/logos/` 官方 PNG，浅底 black 版 / 深底 white 版；禁止文字拼「TIER0」（见 `brand-assets-tier0.md`）
 - 产品截图作证据，不作装饰
+- **配图：** 每页有明确 `imageRole`；概念插画必须 `tier0_illustration_style`（见 `illustration-slots-tier0.md`）；架构页用原生对象，不整页出图
 
 ### 0-T-5. 封面/封底
 

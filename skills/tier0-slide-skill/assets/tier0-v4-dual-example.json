@@ -108,7 +108,13 @@
         "Generated app"
       ],
       "unsBody": "Read and write live operational context through a governed namespace.",
-      "outputBody": "A running application with users, permissions, audit and versioning."
+      "outputBody": "A running application with users, permissions, audit and versioning.",
+      "imageRole": "illustration",
+      "imageSlot": "feature-split-right",
+      "imageAlt": "App Builder console linked to a unified namespace hub",
+      "imageFit": "cover",
+      "imageAspect": "16:10",
+      "imagePrompt": "tier0_illustration_style, isometric industrial app builder turning a plain-language brief into a running shop-floor application, console linked to a UNS hub, warm off-white background, modular blocks, acid lime signal paths, thin olive linework, 16:10, no readable text, no photorealism"
     },
     {
       "id": "06-cost",

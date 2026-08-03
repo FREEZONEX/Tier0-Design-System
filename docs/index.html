@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tier0 Design System</title>
+  <meta name="description" content="Tier0 多场景设计系统公开站：产品后台、公司官网、PPT 规范，以及销售 Deck Skill。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./site.css">
+</head>
+<body>
+  <main class="shell">
+    <nav class="topnav" aria-label="Primary">
+      <a class="topnav__brand" href="./">
+        <img src="./assets/brand/tier0-logo-black.png" alt="Tier0">
+        <span>Design System</span>
+      </a>
+      <div class="topnav__links">
+        <a class="is-active" href="./">Home</a>
+        <a href="./slide-skill/">Slide Skill</a>
+        <a href="./tokens/">Tokens</a>
+        <a href="./surfaces/ppt.html">PPT</a>
+        <a href="https://github.com/FREEZONEX/Tier0-Design-System" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </nav>
+
+    <header class="page-header">
+      <div>
+        <div class="eyebrow">Tier0 · Public design system</div>
+        <h1>One brand.<br>Three surfaces.<br>One deck skill.</h1>
+        <p class="lede">面向产品后台、公司官网与销售演示的多场景设计系统。对外可读规范、Token 与 Slide Skill 用法；内部维护仍走本地门户。</p>
+      </div>
+      <div class="meta">PUBLIC SITE<br>DOCS → GALLERY → BUILD</div>
+    </header>
+
+    <section class="group">
+      <div class="group-head">
+        <h2>场景入口</h2>
+        <p>先选你要做的事。规范层解决「长什么样」；Slide Skill 解决「怎么从素材生成 HTML + PPTX」。</p>
+        <div class="step">01</div>
+      </div>
+      <div class="choices three">
+        <a class="choice" href="./surfaces/product.html">
+          <span class="choice__kicker">Surface</span>
+          <strong>产品后台</strong>
+          <span>Namespace、表格、表单、侧栏。高密度工作台，IBM Plex + 克制绿高亮。</span>
+        </a>
+        <a class="choice" href="./surfaces/website.html">
+          <span class="choice__kicker">Surface</span>
+          <strong>公司官网</strong>
+          <span>长文叙事、产品页与定价风。Poppins 标题 + Plex 正文。</span>
+        </a>
+        <a class="choice" href="./surfaces/ppt.html">
+          <span class="choice__kicker">Surface</span>
+          <strong>PPT 规范</strong>
+          <span>Masterdeck 视觉：深墨章节、白底证据页、品牌绿 `#B2ED1D`。</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="group">
+      <div class="group-head">
+        <h2>Slide Skill</h2>
+        <p>销售 / 售前演示稿执行层：确认页锁定交付 → Layout Gallery 选型 → `deck.json` 双格式输出。</p>
+        <div class="step">02</div>
+      </div>
+      <div class="choices">
+        <a class="choice is-feature" href="./slide-skill/">
+          <span class="choice__kicker">Recommended</span>
+          <strong>打开 Skill 站</strong>
+          <span>功能、三步上手、版式 Gallery、SKILL.md 与配图风格锁。</span>
+        </a>
+        <a class="choice" href="./slide-skill/demo.html">
+          <span class="choice__kicker">Live demo</span>
+          <strong>示例 Deck</strong>
+          <span>封面 ASCII 呼吸场 + V4 Hybrid 示例页，可直接翻页预览。</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="group">
+      <div class="group-head">
+        <h2>设计 Token</h2>
+        <p>共享色板与场景覆盖。公开站只展示关键色与用法禁忌；完整 CSS 在仓库 `tokens/`。</p>
+        <div class="step">03</div>
+      </div>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch__chip" style="background:#050B14"></div><div class="swatch__meta"><strong>Ink</strong>#050B14</div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#B2ED1D"></div><div class="swatch__meta"><strong>Accent</strong>#B2ED1D · 点缀</div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#73B200"></div><div class="swatch__meta"><strong>Deep green</strong>#73B200 · 可读绿字</div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#F3F3F3;border-bottom:1px solid #d8dad7"></div><div class="swatch__meta"><strong>Soft</strong>#F3F3F3</div></div>
+      </div>
+      <div class="chips" style="margin-top:14px">
+        <a class="chip" href="./tokens/"><b>Tokens 全览 →</b></a>
+        <span class="chip">白底禁用亮绿文字</span>
+        <span class="chip">IBM Plex / Tektur</span>
+      </div>
+    </section>
+
+    <section class="group">
+      <div class="group-head">
+        <h2>对 Agent 怎么说</h2>
+        <p>在 Cursor 里用自然语言即可；路由规则见仓库根 `SKILL.md`。</p>
+        <div class="step">04</div>
+      </div>
+      <div class="stack">
+        <pre>用 tier0-slide-skill 做一份 8 页产品介绍 PPT，要 HTML + 可编辑 PPTX，突出 UNS 与 Builder。</pre>
+        <pre>@tier0-design 帮我做产品后台 Namespace 列表页：左侧筛选 + 主表格 + 空状态</pre>
+      </div>
+    </section>
+
+    <section class="group">
+      <div class="group-head">
+        <h2>Visual lock</h2>
+        <p>公开站与 intake 使用同一视觉语法：不提供自定义主题控件。</p>
+        <div class="step">LOCKED</div>
+      </div>
+      <div class="locked">
+        <strong>Tier0 design system is fixed.</strong>
+        <span>Brand green #B2ED1D · IBM Plex · evidence-first · no custom theme controls</span>
+      </div>
+    </section>
+
+    <div class="cta-row">
+      <p class="note">本地维护门户仍是 <code>./scripts/serve-preview.sh</code> → localhost:8899。本站只做对外说明与效果预览。</p>
+      <a class="btn" href="./slide-skill/">EXPLORE SLIDE SKILL →</a>
+    </div>
+
+    <div class="footer-meta">
+      <span>FREEZONEX · Tier0 Design System</span>
+      <span><a href="https://tier0.app" target="_blank" rel="noopener">tier0.app</a></span>
+    </div>
+  </main>
+</body>
+</html>

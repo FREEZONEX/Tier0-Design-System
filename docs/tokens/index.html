@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tokens · Tier0 Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../site.css">
+</head>
+<body>
+  <main class="shell">
+    <nav class="topnav"><a class="topnav__brand" href="../"><img src="../assets/brand/tier0-logo-black.png" alt="Tier0"><span>Design System</span></a><div class="topnav__links"><a href="../">Home</a><a href="../slide-skill/">Slide Skill</a><a class="is-active" href="./">Tokens</a><a href="../surfaces/ppt.html">PPT</a></div></nav>
+    <header class="page-header"><div><div class="eyebrow">Tokens · shared + surface overrides</div><h1>Color, type,<br>and the green rule.</h1><p class="lede">公开速查。完整变量见仓库 <code>tokens/core.css</code> 与各场景覆盖文件。</p></div><div class="meta">TOKEN MAP<br>CORE → SURFACE</div></header>
+
+    <section class="group">
+      <div class="group-head"><h2>核心色</h2><p>全场景共享 ink / accent / neutrals。</p><div class="step">01</div></div>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch__chip" style="background:#050B14"></div><div class="swatch__meta"><strong>Ink / Black</strong>#050B14</div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#FFFFFF;border-bottom:1px solid #d8dad7"></div><div class="swatch__meta"><strong>Paper</strong>#FFFFFF</div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#B2ED1D"></div><div class="swatch__meta"><strong>Accent lime</strong>#B2ED1D · marker / focus</div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#73B200"></div><div class="swatch__meta"><strong>Deep green</strong>#73B200 · 白底可读绿</div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#585C62"></div><div class="swatch__meta"><strong>Body</strong>#585C62</div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#ACAEB1"></div><div class="swatch__meta"><strong>Muted</strong>#ACAEB1</div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#CDCED0"></div><div class="swatch__meta"><strong>Border</strong>#CDCED0</div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:#06101B"></div><div class="swatch__meta"><strong>Deck dark</strong>#06101B</div></div>
+      </div>
+    </section>
+
+    <section class="group">
+      <div class="group-head"><h2>绿的用法</h2><p>这是最容易踩坑的一条。</p><div class="step">02</div></div>
+      <div class="stack">
+        <div class="panel"><h3>可以</h3><ul><li>marker、active 状态、强调条、绿底卡片上的黑字</li><li>深墨页上的亮绿信号路径</li><li>白底需要绿字时用 <code>#73B200</code></li></ul></div>
+        <div class="panel"><h3>不可以</h3><ul><li>在白底上写 <code>#B2ED1D</code> 正文（对比度不够）</li><li>整页铺绿、蓝紫渐变、自定义主题色</li></ul></div>
+      </div>
+    </section>
+
+    <section class="group">
+      <div class="group-head"><h2>字体</h2><p>按场景切换，不要混用营销字体到 PPT。</p><div class="step">03</div></div>
+      <div class="chips">
+        <span class="chip"><b>Product</b> IBM Plex Sans / Mono</span>
+        <span class="chip"><b>Website</b> Poppins 标题 + Plex 正文</span>
+        <span class="chip"><b>PPT</b> Tektur 章节 · Plex 正文 · 禁 Poppins</span>
+      </div>
+    </section>
+
+    <section class="group">
+      <div class="group-head"><h2>文件</h2><p>构建脚本会把 CSS 副本放进本站 <code>assets/</code> 供查阅。</p><div class="step">04</div></div>
+      <div class="stack">
+        <pre>tokens/core.css
+tokens/product.css
+tokens/website.css
+tokens/deck.css</pre>
+      </div>
+    </section>
+
+    <div class="cta-row">
+      <p class="note">PPT 执行层配图风格另见 Slide Skill → Illustration lock。</p>
+      <a class="btn" href="../slide-skill/">SLIDE SKILL →</a>
+    </div>
+  </main>
+</body>
+</html>
