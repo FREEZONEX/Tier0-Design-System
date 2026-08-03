@@ -103,6 +103,14 @@
 
 **https://freezonex.github.io/Tier0-Design-System/**
 
+首次启用（需要仓库 **admin** 操作一次）：
+
+1. GitHub → Settings → Pages  
+2. Build and deployment → Source 选 **GitHub Actions**  
+3. 推送本仓库的 `Deploy public site` workflow，或在 Actions 里手动 Run workflow  
+
+之后每次 `main` 上 `docs/` / skill / tokens 变更会自动重建并发布。
+
 | 路径 | 内容 |
 |------|------|
 | `/` | Design System 首页（三场景 + Skill） |
