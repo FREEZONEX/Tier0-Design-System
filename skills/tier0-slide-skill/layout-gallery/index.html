@@ -1544,9 +1544,35 @@
   .ink-section-divider .chrome-min{color:rgba(255,255,255,.56)}
   .ink-section-divider__main{display:flex;flex:1;flex-direction:column;justify-content:center;min-height:0;padding-bottom:4vh}
   .ink-section-divider__label{font-family:var(--mono);font-size:max(12px,.72vw);font-weight:500;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
-  .ink-section-divider__title{font-family:var(--sans);font-size:min(8.5vw,14.2vh);font-weight:400;line-height:.9;letter-spacing:-.065em;max-width:13ch;margin-top:clamp(22px,3.2vh,44px);color:var(--paper);text-wrap:balance}
+  .ink-section-divider__title{font-family:var(--sans),var(--sans-zh);font-size:min(8.5vw,14.2vh);font-weight:400;line-height:1.14;letter-spacing:-.04em;max-width:14ch;margin-top:clamp(22px,3.2vh,44px);color:var(--paper);text-wrap:balance}
   .ink-section-divider__note{font-size:max(14px,.9vw);line-height:1.45;color:rgba(255,255,255,.56);max-width:36ch;margin-top:clamp(22px,3vh,38px)}
   .ink-section-divider__footer{display:flex;justify-content:space-between;align-items:end;gap:var(--sp-5);padding-top:2vh;border-top:1px solid rgba(255,255,255,.18);font-family:var(--mono);font-size:max(12px,.68vw);letter-spacing:.08em;color:rgba(255,255,255,.42);text-transform:uppercase}
+
+  /* Corner-number cards · short copy in a tall 2×2 field (composition-craft-tier0.md) */
+  .corner-card-grid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:20px}
+  .corner-card{position:relative;padding:2.8vh 2vw 2.2vh;display:flex;flex-direction:column;justify-content:flex-start;min-height:0;overflow:hidden;background:var(--grey-1);color:var(--ink)}
+  .corner-card.is-green,.corner-card--green{background:rgba(178,237,29,.18)}
+  .corner-card.is-accent,.corner-card--accent{background:var(--accent);color:var(--accent-on)}
+  .corner-card__body{position:relative;z-index:1;max-width:28ch}
+  .corner-card__n{position:absolute;right:1.2vw;bottom:.4vh;font-family:var(--sans);font-size:min(10vw,16vh);line-height:.78;font-weight:200;opacity:.22;pointer-events:none;user-select:none}
+  .corner-card h3{font-family:var(--sans),var(--sans-zh);font-size:min(2vw,3.4vh);font-weight:500;line-height:1.15;margin:0 0 1.2vh;letter-spacing:-.02em}
+  .corner-card p{font-family:var(--sans),var(--sans-zh);font-size:max(15px,.92vw);line-height:1.5;margin:0;opacity:.88}
+
+  /* Balanced dual stack · layers + strategy ledger */
+  .dual-stack{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,3.2vw,52px);align-items:stretch}
+  .dual-stack__layers{display:grid;grid-template-rows:repeat(3,1fr);gap:16px;min-height:0}
+  .dual-stack__layer{display:grid;grid-template-columns:minmax(92px,108px) 1fr;align-items:center;gap:1.2vw;padding:clamp(20px,2.4vh,32px) clamp(18px,1.5vw,26px);border:1px solid var(--border-subtle);background:var(--paper);min-height:0}
+  .dual-stack__layer.is-muted{background:var(--grey-1)}
+  .dual-stack__layer.is-signal{background:var(--accent);border-color:var(--accent)}
+  .dual-stack__layer .t-meta,.dual-stack__layer [class$="__tag"]{font:500 max(11px,.72vw)/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+  .dual-stack__layer h3{font-family:var(--sans),var(--sans-zh);font-size:min(2vw,3.2vh);font-weight:450;letter-spacing:-.02em;margin:0}
+  .dual-stack__layer .body-sm{margin-top:.45vh}
+  .dual-stack__ledger{display:flex;flex-direction:column;min-height:0;height:100%;gap:1.6vh}
+  .dual-stack__rows{flex:1;min-height:0;display:grid;grid-template-rows:repeat(4,1fr);border-top:2px solid var(--ink)}
+  .dual-stack__row{display:grid;grid-template-columns:48px 1fr;gap:1.2vw;align-items:center;border-bottom:1px solid var(--border-subtle);min-height:0;padding:0 .2vw}
+  .dual-stack__row:last-child{border-bottom:0}
+  .dual-stack__row b{font-family:var(--sans);font-size:max(22px,1.7vw);font-weight:300;line-height:1}
+  .dual-stack__row span{font-family:var(--sans),var(--sans-zh);font-size:max(15px,.95vw);line-height:1.45}
 
   /* Architecture reference appendix · 先选关系骨架，后绘制任何业务架构图。 */
   .arch-ref-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:var(--sp-5);flex:1;min-height:0}
@@ -2797,7 +2823,6 @@
   <div class="canvas-card" style="padding:0">
     <div class="split-half" style="display:grid;grid-template-columns:1fr 1fr;min-height:100%">
       <div class="half b-ink" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between;display:flex;flex-direction:column;position:relative;overflow:hidden">
-        <canvas class="ascii-bg" aria-hidden="true"></canvas>
         <div class="chrome-min" style="margin-bottom:0;position:relative;z-index:1;color:rgba(255,255,255,.62)">
           <div class="l">Layout Gallery · TIER0-CLOSING-SPLIT</div>
           <div class="r">26 / 26</div>
@@ -2808,7 +2833,7 @@
             Tier0 Is Not Another System
           </h2>
           <p style="font-size:max(16px,1.05vw);line-height:1.55;color:rgba(255,255,255,.78);max-width:36ch;margin-top:1vh">
-            Left #050B14 + ASCII · right white takeaway list · item 03 green surface.
+            Left pure ink · right white takeaway list · item 03 green surface.
           </p>
         </div>
         <div style="position:relative;z-index:1;display:flex;justify-content:space-between;align-items:end;gap:20px;border-top:1px solid rgba(255,255,255,.18);padding-top:2vh">

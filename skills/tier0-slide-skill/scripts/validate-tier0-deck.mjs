@@ -112,6 +112,49 @@ slides.forEach((slide) => {
     warnings.push(`Slide ${slide.idx}: contains accent blue (#002FA7). Tier0 accent should be #B2ED1D only.`);
   }
 
+  // Gallery fidelity (per-slide structure)
+  if (/\bascii-bg\b/.test(slide.html)
+    && layout !== 'TIER0-COVER-EDITORIAL'
+    && layout !== 'SWISS-COVER-ASCII'
+    && !/\bcover-editorial\b/.test(slide.html)) {
+    errors.push(`Slide ${slide.idx}: canvas.ascii-bg is only allowed inside cover-editorial. Remove ASCII fill from body/closing pages.`);
+  }
+  if (/\bclass="[^"]*\blight\b/.test(slide.tag) && layout !== 'TIER0-COVER-EDITORIAL' && layout !== 'SWISS-COVER-ASCII') {
+    const inkCardHits = [...slide.html.matchAll(/\b(?:tier0-card--ink|card-ink|v2-ink)\b/g)];
+    if (inkCardHits.length >= 3 && layout !== 'S10') {
+      warnings.push(`Slide ${slide.idx}: light page has ${inkCardHits.length} ink-surface markers. Prefer grey/pale-green cards; reserve large ink for section dividers and closing.`);
+    }
+  }
+  if (layout === 'S10' && /(?:hard-grid|grid-overlay|corner-circle)/i.test(slide.html)) {
+    errors.push(`Slide ${slide.idx}: S10 section divider must stay ink-only — no hard grid / corner decoration.`);
+  }
+  if (layout === 'S19' && /\bv2-advantage__mark\b|\bv2-card::after\b/.test(slide.html)) {
+    errors.push(`Slide ${slide.idx}: S19 must use Gallery tier0-card + line-sketch/Carbon — not v2 diamond marks.`);
+  }
+
+  // Language purity: Chinese text + English paraphrase sentence in the same block
+  const productTokenRe = /\b(?:SaaS|IIoT|IoT|MQTT|UNS|EMQX|EMQ|Node-?RED|GitHub|OPC\s*UA|API|ROI|KPI|OT|IT|PM|Tier0|supOS(?:-CE)?)\b/gi;
+  const textChunks = [...slide.html.matchAll(/<(?:p|h[1-6]|li|span|strong|div)\b[^>]*>([^<]{12,280})/gi)]
+    .map((m) => m[1].replace(/\s+/g, ' ').trim());
+  textChunks.forEach((chunk) => {
+    const cleaned = chunk.replace(productTokenRe, ' ');
+    const hasCjk = /[\u4e00-\u9fff]/.test(cleaned);
+    const hasEnGloss = /[\u4e00-\u9fff][^A-Za-z]{0,12}(?:[A-Z][a-z]+(?:\s+[a-z']+){2,})/.test(cleaned)
+      || /[\u4e00-\u9fff][。．！？;；]\s*[A-Z][a-z]+(?:\s+[A-Za-z']+){2,}/.test(cleaned);
+    if (hasCjk && hasEnGloss && !/^(CHAPTER|SECTION|LAYOUT|TAKEAWAY|CLOSING|POSITIONING)/i.test(chunk)) {
+      warnings.push(`Slide ${slide.idx}: possible bilingual gloss in one block ("${chunk.slice(0, 48)}…"). Keep one language per page; see composition-craft-tier0.md.`);
+    }
+  });
+
+  if (layout === 'S10') {
+    const titleStyle = slide.html.match(/ink-section-divider__title[^>]*(?:style="([^"]*)")?/i)?.[1]
+      || '';
+    const lh = titleStyle.match(/line-height\s*:\s*([0-9.]+)/i)?.[1];
+    if (lh && Number(lh) > 0 && Number(lh) < 1.05 && /[\u4e00-\u9fff]/.test(slide.html)) {
+      errors.push(`Slide ${slide.idx}: Chinese S10 title line-height ${lh} is too tight. Use ≥1.12 (template default 1.14).`);
+    }
+  }
+
   const localImages = [...slide.html.matchAll(/<img\b[^>]*src="images\//g)];
   localImages.forEach((_, imageIndex) => {
     const imgTag = slide.html.slice(_.index, slide.html.indexOf('>', _.index) + 1);
@@ -219,6 +262,16 @@ slides.forEach((slide) => {
     }
   });
 });
+
+// Document-level Gallery fidelity (CSS lives in <head>, not inside each section)
+const docStyles = [...html.matchAll(/<style\b[^>]*>[\s\S]*?<\/style>/gi)].map((m) => m[0]).join('\n');
+if (/\.v2-card::after|\.v2-advantage__mark|deco-diamond|diamond-mark/i.test(docStyles)) {
+  errors.push('Document CSS defines banned diamond / card ::after ornaments. Remove and use Gallery .line-sketch or Carbon icons. See gallery-fidelity-tier0.md.');
+}
+if (/advantage__mark[\s\S]{0,200}rotate\s*\(\s*45deg\s*\)/i.test(docStyles)
+  || /\.v2-card::after[\s\S]{0,200}rotate\s*\(\s*45deg\s*\)/i.test(docStyles)) {
+  errors.push('Document CSS uses rotate(45deg) diamond ornaments outside .line-sketch. Align with Layout Gallery.');
+}
 
 const closingIndexes = slides
   .map((slide, index) => ({ index, layout: slide.tag.match(/\bdata-layout="([^"]+)"/)?.[1] }))

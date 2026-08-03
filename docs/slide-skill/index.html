@@ -4,89 +4,155 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Tier0 Slide Skill</title>
-  <meta name="description" content="Tier0 销售/售前 Deck Skill：intake、Gallery、HTML + 可编辑 PPTX、统一配图风格。">
+  <meta name="description" content="Tier0 销售 Deck Skill：预览、组件语法、用法与 Demo。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=Tektur:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../site.css">
 </head>
 <body>
-  <main class="shell">
-    <nav class="topnav">
-      <a class="topnav__brand" href="../"><img src="../assets/brand/tier0-logo-black.png" alt="Tier0"><span>Slide Skill</span></a>
-      <div class="topnav__links">
+  <div class="page">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="site-nav__brand" href="../">
+        <img src="../assets/brand/tier0-logo-black.svg" alt="Tier0">
+        <span>Slide Skill</span>
+      </a>
+      <div class="site-nav__links">
         <a href="../">Home</a>
-        <a class="is-active" href="./">Overview</a>
-        <a href="./guide.html">Guide</a>
-        <a href="./gallery.html">Gallery</a>
         <a href="./demo.html">Demo</a>
-        <a href="./skill.html">SKILL.md</a>
+        <a class="site-nav__cta" href="./demo.html">See demo</a>
       </div>
     </nav>
 
-    <header class="page-header">
-      <div>
-        <div class="eyebrow">Skill · tier0-slide-skill</div>
-        <h1>Set the delivery.<br>Then build the story.</h1>
-        <p class="lede">把文档 / PPTX / 截图整理成符合 Tier0 品牌的销售演示稿。同一份 <code>deck.json</code> 产出 HTML（现场演示）与可编辑 PPTX（转发改字）。</p>
-      </div>
-      <div class="meta">SKILL HUB<br>INTAKE → GALLERY → DECK</div>
-    </header>
+    <main class="shell">
+      <header class="page-hero-lite">
+        <div class="eyebrow">Skill · tier0-slide-skill · 销售 / 售前 Deck</div>
+        <h1>销售 Deck.</h1>
+        <p>把大纲、文档、截图整理成品牌演示稿。同一份 <code>deck.json</code> 产出 HTML 与可编辑 PPTX。只做销售 deck，不做产品 UI。</p>
+        <div class="intro__actions">
+          <a class="btn btn-primary" href="./demo.html">打开 Demo →</a>
+          <a class="btn btn-outline" href="./guide.html">三步上手</a>
+        </div>
+      </header>
 
-    <section class="group">
-      <div class="group-head">
-        <h2>能做什么</h2>
-        <p>执行层能力一览。视觉系统锁定，不提供自定义主题。</p>
-        <div class="step">01</div>
-      </div>
-      <div class="choices">
-        <div class="choice is-feature"><span class="choice__kicker">Core</span><strong>双格式交付</strong><span>HTML 保留动效 / Demo；PPTX 文本与节点可编辑。</span></div>
-        <div class="choice"><span class="choice__kicker">Gate</span><strong>Intake 确认页</strong><span>锁定交付、封面元信息、封底 CTA 与上传素材。</span></div>
-        <div class="choice"><span class="choice__kicker">Layouts</span><strong>Layout Gallery</strong><span>按内容形态选版式，不重新发明卡片。</span></div>
-        <div class="choice"><span class="choice__kicker">Art</span><strong>统一配图</strong><span><code>tier0_illustration_style</code> 风格锁 + 槽位决策门。</span></div>
-      </div>
-    </section>
+      <section class="section" id="preview" style="padding-top:12px">
+        <div class="section-kicker">01 / Preview</div>
+        <h2 class="section-heading">在真实场景中查看</h2>
+        <p class="section-copy">深墨章节转场摘要（Tektur + lime 点缀）。完整翻页与版式 Gallery 见 Demo 页。</p>
+        <div class="ppt-slide-demo" aria-hidden="true">
+          <div class="k">Section · 02</div>
+          <h3>Design that <em>ships</em> itself.</h3>
+          <div class="foot"><span>Tier0 Cloud</span><span>02 / 12</span></div>
+        </div>
+        <div class="intro__actions">
+          <a class="btn btn-outline" href="./demo.html">中文 Demo + Gallery</a>
+        </div>
+      </section>
 
-    <section class="group">
-      <div class="group-head">
-        <h2>快速入口</h2>
-        <p>按你想了解的深度选择。</p>
-        <div class="step">02</div>
-      </div>
-      <div class="choices three">
-        <a class="choice" href="./guide.html"><span class="choice__kicker">How</span><strong>三步上手</strong><span>依赖、intake、校验与双格式构建命令。</span></a>
-        <a class="choice" href="./demo.html"><span class="choice__kicker">See</span><strong>示例效果</strong><span>封面 ASCII、章节转场与内容页实时翻页。</span></a>
-        <a class="choice" href="./gallery.html"><span class="choice__kicker">Browse</span><strong>版式画廊</strong><span>登记版式语法与反例，按 R 查看规则。</span></a>
-      </div>
-    </section>
+      <section class="section" id="components" style="padding-top:24px">
+        <div class="section-kicker">02 / Components</div>
+        <h2 class="section-heading">Deck 组件语法</h2>
+        <p class="section-copy">对齐 <code>surfaces/ppt/components.md</code> 与 <code>tokens/deck.css</code>。Gallery 提供可登记版式。</p>
+        <div class="comp-grid">
+          <article class="comp-card">
+            <div class="comp-card__stage" style="background:#06101B;color:#fff;min-height:140px;align-items:flex-start;flex-direction:column">
+              <span style="font:400 11px/1 var(--mono);letter-spacing:.12em;opacity:.5">CHAPTER</span>
+              <span style="font-family:Tektur,sans-serif;font-size:28px;letter-spacing:-.02em;margin-top:8px">One sentence title</span>
+              <span style="width:48px;height:2px;background:#B2ED1D;margin-top:auto"></span>
+            </div>
+            <div class="comp-card__meta">
+              <h3>Section dark</h3>
+              <p>纯深墨底 + 超大单句标题；禁硬网格、左上 Logo、绿色角线。</p>
+              <code>section-dark · Tektur</code>
+            </div>
+          </article>
+          <article class="comp-card">
+            <div class="comp-card__stage" style="background:#fff;align-items:stretch">
+              <div style="flex:1;border-top:3px solid #B2ED1D;padding:12px 14px;background:#F4F4F4;border-radius:0 0 4px 4px">
+                <div style="font:500 13px/1.3 var(--sans);color:#73B200;margin-bottom:6px">Connect</div>
+                <div style="font-size:12px;color:#585C62;line-height:1.45">顶边线 accent1；小标题用可读绿。</div>
+              </div>
+            </div>
+            <div class="comp-card__meta">
+              <h3>流程三栏卡</h3>
+              <p>顶边 <code>#B2ED1D</code>；标题字 <code>#73B200</code>；白底禁止亮绿正文。</p>
+              <code>--ppt-accent-marker</code>
+            </div>
+          </article>
+          <article class="comp-card">
+            <div class="comp-card__stage">
+              <div style="flex:1;padding:14px;background:#050B14;color:#fff;border-radius:4px;font-size:12px">Dark fill</div>
+              <div style="flex:1;padding:14px;background:#F4F4F4;border-radius:4px;font-size:12px">Gray</div>
+              <div style="flex:1;padding:14px;background:#B2ED1D;color:#050B14;border-radius:4px;font-size:12px;font-weight:500">Green</div>
+            </div>
+            <div class="comp-card__meta">
+              <h3>Style B 色块卡</h3>
+              <p><code>.deck-card-b</code> + fill 变体。绿底只配深字 <code>#050B14</code>。</p>
+              <code>--fill-dark|gray|green…</code>
+            </div>
+          </article>
+          <article class="comp-card">
+            <div class="comp-card__stage" style="background:#fff">
+              <div style="width:100%;padding:14px;border:1px solid #EBEBEB;border-radius:4px">
+                <div style="font:400 11px/1 var(--mono);letter-spacing:.1em;color:#73B200;margin-bottom:8px">EVIDENCE</div>
+                <div style="height:48px;background:#F9F9F9;border:1px dashed #ccc;border-radius:4px;display:flex;align-items:center;justify-content:center;font:400 12px/1 var(--mono);color:#8a9096">screenshot / chart slot</div>
+              </div>
+            </div>
+            <div class="comp-card__meta">
+              <h3>证据框</h3>
+              <p>真实截图与数据；禁止虚构 KPI。封面默认 <code>cover-editorial</code>。</p>
+              <code>Layout Gallery · deck.json</code>
+            </div>
+          </article>
+        </div>
+      </section>
 
-    <section class="group">
-      <div class="group-head">
-        <h2>对 Agent 说</h2>
-        <p>复制即可触发 skill。</p>
-        <div class="step">03</div>
-      </div>
-      <div class="stack">
-        <pre>用 tier0-slide-skill 做一份 Tier0 产品介绍 PPT：8 页，突出 UNS 和 Builder，要 HTML + 可编辑 PPTX。</pre>
-      </div>
-    </section>
+      <section class="section" id="howto" style="padding-top:8px">
+        <div class="section-kicker">03 / How to use</div>
+        <h2 class="section-heading">使用方法</h2>
+        <div class="howto">
+          <div class="howto-step">
+            <b>01</b>
+            <h3>定交付</h3>
+            <p>先说要 HTML、PPTX 还是两者。双格式必须从 <code>deck.json</code> 走 dual builder。</p>
+          </div>
+          <div class="howto-step">
+            <b>02</b>
+            <h3>喂材料</h3>
+            <p>大纲、旧 PPTX、截图、架构图。没证据的观点不要包装成数据。</p>
+          </div>
+          <div class="howto-step">
+            <b>03</b>
+            <h3>校验与演示</h3>
+            <p>跑 validate → 打开 Demo 翻页 → 需要改页就对话迭代。版式查 Gallery。</p>
+          </div>
+        </div>
+        <pre class="code-block" style="margin-top:20px">用 tier0-slide-skill 做一份 Tier0 产品介绍 PPT：8 页，突出 UNS 和 Builder，要 HTML + 可编辑 PPTX。</pre>
+        <div class="intro__actions">
+          <a class="btn btn-primary" href="./guide.html">Get started</a>
+          <a class="btn btn-outline" href="./demo.html">Demo + Gallery</a>
+          <a class="btn btn-outline" href="./skill.html">SKILL.md</a>
+        </div>
+      </section>
 
-    <section class="group">
-      <div class="group-head">
-        <h2>Visual lock</h2>
-        <p>与 Deck Intake 同一套视觉语法。</p>
-        <div class="step">LOCKED</div>
-      </div>
-      <div class="locked">
-        <strong>Tier0 design system is fixed.</strong>
-        <span>Brand green #B2ED1D · IBM Plex · IBM Carbon · evidence-first layouts · no custom theme controls</span>
-      </div>
-    </section>
+      <section class="section" style="padding-top:0">
+        <div class="section-kicker">04 / Live demo</div>
+        <h2 class="section-heading">可翻页预览</h2>
+        <p class="section-copy">中文正式稿嵌入预览；版式 Gallery 在 Demo 页第二段。</p>
+        <div class="live-frame">
+          <div class="live-frame__bar"><i></i><i></i><i></i><span style="margin-left:8px">demo-zh / index.html</span></div>
+          <iframe src="./demo-zh/index.html" title="Tier0 Chinese demo deck" loading="lazy"></iframe>
+        </div>
+        <div class="intro__actions">
+          <a class="btn btn-outline" href="./demo.html">打开 Demo 页</a>
+        </div>
+      </section>
+    </main>
 
-    <div class="cta-row">
-      <p class="note">完整 Agent 工作流见 <a href="./skill.html">SKILL.md</a>；配图见 Guide 中的 illustration 一节。</p>
-      <a class="btn" href="./guide.html">READ THE GUIDE →</a>
-    </div>
-  </main>
+    <footer class="site-footer">
+      <span>Tier0 Slide Skill</span>
+      <span><a href="../">Design System</a> · <a href="./demo.html">Demo</a></span>
+    </footer>
+  </div>
 </body>
 </html>

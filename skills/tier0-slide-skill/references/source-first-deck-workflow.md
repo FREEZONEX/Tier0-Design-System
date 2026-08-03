@@ -20,7 +20,7 @@ Do not invent evidence. Mark unsupported claims as `待确认` or convert them t
 |---|---|---|
 | Structured chapter document | Facts, sequence, customer language | Split dense paragraphs into slide-sized claims |
 | Existing PPTX | Useful structure, verified diagrams, approved labels | Hierarchy, spacing, image treatment, repetitive layouts |
-| Screenshot / product UI | Authentic product state | Crop, caption, placement, surrounding explanation |
+| Screenshot / recording | Authentic product state from source assets | Crop, caption, placement, surrounding explanation — never invent UI |
 | Demo video | One explainable task and outcome | Poster frame, playback frame, callout order |
 | Architecture image | Relationship grammar and named nodes | Rebuild labels/lines as editable HTML or PPTX shapes when needed |
 

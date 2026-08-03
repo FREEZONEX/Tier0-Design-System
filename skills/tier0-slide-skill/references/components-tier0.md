@@ -87,6 +87,77 @@
 
 **禁止**：圆角 > 2px、drop shadow、白底绿字。
 
+### S19 四卡（必须对齐 Gallery）
+
+```html
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;flex:1;min-height:0">
+  <article class="tier0-card" style="padding:28px;display:flex;flex-direction:column;background:var(--grey-1)">
+    <div class="t-meta" style="color:var(--accent-text-dark)">01</div>
+    <h3 style="font-weight:400;font-size:max(22px,1.6vw);margin:18px 0 10px">Connect</h3>
+    <p class="body-sm">…</p>
+    <div style="height:1px;background:var(--border-subtle);margin-top:20px"></div>
+    <div class="line-sketch line-sketch--converge" aria-label="…">
+      <span class="line-sketch__node"></span><span class="line-sketch__node"></span>
+      <span class="line-sketch__node"></span><span class="line-sketch__node is-signal"></span>
+    </div>
+  </article>
+  <!-- 02 builder / 03 govern / 04 scale；底色在 grey-1 与 rgba(178,237,29,.18) 之间交替 -->
+</div>
+```
+
+**禁止**：自创 `v2-advantage` 斜线 mark、旋转菱形角标、四卡里堆两张以上 ink 黑底。图标替代方案：单一 IBM Carbon SVG，不要装饰几何。
+
+### 角标序号卡 · `.corner-card`（短文案 2×2）
+
+文案少、格子大时，用右下角大号序号填视觉空洞；网格必须等分。
+
+```html
+<div class="corner-card-grid">
+  <article class="corner-card is-green">
+    <div class="corner-card__body">
+      <h3>降低试用门槛</h3>
+      <p>让海外用户更愿意先「试试看」。</p>
+    </div>
+    <div class="corner-card__n" aria-hidden="true">01</div>
+  </article>
+  <article class="corner-card">…02…</article>
+  <article class="corner-card is-green">…03…</article>
+  <article class="corner-card">…04…</article>
+</div>
+```
+
+| 类 | 用途 |
+|---|---|
+| `.corner-card-grid` | `1fr 1fr` × `1fr 1fr`，`gap:20px` |
+| `.corner-card.is-green` | 淡绿底 |
+| `.corner-card.is-accent` | 实心亮绿底 |
+| `.corner-card__n` | 右下角占位序号（低透明） |
+
+**禁止**：不等分列宽导致四格看起来大小不一；序号与标题挤在左上留下整块空白。
+
+### 双栈平衡 · `.dual-stack`（层 + 策略）
+
+左右都是可拉伸内容时用等宽双栏，两侧行高均分。
+
+```html
+<div class="dual-stack">
+  <div class="dual-stack__layers">
+    <div class="dual-stack__layer"><span class="t-meta">通道</span><div><h3>MQTT / EMQX</h3><p class="body-sm">开放的数据通道</p></div></div>
+    <div class="dual-stack__layer is-muted">…</div>
+    <div class="dual-stack__layer is-signal">…</div>
+  </div>
+  <div class="dual-stack__ledger">
+    <div class="t-meta">全球生态策略</div>
+    <div class="dual-stack__rows">
+      <div class="dual-stack__row"><b>01</b><span>…</span></div>
+      <!-- 02–04 -->
+    </div>
+  </div>
+</div>
+```
+
+**禁止**：`1.1fr .9fr` 再放大左右差距；左层高 padding 空、右行挤在一起。
+
 ---
 
 ## 网格卡片组件 · S05 / S15 / S16

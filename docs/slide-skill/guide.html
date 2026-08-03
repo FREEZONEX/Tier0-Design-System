@@ -6,82 +6,56 @@
   <title>Guide · Tier0 Slide Skill</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../site.css">
 </head>
 <body>
-  <main class="shell">
-    <nav class="topnav">
-      <a class="topnav__brand" href="../"><img src="../assets/brand/tier0-logo-black.png" alt="Tier0"><span>Slide Skill</span></a>
-      <div class="topnav__links">
+  <div class="page">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="site-nav__brand" href="../"><img src="../assets/brand/tier0-logo-black.svg" alt="Tier0"><span>Slide Skill</span></a>
+      <div class="site-nav__links">
         <a href="../">Home</a>
-        <a href="./">Overview</a>
-        <a class="is-active" href="./guide.html">Guide</a>
-        <a href="./gallery.html">Gallery</a>
         <a href="./demo.html">Demo</a>
-        <a href="./skill.html">SKILL.md</a>
+        <a class="site-nav__cta" href="./demo.html">See demo</a>
       </div>
     </nav>
-
-    <header class="page-header">
-      <div>
+    <main class="shell">
+      <header class="page-hero-lite">
         <div class="eyebrow">Guide · three steps</div>
-        <h1>Install.<br>Confirm.<br>Build.</h1>
-        <p class="lede">在设计系统仓库根目录执行。把 <code>客户名称</code> 换成你的项目名。</p>
-      </div>
-      <div class="meta">HOW TO USE<br>01 → 02 → 03</div>
-    </header>
-
-    <section class="group">
-      <div class="group-head"><h2>01 · 安装依赖</h2><p>每台机器一次。</p><div class="step">01</div></div>
-      <div class="stack"><pre>cd skills/tier0-slide-skill && npm install && cd ../..</pre></div>
-    </section>
-
-    <section class="group">
-      <div class="group-head"><h2>02 · 开确认页</h2><p>先锁定交付与素材，不要直接生成。</p><div class="step">02</div></div>
-      <div class="stack">
-        <pre>node skills/tier0-slide-skill/scripts/start-tier0-intake.mjs --project projects/客户名称</pre>
-        <pre>node skills/tier0-slide-skill/scripts/validate-tier0-intake.mjs projects/客户名称/intake/request.json</pre>
-        <div class="panel"><h3>会得到</h3><p><code>projects/客户名称/intake/request.json</code> — 交付格式、封面、封底 CTA、素材边界。</p></div>
-      </div>
-    </section>
-
-    <section class="group">
-      <div class="group-head"><h2>03 · 双格式构建</h2><p>Agent 写出 <code>deck.json</code> 后运行。</p><div class="step">03</div></div>
-      <div class="stack">
-        <pre>node skills/tier0-slide-skill/scripts/validate-tier0-dual.mjs projects/客户名称/deck.json
-
-node skills/tier0-slide-skill/scripts/build-tier0-dual.mjs \
+        <h1>Install. Confirm. Build.</h1>
+        <p>在设计系统仓库根目录执行。把「客户名称」换成你的项目名。</p>
+      </header>
+      <section class="section">
+        <div class="entry-grid">
+          <article class="entry">
+            <div class="entry__label">01 · Install</div>
+            <h3>Dependencies</h3>
+            <p>每台机器一次。</p>
+            <pre class="code-block" style="margin-top:12px">cd skills/tier0-slide-skill && npm install && cd ../..</pre>
+          </article>
+          <article class="entry">
+            <div class="entry__label">02 · Intake</div>
+            <h3>Confirm delivery</h3>
+            <p>先锁定交付与素材。</p>
+            <pre class="code-block" style="margin-top:12px">node skills/tier0-slide-skill/scripts/start-tier0-intake.mjs --project projects/客户名称</pre>
+          </article>
+          <article class="entry">
+            <div class="entry__label">03 · Build</div>
+            <h3>Dual output</h3>
+            <p>写出 deck.json 后构建。</p>
+            <pre class="code-block" style="margin-top:12px">node skills/tier0-slide-skill/scripts/build-tier0-dual.mjs \
   --source projects/客户名称/deck.json \
   --html   projects/客户名称/ppt/index.html \
-  --pptx   projects/客户名称/ppt/deck.pptx
-
-node skills/tier0-slide-skill/scripts/validate-tier0-pptx.mjs projects/客户名称/ppt/deck.pptx
-node skills/tier0-slide-skill/scripts/validate-tier0-illustrations.mjs projects/客户名称/deck.json</pre>
-      </div>
-    </section>
-
-    <section class="group">
-      <div class="group-head"><h2>配图决策门</h2><p>风格与 <code>tier0-illustration-style</code> 对齐。</p><div class="step">ART</div></div>
-      <div class="stack">
-        <div class="panel"><h3>imageRole</h3><ul>
-          <li><code>product-evidence</code> — 真实截图优先</li>
-          <li><code>illustration</code> — 概念插画，提示词以 <code>tier0_illustration_style</code> 开头</li>
-          <li><code>documentary</code> — 纪实横幅</li>
-          <li><code>architecture-native</code> — 原生节点，不出图</li>
-          <li><code>none</code> — 封面 ASCII / 深墨章节</li>
-        </ul></div>
-        <pre>"imageRole": "illustration",
-"imageSlot": "feature-split-right",
-"image": "images/05-feature-split-uns-hub.png",
-"imagePrompt": "tier0_illustration_style, …"</pre>
-      </div>
-    </section>
-
-    <div class="cta-row">
-      <p class="note">看效果：<a href="./demo.html">Demo</a> · <a href="./gallery.html">Gallery</a></p>
-      <a class="btn" href="./skill.html">OPEN SKILL.md →</a>
-    </div>
-  </main>
+  --pptx   projects/客户名称/ppt/deck.pptx</pre>
+          </article>
+        </div>
+        <div class="intro__actions" style="margin-top:28px">
+          <a class="btn btn-primary" href="./demo.html">Open demo</a>
+          <a class="btn btn-outline" href="./skill.html">SKILL.md</a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><span>Guide</span><span><a href="./demo.html">Demo</a></span></footer>
+  </div>
 </body>
 </html>

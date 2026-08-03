@@ -58,13 +58,16 @@ tier0_illustration_style, isometric multi-region manufacturing operations on one
 
 ---
 
-## 类型 B · Product Evidence（`imageRole: product-evidence`）
+## 类型 B · Screenshot Evidence（`imageRole: product-evidence`）
 
-真实截图优先。无截图时才用 mockup：
+**只接受用户提供的真实截图 / 录屏帧。**  
+本 skill **禁止**生成产品界面 mockup、交互稿或设计系统组件。
 
-```text
-生成一张 [16:10/21:9] 横向 Tier0 工业应用产品界面 mockup,主题是:[工作流/模板/仪表盘]。风格匹配 tier0.app:白底、IBM Plex 气质、flat 矩形面板、#F9F9F9 区块、选中态 #ECFFD2、稀疏 #B2ED1D marker、细黑分隔线、无阴影无大圆角。像真实 Builder 产品 UI,不是营销插画。不要 logo 水印、页眉页脚、PPT 外壳。文字使用[中文/英文],短标签即可。
-```
+缺图时：
+
+1. 在 `deck.json` 保留 `imageRole: "product-evidence"` 与 `imageSlot`
+2. 不写 `image`，或写占位路径并在 coverage 标 `pending`
+3. 向用户索取截图；在补齐前不要用插画或假 UI 冒充
 
 截图裁切：`screenshot-framing.md`。
 
@@ -102,10 +105,7 @@ tier0_illustration_style, [证据主题的单一隐喻], warm off-white backgrou
 
 **产品证据格**
 
-```text
-生成一张横向证据图,主题是:[证据 A/B/C]。Tier0 flat UI:直角模块、黑白灰、#B2ED1D 稀疏信号、相同边距。文字[中文/英文]短标签。比例与同组一致。不要 PPT 外壳。
-```
-
+只用用户上传的真实截图，统一比例与裁切（见 `screenshot-framing.md`）。**禁止**为格子生成产品 UI mockup。
 ---
 
 ## 写入 deck.json

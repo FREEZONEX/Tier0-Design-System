@@ -4,18 +4,157 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>产品后台 · Tier0 Design System</title>
+  <meta name="description" content="Tier0 Product UI：组件样式、用法与预览。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../site.css">
 </head>
 <body>
-  <main class="shell">
-    <nav class="topnav"><a class="topnav__brand" href="../"><img src="../assets/brand/tier0-logo-black.png" alt="Tier0"><span>Design System</span></a><div class="topnav__links"><a href="../">Home</a><a href="../slide-skill/">Slide Skill</a><a href="../tokens/">Tokens</a><a class="is-active" href="./product.html">Product</a></div></nav>
-    <header class="page-header"><div><div class="eyebrow">Surface · tier0-product</div><h1>Product UI for industrial operations.</h1><p class="lede">高密度工作台：Namespace、Broker、表格、表单与侧栏。主字体 IBM Plex Sans；强调色克制使用 FX Green。</p></div><div class="meta">SURFACE 01<br>TOKENS → UI KIT</div></header>
-    <section class="group"><div class="group-head"><h2>读什么</h2><p>规范真源在仓库，公开站给导航。</p><div class="step">01</div></div><div class="stack"><div class="panel"><h3>必读</h3><ul><li><code>surfaces/tier0-product/</code></li><li><code>tokens/product.css</code></li><li><code>sources/spec.product-ui.md</code></li></ul></div><div class="panel"><h3>预览</h3><ul><li><code>preview/tier0-product/</code></li><li><code>ui_kits/tier0-product/</code></li></ul></div></div></section>
-    <section class="group"><div class="group-head"><h2>硬规则</h2><p>产品 UI 不是营销页。</p><div class="step">02</div></div><div class="chips"><span class="chip">无 emoji</span><span class="chip">无大面积渐变</span><span class="chip">近黑主按钮</span><span class="chip">圆角 4px</span></div></section>
-    <div class="cta-row"><p class="note">本地查看组件卡：维护门户 → Preview → tier0-product。</p><a class="btn ghost" href="../">← BACK HOME</a></div>
-  </main>
+  <div class="page">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="site-nav__brand" href="../"><img src="../assets/brand/tier0-logo-black.svg" alt="Tier0"><span>Design System</span></a>
+      <div class="site-nav__links">
+        <a href="../">Home</a>
+        <a href="../slide-skill/">Slide Skill</a>
+        <a href="../tokens/?cat=product">Tokens</a>
+        <a class="is-active" href="./product.html">Product</a>
+        <a class="site-nav__cta" href="../tokens/?cat=product">Browse tokens</a>
+      </div>
+    </nav>
+
+    <main class="shell">
+      <header class="page-hero-lite">
+        <div class="eyebrow">Surface · tier0-product · Agent 设计场景</div>
+        <h1>产品后台.</h1>
+        <p>高密度工业工作台。IBM Plex，近黑主按钮，绿色只做状态与选中。下面是组件样式、用法与场景预览。</p>
+        <div class="intro__actions">
+          <a class="btn btn-primary" href="#components">查看组件 →</a>
+          <a class="btn btn-outline" href="../tokens/?cat=product">Design tokens →</a>
+        </div>
+      </header>
+
+      <section class="section" id="preview" style="padding-top:12px">
+        <div class="section-kicker">01 / Preview</div>
+        <h2 class="section-heading">在真实场景中查看</h2>
+        <p class="section-copy">同一套 product token 落到工作台骨架——侧栏、主区表格、近黑 CTA。</p>
+        <div class="scene-preview" style="max-width:100%;aspect-ratio:16/9">
+          <div class="mini" style="min-height:100%;flex-direction:row;gap:0;padding:0;overflow:hidden">
+            <div style="width:22%;background:#050B14;color:#fff;padding:16px 14px;display:flex;flex-direction:column;gap:12px">
+              <span class="mini__logo" style="opacity:.9;color:#B2ED1D">Tier0</span>
+              <span style="font:400 12px/1.4 var(--mono);opacity:.55">Namespace</span>
+              <span style="font:400 12px/1.4 var(--mono);opacity:.55">Source Flow</span>
+              <span style="font:400 12px/1.4 var(--mono);padding:6px 8px;background:rgba(178,237,29,.12);border-radius:4px;color:#B2ED1D">Broker</span>
+              <span style="font:400 12px/1.4 var(--mono);opacity:.55">Sink</span>
+            </div>
+            <div style="flex:1;padding:18px 20px;display:flex;flex-direction:column;gap:14px;background:#FCFCFC">
+              <div class="mini__bar">
+                <strong style="font-weight:500;font-size:15px">Namespace</strong>
+                <span class="demo-btn demo-btn--ink" style="min-height:28px;font-size:12px">Create</span>
+              </div>
+              <table class="demo-table">
+                <thead><tr><th>Name</th><th>Status</th><th>Updated</th></tr></thead>
+                <tbody>
+                  <tr><td>plant-a / line-1</td><td><span class="demo-tag demo-tag--soft">Active</span></td><td>2m ago</td></tr>
+                  <tr><td>plant-a / line-2</td><td><span class="demo-tag demo-tag--soft">Active</span></td><td>1h ago</td></tr>
+                  <tr><td>lab / mqtt-bridge</td><td style="color:var(--muted)">Idle</td><td>Yesterday</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="components" style="padding-top:24px">
+        <div class="section-kicker">02 / Components</div>
+        <h2 class="section-heading">组件样式</h2>
+        <p class="section-copy">对齐 <code>surfaces/tier0-product/components.md</code> 与 <code>tokens/core.css</code> primitive。</p>
+        <div class="comp-grid">
+          <article class="comp-card">
+            <div class="comp-card__stage">
+              <span class="demo-btn demo-btn--ink">Primary</span>
+              <span class="demo-btn demo-btn--lime">Highlight</span>
+              <span class="demo-btn demo-btn--ghost">Secondary</span>
+            </div>
+            <div class="comp-card__meta">
+              <h3>Button</h3>
+              <p>主操作近黑；强调用 <code>#CCF368</code> + <code>#333</code>。禁止白底小按钮铺满 <code>#B2ED1D</code>。</p>
+              <code>.tier0-btn-product-primary · .tier0-btn-lime</code>
+            </div>
+          </article>
+          <article class="comp-card">
+            <div class="comp-card__stage">
+              <span class="demo-tag demo-tag--soft">Selected</span>
+              <span class="demo-tag demo-tag--ink">Running</span>
+              <span class="demo-tag" style="background:#fff;border:1px solid #ccc;color:#585C62">Idle</span>
+            </div>
+            <div class="comp-card__meta">
+              <h3>Tag / Status</h3>
+              <p>绿 tag 表示选中/高亮，不等于 success。行 hover 用 <code>#F0FBD2</code>。</p>
+              <code>--fx-green-1 · --fx-deep-green</code>
+            </div>
+          </article>
+          <article class="comp-card">
+            <div class="comp-card__stage" style="padding:12px">
+              <table class="demo-table">
+                <thead><tr><th>Topic</th><th>QoS</th></tr></thead>
+                <tbody>
+                  <tr><td>factory/line/temp</td><td>1</td></tr>
+                  <tr><td>factory/line/press</td><td>0</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="comp-card__meta">
+              <h3>Table / List</h3>
+              <p>表头克制；行操作低噪音；截断 + tooltip。密度优先于装饰。</p>
+              <code>surfaces/tier0-product/components.md</code>
+            </div>
+          </article>
+          <article class="comp-card">
+            <div class="comp-card__stage">
+              <span class="demo-input">Search namespace…</span>
+              <div class="demo-card-ui"><strong>Broker</strong><span>Connected · 12 topics</span></div>
+            </div>
+            <div class="comp-card__meta">
+              <h3>Form · Card</h3>
+              <p>白/浅底 + 细边框；卡片圆角 10px；边框分层优先于重阴影。</p>
+              <code>--radius-card · --fx-border</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="howto" style="padding-top:8px">
+        <div class="section-kicker">03 / How to use</div>
+        <h2 class="section-heading">使用方法</h2>
+        <div class="howto">
+          <div class="howto-step">
+            <b>01</b>
+            <h3>读规范</h3>
+            <p>先看 <code>surfaces/tier0-product/</code> 与 <code>tokens/product.css</code>，不要从官网/PPT 抄字体。</p>
+          </div>
+          <div class="howto-step">
+            <b>02</b>
+            <h3>用语义 token</h3>
+            <p>优先 <code>--fx-*</code> / <code>--fg-*</code>；业务页禁止常规硬编码 hex。</p>
+          </div>
+          <div class="howto-step">
+            <b>03</b>
+            <h3>交给 agent</h3>
+            <p>提示：「按 Tier0 Product UI 做 Namespace 列表页，近黑主按钮，行 hover 浅绿。」</p>
+          </div>
+        </div>
+        <div class="intro__actions">
+          <a class="btn btn-outline" href="../tokens/?cat=color">Color 细则</a>
+          <a class="btn btn-outline" href="https://github.com/FREEZONEX/Tier0-Design-System/tree/main/surfaces/tier0-product" target="_blank" rel="noopener">GitHub 源文件</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Product UI · tier0-product</span>
+      <span><a href="../">Home</a> · <a href="./website.html">Website</a> · <a href="../slide-skill/">Slide Skill</a></span>
+    </footer>
+  </div>
 </body>
 </html>

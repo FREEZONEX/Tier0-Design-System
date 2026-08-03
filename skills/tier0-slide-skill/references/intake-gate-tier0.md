@@ -46,7 +46,7 @@ node <SKILL_ROOT>/scripts/validate-tier0-intake.mjs 项目/客户名称/intake/r
 |---|---|
 | 使用场景 | 销售/售前、产品 Demo、管理层汇报、实施方案、培训；决定密度和 CTA。 |
 | 核心受众 | 决定术语层级、证据类型和技术深度。 |
-| 主要语言 | 中文、英文或中英双语；决定排版预留与翻译策略。 |
+| 主要语言 | `zh` / `en` / `bilingual`。`zh` 或 `en`：**禁止**在正文下再挂另一语言的复述句（专有名词除外）。仅当用户明确要求对照翻译时才用 `bilingual`，且需分栏或分页，不要句内夹注。 |
 | 预计时长 | 决定页数、节奏与每页信息密度。 |
 | 原有材料处理 | 默认 `source-faithful`：保留章节、层级和全部事实；`preserve` 尽量保留页序结构；`adaptive` 保留事实但可重构叙事；`rebuild` 将材料作为来源重新规划。后两者需要用户明确选择。 |
 | 公开资料策略 | `no` 仅使用提供内容；`verify` 仅核验已提及事实；`yes` 可补充必要公开证据。任何新增数据仍须标来源。 |
@@ -65,6 +65,7 @@ node <SKILL_ROOT>/scripts/validate-tier0-intake.mjs 项目/客户名称/intake/r
 4. `closing.includeWebsiteAndQr: false` 时 closing 页写 `data-closing-cta="none"`；禁止出现二维码、官网网址、空白二维码容器或假 CTA。
 5. 根据 `narrative.sourceTreatment` 决定保留/重构程度；根据 `researchPolicy` 决定是否浏览或补充外部证据。
 6. 根据素材和叙事从 Layout Gallery 选结构语法。不能因 intake 页面存在，就把每页变成同一种卡片。
+7. `language=zh` 时遵守 `composition-craft-tier0.md`：全文中文、无英文复述句、中文深墨标题行高 ≈1.14；`language=en` 时全文英文。
 
 ## 聊天回退表单
 

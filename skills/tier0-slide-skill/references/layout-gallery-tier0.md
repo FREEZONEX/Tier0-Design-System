@@ -14,16 +14,19 @@ Use it whenever an existing Tier0 file needs a new page, a layout repair, or a v
 
 ## Non-negotiable grammar
 
+- **Fidelity first:** open the target Gallery page and copy its structure before inventing CSS. Full bar: `gallery-fidelity-tier0.md`.
 - Canvas: 16:9, `canvas-card`, shared left/right content axis, minimum 40px canvas gutter.
 - Head: the chrome already identifies the layout. Do not spend vertical space on a second page-level `CHAPTER CLOSE` / `WHY NOW` kicker. Put the mono `■ LABEL` treatment on an argument, a stage, a data figure, or an evidence block where it adds local meaning.
 - Rhythm: use 8px spacing tokens; blocks normally keep ≥40px separation. Registered dense layouts such as S19 may intentionally use a smaller internal gap.
 - Color: `#B2ED1D` is a signal surface / active state, not default white-background text. Use `#73B200` only where readable signal text is required.
 - Text: IBM Plex Sans 400/500 for display; smaller text is never lighter than larger text.
-- Evidence: real product UI, sourced data, or a clearly labelled slot. Never substitute a generic SaaS dashboard, invented KPI, or ornamental chart.
+- Evidence: real product screenshots/recordings, sourced data, or a clearly labelled pending slot. Never substitute a generated product UI mockup, generic SaaS dashboard, invented KPI, or ornamental chart.
 - Images: direct rectangular evidence blocks; no decorative rounded cards, glow, or generic gradient backgrounds.
 - Image groups: S15 is the 2–4 image evidence grammar. Use one primary image plus supporting context/detail/outcome images, with one concise caption under every image.
 - Demo media: S16 is the only gallery grammar for a recorded task or live web proof—left side frames the question, right side is one 16:9 rectangular player. Video is muted by default; iframe embeds are sandboxed.
 - Source logic: S23 is the grammar for routing trees, configuration, API payloads and long execution rules. Preserve literal tokens, indentation, source order and a readable 18px+ code field; split instead of shrinking.
+- **Decoration ban:** no rotated diamond corner marks, diagonal filler bars, hard grid overlays on section dividers, or `ascii-bg` outside `cover-editorial`. Prefer Gallery `line-sketch` or one Carbon icon.
+- **Composition craft:** one language per page; equal-width dual stacks; corner-number cards for short 2×2 copy; Chinese S10 titles use ~1.14 line-height. See `composition-craft-tier0.md`.
 
 ## Variation grammar
 

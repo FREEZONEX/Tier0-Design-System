@@ -3,62 +3,301 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Tokens · Tier0 Design System</title>
+  <title>Design System · Tier0</title>
+  <meta name="description" content="Tier0 设计系统浏览器：左侧分类，右侧 token / 排版 / DESIGN.md 细则。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=Tektur:wght@400;500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../site.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <main class="shell">
-    <nav class="topnav"><a class="topnav__brand" href="../"><img src="../assets/brand/tier0-logo-black.png" alt="Tier0"><span>Design System</span></a><div class="topnav__links"><a href="../">Home</a><a href="../slide-skill/">Slide Skill</a><a class="is-active" href="./">Tokens</a><a href="../surfaces/ppt.html">PPT</a></div></nav>
-    <header class="page-header"><div><div class="eyebrow">Tokens · shared + surface overrides</div><h1>Color, type,<br>and the green rule.</h1><p class="lede">公开速查。完整变量见仓库 <code>tokens/core.css</code> 与各场景覆盖文件。</p></div><div class="meta">TOKEN MAP<br>CORE → SURFACE</div></header>
-
-    <section class="group">
-      <div class="group-head"><h2>核心色</h2><p>全场景共享 ink / accent / neutrals。</p><div class="step">01</div></div>
-      <div class="swatches">
-        <div class="swatch"><div class="swatch__chip" style="background:#050B14"></div><div class="swatch__meta"><strong>Ink / Black</strong>#050B14</div></div>
-        <div class="swatch"><div class="swatch__chip" style="background:#FFFFFF;border-bottom:1px solid #d8dad7"></div><div class="swatch__meta"><strong>Paper</strong>#FFFFFF</div></div>
-        <div class="swatch"><div class="swatch__chip" style="background:#B2ED1D"></div><div class="swatch__meta"><strong>Accent lime</strong>#B2ED1D · marker / focus</div></div>
-        <div class="swatch"><div class="swatch__chip" style="background:#73B200"></div><div class="swatch__meta"><strong>Deep green</strong>#73B200 · 白底可读绿</div></div>
-        <div class="swatch"><div class="swatch__chip" style="background:#585C62"></div><div class="swatch__meta"><strong>Body</strong>#585C62</div></div>
-        <div class="swatch"><div class="swatch__chip" style="background:#ACAEB1"></div><div class="swatch__meta"><strong>Muted</strong>#ACAEB1</div></div>
-        <div class="swatch"><div class="swatch__chip" style="background:#CDCED0"></div><div class="swatch__meta"><strong>Border</strong>#CDCED0</div></div>
-        <div class="swatch"><div class="swatch__chip" style="background:#06101B"></div><div class="swatch__meta"><strong>Deck dark</strong>#06101B</div></div>
+  <div class="page">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="site-nav__brand" href="../"><img src="../assets/brand/tier0-logo-black.svg" alt="Tier0"><span>Design System</span></a>
+      <div class="site-nav__links">
+        <a href="../">Home</a>
+        <a href="../slide-skill/">Slide Skill</a>
+        <a class="is-active" href="./">Tokens</a>
+        <a href="https://github.com/FREEZONEX/Tier0-Design-System" target="_blank" rel="noopener">GitHub</a>
+        <a class="site-nav__cta" href="../slide-skill/guide.html">Get started</a>
       </div>
-    </section>
+    </nav>
 
-    <section class="group">
-      <div class="group-head"><h2>绿的用法</h2><p>这是最容易踩坑的一条。</p><div class="step">02</div></div>
-      <div class="stack">
-        <div class="panel"><h3>可以</h3><ul><li>marker、active 状态、强调条、绿底卡片上的黑字</li><li>深墨页上的亮绿信号路径</li><li>白底需要绿字时用 <code>#73B200</code></li></ul></div>
-        <div class="panel"><h3>不可以</h3><ul><li>在白底上写 <code>#B2ED1D</code> 正文（对比度不够）</li><li>整页铺绿、蓝紫渐变、自定义主题色</li></ul></div>
-      </div>
-    </section>
+    <main class="shell">
+      <header class="page-hero-lite">
+        <div class="eyebrow">Design system browser</div>
+        <h1>左侧选分类，右侧看细则。</h1>
+        <p>与仓库 <code>tokens/</code>、<code>foundations/</code>、<code>surfaces/</code> 对齐。点左侧切换 Color、字体、排版、场景与 DESIGN.md。</p>
+      </header>
 
-    <section class="group">
-      <div class="group-head"><h2>字体</h2><p>按场景切换，不要混用营销字体到 PPT。</p><div class="step">03</div></div>
-      <div class="chips">
-        <span class="chip"><b>Product</b> IBM Plex Sans / Mono</span>
-        <span class="chip"><b>Website</b> Poppins 标题 + Plex 正文</span>
-        <span class="chip"><b>PPT</b> Tektur 章节 · Plex 正文 · 禁 Poppins</span>
-      </div>
-    </section>
+      <section class="section" style="padding-top:8px;padding-bottom:64px">
+        <div class="ds-browser" data-ds-browser data-design-md="./DESIGN.md" data-skill-md="../slide-skill/SKILL.md">
+          <aside class="ds-nav" aria-label="Design system categories">
+            <div class="ds-nav__label">Foundations</div>
+            <button type="button" data-cat="color" class="is-active">Color <small>色板 · 绿规则</small></button>
+            <button type="button" data-cat="type">字体 <small>Plex · Poppins · Tektur</small></button>
+            <button type="button" data-cat="layout">排版 / 间距 <small>字号 · 网格 · 圆角</small></button>
+            <button type="button" data-cat="components">Component <small>按钮 · 卡片 · 证据</small></button>
 
-    <section class="group">
-      <div class="group-head"><h2>文件</h2><p>构建脚本会把 CSS 副本放进本站 <code>assets/</code> 供查阅。</p><div class="step">04</div></div>
-      <div class="stack">
-        <pre>tokens/core.css
-tokens/product.css
-tokens/website.css
-tokens/deck.css</pre>
-      </div>
-    </section>
+            <div class="ds-nav__label">Surfaces</div>
+            <button type="button" data-cat="product">Product UI <small>tier0-product</small></button>
+            <button type="button" data-cat="website">Website <small>company-website</small></button>
+            <button type="button" data-cat="ppt">PPT / Deck <small>deck.css</small></button>
 
-    <div class="cta-row">
-      <p class="note">PPT 执行层配图风格另见 Slide Skill → Illustration lock。</p>
-      <a class="btn" href="../slide-skill/">SLIDE SKILL →</a>
-    </div>
-  </main>
+            <div class="ds-nav__label">Guides</div>
+            <button type="button" data-cat="design">DESIGN.md <small>foundations/</small></button>
+            <button type="button" data-cat="skill">SKILL.md <small>slide-skill</small></button>
+          </aside>
+
+          <div class="ds-panels">
+            <!-- Color -->
+            <article class="ds-panel" data-panel="color">
+              <div class="ds-panel__head">
+                <h2>Color tokens</h2>
+                <p>中性面承载界面；近墨主操作；FX Green 只作高亮信号。白底正文不用 <code>#B2ED1D</code>。</p>
+                <div class="path">tokens/core.css · foundations/color.md</div>
+              </div>
+              <div class="token-cols-2">
+                <div>
+                  <div class="token-group">
+                    <h3>品牌 / Brand</h3>
+                    <div class="token-row"><span class="token-swatch" style="background:#050B14"></span><code>--fx-black</code><span>#050B14</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#B2ED1D"></span><code>--fx-lime</code><span>#B2ED1D</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#73B200"></span><code>--fx-deep-green</code><span>#73B200</span></div>
+                  </div>
+                  <div class="token-group">
+                    <h3>绿色阶</h3>
+                    <div class="token-row"><span class="token-swatch" style="background:#F0FBD2"></span><code>--fx-green-1</code><span>#F0FBD2</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#DDF59C"></span><code>--fx-green-2</code><span>#DDF59C</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#CCF368"></span><code>--fx-button-lime</code><span>#CCF368</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#B2ED1D"></span><code>--fx-green-5</code><span>#B2ED1D</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#73B200"></span><code>--fx-green-6</code><span>#73B200</span></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="token-group">
+                    <h3>中性 / Neutrals</h3>
+                    <div class="token-row"><span class="token-swatch" style="background:#050B14"></span><code>--fx-black-0</code><span>#050B14</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#585C62"></span><code>--fx-black-4</code><span>#585C62</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#ACAEB1"></span><code>--fx-black-2</code><span>#ACAEB1</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#CDCED0"></span><code>--fx-black-1</code><span>#CDCED0</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#FFFFFF;border-color:#ccc"></span><code>--fx-white</code><span>#FFFFFF</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#CCCCCC"></span><code>--fx-border</code><span>#CCCCCC</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#333333"></span><code>--fx-on-lime</code><span>#333333</span></div>
+                  </div>
+                  <div class="token-group">
+                    <h3>语义映射</h3>
+                    <div class="token-row"><span class="token-swatch" style="background:#050B14"></span><code>--fg-1</code><span>headings</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#585C62"></span><code>--fg-2</code><span>body</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#73B200"></span><code>--fg-link</code><span>links</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#F0FBD2"></span><code>--bg-hover-row</code><span>#F0FBD2</span></div>
+                    <div class="token-row"><span class="token-swatch" style="background:#B2ED1D"></span><code>--accent</code><span>lime signal</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="rule-grid">
+                <article class="rule"><h3>可以</h3><ul><li>绿作 marker、active、进度、绿底黑字</li><li>深墨页上的亮绿路径</li><li>白底绿字用 <code>#73B200</code></li><li>浅色 CTA：<code>#CCF368</code> + <code>#333</code></li></ul></article>
+                <article class="rule"><h3>不可以</h3><ul><li>白底写 <code>#B2ED1D</code> 正文</li><li>整页铺绿、绿底白字</li><li>自定义主题色、蓝紫渐变</li></ul></article>
+              </div>
+            </article>
+
+            <!-- Type -->
+            <article class="ds-panel" data-panel="type" hidden>
+              <div class="ds-panel__head">
+                <h2>字体</h2>
+                <p>按场景切换字体族。不要把官网营销字带进 PPT 或产品后台。</p>
+                <div class="path">tokens/core.css · foundations/typography.md</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">Product<br>IBM Plex Sans</div>
+                <div class="type-sample" style="font-family:'IBM Plex Sans',sans-serif">工作台正文与表格。密度高，字重克制。</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">Website<br>Poppins + Plex</div>
+                <div class="type-sample is-display" style="font-family:Poppins,sans-serif;font-weight:600">Editorial headline</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">PPT chapter<br>Tektur</div>
+                <div class="type-sample is-display" style="font-family:Tektur,sans-serif">SECTION TITLE</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">Mono<br>IBM Plex Mono</div>
+                <div class="type-sample is-mono">kicker · tokens · deck.json · #B2ED1D</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">CJK<br>IBM Plex Sans SC</div>
+                <div class="type-sample" style="font-family:'IBM Plex Sans',sans-serif">中文优先；PPT / 文档可复用</div>
+              </div>
+              <div class="chip-row">
+                <span class="chip"><b>Product</b> 禁 Poppins</span>
+                <span class="chip"><b>PPT</b> 禁 Poppins</span>
+                <span class="chip"><b>Website</b> Poppins 仅标题</span>
+              </div>
+            </article>
+
+            <!-- Layout -->
+            <article class="ds-panel" data-panel="layout" hidden>
+              <div class="ds-panel__head">
+                <h2>排版 / 间距</h2>
+                <p>共享字号阶梯与 8px 网格。产品克制；官网与 PPT 允许更大 Display。</p>
+                <div class="path">tokens/core.css · foundations/spacing-layout.md</div>
+              </div>
+              <div class="token-cols-2">
+                <div class="token-group">
+                  <h3>字号层级</h3>
+                  <div class="token-row is-text"><code>--fs-display</code><span>88px</span></div>
+                  <div class="token-row is-text"><code>--fs-h1</code><span>48px</span></div>
+                  <div class="token-row is-text"><code>--fs-h2</code><span>32px</span></div>
+                  <div class="token-row is-text"><code>--fs-h3</code><span>24px</span></div>
+                  <div class="token-row is-text"><code>--fs-h4</code><span>18px</span></div>
+                  <div class="token-row is-text"><code>--fs-body-l</code><span>16px</span></div>
+                  <div class="token-row is-text"><code>--fs-body</code><span>14px</span></div>
+                  <div class="token-row is-text"><code>--fs-caption</code><span>12px</span></div>
+                </div>
+                <div>
+                  <div class="token-group">
+                    <h3>间距（8px grid）</h3>
+                    <div class="token-row is-text"><code>--sp-1 … --sp-4</code><span>4 / 8 / 12 / 16px</span></div>
+                    <div class="token-row is-text"><code>--sp-5 … --sp-8</code><span>20 / 24 / 28 / 32px</span></div>
+                    <div class="token-row is-text"><code>--sp-10 / --sp-11</code><span>41 / 44px</span></div>
+                  </div>
+                  <div class="token-group">
+                    <h3>圆角 / 阴影</h3>
+                    <div class="token-row is-text"><code>--radius-button</code><span>4px</span></div>
+                    <div class="token-row is-text"><code>--radius-card</code><span>10px</span></div>
+                    <div class="token-row is-text"><code>--radius-pill</code><span>999px</span></div>
+                    <div class="token-row is-text"><code>--shadow-card</code><span>1px 2px 8px …</span></div>
+                    <div class="token-row is-text"><code>--shadow-hover</code><span>2px 4px 16px …</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="rule-grid" style="margin-top:8px">
+                <article class="rule"><h3>布局原则</h3><ul><li>边框分层优先于重阴影</li><li>卡片内边距常见 28px</li><li>PPT 固定 16:9 横向画布</li><li>焦点：2px <code>#B2ED1D</code> outline</li></ul></article>
+                <article class="rule"><h3>禁止</h3><ul><li>内阴影、新拟态、多层软阴影</li><li>与状态无关的装饰动画</li><li>消费级圆角 pill 泛滥</li></ul></article>
+              </div>
+            </article>
+
+            <!-- Components -->
+            <article class="ds-panel" data-panel="components" hidden>
+              <div class="ds-panel__head">
+                <h2>Component</h2>
+                <p>产品 primitive 与 PPT 结构件规则摘要。完整组件见 surfaces 与 ui_kits。</p>
+                <div class="path">tokens/core.css · surfaces/ppt · ui_kits/</div>
+              </div>
+              <div class="token-group">
+                <h3>按钮</h3>
+                <div class="token-row is-text"><code>主操作（浅色面）</code><span>近黑底 / 白字，或 #CCF368 + #333</span></div>
+                <div class="token-row is-text"><code>圆角</code><span>--radius-button 4px</span></div>
+                <div class="token-row is-text"><code>禁止</code><span>白底小按钮铺满 #B2ED1D</span></div>
+              </div>
+              <div class="token-group">
+                <h3>卡片 / 证据</h3>
+                <div class="token-row is-text"><code>产品卡片</code><span>边框分层；阴影克制</span></div>
+                <div class="token-row is-text"><code>PPT 卡片顶线</code><span>--ppt-accent1 结构线</span></div>
+                <div class="token-row is-text"><code>证据框</code><span>真实截图 / 数据；禁止虚构 KPI</span></div>
+              </div>
+              <div class="token-group">
+                <h3>Kicker / 标签</h3>
+                <div class="token-row is-text"><code>Mono kicker</code><span>IBM Plex Mono · 小写跟踪</span></div>
+                <div class="token-row is-text"><code>白底标签字</code><span>用 #73B200，不用 #B2ED1D</span></div>
+              </div>
+            </article>
+
+            <!-- Product -->
+            <article class="ds-panel" data-panel="product" hidden>
+              <div class="ds-panel__head">
+                <h2>Product UI</h2>
+                <p>高密度工业工作台：Namespace、表格、侧栏。IBM Plex，近黑主按钮，绿色只做状态。</p>
+                <div class="path">surfaces/tier0-product · tokens/product.css</div>
+              </div>
+              <div class="scene-preview"><div class="mini">
+                <div class="mini__bar"><span class="mini__logo">Product</span><span class="mini__dot"></span></div>
+                <div class="mini__title">Namespace · Tables · Side nav</div>
+                <div class="mini__row"><i class="mini__chip is-on"></i><i class="mini__chip"></i><i class="mini__chip"></i></div>
+              </div></div>
+              <div class="rule-grid">
+                <article class="rule"><h3>硬规则</h3><ul><li>无 emoji 装饰</li><li>无大面积渐变</li><li>近黑主按钮 · 圆角 4px</li><li>行 hover 用 #F0FBD2</li></ul></article>
+                <article class="rule"><h3>入口</h3><ul><li><a href="../surfaces/product.html">surfaces/product.html</a></li><li>ui_kits/tier0-product/</li><li>GitHub surfaces/tier0-product</li></ul></article>
+              </div>
+            </article>
+
+            <!-- Website -->
+            <article class="ds-panel" data-panel="website" hidden>
+              <div class="ds-panel__head">
+                <h2>Company Website</h2>
+                <p>长文叙事与产品页。Poppins 标题 + Plex 正文，留白优先。</p>
+                <div class="path">surfaces/company-website · tokens/website.css</div>
+              </div>
+              <div class="scene-preview"><div class="mini mini--green">
+                <div class="mini__bar"><span class="mini__logo">Website</span></div>
+                <div class="mini__title">Editorial · Poppins display</div>
+                <span class="mini__btn">Learn more</span>
+              </div></div>
+              <div class="rule-grid">
+                <article class="rule"><h3>硬规则</h3><ul><li>Poppins 仅标题</li><li>正文 IBM Plex Sans</li><li>留白优先，少卡片堆叠</li></ul></article>
+                <article class="rule"><h3>入口</h3><ul><li><a href="../surfaces/website.html">surfaces/website.html</a></li><li>tokens/website.css</li></ul></article>
+              </div>
+            </article>
+
+            <!-- PPT -->
+            <article class="ds-panel" data-panel="ppt" hidden>
+              <div class="ds-panel__head">
+                <h2>PPT / Marketing Deck</h2>
+                <p>16:9 骨架、Tektur 章节、卡片与证据框。与 Slide Skill 共用视觉语法。</p>
+                <div class="path">surfaces/ppt · tokens/deck.css</div>
+              </div>
+              <div class="scene-preview"><div class="mini mini--dark">
+                <div class="mini__bar"><span class="mini__logo">PPT · 16:9</span><span class="mini__dot"></span></div>
+                <div class="mini__title">Swiss grid · accent markers</div>
+                <div class="mini__row"><i class="mini__chip is-on"></i><i class="mini__chip"></i></div>
+              </div></div>
+              <div class="token-group">
+                <h3>deck.css 关键 token</h3>
+                <div class="token-row"><span class="token-swatch" style="background:#050b14"></span><code>--ppt-tx1</code><span>#050B14</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#ffffff;border-color:#ccc"></span><code>--ppt-bg1</code><span>#FFFFFF</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#f4f4f4"></span><code>--ppt-lt2</code><span>#F4F4F4</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#b2ed1d"></span><code>--ppt-accent1</code><span>#B2ED1D</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#73b200"></span><code>--ppt-accent2</code><span>#73B200</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#196b24"></span><code>--ppt-accent3</code><span>#196B24</span></div>
+              </div>
+              <div class="chip-row">
+                <a class="chip" href="../slide-skill/"><b>Slide Skill</b> 生成 HTML+PPTX</a>
+                <a class="chip" href="./?cat=ppt"><b>PPT tokens</b> deck.css</a>
+              </div>
+            </article>
+
+            <!-- DESIGN.md -->
+            <article class="ds-panel" data-panel="design" hidden>
+              <div class="ds-panel__head">
+                <h2>DESIGN.md</h2>
+                <p>由仓库 <code>foundations/</code> 合成的 agent 可读指南（构建时同步）。</p>
+                <div class="path">docs/tokens/DESIGN.md ← foundations/*.md</div>
+              </div>
+              <div class="md-body" id="design-md-body">加载中…</div>
+            </article>
+
+            <!-- SKILL.md -->
+            <article class="ds-panel" data-panel="skill" hidden>
+              <div class="ds-panel__head">
+                <h2>SKILL.md</h2>
+                <p>Slide Skill 工作流合同：intake → Gallery → HTML + PPTX。只做销售 deck，不做产品 UI。</p>
+                <div class="path">skills/tier0-slide-skill/SKILL.md</div>
+              </div>
+              <div class="md-body" id="skill-md-body">加载中…</div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <span>FREEZONEX · Tier0 Design System</span>
+    <span><a href="../">Home</a> · <a href="https://github.com/FREEZONEX/Tier0-Design-System" target="_blank" rel="noopener">GitHub</a></span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="../js/ds-browser.js"></script>
 </body>
 </html>

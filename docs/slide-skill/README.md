@@ -15,10 +15,12 @@
 
 | 场景 | 用不用 |
 |------|--------|
-| 客户拜访 / 售前 / 产品 Demo | ✅ |
+| 客户拜访 / 售前 / 产品介绍 PPT | ✅ |
 | 把现有 PPTX 改成 Tier0 风格 | ✅ |
 | 根据 DOCX / 截图 / 架构图补全 deck | ✅ |
-| 只改产品后台 UI 或官网落地页 | ❌ 走根目录 `SKILL.md` 对应场景 |
+| 产品后台 UI、交互稿、组件设计、官网落地页 | ❌ 不在本 skill 范围 |
+
+本 skill **只做销售 / 售前演示稿**，不做产品设计（界面、交互、组件、设计系统实现）。
 
 对 Cursor Agent 直接说：
 
@@ -101,12 +103,14 @@ python3 -m http.server 5181 --bind 127.0.0.1 --directory projects/客户名称/p
 2. 找内容形态最接近的页；按 `R` 看用途、规则与反例
 3. 需要程序化选型时读 [`layout-gallery/layout-catalog.json`](layout-gallery/layout-catalog.json)
 
-详细规则：[`references/layout-gallery-tier0.md`](references/layout-gallery-tier0.md)
+详细规则：[`references/layout-gallery-tier0.md`](references/layout-gallery-tier0.md)  
+**视觉保真硬门槛：** [`references/gallery-fidelity-tier0.md`](references/gallery-fidelity-tier0.md)  
+**构图返工细则：** [`references/composition-craft-tier0.md`](references/composition-craft-tier0.md)（语言单一 · 双栏平衡 · 角标占位 · 中文行距）
 
 ### 默认封面
 
 白底左侧 Logo / 标题 / 演讲者，右侧亮绿 **ASCII 呼吸点阵**（HTML 动态；PPTX 为可编辑静态帧）。  
-深墨章节转场用 Gallery S10：纯深墨 + 超大标题 + 底部发丝线，不要硬网格。
+深墨章节转场用 Gallery S10：纯深墨 + 超大标题 + 底部发丝线，不要硬网格；**中文标题行高约 1.14**。
 
 ### 配图怎么统一
 
@@ -116,7 +120,7 @@ python3 -m http.server 5181 --bind 127.0.0.1 --directory projects/客户名称/p
 | 写插画 / 截图提示词 | [`references/image-prompts-tier0.md`](references/image-prompts-tier0.md) |
 | 校验风格锁 | `node scripts/validate-tier0-illustrations.mjs 项目/deck.json` |
 
-概念插画统一用触发词 **`tier0_illustration_style`**。产品证据优先真实截图；架构关系优先原生可编辑图形。
+概念插画统一用触发词 **`tier0_illustration_style`**。证明产品时只用用户提供的真实截图 / 录屏，**禁止生成产品 UI mockup 或设计稿**；架构关系优先原生可编辑图形。
 
 ```json
 "imageRole": "illustration",
@@ -158,3 +162,12 @@ skills/tier0-slide-skill/
 ```
 
 更深规则请读 [`SKILL.md`](SKILL.md)；双格式 schema 见 [`references/dual-output-tier0.md`](references/dual-output-tier0.md)。
+
+---
+
+## 公开展示站
+
+效果预览（产品展示页，非 intake）：
+
+- 线上：https://freezonex.github.io/Tier0-Design-System/slide-skill/
+- 本地：`python3 -m http.server 8898 --directory docs` → http://127.0.0.1:8898/slide-skill/

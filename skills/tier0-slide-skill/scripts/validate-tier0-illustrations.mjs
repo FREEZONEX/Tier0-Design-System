@@ -29,6 +29,9 @@ const FORBIDDEN_PROMPT = [
   /photorealistic/i,
   /anime/i,
   /watercolor/i,
+  /product ui mockup/i,
+  /saas dashboard/i,
+  /industrial application product/i,
 ];
 
 const file = path.resolve(process.argv[2] || '');
@@ -73,6 +76,10 @@ function resolveImage(src) {
     } else if (slide.imageSlot && !ALLOWED_SLOTS.has(slide.imageSlot)) {
       warnings.push(`${label}: unknown imageSlot "${slide.imageSlot}".`);
     }
+  }
+
+  if (role === 'product-evidence' && slide.imagePrompt) {
+    errors.push(`${label}: product-evidence must use real screenshots only — remove imagePrompt (no UI mockup generation).`);
   }
 
   if (role === 'illustration') {

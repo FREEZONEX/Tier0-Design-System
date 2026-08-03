@@ -8,9 +8,28 @@ Tier0 Slide Skill 专用清单。P0 项必须全部通过。完整 VI 见 `tier0
 
 ### 0-T. Tier0 locked mode
 
-- 先读 `references/tier0-layout-lock.md`
+- 先读 `references/tier0-layout-lock.md` 与 `references/gallery-fidelity-tier0.md`
 - 正文页 `S01-S22`；封面 `TIER0-COVER-EDITORIAL`；封底 `TIER0-CLOSING-SPLIT`
+- 产出观感应与 `layout-gallery/index.html` 目标页同族；禁止自创装饰皮肤
 - 校验: `node scripts/validate-tier0-deck.mjs path/to/index.html`
+
+### 0-T-1. Gallery 保真（P0）
+
+- 每页先打开 Gallery 对应 `Sxx`，按 `R` 的 avoid 执行
+- **禁止**旋转菱形角标、卡片 `::after` 装饰方块、斜线“信号条”（`line-sketch` 内语义图形除外）
+- **禁止**封底 / 正文页使用 `canvas.ascii-bg`（ASCII 仅属 `cover-editorial` 右侧场）
+- **禁止**白底内容页堆砌 ≥2 张大面积 ink 黑卡（除非该 Gallery 页明确要求）
+- S19：`tier0-card` + `t-meta` 序号 + 短文 +（`line-sketch` 或单一 Carbon icon）；浅灰/淡绿交替
+- `section-dark`：纯深墨 + 单句标题；禁止硬网格、绿角线、角落圆；中文标题行高 ≈ `1.14`
+
+### 0-T-7. 语言与构图（P0 · 近期返工）
+
+详见 `references/composition-craft-tier0.md`。
+
+- **语言单一**：中文 deck 不在中文标题/正文下再挂英文复述句；英文 deck 同理。MQTT / UNS 等专有名词可保留
+- **双栏平衡**：两侧都是内容栈时用 `1fr 1fr` + 行高均分（`.dual-stack`）；禁止左空右挤
+- **短文大格**：2×2 等分；文案靠上，大号序号锚右下角（`.corner-card`）；或用 `line-sketch` 填底
+- **中文深墨标题**：禁止 `line-height: .9` 导致两行汉字贴死
 
 ### 0-T-2. 字体与字重
 
@@ -50,8 +69,8 @@ Tier0 Slide Skill 专用清单。P0 项必须全部通过。完整 VI 见 `tier0
 - Section label: `■` + Plex Mono uppercase
 - 图标: IBM Carbon only，不用 Lucide/emoji
 - Logo: 用 `assets/brand/logos/` 官方 PNG，浅底 black 版 / 深底 white 版；禁止文字拼「TIER0」（见 `brand-assets-tier0.md`）
-- 产品截图作证据，不作装饰
-- **配图：** 每页有明确 `imageRole`；概念插画必须 `tier0_illustration_style`（见 `illustration-slots-tier0.md`）；架构页用原生对象，不整页出图
+- 产品截图作证据，不作装饰；**禁止**生成产品 UI mockup / 交互设计稿
+- **配图：** 每页有明确 `imageRole`；概念插画必须 `tier0_illustration_style`（见 `illustration-slots-tier0.md`）；架构页用原生对象，不整页出图；本 skill 不做产品设计
 
 ### 0-T-5. 封面/封底
 
@@ -602,11 +621,11 @@ JS 会动态算总页数并扩展底部翻页圆点，但 `.chrome` 里的 `XX /
   □ 已画出"主题节奏表":每页明确 hero dark / hero light / light / dark
   □ 节奏表满足硬规则:无连续 3 页同主题 / 有 ≥1 hero dark + ≥1 hero light(8 页以上) / 至少有 1 个 dark 正文页
   □ `<title>` 已改为实际 deck 标题(grep "[必填]" 应无结果)
-  □ Tier0:封面是 `slide accent` 满屏 accent + `<canvas class="ascii-bg">`(不是 `slide light` 白底)
-  □ Tier0:封底是 `slide split` + 左 `b-accent` + ASCII canvas / 右 paper 3 条 takeaway,第 03 条用 var(--accent)
-  □ Tier0:`grep -c "ascii-bg" index.html` ≥ 2(封面 + 封底各一)
+  □ Tier0:封面是 `cover-editorial`（白底左文 + 右侧 `canvas.ascii-bg`）；不是满屏 accent 旧封面
+  □ Tier0:封底是 `TIER0-CLOSING-SPLIT`；**不要**在封底再放 ASCII canvas（ASCII 仅封面）
+  □ Tier0:`grep` 确认 `ascii-bg` 只出现在 `cover-editorial`；无旋转菱形角标、无自创斜线装饰
   □ Tier0:封面没有"01"等大编号(chrome 已显示 01/N,不要重复)
-  □ Tier0:accent 背景上的强调字用 `font-style:italic`,禁止用 `color:var(--accent)`(蓝压蓝)
+  □ Tier0:白底强调用黑字 + 绿底/绿 marker；禁止白底写亮绿字
 
 内容
   □ 每一幕的页数比例合理(不会头重脚轻)

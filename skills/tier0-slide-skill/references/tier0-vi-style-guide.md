@@ -240,8 +240,8 @@ No big shadow
 
 ```text
 Left: principle or numbered claims
-Right: screenshot/mockup panel
-Use product UI as proof, not decoration
+Right: real screenshot panel (uploaded evidence only)
+Use product screenshots as proof, not decoration. Do not generate product UI mockups.
 ```
 
 #### E. Template / Pricing Grid
@@ -269,7 +269,7 @@ Tier0 的卡片不要做成常见 SaaS 的“圆角白卡 + 阴影 + 大图标�
 | Product split surface | Builder / Platform 两列解释 | `#F7F8F9` / active `#ECFFD2` | none or 1px hairline | 0–2 px | none | 用小绿方块做识别，不要放大图标 |
 | Template surface | 模板库、应用案例 | `#F6FFE8`, `#ECFFD2`, `#F7F8F9` | none | 0 px | none | 图片放在下半区，标题区保持呼吸感 |
 | Pricing surface | 套餐卡 | `#F9F9F9` / selected `#ECFFD2` | 1px hairline | 0–2 px | none | 推荐套餐可用 6–8px 顶部绿条 |
-| UI evidence card | mockup 内部 app card | `#FFFFFF` | `#E6EAEE` 1px | 0–4 px | none | 必须像真实产品 UI，不像营销卡片 |
+| UI evidence card | real screenshot frame | `#FFFFFF` | `#E6EAEE` 1px | 0–4 px | none | 必须是真实截图，不像营销插画，也不要生成假界面 |
 | Feature item | 能力点列表 | transparent | none | none | none | 不是卡片，只是 icon + title + body |
 
 ### Card visual rules
@@ -282,7 +282,7 @@ Use hairline border only when structure needs separation.
 Use small green square marker, not large decorative icons.
 Use green background only for selected / recommended / active cards.
 Do not make every card white. Alternate pale green and soft grey surfaces.
-Do not use multiple accent colors inside one card except product UI evidence.
+Do not use multiple accent colors inside one card except within a real screenshot.
 ```
 
 ### Card typography
@@ -534,7 +534,7 @@ Layout:
 
 ```text
 Left: text and CTAs
-Right: product screenshot or flat product UI panel
+Right: product screenshot from source assets only (no generated UI)
 Bottom: 250 free credits note
 ```
 
@@ -616,7 +616,7 @@ One project.
 Multiple operational apps.
 ```
 
-Right side product UI evidence.
+Right side real screenshot evidence.
 
 ### 6.7 Template Library Slide
 
@@ -651,7 +651,7 @@ Use small uppercase section labels prefixed with a black square, such as “■ 
 
 Use thin black horizontal dividers for workflow steps. Use circular step numbers with black fill by default and Tier0 green (#B2ED1D) only for active/final steps. Use large whitespace and avoid over-decorating.
 
-Use flat product-evidence layouts: website screenshot panels, template blocks, pricing blocks, and product UI mockups. Cards should be flat rectangles with #F9F9F9, #F6FFE8, or #ECFFD2 backgrounds. Avoid heavy shadows, glossy 3D, colorful dashboards, and generic stock imagery.
+Use flat product-evidence layouts: website screenshot panels, template blocks, and pricing blocks from **source assets**. Cards should be flat rectangles with #F9F9F9, #F6FFE8, or #ECFFD2 backgrounds. Avoid heavy shadows, glossy 3D, colorful dashboards, generic stock imagery, and **generated product UI mockups** (this skill is not for product design).
 
 The deck should feel like a Tier0 product website section expanded into slides: quiet, technical, operational, precise, and product-led.
 ```

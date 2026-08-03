@@ -13,7 +13,8 @@
     {
       "id": "01-cover",
       "kind": "cover-editorial",
-      "title": "Build the Unified Data Foundation.\nGenerate Connected Applications.",
+      "keyword": "UNS",
+      "title": "Unified data foundation.\nConnected applications.",
       "sideNote": "Data First for\nIndustrial Digitalization.",
       "speaker": "Tier0",
       "speakerRole": "INDUSTRIAL DATA PLATFORM",
@@ -24,7 +25,7 @@
       "kind": "challenge-3",
       "logo": "@skill/assets/brand/logos/tier0-logo-black.png",
       "kicker": "CHALLENGE",
-      "title": "Why Industrial Digitalization Projects Mostly Fail",
+      "title": "Why industrial digitalization projects mostly fail",
       "subtitle": "Every new system gets integrated, customized and deployed from scratch. Cost rises while reuse disappears.",
       "cards": [
         {
@@ -83,7 +84,7 @@
       "kind": "feature-split",
       "logo": "@skill/assets/brand/logos/tier0-logo-black.png",
       "kicker": "APP GENERATION",
-      "title": "App Builder · Bringing Vibe Coding to the Industrial World",
+      "title": "App Builder · vibe coding for industrial ops",
       "bullets": [
         {
           "title": "A whole app from a single brief",

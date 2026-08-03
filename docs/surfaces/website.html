@@ -4,17 +4,141 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>公司官网 · Tier0 Design System</title>
+  <meta name="description" content="Tier0 Company Website：编辑风组件、用法与预览。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../site.css">
 </head>
 <body>
-  <main class="shell">
-    <nav class="topnav"><a class="topnav__brand" href="../"><img src="../assets/brand/tier0-logo-black.png" alt="Tier0"><span>Design System</span></a><div class="topnav__links"><a href="../">Home</a><a href="../slide-skill/">Slide Skill</a><a href="../tokens/">Tokens</a><a class="is-active" href="./website.html">Website</a></div></nav>
-    <header class="page-header"><div><div class="eyebrow">Surface · company-website</div><h1>Editorial product storytelling.</h1><p class="lede">长文产品页、UNS 叙事与定价风。标题可用 Poppins；正文 IBM Plex Sans。强调色偏 `#A7CF3A` 挑词。</p></div><div class="meta">SURFACE 02<br>EDITORIAL</div></header>
-    <section class="group"><div class="group-head"><h2>读什么</h2><p>官网规范与 token 覆盖。</p><div class="step">01</div></div><div class="stack"><div class="panel"><h3>必读</h3><ul><li><code>surfaces/company-website/</code></li><li><code>tokens/website.css</code></li><li><code>sources/spec.company-website.*.md</code></li></ul></div></div></section>
-    <div class="cta-row"><p class="note">线上产品站：<a href="https://tier0.app" target="_blank" rel="noopener">tier0.app</a></p><a class="btn ghost" href="../">← BACK HOME</a></div>
-  </main>
+  <div class="page">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="site-nav__brand" href="../"><img src="../assets/brand/tier0-logo-black.svg" alt="Tier0"><span>Design System</span></a>
+      <div class="site-nav__links">
+        <a href="../">Home</a>
+        <a href="../slide-skill/">Slide Skill</a>
+        <a href="../tokens/?cat=website">Tokens</a>
+        <a class="is-active" href="./website.html">Website</a>
+        <a class="site-nav__cta" href="https://tier0.app" target="_blank" rel="noopener">tier0.app</a>
+      </div>
+    </nav>
+
+    <main class="shell">
+      <header class="page-hero-lite">
+        <div class="eyebrow">Surface · company-website · 编辑风长页</div>
+        <h1>公司官网.</h1>
+        <p>长文产品叙事：Poppins 粗标题 + 绿字挑词，IBM Plex Sans 正文。紧圆角、几乎无阴影。</p>
+        <div class="intro__actions">
+          <a class="btn btn-primary" href="#components">查看组件 →</a>
+          <a class="btn btn-outline" href="https://tier0.app" target="_blank" rel="noopener">线上参考 →</a>
+        </div>
+      </header>
+
+      <section class="section" id="preview" style="padding-top:12px">
+        <div class="section-kicker">01 / Preview</div>
+        <h2 class="section-heading">在真实场景中查看</h2>
+        <p class="section-copy">营销长页 Hero 摘要——不是 startup 超大 CTA，也不是赛博深色页。</p>
+        <div class="web-hero-demo">
+          <div class="eyebrow-demo">UNS · Product narrative</div>
+          <h3>Open industrial <em>data</em> that ships.</h3>
+          <p>Unified Namespace 把 OT 信号变成可治理的语义主题——给 Builder、Broker 与应用同一套路径语言。</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <span class="demo-btn demo-btn--ink">Start free trial</span>
+            <span class="demo-btn demo-btn--ghost">Read the docs</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="components" style="padding-top:24px">
+        <div class="section-kicker">02 / Components</div>
+        <h2 class="section-heading">组件样式</h2>
+        <p class="section-copy">对齐 <code>surfaces/company-website/</code> 与 <code>tokens/website.css</code>。</p>
+        <div class="comp-grid">
+          <article class="comp-card">
+            <div class="comp-card__stage" style="background:#fff">
+              <div style="font-family:Poppins,sans-serif;font-weight:600;font-size:28px;letter-spacing:-.03em;line-height:1.15">
+                Build once. <span style="color:#A7CF3A">Reuse</span> everywhere.
+              </div>
+            </div>
+            <div class="comp-card__meta">
+              <h3>Display / 挑词</h3>
+              <p>标题用 Poppins；绿挑词约 <code>#A7CF3A</code>。正文永远 IBM Plex Sans。</p>
+              <code>Poppins 600 · Plex body</code>
+            </div>
+          </article>
+          <article class="comp-card">
+            <div class="comp-card__stage">
+              <span class="demo-btn demo-btn--ink">Get started</span>
+              <span class="demo-btn demo-btn--ghost">Learn more</span>
+            </div>
+            <div class="comp-card__meta">
+              <h3>CTA</h3>
+              <p>主 CTA 近黑填充；次操作描边。避免满屏荧光绿按钮。</p>
+              <code>紧圆角 · 几乎无阴影</code>
+            </div>
+          </article>
+          <article class="comp-card">
+            <div class="comp-card__stage" style="background:#F0FBD2">
+              <div class="demo-card-ui" style="border-radius:4px;box-shadow:none">
+                <strong>Protocol</strong>
+                <span>MQTT · 语义 Topic · 可治理路径</span>
+              </div>
+              <div class="demo-card-ui" style="border-radius:4px;box-shadow:none">
+                <strong>Architecture</strong>
+                <span>Source → Namespace → Sink</span>
+              </div>
+            </div>
+            <div class="comp-card__meta">
+              <h3>Section · Card</h3>
+              <p>浅灰绿分组带；白卡片细边框；分组节奏靠表面色块，不靠重阴影。</p>
+              <code>--fx-green-1 bands</code>
+            </div>
+          </article>
+          <article class="comp-card">
+            <div class="comp-card__stage" style="flex-direction:column;align-items:flex-start">
+              <span style="font:400 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#73B200">01 · Concept</span>
+              <p style="margin:0;max-width:36ch;font-size:14px;color:var(--text);line-height:1.55">用编辑节序讲清 UNS：概念 → 协议 → 架构 → 结构，再落到平台结果。</p>
+            </div>
+            <div class="comp-card__meta">
+              <h3>长页节序</h3>
+              <p>推荐：Eyebrow + H1 → Concept → Protocol → Architecture → Outcomes。</p>
+              <code>surfaces/company-website/README.md</code>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="howto" style="padding-top:8px">
+        <div class="section-kicker">03 / How to use</div>
+        <h2 class="section-heading">使用方法</h2>
+        <div class="howto">
+          <div class="howto-step">
+            <b>01</b>
+            <h3>锁定字体分工</h3>
+            <p>Poppins 只做标题；正文与导航用 Plex。不要把 Poppins 带进产品后台或 PPT。</p>
+          </div>
+          <div class="howto-step">
+            <b>02</b>
+            <h3>对照线上</h3>
+            <p>视觉节奏参考 <a href="https://tier0.app" target="_blank" rel="noopener">tier0.app</a>，规则以仓库 surface 文档为准。</p>
+          </div>
+          <div class="howto-step">
+            <b>03</b>
+            <h3>交给 agent</h3>
+            <p>提示：「按 Tier0 company-website 做 UNS 长文页，Poppins 标题、绿挑词、细边框白卡。」</p>
+          </div>
+        </div>
+        <div class="intro__actions">
+          <a class="btn btn-outline" href="../tokens/?cat=website">Website tokens</a>
+          <a class="btn btn-outline" href="https://github.com/FREEZONEX/Tier0-Design-System/tree/main/surfaces/company-website" target="_blank" rel="noopener">GitHub 源文件</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Website · company-website</span>
+      <span><a href="../">Home</a> · <a href="./product.html">Product</a> · <a href="../slide-skill/">Slide Skill</a></span>
+    </footer>
+  </div>
 </body>
 </html>

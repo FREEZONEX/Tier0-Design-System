@@ -257,37 +257,40 @@ function coverEditorial(slide, ctx) {
   const title = slide.title ?? 'Natural language,\ndriving real-time industrial operations.';
   const padX = 34;
   const colW = panelX - padX * 2;
-  const titleBoxH = 186;
+  const titleBoxH = 220;
   const titleText = slide.keyword ? `[${slide.keyword}]\n${title}` : title;
+  const titleSize = fitFontSize(titleText, colW, titleBoxH, {
+    max: 56, min: 30, step: 2, lineHeight: 1.12,
+  });
   const titleStyle = {
     fontFace: 'IBM Plex Sans',
-    fontSize: fitFontSize(titleText, colW, titleBoxH),
+    fontSize: titleSize,
     color: C.ink,
     bold: false,
     fontWeight: 400,
     margin: 0,
-    lineHeight: 1.28,
-    letterSpacing: -0.2,
+    lineHeight: 1.12,
+    letterSpacing: -0.8,
   };
   const titleEl = slide.keyword
-    ? text(padX, 134, colW, titleBoxH, '', {
+    ? text(padX, 118, colW, titleBoxH, '', {
       ...titleStyle,
       runs: [
-        { text: `[${slide.keyword}]\n`, bold: true },
+        { text: `[${slide.keyword}]\n`, bold: false, fontWeight: 500 },
         { text: title },
       ],
     })
-    : text(padX, 134, colW, titleBoxH, title, titleStyle);
+    : text(padX, 118, colW, titleBoxH, title, titleStyle);
   const elements = [
     asciiField(panelX, 0, panelW, ctx.height, { tone: 'ink' }),
-    image(padX, 30, 104, 26, logo, { alt: 'Tier0', fit: 'contain', objectPosition: 'left center' }),
+    image(padX, 28, 112, 28, logo, { alt: 'Tier0', fit: 'contain', objectPosition: 'left center' }),
     titleEl,
-    text(padX, 332, 470, 58, slide.sideNote ?? slide.subtitle ?? 'Headless MES + Generative UI', {
-      fontFace: 'IBM Plex Sans', fontSize: 20, color: C.body, bold: false, margin: 0, lineHeight: 1.35,
+    text(padX, 352, 500, 64, slide.sideNote ?? slide.subtitle ?? 'Headless MES + Generative UI', {
+      fontFace: 'IBM Plex Sans', fontSize: 18, color: C.body, bold: false, margin: 0, lineHeight: 1.4,
     }),
     line(padX, 452, colW, 0, C.border, 1),
     text(padX, 466, 300, 26, slide.speaker ?? slide.author ?? '', {
-      fontFace: 'IBM Plex Sans', fontSize: 20, color: '#2F343B', margin: 0, lineHeight: 1.2,
+      fontFace: 'IBM Plex Sans', fontSize: 18, color: '#2F343B', margin: 0, lineHeight: 1.2,
     }),
     text(padX, 496, 320, 18, slide.speakerRole ?? slide.role ?? '', {
       fontFace: 'IBM Plex Mono', fontSize: 10, color: C.body, letterSpacing: 1, margin: 0,
@@ -335,10 +338,10 @@ function challenge3(slide, ctx) {
       fontFace: 'IBM Plex Mono', fontSize: 11, color: C.green, bold: true, letterSpacing: 1, margin: 0,
     }),
     text(40, 60, 878, 68, slide.title ?? 'Why Industrial Digitalization Projects Mostly Fail', {
-      fontFace: 'IBM Plex Sans', fontSize: 30, color: C.ink, bold: true, margin: 0,
+      fontFace: 'IBM Plex Sans', fontSize: 32, color: C.ink, bold: false, fontWeight: 400, margin: 0, lineHeight: 1.12, letterSpacing: -0.4,
     }),
-    text(40, 120, 820, 36, slide.subtitle ?? '', {
-      fontFace: 'IBM Plex Sans', fontSize: 12, color: C.body, margin: 0,
+    text(40, 128, 820, 36, slide.subtitle ?? '', {
+      fontFace: 'IBM Plex Sans', fontSize: 14, color: C.body, margin: 0, lineHeight: 1.45,
     }),
   );
   const cardW = 282;
@@ -347,17 +350,17 @@ function challenge3(slide, ctx) {
     const card = cards[i] ?? { title: `Challenge ${i + 1}`, body: 'Evidence pending.' };
     const x = startX + i * (cardW + 12);
     elements.push(
-      rect(x, 165, cardW, 235, C.white, { line: C.border, lineWidth: 1 }),
-      line(x, 165, cardW, 0, C.lime, 2),
-      text(x + 18, 194, 40, 18, String(i + 1).padStart(2, '0'), {
+      rect(x, 175, cardW, 225, C.white, { line: C.border, lineWidth: 1 }),
+      line(x, 175, cardW, 0, C.lime, 2),
+      text(x + 18, 198, 40, 18, String(i + 1).padStart(2, '0'), {
         fontFace: 'IBM Plex Mono', fontSize: 10, color: C.green, bold: true, margin: 0,
       }),
-      text(x + 18, 221, cardW - 36, 48, card.title, {
-        fontFace: 'IBM Plex Sans', fontSize: 14, color: C.ink, bold: true, margin: 0,
+      text(x + 18, 224, cardW - 36, 52, card.title, {
+        fontFace: 'IBM Plex Sans', fontSize: 16, color: C.ink, bold: false, fontWeight: 400, margin: 0, lineHeight: 1.2,
       }),
-      line(x + 18, 275, cardW - 36, 0, C.border, 1),
-      text(x + 18, 286, cardW - 36, 84, card.body, {
-        fontFace: 'IBM Plex Sans', fontSize: 10.5, color: C.body, margin: 0, lineHeight: 1.45,
+      line(x + 18, 284, cardW - 36, 0, C.border, 1),
+      text(x + 18, 296, cardW - 36, 78, card.body, {
+        fontFace: 'IBM Plex Sans', fontSize: 12, color: C.body, margin: 0, lineHeight: 1.45,
       }),
     );
   }
@@ -368,7 +371,7 @@ function challenge3(slide, ctx) {
       fontFace: 'IBM Plex Mono', fontSize: 10, color: C.green, bold: true, letterSpacing: 1, margin: 0,
     }),
     text(135, 429, 730, 34, slide.result ?? 'Digitalization becomes a recurring cost center, not a compounding asset.', {
-      fontFace: 'IBM Plex Sans', fontSize: 12, color: C.ink, bold: false, margin: 0, valign: 'mid',
+      fontFace: 'IBM Plex Sans', fontSize: 13, color: C.ink, bold: false, margin: 0, valign: 'mid',
     }),
     ...footerElements(slide, ctx.index, ctx.total, false),
   );
@@ -383,7 +386,7 @@ function compare2(slide, ctx) {
   const elements = [...logoElements(slide, ctx.sourceDir, false)];
   elements.push(
     text(40, 28, 700, 44, slide.title ?? 'From Point-to-Point Integration to UNS', {
-      fontFace: 'IBM Plex Sans', fontSize: 28, color: C.ink, bold: true, margin: 0,
+      fontFace: 'IBM Plex Sans', fontSize: 30, color: C.ink, bold: false, fontWeight: 400, margin: 0, letterSpacing: -0.4,
     }),
   );
   for (let i = 0; i < 2; i += 1) {
@@ -394,7 +397,7 @@ function compare2(slide, ctx) {
       rect(x, 93, 428, 3, C.lime, { line: 'transparent', lineWidth: 0 }),
       rect(x, 96, 428, 43, i === 0 ? C.surface : C.pale, { line: 'transparent', lineWidth: 0 }),
       text(x + 20, 105, 388, 26, panel.title ?? `Panel ${i + 1}`, {
-        fontFace: 'IBM Plex Sans', fontSize: 16, color: C.ink, bold: true, align: 'center', margin: 0,
+        fontFace: 'IBM Plex Sans', fontSize: 17, color: C.ink, bold: false, fontWeight: 400, align: 'center', margin: 0,
       }),
     );
     if (panel.image) {
@@ -433,7 +436,7 @@ function featureSplit(slide, ctx) {
       fontFace: 'IBM Plex Mono', fontSize: 10.5, color: C.green, bold: true, letterSpacing: 1, margin: 0,
     }),
     text(40, 60, 880, 66, slide.title ?? 'App Builder · Bringing Vibe Coding to the Industrial World', {
-      fontFace: 'IBM Plex Sans', fontSize: 28, color: C.ink, bold: true, margin: 0,
+      fontFace: 'IBM Plex Sans', fontSize: 30, color: C.ink, bold: false, fontWeight: 400, margin: 0, letterSpacing: -0.4,
     }),
   );
   bullets.forEach((bullet, i) => {
@@ -496,7 +499,7 @@ function costCompare(slide, ctx) {
       fontFace: 'IBM Plex Mono', fontSize: 10.5, color: C.green, bold: true, letterSpacing: 1, margin: 0,
     }),
     text(48, 54, 864, 44, slide.title ?? 'The same applications — at 0.75X instead of 2X.', {
-      fontFace: 'IBM Plex Sans', fontSize: 28, color: C.ink, bold: true, margin: 0,
+      fontFace: 'IBM Plex Sans', fontSize: 30, color: C.ink, bold: false, fontWeight: 400, margin: 0, letterSpacing: -0.4,
     }),
   );
   const rows = slide.rows ?? [
@@ -557,7 +560,7 @@ function process4(slide, ctx) {
       fontFace: 'IBM Plex Mono', fontSize: 10.5, color: C.green, bold: true, letterSpacing: 1, margin: 0,
     }),
     text(40, 60, 860, 70, slide.title ?? 'Start with a valuable use case. Build the reusable foundation behind it.', {
-      fontFace: 'IBM Plex Sans', fontSize: 28, color: C.ink, bold: true, margin: 0,
+      fontFace: 'IBM Plex Sans', fontSize: 30, color: C.ink, bold: false, fontWeight: 400, margin: 0, letterSpacing: -0.4,
     }),
   );
   const startX = 40;
@@ -675,7 +678,9 @@ function htmlTextContent(el) {
     return el.runs.map((run) => {
       const css = [
         run.color ? `color:${run.color}` : '',
-        run.bold != null ? `font-weight:${run.bold ? 700 : 400}` : '',
+        run.bold != null || run.fontWeight != null
+          ? `font-weight:${run.bold ? 700 : (run.fontWeight ?? 400)}`
+          : '',
         run.italic ? 'font-style:italic' : '',
         run.underline ? 'text-decoration:underline' : '',
       ].filter(Boolean).join(';');

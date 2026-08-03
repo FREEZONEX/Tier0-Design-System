@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[必填] 替换为 Tier0 PPT 标题 · Deck Title</title>
+<title>工业软件开源及出海实践 · Gallery + Style B</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -608,18 +608,18 @@
   body.dark-bg #nav .dot{background:rgba(255,255,255,.32)}
   body.dark-bg #nav .dot:hover{background:rgba(255,255,255,.55)}
   body.dark-bg #nav .dot.active{background:var(--accent)}
-  /* split 页：导航居中跨深/浅半屏，需双色描边保证两侧都可见 */
+  /* split 页：导航落在深/浅交界，用实心点 + 细描边，避免“空心方块”错觉 */
   body.split-nav #nav .dot{
-    background:rgba(255,255,255,.58);
-    box-shadow:0 0 0 1px rgba(0,0,0,.38)
+    background:rgba(5,11,20,.45);
+    box-shadow:0 0 0 1px rgba(255,255,255,.55);
   }
   body.split-nav #nav .dot:hover{
-    background:rgba(255,255,255,.82);
-    box-shadow:0 0 0 1px rgba(0,0,0,.52)
+    background:rgba(5,11,20,.7);
   }
   body.split-nav #nav .dot.active{
     background:var(--accent);
-    box-shadow:0 0 0 1px rgba(0,0,0,.28)
+    box-shadow:0 0 0 1px rgba(5,11,20,.2);
+    width:18px;
   }
 
   #hint{position:fixed;bottom:2.4vh;right:2.5vw;z-index:30;font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;opacity:.4;color:var(--ink-tint, currentColor)}
@@ -1548,32 +1548,6 @@
   .ink-section-divider__note{font-size:max(14px,.9vw);line-height:1.45;color:rgba(255,255,255,.56);max-width:36ch;margin-top:clamp(22px,3vh,38px)}
   .ink-section-divider__footer{display:flex;justify-content:space-between;align-items:end;gap:var(--sp-5);padding-top:2vh;border-top:1px solid rgba(255,255,255,.18);font-family:var(--mono);font-size:max(12px,.68vw);letter-spacing:.08em;color:rgba(255,255,255,.42);text-transform:uppercase}
 
-  /* Corner-number cards · short copy in a tall 2×2 field (composition-craft-tier0.md) */
-  .corner-card-grid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:20px}
-  .corner-card{position:relative;padding:2.8vh 2vw 2.2vh;display:flex;flex-direction:column;justify-content:flex-start;min-height:0;overflow:hidden;background:var(--grey-1);color:var(--ink)}
-  .corner-card.is-green,.corner-card--green{background:rgba(178,237,29,.18)}
-  .corner-card.is-accent,.corner-card--accent{background:var(--accent);color:var(--accent-on)}
-  .corner-card__body{position:relative;z-index:1;max-width:28ch}
-  .corner-card__n{position:absolute;right:1.2vw;bottom:.4vh;font-family:var(--sans);font-size:min(10vw,16vh);line-height:.78;font-weight:200;opacity:.22;pointer-events:none;user-select:none}
-  .corner-card h3{font-family:var(--sans),var(--sans-zh);font-size:min(2vw,3.4vh);font-weight:500;line-height:1.15;margin:0 0 1.2vh;letter-spacing:-.02em}
-  .corner-card p{font-family:var(--sans),var(--sans-zh);font-size:max(15px,.92vw);line-height:1.5;margin:0;opacity:.88}
-
-  /* Balanced dual stack · layers + strategy ledger */
-  .dual-stack{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,3.2vw,52px);align-items:stretch}
-  .dual-stack__layers{display:grid;grid-template-rows:repeat(3,1fr);gap:16px;min-height:0}
-  .dual-stack__layer{display:grid;grid-template-columns:minmax(92px,108px) 1fr;align-items:center;gap:1.2vw;padding:clamp(20px,2.4vh,32px) clamp(18px,1.5vw,26px);border:1px solid var(--border-subtle);background:var(--paper);min-height:0}
-  .dual-stack__layer.is-muted{background:var(--grey-1)}
-  .dual-stack__layer.is-signal{background:var(--accent);border-color:var(--accent)}
-  .dual-stack__layer .t-meta,.dual-stack__layer [class$="__tag"]{font:500 max(11px,.72vw)/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase}
-  .dual-stack__layer h3{font-family:var(--sans),var(--sans-zh);font-size:min(2vw,3.2vh);font-weight:450;letter-spacing:-.02em;margin:0}
-  .dual-stack__layer .body-sm{margin-top:.45vh}
-  .dual-stack__ledger{display:flex;flex-direction:column;min-height:0;height:100%;gap:1.6vh}
-  .dual-stack__rows{flex:1;min-height:0;display:grid;grid-template-rows:repeat(4,1fr);border-top:2px solid var(--ink)}
-  .dual-stack__row{display:grid;grid-template-columns:48px 1fr;gap:1.2vw;align-items:center;border-bottom:1px solid var(--border-subtle);min-height:0;padding:0 .2vw}
-  .dual-stack__row:last-child{border-bottom:0}
-  .dual-stack__row b{font-family:var(--sans);font-size:max(22px,1.7vw);font-weight:300;line-height:1}
-  .dual-stack__row span{font-family:var(--sans),var(--sans-zh);font-size:max(15px,.95vw);line-height:1.45}
-
   /* Architecture reference appendix · 先选关系骨架，后绘制任何业务架构图。 */
   .arch-ref-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:var(--sp-5);flex:1;min-height:0}
   .arch-ref-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(13rem,.72fr);gap:var(--sp-5);align-items:stretch;min-width:0;min-height:0;padding:clamp(18px,1.8vw,30px);background:var(--grey-1);border:1px solid var(--border-subtle)}
@@ -1941,6 +1915,94 @@
   .logic-spec__code-head{display:flex;justify-content:space-between;gap:24px;padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid rgba(255,255,255,.2);font:500 12px/1.2 var(--mono);letter-spacing:.1em;color:rgba(255,255,255,.68)}
   .logic-spec__code pre{margin:0;font:400 clamp(16px,1.35vw,23px)/1.52 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;color:#F5F7F8}.logic-spec__code .signal{color:var(--accent)}.logic-spec__code .muted{color:rgba(255,255,255,.56)}
 
+
+  /* v2 · Layout Gallery + Swiss Style B */
+  .v2-stage{flex:1;min-height:0;display:flex;flex-direction:column;gap:2.6vh}
+  .v2-kicker{font:500 max(11px,.72vw)/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-helper)}
+  .v2-title{font-family:var(--sans),var(--sans-zh);font-size:min(4.5vw,7.2vh);line-height:1.03;letter-spacing:-.03em;font-weight:400;color:var(--ink);max-width:18ch}
+  .v2-lead{font-family:var(--sans),var(--sans-zh);font-size:max(15px,1.05vw);line-height:1.55;color:var(--text-secondary);max-width:62ch}
+  .v2-meta{font:500 max(10px,.68vw)/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-helper)}
+  .v2-rule{height:1px;background:var(--border-subtle);width:100%}
+  .v2-signal{color:var(--accent-text)}
+  .v2-surface{background:#F3F3F3}
+  .v2-ink{background:#050B14;color:#fff}
+  .v2-green{background:#B2ED1D;color:#050B14}
+  .v2-green-deep{background:#73B200;color:#fff}
+  .v2-pale{background:#ECFFD2;color:#050B14}
+
+  .v2-cover{flex:1;display:grid;grid-template-columns:1.45fr .72fr;gap:4vw;align-items:stretch;min-height:0;padding:2vh 0 1.6vh}
+  .v2-cover__copy{display:flex;flex-direction:column;justify-content:space-between;padding:3vh 0 1vh}
+  .v2-cover__title{font-family:var(--sans),var(--sans-zh);font-size:min(7vw,12vh);line-height:.95;letter-spacing:-.045em;font-weight:350;color:var(--ink)}
+  .v2-cover__panel{display:flex;flex-direction:column;justify-content:space-between;padding:3.2vh 2.2vw;background:#B2ED1D;position:relative;overflow:hidden}
+  .v2-cover__panel::after{display:none}
+  .v2-cover__word{font-family:var(--sans);font-size:min(5.8vw,9.8vh);line-height:.88;letter-spacing:-.045em;font-weight:450;position:relative;z-index:1}
+  .v2-cover__foot{border-top:1px solid var(--ink);padding-top:1.8vh;display:flex;justify-content:space-between;gap:24px}
+
+  .v2-pillars{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+  .v2-pillar{padding:2.6vh 2vw;display:flex;flex-direction:column;justify-content:space-between;border-left:1px solid var(--border-subtle)}
+  .v2-pillar:first-child{border-left:0;padding-left:0}
+  .v2-pillar:last-child{padding-right:0}
+  .v2-pillar__num{font-family:var(--sans);font-size:min(7vw,11vh);font-weight:200;line-height:.9;color:var(--grey-3)}
+  .v2-pillar__title{font-family:var(--sans);font-size:min(2.2vw,3.8vh);line-height:1.05;font-weight:450;letter-spacing:-.025em}
+  .v2-pillar__body{font-family:var(--sans),var(--sans-zh);font-size:max(14px,.9vw);line-height:1.55;color:var(--text-secondary)}
+  .v2-thesis{display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:center;border-top:2px solid var(--accent);padding-top:1.8vh}
+
+  .v2-card-grid{flex:1;min-height:0;display:grid;gap:1.2vw}
+  .v2-card-grid--3{grid-template-columns:repeat(3,1fr)}
+  .v2-card-grid--4{grid-template-columns:repeat(4,1fr)}
+  .v2-card{padding:2.5vh 1.7vw;display:flex;flex-direction:column;justify-content:space-between;min-height:0;position:relative;overflow:hidden}
+  /* Decorative rotated squares removed — they read as meaningless shapes, not brand grammar */
+  .v2-card__num{font-family:var(--sans);font-size:min(6vw,10vh);line-height:.85;font-weight:200;opacity:.48}
+  .v2-card__title{font-family:var(--sans),var(--sans-zh);font-size:min(2vw,3.4vh);line-height:1.08;font-weight:500;letter-spacing:-.02em;max-width:12ch}
+  .v2-card__en{font:500 max(10px,.68vw)/1.35 var(--mono);letter-spacing:.1em;text-transform:uppercase;opacity:.65;margin-top:1vh}
+  .v2-card__body{font-family:var(--sans),var(--sans-zh);font-size:max(14px,.86vw);line-height:1.5;max-width:27ch;position:relative;z-index:1}
+  .v2-band{display:grid;grid-template-columns:180px 1fr;gap:2vw;align-items:center;padding:1.7vh 1.5vw;background:#F0FBD2;color:var(--ink);border-top:2px solid #B2ED1D}
+  .v2-band strong{font-family:var(--sans),var(--sans-zh);font-size:max(18px,1.35vw);font-weight:450;color:#196B24}
+  .v2-band span{font-family:var(--sans),var(--sans-zh);font-size:max(14px,.88vw);line-height:1.45;color:var(--text-secondary)}
+
+  .v2-open-grid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:20px}
+  .v2-open-card{position:relative;padding:2.8vh 2vw 2.2vh;display:flex;flex-direction:column;justify-content:flex-start;min-height:0;overflow:hidden}
+  .v2-open-card__body{position:relative;z-index:1;max-width:28ch}
+  .v2-open-card__n{position:absolute;right:1.2vw;bottom:.4vh;font-family:var(--sans);font-size:min(10vw,16vh);line-height:.78;font-weight:200;opacity:.22;pointer-events:none;user-select:none}
+  .v2-open-card h3{font-family:var(--sans),var(--sans-zh);font-size:min(2vw,3.4vh);font-weight:500;line-height:1.15;margin:0 0 1.2vh}
+  .v2-open-card p{font-family:var(--sans),var(--sans-zh);font-size:max(15px,.92vw);line-height:1.5;margin:0;color:inherit;opacity:.88}
+
+  .v2-section{height:100%;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+  .v2-section__title{font-family:var(--display),var(--sans-zh);font-size:min(8vw,13.5vh);line-height:.93;letter-spacing:-.035em;font-weight:450;max-width:12ch;position:relative;z-index:1}
+
+  .v2-advantage-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);gap:1.05vw}
+  .v2-advantage{padding:2.4vh 1.5vw;display:grid;grid-template-rows:auto 1fr auto;gap:1.6vh}
+  .v2-advantage__icon{
+    width:2.4vw;height:2.4vw;min-width:28px;min-height:28px;
+    color:currentColor;opacity:.88;display:block;
+  }
+  .v2-advantage__icon svg{width:100%;height:100%;display:block}
+  .v2-ink .v2-advantage__icon{color:#B2ED1D}
+
+  .v2-platform{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,3.2vw,52px);align-items:stretch}
+  .v2-stack{display:grid;grid-template-rows:repeat(3,1fr);gap:16px;min-height:0}
+  .v2-layer{display:grid;grid-template-columns:minmax(92px,108px) 1fr;align-items:center;gap:1.2vw;padding:clamp(20px,2.4vh,32px) clamp(18px,1.5vw,26px);border:1px solid var(--border-subtle);min-height:0}
+  .v2-layer:nth-child(2){background:#F3F3F3}
+  .v2-layer:nth-child(3){background:#B2ED1D;border-color:#B2ED1D}
+  .v2-layer__tag{font:500 max(11px,.72vw)/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+  .v2-layer__name{font-family:var(--sans),var(--sans-zh);font-size:min(2vw,3.2vh);font-weight:450;letter-spacing:-.02em}
+  .v2-layer .v2-card__body{margin-top:.45vh;max-width:none}
+  .v2-strategy-wrap{display:flex;flex-direction:column;min-height:0;height:100%}
+  .v2-strategy{flex:1;min-height:0;display:grid;grid-template-rows:repeat(4,1fr);border-top:2px solid var(--ink)}
+  .v2-strategy__row{display:grid;grid-template-columns:48px 1fr;gap:1.2vw;align-items:center;padding:0 0 0 .2vw;border-bottom:1px solid var(--border-subtle);min-height:0}
+  .v2-strategy__row:last-child{border-bottom:0}
+  .v2-strategy__row b{font-family:var(--sans);font-size:max(22px,1.7vw);font-weight:300;line-height:1}
+  .v2-strategy__row span{font-family:var(--sans),var(--sans-zh);font-size:max(15px,.95vw);line-height:1.45}
+
+  .v2-closing-left{height:100%;display:flex;flex-direction:column;justify-content:space-between;background:#050B14;color:#fff;padding:5.6vh 3.6vw 4.4vh;position:relative;overflow:hidden}
+  .v2-closing-title{font-family:var(--display),var(--sans-zh);font-size:min(5.6vw,9.3vh);line-height:.98;font-weight:450;letter-spacing:-.03em;position:relative;z-index:1}
+  .v2-takeaways{display:flex;flex-direction:column}
+  .v2-takeaway{display:grid;grid-template-columns:70px 1fr;gap:1.4vw;padding:2.4vh 0;border-top:1px solid var(--border-subtle)}
+  .v2-takeaway:last-child{border-bottom:2px solid var(--accent)}
+  .v2-takeaway__n{font-family:var(--sans);font-size:min(3.4vw,5.8vh);font-weight:200;line-height:.9}
+  .v2-takeaway h3{font-family:var(--sans),var(--sans-zh);font-size:min(1.55vw,2.7vh);font-weight:500;margin-bottom:.7vh}
+  .v2-takeaway p{font-family:var(--sans),var(--sans-zh);font-size:max(13px,.78vw);line-height:1.45;color:var(--text-secondary)}
+
 </style>
 </head>
 <body class="canvas-mode">
@@ -1987,110 +2049,227 @@
      页面骨架参考 references/layouts-tier0.md
      主题色配置参考 references/themes-tier0.md
      ============================================================ -->
-<!-- SLIDES_HERE · 在此处粘贴 <section class="slide ..."> 页面块
-     - 页面骨架直接从 references/layouts-tier0.md 拷贝
-     - data-animate="..." 必须命中下方 RECIPES 字典里的已有 recipe 名之一(P23/P24 可复用 grid-reveal)
-     - 主题色配置参考 references/themes-tier0.md (Tier0 Green Signal) -->
 
-<!-- ============ 示例:可选 accent 满屏封面（非默认；产品 deck 请用 TIER0-COVER-EDITORIAL） ============
-     ⚠️ P0 对齐法则(每页都要过):
-     1. .canvas-card 已自带 padding:5.6vh 5vw 4.4vh,所有页面内容直接放在 canvas-card 子元素里,
-        子元素**不要再加水平 padding**,否则会比 chrome-min 内缩一圈、左右不对齐.
-     2. .slide.split .canvas-card{padding:0} 已被 CSS 覆盖,
-        split 模式下两个 .half 自己控制 padding(常用 5.6vh 3.6vw 4.4vh),与本规则不冲突.
-     3. 大字号一律用双约束 font-size:min(Xvw, Yvh),Y ≥ X * 1.6 才不会在 16:9 屏被高度截断.
-     4. kicker 必须在大标题"上方",不是左侧——禁止 grid-template-columns:auto 1fr 把它们压成左右.
-
-     封面/封底设计语言(可选 accent 满屏 + ASCII):
-     - section 用 .slide.accent (满屏 #B2ED1D,不是 light 白底)
-     - 文字必须用 var(--accent-on) 黑字,不要用白字
-     - canvas-card 内首位插入 <canvas class="ascii-bg">
-     - 产品 deck 默认封面见 layouts-tier0.md · TIER0-COVER-EDITORIAL -->
-<section class="slide accent" data-animate="hero">
-  <div class="canvas-card">
-    <canvas class="ascii-bg" aria-hidden="true"></canvas>
-    <div class="chrome-min">
-      <div class="l">[必填] Deck 标题 · Issue/Field Note 编号</div>
-      <div class="r">SS · 25.05.10 · 01 / NN</div>
+<section class="slide light" data-layout="TIER0-COVER-EDITORIAL" data-source-ids="s01-title" data-animate="hero">
+  <div class="canvas-card cover-editorial">
+    <div class="cover-editorial__main">
+      <div data-anim="head">
+        <img src="images/brand/tier0-logo-black.png" alt="Tier0" class="tier0-logo" style="height:min(5.5vh,60px);width:auto" data-brand-asset="tier0-logo-black" data-image-slot="tier0-logo-black">
+      </div>
+      <div class="cover-editorial__body">
+        <div data-anim="title">
+          <h1 class="cover-editorial__title">
+            <span class="bracket-mark">[</span><span class="keyword">开源</span><span class="bracket-mark">]</span><br>
+            工业软件出海实践
+          </h1>
+          <p class="cover-editorial__lead">工业软件的开源路径与全球化实践</p>
+        </div>
+      </div>
+      <div class="cover-editorial__footer" data-anim="line">
+        <div>
+          <div class="cover-editorial__speaker">guohao</div>
+          <div class="t-meta" style="margin-top:12px;color:var(--text-helper)">PM · TIER0</div>
+        </div>
+        <div class="t-meta" style="font-family:var(--mono);color:#2f343b;white-space:nowrap">2026-07-29</div>
+      </div>
     </div>
+    <div class="cover-editorial__ascii" data-anim="img">
+      <canvas class="ascii-bg" aria-hidden="true"></canvas>
+    </div>
+  </div>
+</section>
 
-    <!-- 主体:padding 必须为 0,不要再叠 5vw,否则左右对不齐 chrome-min -->
-    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr auto;gap:2.6vh">
-      <div data-anim="kicker" class="t-meta" style="color:rgba(5,11,20,.72);letter-spacing:.22em">[必填] 章节英文 / Section En</div>
+<section class="slide light" data-layout="S12" data-source-ids="s02-trends" data-animate="manifesto">
+  <div class="canvas-card">
+    <div class="chrome-min"><div class="l">GLOBAL TRENDS</div><div class="r">02 / 08</div></div>
+    <div class="v2-stage">
+      <div>
+        <h2 class="v2-title">全球工业软件的<br/>三大结构性变化</h2>
+      </div>
+      <div class="v2-pillars">
+        <article class="v2-pillar">
+          <div class="v2-pillar__num">01</div>
+          <div><h3 class="v2-pillar__title">封闭 → 开放</h3><p class="v2-pillar__body">客户更愿意采用开源、开放接口与可替代系统，降低锁定风险。</p></div>
+        </article>
+        <article class="v2-pillar">
+          <div class="v2-pillar__num">02</div>
+          <div><h3 class="v2-pillar__title">本地 → SaaS / 边缘</h3><p class="v2-pillar__body">部署正在全球化与轻量化，边缘与云端协同成为默认形态。</p></div>
+        </article>
+        <article class="v2-pillar">
+          <div class="v2-pillar__num v2-signal">03</div>
+          <div><h3 class="v2-pillar__title">套件 → 模块化</h3><p class="v2-pillar__body">整体套件让位于微组件与数据服务层，竞争转向可复用基础设施。</p></div>
+        </article>
+      </div>
+      <div class="v2-thesis"><div class="v2-meta">CORE THESIS</div><strong class="v2-lead" style="color:var(--ink);max-width:none">竞争焦点正在转向数据基础设施，而非“应用堆叠”。</strong></div>
+    </div>
+  </div>
+</section>
 
-      <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:min(11.6vw,19vh);line-height:.94;letter-spacing:-.025em;color:var(--accent-on)">[必填] 中文主标题<br/>(≤ 12 字,可在某字加 <span style="font-style:italic;font-weight:400">italic</span> 微强调)</h1>
+<section class="slide light" data-layout="S19" data-source-ids="s03-challenges" data-animate="four-cards">
+  <div class="canvas-card">
+    <div class="chrome-min"><div class="l">CHINA → GLOBAL</div><div class="r">03 / 08</div></div>
+    <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh;margin-bottom:2.4vh">
+      <h2 class="headline" style="font-size:min(3.2vw,5.4vh)">出海的三道门槛，最终都指向信任。</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;flex:1;min-height:0" data-anim="up">
+      <article class="tier0-card" style="padding:28px;display:flex;flex-direction:column;min-width:0;background:var(--grey-1)">
+        <div class="t-meta" style="color:var(--accent-text-dark)">01</div>
+        <h3 style="font-weight:400;font-size:max(22px,1.6vw);margin:18px 0 8px">生态壁垒高</h3>
+        <div class="t-meta" style="margin-bottom:12px">ECOSYSTEM BARRIER</div>
+        <p class="body-sm">工业软件最看重生态，而不只是功能清单。</p>
+      </article>
+      <article class="tier0-card" style="padding:28px;display:flex;flex-direction:column;min-width:0;background:rgba(178,237,29,.18)">
+        <div class="t-meta" style="color:var(--accent-text-dark)">02</div>
+        <h3 style="font-weight:400;font-size:max(22px,1.6vw);margin:18px 0 8px">安全与信任</h3>
+        <div class="t-meta" style="margin-bottom:12px">TRUST &amp; LOCK-IN</div>
+        <p class="body-sm">客户首先评估数据安全与供应商锁定风险。</p>
+      </article>
+      <article class="tier0-card" style="padding:28px;display:flex;flex-direction:column;min-width:0;background:var(--grey-1)">
+        <div class="t-meta" style="color:var(--accent-text-dark)">03</div>
+        <h3 style="font-weight:400;font-size:max(22px,1.6vw);margin:18px 0 8px">本地集成碎片化</h3>
+        <div class="t-meta" style="margin-bottom:12px">LOCAL INTEGRATION</div>
+        <p class="body-sm">不同国家的 OT / IT 环境高度碎片化，适配成本难以复制。</p>
+      </article>
+    </div>
+    <div style="margin-top:2vh;padding:1.7vh 1.5vw;background:rgba(178,237,29,.18);border-top:2px solid var(--accent);display:grid;grid-template-columns:minmax(160px,180px) 1fr;gap:2vw;align-items:center" data-anim="up">
+      <strong style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,1.2vw);font-weight:500;color:var(--accent-text-dark)">开源 = 入场券</strong>
+      <span class="body-sm">不开源 → 不信任 → 不选择。开源是信任入口，也是出海入场券。</span>
+    </div>
+  </div>
+</section>
 
-      <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(5,11,20,.18);padding-top:2vh">
-        <div data-anim="lead" class="lead" style="max-width:52ch;color:rgba(5,11,20,.86)">[必填] 一段 1-2 行的副标 / 引子,定调全场.</div>
-        <div style="display:flex;justify-content:space-between;align-items:end">
-          <div class="t-meta" style="color:rgba(5,11,20,.62)">[选填] 作者 · 日期 · 出处</div>
-          <div class="t-meta" style="color:rgba(5,11,20,.62)">→ swipe / arrow keys</div>
+<section class="slide light" data-layout="S18" data-source-ids="s04-opensource" data-animate="why-now">
+  <div class="canvas-card">
+    <div class="chrome-min"><div class="l">WHY OPEN SOURCE</div><div class="r">04 / 08</div></div>
+    <div class="v2-stage">
+      <div><h2 class="v2-title">开源不是分发方式，<br/>而是全球化增长系统。</h2></div>
+      <div class="corner-card-grid">
+        <article class="corner-card is-accent">
+          <div class="corner-card__body"><h3>降低试用门槛</h3><p>让海外用户更愿意先「试试看」，再决定是否深度采用。</p></div>
+          <div class="corner-card__n" aria-hidden="true">01</div>
+        </article>
+        <article class="corner-card">
+          <div class="corner-card__body"><h3>社区大于营销</h3><p>社区是全球化的最低成本增长引擎，比投放更能形成复利。</p></div>
+          <div class="corner-card__n" aria-hidden="true">02</div>
+        </article>
+        <article class="corner-card is-green">
+          <div class="corner-card__body"><h3>建立生态证据</h3><p>文档、示例、路线图、Issue 与集成指南，构成可验证的生态证据。</p></div>
+          <div class="corner-card__n" aria-hidden="true">03</div>
+        </article>
+        <article class="corner-card">
+          <div class="corner-card__body"><h3>透明性建立信任</h3><p>生产安全要求技术透明；开源能弥补新品牌的信任缺口。</p></div>
+          <div class="corner-card__n" aria-hidden="true">04</div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide dark" data-layout="S10" data-source-ids="s05-overtake" data-animate="statement">
+  <div class="canvas-card ink-section-divider">
+    <div class="chrome-min">
+      <div class="l">CHAPTER 02 · OVERTAKE</div>
+      <div class="r">05 / 08</div>
+    </div>
+    <div class="ink-section-divider__main" data-anim="line">
+      <div class="ink-section-divider__label">CHAPTER 02 · OVERTAKE</div>
+      <h2 class="ink-section-divider__title">中国工业软件可以在哪里弯道超车？</h2>
+      <p class="ink-section-divider__note">EDGE · IIOT · DELIVERY · SAAS</p>
+    </div>
+    <div class="ink-section-divider__footer" data-anim="up"><span>SECTION DIVIDER · PURE TITLE</span><span>OVERTAKE</span></div>
+  </div>
+</section>
+
+<section class="slide light" data-layout="S19" data-source-ids="s05-overtake" data-animate="four-cards">
+  <div class="canvas-card">
+    <div class="chrome-min"><div class="l">FOUR ADVANTAGES</div><div class="r">06 / 08</div></div>
+    <div data-anim="line" style="display:flex;flex-direction:column;gap:1.4vh;margin-bottom:2.4vh">
+      <h2 class="headline" style="font-size:min(3.2vw,5.4vh)">四个可形成复利的全球竞争优势。</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;flex:1;min-height:0" data-anim="up">
+      <article class="tier0-card" style="padding:28px;display:flex;flex-direction:column;min-width:0;background:var(--grey-1)">
+        <div class="t-meta" style="color:var(--accent-text-dark)">01</div>
+        <h3 style="font-weight:400;font-size:max(20px,1.45vw);margin:18px 0 10px">边缘计算 Edge</h3>
+        <p class="body-sm">轻量、稳定、成本竞争力强。</p>
+        <div style="height:1px;background:var(--border-subtle);margin-top:20px"></div>
+        <div class="line-sketch line-sketch--converge" aria-label="多源汇聚到边缘核心"><span class="line-sketch__node"></span><span class="line-sketch__node"></span><span class="line-sketch__node"></span><span class="line-sketch__node is-signal"></span></div>
+      </article>
+      <article class="tier0-card" style="padding:28px;display:flex;flex-direction:column;min-width:0;background:rgba(178,237,29,.18)">
+        <div class="t-meta" style="color:var(--accent-text-dark)">02</div>
+        <h3 style="font-weight:400;font-size:max(20px,1.45vw);margin:18px 0 10px">数据集成与 IIoT</h3>
+        <p class="body-sm">MQTT · UNS · Node-RED · OPC UA 生态巨大。</p>
+        <div style="height:1px;background:var(--border-subtle);margin-top:20px"></div>
+        <div class="line-sketch line-sketch--builder" aria-label="集成与编排面板"><div class="line-sketch__window"><i></i><i></i><i></i></div></div>
+      </article>
+      <article class="tier0-card" style="padding:28px;display:flex;flex-direction:column;min-width:0;background:var(--grey-1)">
+        <div class="t-meta" style="color:var(--accent-text-dark)">03</div>
+        <h3 style="font-weight:400;font-size:max(20px,1.45vw);margin:18px 0 10px">更快交付节奏</h3>
+        <p class="body-sm">亚洲企业对交付与定制响应更快。</p>
+        <div style="height:1px;background:var(--border-subtle);margin-top:20px"></div>
+        <div class="line-sketch line-sketch--govern" aria-label="交付节奏受治理约束"><span class="line-sketch__shield"></span></div>
+      </article>
+      <article class="tier0-card" style="padding:28px;display:flex;flex-direction:column;min-width:0;background:rgba(178,237,29,.18)">
+        <div class="t-meta" style="color:var(--accent-text-dark)">04</div>
+        <h3 style="font-weight:400;font-size:max(20px,1.45vw);margin:18px 0 10px">性价比 SaaS</h3>
+        <p class="body-sm">透明订阅制更符合全球采购预期。</p>
+        <div style="height:1px;background:var(--border-subtle);margin-top:20px"></div>
+        <div class="line-sketch line-sketch--scale" aria-label="可规模化订阅扩张"><span class="line-sketch__bar"></span><span class="line-sketch__bar is-signal"></span><span class="line-sketch__bar"></span></div>
+      </article>
+    </div>
+    <div style="margin-top:2vh;padding-top:1.6vh;border-top:1px solid var(--border-subtle)" data-anim="up">
+      <div class="t-meta">POSITIONING</div>
+      <p class="body-sm" style="margin-top:8px;max-width:72ch">这正是 supOS-CE 的全球定位。</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide light" data-layout="S13" data-source-ids="s06-tier0" data-animate="architecture-flow">
+  <div class="canvas-card">
+    <div class="chrome-min"><div class="l">SUPOS-CE · TIER0</div><div class="r">07 / 08</div></div>
+    <div class="v2-stage">
+      <div><h2 class="v2-title">一个开放、轻量的<br/>工业数据基础平台。</h2></div>
+      <div class="dual-stack">
+        <div class="dual-stack__layers">
+          <div class="dual-stack__layer"><span class="t-meta">通道</span><div><h3>MQTT / EMQX</h3><p class="body-sm">开放的数据通道</p></div></div>
+          <div class="dual-stack__layer is-muted"><span class="t-meta">逻辑</span><div><h3>Node-RED</h3><p class="body-sm">可视化逻辑编排</p></div></div>
+          <div class="dual-stack__layer is-signal"><span class="t-meta">语境</span><div><h3>UNS</h3><p class="body-sm">统一命名空间 · 数据结构统一</p></div></div>
+        </div>
+        <div class="dual-stack__ledger">
+          <div class="t-meta">全球生态策略</div>
+          <div class="dual-stack__rows">
+            <div class="dual-stack__row"><b>01</b><span>完全开源组件构建；轻量运行于边缘网关。</span></div>
+            <div class="dual-stack__row"><b>02</b><span>云端 SaaS 运营；低部署成本与低集成门槛。</span></div>
+            <div class="dual-stack__row"><b>03</b><span>GitHub 社区 + IIoT / MQTT / Edge 国际论坛。</span></div>
+            <div class="dual-stack__row"><b>04</b><span>EMQ / 硬件厂商联合方案 + 高校开发者社区。</span></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 示例:最后一页 · Closing Manifesto · 左深墨宣言 / 右白底 takeaway ============
-     ASCII 点阵仅用于 cover-editorial 右侧场；封底左侧保持纯深墨，避免与封面重复装饰。
-     第 03 条用 var(--accent) #B2ED1D 信号绿强调("单一锚点"原则),首尾形成"色彩闭环". -->
-<section class="slide split" data-layout="TIER0-CLOSING-SPLIT" data-closing-cta="tier0-app" data-animate="split-statement">
+<section class="slide split" data-layout="TIER0-CLOSING-SPLIT" data-closing-cta="tier0-app" data-source-ids="s07-close" data-animate="split-statement">
   <div class="canvas-card">
     <div class="split-half">
-      <!-- 左半 · 纯深墨宣言；若 intake 开启官网 CTA，再插入二维码 -->
-      <div class="half b-ink" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between;position:relative;overflow:hidden">
-        <div class="chrome-min" style="margin-bottom:0;position:relative;z-index:1">
-          <div class="l">NN / NN</div>
-          <div class="r">CLOSING</div>
-        </div>
-
-        <div data-anim="manifesto" style="display:flex;flex-direction:column;gap:2vh;position:relative;z-index:1">
-          <div class="t-meta" style="color:rgba(255,255,255,.58);letter-spacing:.22em;margin-bottom:1.6vh">MANIFESTO</div>
-          <h2 style="font-family:var(--sans),var(--sans-zh);font-size:min(8vw,14vh);line-height:.94;letter-spacing:-.025em;font-weight:400;color:var(--paper)">[必填] Build a model.<br/>Run <span style="font-style:italic;font-weight:400">forever</span>.</h2>
-          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(14px,1vw);line-height:1.6;color:rgba(255,255,255,.74);font-weight:400;max-width:36ch;margin-top:1.4vh">[必填] 一句 1-2 行的中文/英文注脚,把宣言落地.</div>
-        </div>
-
-        <div data-anim="signature" style="display:flex;justify-content:space-between;align-items:end;gap:20px;border-top:1px solid rgba(255,255,255,.18);padding-top:2vh;position:relative;z-index:1">
-          <div class="t-meta" style="color:rgba(255,255,255,.58)">[选填] 作者 · 头衔</div>
-          <a class="closing-qr" href="https://www.tier0.app/" target="_blank" rel="noreferrer" data-website-qr="tier0-app" aria-label="访问 Tier0 官网：www.tier0.app">
+      <div class="v2-closing-left">
+        <div class="chrome-min" style="position:relative;z-index:1"><div class="l">08 / 08</div><div class="r">CLOSING</div></div>
+        <h2 class="v2-closing-title" style="position:relative;z-index:1">用开源的方式，<br/><span style="color:#B2ED1D">重新定义</span><br/>工业数据的未来。</h2>
+        <div style="display:flex;justify-content:space-between;align-items:end;gap:20px;border-top:1px solid rgba(255,255,255,.18);padding-top:1.8vh;position:relative;z-index:1">
+          <div class="v2-meta" style="color:rgba(255,255,255,.56)">guohao · PM</div>
+          <a class="closing-qr" href="https://www.tier0.app/" target="_blank" rel="noreferrer" data-website-qr="tier0-app">
             <span class="closing-qr__mark"><img src="images/brand/tier0-app-qr.svg" alt="Tier0 官网二维码" data-image-slot="tier0-app-qr"></span>
             <span class="closing-qr__copy"><span class="closing-qr__label">SCAN TO VISIT</span><span class="closing-qr__url">www.tier0.app</span></span>
           </a>
         </div>
       </div>
-
-      <!-- 右半 · 三条 takeaway · 白底承载理性收束 -->
       <div class="half" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between">
-        <div class="chrome-min">
-          <div class="l">TAKEAWAYS</div>
-          <div class="r">03 RULES</div>
+        <div class="chrome-min"><div class="l">TAKEAWAYS</div><div class="r">03 RULES</div></div>
+        <div class="v2-takeaways">
+          <div class="v2-takeaway"><div class="v2-takeaway__n">01</div><div><h3>生态 + 信任</h3><p>工业软件出海的关键不是单一产品，而是可验证、可参与的全球生态。</p></div></div>
+          <div class="v2-takeaway"><div class="v2-takeaway__n">02</div><div><h3>开源是确定性路径</h3><p>开源降低试用摩擦，用社区证据替代不透明承诺。</p></div></div>
+          <div class="v2-takeaway"><div class="v2-takeaway__n v2-signal">03</div><div><h3 class="v2-signal">Tier0 · 通用底座</h3><p>以轻量、开放、SaaS 化方式成为全球工业数据集成基础设施。</p></div></div>
         </div>
-
-        <div data-anim="rules" style="display:flex;flex-direction:column;gap:0">
-          <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle)">
-            <div style="font-family:var(--sans);font-weight:200;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--text-primary)">01</div>
-            <div>
-              <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.8vw);line-height:1.2;letter-spacing:-.015em;color:var(--text-primary);margin-bottom:1vh">[必填] takeaway 标题 01</h3>
-              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary);font-weight:400">[必填] 1-2 行展开说明.</p>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle)">
-            <div style="font-family:var(--sans);font-weight:200;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--text-primary)">02</div>
-            <div>
-              <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.8vw);line-height:1.2;letter-spacing:-.015em;color:var(--text-primary);margin-bottom:1vh">[必填] takeaway 标题 02</h3>
-              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary);font-weight:400">[必填] 1-2 行展开说明.</p>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.6vh 0;border-top:1px solid var(--border-subtle);border-bottom:2px solid var(--accent)">
-            <div style="font-family:var(--sans);font-weight:200;font-size:min(4.4vw,7.8vh);line-height:.9;color:var(--accent-text)">03</div>
-            <div>
-              <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.8vw);line-height:1.2;letter-spacing:-.015em;color:var(--accent-text);margin-bottom:1vh">[必填] takeaway 标题 03 · accent 强调</h3>
-              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary);font-weight:400">[必填] 最后一条用 accent 强调,与封面色彩首尾闭环.</p>
-            </div>
-          </div>
-        </div>
-
-        <div data-anim="foot" class="t-meta" style="color:var(--text-helper);text-align:right">→ 完 · END OF FIELD NOTE</div>
+        <div class="v2-meta" style="text-align:right">END OF FIELD NOTE →</div>
       </div>
     </div>
   </div>

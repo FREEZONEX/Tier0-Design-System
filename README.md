@@ -99,7 +99,7 @@
 
 ## 公开站（GitHub Pages）
 
-对外说明与效果预览（intake 视觉风格）：
+白底黑字的快速上手展示站：ASCII 铺底、三场景入口、Token 速查（对齐产品规范站气质，不是 marketing 落地页）。
 
 **https://freezonex.github.io/Tier0-Design-System/**
 
@@ -113,9 +113,10 @@
 
 | 路径 | 内容 |
 |------|------|
-| `/` | Design System 首页（三场景 + Skill） |
-| `/slide-skill/` | Skill 功能、用法、Gallery、Demo、SKILL.md |
+| `/` | 产品展示首页（Hero + 三场景 + Demo 嵌入） |
+| `/slide-skill/` | Skill 总览、Guide、Gallery、Demo、SKILL.md |
 | `/tokens/` | 色板与绿的用法 |
+| `/surfaces/*` | Website / Product / PPT 规范导航 |
 
 本地预览公开站：
 
