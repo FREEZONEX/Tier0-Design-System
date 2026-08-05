@@ -1,26 +1,31 @@
 ---
 name: tier0-slide-skill
-description: 将已有的 Tier0 PPT 结构、章节文档、图片、产品截图、Demo 视频、架构图或现有 PPTX，整理并逐页优化为符合 Tier0 品牌的**销售/售前演示稿**。先理解演示目的、受众和素材证据，再选择或改造 Layout Gallery 的版式；在需要配图的槽位按 Tier0 illustration 风格统一出图（触发词 tier0_illustration_style）。可交付 HTML 演示稿、可编辑 PPTX 或两者。适用于「根据资料补全 Tier0 PPT」「优化现有 deck」「把 PPTX 改成 Tier0 风格」「按 Tier0 插画风格补概念配图」「客户提案、售前、产品介绍、架构说明、数据价值说明」等请求。**不做产品设计**（产品后台 UI、交互稿、组件、设计系统实现）；界面证据仅使用用户提供的真实截图/录屏。本 skill 位于 Tier0 Design System 的 skills/tier0-slide-skill/；VI 冲突时服从仓库 tokens/deck.css 与 references/ppt-checklist.md；插画 DNA 与 tier0-illustration-style 对齐。
+description: 将已有的 Tier0 PPT 结构、章节文档、图片、产品截图、Demo 视频、架构图或现有 PPTX，整理并逐页优化为符合 Tier0 品牌的**销售/售前演示稿**。先理解演示目的、受众和素材证据；**逐页先判第一性原理**（本页核心目的与核心观点），再把内容收成疏密合理的布局（发丝分割、表格/图表、关键数值突出），并选择或改造 Layout Gallery 的版式；在需要配图的槽位按 Tier0 illustration 风格统一出图（触发词 tier0_illustration_style）。可交付 HTML 演示稿、可编辑 PPTX 或两者。适用于「根据资料补全 Tier0 PPT」「优化现有 deck」「把 PPTX 改成 Tier0 风格」「按 Tier0 插画风格补概念配图」「客户提案、售前、产品介绍、架构说明、数据价值说明」等请求。**不做产品设计**（产品后台 UI、交互稿、组件、设计系统实现）；界面证据仅使用用户提供的真实截图/录屏。本 skill 位于 Tier0 Design System 的 skills/tier0-slide-skill/；VI 冲突时服从仓库 tokens/deck.css 与 references/ppt-checklist.md；插画 DNA 与 tier0-illustration-style 对齐。
 ---
 
 # Tier0 Slide Skill
 
-以**输入材料和演示目的**为起点，而不是以空白模板或固定页数为起点。Layout Gallery 是排版、图文关系与信息密度的来源；不是必须逐页复刻的成品库。
+以**输入材料和演示目的**为起点，而不是以空白模板或固定页数为起点。
 
 **范围边界：** 本 skill 只产出销售 / 售前 deck。禁止把它当成产品设计工具去画后台界面、改组件或写产品 UI 规范。
-默认视觉目标为 **Tier0 V4 Editorial Hybrid**：白底 editorial 封面、纯网格深墨章节转场、白底证据页与深墨封底交替。封面与白底页使用 IBM Plex，深墨转场使用 Tektur；`#B2ED1D` 只点亮路径、结论或关键文字。视觉语法见 `references/tier0-intro-v4-visual-grammar.md`。
+默认视觉目标为 **Tier0 V4 Editorial Hybrid**：白底 editorial 封面、深墨章节转场、白底证据页与深墨封底交替。封面与白底页使用 IBM Plex，深墨转场全大写标题使用 Tektur；`#B2ED1D` 只点亮路径、结论或关键文字。视觉语法见 `references/tier0-intro-v4-visual-grammar.md`。
 
-**Gallery 保真（硬门槛）：** 产出观感必须对齐 `layout-gallery/index.html`。先打开目标 `Sxx` 按 `R` 读规则，再复制其结构与密度；禁止自创旋转菱形、斜线角标、ASCII 铺底（封面除外）或白底页堆砌大面积黑块。完整保真条见 `references/gallery-fidelity-tier0.md`。
+**布局第一性原理（核心硬门槛）：** 每一页先回答「这页要传达什么、最核心观点是什么」，再生成**视觉排版合理、信息疏密均匀、层级正确**的结构——发丝分割、放大关键数值、该用表/图就升级。疏密与数据突出详见 `references/layout-first-principles-tier0.md`；Kimi 类排版参考图在 `references/assets/layout-density/`（只借疏密/分割/KPI 强调，**色系仍锁 Tier0 绿**，禁止照搬紫/蓝）。Gallery 装不下或内容形状不匹配时，优先按本页观点改版，而不是硬套 `Sxx`。
 
-默认封面必须使用 `cover-editorial`：白底左侧品牌、主标题和演讲者信息，右侧为亮绿动态 ASCII 点阵场；由同一份 `deck.json` 同步生成 HTML 与 PPTX，PPTX 将动效降级为可编辑静态点阵。不得为 PPTX 另做深色封面。`section-dark` 固定为 Gallery S10 极简转场：纯深墨底、一个超大 IBM Plex 单句标题、克制章节标签与底部发丝线；禁止硬网格、左上 Logo、标题前短线、绿色角线和角落圆形。
+**Gallery / template 的角色（基础样式与布局语言，不是逐页模版）：**  
+`layout-gallery/` + `assets/template-tier0.html` 提供 token、组件类名、16:9 画布与常见版式语法，用来避免「基础样式和布局都错」——例如 dual 扁平绝对定位、自创菱形角标。按内容形状**借用或改造**最近的 `Sxx` 结构与密度即可；**禁止**把每一页内容硬塞进某个 Gallery 成品页。禁令与组件底线见 `references/gallery-fidelity-tier0.md`。
+
+**dual / English demo：** `build-tier0-dual.mjs` 与 `docs/slide-skill/demo-en/` 服务可编辑 PPTX 同源；其当前扁平 HTML **不能**当作「怎样排版才对」的范本。HTML 演示观感应对齐第一性原理 + Tier0 基础样式，而不是对齐 dual 预览。
+
+默认封面使用 `cover-editorial`：白底左侧品牌、主标题和演讲者信息，右侧为亮绿动态 ASCII 点阵场。深墨章节转场参考 Gallery S10 极简语法（一大句标题、克制标签与底线）；禁止硬网格、左上 Logo、标题前短线、绿色角线和角落圆形装饰。
 
 ## 输出与边界
 
 | 交付 | 适用情况 | 原则 |
 |---|---|---|
-| HTML deck | 现场演示、需要动效 / 视频 / 交互 Demo、优先视觉还原 | 默认视觉准绳；每页为 16:9 横向画布 |
+| HTML deck | 现场演示、需要动效 / 视频 / 交互 Demo、优先视觉还原 | 16:9；按本页观点排版；用 template token/组件，不硬套 Gallery 成品页 |
 | 可编辑 PPTX | 客户需二次改字、邮件分发、销售内部复用 | 文本、图表、架构节点保持为独立可编辑对象 |
-| HTML + PPTX | 既要现场演示也要可编辑副本 | 内容、页序、品牌 token 必须一致；允许说明 PPTX 的动效降级 |
+| HTML + PPTX | 既要现场演示也要可编辑副本 | 内容/页序/token 一致；允许说明 PPTX 动效降级；HTML 观感不以 dual 预览为准 |
 
 不把没有证据的观点包装成数据；不以替换所有页面为目标；不为了“填满页面”添加装饰元素或虚构 KPI。
 
@@ -81,6 +86,18 @@ node <SKILL_ROOT>/scripts/validate-tier0-intake.mjs 项目/客户名称/intake/r
 
 为每一页列出：`页码 → 源内容 ID → 本页结论 → 输入证据 → 观众要看到什么 → 候选版式 → 是否保留原页结构`，并在每张源内容页的 `<section>` 加 `data-source-ids="…"`。
 
+**同时写满第一性原理字段**（详见 `references/layout-first-principles-tier0.md`）：
+
+| 字段 | 含义 |
+|------|------|
+| `purpose` | 这页唯一任务 |
+| `coreClaim` | 5 秒带走的核心观点 |
+| `proofType` | `kpi` / `table` / `chart` / `list` / `compare` / `evidence-media` / `structure` |
+| `heroElement` | 唯一视觉锚点（大标题 / 大数字 / 主表主图） |
+| `density` | `sparse` · `editorial` · `dense` |
+
+写不出 `coreClaim` 或 `heroElement` 超过一个 → 先拆页或回源，不要开排版。有分散数据时，规划如何收成表 / ledger / viz / `metric-quad` / `kpi-rail`，禁止用长段落埋数字。
+
 - 优先保留原 PPTX 中正确的内容关系；仅在层级、密度、证据落位或品牌表达不足时重构。
 - 先按内容形状选择 Gallery 语法：双向对照用 S08、线性或交错过程用 S11、现场到云端架构用 S13、闭环用 S14、图像证据用 S15、Demo 用 S16、系统关系用 S17、业务价值用 S18、四项能力 + 抽象线条图用 S19、KPI 清单用 S20、读数任务不同的数据图用 S21、路由/配置/执行逻辑等大段原文用 S23。
 - 允许把 Gallery 的一个结构片段移入另一页，例如标题区域、两栏比例、图例、节点样式或底部证据区；不要复制与本页无关的文案、数字或装饰。
@@ -116,30 +133,32 @@ node <SKILL_ROOT>/scripts/validate-tier0-illustrations.mjs 项目/deck.json
 
 每页只服务一个主结论。按下列优先级处理：
 
-1. **先对齐 Gallery 目标页**：打开 `layout-gallery/index.html` 对应 `Sxx`，按 `R` 确认 avoid 列表；结构类名优先用模板已有组件（`tier0-card` / `sub-card` / `line-sketch` / `corner-card` / `dual-stack` 等），见 `gallery-fidelity-tier0.md` + `composition-craft-tier0.md`。
-2. 按 `imageRole` 放入真实素材、Tier0 插画或明确占位符；
-3. 建立标题、辅助说明、证据 / 图形的阅读顺序；
-4. 用 Tier0 token 和 Gallery 组件调整比例、间距、对齐与强调——**双栏等宽均分，禁止左空右挤**；
-5. 仅在确有语义作用时添加 **IBM Carbon** 图标、连接线、色块或动效——禁止旋转菱形、斜线角标、无语义几何“填空”；短文案大格子用右下角大号序号占位（`.corner-card`）；
-6. 抽象关系优先 Gallery 黑灰线条 + 单点亮绿（`line-sketch`）；需要场景隐喻时用 §2b 的 `illustration`，不要改用其它插画口味。
+1. **兑现第一性原理**：`coreClaim` 必须是标题或左侧 insight 的第一句；`heroElement` 占据最大视觉权重；分区优先用发丝分割（`.rule-list` / `.metric-quad` / `.data-table` / `.kpi-rail` / `.readout-split` / `.insight-rail`），见 `layout-first-principles-tier0.md`。
+2. **再对齐 Gallery 目标页**：打开 `layout-gallery/index.html` 对应 `Sxx`，按 `R` 确认 avoid 列表；结构类名优先用模板已有组件（`tier0-card` / `sub-card` / `line-sketch` / `corner-card` / `dual-stack` / `ledger` / `viz-*` 等），见 `gallery-fidelity-tier0.md` + `composition-craft-tier0.md`。
+3. 按 `imageRole` 放入真实素材、Tier0 插画或明确占位符；
+4. 建立标题、辅助说明、证据 / 图形的阅读顺序；有数据则升级为表或图，不要用段落藏 KPI；
+5. 用 Tier0 token 和 Gallery 组件调整比例、间距、对齐与强调——**双栏等宽均分，禁止左空右挤**；外边距 ≥40px；独立 block 间距 ≥40px；
+6. 仅在确有语义作用时添加 **IBM Carbon** 图标、连接线、色块或动效——禁止旋转菱形、斜线角标、无语义几何“填空”；短文案大格子用右下角大号序号占位（`.corner-card`）；
+7. 抽象关系优先 Gallery 黑灰线条 + 单点亮绿（`line-sketch`）；需要场景隐喻时用 §2b 的 `illustration`，不要改用其它插画口味。关键数值一页一个英雄数字；绿只点亮焦点。
 
 遵守 Tier0：深墨页展示标题优先 Tektur，白底标题与正文使用 IBM Plex；左对齐正文标题；`#B2ED1D` 只作 active/focus；白底普通文字不用亮绿，如必须用绿字，使用通过对比度检查的深绿 `#73B200`；直角/近直角容器、无重阴影。架构图先选择关系语法，再绘制节点。原始 UI 截图和视频必须按内容比例 fit 进证据框；不得用无意义黑框/灰框制造大面积 letterbox。**语言单一：** 中文稿不要在中文下再挂英文复述句（产品名/协议名除外）。**中文深墨标题**行高约 `1.14`，勿用 `0.9`。
 
-**S19 四卡特例：** 必须跟随 Gallery——序号 `t-meta` + 短标题 + 短文 +（底部 `line-sketch` **或** 单一 Carbon icon）；卡片底色在浅灰与淡绿之间交替；不要自创顶部斜线+菱形 mark，也不要在四卡里塞两张以上大面积 ink 黑底。
+**S19 四卡：** 内容形状接近时跟随 Gallery 节奏——序号 `t-meta` + 短标题 + 短文 +（底部 `line-sketch` **或** 单一 Carbon icon）；卡片底色浅灰/淡绿交替。不要自创顶部斜线+菱形 mark，也不要在四卡里塞两张以上大面积 ink 黑底。若本页观点不是「四步并列」，不要硬拆成 S19。
 
 ### 4. 每页完成后必须过「页面验收门」
 
 不要等到整套做完才检查。每页在动效稳定状态下同时检查画面和代码，全部通过才进入下一页：
 
-1. **Gallery 保真**：与目标 `Sxx` 并排对照——结构密度相近；无旋转菱形/斜线角标；无封面以外的 ASCII 铺底；白底页未堆砌多余 ink 黑块（见 `gallery-fidelity-tier0.md`）。
-2. **语言与构图**：一页一语；无中英对照句；双栏不左空右挤；短卡无大片空洞；中文深墨标题行距够（见 `composition-craft-tier0.md`）。
-3. **内容接收与来源**：5 秒内能读出标题结论；图、数据或 Demo 能证明该结论；每个源内容 ID 均在 coverage map 中可追溯；没有竞争性标题、无依据数字或被改写的源标题。
-4. **信息层级**：标题、说明、证据的阅读顺序清楚；关键点只使用一次绿色强调；正文在投屏距离可读。
-5. **几何安全**：无横向/纵向溢出、遮挡、重叠、被导航或页脚压住；图片主体和图表标签没有被裁切。
-6. **留白与平衡**：空白服务于标题、图形或章节节奏；若一侧空洞而另一侧拥挤，先改列宽与行均分，再调 margin；block 之间至少保留 40px 等效间距。
-7. **品牌与证据**：无 emoji、无假 Dashboard、无多余图标；图标使用 IBM Carbon；白/浅底文字对比度达标；真实图片、视频、PPTX 图形和标签没有被拉伸、裁断或在画框内留下非语义的大块空白。封尾页是否带官网二维码与 `www.tier0.app` 必须严格遵从 intake，不能自行添加或删去。
+1. **第一性原理与疏密（优先）**：本页 `coreClaim` 5 秒可读；hero 唯一；信息排布均匀、层级正确；发丝分区清楚；关键数字/表图到位；无溢出重叠、无左空右挤。可对照 `layout-density/` 参考图的疏密气质（见 `layout-first-principles-tier0.md`）。
+2. **基础样式底线**：用了 template/Gallery 组件语法时，无旋转菱形/斜线角标；无封面以外的 ASCII 铺底；白底页未堆砌多余 ink 黑块（见 `gallery-fidelity-tier0.md`）。形状不匹配时允许改版，禁止为对齐而硬套。
+3. **语言与构图**：一页一语；无中英对照句；双栏不左空右挤；短卡无大片空洞；中文深墨标题行距够（见 `composition-craft-tier0.md`）。
+4. **内容接收与来源**：5 秒内能读出标题结论；图、数据或 Demo 能证明该结论；每个源内容 ID 均在 coverage map 中可追溯；没有竞争性标题、无依据数字或被改写的源标题。
+5. **信息层级**：标题、说明、证据的阅读顺序清楚；关键点只使用一次绿色强调；正文在投屏距离可读。
+6. **几何安全**：无横向/纵向溢出、遮挡、重叠、被导航或页脚压住；图片主体和图表标签没有被裁切。
+7. **留白与平衡**：空白服务于标题、图形或章节节奏；若一侧空洞而另一侧拥挤，先改列宽与行均分，再调 margin；block 之间至少保留 40px 等效间距。
+8. **品牌与证据**：无 emoji、无假 Dashboard、无多余图标；图标使用 IBM Carbon；白/浅底文字对比度达标；真实图片、视频、PPTX 图形和标签没有被拉伸、裁断或在画框内留下非语义的大块空白。封尾页是否带官网二维码与 `www.tier0.app` 必须严格遵从 intake，不能自行添加或删去。
 
-失败时按顺序修复：删减次要内容 → 更换更合适的 Gallery 语法 → 去掉装饰几何 / 双语复述 → 调整列宽与素材比例 → 调整间距 → 最后才微调字号。不要用缩小一切来解决溢出。
+失败时按顺序修复：先澄清本页观点与 hero → 删减次要内容 → 按内容形状改版或借用更合适的 Gallery 片段 → 去掉装饰几何 / 双语复述 → 调整列宽与素材比例 → 调整间距 → 最后才微调字号。不要用缩小一切来解决溢出，也不要用「硬套 Sxx」解决内容形状不匹配。
 
 逐页检查表与判定方法：`references/page-review-tier0.md`。
 
@@ -156,12 +175,14 @@ node <SKILL_ROOT>/scripts/validate-tier0-source-lock.mjs 项目/XXX/source/conte
 
 ## 必读资源（按任务加载）
 
-1. 始终读：`references/intake-gate-tier0.md`、`references/tier0-vi-style-guide.md`、`references/tier0-intro-v4-visual-grammar.md`、`references/gallery-fidelity-tier0.md`、`references/composition-craft-tier0.md`、`references/tier0-layout-lock.md`、`references/layout-gallery-tier0.md`、`references/layouts-tier0.md`、`references/source-first-deck-workflow.md`、`references/source-integrity-tier0.md`、`references/page-review-tier0.md`。
-2. 先读 `assets/template-tier0.html` 的 `<style>`，再使用任何 Gallery 类名；并排打开 `layout-gallery/index.html` 对照目标页。
+1. 始终读：`references/intake-gate-tier0.md`、`references/tier0-vi-style-guide.md`、`references/tier0-intro-v4-visual-grammar.md`、`references/gallery-fidelity-tier0.md`、`references/layout-first-principles-tier0.md`、`references/composition-craft-tier0.md`、`references/tier0-layout-lock.md`、`references/layout-gallery-tier0.md`、`references/layouts-tier0.md`、`references/source-first-deck-workflow.md`、`references/source-integrity-tier0.md`、`references/page-review-tier0.md`。
+2. 先读 `assets/template-tier0.html` 的 `<style>`，再使用任何 Gallery 类名；并排打开 `layout-gallery/index.html` 对照目标页。疏密/表图组件见模板内 `.insight-rail` `.rule-list` `.metric-quad` `.kpi-rail` `.readout-split` `.data-table`。
 3. 交付包含 PPTX 时读 `references/dual-output-tier0.md`，并使用 `assets/tier0-v4-dual-example.json` + `scripts/build-tier0-dual.mjs`。
-4. 有数据时读 `references/data-viz-tier0.md`；有 Demo / 视频时读 `references/demo-prototypes-tier0.md`；有架构图时读 `references/architecture-diagrams-tier0.md`；有动效时读 `references/motion-tier0.md`。
+4. 有数据时读 `references/data-viz-tier0.md` + `layout-first-principles-tier0.md` §3–4；有 Demo / 视频时读 `references/demo-prototypes-tier0.md`；有架构图时读 `references/architecture-diagrams-tier0.md` + `references/archify-tier0.md`（复杂拓扑用 vendored Archify，视觉锁 Tier0）；有动效时读 `references/motion-tier0.md`。
 5. 使用官方 Logo 或 UI 素材时读 `references/brand-assets-tier0.md`。
 6. 需要配图 / 补概念插画时读 `references/illustration-slots-tier0.md` + `references/image-prompts-tier0.md`，并跑 `validate-tier0-illustrations.mjs`。
+
+**字体：** Tektur 仅用于深墨分隔页全大写标题；正文 / KPI / 节点名一律 IBM Plex（见 `tier0-intro-v4-visual-grammar.md`）。
 
 ## 快速决策
 
@@ -171,7 +192,8 @@ node <SKILL_ROOT>/scripts/validate-tier0-source-lock.mjs 项目/XXX/source/conte
 | 有现成 PPTX，内容基本正确 | 保留页序和有效图形，逐页重排为 Tier0，而非整套重做 |
 | 有截图 / 录屏 / Demo 视频 | 让素材成为证据主角，S15 / S16 / S22 优先，`imageRole=product-evidence` |
 | 概念页缺图、需要统一隐喻插画 | 定 `imageSlot` → `tier0_illustration_style` 提示词 → 写入 `images/` |
-| 有复杂系统关系 | 先选 hub、linear flow、tree 或对比语法，再用 S13 / S17（`architecture-native`） |
+| 有数据 / 复盘指标 | 先写 `coreClaim`，再用 `ledger` / `metric-quad` / `data-table` / `viz-*`（`layout-first-principles-tier0.md`） |
+| 有复杂系统关系 | 先选 hub、linear flow、tree 或对比语法；简单图用 S13 / S17（`architecture-native`）；需校验的复杂拓扑走 Archify + `archify-tier0.md` |
 | 只要求可编辑 PPTX | 从第一步进入双格式模式；以 `deck.json` 同时生成 HTML QA 版和可编辑 PPTX，不把整页烘焙成图片 |
 
 ## 参考目录

@@ -31,6 +31,16 @@ Tier0 Slide Skill 专用清单。P0 项必须全部通过。完整 VI 见 `tier0
 - **短文大格**：2×2 等分；文案靠上，大号序号锚右下角（`.corner-card`）；或用 `line-sketch` 填底
 - **中文深墨标题**：禁止 `line-height: .9` 导致两行汉字贴死
 
+### 0-T-8. 第一性原理与疏密布局（P0）
+
+详见 `references/layout-first-principles-tier0.md`（参考图：`references/assets/layout-density/`）。
+
+- 每页先写 `purpose` / `coreClaim` / `heroElement` / `proofType` / `density`，再选 Gallery
+- 分区优先发丝分割线（`.rule-list` / `.metric-quad` / `.data-table` / `.kpi-rail`），少用厚卡片套娃
+- 关键数值一页一个英雄；绿只点亮焦点（勿照搬参考图紫色）
+- 有数据则用表/图/ledger 突出，禁止用长段落埋 KPI；禁止虚构数字
+- 无溢出、无重叠、边距 ≥40px、独立 block 间距 ≥40px
+
 ### 0-T-2. 字体与字重
 
 - 大标题 IBM Plex Sans **400**，不是 Inter/Helvetica 200

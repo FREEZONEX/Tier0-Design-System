@@ -1,0 +1,51 @@
+/* tier0-slide-theme — override Archify console palette for Tier0 decks */
+:root,
+[data-theme="light"],
+[data-theme="dark"],
+[data-preset="blueprint"][data-theme="light"],
+[data-preset="blueprint"][data-theme="dark"],
+[data-preset="classic"][data-theme="light"],
+[data-preset="signal-flow"][data-theme="light"],
+[data-preset="editorial"][data-theme="light"] {
+  --canvas: #FCFCFC;
+  --mask: #FFFFFF;
+  --ink: #050B14;
+  --muted: #585C62;
+  --dim: #A5A5A5;
+  --border: #CDCED0;
+
+  /* Collapse rainbow semantics → Tier0 ink / pale / lime signal */
+  --frontend-fill: rgba(5, 11, 20, 0.03);
+  --frontend-stroke: #050B14;
+  --backend-fill: rgba(245, 251, 222, 0.95);
+  --backend-stroke: #73B200;
+  --database-fill: rgba(5, 11, 20, 0.03);
+  --database-stroke: #2F343B;
+  --cloud-fill: rgba(5, 11, 20, 0.03);
+  --cloud-stroke: #585C62;
+  --security-fill: rgba(5, 11, 20, 0.04);
+  --security-stroke: #050B14;
+  --messagebus-fill: rgba(178, 237, 29, 0.18);
+  --messagebus-stroke: #B2ED1D;
+  --external-fill: #F4F4F4;
+  --external-stroke: #73777D;
+
+  --emphasis-fill: rgba(178, 237, 29, 0.22);
+  --emphasis-stroke: #B2ED1D;
+}
+
+html, body, .diagram, .panel, .toolbar, .node, .label, button, input {
+  font-family: "IBM Plex Sans", "IBM Plex Mono", ui-sans-serif, system-ui, sans-serif !important;
+}
+
+.label, .meta, .toolbar, [data-kind="label"] {
+  font-family: "IBM Plex Mono", ui-monospace, monospace !important;
+  letter-spacing: 0.04em;
+}
+
+/* No glow / soft SaaS shadows on slide exports */
+.node, .edge, .panel {
+  filter: none !important;
+  box-shadow: none !important;
+  border-radius: 4px !important;
+}

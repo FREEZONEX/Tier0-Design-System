@@ -38,7 +38,7 @@
 ### 1.2 Typography Tokens
 ```css
 :root {
-  --font-heading: 'Poppins', sans-serif;
+  --font-heading: "IBM Plex Sans", "IBM Plex Sans SC", "PingFang SC", sans-serif;
   --font-body: 'IBM Plex Sans', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 
@@ -765,4 +765,4 @@ p { margin: 0; }
 
 When building from this spec:
 
-**Use a white long-form canvas, Poppins display headings, IBM Plex Sans body copy, IBM Plex Mono eyebrow chips, thin bordered panels, soft green technical illustrations, and 1440px / 810px artboards with calm editorial spacing instead of homepage-style CTA patterns.**
+**Use a white long-form canvas, IBM Plex Sans display headings, IBM Plex Sans body copy, IBM Plex Mono eyebrow chips, thin bordered panels, soft green technical illustrations, and 1440px / 810px artboards with calm editorial spacing instead of homepage-style CTA patterns.**

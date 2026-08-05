@@ -737,6 +737,111 @@
   .ledger-context{font-family:var(--mono);font-size:max(12px,.72vw);line-height:1.35;letter-spacing:.08em;color:var(--text-secondary);text-transform:uppercase}
   .ledger-icon{width:8px;height:8px;background:var(--accent);justify-self:end}
 
+  /* —— Layout first principles · 发丝分割 / KPI / 表（疏密精致） —— */
+  .insight-rail{
+    display:grid;grid-template-columns:4px minmax(0,1fr);gap:clamp(14px,1.4vw,22px);
+    align-items:start;min-width:0;
+  }
+  .insight-rail__bar{width:4px;min-height:100%;background:var(--accent);align-self:stretch}
+  .insight-rail__body{display:flex;flex-direction:column;gap:clamp(10px,1.2vh,16px);min-width:0}
+  .insight-rail__body .h-md,.insight-rail__body h2,.insight-rail__body h3{
+    font-weight:500;letter-spacing:-.03em;line-height:1.15;max-width:18ch;
+  }
+  .insight-rail__body .lead,.insight-rail__body p{max-width:36ch;color:var(--text-secondary);line-height:1.55}
+
+  .rule-list{display:flex;flex-direction:column;min-width:0;border-top:1px solid var(--border-subtle)}
+  .rule-list__item{
+    display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(12px,1.2vw,20px);
+    align-items:baseline;padding:clamp(14px,1.8vh,22px) 0;
+    border-bottom:1px solid var(--border-subtle);
+  }
+  .rule-list__n{
+    font-family:var(--mono);font-size:max(12px,.72vw);font-weight:500;
+    letter-spacing:.1em;color:var(--text-secondary);font-feature-settings:"tnum";
+  }
+  .rule-list__item strong{font-weight:500;margin-right:.35em}
+  .rule-list__item p{display:inline;margin:0;color:var(--text-secondary);line-height:1.45}
+
+  .metric-quad{
+    display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;
+    flex:1;min-height:0;border-top:1px solid var(--border-subtle);
+  }
+  .metric-quad__cell{
+    padding:clamp(18px,2.2vh,28px) clamp(16px,1.6vw,24px);
+    border-right:1px solid var(--border-subtle);border-bottom:1px solid var(--border-subtle);
+    display:flex;flex-direction:column;gap:8px;min-width:0;
+  }
+  .metric-quad__cell:nth-child(2n){border-right:0}
+  .metric-quad__cell:nth-child(n+3){border-bottom:0}
+  .metric-quad__value{
+    font-family:var(--sans);font-weight:400;font-size:clamp(36px,3.4vw,64px);
+    line-height:.95;letter-spacing:-.04em;font-feature-settings:"tnum";color:var(--ink);
+  }
+  .metric-quad__value .unit{font-size:.32em;font-weight:400;opacity:.55;margin-left:.12em;vertical-align:.45em}
+  .metric-quad__cell.is-focus .metric-quad__value{color:#73B200}
+  .metric-quad__label{font-size:max(14px,.9vw);color:var(--text-secondary);line-height:1.35}
+  .metric-quad__meta{font-family:var(--mono);font-size:max(11px,.68vw);letter-spacing:.08em;text-transform:uppercase;color:var(--text-secondary);opacity:.85}
+
+  .kpi-rail{
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;
+    background:var(--ink);color:#fff;margin-top:auto;
+    border-radius:0;min-height:clamp(88px,12vh,120px);
+  }
+  .kpi-rail__cell{
+    padding:clamp(16px,2vh,24px) clamp(14px,1.4vw,22px);
+    border-right:1px solid rgba(255,255,255,.12);
+    display:flex;flex-direction:column;justify-content:center;gap:6px;min-width:0;
+  }
+  .kpi-rail__cell:last-child{border-right:0}
+  .kpi-rail__value{
+    font-family:var(--sans);font-weight:400;font-size:clamp(26px,2.4vw,42px);
+    line-height:1;letter-spacing:-.035em;font-feature-settings:"tnum";
+  }
+  .kpi-rail__value.is-focus,.kpi-rail__cell.is-focus .kpi-rail__value{color:var(--accent)}
+  .kpi-rail__label{font-family:var(--mono);font-size:max(11px,.68vw);letter-spacing:.1em;text-transform:uppercase;opacity:.55}
+
+  .readout-split{
+    display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+    flex:1;min-height:0;width:100%;
+  }
+  .readout-split__narrative{
+    background:var(--ink);color:#fff;padding:clamp(28px,3.5vh,48px) clamp(24px,2.4vw,40px);
+    display:flex;flex-direction:column;gap:clamp(16px,2vh,24px);min-width:0;
+  }
+  .readout-split__narrative .t-meta{color:rgba(255,255,255,.45)}
+  .readout-split__narrative h2,.readout-split__narrative .h-md{
+    font-weight:500;letter-spacing:-.035em;line-height:1.12;max-width:16ch;
+  }
+  .readout-split__narrative .kw{color:var(--accent);font-style:normal}
+  .readout-split__narrative p{color:rgba(255,255,255,.72);max-width:34ch;line-height:1.55}
+  .readout-split__metrics{
+    background:#fff;padding:clamp(24px,3vh,40px) clamp(22px,2.2vw,36px);
+    display:flex;flex-direction:column;gap:clamp(14px,1.6vh,20px);min-width:0;min-height:0;
+  }
+  .readout-split__metrics .t-meta{color:var(--text-secondary)}
+  .readout-split__metrics .metric-quad{flex:1}
+
+  .data-table{width:100%;border-collapse:collapse;font-feature-settings:"tnum";min-width:0}
+  .data-table th,.data-table td{
+    padding:clamp(12px,1.5vh,18px) clamp(10px,1vw,16px);
+    text-align:left;border-bottom:1px solid var(--border-subtle);
+    font-size:max(14px,.92vw);line-height:1.35;vertical-align:middle;
+  }
+  .data-table th{
+    font-family:var(--mono);font-size:max(11px,.7vw);font-weight:500;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--text-secondary);
+    border-bottom:1px solid var(--ink);
+  }
+  .data-table td.is-focus,.data-table .is-win{color:#73B200;font-weight:500}
+  .data-table .status-dot{
+    display:inline-block;width:8px;height:8px;border-radius:0;background:var(--accent);vertical-align:middle;
+  }
+  .data-table .status-dot.is-miss{background:var(--ink)}
+  .slide.ink .rule-list,.slide.ink .rule-list__item{border-color:rgba(255,255,255,.12)}
+  .slide.ink .metric-quad,.slide.ink .metric-quad__cell{border-color:rgba(255,255,255,.12)}
+  .slide.ink .data-table th,.slide.ink .data-table td{border-color:rgba(255,255,255,.12);color:inherit}
+  .slide.ink .data-table th{border-bottom-color:rgba(255,255,255,.35);color:rgba(255,255,255,.55)}
+
   /* ============ ASCII 点阵呼吸场 · Tier0 封底/深色页专用 ============
      用法:在 .canvas-card(或 split .half.b-accent)内首位插入 <canvas class="ascii-bg" aria-hidden="true">.
      动画由本文件底部的 ASCII IIFE 自动启动,所有 canvas.ascii-bg 都会被扫到.

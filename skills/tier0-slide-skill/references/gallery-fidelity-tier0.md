@@ -1,27 +1,29 @@
 # Gallery Fidelity Bar · Tier0 Slide Skill
 
-视觉真源是 `layout-gallery/index.html`（按 `R` 看每页规则）。本文件规定：**产出必须像 Gallery，而不是像自创装饰皮肤。**
+Gallery 提供 **基础样式、组件与常见布局语法**，不是「每一页都必须 1:1 复刻的成品库」。
 
-## 1. 对齐方式（硬顺序）
+**排版对错的核心**仍是：本页观点 → 疏密均匀 → 层级正确（见 `layout-first-principles-tier0.md` + `assets/layout-density/`）。Gallery 用来防止基础样式翻车（画布、token、发丝、卡片、禁装饰），并在内容形状接近时给出可借用的结构。
 
-1. 打开 Gallery，找到内容形状最近的 `Sxx`，按 `R` 读 `role / use / rule / avoid`。
-2. 复制该页的**结构与密度**（标题区、列数、卡片/非卡片语法、证据槽），再替换文案与证据。
-3. 类名优先来自 `assets/template-tier0.html` 已注册样式：`tier0-card`、`sub-card`、`line-sketch`、`ledger`、`duo-compare` 等。
-4. 只有 Gallery 语法装不下内容时，才允许局部改造；改造后仍须通过本文件 §3 禁令。
+## 1. 推荐对齐方式（可改造，勿硬套）
 
-禁止：先写一堆自创 CSS（`v2-*` 装饰层、旋转菱形、斜线几何），再“套成 Tier0 色”。
+1. 先写本页 `purpose` / `coreClaim` / `heroElement` / `density`。
+2. 打开 Gallery，找**内容形状**最近的 `Sxx`，按 `R` 读 `role / use / rule / avoid`——借结构与密度，**替换文案与证据**；形状不匹配时改造或组合片段，不要硬塞。
+3. 类名优先来自 `assets/template-tier0.html`：`tier0-card`、`sub-card`、`line-sketch`、`ledger`、`duo-compare`、`rule-list` 等。
+4. 改造后仍须通过本文件 §3 禁令（反装饰、反假 UI），并通过第一性原理疏密检查。
 
-## 2. Gallery 级观感清单（每页）
+禁止：先写一堆自创 CSS（旋转菱形、斜线几何、封面以外的 ASCII 铺底），再“套成 Tier0 色”。  
+也禁止：不管本页观点，机械把内容灌进某个 `Sxx` 空壳。
 
-| 维度 | Gallery 标准 | 失败信号 |
-|------|-------------|----------|
-| 画布 | 16:9 · `canvas-card` · 左右轴对齐 · ≥40px 外边距 | 内容贴边、被 nav 压住、任意空洞 |
+## 2. 基础观感清单（每页）
+
+| 维度 | 期望 | 失败信号 |
+|------|------|----------|
+| 画布 | 16:9 · 合理外边距 · 内容不被 nav 压住 | 贴边、溢出、任意空洞 |
 | 标题 | IBM Plex 400/500 · 左对齐 · 一页一句结论 | 双标题竞争、字重 ≥600、居中正文标题 |
-| 卡片 | 浅灰 / 淡绿交替；对比用内容，不是满屏黑块 | 连续多张 `ink` 黑底、装饰用黑条 |
-| 图标 | 需要时才放 **IBM Carbon** 内联 SVG | emoji、Lucide、无语义几何装饰 |
-| 抽象图 | Gallery `line-sketch` 黑灰线 + 单点亮绿 | 旋转菱形、斜线角标、ASCII 铺底（封面除外） |
+| 卡片 | 浅灰 / 淡绿交替；对比用内容 | 连续多张 `ink` 黑底、装饰用黑条 |
+| 图标 | 需要时才放 **IBM Carbon** 内联 SVG | emoji、无语义几何装饰 |
+| 抽象图 | 黑灰线 + 单点亮绿（`line-sketch` 等） | 旋转菱形、斜线角标、ASCII 铺底（封面除外） |
 | 绿 | `#B2ED1D` 作信号面/路径；白底字用 `#73B200` 或墨色 | 白底写亮绿字、满页铺绿 |
-| 节奏 | 每 4–6 页一张深墨转场；相邻页不连用同容器 | 三连同款四卡网格 |
 | 证据 | 真实截图/数据/占位；框贴合内容 | 假 Dashboard、大 letterbox 黑框 |
 | 语言 | 一页一语；专有名词可保留 | 中文下挂英文复述句 |
 | 平衡 | 双栏等宽均分；短文用角标占位 | 左空右挤；卡下大片空洞 |
@@ -53,6 +55,7 @@ node <SKILL_ROOT>/scripts/validate-tier0-deck.mjs 项目/ppt/index.html
 
 ## 5. 与其它文档的关系
 
+- 第一性原理 / 疏密 / 表图突出：`layout-first-principles-tier0.md`
 - 构图返工细则：`composition-craft-tier0.md`
 - 版式选择与 `R` 元数据：`layout-gallery-tier0.md`
 - 逐页验收：`page-review-tier0.md`

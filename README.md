@@ -46,7 +46,7 @@
 │   ├── company-website/      # 官网组件卡
 │   └── ppt/                  # 幻灯片组件卡（16:9）
 ├── ui_kits/                  # 可打开的 HTML/JSX 参考实现
-├── fonts/                    # 本地字体：Poppins、IBM Plex Sans/SC、Mono、Tektur
+├── fonts/                    # 本地字体：IBM Plex Sans/SC、Mono、Tektur（无 Poppins）
 └── .cursor/skills/           # Cursor 发现用软链 → ../../skills/<name>
 ```
 
@@ -57,9 +57,9 @@
 | 维度 | 产品 UI | 公司官网 | PPT |
 |------|---------|----------|----------------|
 | **气质** | 高密度工作台 | 长文编辑、图示叙事 | 深色章节 + 白底内容交替 |
-| **主字体** | IBM Plex Sans | Poppins 标题 + Plex 正文 | Tektur 封面·章节 / Plex/SC 正文 |
-| **主强调色** | FX Green 高亮态（克制） | `#A7CF3A` 标题挑词 | `#B2ED1D` accent1 |
-| **主 CTA** | 近黑主按钮 + 绿色高亮 | 轻量、非营销 Hero | 主题色按钮少，结构线为主 |
+| **主字体** | IBM Plex Sans | IBM Plex Sans（标题 500）+ Mono 标签 | Tektur 封面·章节 / Plex/SC 正文 |
+| **主强调色** | FX Green 高亮态（克制） | `#B2ED1D` CTA 面 · `#73B200` 白底字 | `#B2ED1D` accent1 |
+| **主 CTA** | 近黑主按钮 + 绿色高亮 | 亮绿底近墨字（对齐 tier0.app） | 主题色按钮少，结构线为主 |
 | **圆角** | 4px 默认 | 4px 面板 | 4px 卡片 |
 | **密度** | 高 | 中（留白呼吸） | 低（每页一观点） |
 | **蓝色** | 不用作品牌主色 | 极少 | **`#1D77FE` 品牌蓝**（PPT 专用） |

@@ -71,10 +71,17 @@ Intake `language=zh` 时默认启用本规则；`en` 时禁止中文夹注。
 | 标题下挂翻译句 | 删掉；只保留主语言 |
 | 深墨两行汉字挤 | 行高 ≥ 1.12 |
 | 为填空加菱形斜线 | 禁止；改用本文件 §3 或 Gallery 组件 |
+| 数字埋在段落里 | 升级为 `ledger` / `metric-quad` / `viz-*` / `data-table`（见 `layout-first-principles-tier0.md`） |
+| 分区靠厚卡片套娃 | 改发丝分割：`rule-list` / `metric-quad` / 表横线 |
+| 多处抢绿 | 只留一个 focus（大数或一行 `is-focus`） |
 
-## 6. 与验收的关系
+## 6. 与第一性原理布局的关系
 
-- 逐页门：`page-review-tier0.md`（Language / Balance）
+排版前先写 `purpose` / `coreClaim` / `heroElement` / `density`。完整规则、参考图与组件表：`layout-first-principles-tier0.md`。
+
+## 7. 与验收的关系
+
+- 逐页门：`page-review-tier0.md`（Language / Balance / First principles）
 - 保真总则：`gallery-fidelity-tier0.md`
-- 清单：`checklist-tier0.md` → `0-T-7`
+- 清单：`checklist-tier0.md` → `0-T-7` · `0-T-8`
 - 校验：`validate-tier0-deck.mjs` 会对双语复述、过紧深墨行高发出警告/错误

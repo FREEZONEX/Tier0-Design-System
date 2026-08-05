@@ -10,6 +10,22 @@
 6. 页面类型
 7. 验收
 
+## 0. 与「怎样排版才对」的关系
+
+排版对错的核心标准是 **`layout-first-principles-tier0.md`（本页观点 → 疏密/层级/表图）**，并可用 `references/assets/layout-density/` 的 Kimi 类参考图借结构灵感；色锁 Tier0 绿。
+
+| 产物 | 作用 |
+|------|------|
+| `template-tier0.html` + Gallery 组件 | **基础样式与布局语言**（画布、token、发丝、卡片语法）；按需借用，不逐页硬套 `Sxx` |
+| `build-tier0-dual.mjs` HTML | 与 PPTX 同源的坐标预览；**不是**「排版范本」 |
+| `docs/slide-skill/demo-en/` | dual starter 样例；当前扁平定位，**不要**当销售 HTML 观感对照 |
+
+规则：
+
+1. HTML-only / 现场演示：用 template 基座与 Tier0 组件，按第一性原理排版；内容形状接近时参考 Gallery，装不下就改版。
+2. 含 PPTX / both：`deck.json` + dual 保证可编辑对象；若 dual HTML 观感不够，不要假装它等于最终演示标准。
+3. 不要用 English dual demo 教「怎样排版」。
+
 ## 1. 何时进入双格式模式
 
 当 `intake/request.json` 的交付包含 `pptx` 或 `both` 时，从第一步就进入双格式模式。不要先自由写一份 HTML，再事后手工重建 PPTX。
@@ -18,7 +34,7 @@
 
 ```text
 deck.json
-   ├── index.html   浏览器演示
+   ├── index.html   浏览器坐标预览（≠ 排版范本）
    └── deck.pptx    PowerPoint 原生对象
 ```
 

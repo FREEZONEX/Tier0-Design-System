@@ -5,13 +5,15 @@
 
 ## 定位
 
-长滚动、**编辑感 + 工业可信** 的产品说明页：
+长滚动、**编辑感 + 工业可信** 的产品说明页（对齐 [tier0.app](https://tier0.app/pricing) / [Builder](https://tier0.app/product/tier0-builder)）：
 
 - 白底为主、浅灰绿分组带点缀  
-- **Poppins** 粗标题 + 绿字挑词  
-- **IBM Plex Sans** 正文  
+- **IBM Plex Sans** 标题（400–500）+ 括号挑词 `[Keyword]` / 绿字 `#73B200`  
+- **IBM Plex Mono** 小节标签 `■ HOW IT WORKS`  
+- 主 CTA：**亮绿底 `#B2ED1D` + 近墨字**；次 CTA：白底细边框  
 - 细线技术插图 + 白卡片细边框  
-- **紧圆角、几乎无阴影**
+- **紧圆角（~4px）、几乎无阴影**  
+- **禁止 Poppins**
 
 ### 不应像
 
@@ -19,14 +21,15 @@
 - 深色赛博页  
 - 软萌消费 dashboard  
 - 无节奏的技术白皮书  
+- Poppins / Inter 作品牌标题  
 
 ## 与其他场景差异
 
 | 维度 | 官网 | 产品 UI | PPT |
 |------|------|---------|-----|
-| 字体 | **Poppins 标题** | Plex only | + Tektur 章节 |
-| 绿 | `#A7CF3A` 标题挑词 | FX Green 状态 | `#B2ED1D` accent1 |
-| 阴影 | 极轻 hover | 卡片轻阴影 | 默认无 |
+| 字体 | **Plex Sans 标题 + 正文** | Plex only | + Tektur 章节 |
+| 绿 | `#B2ED1D` 按钮/面；`#73B200` 白底字 | FX Green 状态 | `#B2ED1D` accent1 |
+| 阴影 | 极轻或无 | 卡片轻阴影 | 默认无 |
 | 结构 | 长页多 section | 工作台 | 幻灯片 |
 
 ## 页面原型（推荐节序）
@@ -70,8 +73,8 @@
 | 角色 | 字体 | 桌面字号 |
 |------|------|----------|
 | Eyebrow chip | IBM Plex Mono | 10px |
-| Hero H1 | Poppins | 76px |
-| Section H2 | Poppins | 46px |
+| Hero H1 | IBM Plex Sans | 500 · ~38–76px |
+| Section H2 | IBM Plex Sans | 400–500 · ~32–46px |
 | Body | IBM Plex Sans | 16–18px |
 
 标题：一句中 **仅一词/短语绿色**，勿全绿。

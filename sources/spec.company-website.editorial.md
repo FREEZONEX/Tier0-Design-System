@@ -36,7 +36,7 @@ The strongest signature in the PDF comes from this combination:
 - **pure white root canvas**
 - **very light gray section grouping blocks used sparingly**
 - **compact mono eyebrow chips above sections**
-- **Poppins-like bold display titles with selected green emphasis**
+- **Plex Sans medium display titles with selected green emphasis**
 - **IBM Plex Sans style body copy**
 - **thin-outline green-and-neutral technical illustrations**
 - **white cards with subtle borders**
@@ -177,13 +177,13 @@ Most of the page should be carried by:
 
 ### 6.1 Typeface system
 Use:
-- **Primary heading font:** `Poppins`
+- **Primary heading font:** `IBM Plex Sans`
 - **Body font:** `IBM Plex Sans`
 - **Utility / eyebrow / code-adjacent labels:** `IBM Plex Mono`
 
 ### 6.2 Usage model
 
-**Poppins**
+**IBM Plex Sans (headings)**
 - H1
 - section H2
 - card titles
@@ -209,13 +209,13 @@ Use:
 | Role | Font | Size | Weight | Line-height | Tracking |
 |------|------|------|--------|-------------|----------|
 | Eyebrow chip | IBM Plex Mono | 10px | 500 | 1.2 | `0.04em` |
-| Hero H1 | Poppins | 76px | 700 | 0.98 | `-0.05em` |
-| Hero H1 tablet | Poppins | 60px | 700 | 1.0 | `-0.05em` |
-| Hero H1 mobile | Poppins | 38px | 700 | 1.04 | `-0.04em` |
-| Section H2 | Poppins | 46px | 700 | 1.08 | `-0.04em` |
-| Section H2 mobile | Poppins | 30px | 700 | 1.14 | `-0.03em` |
-| Subheading / card title | Poppins | 24px | 600 | 1.18 | `-0.03em` |
-| Grid tile title | Poppins | 22px | 600 | 1.2 | `-0.02em` |
+| Hero H1 | IBM Plex Sans | 76px | 500 | 0.98 | `-0.05em` |
+| Hero H1 tablet | IBM Plex Sans | 60px | 500 | 1.0 | `-0.05em` |
+| Hero H1 mobile | IBM Plex Sans | 38px | 500 | 1.04 | `-0.04em` |
+| Section H2 | IBM Plex Sans | 46px | 500 | 1.08 | `-0.04em` |
+| Section H2 mobile | IBM Plex Sans | 30px | 500 | 1.14 | `-0.03em` |
+| Subheading / card title | IBM Plex Sans | 24px | 500 | 1.18 | `-0.03em` |
+| Grid tile title | IBM Plex Sans | 22px | 500 | 1.2 | `-0.02em` |
 | Lead paragraph | IBM Plex Sans | 18px | 400 | 1.7 | normal |
 | Body paragraph | IBM Plex Sans | 16px | 400 | 1.72 | normal |
 | Small body | IBM Plex Sans | 14px | 400 | 1.65 | normal |
@@ -444,7 +444,7 @@ This appears as the short highlighted statement near the end of sections.
 - padding-left: `16px`
 
 ### Text
-- Poppins or IBM Plex Sans medium
+- IBM Plex Sans medium
 - `20px - 24px` desktop
 - `18px` mobile
 
@@ -693,4 +693,4 @@ Optional hover:
 
 ## 15. Final Style Sentence
 
-**Tier0’s UNS editorial page should feel like a white long-form product explainer with strong Poppins headings, IBM Plex Sans body copy, mono eyebrow chips, thin-border diagram panels, soft green technical illustrations, and a calm industrial rhythm built for explanation and reuse.**
+**Tier0’s UNS editorial page should feel like a white long-form product explainer with strong IBM Plex Sans headings, IBM Plex Sans body copy, mono eyebrow chips, thin-border diagram panels, soft green technical illustrations, and a calm industrial rhythm built for explanation and reuse.**

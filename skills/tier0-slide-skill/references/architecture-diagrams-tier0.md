@@ -2,6 +2,8 @@
 
 Use this reference before generating, drawing, or asking an image model for an architecture diagram. The first decision is the **relationship grammar**, not the visual style.
 
+**复杂 / 需校验的图：** 用 vendored [Archify](https://github.com/tt-a1i/archify) 生成拓扑（`vendor/archify/`），再套 Tier0 主题。完整步骤见 `archify-tier0.md`。Archify 的方法（typed JSON → validate → deliver → export）保留；颜色与字体必须换成 Tier0，禁止直接使用 Archify 默认 cyan/violet console 皮肤。
+
 The live visual sheet is `TIER0-ARCHITECTURE-REFERENCE` in `layout-gallery/index.html`. The supplied-reference index lives in `references/assets/architecture-diagrams/user-provided/`.
 
 ## Choose one grammar
@@ -13,6 +15,18 @@ The live visual sheet is `TIER0-ARCHITECTURE-REFERENCE` in `layout-gallery/index
 | Layered tree | The namespace itself is the story | Factory → line → device → metric / state / action | The central concern is system integration |
 | Point-to-point contrast | Explaining why a unified layer matters | Tangled before-state beside a clean target state | A target architecture should stand on its own |
 
+## Archify type mapping
+
+| Slide need | Archify type |
+|---|---|
+| Component / cloud / boundary map | `architecture` |
+| Process / approval / CI | `workflow` |
+| API / request chain | `sequence` |
+| ETL / lineage | `dataflow` |
+| State machine | `lifecycle` |
+
+简单 ≤6 节点的销售页继续用 `architecture-native`（HTML/PPTX 原生），不必启动 Archify。
+
 ## Tier0 translation rules
 
 - Keep labels in HTML whenever possible. SVG only carries nodes, connectors, and simple geometric state.
@@ -22,6 +36,7 @@ The live visual sheet is `TIER0-ARCHITECTURE-REFERENCE` in `layout-gallery/index
 - Every connector must have a reason. If a reader cannot name the relationship, remove it or label it outside the SVG.
 - Use `#73B200` only for readable green text on a white background; otherwise keep labels ink.
 - Prefer a maximum of 6 external systems and 3 hierarchy levels in a slide diagram. Split complex models across slides.
+- After Archify `deliver`, run `node scripts/apply-archify-tier0-theme.mjs <out.html>` before screenshot/export.
 
 ## Presentation direction from the supplied references
 

@@ -56,7 +56,7 @@ user-invocable: true
 - **Tier0** 写作：零不是字母 O；**FREEZONEX** 全大写。
 - 饱和 lime `#B2ED1D`：**品牌点缀**，不是产品浅色 UI 的主按钮色（用 `#CCF368`）。
 - 产品 UI：**无 emoji**、无大面积渐变、不要把内部页做成营销 Landing。
-- 官网：Poppins 仅作**标题**；正文 IBM Plex Sans。
+- 官网：标题与正文均为 **IBM Plex Sans**（对齐 tier0.app）；白底强调字用 `#73B200`，主 CTA 用 `#B2ED1D` 绿底近墨字；**禁止 Poppins**。
 - PPT：字体仅 **Tektur / IBM Plex Sans / IBM Plex Sans SC / IBM Plex Mono**（**禁止 Poppins**）；封面与章节大标题 **Tektur Regular**；品牌蓝仅 **`#1D77FE`**；**禁止**画面出现 **FREEZONEX**（仅 Tier0 Logo / 版权）；**重点标题绿**：深底 **`#B2ED1D`**、白底 **`#73B200`**；**项目符号与卡片顶边**始终 **`#B2ED1D`**；**浅底禁止 `#B2ED1D` 文字**（P0-8）；卡片大面积用 **`--ppt-card-fill-*`**（深黑/绿/灰）。
 
 ## 6. 输出

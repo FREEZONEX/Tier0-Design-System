@@ -10,8 +10,8 @@
 
 ## Hero Title
 
-- Poppins 700，最大宽约 820px  
-- **仅关键短语** `--green-brand`  
+- IBM Plex Sans **500**，最大宽约 820px  
+- **仅关键短语** 用 `#73B200`（白底）或括号 `[Keyword]`  
 
 ## Diagram Panel
 
@@ -27,8 +27,8 @@
 ## Feature Card（无 Icon）
 
 - 白底 + 1px border  
-- 标题 Poppins 600 24px  
-- hover：`--shadow-hover` 极轻  
+- 标题 IBM Plex Sans 500 · 22–24px  
+- hover：极轻边框加深，无重阴影  
 
 ## Card with Icon（Grid Tile）
 
@@ -36,9 +36,9 @@
 
 | 元素 | 规格 |
 |------|------|
-| 图标盒 | 42×42px，`#EEF6D7` 底，Lucide **`#8EBB1D`**，圆角 6px |
+| 图标盒 | 42×42px，`#F0FBD2` 底，Lucide **`#73B200`**，圆角 6px |
 | 图标 | Lucide 22px，`stroke-width: 1.75` — 按语义选名见 [icons-lucide.md](../../foundations/icons-lucide.md) |
-| 标题 | Poppins 600，22–24px |
+| 标题 | IBM Plex Sans 500，22–24px |
 | 正文 | Plex Sans 14px，`--text-3` |
 | 卡片 | min-h 184px，padding 26px，border `#E2E6DE` |
 
@@ -52,4 +52,6 @@
 ## 按钮
 
 - 半径 4px，非 pill 泛滥  
-- 主操作克制，避免巨型营销 CTA  
+- **主 CTA**：`#B2ED1D` 底 + 近墨字（对齐 pricing Free Trial）  
+- 次操作：白底 + 细边框  
+- 避免巨型营销圆角胶囊  

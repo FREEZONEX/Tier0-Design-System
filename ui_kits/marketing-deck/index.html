@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tier0 Masterdeck — Demo</title>
+<link rel="stylesheet" href="../../tokens/deck.css">
+<link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Sans+SC:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #1a1a1a;
+    font-family: var(--font-body-latin);
+    overflow: hidden;
+  }
+
+  .deck {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 24px 24px 72px;
+  }
+
+  .stage {
+    position: relative;
+    width: min(960px, calc(100vw - 48px));
+    aspect-ratio: 16 / 9;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    overflow: hidden;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── Type A — Cover ── */
+  .slide--cover {
+    background: var(--ppt-tx1);
+    background-image: radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+  .slide--cover .content { padding: 10% 8% 14%; max-width: 54%; }
+  .slide--cover h1 {
+    margin: 0;
+    font-family: var(--font-cover);
+    font-size: clamp(36px, 5.8vw, 56px);
+    font-weight: 600;
+    line-height: 1;
+    color: #fff;
+    letter-spacing: -0.03em;
+  }
+  .slide--cover h1 .accent { color: var(--ppt-emphasis-on-dark); }
+  .slide--cover .sub {
+    margin: 16px 0 0;
+    font-size: clamp(14px, 2vw, 20px);
+    color: rgba(255,255,255,.75);
+  }
+  .slide--cover .logo {
+    position: absolute;
+    left: 6%;
+    bottom: 10%;
+    height: 22px;
+  }
+  .slide--cover .line {
+    position: absolute;
+    right: 12%;
+    top: 22%;
+    width: 120px;
+    height: 2px;
+    background: var(--ppt-emphasis-on-dark);
+    transform: rotate(-35deg);
+    opacity: .9;
+  }
+
+  /* ── Type B — Chapter ── */
+  .slide--chapter {
+    background: var(--ppt-tx1);
+    background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 12px 12px;
+    display: flex;
+    align-items: flex-end;
+    padding: 12% 8% 10%;
+  }
+  .slide--chapter h1 {
+    margin: 0;
+    font-family: var(--font-chapter);
+    font-size: clamp(32px, 5.4vw, 52px);
+    font-weight: 400;
+    line-height: 1.05;
+    color: #fff;
+    max-width: 75%;
+  }
+
+  /* ── Type C — Content ── */
+  .slide--content {
+    background: var(--ppt-bg1);
+    padding: 9% 6%;
+  }
+  .slide--content .eyebrow {
+    font-size: clamp(14px, 2vw, 20px);
+    font-weight: 500;
+    color: var(--ppt-emphasis-on-light);
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+  .slide--content h2 {
+    margin: 0;
+    font-size: clamp(24px, 3.3vw, 32px);
+    font-weight: 500;
+    line-height: 1.15;
+    color: var(--ppt-tx1);
+    letter-spacing: -0.02em;
+    max-width: 66%;
+  }
+  .slide--content h2 .accent { color: var(--ppt-emphasis-on-light); }
+  .slide--content .body {
+    margin: 20px 0 0;
+    padding: 0 0 0 18px;
+    font-size: clamp(13px, 1.6vw, 16px);
+    line-height: 1.35;
+    color: var(--ppt-tx1);
+    max-width: 54%;
+  }
+  .slide--content .body li { margin: 8px 0; }
+  .slide--content .body li::marker { color: var(--ppt-accent-marker); }
+
+  /* ── Cards ── */
+  .slide--cards {
+    background: var(--ppt-bg1);
+    padding: 8% 5.5%;
+  }
+  .slide--cards .eyebrow {
+    font-size: clamp(14px, 2vw, 20px);
+    font-weight: 500;
+    color: var(--ppt-emphasis-on-light);
+    margin: 0 0 20px;
+  }
+  .slide--cards .row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .slide--cards .tier0-card-icon .card-title {
+    font-weight: 500;
+    font-size: clamp(14px, 1.8vw, 18px);
+  }
+  .slide--cards .tier0-card-icon .card-copy {
+    font-size: clamp(12px, 1.4vw, 14px);
+  }
+
+  /* ── KPI ── */
+  .slide--kpi {
+    background: var(--ppt-bg1);
+    padding: 9% 6%;
+  }
+  .slide--kpi .eyebrow {
+    font-size: clamp(14px, 2vw, 20px);
+    font-weight: 500;
+    color: var(--ppt-emphasis-on-light);
+    margin: 0 0 28px;
+  }
+  .slide--kpi h2 {
+    margin: 0 0 28px;
+    font-size: clamp(24px, 3.3vw, 32px);
+    font-weight: 500;
+    color: var(--ppt-tx1);
+    letter-spacing: -0.02em;
+  }
+  .slide--kpi .grid {
+    display: flex;
+    gap: 20px;
+  }
+  .slide--kpi .kpi {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #e2e6de;
+    border-radius: var(--radius-slide-card);
+    background: #fff;
+    border-top: 3px solid var(--ppt-accent-marker);
+  }
+  .slide--kpi .num {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 500;
+    line-height: 1;
+    color: var(--ppt-emphasis-on-light);
+    letter-spacing: -0.03em;
+  }
+  .slide--kpi .lbl {
+    margin-top: 8px;
+    font-size: clamp(12px, 1.4vw, 14px);
+    color: var(--ppt-tx1);
+  }
+
+  /* ── Type E — Compare ── */
+  .slide--compare {
+    background: var(--ppt-bg1);
+    padding: 8% 5.5%;
+  }
+  .slide--compare h2 {
+    margin: 0 0 24px;
+    font-size: clamp(24px, 3.3vw, 32px);
+    font-weight: 500;
+    color: var(--ppt-tx1);
+  }
+  .slide--compare .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    height: calc(100% - 80px);
+  }
+  .slide--compare .col {
+    border-radius: var(--radius-slide-card);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .slide--compare .col--old {
+    background: rgba(5, 11, 20, 0.04);
+    color: rgba(5, 11, 20, 0.55);
+  }
+  .slide--compare .col--new {
+    background: var(--ppt-highlight-wash);
+    color: var(--ppt-tx1);
+  }
+  .slide--compare .col h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .slide--compare .col ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .slide--compare .col--new li::marker { color: var(--ppt-accent-marker); }
+
+  /* ── Footer ── */
+  .copy {
+    position: absolute;
+    left: 6%;
+    bottom: 3%;
+    font-family: var(--font-footer);
+    font-size: 10px;
+    color: #99a1aa;
+    margin: 0;
+  }
+
+  /* ── Controls ── */
+  .hud {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px 24px;
+    background: linear-gradient(transparent, rgba(0,0,0,.75));
+    color: rgba(255,255,255,.7);
+    font-family: var(--font-footer);
+    font-size: 12px;
+  }
+  .hud button {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+    color: #fff;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+  }
+  .hud button:hover { background: rgba(255,255,255,.2); }
+  .hud .counter { min-width: 64px; text-align: center; }
+  .hint { opacity: .55; }
+</style>
+</head>
+<body>
+
+<div class="deck">
+  <div class="stage" id="stage">
+
+    <!-- 1. Cover -->
+    <section class="slide slide--cover active" data-index="0">
+      <div class="content">
+        <h1>Tier<span class="accent">0</span></h1>
+        <p class="sub">Unified Namespace for industrial data</p>
+      </div>
+      <img class="logo" src="../../assets/tier0-logo-lime.svg" alt="Tier0">
+      <div class="line" aria-hidden="true"></div>
+      <p class="copy">Copyright © 2026 Tier0. All rights reserved.</p>
+    </section>
+
+    <!-- 2. Chapter -->
+    <section class="slide slide--chapter" data-index="1">
+      <h1>工业数据，<br>需要命名空间而非点对点映射</h1>
+      <p class="copy">Copyright © 2026 Tier0. All rights reserved.</p>
+    </section>
+
+    <!-- 3. Content -->
+    <section class="slide slide--content" data-index="2">
+      <p class="eyebrow">02 · 核心能力</p>
+      <h2>Source Flow → <span class="accent">Namespace</span> → Event Flow</h2>
+      <ul class="body">
+        <li>在边缘连接车间数据源</li>
+        <li>发布语义化 MQTT 主题树</li>
+        <li>在命名空间上编排数据流</li>
+      </ul>
+      <p class="copy">Copyright © 2026 Tier0. All rights reserved.</p>
+    </section>
+
+    <!-- 4. Cards -->
+    <section class="slide slide--cards" data-index="3">
+      <p class="eyebrow">03 · 三层架构</p>
+      <div class="row">
+        <article class="tier0-card-icon">
+          <div class="tier0-icon-box"><i data-lucide="cable" aria-hidden="true"></i></div>
+          <h3 class="card-title">Source Flow</h3>
+          <p class="card-copy">连接 PLC、OPC UA、Modbus 等车间数据源。</p>
+        </article>
+        <article class="tier0-card-icon">
+          <div class="tier0-icon-box"><i data-lucide="layers" aria-hidden="true"></i></div>
+          <h3 class="card-title">Namespace</h3>
+          <p class="card-copy">统一语义模型，MQTT 主题树即数据契约。</p>
+        </article>
+        <article class="tier0-card-icon">
+          <div class="tier0-icon-box"><i data-lucide="git-branch" aria-hidden="true"></i></div>
+          <h3 class="card-title">Event Flow</h3>
+          <p class="card-copy">可视化编排，事件驱动下游应用与 AI。</p>
+        </article>
+      </div>
+      <p class="copy">Copyright © 2026 Tier0. All rights reserved.</p>
+    </section>
+
+    <!-- 5. KPI -->
+    <section class="slide slide--kpi" data-index="4">
+      <p class="eyebrow">04 · 关键指标</p>
+      <h2>生产级性能，PoC 级交付周期</h2>
+      <div class="grid">
+        <article class="kpi"><p class="num">1.2k</p><p class="lbl">消息 / 秒</p></article>
+        <article class="kpi"><p class="num">4 wk</p><p class="lbl">典型 PoC 周期</p></article>
+        <article class="kpi"><p class="num">OSS</p><p class="lbl">开源核心</p></article>
+      </div>
+      <p class="copy">Copyright © 2026 Tier0. All rights reserved.</p>
+    </section>
+
+    <!-- 6. Compare -->
+    <section class="slide slide--compare" data-index="5">
+      <h2>传统集成 vs Tier0 UNS</h2>
+      <div class="cols">
+        <div class="col col--old">
+          <h3>传统点对点</h3>
+          <ul>
+            <li>每新增一个系统就要重新布线</li>
+            <li>语义不一致，维护成本高</li>
+            <li>变更牵一发而动全身</li>
+          </ul>
+        </div>
+        <div class="col col--new">
+          <h3>Tier0 命名空间</h3>
+          <ul>
+            <li>一次建模，多系统订阅</li>
+            <li>语义统一，自描述数据契约</li>
+            <li>新增消费者零改造</li>
+          </ul>
+        </div>
+      </div>
+      <p class="copy">Copyright © 2026 Tier0. All rights reserved.</p>
+    </section>
+
+    <!-- 7. Closing -->
+    <section class="slide slide--cover" data-index="6">
+      <div class="content">
+        <h1>Let's build the <span class="accent">namespace</span></h1>
+        <p class="sub">tier0.app · demo@tier0.app</p>
+      </div>
+      <img class="logo" src="../../assets/tier0-logo-lime.svg" alt="Tier0">
+      <p class="copy">Copyright © 2026 Tier0. All rights reserved.</p>
+    </section>
+
+  </div>
+</div>
+
+<nav class="hud" aria-label="幻灯片导航">
+  <button type="button" id="prev" aria-label="上一页">← 上一页</button>
+  <span class="counter" id="counter">1 / 7</span>
+  <button type="button" id="next" aria-label="下一页">下一页 →</button>
+  <span class="hint">← → 方向键 · 空格</span>
+</nav>
+
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<script>
+(function () {
+  const slides = [...document.querySelectorAll(".slide")];
+  let idx = 0;
+
+  function show(i) {
+    idx = (i + slides.length) % slides.length;
+    slides.forEach((s, n) => s.classList.toggle("active", n === idx));
+    document.getElementById("counter").textContent = `${idx + 1} / ${slides.length}`;
+  }
+
+  document.getElementById("prev").addEventListener("click", () => show(idx - 1));
+  document.getElementById("next").addEventListener("click", () => show(idx + 1));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") { e.preventDefault(); show(idx + 1); }
+    if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); show(idx - 1); }
+    if (e.key === "Home") { e.preventDefault(); show(0); }
+    if (e.key === "End") { e.preventDefault(); show(slides.length - 1); }
+  });
+
+  document.addEventListener("DOMContentLoaded", () => lucide.createIcons());
+  show(0);
+})();
+</script>
+</body>
+</html>

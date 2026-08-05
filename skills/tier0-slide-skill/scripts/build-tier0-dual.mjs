@@ -222,10 +222,10 @@ function coverDark(slide, ctx) {
       fontFace: 'IBM Plex Mono', fontSize: 12, color: C.lime, bold: true, letterSpacing: 1.2, margin: 0,
     }),
     text(48, 264, 870, 58, slide.title ?? 'Build the Unified Data Foundation.', {
-      fontFace: 'Tektur', fontSize: 39, color: C.white, bold: true, margin: 0, breakLine: false,
+      fontFace: 'IBM Plex Sans', fontSize: 39, color: C.white, bold: false, fontWeight: 500, margin: 0, breakLine: false,
     }),
     text(48, 320, 870, 62, slide.accentTitle ?? 'Generate Connected Applications.', {
-      fontFace: 'Tektur', fontSize: 39, color: C.lime, bold: true, margin: 0,
+      fontFace: 'IBM Plex Sans', fontSize: 39, color: C.lime, bold: false, fontWeight: 500, margin: 0,
     }),
     text(48, 408, 750, 28, slide.subtitle ?? 'Data First for Industrial Digitalization.', {
       fontFace: 'IBM Plex Sans', fontSize: 17, color: C.muted, margin: 0,
@@ -303,75 +303,82 @@ function coverEditorial(slide, ctx) {
 }
 
 function sectionDark(slide, ctx) {
-  const title = [slide.title, slide.accentTitle].filter(Boolean).join('\n')
+  // Tektur ONLY for ALL-CAPS section divider titles (logo/display face)
+  const raw = [slide.title, slide.accentTitle].filter(Boolean).join('\n')
     || 'The foundation is only the beginning.';
-  const elements = [
-    text(48, 34, 500, 18, slide.chapterLabel ?? 'CHAPTER · NEXT', {
+  const title = String(raw).toUpperCase();
+  const elements = [];
+  if (slide.chapterLabel) {
+    elements.push(text(48, 34, 500, 18, slide.chapterLabel, {
       fontFace: 'IBM Plex Mono', fontSize: 10, color: C.lime, bold: true, letterSpacing: 1.1, margin: 0,
-    }),
-    text(48, 144, 835, 170, title, {
-      fontFace: 'IBM Plex Sans', fontSize: 58, color: C.white, bold: false, fontWeight: 400, margin: 0, lineHeight: 0.96,
-    }),
-  ];
-  if (slide.note) {
-    elements.push(text(52, 342, 470, 54, slide.note, {
-      fontFace: 'IBM Plex Sans', fontSize: 13, color: C.muted, margin: 0, lineHeight: 1.4,
     }));
   }
-  elements.push(
-    line(48, 464, 864, 0, '#33404B', 1),
-    text(48, 484, 400, 18, slide.footerLabel ?? 'SECTION DIVIDER · PURE TITLE', {
+  elements.push(text(48, 144, 835, 170, title, {
+    fontFace: 'Tektur', fontSize: 52, color: C.white, bold: false, fontWeight: 500, margin: 0, lineHeight: 1.08,
+  }));
+  if (slide.note) {
+    elements.push(text(52, 342, 520, 54, slide.note, {
+      fontFace: 'IBM Plex Sans', fontSize: 14, color: C.muted, margin: 0, lineHeight: 1.45,
+    }));
+  }
+  elements.push(line(48, 464, 864, 0, '#33404B', 1));
+  if (slide.footerLabel) {
+    elements.push(text(48, 484, 400, 18, slide.footerLabel, {
       fontFace: 'IBM Plex Mono', fontSize: 8.5, color: '#66717D', letterSpacing: 0.6, margin: 0,
-    }),
-    text(850, 484, 62, 18, `${String(ctx.index + 1).padStart(2, '0')} / ${String(ctx.total).padStart(2, '0')}`, {
-      fontFace: 'IBM Plex Mono', fontSize: 8.5, color: '#66717D', align: 'right', margin: 0,
-    }),
-  );
+    }));
+  }
+  elements.push(text(850, 484, 62, 18, `${String(ctx.index + 1).padStart(2, '0')} / ${String(ctx.total).padStart(2, '0')}`, {
+    fontFace: 'IBM Plex Mono', fontSize: 8.5, color: '#66717D', align: 'right', margin: 0,
+  }));
   return { background: C.dark, elements };
 }
 
 function challenge3(slide, ctx) {
   const cards = (slide.cards ?? []).slice(0, 3);
   const elements = [...logoElements(slide, ctx.sourceDir, false)];
-  elements.push(
-    text(40, 34, 360, 18, slide.kicker ?? 'CHALLENGE', {
+  const titleY = slide.kicker ? 60 : 36;
+  if (slide.kicker) {
+    elements.push(text(40, 34, 360, 18, slide.kicker, {
       fontFace: 'IBM Plex Mono', fontSize: 11, color: C.green, bold: true, letterSpacing: 1, margin: 0,
-    }),
-    text(40, 60, 878, 68, slide.title ?? 'Why Industrial Digitalization Projects Mostly Fail', {
+    }));
+  }
+  elements.push(
+    text(40, titleY, 878, 68, slide.title ?? 'Why industrial digitalization projects mostly fail', {
       fontFace: 'IBM Plex Sans', fontSize: 32, color: C.ink, bold: false, fontWeight: 400, margin: 0, lineHeight: 1.12, letterSpacing: -0.4,
     }),
-    text(40, 128, 820, 36, slide.subtitle ?? '', {
+    text(40, titleY + 68, 820, 36, slide.subtitle ?? '', {
       fontFace: 'IBM Plex Sans', fontSize: 14, color: C.body, margin: 0, lineHeight: 1.45,
     }),
   );
   const cardW = 282;
   const startX = 40;
+  const cardY = 175;
   for (let i = 0; i < 3; i += 1) {
     const card = cards[i] ?? { title: `Challenge ${i + 1}`, body: 'Evidence pending.' };
     const x = startX + i * (cardW + 12);
+    const bg = i === 1 ? C.pale : C.white;
     elements.push(
-      rect(x, 175, cardW, 225, C.white, { line: C.border, lineWidth: 1 }),
-      line(x, 175, cardW, 0, C.lime, 2),
-      text(x + 18, 198, 40, 18, String(i + 1).padStart(2, '0'), {
-        fontFace: 'IBM Plex Mono', fontSize: 10, color: C.green, bold: true, margin: 0,
+      rect(x, cardY, cardW, 225, bg, { line: C.border, lineWidth: 1 }),
+      text(x + 18, cardY + 22, 40, 18, String(i + 1).padStart(2, '0'), {
+        fontFace: 'IBM Plex Mono', fontSize: 11, color: C.green, bold: true, margin: 0,
       }),
-      text(x + 18, 224, cardW - 36, 52, card.title, {
-        fontFace: 'IBM Plex Sans', fontSize: 16, color: C.ink, bold: false, fontWeight: 400, margin: 0, lineHeight: 1.2,
+      text(x + 18, cardY + 48, cardW - 36, 52, card.title, {
+        fontFace: 'IBM Plex Sans', fontSize: 16, color: C.ink, bold: false, fontWeight: 500, margin: 0, lineHeight: 1.2,
       }),
-      line(x + 18, 284, cardW - 36, 0, C.border, 1),
-      text(x + 18, 296, cardW - 36, 78, card.body, {
+      line(x + 18, cardY + 108, cardW - 36, 0, C.border, 1),
+      text(x + 18, cardY + 120, cardW - 36, 78, card.body, {
         fontFace: 'IBM Plex Sans', fontSize: 12, color: C.body, margin: 0, lineHeight: 1.45,
       }),
     );
   }
   elements.push(
-    rect(40, 419, 878, 51, C.pale, { line: 'transparent', lineWidth: 0 }),
-    rect(40, 419, 4, 51, C.lime, { line: 'transparent', lineWidth: 0 }),
-    text(62, 435, 70, 18, slide.resultLabel ?? 'RESULT', {
+    line(40, 416, 878, 0, C.border, 1),
+    rect(40, 424, 4, 44, C.lime, { line: 'transparent', lineWidth: 0 }),
+    text(56, 430, 70, 18, slide.resultLabel ?? 'RESULT', {
       fontFace: 'IBM Plex Mono', fontSize: 10, color: C.green, bold: true, letterSpacing: 1, margin: 0,
     }),
-    text(135, 429, 730, 34, slide.result ?? 'Digitalization becomes a recurring cost center, not a compounding asset.', {
-      fontFace: 'IBM Plex Sans', fontSize: 13, color: C.ink, bold: false, margin: 0, valign: 'mid',
+    text(130, 428, 780, 36, slide.result ?? 'TCO becomes a recurring cost center instead of a compounding operational asset.', {
+      fontFace: 'IBM Plex Sans', fontSize: 14, color: C.ink, bold: false, fontWeight: 500, margin: 0, valign: 'mid',
     }),
     ...footerElements(slide, ctx.index, ctx.total, false),
   );
@@ -384,20 +391,25 @@ function compare2(slide, ctx) {
     { title: 'After', body: 'The Unified Namespace is built once and reused.' },
   ];
   const elements = [...logoElements(slide, ctx.sourceDir, false)];
+  if (slide.kicker) {
+    elements.push(text(40, 28, 360, 16, slide.kicker, {
+      fontFace: 'IBM Plex Mono', fontSize: 10, color: C.green, bold: true, letterSpacing: 1, margin: 0,
+    }));
+  }
   elements.push(
-    text(40, 28, 700, 44, slide.title ?? 'From Point-to-Point Integration to UNS', {
-      fontFace: 'IBM Plex Sans', fontSize: 30, color: C.ink, bold: false, fontWeight: 400, margin: 0, letterSpacing: -0.4,
+    text(40, slide.kicker ? 48 : 28, 760, 52, slide.title ?? 'From point-to-point integration to a Unified Namespace', {
+      fontFace: 'IBM Plex Sans', fontSize: 26, color: C.ink, bold: false, fontWeight: 400, margin: 0, letterSpacing: -0.4, lineHeight: 1.2,
     }),
   );
   for (let i = 0; i < 2; i += 1) {
     const panel = panels[i] ?? {};
     const x = i === 0 ? 40 : 493;
+    const win = i === 1;
     elements.push(
-      rect(x, 93, 428, 390, C.white, { line: C.border, lineWidth: 1 }),
-      rect(x, 93, 428, 3, C.lime, { line: 'transparent', lineWidth: 0 }),
-      rect(x, 96, 428, 43, i === 0 ? C.surface : C.pale, { line: 'transparent', lineWidth: 0 }),
-      text(x + 20, 105, 388, 26, panel.title ?? `Panel ${i + 1}`, {
-        fontFace: 'IBM Plex Sans', fontSize: 17, color: C.ink, bold: false, fontWeight: 400, align: 'center', margin: 0,
+      rect(x, 96, 428, 386, C.white, { line: C.border, lineWidth: 1 }),
+      rect(x, 96, 428, 44, win ? C.pale : C.surface, { line: 'transparent', lineWidth: 0 }),
+      text(x + 24, 108, 380, 22, panel.title ?? `Panel ${i + 1}`, {
+        fontFace: 'IBM Plex Sans', fontSize: 15, color: C.ink, bold: false, fontWeight: 500, margin: 0,
       }),
     );
     if (panel.image) {
@@ -409,19 +421,24 @@ function compare2(slide, ctx) {
       }));
     } else {
       const points = panel.points ?? [panel.body ?? 'Evidence pending'];
-      points.slice(0, 5).forEach((item, pointIndex) => {
+      points.slice(0, 4).forEach((item, pointIndex) => {
+        const y = 154 + pointIndex * 56;
         elements.push(
-          rect(x + 36, 175 + pointIndex * 48, 10, 10, i === 0 ? C.border : C.lime, { line: 'transparent', lineWidth: 0 }),
-          text(x + 58, 168 + pointIndex * 48, 330, 34, item, {
-            fontFace: 'IBM Plex Sans', fontSize: 12, color: C.body, margin: 0, valign: 'mid',
+          line(x + 24, y, 380, 0, C.border, 1),
+          rect(x + 24, y + 16, 3, 24, win ? C.lime : C.border, { line: 'transparent', lineWidth: 0 }),
+          text(x + 40, y + 10, 360, 40, item, {
+            fontFace: 'IBM Plex Sans', fontSize: 13, color: C.body, margin: 0, valign: 'mid', lineHeight: 1.3,
           }),
         );
       });
     }
     if (panel.caption) {
-      elements.push(text(x + 24, 430, 380, 32, panel.caption, {
-        fontFace: 'IBM Plex Mono', fontSize: 9, color: C.body, margin: 0, align: 'center',
-      }));
+      elements.push(
+        line(x + 24, 388, 380, 0, C.border, 1),
+        text(x + 24, 400, 380, 28, panel.caption, {
+          fontFace: 'IBM Plex Mono', fontSize: 10, color: win ? C.green : C.body, margin: 0,
+        }),
+      );
     }
   }
   elements.push(...footerElements(slide, ctx.index, ctx.total, false));
@@ -431,29 +448,33 @@ function compare2(slide, ctx) {
 function featureSplit(slide, ctx) {
   const bullets = (slide.bullets ?? []).slice(0, 4);
   const elements = [...logoElements(slide, ctx.sourceDir, false)];
-  elements.push(
-    text(40, 34, 420, 18, slide.kicker ?? 'APP GENERATION', {
+  const titleY = slide.kicker ? 60 : 34;
+  if (slide.kicker) {
+    elements.push(text(40, 34, 420, 18, slide.kicker, {
       fontFace: 'IBM Plex Mono', fontSize: 10.5, color: C.green, bold: true, letterSpacing: 1, margin: 0,
-    }),
-    text(40, 60, 880, 66, slide.title ?? 'App Builder · Bringing Vibe Coding to the Industrial World', {
-      fontFace: 'IBM Plex Sans', fontSize: 30, color: C.ink, bold: false, fontWeight: 400, margin: 0, letterSpacing: -0.4,
+    }));
+  }
+  elements.push(
+    text(40, titleY, 880, 66, slide.title ?? 'App Builder · vibe coding for industrial ops', {
+      fontFace: 'IBM Plex Sans', fontSize: 28, color: C.ink, bold: false, fontWeight: 400, margin: 0, letterSpacing: -0.4, lineHeight: 1.15,
     }),
   );
   bullets.forEach((bullet, i) => {
-    const y = 152 + i * 76;
+    const y = 140 + i * 72;
     elements.push(
-      rect(40, y, 3, 55, C.lime, { line: 'transparent', lineWidth: 0 }),
-      text(56, y - 2, 300, 22, bullet.title, {
-        fontFace: 'IBM Plex Sans', fontSize: 11.5, color: C.ink, bold: true, margin: 0,
+      line(40, y, 320, 0, C.border, 1),
+      rect(40, y + 12, 3, 40, C.lime, { line: 'transparent', lineWidth: 0 }),
+      text(56, y + 10, 300, 20, bullet.title, {
+        fontFace: 'IBM Plex Sans', fontSize: 13, color: C.ink, bold: false, fontWeight: 500, margin: 0,
       }),
-      text(56, y + 22, 300, 38, bullet.body, {
-        fontFace: 'IBM Plex Sans', fontSize: 9.5, color: C.body, margin: 0, lineHeight: 1.35,
+      text(56, y + 32, 300, 34, bullet.body, {
+        fontFace: 'IBM Plex Sans', fontSize: 11, color: C.body, margin: 0, lineHeight: 1.4,
       }),
     );
   });
-  elements.push(rect(390, 143, 528, 330, C.white, { line: C.border, lineWidth: 1 }));
+  elements.push(rect(390, 140, 528, 330, C.white, { line: C.border, lineWidth: 1 }));
   if (slide.image) {
-    elements.push(image(406, 159, 496, 298, resolveAsset(ctx.sourceDir, slide.image), {
+    elements.push(image(402, 152, 504, 306, resolveAsset(ctx.sourceDir, slide.image), {
       alt: slide.imageAlt ?? 'Product evidence',
       fit: slide.imageFit ?? 'contain',
       slot: slide.imageSlot ?? 'feature-split-right',
@@ -466,10 +487,11 @@ function featureSplit(slide, ctx) {
       elements.push(
         rect(x, 178, 130, 78, i === 1 ? C.pale : C.surface, { line: C.border, lineWidth: 1 }),
         text(x + 10, 195, 110, 42, label, {
-          fontFace: i === 1 ? 'Tektur' : 'IBM Plex Mono',
-          fontSize: i === 1 ? 13 : 10,
+          fontFace: 'IBM Plex Sans',
+          fontSize: i === 1 ? 14 : 11,
           color: C.ink,
-          bold: true,
+          bold: false,
+          fontWeight: i === 1 ? 500 : 400,
           align: 'center',
           valign: 'mid',
           margin: 0,
@@ -478,13 +500,14 @@ function featureSplit(slide, ctx) {
       if (i < 2) elements.push(line(x + 130, 217, 28, 0, C.green, 2));
     });
     elements.push(
-      text(420, 287, 250, 20, 'UNS', { fontFace: 'Tektur', fontSize: 18, color: C.green, bold: true, margin: 0 }),
-      text(420, 312, 250, 86, slide.unsBody ?? 'Read and write live operational context through a governed namespace.', {
-        fontFace: 'IBM Plex Mono', fontSize: 10, color: C.body, margin: 0, lineHeight: 1.45,
+      line(420, 286, 468, 0, C.border, 1),
+      text(420, 304, 250, 20, 'UNS', { fontFace: 'IBM Plex Sans', fontSize: 18, color: C.green, bold: false, fontWeight: 500, margin: 0 }),
+      text(420, 330, 250, 86, slide.unsBody ?? 'Read and write live operational context through a governed namespace.', {
+        fontFace: 'IBM Plex Mono', fontSize: 11, color: C.body, margin: 0, lineHeight: 1.45,
       }),
-      rect(690, 286, 190, 112, C.surface, { line: C.border, lineWidth: 1 }),
-      text(710, 307, 150, 68, slide.outputBody ?? 'A running application with users, permissions, audit and versioning.', {
-        fontFace: 'IBM Plex Sans', fontSize: 10.5, color: C.ink, margin: 0,
+      rect(690, 300, 190, 112, C.surface, { line: C.border, lineWidth: 1 }),
+      text(706, 320, 158, 76, slide.outputBody ?? 'A running application with users, permissions, audit and versioning.', {
+        fontFace: 'IBM Plex Sans', fontSize: 12, color: C.ink, margin: 0, lineHeight: 1.35,
       }),
     );
   }
@@ -494,58 +517,76 @@ function featureSplit(slide, ctx) {
 
 function costCompare(slide, ctx) {
   const elements = [...logoElements(slide, ctx.sourceDir, false)];
-  elements.push(
-    text(48, 28, 360, 18, slide.kicker ?? 'COST CALCULATIONS', {
+  const titleY = slide.kicker ? 54 : 32;
+  if (slide.kicker) {
+    elements.push(text(48, 28, 360, 18, slide.kicker, {
       fontFace: 'IBM Plex Mono', fontSize: 10.5, color: C.green, bold: true, letterSpacing: 1, margin: 0,
-    }),
-    text(48, 54, 864, 44, slide.title ?? 'The same applications — at 0.75X instead of 2X.', {
-      fontFace: 'IBM Plex Sans', fontSize: 30, color: C.ink, bold: false, fontWeight: 400, margin: 0, letterSpacing: -0.4,
+    }));
+  }
+  elements.push(
+    text(48, titleY, 864, 48, slide.title ?? 'The same applications — at 0.75X instead of 2X.', {
+      fontFace: 'IBM Plex Sans', fontSize: 28, color: C.ink, bold: false, fontWeight: 400, margin: 0, letterSpacing: -0.4, lineHeight: 1.15,
     }),
   );
+  // Ledger header
+  const headerY = titleY + 58;
+  elements.push(
+    line(40, headerY, 880, 0, C.border, 1),
+    text(56, headerY + 10, 160, 16, 'MODEL', {
+      fontFace: 'IBM Plex Mono', fontSize: 9, color: C.body, letterSpacing: 0.8, margin: 0,
+    }),
+    text(260, headerY + 10, 140, 16, 'DEV', {
+      fontFace: 'IBM Plex Mono', fontSize: 9, color: C.body, letterSpacing: 0.8, margin: 0,
+    }),
+    text(420, headerY + 10, 160, 16, 'INTEGRATION', {
+      fontFace: 'IBM Plex Mono', fontSize: 9, color: C.body, letterSpacing: 0.8, margin: 0,
+    }),
+    text(700, headerY + 10, 180, 16, 'TOTAL', {
+      fontFace: 'IBM Plex Mono', fontSize: 9, color: C.body, letterSpacing: 0.8, margin: 0, align: 'right',
+    }),
+    line(40, headerY + 34, 880, 0, C.border, 1),
+  );
   const rows = slide.rows ?? [
-    { label: 'Traditional Dev', dev: 'X', integration: 'X', total: '2X', accent: false, note: 'integration normally equals development cost' },
-    { label: 'UNS Dev', dev: '0.5X', integration: '0.25X', total: '0.75X', accent: true, note: 'integration trends toward 10% long term' },
+    { label: 'Traditional Dev', dev: 'X', integration: 'X', total: '2X', accent: false, note: 'Integration normally equals development cost.' },
+    { label: 'UNS Dev', dev: '0.5X', integration: '0.25X', total: '0.75X', accent: true, note: 'Integration falls as the reusable foundation compounds.' },
   ];
   rows.slice(0, 2).forEach((row, i) => {
-    const y = 106 + i * 180;
+    const y = headerY + 42 + i * 130;
     const color = row.accent ? C.green : C.ink;
+    if (row.accent) {
+      elements.push(rect(40, y, 880, 120, C.pale, { line: 'transparent', lineWidth: 0 }));
+    }
     elements.push(
-      rect(28, y, 904, 165, C.white, { line: C.border, lineWidth: 1 }),
-      text(68, y + 65, 110, 40, row.label, {
-        fontFace: 'IBM Plex Sans', fontSize: 12, color, bold: true, valign: 'mid', margin: 0,
+      text(56, y + 18, 180, 28, row.label, {
+        fontFace: 'IBM Plex Sans', fontSize: 15, color, bold: false, fontWeight: 500, margin: 0,
       }),
-      text(426, y + 54, 120, 20, 'DEV COST', {
-        fontFace: 'IBM Plex Mono', fontSize: 9, color: C.body, letterSpacing: 0.8, margin: 0,
+      text(260, y + 14, 140, 48, row.dev, {
+        fontFace: 'IBM Plex Sans', fontSize: 36, color: C.ink, bold: false, fontWeight: 500, margin: 0,
       }),
-      text(426, y + 74, 120, 56, row.dev, {
-        fontFace: 'Tektur', fontSize: 34, color, bold: true, margin: 0,
+      text(400, y + 24, 24, 36, '+', {
+        fontFace: 'IBM Plex Sans', fontSize: 22, color: C.body, margin: 0,
       }),
-      text(548, y + 79, 30, 40, '+', {
-        fontFace: 'Tektur', fontSize: 24, color: C.ink, align: 'center', margin: 0,
+      text(420, y + 14, 160, 48, row.integration, {
+        fontFace: 'IBM Plex Sans', fontSize: 36, color: C.ink, bold: false, fontWeight: 500, margin: 0,
       }),
-      text(582, y + 54, 180, 20, 'INTEGRATION COST', {
-        fontFace: 'IBM Plex Mono', fontSize: 9, color: C.body, letterSpacing: 0.8, margin: 0,
+      text(600, y + 24, 40, 36, '≈', {
+        fontFace: 'IBM Plex Sans', fontSize: 22, color: C.body, margin: 0,
       }),
-      text(582, y + 74, 180, 56, row.integration, {
-        fontFace: 'Tektur', fontSize: 34, color, bold: true, margin: 0,
+      text(660, y + 8, 240, 56, row.total, {
+        fontFace: 'IBM Plex Sans', fontSize: 48, color, bold: false, fontWeight: 500, margin: 0, align: 'right',
       }),
-      text(750, y + 79, 30, 40, '≈', {
-        fontFace: 'Tektur', fontSize: 24, color: C.ink, align: 'center', margin: 0,
+      text(260, y + 78, 620, 24, row.note ?? '', {
+        fontFace: 'IBM Plex Sans', fontSize: 12, color: C.body, margin: 0,
       }),
-      text(780, y + 54, 120, 20, 'TOTAL', {
-        fontFace: 'IBM Plex Mono', fontSize: 9, color: C.body, letterSpacing: 0.8, margin: 0,
-      }),
-      text(780, y + 68, 130, 64, row.total, {
-        fontFace: 'Tektur', fontSize: 40, color, bold: true, margin: 0,
-      }),
-      text(426, y + 130, 430, 20, row.note ?? '', {
-        fontFace: 'IBM Plex Sans', fontSize: 8.5, color: C.body, margin: 0,
-      }),
+      line(40, y + 118, 880, 0, C.border, 1),
     );
   });
   elements.push(
-    text(48, 482, 864, 26, slide.result ?? 'Customer human resources saved — a lot, too.', {
-      fontFace: 'IBM Plex Sans', fontSize: 11, color: C.ink, bold: true, margin: 0,
+    text(48, 470, 864, 28, slide.result ?? 'Customer resources are saved as the namespace and application patterns are reused.', {
+      fontFace: 'IBM Plex Sans', fontSize: 13, color: C.ink, bold: false, fontWeight: 500, margin: 0,
+    }),
+    text(48, 494, 700, 16, slide.sourceNote ?? 'Illustrative relative model — not a customer KPI.', {
+      fontFace: 'IBM Plex Mono', fontSize: 9, color: '#A5A5A5', margin: 0,
     }),
     ...footerElements(slide, ctx.index, ctx.total, false),
   );
@@ -555,12 +596,15 @@ function costCompare(slide, ctx) {
 function process4(slide, ctx) {
   const steps = (slide.steps ?? []).slice(0, 4);
   const elements = [...logoElements(slide, ctx.sourceDir, false)];
-  elements.push(
-    text(40, 34, 400, 18, slide.kicker ?? 'RECOMMENDED ADOPTION PATH', {
+  const titleY = slide.kicker ? 60 : 34;
+  if (slide.kicker) {
+    elements.push(text(40, 34, 400, 18, slide.kicker, {
       fontFace: 'IBM Plex Mono', fontSize: 10.5, color: C.green, bold: true, letterSpacing: 1, margin: 0,
-    }),
-    text(40, 60, 860, 70, slide.title ?? 'Start with a valuable use case. Build the reusable foundation behind it.', {
-      fontFace: 'IBM Plex Sans', fontSize: 30, color: C.ink, bold: false, fontWeight: 400, margin: 0, letterSpacing: -0.4,
+    }));
+  }
+  elements.push(
+    text(40, titleY, 860, 64, slide.title ?? 'Start with a valuable use case. Build the reusable foundation behind it.', {
+      fontFace: 'IBM Plex Sans', fontSize: 28, color: C.ink, bold: false, fontWeight: 400, margin: 0, letterSpacing: -0.4, lineHeight: 1.15,
     }),
   );
   const startX = 40;
@@ -568,23 +612,28 @@ function process4(slide, ctx) {
   for (let i = 0; i < 4; i += 1) {
     const step = steps[i] ?? { title: `Phase ${i + 1}`, body: 'Define the outcome and evidence.' };
     const x = startX + i * (cardW + 8);
+    const bg = i % 2 === 0 ? C.white : C.pale;
     elements.push(
-      rect(x, 155, cardW, 272, C.white, { line: C.border, lineWidth: 1 }),
-      line(x, 155, cardW, 0, C.lime, 2),
-      text(x + 16, 181, cardW - 32, 18, `PHASE ${i + 1}`, {
-        fontFace: 'IBM Plex Mono', fontSize: 9.5, color: C.green, bold: true, letterSpacing: 0.8, margin: 0,
+      rect(x, 148, cardW, 278, bg, { line: C.border, lineWidth: 1 }),
+      text(x + 16, 168, cardW - 32, 18, String(i + 1).padStart(2, '0'), {
+        fontFace: 'IBM Plex Mono', fontSize: 11, color: C.green, bold: true, letterSpacing: 0.8, margin: 0,
       }),
-      text(x + 16, 211, cardW - 32, 65, step.title, {
-        fontFace: 'IBM Plex Sans', fontSize: 13, color: C.ink, bold: true, margin: 0,
+      text(x + 16, 196, cardW - 32, 70, step.title, {
+        fontFace: 'IBM Plex Sans', fontSize: 14, color: C.ink, bold: false, fontWeight: 500, margin: 0, lineHeight: 1.25,
       }),
-      text(x + 16, 294, cardW - 32, 104, step.body, {
-        fontFace: 'IBM Plex Sans', fontSize: 10, color: C.body, margin: 0, lineHeight: 1.4,
+      line(x + 16, 276, cardW - 32, 0, C.border, 1),
+      text(x + 16, 292, cardW - 32, 90, step.body, {
+        fontFace: 'IBM Plex Sans', fontSize: 11, color: C.body, margin: 0, lineHeight: 1.4,
+      }),
+      text(x + cardW - 56, 372, 40, 36, String(i + 1), {
+        fontFace: 'IBM Plex Sans', fontSize: 28, color: i === 0 ? C.green : '#CDCED0', bold: false, fontWeight: 500, align: 'right', margin: 0,
       }),
     );
   }
   elements.push(
-    text(48, 452, 864, 32, slide.result ?? 'The first application delivers immediate value. The foundation makes every future use case easier.', {
-      fontFace: 'IBM Plex Sans', fontSize: 12, color: C.ink, bold: true, margin: 0,
+    line(40, 444, 880, 0, C.border, 1),
+    text(48, 456, 864, 32, slide.result ?? 'The first application delivers immediate value. The foundation makes every future use case easier.', {
+      fontFace: 'IBM Plex Sans', fontSize: 13, color: C.ink, bold: false, fontWeight: 500, margin: 0,
     }),
     ...footerElements(slide, ctx.index, ctx.total, false),
   );
@@ -598,29 +647,33 @@ function closingDark(slide, ctx) {
     { text: 'Generate Connected Applications.', color: C.lime },
     { text: 'Move toward Operational Intelligence.', color: '#7C838C' },
   ];
+  const textW = slide.qr ? 720 : 850;
   lines.slice(0, 3).forEach((item, i) => {
-    elements.push(text(48, 212 + i * 50, 850, 48, item.text, {
-      fontFace: 'Tektur', fontSize: 28, color: item.color ?? (i === 1 ? C.lime : C.white), bold: true, margin: 0,
+    elements.push(text(48, 200 + i * 52, textW, 48, item.text, {
+      fontFace: 'IBM Plex Sans', fontSize: 30, color: item.color ?? (i === 1 ? C.lime : C.white), bold: false, fontWeight: 500, margin: 0, lineHeight: 1.15,
     }));
   });
   elements.push(
-    text(48, 418, 760, 24, slide.footer ?? 'Tier0 Platform · www.tier0.app', {
-      fontFace: 'IBM Plex Mono', fontSize: 11, color: '#A4A9AF', margin: 0,
+    text(48, 400, slide.qr ? 700 : 760, 24, slide.footer ?? 'Tier0 Platform · www.tier0.app', {
+      fontFace: 'IBM Plex Mono', fontSize: 12, color: '#A4A9AF', margin: 0,
     }),
-    text(48, 455, 760, 24, slide.contact ?? '', {
-      fontFace: 'IBM Plex Mono', fontSize: 9.5, color: '#66717D', margin: 0,
+    text(48, 432, slide.qr ? 700 : 760, 24, slide.contact ?? '', {
+      fontFace: 'IBM Plex Mono', fontSize: 10, color: '#66717D', margin: 0,
     }),
     ...footerElements({ footer: '' }, ctx.index, ctx.total, true),
   );
   if (slide.qr) {
+    // White QR asset on dark — quiet zone is the dark field itself (not a white plate)
     elements.push(
-      rect(817, 393, 103, 103, '#0E1824', { line: '#66717D', lineWidth: 1 }),
-      image(829, 405, 79, 79, resolveAsset(ctx.sourceDir, slide.qr), {
+      rect(808, 378, 112, 112, '#0E1824', { line: '#66717D', lineWidth: 1 }),
+      image(820, 390, 88, 88, resolveAsset(ctx.sourceDir, slide.qr), {
         alt: slide.qrAlt ?? 'Tier0 website QR code',
         fit: 'contain',
+        slot: 'tier0-app-qr',
+        role: 'brand',
       }),
-      text(817, 498, 103, 14, slide.qrLabel ?? 'SCAN TO VISIT', {
-        fontFace: 'IBM Plex Mono', fontSize: 7.5, color: '#A4A9AF', align: 'center', margin: 0,
+      text(808, 498, 112, 14, slide.qrLabel ?? 'www.tier0.app', {
+        fontFace: 'IBM Plex Mono', fontSize: 8, color: '#A4A9AF', align: 'center', margin: 0,
       }),
     );
   }
@@ -744,7 +797,6 @@ function htmlElement(el) {
   }
   if (el.type === 'ascii') {
     const tone = el.tone === 'light' ? 'light' : 'ink';
-    // 深色页靠 screen 混合把白字加亮到底色上,canvas 自身必须透明,否则整页被提亮。
     const paint = tone === 'light'
       ? ['background:transparent', 'mix-blend-mode:screen']
       : [`background:${el.fill ?? C.lime}`, 'mix-blend-mode:normal'];
@@ -752,6 +804,7 @@ function htmlElement(el) {
   }
   return '';
 }
+
 
 function buildHtml(deck, expanded) {
   const title = esc(deck.meta?.title ?? 'Tier0 Slide Deck');
@@ -772,8 +825,10 @@ function buildHtml(deck, expanded) {
   *{box-sizing:border-box}
   html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111820}
   body{font-family:"IBM Plex Sans",Arial,sans-serif}
-  #viewport{position:fixed;inset:0;display:grid;place-items:center}
-  #stage{position:absolute;width:${deck.meta?.width ?? DEFAULT_W}px;height:${deck.meta?.height ?? DEFAULT_H}px;transform-origin:center center;background:#06101B;box-shadow:0 22px 70px rgba(0,0,0,.35)}
+  /* 16:9 frame fills viewport; stage keeps design px and scales — no vh font mismatch */
+  #viewport{position:fixed;inset:0;display:grid;place-items:center;background:#111820}
+  #frame{position:relative;width:min(100vw,177.777vh);height:min(100vh,56.25vw);max-width:100vw;max-height:100vh;overflow:hidden;background:#06101B}
+  #stage{position:absolute;left:50%;top:50%;width:${deck.meta?.width ?? DEFAULT_W}px;height:${deck.meta?.height ?? DEFAULT_H}px;transform-origin:center center;background:#06101B}
   .slide{display:none;position:absolute;inset:0;width:${deck.meta?.width ?? DEFAULT_W}px;height:${deck.meta?.height ?? DEFAULT_H}px;overflow:hidden}
   .slide.active{display:block}
   .el{position:absolute;box-sizing:border-box}
@@ -781,20 +836,22 @@ function buildHtml(deck, expanded) {
   .line{transform-origin:0 0}
   .image-missing{display:grid;place-items:center;border:1px solid #CDCED0;background:#F4F4F4;color:#73777D;font:10px "IBM Plex Mono",monospace;text-align:center;padding:8px}
   .ascii-field{display:block}
-  #counter{display:none;position:fixed;right:18px;bottom:14px;color:rgba(255,255,255,.68);font:11px "IBM Plex Mono",monospace;letter-spacing:.08em}
-  #hint{display:none;position:fixed;left:18px;bottom:14px;color:rgba(255,255,255,.42);font:10px "IBM Plex Mono",monospace;letter-spacing:.05em}
+  #counter{display:none;position:fixed;right:18px;bottom:14px;color:rgba(255,255,255,.68);font:11px "IBM Plex Mono",monospace;letter-spacing:.08em;z-index:20}
+  #hint{display:none;position:fixed;left:18px;bottom:14px;color:rgba(255,255,255,.42);font:10px "IBM Plex Mono",monospace;letter-spacing:.05em;z-index:20}
   body.chrome-visible #counter,body.chrome-visible #hint{display:block}
   @media print{
     html,body{overflow:visible;background:#fff}
     #viewport{position:static;display:block}
-    #stage{position:static;transform:none!important;box-shadow:none;width:${deck.meta?.width ?? DEFAULT_W}px;height:auto}
+    #viewport{position:static;display:block}
+    #frame{position:static;width:${deck.meta?.width ?? DEFAULT_W}px;height:auto}
+    #stage{position:static;transform:none!important;left:0;top:0;width:${deck.meta?.width ?? DEFAULT_W}px;height:auto}
     .slide{display:block!important;position:relative;page-break-after:always}
     #counter,#hint{display:none}
   }
 </style>
 </head>
 <body>
-<div id="viewport"><main id="stage">${slides}</main></div>
+<div id="viewport"><div id="frame"><main id="stage">${slides}</main></div></div>
 <div id="hint">← → navigate · F fullscreen · C chrome</div>
 <div id="counter"></div>
 <script>
@@ -872,17 +929,19 @@ function buildHtml(deck, expanded) {
   }
   const slides = [...document.querySelectorAll('.slide')];
   const stage = document.getElementById('stage');
+  const frame = document.getElementById('frame');
   const counter = document.getElementById('counter');
   let index = Math.max(0, Math.min(slides.length - 1, Number(location.hash.slice(1)) - 1 || 0));
   function scale() {
-    const s = Math.min(innerWidth / ${deck.meta?.width ?? DEFAULT_W}, innerHeight / ${deck.meta?.height ?? DEFAULT_H});
-    stage.style.transform = 'scale(' + s + ')';
+    const s = Math.min(frame.clientWidth / ${deck.meta?.width ?? DEFAULT_W}, frame.clientHeight / ${deck.meta?.height ?? DEFAULT_H});
+    stage.style.transform = 'translate(-50%, -50%) scale(' + s + ')';
   }
   function show(next) {
     index = (next + slides.length) % slides.length;
     slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
     counter.textContent = String(index + 1).padStart(2,'0') + ' / ' + String(slides.length).padStart(2,'0');
     history.replaceState(null, '', '#' + (index + 1));
+    fields.forEach(reset);
   }
   addEventListener('resize', scale);
   addEventListener('keydown', (event) => {
@@ -899,12 +958,13 @@ function buildHtml(deck, expanded) {
   });
   scale();
   show(index);
-  document.fonts?.ready.finally(() => { scale(); window.__tier0DeckReady = true; });
+  document.fonts?.ready.finally(() => { scale(); fields.forEach(reset); window.__tier0DeckReady = true; });
 })();
 </script>
 </body>
 </html>`;
 }
+
 
 function unit(value) {
   return Number(value ?? 0) / UNITS_PER_INCH;
@@ -950,7 +1010,7 @@ async function buildPptx(deck, expanded, outFile) {
   pptx.title = deck.meta?.title ?? 'Tier0 Slide Deck';
   pptx.lang = deck.meta?.language ?? 'en-US';
   pptx.theme = {
-    headFontFace: 'Tektur',
+    headFontFace: 'IBM Plex Sans',
     bodyFontFace: 'IBM Plex Sans',
     lang: deck.meta?.language ?? 'en-US',
   };

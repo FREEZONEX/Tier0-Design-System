@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Tier0 V4 Hybrid · Dual Output Example",
+    "title": "Tier0 · Unified Namespace & Connected Applications",
     "author": "Tier0",
     "company": "Tier0",
     "subject": "Unified data foundation and connected applications",
@@ -13,6 +13,14 @@
     {
       "id": "01-cover",
       "kind": "cover-editorial",
+      "pageIntent": {
+        "purpose": "Open the pitch with brand and one-line promise",
+        "coreClaim": "Unified data foundation. Connected applications.",
+        "proofType": "structure",
+        "heroElement": "title + ASCII field",
+        "density": "sparse"
+      },
+      "imageRole": "none",
       "keyword": "UNS",
       "title": "Unified data foundation.\nConnected applications.",
       "sideNote": "Data First for\nIndustrial Digitalization.",
@@ -23,8 +31,16 @@
     {
       "id": "02-challenge",
       "kind": "challenge-3",
+      "pageIntent": {
+        "purpose": "Name why industrial digitalization stalls",
+        "coreClaim": "Projects fail because every rollout reinvents integration.",
+        "proofType": "list",
+        "heroElement": "title + three failure modes",
+        "density": "editorial"
+      },
+      "imageRole": "none",
       "logo": "@skill/assets/brand/logos/tier0-logo-black.png",
-      "kicker": "CHALLENGE",
+      "kicker": "",
       "title": "Why industrial digitalization projects mostly fail",
       "subtitle": "Every new system gets integrated, customized and deployed from scratch. Cost rises while reuse disappears.",
       "cards": [
@@ -46,8 +62,17 @@
     {
       "id": "03-compare",
       "kind": "compare-2",
+      "pageIntent": {
+        "purpose": "Contrast point-to-point vs Unified Namespace",
+        "coreClaim": "Publish once into a governed namespace; apps reuse the contract.",
+        "proofType": "compare",
+        "heroElement": "two-panel compare",
+        "density": "editorial"
+      },
+      "imageRole": "none",
       "logo": "@skill/assets/brand/logos/tier0-logo-black.png",
-      "title": "From Point-to-Point Integration to a Unified Namespace",
+      "kicker": "",
+      "title": "From point-to-point integration to a Unified Namespace",
       "panels": [
         {
           "title": "Point-to-point integration",
@@ -74,17 +99,33 @@
     {
       "id": "04-section",
       "kind": "section-dark",
+      "pageIntent": {
+        "purpose": "Chapter beat before applications",
+        "coreClaim": "The foundation is only the beginning.",
+        "proofType": "structure",
+        "heroElement": "single dark title",
+        "density": "sparse"
+      },
+      "imageRole": "none",
       "chapterLabel": "CHAPTER 02 · APPLICATIONS",
       "title": "The foundation is only",
       "accentTitle": "the beginning.",
-      "note": "With governed industrial context in place, the next question is what teams can build on top of it."
+      "note": "With governed industrial context in place, the next question is what teams can build on top of it.",
+      "footerLabel": ""
     },
     {
       "id": "05-builder",
       "kind": "feature-split",
+      "pageIntent": {
+        "purpose": "Show App Builder as the path from brief to running app",
+        "coreClaim": "Describe the task once; the app is wired to live UNS context.",
+        "proofType": "structure",
+        "heroElement": "left claims + right flow",
+        "density": "editorial"
+      },
       "logo": "@skill/assets/brand/logos/tier0-logo-black.png",
-      "kicker": "APP GENERATION",
-      "title": "App Builder · vibe coding for industrial ops",
+      "kicker": "",
+      "title": "App Builder · from a brief to a running industrial app",
       "bullets": [
         {
           "title": "A whole app from a single brief",
@@ -110,18 +151,25 @@
       ],
       "unsBody": "Read and write live operational context through a governed namespace.",
       "outputBody": "A running application with users, permissions, audit and versioning.",
-      "imageRole": "illustration",
+      "imageRole": "none",
       "imageSlot": "feature-split-right",
-      "imageAlt": "App Builder console linked to a unified namespace hub",
+      "imageAlt": "App Builder flow linked to a unified namespace hub",
       "imageFit": "cover",
-      "imageAspect": "16:10",
-      "imagePrompt": "tier0_illustration_style, isometric industrial app builder turning a plain-language brief into a running shop-floor application, console linked to a UNS hub, warm off-white background, modular blocks, acid lime signal paths, thin olive linework, 16:10, no readable text, no photorealism"
+      "imageAspect": "16:10"
     },
     {
       "id": "06-cost",
       "kind": "cost-compare",
+      "pageIntent": {
+        "purpose": "Show relative cost shape of UNS-backed delivery",
+        "coreClaim": "Same applications at 0.75X instead of 2X (illustrative model).",
+        "proofType": "kpi",
+        "heroElement": "ledger totals 2X → 0.75X",
+        "density": "dense"
+      },
+      "imageRole": "none",
       "logo": "@skill/assets/brand/logos/tier0-logo-black.png",
-      "kicker": "COST CALCULATIONS",
+      "kicker": "",
       "title": "The same applications — at 0.75X instead of 2X.",
       "rows": [
         {
@@ -141,13 +189,22 @@
           "note": "Integration falls as the reusable foundation compounds."
         }
       ],
-      "result": "Customer resources are saved as the namespace and application patterns are reused."
+      "result": "Customer resources are saved as the namespace and application patterns are reused.",
+      "sourceNote": "Illustrative relative model — not a customer KPI."
     },
     {
       "id": "07-adoption",
       "kind": "process-4",
+      "pageIntent": {
+        "purpose": "Give a concrete four-step adoption path",
+        "coreClaim": "Start with a valuable use case; build the reusable foundation behind it.",
+        "proofType": "list",
+        "heroElement": "four-phase path",
+        "density": "editorial"
+      },
+      "imageRole": "none",
       "logo": "@skill/assets/brand/logos/tier0-logo-black.png",
-      "kicker": "RECOMMENDED ADOPTION PATH",
+      "kicker": "",
       "title": "Start with a valuable use case. Build the reusable foundation behind it.",
       "steps": [
         {
@@ -172,6 +229,14 @@
     {
       "id": "08-closing",
       "kind": "closing-dark",
+      "pageIntent": {
+        "purpose": "Close with path + CTA",
+        "coreClaim": "Foundation → Connected apps → Operational intelligence.",
+        "proofType": "structure",
+        "heroElement": "three-line close + QR",
+        "density": "sparse"
+      },
+      "imageRole": "none",
       "logo": "@skill/assets/brand/logos/tier0-logo-white.png",
       "lines": [
         {
@@ -188,7 +253,10 @@
         }
       ],
       "footer": "Tier0 Platform · www.tier0.app",
-      "contact": "[ sales@tier0.app ]"
+      "contact": "sales@tier0.app",
+      "qr": "@skill/assets/brand/qr/tier0-app-qr.svg",
+      "qrAlt": "Tier0 website QR code",
+      "qrLabel": "www.tier0.app"
     }
   ]
 }

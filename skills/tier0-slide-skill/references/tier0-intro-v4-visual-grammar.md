@@ -60,19 +60,21 @@ White editorial cover
 | 角色 | 字体 | 字重 | 960×540 字号 |
 |---|---|---:|---:|
 | 白底 editorial 封面标题 | IBM Plex Sans | 400 | 40–46 |
-| 深墨转场标题 | Tektur | 500–600 | 34–40 |
+| 深墨转场标题 | **Tektur** | 500–600 | 34–52 · **必须全大写** |
 | 白底主标题 | IBM Plex Sans | 500–600 | 28–34 |
 | Section label | IBM Plex Mono | 600 | 10–13 |
 | 卡片标题 | IBM Plex Sans | 500–600 | 13–17 |
 | 正文 | IBM Plex Sans | 400 | 10–14 |
 | 元数据 / 页脚 | IBM Plex Mono | 400–500 | 9–11 |
-| 巨数 | Tektur 或 IBM Plex Sans | 600–700 | 34–50 |
+| 巨数 / KPI | IBM Plex Sans | 500–600 | 34–50 |
 
-参考稿深墨标题具有方正、切角、工业终端感；Tektur 是主要展示字体。白底正文保持 IBM Plex，可读性优先。
+**Tektur 硬规则：** Tektur 是 Logo / 品牌展示字体。在 PPT / HTML deck 中**仅允许**用于深墨分隔页（`section-dark`）的**全大写**巨标题。禁止用于 AppBuilder 节点名、KPI 数字、白底标题、封底口号或普通正文。其它展示需求用 IBM Plex Sans。
+
+参考稿深墨标题具有方正、切角、工业终端感；白底正文保持 IBM Plex，可读性优先。
 
 字体不可用时：
 
-- Tektur → `IBM Plex Sans Condensed` → `Arial Narrow`。
+- Tektur（仅分隔页）→ `IBM Plex Sans Condensed` → `Arial Narrow`。
 - IBM Plex Sans → `Aptos` → `Arial`。
 - IBM Plex Mono → `Aptos Mono` → `Consolas`。
 

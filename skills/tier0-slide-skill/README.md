@@ -1,12 +1,14 @@
 # Tier0 Slide Skill
 
-一句话：把文档 / PPTX / 截图整理成 **符合 Tier0 品牌的销售演示稿**，可同时交付 **HTML（现场演示）** 和 **可编辑 PPTX（转发改字）**。
+一句话：把文档 / PPTX / 截图整理成 **符合 Tier0 品牌的销售演示稿**，可同时交付 **HTML（现场演示）** 和 **可编辑 PPTX（转发改字）**。逐页先判**第一性原理**（核心目的/观点），再做疏密合理的布局（发丝分割、表格图表、关键数值突出）。
 
 ```text
 输入  →  确认页锁定交付与素材
+      →  每页 purpose / coreClaim / heroElement
       →  deck.json 单一内容源
 输出  →  ppt/index.html  +  ppt/deck.pptx
 品牌  →  IBM Plex · 白底 · 品牌绿 #B2ED1D（少量点缀）
+布局  →  references/layout-first-principles-tier0.md
 ```
 
 ---
@@ -120,7 +122,9 @@ python3 -m http.server 5181 --bind 127.0.0.1 --directory projects/客户名称/p
 | 写插画 / 截图提示词 | [`references/image-prompts-tier0.md`](references/image-prompts-tier0.md) |
 | 校验风格锁 | `node scripts/validate-tier0-illustrations.mjs 项目/deck.json` |
 
-概念插画统一用触发词 **`tier0_illustration_style`**。证明产品时只用用户提供的真实截图 / 录屏，**禁止生成产品 UI mockup 或设计稿**；架构关系优先原生可编辑图形。
+概念插画统一用触发词 **`tier0_illustration_style`**。证明产品时只用用户提供的真实截图 / 录屏，**禁止生成产品 UI mockup 或设计稿**；简单架构关系优先原生可编辑图形；复杂 / 需校验的拓扑用 vendored **Archify**（方法跟上游，视觉锁 Tier0），见 [`references/archify-tier0.md`](references/archify-tier0.md)。
+
+**Tektur：** 仅深墨分隔页全大写标题；其它文字用 IBM Plex。
 
 ```json
 "imageRole": "illustration",
@@ -157,8 +161,9 @@ skills/tier0-slide-skill/
 ├── README.md                # 本文件（人读）
 ├── assets/                  # 模板、品牌 Logo、示例 deck.json
 ├── layout-gallery/          # 版式画廊
-├── references/              # 细则（双格式、动效、校验…）
-└── scripts/                 # intake / build / validate
+├── references/              # 细则（双格式、动效、Archify×Tier0…）
+├── vendor/archify/          # 上游架构图 skill（MIT）+ Tier0 主题
+└── scripts/                 # intake / build / validate / theme
 ```
 
 更深规则请读 [`SKILL.md`](SKILL.md)；双格式 schema 见 [`references/dual-output-tier0.md`](references/dual-output-tier0.md)。
