@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=Tektur:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../site.css">
+  <link rel="stylesheet" href="../site.css?v=20260805c">
 </head>
 <body>
   <div class="page">
@@ -18,9 +18,7 @@
         <span>Slide Skill</span>
       </a>
       <div class="site-nav__links">
-        <a href="../">Home</a>
-        <a href="./demo.html">Demo</a>
-        <a class="site-nav__cta" href="./demo.html">See demo</a>
+        <a class="site-nav__cta" href="https://github.com/FREEZONEX/Tier0-Design-System" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </nav>
 
@@ -29,23 +27,106 @@
         <div class="eyebrow">Skill · tier0-slide-skill · 销售 / 售前 Deck</div>
         <h1>销售 Deck.</h1>
         <p>把大纲、文档、截图整理成品牌演示稿。同一份 <code>deck.json</code> 产出 HTML 与可编辑 PPTX。只做销售 deck，不做产品 UI。</p>
-        <div class="intro__actions">
-          <a class="btn btn-primary" href="./demo.html">打开 Demo →</a>
-          <a class="btn btn-outline" href="./guide.html">三步上手</a>
-        </div>
+
+        <aside class="invoke" aria-labelledby="invoke-slide">
+          <div class="invoke__head">
+            <h2 id="invoke-slide" class="invoke__title">怎么调用</h2>
+            <span class="invoke__meta">Skill + intake CLI + dual builder</span>
+          </div>
+          <dl class="invoke__facts">
+            <div class="invoke__fact"><dt>准备</dt><dd>Clone 本仓库，或把 <code>skills/tier0-slide-skill</code> 链到 Cursor skills</dd></div>
+            <div class="invoke__fact"><dt>命令行</dt><dd>需要：intake → validate → build dual</dd></div>
+            <div class="invoke__fact"><dt>耗时</dt><dd>确认门 2–5 分钟；整稿通常 20–45 分钟</dd></div>
+            <div class="invoke__fact"><dt>产出</dt><dd><code>ppt/index.html</code> + <code>ppt/deck.pptx</code>（可只要其一）</dd></div>
+          </dl>
+          <div class="invoke__body">
+            <ol class="invoke__steps">
+              <li>
+                <b>01</b>
+                <div>
+                  <h3>安装 / 打开 Skill</h3>
+                  <p>仓库路径 <code>skills/tier0-slide-skill/</code>（公开站亦有镜像）。在 Cursor 中启用该 skill，或 clone <code>FREEZONEX/Tier0-Design-System</code> 后在对话里 <code>@tier0-slide-skill</code>。</p>
+                </div>
+              </li>
+              <li>
+                <b>02</b>
+                <div>
+                  <div class="invoke__step-head">
+                    <h3>跑 Intake 确认门（必做）</h3>
+                    <a class="btn btn-ink invoke__intake-btn" href="http://127.0.0.1:5056" target="_blank" rel="noopener">打开 Intake ↗</a>
+                  </div>
+                  <p>先锁定交付格式、封面元信息与素材，再生成：</p>
+                  <pre class="invoke__prompt" data-label="CLI" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">node skills/tier0-slide-skill/scripts/start-tier0-intake.mjs --project projects/客户名称
+node skills/tier0-slide-skill/scripts/validate-tier0-intake.mjs projects/客户名称/intake/request.json</pre>
+                </div>
+              </li>
+              <li>
+                <b>03</b>
+                <div>
+                  <h3>用 Prompt 生成 deck</h3>
+                  <p>附上大纲 / 旧 PPTX / 截图。若要双格式，从第一步就走 <code>deck.json</code>，不要先写自由 HTML 再手工做第二套 PPTX。</p>
+                </div>
+              </li>
+              <li>
+                <b>04</b>
+                <div>
+                  <h3>构建、校验、使用</h3>
+                  <p>HTML 可现场演示；PPTX 给客户改字。构建示例：</p>
+                  <pre class="invoke__prompt" data-label="Build" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">node skills/tier0-slide-skill/scripts/build-tier0-dual.mjs \
+  --source projects/客户名称/deck.json \
+  --html projects/客户名称/ppt/index.html \
+  --pptx projects/客户名称/ppt/deck.pptx
+node skills/tier0-slide-skill/scripts/validate-tier0-pptx.mjs projects/客户名称/ppt/deck.pptx</pre>
+                </div>
+              </li>
+            </ol>
+            <pre class="invoke__prompt" data-label="Copy prompt">用 tier0-slide-skill 做一份 Tier0 产品介绍 PPT：8 页，突出 UNS 与 Builder，交付 HTML + 可编辑 PPTX。先走 intake；逐页先写 purpose/coreClaim/heroElement，再按 Layout Gallery + layout-first-principles 做疏密排版（发丝分割、表/图、关键数值突出）；禁止虚构 KPI。</pre>
+            <div class="invoke__links">
+              <span>资源</span>
+              <a href="./guide.html">三步上手</a>
+              <a href="#preview">页内 Demo</a>
+              <a href="./skill.html">SKILL.md</a>
+              <a href="https://github.com/FREEZONEX/Tier0-Design-System/tree/main/skills/tier0-slide-skill" target="_blank" rel="noopener">GitHub · skill</a>
+            </div>
+          </div>
+        </aside>
       </header>
 
       <section class="section" id="preview" style="padding-top:12px">
         <div class="section-kicker">01 / Preview</div>
         <h2 class="section-heading">在真实场景中查看</h2>
-        <p class="section-copy">深墨章节转场摘要（Tektur + lime 点缀）。完整翻页与版式 Gallery 见 Demo 页。</p>
-        <div class="ppt-slide-demo" aria-hidden="true">
-          <div class="k">Section · 02</div>
-          <h3>Design that <em>ships</em> itself.</h3>
-          <div class="foot"><span>Tier0 Cloud</span><span>02 / 12</span></div>
-        </div>
-        <div class="intro__actions">
-          <a class="btn btn-outline" href="./demo.html">中文 Demo + Gallery</a>
+        <p class="section-copy">中文稿、英文稿与 Layout Gallery 都在本页切换预览。方向键翻页；Gallery 里按 <code>R</code> 看规则与反例。无需另开页面。</p>
+
+        <div class="preview-stage" data-preview-tabs>
+          <div class="preview-tabs" role="tablist" aria-label="Demo language and gallery">
+            <button type="button" class="preview-tab is-active" role="tab" aria-selected="true" data-preview-tab="zh">中文 Demo</button>
+            <button type="button" class="preview-tab" role="tab" aria-selected="false" data-preview-tab="en">English Demo</button>
+            <button type="button" class="preview-tab" role="tab" aria-selected="false" data-preview-tab="gallery">Layout Gallery</button>
+          </div>
+
+          <div class="preview-pane" data-preview-pane="zh" role="tabpanel">
+            <div class="live-frame">
+              <div class="live-frame__bar"><i></i><i></i><i></i><span style="margin-left:8px">demo-zh · 工业软件开源及出海</span></div>
+              <iframe src="./demo-zh/index.html" title="Tier0 Chinese demo deck" loading="lazy"></iframe>
+            </div>
+            <p class="preview-pane__note">中文正式投屏稿 · 封面 keyword、章节节奏与卡片语法</p>
+          </div>
+
+          <div class="preview-pane" data-preview-pane="en" role="tabpanel" hidden>
+            <div class="live-frame">
+              <div class="live-frame__bar"><i></i><i></i><i></i><span style="margin-left:8px">demo-en · dual example</span></div>
+              <iframe title="Tier0 English demo deck" data-src="./demo-en/index.html" loading="lazy"></iframe>
+            </div>
+            <p class="preview-pane__note">English polished deck · same grammar, English copy</p>
+          </div>
+
+          <div class="preview-pane" data-preview-pane="gallery" role="tabpanel" hidden>
+            <div class="live-frame">
+              <div class="live-frame__bar"><i></i><i></i><i></i><span style="margin-left:8px">layout-gallery · pick a grammar</span></div>
+              <iframe title="Tier0 Layout Gallery" data-src="../vendor/layout-gallery/index.html" loading="lazy"></iframe>
+            </div>
+            <p class="preview-pane__note">登记版式语法与反例 · 先选结构再填内容 · 按 R 查看规则</p>
+          </div>
         </div>
       </section>
 
@@ -124,35 +205,46 @@
           <div class="howto-step">
             <b>03</b>
             <h3>校验与演示</h3>
-            <p>跑 validate → 打开 Demo 翻页 → 需要改页就对话迭代。版式查 Gallery。</p>
+            <p>跑 validate → 在本页 Preview 里翻页 → 需要改页就对话迭代。版式切到 Gallery tab。</p>
           </div>
-        </div>
-        <pre class="code-block" style="margin-top:20px">用 tier0-slide-skill 做一份 Tier0 产品介绍 PPT：8 页，突出 UNS 和 Builder，要 HTML + 可编辑 PPTX。</pre>
-        <div class="intro__actions">
-          <a class="btn btn-primary" href="./guide.html">Get started</a>
-          <a class="btn btn-outline" href="./demo.html">Demo + Gallery</a>
-          <a class="btn btn-outline" href="./skill.html">SKILL.md</a>
         </div>
       </section>
 
-      <section class="section" style="padding-top:0">
-        <div class="section-kicker">04 / Live demo</div>
-        <h2 class="section-heading">可翻页预览</h2>
-        <p class="section-copy">中文正式稿嵌入预览；版式 Gallery 在 Demo 页第二段。</p>
-        <div class="live-frame">
-          <div class="live-frame__bar"><i></i><i></i><i></i><span style="margin-left:8px">demo-zh / index.html</span></div>
-          <iframe src="./demo-zh/index.html" title="Tier0 Chinese demo deck" loading="lazy"></iframe>
-        </div>
-        <div class="intro__actions">
-          <a class="btn btn-outline" href="./demo.html">打开 Demo 页</a>
-        </div>
-      </section>
     </main>
 
     <footer class="site-footer">
-      <span>Tier0 Slide Skill</span>
-      <span><a href="../">Design System</a> · <a href="./demo.html">Demo</a></span>
+      <span>@FREEZONEX 2026 Design Hub</span>
     </footer>
   </div>
+  <script>
+    (function () {
+      var root = document.querySelector('[data-preview-tabs]');
+      if (!root) return;
+      var tabs = root.querySelectorAll('[data-preview-tab]');
+      var panes = root.querySelectorAll('[data-preview-pane]');
+      function activate(id) {
+        tabs.forEach(function (tab) {
+          var on = tab.getAttribute('data-preview-tab') === id;
+          tab.classList.toggle('is-active', on);
+          tab.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        panes.forEach(function (pane) {
+          var on = pane.getAttribute('data-preview-pane') === id;
+          pane.hidden = !on;
+          if (on) {
+            var frame = pane.querySelector('iframe');
+            if (frame && frame.dataset.src && !frame.getAttribute('src')) {
+              frame.src = frame.dataset.src;
+            }
+          }
+        });
+      }
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          activate(tab.getAttribute('data-preview-tab'));
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

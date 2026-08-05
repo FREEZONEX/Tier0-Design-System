@@ -7,8 +7,8 @@
   <meta name="description" content="Tier0 设计系统浏览器：左侧分类，右侧 token / 排版 / DESIGN.md 细则。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=Tektur:wght@400;500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../site.css">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Sans+SC:wght@400;500&family=Tektur:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../site.css?v=20260804l">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
@@ -16,11 +16,7 @@
     <nav class="site-nav" aria-label="Primary">
       <a class="site-nav__brand" href="../"><img src="../assets/brand/tier0-logo-black.svg" alt="Tier0"><span>Design System</span></a>
       <div class="site-nav__links">
-        <a href="../">Home</a>
-        <a href="../slide-skill/">Slide Skill</a>
-        <a class="is-active" href="./">Tokens</a>
-        <a href="https://github.com/FREEZONEX/Tier0-Design-System" target="_blank" rel="noopener">GitHub</a>
-        <a class="site-nav__cta" href="../slide-skill/guide.html">Get started</a>
+        <a class="site-nav__cta" href="https://github.com/FREEZONEX/Tier0-Design-System" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </nav>
 
@@ -36,7 +32,7 @@
           <aside class="ds-nav" aria-label="Design system categories">
             <div class="ds-nav__label">Foundations</div>
             <button type="button" data-cat="color" class="is-active">Color <small>色板 · 绿规则</small></button>
-            <button type="button" data-cat="type">字体 <small>Plex · Poppins · Tektur</small></button>
+            <button type="button" data-cat="type">字体 <small>Plex · Tektur</small></button>
             <button type="button" data-cat="layout">排版 / 间距 <small>字号 · 网格 · 圆角</small></button>
             <button type="button" data-cat="components">Component <small>按钮 · 卡片 · 证据</small></button>
 
@@ -97,7 +93,7 @@
                 </div>
               </div>
               <div class="rule-grid">
-                <article class="rule"><h3>可以</h3><ul><li>绿作 marker、active、进度、绿底黑字</li><li>深墨页上的亮绿路径</li><li>白底绿字用 <code>#73B200</code></li><li>浅色 CTA：<code>#CCF368</code> + <code>#333</code></li></ul></article>
+                <article class="rule"><h3>可以</h3><ul><li>绿作 marker、active、进度、绿底黑字</li><li>深墨页上的亮绿路径</li><li>白底绿字用 <code>#73B200</code></li><li>官网 CTA：<code>#B2ED1D</code> + 近墨字；产品浅色 CTA：<code>#CCF368</code> + <code>#333</code></li></ul></article>
                 <article class="rule"><h3>不可以</h3><ul><li>白底写 <code>#B2ED1D</code> 正文</li><li>整页铺绿、绿底白字</li><li>自定义主题色、蓝紫渐变</li></ul></article>
               </div>
             </article>
@@ -114,8 +110,8 @@
                 <div class="type-sample" style="font-family:'IBM Plex Sans',sans-serif">工作台正文与表格。密度高，字重克制。</div>
               </div>
               <div class="type-row">
-                <div class="type-meta">Website<br>Poppins + Plex</div>
-                <div class="type-sample is-display" style="font-family:Poppins,sans-serif;font-weight:600">Editorial headline</div>
+                <div class="type-meta">Website<br>IBM Plex Sans</div>
+                <div class="type-sample is-display" style="font-family:'IBM Plex Sans',sans-serif;font-weight:500">官网标题</div>
               </div>
               <div class="type-row">
                 <div class="type-meta">PPT chapter<br>Tektur</div>
@@ -132,7 +128,7 @@
               <div class="chip-row">
                 <span class="chip"><b>Product</b> 禁 Poppins</span>
                 <span class="chip"><b>PPT</b> 禁 Poppins</span>
-                <span class="chip"><b>Website</b> Poppins 仅标题</span>
+                <span class="chip"><b>Website</b> Plex only · 禁 Poppins</span>
               </div>
             </article>
 
@@ -226,16 +222,16 @@
             <article class="ds-panel" data-panel="website" hidden>
               <div class="ds-panel__head">
                 <h2>Company Website</h2>
-                <p>长文叙事与产品页。Poppins 标题 + Plex 正文，留白优先。</p>
+                <p>长文叙事与产品页。IBM Plex Sans 标题与正文，留白优先。</p>
                 <div class="path">surfaces/company-website · tokens/website.css</div>
               </div>
               <div class="scene-preview"><div class="mini mini--green">
                 <div class="mini__bar"><span class="mini__logo">Website</span></div>
-                <div class="mini__title">Editorial · Poppins display</div>
+                <div class="mini__title">Editorial · Plex display</div>
                 <span class="mini__btn">Learn more</span>
               </div></div>
               <div class="rule-grid">
-                <article class="rule"><h3>硬规则</h3><ul><li>Poppins 仅标题</li><li>正文 IBM Plex Sans</li><li>留白优先，少卡片堆叠</li></ul></article>
+                <article class="rule"><h3>硬规则</h3><ul><li>全站禁 Poppins</li><li>正文 IBM Plex Sans</li><li>亮绿 CTA · ■ Mono 标签 · 细边框</li></ul></article>
                 <article class="rule"><h3>入口</h3><ul><li><a href="../surfaces/website.html">surfaces/website.html</a></li><li>tokens/website.css</li></ul></article>
               </div>
             </article>
@@ -298,6 +294,6 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="../js/ds-browser.js"></script>
+  <script src="../js/ds-browser.js?v=20260804g"></script>
 </body>
 </html>

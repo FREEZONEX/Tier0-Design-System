@@ -7,8 +7,8 @@
   <meta name="description" content="Tier0 设计系统快速上手：三场景入口、Token 与 Slide Skill。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=Tektur:wght@400;500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./site.css">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Sans+SC:wght@400;500&family=Tektur:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./site.css?v=20260805b">
 </head>
 <body>
   <div class="page">
@@ -18,38 +18,19 @@
         <span>Design System</span>
       </a>
       <div class="site-nav__links">
-        <a class="is-active" href="./">Home</a>
-        <a href="./slide-skill/">Slide Skill</a>
-        <a href="./tokens/">Tokens</a>
-        <a href="https://github.com/FREEZONEX/Tier0-Design-System" target="_blank" rel="noopener">GitHub</a>
-        <a class="site-nav__cta" href="./slide-skill/guide.html">Get started</a>
+        <a class="site-nav__cta" href="https://github.com/FREEZONEX/Tier0-Design-System" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </nav>
 
-    <section class="hero" aria-labelledby="page-title">
+    <section class="hero hero--entries" id="entries" aria-labelledby="page-title">
       <canvas class="hero__ascii" id="hero-ascii" aria-hidden="true"></canvas>
       <div class="shell hero__inner">
-        <div class="hero__copy">
-          <div class="eyebrow">Tier0 / Quick start</div>
-          <h1 id="page-title">One brand. Three surfaces. One deck skill.</h1>
-          <p>多场景设计系统：产品后台、公司官网、销售 PPT。场景入口在上；下方左侧切换看 token / 排版细则。</p>
-        </div>
-      </div>
-      <div class="hero__meta"><i></i>ASCII field · live</div>
-    </section>
-
-    <section class="section section-entries" id="entries">
-      <div class="shell">
-        <h2 class="section-heading">Pick where you work.</h2>
+        <h1 id="page-title" class="section-heading">Pick where you work.</h1>
         <p class="section-copy">三场景入口。每张卡有预览；点进去看组件样式、用法与可交互预览。</p>
         <div class="entry-grid">
           <a class="show-card" href="./surfaces/product.html">
             <div class="show-card__preview">
-              <div class="mini">
-                <div class="mini__bar"><span class="mini__logo">Tier0 · Product</span><span class="mini__btn" style="margin:0;min-height:22px;font-size:10px">Sign in</span></div>
-                <div class="mini__title">Namespace · Tables · Side nav</div>
-                <div class="mini__row"><i class="mini__chip is-on"></i><i class="mini__chip"></i><i class="mini__chip"></i></div>
-              </div>
+              <img class="show-card__shot" src="./assets/previews/surface-product.png" alt="Tier0 UNS Console 产品后台截图" loading="lazy">
               <span class="show-card__tag">产品后台</span>
             </div>
             <div class="show-card__meta"><span>@tier0</span><span>surfaces/tier0-product</span></div>
@@ -63,29 +44,21 @@
 
           <a class="show-card" href="./surfaces/website.html">
             <div class="show-card__preview">
-              <div class="mini mini--green">
-                <div class="mini__bar"><span class="mini__logo">tier0.app</span></div>
-                <div class="mini__title">Open industrial <em style="font-style:normal">UNS</em>.</div>
-                <span class="mini__btn">Explore</span>
-              </div>
+              <img class="show-card__shot" src="./assets/previews/surface-website.png" alt="tier0.app 官网首页截图" loading="lazy">
               <span class="show-card__tag">公司官网</span>
             </div>
             <div class="show-card__meta"><span>@tier0</span><span>surfaces/company-website</span></div>
             <div class="show-card__body">
               <span class="show-card__link">查看组件与用法 →</span>
               <h3>网页 / 官网</h3>
-              <p>公司官网与产品介绍长页。Poppins 标题 + Plex 正文，留白优先。</p>
+              <p>公司官网与产品介绍长页。IBM Plex 标题 + 绿挑词，留白优先（对齐 tier0.app）。</p>
               <span class="show-card__cta">使用此场景</span>
             </div>
           </a>
 
           <a class="show-card" href="./slide-skill/">
             <div class="show-card__preview">
-              <div class="mini mini--dark">
-                <div class="mini__bar"><span class="mini__logo">KEYNOTE · 16:9</span><span class="mini__dot"></span></div>
-                <div class="mini__title">intake → Gallery → HTML + PPTX</div>
-                <span class="mini__btn" style="background:var(--accent);color:var(--ink)">Demo</span>
-              </div>
+              <img class="show-card__shot" src="./assets/previews/surface-deck.png" alt="Tier0 销售 Deck 封面截图" loading="lazy">
               <span class="show-card__tag">销售 Deck</span>
             </div>
             <div class="show-card__meta"><span>@tier0</span><span>skills/tier0-slide-skill</span></div>
@@ -109,7 +82,7 @@
         <aside class="ds-nav" aria-label="Design system categories">
           <div class="ds-nav__label">Foundations</div>
           <button type="button" data-cat="color" class="is-active">Color <small>色板 · 绿规则</small></button>
-          <button type="button" data-cat="type">字体 <small>Plex · Poppins · Tektur</small></button>
+          <button type="button" data-cat="type">字体 <small>Plex · Tektur</small></button>
           <button type="button" data-cat="layout">排版 / 间距 <small>字号 · 网格 · 圆角</small></button>
           <button type="button" data-cat="components">Component <small>按钮 · 卡片 · 证据</small></button>
           <div class="ds-nav__label">Surfaces</div>
@@ -156,10 +129,10 @@
               <p>按场景切换字体族，不要混用。</p>
               <div class="path">foundations/typography.md</div>
             </div>
-            <div class="type-row"><div class="type-meta">Product</div><div class="type-sample" style="font-family:'IBM Plex Sans',sans-serif">IBM Plex Sans — 工作台正文</div></div>
-            <div class="type-row"><div class="type-meta">Website</div><div class="type-sample is-display" style="font-family:Poppins,sans-serif;font-weight:600;font-size:32px">Poppins — 标题</div></div>
-            <div class="type-row"><div class="type-meta">PPT</div><div class="type-sample is-display" style="font-family:Tektur,sans-serif;font-size:32px">Tektur — 章节</div></div>
-            <div class="type-row"><div class="type-meta">Mono</div><div class="type-sample is-mono">IBM Plex Mono — kicker / tokens</div></div>
+            <div class="type-row"><div class="type-meta">Product<br>IBM Plex Sans</div><div class="type-sample" style="font-family:'IBM Plex Sans',sans-serif">工作台正文与表格</div></div>
+            <div class="type-row"><div class="type-meta">Website<br>IBM Plex Sans</div><div class="type-sample is-display" style="font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:32px">官网标题</div></div>
+            <div class="type-row"><div class="type-meta">PPT<br>Tektur</div><div class="type-sample is-display" style="font-family:Tektur,sans-serif;font-size:32px">章节标题</div></div>
+            <div class="type-row"><div class="type-meta">Mono<br>IBM Plex Mono</div><div class="type-sample is-mono">■ kicker / tokens</div></div>
             <p style="margin-top:16px"><a class="btn btn-outline" href="./tokens/?cat=type">完整字体细则 →</a></p>
           </article>
           <article class="ds-panel" data-panel="layout" hidden>
@@ -182,7 +155,7 @@
               <p>按钮、卡片顶线、kicker、证据框规则摘要。</p>
             </div>
             <div class="token-group">
-              <div class="token-row is-text"><code>浅色 CTA</code><span>#CCF368 + #333</span></div>
+              <div class="token-row is-text"><code>官网 CTA</code><span>#B2ED1D + near-ink</span></div>
               <div class="token-row is-text"><code>PPT 结构线</code><span>--ppt-accent1</span></div>
               <div class="token-row is-text"><code>证据</code><span>真实素材，禁止虚构 KPI</span></div>
             </div>
@@ -200,7 +173,7 @@
           <article class="ds-panel" data-panel="website" hidden>
             <div class="ds-panel__head">
               <h2>Website</h2>
-              <p>Poppins 标题 + Plex 正文，留白优先。</p>
+              <p>IBM Plex 标题与正文，`#B2ED1D` 绿 CTA，`#73B200` 白底挑词。</p>
             </div>
             <div class="scene-preview"><div class="mini mini--green"><div class="mini__bar"><span class="mini__logo">Website</span></div><div class="mini__title">Editorial display</div><span class="mini__btn">Learn more</span></div></div>
             <p><a class="btn btn-outline" href="./tokens/?cat=website">细则</a> <a class="btn btn-primary" href="./surfaces/website.html">Surface 页 →</a></p>
@@ -240,7 +213,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="./js/ds-browser.js"></script>
+  <script src="./js/ds-browser.js?v=20260804g"></script>
   <script>
     (function () {
       const canvas = document.getElementById('hero-ascii');

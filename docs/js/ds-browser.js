@@ -14,7 +14,11 @@
       try {
         const res = await fetch(url, { cache: 'no-store' });
         if (!res.ok) throw new Error(String(res.status));
-        const md = await res.text();
+        let md = await res.text();
+        // Strip YAML frontmatter so --- does not render as <hr>
+        md = md.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n*/, '');
+        // Drop standalone thematic breaks between foundation sections
+        md = md.replace(/^\s*---\s*$/gm, '');
         el.innerHTML = window.marked
           ? marked.parse(md)
           : '<pre>' + md.replace(/</g, '&lt;') + '</pre>';

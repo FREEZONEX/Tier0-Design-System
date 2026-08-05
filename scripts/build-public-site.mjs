@@ -70,19 +70,24 @@ rmSync(demoLegacy, { recursive: true, force: true });
 copyDir(demoEn, demoLegacy);
 
 // Chinese demo — polished Layout Gallery / template deck
+// `projects/` is gitignored, so CI must keep committed docs/slide-skill/demo-zh when local sources are absent.
 const zhSrc = join(root, 'projects', 'tier0-deck-20260729-1053', 'ppt-v2');
+const zhDeck = join(root, 'projects', 'tier0-deck-20260729-1053', 'deck.json');
 const demoZh = join(docs, 'slide-skill', 'demo-zh');
-rmSync(demoZh, { recursive: true, force: true });
 if (existsSync(zhSrc)) {
+  rmSync(demoZh, { recursive: true, force: true });
   copyDir(zhSrc, demoZh, { skip: [/^\./] });
-} else {
-  console.warn('Chinese ppt-v2 missing; building dual from projects deck.json fallback');
+} else if (existsSync(zhDeck)) {
+  console.warn('Chinese ppt-v2 missing; building dual from projects deck.json');
+  rmSync(demoZh, { recursive: true, force: true });
   mkdirSync(demoZh, { recursive: true });
-  buildDual(
-    join(root, 'projects', 'tier0-deck-20260729-1053', 'deck.json'),
-    join(demoZh, 'index.html'),
-    join(demoZh, 'deck.pptx'),
-  );
+  buildDual(zhDeck, join(demoZh, 'index.html'), join(demoZh, 'deck.pptx'));
+} else if (existsSync(join(demoZh, 'index.html'))) {
+  console.warn('Chinese projects/ source missing in CI; keeping committed docs/slide-skill/demo-zh');
+} else {
+  console.warn('Chinese demo source missing; cloning demo-en as demo-zh placeholder');
+  rmSync(demoZh, { recursive: true, force: true });
+  copyDir(demoEn, demoZh);
 }
 
 // Foundations → public vendor + composed DESIGN.md for tokens portal

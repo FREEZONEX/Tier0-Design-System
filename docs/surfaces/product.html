@@ -8,18 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../site.css">
+  <link rel="stylesheet" href="../site.css?v=20260804l">
 </head>
 <body>
   <div class="page">
     <nav class="site-nav" aria-label="Primary">
       <a class="site-nav__brand" href="../"><img src="../assets/brand/tier0-logo-black.svg" alt="Tier0"><span>Design System</span></a>
       <div class="site-nav__links">
-        <a href="../">Home</a>
-        <a href="../slide-skill/">Slide Skill</a>
-        <a href="../tokens/?cat=product">Tokens</a>
-        <a class="is-active" href="./product.html">Product</a>
-        <a class="site-nav__cta" href="../tokens/?cat=product">Browse tokens</a>
+        <a class="site-nav__cta" href="https://github.com/FREEZONEX/Tier0-Design-System" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </nav>
 
@@ -27,11 +23,59 @@
       <header class="page-hero-lite">
         <div class="eyebrow">Surface · tier0-product · Agent 设计场景</div>
         <h1>产品后台.</h1>
-        <p>高密度工业工作台。IBM Plex，近黑主按钮，绿色只做状态与选中。下面是组件样式、用法与场景预览。</p>
-        <div class="intro__actions">
-          <a class="btn btn-primary" href="#components">查看组件 →</a>
-          <a class="btn btn-outline" href="../tokens/?cat=product">Design tokens →</a>
-        </div>
+        <p>高密度工业工作台。IBM Plex，近黑主按钮，绿色只做状态与选中。下面是调用方法；再往下是组件样式与场景预览。</p>
+
+        <aside class="invoke" aria-labelledby="invoke-product">
+          <div class="invoke__head">
+            <h2 id="invoke-product" class="invoke__title">怎么调用</h2>
+            <span class="invoke__meta">Design reference · not a generator CLI</span>
+          </div>
+          <dl class="invoke__facts">
+            <div class="invoke__fact"><dt>准备</dt><dd>Clone / 打开本仓库，或产品 monorepo 里已有 <code>@tier0/ui</code></dd></div>
+            <div class="invoke__fact"><dt>命令行</dt><dd>无需专用生成命令；Agent 直接读规范即可</dd></div>
+            <div class="invoke__fact"><dt>耗时</dt><dd>单页工作台约 5–15 分钟（复杂度而定）</dd></div>
+            <div class="invoke__fact"><dt>产出</dt><dd>React / HTML 工作台页 + 语义 token 用法</dd></div>
+          </dl>
+          <div class="invoke__body">
+            <ol class="invoke__steps">
+              <li>
+                <b>01</b>
+                <div>
+                  <h3>拿到规范源</h3>
+                  <p>GitHub：<code>FREEZONEX/Tier0-Design-System</code> → <code>surfaces/tier0-product/</code> + <code>tokens/product.css</code> / <code>tokens/core.css</code>。不需要单独下载「生成包」。</p>
+                </div>
+              </li>
+              <li>
+                <b>02</b>
+                <div>
+                  <h3>在 Cursor / Agent 里点名场景</h3>
+                  <p>打开本仓库工作区，或把上述路径贴进对话。可配合产品设计 skill（如 <code>tier0productdesign</code>）。不要从官网 / PPT 抄字体与主按钮色。</p>
+                </div>
+              </li>
+              <li>
+                <b>03</b>
+                <div>
+                  <h3>粘贴 Prompt 生成页面</h3>
+                  <p>说明页面目标、表结构、状态机。Agent 应优先用语义 token，禁止白底铺满 <code>#B2ED1D</code> 小按钮。</p>
+                </div>
+              </li>
+              <li>
+                <b>04</b>
+                <div>
+                  <h3>落地到产品工程</h3>
+                  <p>对照 monorepo <code>packages/theme</code> / <code>packages/ui</code> 合并；业务页用共享组件，避免局部硬编码 hex。</p>
+                </div>
+              </li>
+            </ol>
+            <pre class="invoke__prompt" data-label="Copy prompt">按 Tier0 Product UI（surfaces/tier0-product + tokens/product.css）做 Namespace 列表页：侧栏 + 主区表格 + 近黑主按钮 Create；行 hover 用浅绿 #F0FBD2；状态 tag 绿色只表示选中/高亮。IBM Plex，禁止营销 Hero。</pre>
+            <div class="invoke__links">
+              <span>资源</span>
+              <a href="https://github.com/FREEZONEX/Tier0-Design-System/tree/main/surfaces/tier0-product" target="_blank" rel="noopener">GitHub · surfaces/tier0-product</a>
+              <a href="../tokens/?cat=product">Tokens · product</a>
+              <a href="#components">本页组件预览</a>
+            </div>
+          </div>
+        </aside>
       </header>
 
       <section class="section" id="preview" style="padding-top:12px">
@@ -140,13 +184,9 @@
           </div>
           <div class="howto-step">
             <b>03</b>
-            <h3>交给 agent</h3>
-            <p>提示：「按 Tier0 Product UI 做 Namespace 列表页，近黑主按钮，行 hover 浅绿。」</p>
+            <h3>对照组件预览</h3>
+            <p>本页上方组件卡与 <a href="../tokens/?cat=color">Color 细则</a> 对齐后再合入产品仓库。</p>
           </div>
-        </div>
-        <div class="intro__actions">
-          <a class="btn btn-outline" href="../tokens/?cat=color">Color 细则</a>
-          <a class="btn btn-outline" href="https://github.com/FREEZONEX/Tier0-Design-System/tree/main/surfaces/tier0-product" target="_blank" rel="noopener">GitHub 源文件</a>
         </div>
       </section>
     </main>

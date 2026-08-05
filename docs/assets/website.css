@@ -17,15 +17,15 @@
   --border: #e2e6de;
   --border-2: #d6ddcf;
 
-  --green-brand: #a7cf3a;
-  --green-brand-2: #8ebb1d;
-  --green-soft: #eef6d7;
-  --green-soft-2: #f4f9e9;
-  --green-border: #ccde9d;
+  --green-brand: #b2ed1d;
+  --green-brand-2: #73b200;
+  --green-soft: #f0fbd2;
+  --green-soft-2: #f7fbe8;
+  --green-border: #d4e89a;
 
-  --font-heading: "Poppins", "IBM Plex Sans", sans-serif;
-  --font-body: "IBM Plex Sans", "IBM Plex Sans SC", system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", monospace;
+  --font-heading: "IBM Plex Sans", "IBM Plex Sans SC", "PingFang SC", sans-serif;
+  --font-body: "IBM Plex Sans", "IBM Plex Sans SC", "PingFang SC", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
   --frame-desktop: 1440px;
   --container: 1280px;

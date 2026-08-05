@@ -4,9 +4,9 @@
 
 ## 使用顺序（产品 UI）
 
-1. `--tier0-*` / `--fx-*` 语义变量  
-2. Tailwind 语义 class（若在 monorepo 内）  
-3. 极少量局部补充 — **禁止**业务页常规硬编码 hex  
+- `--tier0-*` / `--fx-*` 语义变量  
+- Tailwind 语义 class（若在 monorepo 内）  
+- 极少量局部补充 — **禁止**业务页常规硬编码 hex  
 
 ## Lime 禁区（全场景）
 
