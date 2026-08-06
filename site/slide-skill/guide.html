@@ -22,28 +22,28 @@
     </nav>
     <main class="shell">
       <header class="page-hero-lite">
-        <div class="eyebrow">Guide · three steps</div>
-        <h1>Install. Confirm. Build.</h1>
-        <p>在设计系统仓库根目录执行。把「客户名称」换成你的项目名。</p>
+        <div class="eyebrow">Guide · 三步上手</div>
+        <h1>安装，填表，出稿。</h1>
+        <p>在仓库根目录执行。把「客户名称」换成你的项目名。整稿大概 7–10 分钟。</p>
       </header>
       <section class="section">
         <div class="entry-grid">
           <article class="entry">
-            <div class="entry__label">01 · Install</div>
-            <h3>Dependencies</h3>
-            <p>每台机器一次。</p>
+            <div class="entry__label">01 · 安装</div>
+            <h3>装依赖</h3>
+            <p>每台电脑做一次即可。</p>
             <pre class="code-block" style="margin-top:12px">cd skills/tier0-slide-skill && npm install && cd ../..</pre>
           </article>
           <article class="entry">
-            <div class="entry__label">02 · Intake</div>
-            <h3>Confirm delivery</h3>
-            <p>先锁定交付与素材。</p>
+            <div class="entry__label">02 · 填表</div>
+            <h3>说清交付</h3>
+            <p>先选 HTML / PPTX / 两者，并补上素材。</p>
             <pre class="code-block" style="margin-top:12px">node skills/tier0-slide-skill/scripts/start-tier0-intake.mjs --project projects/客户名称</pre>
           </article>
           <article class="entry">
-            <div class="entry__label">03 · Build</div>
-            <h3>Dual output</h3>
-            <p>写出 deck.json 后构建。</p>
+            <div class="entry__label">03 · 出稿</div>
+            <h3>生成 HTML + PPTX</h3>
+            <p>有 <code>deck.json</code> 后跑构建。</p>
             <pre class="code-block" style="margin-top:12px">node skills/tier0-slide-skill/scripts/build-tier0-dual.mjs \
   --source projects/客户名称/deck.json \
   --html   projects/客户名称/ppt/index.html \

@@ -33,62 +33,60 @@
 
         <aside class="invoke" aria-labelledby="invoke-slide">
           <div class="invoke__head">
-            <h2 id="invoke-slide" class="invoke__title">怎么调用</h2>
-            <span class="invoke__meta">Skill + intake CLI + dual builder</span>
+            <h2 id="invoke-slide" class="invoke__title">怎么开始</h2>
+            <span class="invoke__meta">四步：打开 Skill → 填表单 → 对话生成 → 拿到稿</span>
           </div>
           <dl class="invoke__facts">
-            <div class="invoke__fact"><dt>准备</dt><dd>Clone 本仓库，或把 <code>skills/tier0-slide-skill</code> 链到 Cursor skills</dd></div>
-            <div class="invoke__fact"><dt>命令行</dt><dd>需要：intake → validate → build dual</dd></div>
-            <div class="invoke__fact"><dt>耗时</dt><dd>确认门 2–5 分钟；整稿通常 20–45 分钟</dd></div>
-            <div class="invoke__fact"><dt>产出</dt><dd><code>ppt/index.html</code> + <code>ppt/deck.pptx</code>（可只要其一）</dd></div>
+            <div class="invoke__fact"><dt>准备</dt><dd>Clone 本仓库，在 Cursor 里启用 Slide Skill</dd></div>
+            <div class="invoke__fact"><dt>流程</dt><dd>先填交付表单，再让 Agent 生成稿</dd></div>
+            <div class="invoke__fact"><dt>耗时</dt><dd>生成整稿大概 7–10 分钟</dd></div>
+            <div class="invoke__fact"><dt>产出</dt><dd>可投屏的 HTML，和可改字的 PPTX（可只要一种）</dd></div>
           </dl>
           <div class="invoke__body">
             <ol class="invoke__steps">
               <li>
                 <b>01</b>
                 <div>
-                  <h3>安装 / 打开 Skill</h3>
-                  <p>仓库路径 <code>skills/tier0-slide-skill/</code>（公开站亦有镜像）。在 Cursor 中启用该 skill，或 clone <code>FREEZONEX/Tier0-Design-System</code> 后在对话里 <code>@tier0-slide-skill</code>。</p>
+                  <h3>打开 Skill</h3>
+                  <p>在 Cursor 对话里 <code>@tier0-slide-skill</code>，或打开仓库里的 <code>skills/tier0-slide-skill/</code>。</p>
                 </div>
               </li>
               <li>
                 <b>02</b>
                 <div>
                   <div class="invoke__step-head">
-                    <h3>跑 Intake 确认门（必做）</h3>
-                    <a class="btn btn-ink invoke__intake-btn" href="http://127.0.0.1:5056" target="_blank" rel="noopener">打开 Intake ↗</a>
+                    <h3>先填交付表单</h3>
+                    <a class="btn btn-ink invoke__intake-btn" href="http://127.0.0.1:5056" target="_blank" rel="noopener">打开表单 ↗</a>
                   </div>
-                  <p>先锁定交付格式、封面元信息与素材，再生成：</p>
-                  <pre class="invoke__prompt" data-label="CLI" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">node skills/tier0-slide-skill/scripts/start-tier0-intake.mjs --project projects/客户名称
-node skills/tier0-slide-skill/scripts/validate-tier0-intake.mjs projects/客户名称/intake/request.json</pre>
+                  <p>说清楚要 HTML、PPTX 还是两者，补上封面信息和素材。本地启动：</p>
+                  <pre class="invoke__prompt" data-label="启动表单" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">node skills/tier0-slide-skill/scripts/start-tier0-intake.mjs --project projects/客户名称</pre>
                 </div>
               </li>
               <li>
                 <b>03</b>
                 <div>
-                  <h3>用 Prompt 生成 deck</h3>
-                  <p>附上大纲 / 旧 PPTX / 截图。若要双格式，从第一步就走 <code>deck.json</code>，不要先写自由 HTML 再手工做第二套 PPTX。</p>
+                  <h3>把材料丢给 Agent</h3>
+                  <p>附上大纲、旧 PPT、截图或架构图。需要 HTML + PPTX 时，从一开始就按双格式流程走，不要先做完一套再手工复制另一套。</p>
                 </div>
               </li>
               <li>
                 <b>04</b>
                 <div>
-                  <h3>构建、校验、使用</h3>
-                  <p>HTML 可现场演示；PPTX 给客户改字。构建示例：</p>
-                  <pre class="invoke__prompt" data-label="Build" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">node skills/tier0-slide-skill/scripts/build-tier0-dual.mjs \
+                  <h3>构建并检查</h3>
+                  <p>HTML 适合现场翻页；PPTX 适合发给客户改字。示例：</p>
+                  <pre class="invoke__prompt" data-label="构建" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">node skills/tier0-slide-skill/scripts/build-tier0-dual.mjs \
   --source projects/客户名称/deck.json \
   --html projects/客户名称/ppt/index.html \
-  --pptx projects/客户名称/ppt/deck.pptx
-node skills/tier0-slide-skill/scripts/validate-tier0-pptx.mjs projects/客户名称/ppt/deck.pptx</pre>
+  --pptx projects/客户名称/ppt/deck.pptx</pre>
                 </div>
               </li>
             </ol>
-            <pre class="invoke__prompt" data-label="Copy prompt">用 tier0-slide-skill 做一份 Tier0 产品介绍 PPT：8 页，突出 UNS 与 Builder，交付 HTML + 可编辑 PPTX。先走 intake；逐页先写 purpose/coreClaim/heroElement，再按 Layout Gallery + layout-first-principles 做疏密排版（发丝分割、表/图、关键数值突出）；禁止虚构 KPI。</pre>
+            <pre class="invoke__prompt" data-label="可直接复制的提示词">用 tier0-slide-skill 做一份 Tier0 产品介绍 PPT：8 页，突出 UNS 与 Builder，交付 HTML + 可编辑 PPTX。先填交付表单；逐页写清本页目的和核心观点，再按 Layout Gallery 做疏密排版；没有证据的 KPI 不要写。</pre>
             <div class="invoke__links">
-              <span>资源</span>
+              <span>更多</span>
               <a href="./guide.html">三步上手</a>
               <a href="#preview">页内 Demo</a>
-              <a href="./skill.html">SKILL.md</a>
+              <a href="./skill.html">完整说明</a>
               <a href="https://github.com/FREEZONEX/Tier0-Design-System/tree/main/skills/tier0-slide-skill" target="_blank" rel="noopener">GitHub · skill</a>
             </div>
           </div>
@@ -198,17 +196,17 @@ node skills/tier0-slide-skill/scripts/validate-tier0-pptx.mjs projects/客户名
           <div class="howto-step">
             <b>01</b>
             <h3>定交付</h3>
-            <p>先说要 HTML、PPTX 还是两者。双格式必须从 <code>deck.json</code> 走 dual builder。</p>
+            <p>先说清只要 HTML、只要 PPTX，还是两个都要。两个都要时，从一份 <code>deck.json</code> 一起生成。</p>
           </div>
           <div class="howto-step">
             <b>02</b>
             <h3>喂材料</h3>
-            <p>大纲、旧 PPTX、截图、架构图。没证据的观点不要包装成数据。</p>
+            <p>大纲、旧 PPT、截图、架构图都行。没有证据的数字，不要写成 KPI。</p>
           </div>
           <div class="howto-step">
             <b>03</b>
-            <h3>校验与演示</h3>
-            <p>跑 validate → 在本页 Preview 里翻页 → 需要改页就对话迭代。版式切到 Gallery tab。</p>
+            <h3>检查与改稿</h3>
+            <p>在本页 Demo 里翻页看效果；要改某一页，直接在对话里说。版式参考切到 Layout Gallery。</p>
           </div>
         </div>
       </section>
