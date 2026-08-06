@@ -14,7 +14,7 @@
 | **做一份销售 Deck**（HTML + 可编辑 PPTX） | [`skills/tier0-slide-skill/`](skills/tier0-slide-skill/) | 同上（VI 锁） | skill 内 Gallery | 见 skill README 三步上手 |
 
 **怎么选：** 只查颜色/字体/组件 → `surfaces/ppt/`；要从素材生成演示稿 → [`skills/tier0-slide-skill/README.md`](skills/tier0-slide-skill/README.md)。  
-**Agent 入口：** [`SKILL.md`](SKILL.md)。Skill 注册表：[`skills/README.md`](skills/README.md)。
+**Agent 入口：** [`SKILL.md`](SKILL.md)（路由）· [`DESIGN.md`](DESIGN.md)（设计权威，对齐 vercel.com/design.md 结构）。Skill 注册表：[`skills/README.md`](skills/README.md)。
 
 ---
 
@@ -23,7 +23,8 @@
 ```
 ├── README.md                 # 本文件（总索引）
 ├── SKILL.md                  # Agent 场景路由
-├── foundations/              # 全场景共享：品牌、术语、Logo、通用禁忌
+├── DESIGN.md                 # Agent 设计权威（Vercel design.md 格式）
+├── foundations/              # 全场景共享细则：品牌、术语、Logo、通用禁忌
 ├── tokens/
 │   ├── core.css              # 共享色板与 primitive 类
 │   ├── product.css           # 产品 UI 覆盖

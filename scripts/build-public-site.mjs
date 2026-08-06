@@ -3,7 +3,7 @@
  * Build the public GitHub Pages site under site/.
  * Copies gallery + ZH/EN demo decks + markdown snapshots.
  */
-import { cpSync, mkdirSync, writeFileSync, rmSync, existsSync, readdirSync, statSync, readFileSync } from 'node:fs';
+import { cpSync, mkdirSync, writeFileSync, rmSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
@@ -110,29 +110,14 @@ for (const name of foundationFiles) {
   if (existsSync(src)) cpSync(src, join(foundationsDest, name));
 }
 
-const designParts = [
-  ['# Tier0 DESIGN.md', '',
-    '> Agent-readable design guide synthesized from `foundations/`.',
-    '> Source of truth: repo `foundations/*.md` + `tokens/core.css`.',
-    '',
-    '## Surfaces',
-    '',
-    '| Surface | Path | Tokens |',
-    '|---------|------|--------|',
-    '| Product UI | `surfaces/tier0-product/` | `tokens/product.css` |',
-    '| Company Website | `surfaces/company-website/` | `tokens/website.css` |',
-    '| Marketing Deck (PPT) | `surfaces/ppt/` | `tokens/deck.css` |',
-    '| Slide Skill | `skills/tier0-slide-skill/` | deck + Gallery |',
-    ''].join('\n'),
-];
-for (const name of ['brand.md', 'color.md', 'typography.md', 'spacing-layout.md', 'voice-content.md']) {
-  const src = join(foundationsSrc, name);
-  if (!existsSync(src)) continue;
-  const body = readFileSync(src, 'utf8').trim();
-  designParts.push(`\n---\n\n<!-- foundations/${name} -->\n\n${body}\n`);
-}
+// Agent-facing DESIGN.md (Vercel design.md format) → public tokens portal
 mkdirSync(join(site, 'tokens'), { recursive: true });
-writeFileSync(join(site, 'tokens', 'DESIGN.md'), designParts.join('\n'));
+const designSrc = join(root, 'DESIGN.md');
+if (existsSync(designSrc)) {
+  cpSync(designSrc, join(site, 'tokens', 'DESIGN.md'));
+} else {
+  console.warn('Root DESIGN.md missing; tokens portal will lack design guide');
+}
 
 // Snapshot CSS into site/assets for offline reference (already copied above)
 writeFileSync(join(site, '.nojekyll'), '');
@@ -143,7 +128,7 @@ writeFileSync(join(site, 'README.md'), `# Tier0 Design System — Public showcas
 GitHub Pages 产品展示站（\`site/\`）。
 
 - 气质：白底黑字快速上手；Hero ASCII；三场景入口 + 两列 Design System 画廊
-- Tokens 门户：场景预览、完整 token 表、合成 DESIGN.md（与 \`foundations/\` 同步）
+- Tokens 门户：场景预览、完整 token 表、根目录 \`DESIGN.md\`（Vercel design.md 格式）
 - Local preview: \`python3 -m http.server 8898 --directory site\` → http://127.0.0.1:8898/
 - Rebuild vendor / demos / DESIGN.md: \`node scripts/build-public-site.mjs\`
 - Production: https://freezonex.github.io/Tier0-Design-System/site/
@@ -157,7 +142,7 @@ GitHub Pages 产品展示站（\`site/\`）。
 | \`/slide-skill/demo-zh/\` | Chinese polished deck |
 | \`/slide-skill/demo-en/\` | English dual-output example |
 
-Do not hand-edit \`vendor/\`, \`slide-skill/demo/\`, \`demo-en/\`, \`demo-zh/\`, or \`tokens/DESIGN.md\` — they are generated / synced by the build script.
+Do not hand-edit \`vendor/\`, \`slide-skill/demo/\`, \`demo-en/\`, \`demo-zh/\`, or \`tokens/DESIGN.md\` — they are synced by the build script from skill / root \`DESIGN.md\`.
 `);
 
 console.log('Public site built → site/');

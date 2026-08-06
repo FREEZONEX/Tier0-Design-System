@@ -21,7 +21,8 @@ user-invocable: true
 
 ## 2. 全场景必读
 
-- `foundations/README.md` — 品牌、命名、共享禁忌
+- **`DESIGN.md`** — Agent 设计指南（对齐 [vercel.com/design.md](https://vercel.com/design.md) 结构：上下文 → 优先级 → 四步工作法 → 视觉权威 → 反例）
+- `foundations/README.md` — 品牌、命名、共享禁忌的细则表
 - `tokens/core.css` — 共享色板（lime `#B2ED1D`、黑 `#050B14` 等）
 
 再加载对应 surface 的 `tokens/*.css` 与 `surfaces/*/README.md`。
