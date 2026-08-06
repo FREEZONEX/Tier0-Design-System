@@ -34,10 +34,10 @@
         <aside class="invoke" aria-labelledby="invoke-slide">
           <div class="invoke__head">
             <h2 id="invoke-slide" class="invoke__title">怎么开始</h2>
-            <span class="invoke__meta">四步：打开 Skill → 填表单 → 对话生成 → 拿到稿</span>
+            <span class="invoke__meta">先一键安装 → 再对话生成</span>
           </div>
           <dl class="invoke__facts">
-            <div class="invoke__fact"><dt>准备</dt><dd>Clone 本仓库，在 Cursor 里启用 Slide Skill</dd></div>
+            <div class="invoke__fact"><dt>准备</dt><dd>本机有 Git + Node 18+；一行命令装到 Cursor / Codex</dd></div>
             <div class="invoke__fact"><dt>流程</dt><dd>先填交付表单，再让 Agent 生成稿</dd></div>
             <div class="invoke__fact"><dt>耗时</dt><dd>生成整稿大概 7–10 分钟</dd></div>
             <div class="invoke__fact"><dt>产出</dt><dd>可投屏的 HTML，和可改字的 PPTX（可只要一种）</dd></div>
@@ -45,10 +45,18 @@
           <div class="invoke__body">
             <ol class="invoke__steps">
               <li>
+                <b>00</b>
+                <div>
+                  <h3>一键安装到本机</h3>
+                  <p>终端粘贴下面一行。会装依赖，并链到 Cursor / Codex（以及 Claude / Agents）的 skills 目录。</p>
+                  <pre class="invoke__prompt" data-label="一键安装" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">curl -fsSL https://raw.githubusercontent.com/FREEZONEX/Tier0-Design-System/main/skills/tier0-slide-skill/scripts/install-skill.sh | bash</pre>
+                </div>
+              </li>
+              <li>
                 <b>01</b>
                 <div>
                   <h3>打开 Skill，让 Agent 开表单</h3>
-                  <p>在 Cursor 对话里 <code>@tier0-slide-skill</code>，然后让 Agent 帮你打开 PPT 交付表单入口。</p>
+                  <p>安装后<strong>新开</strong>对话，在 Cursor / Codex 里 <code>@tier0-slide-skill</code>，让 Agent 打开 PPT 交付表单。</p>
                   <pre class="invoke__prompt" data-label="可复制提示词" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">@tier0-slide-skill 帮我打开 PPT 交付表单（intake）入口，我要先填交付格式和素材再生成稿。</pre>
                 </div>
               </li>

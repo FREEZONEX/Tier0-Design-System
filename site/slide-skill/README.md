@@ -2,6 +2,28 @@
 
 一句话：把文档 / PPTX / 截图整理成 **符合 Tier0 品牌的销售演示稿**，可同时交付 **HTML（现场演示）** 和 **可编辑 PPTX（转发改字）**。逐页先判**第一性原理**（核心目的/观点），再做疏密合理的布局（发丝分割、表格图表、关键数值突出）。
 
+## 一键安装（Cursor / Codex）
+
+本机已有 Git、Node.js 18+ 时，终端粘贴一行即可：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/FREEZONEX/Tier0-Design-System/main/skills/tier0-slide-skill/scripts/install-skill.sh | bash
+```
+
+脚本会：
+
+1. 把 skill 装到 `~/.tier0/Tier0-Design-System/skills/tier0-slide-skill`
+2. 安装 npm 依赖
+3. 软链到 `~/.cursor/skills/`、`~/.codex/skills/`（以及已有的 `~/.claude/skills/`、`~/.agents/skills/`）
+
+装完后**新开** Cursor / Codex 对话，直接说：
+
+```text
+@tier0-slide-skill 帮我打开 PPT 交付表单（intake）入口，我要先填交付格式和素材再生成稿。
+```
+
+已在本仓库开发者：仓库内已有 `.cursor/skills/tier0-slide-skill` 软链，只需 `cd skills/tier0-slide-skill && npm install`。
+
 ```text
 输入  →  确认页锁定交付与素材
       →  每页 purpose / coreClaim / heroElement
@@ -24,7 +46,7 @@
 
 本 skill **只做销售 / 售前演示稿**，不做产品设计（界面、交互、组件、设计系统实现）。
 
-对 Cursor Agent 直接说：
+对 Cursor / Codex Agent 直接说：
 
 ```text
 用 tier0-slide-skill 做一份 Tier0 产品介绍 PPT：8 页，突出 UNS 和 Builder，要 HTML + 可编辑 PPTX。
@@ -37,6 +59,8 @@
 在设计系统仓库根目录执行（把 `客户名称` 换成你的项目名）：
 
 ### 1. 装依赖（每个机器一次）
+
+优先用上面的**一键安装**；若已在本仓库内：
 
 ```bash
 cd skills/tier0-slide-skill && npm install && cd ../..

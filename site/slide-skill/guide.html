@@ -24,30 +24,27 @@
       <header class="page-hero-lite">
         <div class="eyebrow">Guide · 三步上手</div>
         <h1>安装，填表，出稿。</h1>
-        <p>在仓库根目录执行。把「客户名称」换成你的项目名。整稿大概 7–10 分钟。</p>
+        <p>先一键装到 Cursor / Codex。整稿大概 7–10 分钟。</p>
       </header>
       <section class="section">
         <div class="entry-grid">
           <article class="entry">
-            <div class="entry__label">01 · 安装</div>
-            <h3>装依赖</h3>
-            <p>每台电脑做一次即可。</p>
-            <pre class="code-block" style="margin-top:12px">cd skills/tier0-slide-skill && npm install && cd ../..</pre>
+            <div class="entry__label">00 · 一键安装</div>
+            <h3>装到本机 Agent</h3>
+            <p>需要 Git + Node 18+。装完新开对话即可 <code>@tier0-slide-skill</code>。</p>
+            <pre class="code-block" style="margin-top:12px">curl -fsSL https://raw.githubusercontent.com/FREEZONEX/Tier0-Design-System/main/skills/tier0-slide-skill/scripts/install-skill.sh | bash</pre>
           </article>
           <article class="entry">
-            <div class="entry__label">02 · 填表</div>
+            <div class="entry__label">01 · 填表</div>
             <h3>说清交付</h3>
-            <p>先选 HTML / PPTX / 两者，并补上素材。</p>
-            <pre class="code-block" style="margin-top:12px">node skills/tier0-slide-skill/scripts/start-tier0-intake.mjs --project projects/客户名称</pre>
+            <p>先选 HTML / PPTX / 两者，并补上素材。可让 Agent 打开表单：</p>
+            <pre class="code-block" style="margin-top:12px">@tier0-slide-skill 帮我打开 PPT 交付表单（intake）入口</pre>
           </article>
           <article class="entry">
-            <div class="entry__label">03 · 出稿</div>
+            <div class="entry__label">02 · 出稿</div>
             <h3>生成 HTML + PPTX</h3>
-            <p>有 <code>deck.json</code> 后跑构建。</p>
-            <pre class="code-block" style="margin-top:12px">node skills/tier0-slide-skill/scripts/build-tier0-dual.mjs \
-  --source projects/客户名称/deck.json \
-  --html   projects/客户名称/ppt/index.html \
-  --pptx   projects/客户名称/ppt/deck.pptx</pre>
+            <p>填完表后继续对话；Agent 会写 <code>deck.json</code> 并构建双格式。</p>
+            <pre class="code-block" style="margin-top:12px">用 tier0-slide-skill 做一份产品介绍 PPT：8 页，交付 HTML + 可编辑 PPTX。</pre>
           </article>
         </div>
         <div class="intro__actions" style="margin-top:28px">
