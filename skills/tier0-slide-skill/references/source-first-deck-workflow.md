@@ -2,6 +2,8 @@
 
 Use this workflow whenever the user starts with documents, media, an existing deck, or a PPTX. The material is evidence; the Gallery is a design language.
 
+**When optimizing an existing PPTX**, also obey `source-fidelity-tier0.md`: same page count, keep every image/video, no silent drops.
+
 ## 1. Build the deck brief
 
 | Capture | Questions to answer |
@@ -19,10 +21,12 @@ Do not invent evidence. Mark unsupported claims as `待确认` or convert them t
 | Source | Preserve | Improve |
 |---|---|---|
 | Structured chapter document | Facts, sequence, customer language | Split dense paragraphs into slide-sized claims |
-| Existing PPTX | Useful structure, verified diagrams, approved labels | Hierarchy, spacing, image treatment, repetitive layouts |
-| Screenshot / recording | Authentic product state from source assets | Crop, caption, placement, surrounding explanation — never invent UI |
-| Demo video | One explainable task and outcome | Poster frame, playback frame, callout order |
-| Architecture image | Relationship grammar and named nodes | Rebuild labels/lines as editable HTML or PPTX shapes when needed |
+| Existing PPTX | **All pages**, verified diagrams, **all embedded media**, approved labels | Hierarchy, spacing, image treatment — not deletion |
+| Screenshot / recording | Authentic product state from source assets | Crop, caption, placement — never invent UI |
+| Demo video | File + one explainable task | HTML playback; PPTX poster frame if needed |
+| Architecture image | Relationship grammar and named nodes | Rebuild as editable shapes when practical; else keep image |
+
+For PPTX: unzip, count slides, export every `ppt/media/*` asset, map media → slide via relationships **before** designing.
 
 ## 3. Create a slide map before building
 

@@ -12,19 +12,21 @@
 
 ## 0. 与「怎样排版才对」的关系
 
-排版对错的核心标准是 **`layout-first-principles-tier0.md`（本页观点 → 疏密/层级/表图）**，并可用 `references/assets/layout-density/` 的 Kimi 类参考图借结构灵感；色锁 Tier0 绿。
+排版对错的核心标准是 **`layout-first-principles-tier0.md`（本页观点 → 疏密/层级/表图）** + **源稿保真 `source-fidelity-tier0.md`**。
 
 | 产物 | 作用 |
 |------|------|
-| `template-tier0.html` + Gallery 组件 | **基础样式与布局语言**（画布、token、发丝、卡片语法）；按需借用，不逐页硬套 `Sxx` |
-| `build-tier0-dual.mjs` HTML | 与 PPTX 同源的坐标预览；**不是**「排版范本」 |
-| `site/slide-skill/demo-en/` | dual starter 样例；当前扁平定位，**不要**当销售 HTML 观感对照 |
+| `template-tier0.html` + Gallery 组件 | **HTML 演示观感**与布局语言；富媒体长稿优化时的主路径 |
+| `build-tier0-dual.mjs` HTML | 与 PPTX 同源的坐标 QA；**不是**「排版范本」，也**不是**删页删图的理由 |
+| `site/slide-skill/demo-en/` | dual starter 样例；不要当销售 HTML 对照 |
+| dual 的 8 种 `kind` | **绿场短稿**脚手架；**禁止**当作 23 页富媒体源稿的唯一版式集合 |
 
 规则：
 
-1. HTML-only / 现场演示：用 template 基座与 Tier0 组件，按第一性原理排版；内容形状接近时参考 Gallery，装不下就改版。
-2. 含 PPTX / both：`deck.json` + dual 保证可编辑对象；若 dual HTML 观感不够，不要假装它等于最终演示标准。
-3. 不要用 English dual demo 教「怎样排版」。
+1. HTML 演示：template 基座 + 按源页动态布局；带齐源图/视频。
+2. 含 PPTX 的绿场短稿：可用 `deck.json` + dual。
+3. 含 PPTX 的富媒体长稿：页数 1:1；HTML 保真；PPTX 可编辑字 + 嵌入图；视频可封面帧降级但页必须保留。
+4. 不要用 English dual demo 教「怎样排版」。
 
 ## 1. 何时进入双格式模式
 

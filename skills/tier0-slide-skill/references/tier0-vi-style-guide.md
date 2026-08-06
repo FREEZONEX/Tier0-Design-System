@@ -2,7 +2,9 @@
 
 > 用途：这版规范重塑为更贴近 `tier0.app/tier0/builder` 与 `tier0.app/pricing` 的页面气质。目标不是普通 SaaS 卡片模板，而是把官网里的排版、留白、字体节奏、黑白结构和绿色信号感迁移到 PPT。
 
-> **V4 Editorial Hybrid 更新**：正式介绍 deck 默认使用白底 editorial 封面、纯网格深墨章节转场和深墨封底；封面 / 白底证据页使用 IBM Plex，深墨转场使用 Tektur。章节转场禁止 Logo、角线、标题短线和角落圆形。先读 `tier0-intro-v4-visual-grammar.md`。
+> **说明**：下文 “V4 Editorial Hybrid” 是**内部语法备忘**（白底封面 / 深墨章节 / 深墨封底的一种组合），不是对外产品名。优化客户已有 PPT 时以 `source-fidelity-tier0.md` + Layout Gallery 为准，不要因本文件而压缩页数或丢掉源图。
+
+> **V4 语法备忘**：正式介绍短稿可用白底 editorial 封面、纯网格深墨章节转场和深墨封底；封面 / 白底证据页使用 IBM Plex，深墨转场使用 Tektur。章节转场禁止 Logo、角线、标题短线和角落圆形。细节见 `tier0-intro-v4-visual-grammar.md`。
 
 ---
 
