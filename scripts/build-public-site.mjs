@@ -3,7 +3,7 @@
  * Build the public GitHub Pages site under site/.
  * Copies gallery + ZH/EN demo decks + markdown snapshots.
  */
-import { cpSync, mkdirSync, writeFileSync, rmSync, existsSync, readdirSync, statSync } from 'node:fs';
+import { cpSync, mkdirSync, writeFileSync, rmSync, existsSync, readdirSync, statSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
@@ -53,6 +53,8 @@ rmSync(galleryDest, { recursive: true, force: true });
 copyDir(gallerySrc, galleryDest, { skip: [/source\.png$/i, /^\./] });
 
 cpSync(join(skill, 'SKILL.md'), join(site, 'slide-skill', 'SKILL.md'));
+// Plain .txt for browser fetch — Jekyll rewrites frontmatter *.md to *.html
+writeFileSync(join(site, 'slide-skill', 'SKILL.txt'), readFileSync(join(skill, 'SKILL.md')));
 cpSync(join(skill, 'README.md'), join(site, 'slide-skill', 'README.md'));
 
 // English demo — dual builder example (updated cover / type norms)
@@ -114,7 +116,9 @@ for (const name of foundationFiles) {
 mkdirSync(join(site, 'tokens'), { recursive: true });
 const designSrc = join(root, 'DESIGN.md');
 if (existsSync(designSrc)) {
+  const designBody = readFileSync(designSrc);
   cpSync(designSrc, join(site, 'tokens', 'DESIGN.md'));
+  writeFileSync(join(site, 'tokens', 'DESIGN.txt'), designBody);
 } else {
   console.warn('Root DESIGN.md missing; tokens portal will lack design guide');
 }
