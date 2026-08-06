@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Build the public GitHub Pages site under docs/.
+ * Build the public GitHub Pages site under site/.
  * Copies gallery + ZH/EN demo decks + markdown snapshots.
  */
 import { cpSync, mkdirSync, writeFileSync, rmSync, existsSync, readdirSync, statSync, readFileSync } from 'node:fs';
@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const docs = join(root, 'docs');
+const site = join(root, 'site');
 const skill = join(root, 'skills', 'tier0-slide-skill');
 
 function copyDir(src, dest, { skip = [] } = {}) {
@@ -38,25 +38,25 @@ function buildDual(source, htmlOut, pptxOut) {
   }
 }
 
-mkdirSync(join(docs, 'assets', 'brand'), { recursive: true });
-cpSync(join(skill, 'assets', 'brand', 'logos', 'tier0-logo-black.png'), join(docs, 'assets', 'brand', 'tier0-logo-black.png'));
+mkdirSync(join(site, 'assets', 'brand'), { recursive: true });
+cpSync(join(skill, 'assets', 'brand', 'logos', 'tier0-logo-black.png'), join(site, 'assets', 'brand', 'tier0-logo-black.png'));
 const logoSvg = join(root, 'assets', 'tier0-logo-black.svg');
-if (existsSync(logoSvg)) cpSync(logoSvg, join(docs, 'assets', 'brand', 'tier0-logo-black.svg'));
+if (existsSync(logoSvg)) cpSync(logoSvg, join(site, 'assets', 'brand', 'tier0-logo-black.svg'));
 for (const css of ['core.css', 'deck.css', 'product.css', 'website.css']) {
   const src = join(root, 'tokens', css);
-  if (existsSync(src)) cpSync(src, join(docs, 'assets', css));
+  if (existsSync(src)) cpSync(src, join(site, 'assets', css));
 }
 
 const gallerySrc = join(skill, 'layout-gallery');
-const galleryDest = join(docs, 'vendor', 'layout-gallery');
+const galleryDest = join(site, 'vendor', 'layout-gallery');
 rmSync(galleryDest, { recursive: true, force: true });
 copyDir(gallerySrc, galleryDest, { skip: [/source\.png$/i, /^\./] });
 
-cpSync(join(skill, 'SKILL.md'), join(docs, 'slide-skill', 'SKILL.md'));
-cpSync(join(skill, 'README.md'), join(docs, 'slide-skill', 'README.md'));
+cpSync(join(skill, 'SKILL.md'), join(site, 'slide-skill', 'SKILL.md'));
+cpSync(join(skill, 'README.md'), join(site, 'slide-skill', 'README.md'));
 
 // English demo — dual builder example (updated cover / type norms)
-const demoEn = join(docs, 'slide-skill', 'demo-en');
+const demoEn = join(site, 'slide-skill', 'demo-en');
 mkdirSync(demoEn, { recursive: true });
 buildDual(
   join(skill, 'assets', 'tier0-v4-dual-example.json'),
@@ -65,15 +65,15 @@ buildDual(
 );
 
 // Keep legacy /demo path as English alias
-const demoLegacy = join(docs, 'slide-skill', 'demo');
+const demoLegacy = join(site, 'slide-skill', 'demo');
 rmSync(demoLegacy, { recursive: true, force: true });
 copyDir(demoEn, demoLegacy);
 
 // Chinese demo — polished Layout Gallery / template deck
-// `projects/` is gitignored, so CI must keep committed docs/slide-skill/demo-zh when local sources are absent.
+// `projects/` is gitignored, so CI must keep committed site/slide-skill/demo-zh when local sources are absent.
 const zhSrc = join(root, 'projects', 'tier0-deck-20260729-1053', 'ppt-v2');
 const zhDeck = join(root, 'projects', 'tier0-deck-20260729-1053', 'deck.json');
-const demoZh = join(docs, 'slide-skill', 'demo-zh');
+const demoZh = join(site, 'slide-skill', 'demo-zh');
 if (existsSync(zhSrc)) {
   rmSync(demoZh, { recursive: true, force: true });
   copyDir(zhSrc, demoZh, { skip: [/^\./] });
@@ -83,7 +83,7 @@ if (existsSync(zhSrc)) {
   mkdirSync(demoZh, { recursive: true });
   buildDual(zhDeck, join(demoZh, 'index.html'), join(demoZh, 'deck.pptx'));
 } else if (existsSync(join(demoZh, 'index.html'))) {
-  console.warn('Chinese projects/ source missing in CI; keeping committed docs/slide-skill/demo-zh');
+  console.warn('Chinese projects/ source missing in CI; keeping committed site/slide-skill/demo-zh');
 } else {
   console.warn('Chinese demo source missing; cloning demo-en as demo-zh placeholder');
   rmSync(demoZh, { recursive: true, force: true });
@@ -92,7 +92,7 @@ if (existsSync(zhSrc)) {
 
 // Foundations → public vendor + composed DESIGN.md for tokens portal
 const foundationsSrc = join(root, 'foundations');
-const foundationsDest = join(docs, 'vendor', 'foundations');
+const foundationsDest = join(site, 'vendor', 'foundations');
 rmSync(foundationsDest, { recursive: true, force: true });
 mkdirSync(foundationsDest, { recursive: true });
 const foundationFiles = [
@@ -131,22 +131,22 @@ for (const name of ['brand.md', 'color.md', 'typography.md', 'spacing-layout.md'
   const body = readFileSync(src, 'utf8').trim();
   designParts.push(`\n---\n\n<!-- foundations/${name} -->\n\n${body}\n`);
 }
-mkdirSync(join(docs, 'tokens'), { recursive: true });
-writeFileSync(join(docs, 'tokens', 'DESIGN.md'), designParts.join('\n'));
+mkdirSync(join(site, 'tokens'), { recursive: true });
+writeFileSync(join(site, 'tokens', 'DESIGN.md'), designParts.join('\n'));
 
-// Snapshot CSS into docs/assets for offline reference (already copied above)
-writeFileSync(join(docs, '.nojekyll'), '');
-rmSync(join(docs, 'CNAME'), { force: true });
+// Snapshot CSS into site/assets for offline reference (already copied above)
+writeFileSync(join(site, '.nojekyll'), '');
+rmSync(join(site, 'CNAME'), { force: true });
 
-writeFileSync(join(docs, 'README.md'), `# Tier0 Design System — Public showcase
+writeFileSync(join(site, 'README.md'), `# Tier0 Design System — Public showcase
 
-GitHub Pages 产品展示站（\`docs/\`）。
+GitHub Pages 产品展示站（\`site/\`）。
 
 - 气质：白底黑字快速上手；Hero ASCII；三场景入口 + 两列 Design System 画廊
 - Tokens 门户：场景预览、完整 token 表、合成 DESIGN.md（与 \`foundations/\` 同步）
-- Local preview: \`python3 -m http.server 8898 --directory docs\` → http://127.0.0.1:8898/
+- Local preview: \`python3 -m http.server 8898 --directory site\` → http://127.0.0.1:8898/
 - Rebuild vendor / demos / DESIGN.md: \`node scripts/build-public-site.mjs\`
-- Production: https://freezonex.github.io/Tier0-Design-System/
+- Production: https://freezonex.github.io/Tier0-Design-System/site/
 
 | Path | Role |
 |------|------|
@@ -160,7 +160,7 @@ GitHub Pages 产品展示站（\`docs/\`）。
 Do not hand-edit \`vendor/\`, \`slide-skill/demo/\`, \`demo-en/\`, \`demo-zh/\`, or \`tokens/DESIGN.md\` — they are generated / synced by the build script.
 `);
 
-console.log('Public site built → docs/');
+console.log('Public site built → site/');
 console.log('- vendor/layout-gallery');
 console.log('- vendor/foundations + tokens/DESIGN.md');
 console.log('- slide-skill/demo-en (dual example)');

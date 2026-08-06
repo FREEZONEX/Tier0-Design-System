@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'docs/**'
+      - 'site/**'
       - 'skills/tier0-slide-skill/**'
       - 'tokens/**'
       - 'scripts/build-public-site.mjs'
@@ -35,10 +35,29 @@ jobs:
         working-directory: skills/tier0-slide-skill
       - name: Build public site
         run: node scripts/build-public-site.mjs
+      - name: Stage Pages artifact under /site
+        run: |
+          mkdir -p _pages/site
+          cp -R site/. _pages/site/
+          cat > _pages/index.html <<'EOF'
+          <!doctype html>
+          <html lang="zh-CN">
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0;url=./site/">
+            <link rel="canonical" href="./site/">
+            <title>Tier0 Design System</title>
+          </head>
+          <body>
+            <p><a href="./site/">Open Tier0 Design System site</a></p>
+          </body>
+          </html>
+          EOF
+          touch _pages/.nojekyll
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: _pages
 
   deploy:
     needs: build

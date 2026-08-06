@@ -174,5 +174,5 @@ skills/tier0-slide-skill/
 
 效果预览（产品展示页，非 intake）：
 
-- 线上：https://freezonex.github.io/Tier0-Design-System/slide-skill/
-- 本地：`python3 -m http.server 8898 --directory docs` → http://127.0.0.1:8898/slide-skill/
+- 线上：https://freezonex.github.io/Tier0-Design-System/site/slide-skill/
+- 本地：`python3 -m http.server 8898 --directory site` → http://127.0.0.1:8898/slide-skill/

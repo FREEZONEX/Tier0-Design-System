@@ -15,7 +15,7 @@ description: 将已有的 Tier0 PPT 结构、章节文档、图片、产品截�
 **Gallery / template 的角色（基础样式与布局语言，不是逐页模版）：**  
 `layout-gallery/` + `assets/template-tier0.html` 提供 token、组件类名、16:9 画布与常见版式语法，用来避免「基础样式和布局都错」——例如 dual 扁平绝对定位、自创菱形角标。按内容形状**借用或改造**最近的 `Sxx` 结构与密度即可；**禁止**把每一页内容硬塞进某个 Gallery 成品页。禁令与组件底线见 `references/gallery-fidelity-tier0.md`。
 
-**dual / English demo：** `build-tier0-dual.mjs` 与 `docs/slide-skill/demo-en/` 服务可编辑 PPTX 同源；其当前扁平 HTML **不能**当作「怎样排版才对」的范本。HTML 演示观感应对齐第一性原理 + Tier0 基础样式，而不是对齐 dual 预览。
+**dual / English demo：** `build-tier0-dual.mjs` 与 `site/slide-skill/demo-en/` 服务可编辑 PPTX 同源；其当前扁平 HTML **不能**当作「怎样排版才对」的范本。HTML 演示观感应对齐第一性原理 + Tier0 基础样式，而不是对齐 dual 预览。
 
 默认封面使用 `cover-editorial`：白底左侧品牌、主标题和演讲者信息，右侧为亮绿动态 ASCII 点阵场。深墨章节转场参考 Gallery S10 极简语法（一大句标题、克制标签与底线）；禁止硬网格、左上 Logo、标题前短线、绿色角线和角落圆形装饰。
 

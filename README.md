@@ -101,32 +101,28 @@
 
 白底黑字的快速上手展示站：ASCII 铺底、三场景入口、Token 速查（对齐产品规范站气质，不是 marketing 落地页）。
 
-**https://freezonex.github.io/Tier0-Design-System/**
+**https://freezonex.github.io/Tier0-Design-System/site/**
 
-首次启用（需要仓库 **admin** 操作一次）：
+仓库内目录为 `site/`（不再使用 `docs/` 作为公开站目录）。在当前 Pages「从仓库根发布」配置下，公网入口即 `/site/`。
 
-1. GitHub → Settings → Pages  
-2. Build and deployment → Source 选 **GitHub Actions**  
-3. 推送本仓库的 `Deploy public site` workflow，或在 Actions 里手动 Run workflow  
-
-之后每次 `main` 上 `docs/` / skill / tokens 变更会自动重建并发布。
+若改用 GitHub Actions 发布：根地址会自动跳转到 `/site/`；正式浏览请用上面的 `/site/` 链接。
 
 | 路径 | 内容 |
 |------|------|
-| `/` | 产品展示首页（Hero + 三场景 + Demo 嵌入） |
-| `/slide-skill/` | Skill 总览、Guide、Gallery、Demo、SKILL.md |
-| `/tokens/` | 色板与绿的用法 |
-| `/surfaces/*` | Website / Product / PPT 规范导航 |
+| `/site/` | 产品展示首页（Hero + 三场景） |
+| `/site/slide-skill/` | Skill 总览、Guide、Gallery、Demo、SKILL.md |
+| `/site/tokens/` | 色板与绿的用法 |
+| `/site/surfaces/*` | Website / Product 规范导航 |
 
 本地预览公开站：
 
 ```bash
 node scripts/build-public-site.mjs
-python3 -m http.server 8898 --directory docs
+python3 -m http.server 8898 --directory site
 # http://127.0.0.1:8898/
 ```
 
-更新 Gallery / Demo 快照后重新 build 再提交 `docs/`。
+更新 Gallery / Demo 快照后重新 build 再提交 `site/`。
 
 ## 本地维护门户
 

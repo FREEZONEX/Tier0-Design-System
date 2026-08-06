@@ -18,7 +18,7 @@
 |------|------|
 | `template-tier0.html` + Gallery 组件 | **基础样式与布局语言**（画布、token、发丝、卡片语法）；按需借用，不逐页硬套 `Sxx` |
 | `build-tier0-dual.mjs` HTML | 与 PPTX 同源的坐标预览；**不是**「排版范本」 |
-| `docs/slide-skill/demo-en/` | dual starter 样例；当前扁平定位，**不要**当销售 HTML 观感对照 |
+| `site/slide-skill/demo-en/` | dual starter 样例；当前扁平定位，**不要**当销售 HTML 观感对照 |
 
 规则：
 
