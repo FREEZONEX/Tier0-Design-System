@@ -172,8 +172,8 @@ a{color:inherit;text-decoration:none}
 }
 .section-heading .kw{color:var(--accent-deep);font-style:normal}
 .section-copy{
-  max-width:48ch;color:var(--text);font-size:16px;font-weight:400;
-  line-height:1.6;margin-bottom:36px;
+  max-width:none;color:var(--text);font-size:16px;font-weight:400;
+  line-height:1.6;margin-bottom:36px;white-space:nowrap;
 }
 .section-copy a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px}
 #tokens .section-heading,
@@ -711,6 +711,7 @@ a{color:inherit;text-decoration:none}
   .hero--entries h1.section-heading,
   .hero--entries .section-copy,
   #tokens .section-heading,
-  #tokens .section-copy{white-space:normal}
+  #tokens .section-copy,
+  .section-copy{white-space:normal}
   .section-entries{padding:64px 0}
 }
