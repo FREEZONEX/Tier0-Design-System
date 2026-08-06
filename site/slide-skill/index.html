@@ -47,41 +47,37 @@
               <li>
                 <b>01</b>
                 <div>
-                  <h3>打开 Skill</h3>
-                  <p>在 Cursor 对话里 <code>@tier0-slide-skill</code>，或打开仓库里的 <code>skills/tier0-slide-skill/</code>。</p>
+                  <h3>打开 Skill，让 Agent 开表单</h3>
+                  <p>在 Cursor 对话里 <code>@tier0-slide-skill</code>，然后让 Agent 帮你打开 PPT 交付表单入口。</p>
+                  <pre class="invoke__prompt" data-label="可复制提示词" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">@tier0-slide-skill 帮我打开 PPT 交付表单（intake）入口，我要先填交付格式和素材再生成稿。</pre>
                 </div>
               </li>
               <li>
                 <b>02</b>
                 <div>
                   <div class="invoke__step-head">
-                    <h3>先填交付表单</h3>
+                    <h3>填完交付表单</h3>
                     <a class="btn btn-ink invoke__intake-btn" href="http://127.0.0.1:5056" target="_blank" rel="noopener">打开表单 ↗</a>
                   </div>
-                  <p>说清楚要 HTML、PPTX 还是两者，补上封面信息和素材。本地启动：</p>
-                  <pre class="invoke__prompt" data-label="启动表单" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">node skills/tier0-slide-skill/scripts/start-tier0-intake.mjs --project projects/客户名称</pre>
+                  <p>说清楚要 HTML、PPTX 还是两者，补上封面信息和素材，确认后继续对话生成。</p>
                 </div>
               </li>
               <li>
                 <b>03</b>
                 <div>
                   <h3>把材料丢给 Agent</h3>
-                  <p>附上大纲、旧 PPT、截图或架构图。需要 HTML + PPTX 时，从一开始就按双格式流程走，不要先做完一套再手工复制另一套。</p>
+                  <p>附上大纲、旧 PPT、截图或架构图。需要 HTML + PPTX 时，从一开始就按双格式走，不要先做完一套再手工复制另一套。</p>
                 </div>
               </li>
               <li>
                 <b>04</b>
                 <div>
-                  <h3>构建并检查</h3>
-                  <p>HTML 适合现场翻页；PPTX 适合发给客户改字。示例：</p>
-                  <pre class="invoke__prompt" data-label="构建" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">node skills/tier0-slide-skill/scripts/build-tier0-dual.mjs \
-  --source projects/客户名称/deck.json \
-  --html projects/客户名称/ppt/index.html \
-  --pptx projects/客户名称/ppt/deck.pptx</pre>
+                  <h3>拿到稿并检查</h3>
+                  <p>HTML 适合现场翻页讲解；PPTX 适合发给客户改字。在本页 Demo 里预览效果，要改某一页直接在对话里说。</p>
                 </div>
               </li>
             </ol>
-            <pre class="invoke__prompt" data-label="可直接复制的提示词">用 tier0-slide-skill 做一份 Tier0 产品介绍 PPT：8 页，突出 UNS 与 Builder，交付 HTML + 可编辑 PPTX。先填交付表单；逐页写清本页目的和核心观点，再按 Layout Gallery 做疏密排版；没有证据的 KPI 不要写。</pre>
+            <pre class="invoke__prompt" data-label="生成整稿时可复制">用 tier0-slide-skill 做一份 Tier0 产品介绍 PPT：8 页，突出 UNS 与 Builder，交付 HTML + 可编辑 PPTX。先填交付表单；逐页写清本页目的和核心观点，再按 Layout Gallery 做疏密排版；没有证据的 KPI 不要写。</pre>
             <div class="invoke__links">
               <span>更多</span>
               <a href="./guide.html">三步上手</a>
