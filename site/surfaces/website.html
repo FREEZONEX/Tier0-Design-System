@@ -30,47 +30,40 @@
 
         <aside class="invoke" aria-labelledby="invoke-website">
           <div class="invoke__head">
-            <h2 id="invoke-website" class="invoke__title">怎么调用</h2>
-            <span class="invoke__meta">Editorial long-form · agent builds HTML</span>
+            <h2 id="invoke-website" class="invoke__title">怎么开始</h2>
+            <span class="invoke__meta">打开规范 → 对话生成 → 对照官网验收</span>
           </div>
           <dl class="invoke__facts">
-            <div class="invoke__fact"><dt>准备</dt><dd>Clone 本仓库；对照线上 <code>tier0.app</code> 节奏</dd></div>
-            <div class="invoke__fact"><dt>命令行</dt><dd>无专用 CLI；Agent 读 <code>surfaces/company-website/</code></dd></div>
-            <div class="invoke__fact"><dt>耗时</dt><dd>单屏长页约 10–25 分钟；多节页更久</dd></div>
-            <div class="invoke__fact"><dt>产出</dt><dd>静态 HTML 长页（可嵌入营销站）</dd></div>
+            <div class="invoke__fact"><dt>准备</dt><dd>打开本仓库，或让 Agent 读 <code>DESIGN.md</code> / 官网规范</dd></div>
+            <div class="invoke__fact"><dt>流程</dt><dd>说清页面目标，按官网编辑风生成 HTML</dd></div>
+            <div class="invoke__fact"><dt>耗时</dt><dd>大概 10 分钟</dd></div>
+            <div class="invoke__fact"><dt>产出</dt><dd>可嵌入营销站的静态 HTML 长页</dd></div>
           </dl>
           <div class="invoke__body">
             <ol class="invoke__steps">
               <li>
                 <b>01</b>
                 <div>
-                  <h3>拿到规范与 token</h3>
-                  <p>GitHub：<code>surfaces/company-website/</code> + <code>tokens/website.css</code>。可选对照 <a href="https://docs.tier0.app/" target="_blank" rel="noopener">docs.tier0.app</a> 的信息架构，但视觉以 Pricing / Builder 为准。</p>
+                  <h3>打开规范</h3>
+                  <p>在 Cursor / Codex 里打开本仓库，或点名 <code>surfaces/company-website/</code> 与 <code>tokens/website.css</code>。视觉对照 <a href="https://tier0.app/pricing" target="_blank" rel="noopener">tier0.app</a>。</p>
                 </div>
               </li>
               <li>
                 <b>02</b>
                 <div>
-                  <h3>在 Agent 中锁定场景</h3>
-                  <p>打开本仓库或粘贴路径。明确「company-website / 编辑风长页」；标题用 IBM Plex Sans，禁止 Inter 作品牌标题，禁止 startup 巨型 CTA Hero。</p>
+                  <h3>说清要做什么页</h3>
+                  <p>写清受众、章节顺序、主 CTA 文案。用公司官网场景，不要抄产品后台或 PPT 的字体与按钮。</p>
                 </div>
               </li>
               <li>
                 <b>03</b>
                 <div>
-                  <h3>用 Prompt 生成页面</h3>
-                  <p>写清受众、章节顺序、要挑的关键词。主 CTA 用 <code>#B2ED1D</code> 绿底近墨字；白底挑词用 <code>#73B200</code>。</p>
-                </div>
-              </li>
-              <li>
-                <b>04</b>
-                <div>
-                  <h3>验收与上线</h3>
-                  <p>对照本页组件卡与线上官网：细边框、4px 圆角、■ Mono 标签。通过后合入营销站点或静态托管。</p>
+                  <h3>生成后对照验收</h3>
+                  <p>白底、IBM Plex、亮绿主按钮、细边框。不要用 Inter / Poppins，不要做巨型 startup Hero。</p>
                 </div>
               </li>
             </ol>
-            <pre class="invoke__prompt" data-label="Copy prompt">按 Tier0 company-website（surfaces/company-website + tokens/website.css）做一页产品介绍长文：对齐 tier0.app/pricing 与 Builder 的编辑风。IBM Plex Sans 标题 500、正文同族；主 CTA #B2ED1D；白底绿字 #73B200；■ Mono 章节标签；细边框白卡。</pre>
+            <pre class="invoke__prompt" data-label="可复制提示词">按 Tier0 公司官网规范做一页产品介绍长页，对齐 tier0.app 的编辑风：白底、IBM Plex、亮绿主按钮。先读 surfaces/company-website 和 tokens/website.css，再出 HTML。</pre>
             <div class="invoke__links">
               <span>资源</span>
               <a href="https://github.com/FREEZONEX/Tier0-Design-System/tree/main/surfaces/company-website" target="_blank" rel="noopener">GitHub · company-website</a>
