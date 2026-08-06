@@ -1,6 +1,6 @@
 # Tier0 Slide Skill
 
-一句话：把文档 / PPTX / 截图整理成 **符合 Tier0 品牌的销售演示稿**，可同时交付 **HTML（现场演示）** 和 **可编辑 PPTX（转发改字）**。逐页先判**第一性原理**（核心目的/观点），再做疏密合理的布局。**优化已有 PPT 时：页数与源一致，图/视频不丢**（见 `references/source-fidelity-tier0.md`）。
+一句话：把文档 / PPTX / 截图整理成 **符合 Tier0 品牌的销售演示稿**，可同时交付 **HTML（现场演示）** 和 **可编辑 PPTX（转发改字）**。**已有完整布局的 PPT：默认只做风格统一（字体/色/边框），不整套推翻重排**；封面/封底用统一语法（见 `references/source-fidelity-tier0.md` 模式 A/B）。
 
 ## 一键安装（Cursor / Codex）
 

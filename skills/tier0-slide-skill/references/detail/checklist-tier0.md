@@ -8,7 +8,7 @@ Tier0 Slide Skill 专用清单。P0 项必须全部通过。完整 VI 见 `tier0
 
 ### 0-T. Tier0 locked mode
 
-- 先读 `references/tier0-layout-lock.md` 与 `references/gallery-fidelity-tier0.md`
+- 先读 `references/detail/tier0-layout-lock.md` 与 `references/layout-craft-tier0.md`
 - 正文页 `S01-S22`；封面 `TIER0-COVER-EDITORIAL`；封底 `TIER0-CLOSING-SPLIT`
 - 产出观感应与 `layout-gallery/index.html` 目标页同族；禁止自创装饰皮肤
 - 校验: `node scripts/validate-tier0-deck.mjs path/to/index.html`
@@ -24,7 +24,7 @@ Tier0 Slide Skill 专用清单。P0 项必须全部通过。完整 VI 见 `tier0
 
 ### 0-T-7. 语言与构图（P0 · 近期返工）
 
-详见 `references/composition-craft-tier0.md`。
+详见 `references/layout-craft-tier0.md`。
 
 - **语言单一**：中文 deck 不在中文标题/正文下再挂英文复述句；英文 deck 同理。MQTT / UNS 等专有名词可保留
 - **双栏平衡**：两侧都是内容栈时用 `1fr 1fr` + 行高均分（`.dual-stack`）；禁止左空右挤
@@ -33,7 +33,7 @@ Tier0 Slide Skill 专用清单。P0 项必须全部通过。完整 VI 见 `tier0
 
 ### 0-T-8. 第一性原理与疏密布局（P0）
 
-详见 `references/layout-first-principles-tier0.md`（参考图：`references/assets/layout-density/`）。
+详见 `references/layout-craft-tier0.md`（参考图：`references/assets/layout-density/`）。
 
 - 每页先写 `purpose` / `coreClaim` / `heroElement` / `proofType` / `density`，再选 Gallery
 - 分区优先发丝分割线（`.rule-list` / `.metric-quad` / `.data-table` / `.kpi-rail`），少用厚卡片套娃
@@ -110,7 +110,7 @@ Tier0 Slide Skill 专用清单。P0 项必须全部通过。完整 VI 见 `tier0
 **根因**:生成时把 Tier0 当成风格包,自由组合了新的 P23/P24/自绘 SVG 页面,没有从 22 个登记版式里选。
 
 **做法**:
-- 先读 `references/tier0-layout-lock.md`
+- 先读 `references/detail/tier0-layout-lock.md`
 - 正文页只能使用 `S01-S22`;新增首页/尾页只能使用 `TIER0-COVER-EDITORIAL` / `TIER0-CLOSING-SPLIT`
 - 每个 `<section class="slide">` 必须写 `data-layout="Sxx"`
 - 生成后必须运行:
@@ -275,7 +275,7 @@ Tier0坚持"越大越细,越小越粗",字号与字重必须成反比阶梯:
 - 图片容器只用 `.frame-img`;**不要** `border-radius` / `box-shadow`
 - UI / 信息图 / 流程图若是用户原始截图或文字密集图,使用 `.fit-contain`;若已按槽位重生成,必须用对应比例类铺满容器,例如 `.frame-img.r-21x9`,不能再用固定短高度把图片缩小
 - 多图同组必须统一槽位、比例、高度,不要混用
-- 用户原始截图要先读 `references/screenshot-framing.md`:优先用 `assets/screenshot-backgrounds/` 内置主题背景 + 程序化缩放/留边/对齐,不要为了比例统一就重画截图内容
+- 用户原始截图要先读 `references/imagery-tier0.md`:优先用 `assets/screenshot-backgrounds/` 内置主题背景 + 程序化缩放/留边/对齐,不要为了比例统一就重画截图内容
 - 截图背景必须跟随当前主题色,且可裁成 `21:9` / `16:10` / `4:3` / `1:1`;背景里不能有标题、页脚、边框、logo、人物或明显主体
 - GPT-M 2.0 提示词必须写明:Tier0 Style、单一 accent、直角、无渐变/阴影/圆角、无页眉页脚标题角标
 
@@ -636,6 +636,19 @@ JS 会动态算总页数并扩展底部翻页圆点，但 `.chrome` 里的 `XX /
   □ Tier0:`grep` 确认 `ascii-bg` 只出现在 `cover-editorial`；无旋转菱形角标、无自创斜线装饰
   □ Tier0:封面没有"01"等大编号(chrome 已显示 01/N,不要重复)
   □ Tier0:白底强调用黑字 + 绿底/绿 marker；禁止白底写亮绿字
+
+源稿保真(优化已有 PPTX 时强制；见 source-fidelity-tier0.md)
+  □ 已判定模式 A（风格统一）或 B（结构重排）；完整好稿默认 A
+  □ 模式 A：源分区/主图位置保留；只统一字体/色/边框/圆角（DESIGN.md / deck.css）
+  □ 模式 A：未为套 Gallery Sxx 而整页推翻
+  □ 页数 = 源页数；content-coverage.json 覆盖每一源页
+  □ 每页主标题是完整可读句子（不是 texts[0] 碎片 / 不是整页写死 DEMO）
+  □ media 已分 hero / icon / video / poster；小 icon 未当主图；素材未跨页乱用
+  □ Demo/视频页主证据铺满证据槽；无空洞黑矩形 + 右下角碎图
+  □ 封面 COVER-EDITORIAL、封底 CLOSING-SPLIT（保留源文案意图）
+  □ ESC 总览：模式 A 页仍像原稿结构；无大面积无意义留白
+  □ 禁止用通用脚本按 shape 批量套同一 HTML 壳后直接交付
+  □ PPTX 抽查：标题可编辑、hero 图在、不是「左字海 + 右随意图」流水账
 
 内容
   □ 每一幕的页数比例合理(不会头重脚轻)

@@ -1,6 +1,6 @@
 # Tier0 Slide Skill
 
-一句话：把文档 / PPTX / 截图整理成 **符合 Tier0 品牌的销售演示稿**，可同时交付 **HTML（现场演示）** 和 **可编辑 PPTX（转发改字）**。逐页先判**第一性原理**（核心目的/观点），再做疏密合理的布局。**优化已有 PPT 时：页数与源一致，图/视频不丢**（见 `references/source-fidelity-tier0.md`）。
+一句话：把文档 / PPTX / 截图整理成 **符合 Tier0 品牌的销售演示稿**，可同时交付 **HTML（现场演示）** 和 **可编辑 PPTX（转发改字）**。**已有完整布局的 PPT：默认只做风格统一（字体/色/边框），不整套推翻重排**；封面/封底用统一语法（见 `references/source-fidelity-tier0.md` 模式 A/B）。
 
 ## 一键安装（Cursor / Codex）
 
@@ -26,11 +26,11 @@ curl -fsSL https://raw.githubusercontent.com/FREEZONEX/Tier0-Design-System/main/
 
 ```text
 输入  →  确认页锁定交付与素材
-      →  每页 purpose / coreClaim / heroElement
-      →  deck.json 单一内容源
-输出  →  ppt/index.html  +  ppt/deck.pptx
+      →  模式 A（风格统一，默认）| 模式 B（仅失败页重排）
+      →  template HTML；富媒体长稿勿硬塞 dual
+输出  →  ppt/index.html  +  ppt/deck.pptx（禁止空壳页）
 品牌  →  IBM Plex · 白底 · 品牌绿 #B2ED1D（少量点缀）
-布局  →  references/layout-first-principles-tier0.md
+细则  →  始终只读 3 个 md；其余按 references/README.md 按需打开（禁止全读）
 ```
 
 ---
@@ -129,9 +129,7 @@ python3 -m http.server 5181 --bind 127.0.0.1 --directory projects/客户名称/p
 2. 找内容形态最接近的页；按 `R` 看用途、规则与反例
 3. 需要程序化选型时读 [`layout-gallery/layout-catalog.json`](layout-gallery/layout-catalog.json)
 
-详细规则：[`references/layout-gallery-tier0.md`](references/layout-gallery-tier0.md)  
-**视觉保真硬门槛：** [`references/gallery-fidelity-tier0.md`](references/gallery-fidelity-tier0.md)  
-**构图返工细则：** [`references/composition-craft-tier0.md`](references/composition-craft-tier0.md)（语言单一 · 双栏平衡 · 角标占位 · 中文行距）
+布局 / Gallery / 返工：[`references/layout-craft-tier0.md`](references/layout-craft-tier0.md)（合并稿；归档见 `references/detail/`）
 
 ### 默认封面
 
@@ -142,11 +140,10 @@ python3 -m http.server 5181 --bind 127.0.0.1 --directory projects/客户名称/p
 
 | 你要… | 做法 |
 |------|------|
-| 决定这页要不要图、放哪 | [`references/illustration-slots-tier0.md`](references/illustration-slots-tier0.md) |
-| 写插画 / 截图提示词 | [`references/image-prompts-tier0.md`](references/image-prompts-tier0.md) |
+| 决定配图 / 写提示词 / 截图裁切 | [`references/imagery-tier0.md`](references/imagery-tier0.md) |
 | 校验风格锁 | `node scripts/validate-tier0-illustrations.mjs 项目/deck.json` |
 
-概念插画统一用触发词 **`tier0_illustration_style`**。证明产品时只用用户提供的真实截图 / 录屏，**禁止生成产品 UI mockup 或设计稿**；简单架构关系优先原生可编辑图形；复杂 / 需校验的拓扑用 vendored **Archify**（方法跟上游，视觉锁 Tier0），见 [`references/archify-tier0.md`](references/archify-tier0.md)。
+概念插画统一用触发词 **`tier0_illustration_style`**。证明产品时只用用户提供的真实截图 / 录屏，**禁止生成产品 UI mockup 或设计稿**；架构流见 [`references/diagrams-tier0.md`](references/diagrams-tier0.md)。
 
 **Tektur：** 仅深墨分隔页全大写标题；其它文字用 IBM Plex。
 

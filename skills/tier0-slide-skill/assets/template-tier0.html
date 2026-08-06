@@ -11,7 +11,7 @@
   :root{
     /* ============ 主题色 · Tier0（默认: Tier0 Green Signal） ============
        完整 VI 规范见 references/tier0-vi-style-guide.md
-       主题 token 见 references/themes-tier0.md */
+       主题 token 见 references/detail/themes-tier0.md */
     --paper:#FFFFFF;
     --paper-rgb:255,255,255;
     --ink:#050B14;
@@ -697,12 +697,25 @@
     height:100vh;
     background:var(--paper);color:var(--ink);
     --canvas-gutter:40px;
-    --block-gap:40px;
+    --block-gap:40px;          /* 独立区块最小间距 = --sp-8 */
+    --stack-gap:24px;          /* 区块内相关元素 = --sp-6 */
+    --inline-gap:12px;         /* 标签行 / 芯片行 = --sp-4 */
     padding:max(var(--canvas-gutter), 5.6vh) max(var(--canvas-gutter), 5vw) max(var(--canvas-gutter), 4.4vh);
     display:flex;flex-direction:column;
     position:relative;overflow:hidden;
-    box-shadow:none;
-    border-radius:0;
+  }
+  /* 纵向栈：用 gap 管节奏；chrome 的 margin-bottom 让位，避免 1vh 把页面压扁 */
+  .canvas-card.stack{gap:var(--block-gap)}
+  .canvas-card.stack-loose{gap:clamp(40px, 4.8vh, 56px)} /* 证据页：标题区 / 主图 / 流图之间更疏 */
+  .canvas-card.stack > .chrome-min,
+  .canvas-card.stack-loose > .chrome-min{margin-bottom:0}
+  .stack-inner{display:flex;flex-direction:column;gap:var(--stack-gap);min-height:0}
+  .tag-row{display:inline-flex;flex-wrap:wrap;align-items:center;gap:var(--inline-gap)}
+  .flow-rail{
+    flex:0 0 auto;
+    display:grid;gap:var(--sp-5);
+    padding:var(--sp-6) var(--sp-7);
+    background:var(--grey-1);border:1px solid var(--border-subtle);
   }
   .slide.dark .canvas-card{background:var(--ink);color:var(--paper)}
   .slide.accent .canvas-card{background:var(--accent);color:var(--accent-on)}
@@ -2089,13 +2102,13 @@
 
 <!-- ============================================================
      SLIDES 插入区 · 在此处填充所有 <section class="slide ..."> 页面
-     页面骨架参考 references/layouts-tier0.md
-     主题色配置参考 references/themes-tier0.md
+     页面骨架参考 references/detail/layouts-tier0.md
+     主题色配置参考 references/detail/themes-tier0.md
      ============================================================ -->
 <!-- SLIDES_HERE · 在此处粘贴 <section class="slide ..."> 页面块
-     - 页面骨架直接从 references/layouts-tier0.md 拷贝
+     - 页面骨架直接从 references/detail/layouts-tier0.md 拷贝
      - data-animate="..." 必须命中下方 RECIPES 字典里的已有 recipe 名之一(P23/P24 可复用 grid-reveal)
-     - 主题色配置参考 references/themes-tier0.md (Tier0 Green Signal) -->
+     - 主题色配置参考 references/detail/themes-tier0.md (Tier0 Green Signal) -->
 
 <!-- ============ 示例:可选 accent 满屏封面（非默认；产品 deck 请用 TIER0-COVER-EDITORIAL） ============
      ⚠️ P0 对齐法则(每页都要过):

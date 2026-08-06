@@ -2,7 +2,16 @@
 
 Use this workflow whenever the user starts with documents, media, an existing deck, or a PPTX. The material is evidence; the Gallery is a design language.
 
-**When optimizing an existing PPTX**, also obey `source-fidelity-tier0.md`: same page count, keep every image/video, no silent drops.
+**When optimizing an existing PPTX**, also obey `source-fidelity-tier0.md`:
+
+- **Default Mode A (style harmonize):** if the source already has a clear layout and assets, preserve the page structure; only unify fonts, colors, borders, and radii via `DESIGN.md` / `tokens/deck.css`. Do **not** overturn a good deck into Gallery clones.
+- Cover / closing may still use the locked Tier0 grammars (`TIER0-COVER-EDITORIAL`, `TIER0-CLOSING-SPLIT`) while keeping source copy and hero intent.
+- Mode B (structural rebuild) only for broken pages or explicit `adaptive` / `rebuild`.
+- same page count; keep every image/video on its original semantic page; never misuse icons as heroes  
+- titles must be full readable sentences  
+- **forbid** batch shelling every slide into one empty HTML template  
+
+Page count alone is not a pass. A restyled deck that no longer matches the source composition is also a fail under Mode A.
 
 ## 1. Build the deck brief
 
@@ -21,12 +30,12 @@ Do not invent evidence. Mark unsupported claims as `待确认` or convert them t
 | Source | Preserve | Improve |
 |---|---|---|
 | Structured chapter document | Facts, sequence, customer language | Split dense paragraphs into slide-sized claims |
-| Existing PPTX | **All pages**, verified diagrams, **all embedded media**, approved labels | Hierarchy, spacing, image treatment — not deletion |
+| Existing PPTX | **All pages**, verified diagrams, **all embedded media**, approved labels, **source composition** | Mode A: token/style only. Mode B (explicit): hierarchy repair — never silent deletion or asset remix |
 | Screenshot / recording | Authentic product state from source assets | Crop, caption, placement — never invent UI |
 | Demo video | File + one explainable task | HTML playback; PPTX poster frame if needed |
 | Architecture image | Relationship grammar and named nodes | Rebuild as editable shapes when practical; else keep image |
 
-For PPTX: unzip, count slides, export every `ppt/media/*` asset, map media → slide via relationships **before** designing.
+For PPTX: unzip, count slides, export every `ppt/media/*` asset **with byte size**, map media → slide via relationships, **classify hero vs chrome-icon vs video**, and rebuild each page title as a full sentence **before** designing.
 
 ## 3. Create a slide map before building
 
