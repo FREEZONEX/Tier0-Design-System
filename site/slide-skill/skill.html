@@ -38,7 +38,10 @@
     <footer class="site-footer"><span>SKILL.md</span><span><a href="./demo.html">Demo</a></span></footer>
   </div>
   <script>
-    fetch('./SKILL.md').then(r => r.text()).then(text => {
+    fetch('./SKILL.md', { cache: 'no-store' }).then(r => {
+      if (!r.ok) throw new Error(String(r.status));
+      return r.text();
+    }).then(text => {
       document.getElementById('md').innerHTML = marked.parse(text.replace(/^---[\s\S]*?---\s*/, ''));
     }).catch(err => {
       document.getElementById('md').innerHTML = '<p>无法加载：' + err.message + '</p>';

@@ -123,6 +123,29 @@ if (existsSync(designSrc)) {
 writeFileSync(join(site, '.nojekyll'), '');
 rmSync(join(site, 'CNAME'), { force: true });
 
+// Legacy GitHub Pages serves from repo root with Jekyll on. Frontmatter .md
+// (SKILL.md / DESIGN.md) becomes *.html and the .md URL 404s — disable Jekyll.
+writeFileSync(join(root, '.nojekyll'), '');
+writeFileSync(join(root, 'index.html'), `<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tier0 Design System</title>
+  <link rel="icon" href="./site/assets/brand/favicon.png" type="image/png">
+  <meta http-equiv="refresh" content="0;url=./site/">
+  <link rel="canonical" href="./site/">
+  <style>
+    body{margin:0;font-family:"IBM Plex Sans",system-ui,sans-serif;background:#fff;color:#111;padding:48px 24px;text-align:center}
+    a{color:#111}
+  </style>
+</head>
+<body>
+  <p><a href="./site/">Open Tier0 Design System site →</a></p>
+</body>
+</html>
+`);
+
 writeFileSync(join(site, 'README.md'), `# Tier0 Design System — Public showcase
 
 GitHub Pages 产品展示站（\`site/\`）。
