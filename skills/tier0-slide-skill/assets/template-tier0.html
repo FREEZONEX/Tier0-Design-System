@@ -717,6 +717,102 @@
     padding:var(--sp-6) var(--sp-7);
     background:var(--grey-1);border:1px solid var(--border-subtle);
   }
+
+  /* —— Feature split · 左卡网格 + 右架构流（S07/S09 等）—— */
+  .feature-split{
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    gap:var(--block-gap);
+    align-items:stretch;
+    flex:1;min-height:0;
+  }
+  .feature-card-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+    gap:var(--sp-5);
+    flex:1;min-height:0;
+    align-content:stretch;
+  }
+  .feature-card-grid .tier0-card{
+    display:flex;flex-direction:column;gap:var(--sp-4);
+    padding:var(--sp-6);
+    min-height:0;
+  }
+  .feature-card-grid .tier0-card h3{
+    font-weight:500;font-size:max(17px,1.15vw);line-height:1.2;margin:0;
+  }
+  .feature-card-grid .tier0-card .body-sm{margin:0;line-height:1.45}
+
+  /* —— Tier0 架构流 · 线性竖向 / 横向 chips —— */
+  .tier0-flow{
+    display:flex;flex-direction:column;
+    gap:var(--sp-5);
+    padding:var(--sp-6);
+    background:var(--grey-1);
+    border:1px solid var(--border-subtle);
+    min-height:0;
+  }
+  .tier0-flow--linear{flex:1;min-height:0}
+  .tier0-flow__steps{
+    flex:1;min-height:0;
+    display:flex;flex-direction:column;
+    gap:var(--sp-4);
+  }
+  .tier0-flow__steps .flow-node{flex:1;min-height:0}
+  .tier0-flow__steps .flow-arrow{flex:0 0 auto}
+  .flow-node{
+    background:var(--paper);
+    border:1px solid var(--ink);
+    padding:var(--sp-5) var(--sp-6);
+    display:flex;flex-direction:column;justify-content:center;
+    min-height:0;
+  }
+  .flow-node--core{background:var(--accent);color:var(--accent-on)}
+  .flow-node--core .t-meta{color:var(--accent-on)}
+  .flow-node__body{
+    font-size:max(15px,1.05vw);font-weight:500;line-height:1.25;margin-top:var(--sp-3);
+  }
+  .flow-node--core .flow-node__body{color:var(--accent-on)}
+  .flow-node__mono{
+    font-family:var(--mono);font-size:max(12px,.72vw);line-height:1.45;margin-top:var(--sp-3);
+  }
+  .flow-arrow{
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:max(13px,.8vw);
+    color:var(--accent-text-dark);min-height:0;padding:var(--sp-2) 0;
+  }
+  /* 横向 chips · 案例底栏 */
+  .flow-row{
+    display:grid;
+    gap:var(--sp-4);
+    align-items:stretch;
+  }
+  .flow-row__track{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto minmax(0,.95fr) auto minmax(0,1fr);
+    gap:var(--sp-4);
+    align-items:stretch;
+  }
+  .flow-chip{
+    background:var(--paper);border:1px solid var(--ink);
+    padding:var(--sp-4) var(--sp-5);min-width:0;
+    display:flex;flex-direction:column;justify-content:center;gap:var(--sp-2);
+  }
+  .flow-chip--core{background:var(--accent);color:var(--accent-on)}
+  .flow-chip__label{
+    font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-helper);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .flow-chip--core .flow-chip__label{color:var(--accent-on);opacity:.85}
+  .flow-chip__sub{font-size:max(12px,.72vw);line-height:1.25;font-weight:500}
+  .flow-chip--core .flow-chip__sub{color:var(--accent-on)}
+  .flow-chip-group{display:grid;gap:var(--sp-4);min-width:0}
+  .flow-arrow--inline{
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:16px;color:var(--accent-text-dark);
+    padding:0 var(--sp-2);
+  }
   .slide.dark .canvas-card{background:var(--ink);color:var(--paper)}
   .slide.accent .canvas-card{background:var(--accent);color:var(--accent-on)}
   .slide.grey .canvas-card{background:var(--grey-1);color:var(--ink)}

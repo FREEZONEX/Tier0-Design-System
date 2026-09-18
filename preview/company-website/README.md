@@ -12,4 +12,4 @@
 | [comparison-cards.html](comparison-cards.html) | Traditional vs Tier0 双栏 |
 | [card-with-icon.html](card-with-icon.html) | 带 Lucide 图标的能力栅格卡 |
 
-规范：[`surfaces/company-website/`](../../surfaces/company-website/) · [`sources/spec.company-website.*.md`](../../sources/)
+规范：[`surfaces/company-website/`](../../surfaces/company-website/) · 真源：[tier0.app](https://tier0.app/)

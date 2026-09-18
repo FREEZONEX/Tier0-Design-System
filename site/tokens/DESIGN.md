@@ -97,9 +97,10 @@ Treat this section as the design authority. Use `tokens/*.css` for exact values.
 
 #### Brand shell
 
-- Logo: lime mark on ink / dark fields; black mark on paper; white mark only as dark-field fallback (`assets/tier0-logo-*.svg`).
+- Logo: **official SVG only** — lime mark on ink / dark fields (`assets/tier0-logo-lime.svg`); black mark on paper (`assets/tier0-logo-black.svg`); white mark only as dark-field fallback (`assets/tier0-logo-white.svg`). Preserve aspect and colors. **Never** typeset “Tier0” / “TIER 0” as the mark, redraw it, or invent a substitute. Copy the file into the deliverable; a broken `src` fails delivery.
 - Writing: **Tier0** (digit zero), **FREEZONEX** all caps, **UNS** for Unified Namespace.
-- QR / `www.tier0.app`: only when intake or brief requires closing CTA; keep quiet zone and high contrast (never lime as QR modules).
+- QR / `www.tier0.app`: only when intake or brief requires closing CTA; keep quiet zone and high contrast (never lime as QR modules). Use `assets/website-qrcode-*.png` when a QR is required.
+- Execution gate: reading this file is not completion — follow [`SKILL.md`](SKILL.md) §0 and [`references/execution-contract.md`](references/execution-contract.md) (constraint ledger, evidence honesty, rendered QA).
 
 #### Color and surfaces
 
@@ -166,17 +167,18 @@ No emoji as UI icons. No mixing two icon libraries on one page. Illustration: th
 
 ### 4. Inspect and revise privately
 
-Review in this order:
+Review against the **final exported/rendered file** (not the plan). Order:
 
 1. **Surface:** Is the correct surface/skill loaded?
-2. **First read:** Is Tier0 authorship immediate? Is the job clear in one viewport?
-3. **Composition:** One dominant object? Accidental empty space? Equal-weight blocks?
-4. **Typography:** Roles consistent? Poppins absent? Peer values aligned?
-5. **Color:** Is green only signal? Any paper `#B2ED1D` body text?
-6. **Evidence:** Real screenshots/data only? Any invented KPI or fake dashboard?
-7. **Restraint:** Can any card, border, icon, or section be removed without loss?
+2. **Brand:** Is the official Logo file actually embedded and visible on the correct field?
+3. **First read:** Is Tier0 authorship immediate? Is the job clear in one viewport?
+4. **Composition:** One dominant object? Accidental empty space? Equal-weight blocks?
+5. **Typography:** Roles consistent? Poppins absent? Peer values aligned?
+6. **Color:** Is green only signal? Any paper `#B2ED1D` body text?
+7. **Semantics / evidence:** Module I/O and connector meanings accurate? Real screenshots/data only? Any invented KPI or fake dashboard? Gaps labeled?
+8. **Restraint / craft:** Overflow, clipping, bad wraps, occlusion, overcrowding? Can any card, border, icon, or section be removed without loss?
 
-Fix the highest-impact systemic defect and repeat. Deliver the implementation, not a scorecard.
+Fix the highest-impact systemic defect and repeat. Do not claim checks you did not run. Final reply: deliverable paths · key changes · remaining limits — not a restated style guide.
 
 ## Reject generated-design reflexes
 
@@ -228,6 +230,8 @@ This file is the agent-facing authority. For deeper tables and examples, read:
 - [`foundations/spacing-layout.md`](foundations/spacing-layout.md)
 - [`foundations/iconography.md`](foundations/iconography.md)
 - [`foundations/voice-content.md`](foundations/voice-content.md)
-- [`SKILL.md`](SKILL.md) — routing skill entry
+- [`SKILL.md`](SKILL.md) — **root router** (ui-skills style: pick ≤3 surface skills, do not load everything)
+- [`skills/README.md`](skills/README.md) — surface skill registry (`product` / `website` / `ppt-spec` / `slide`)
+- [`references/execution-contract.md`](references/execution-contract.md) — delivery hard gate after routing
 
 Do not duplicate conflicting rules in call sites; change this file or `foundations/` / `tokens/` instead.

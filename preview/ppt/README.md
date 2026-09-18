@@ -21,4 +21,4 @@
 | [slide-pipeline-D5.html](slide-pipeline-D5.html) | D5 — 水平管线步骤（Pipeline Steps）两种变体 |
 | [slide-anim-demo.html](slide-anim-demo.html) | 动画效果演示：Cover / Chapter / 卡片网格 / Pipeline 四张完整幻灯片 |
 
-规范：[`surfaces/ppt/`](../../surfaces/ppt/) · [`references/ppt-layouts.md`](../../references/ppt-layouts.md) · [`sources/spec.ppt.md`](../../sources/spec.ppt.md)
+规范：[`surfaces/ppt/`](../../surfaces/ppt/) · [`references/ppt-layouts.md`](../../references/ppt-layouts.md) · [`skills/tier0-ppt`](../../skills/tier0-ppt/SKILL.md)

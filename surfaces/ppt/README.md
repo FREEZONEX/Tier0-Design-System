@@ -1,6 +1,7 @@
 # Surface — PPT（Masterdeck）
 
-> 完整规范：[`sources/spec.ppt.md`](../../sources/spec.ppt.md)（v1.5，对齐 `26.01.14-Tier0 Masterdeck.pptx`）。
+> PPT 场景规范入口。Agent 规范查询：[`skills/tier0-ppt`](../../skills/tier0-ppt/SKILL.md)。生成 deck：[`skills/tier0-slide-skill`](../../skills/tier0-slide-skill/)。  
+> 实现 token：[`tokens/deck.css`](../../tokens/deck.css)。历史全文归档：[`sources/spec.ppt.md`](../../sources/spec.ppt.md)（默认不读）。
 
 ## Agent 深度参考（生成 deck 时优先）
 
@@ -107,7 +108,7 @@
 
 ## UI Kit
 
-`ui_kits/ppt/` — 待补 HTML 幻灯片模板；规范以 PPT 母版为准。
+[`ui_kits/ppt/`](../../ui_kits/ppt/) — 可翻页 deck.css 演示稿。单页卡见 [`preview/ppt/`](../../preview/ppt/)。生成销售稿走 [`skills/tier0-slide-skill`](../../skills/tier0-slide-skill/)。
 
 ## 检查清单
 

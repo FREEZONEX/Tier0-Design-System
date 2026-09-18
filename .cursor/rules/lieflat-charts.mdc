@@ -1,0 +1,36 @@
+---
+description: 需要数据图表 / 可视化 / 报告插图时，必须加载 lieflat-charts（模板驱动，禁止自造图型）
+alwaysApply: true
+---
+
+# lieflat-charts 按需调用
+
+仓库已安装 [lieflat-charts](https://github.com/larashero3-dotcom/lieflat-charts)。
+
+路径：`skills/lieflat-charts/`（Cursor：`.cursor/skills/lieflat-charts`）
+
+## 何时必须加载
+
+用户提到或任务需要：**图表、可视化、画图、趋势、占比、对比、漏斗、热力、看板数字图、报告插图、年报/月报图表** 时——
+
+1. **先 Read** `skills/lieflat-charts/SKILL.md`（全文流程）
+2. 再用 `catalog.md` 选型；从对应 `templates/*-gallery.html` 卡内实现出图
+3. Tier0 品牌任务再读 `skills/lieflat-charts/tier0-color-bridge.md`
+
+默认 **图表模式**；仅当用户明确要「报告 / 年报 / 月报 / 白皮书…」时才读 `report-catalog.md`。
+
+## 与 Tier0 / ui-skills 的关系
+
+| 层 | 职责 |
+|----|------|
+| Tier0 场景 skill | 页面 / deck / 品牌真源 |
+| **lieflat-charts** | **唯一**图表几何与模板来源 |
+| ui-skills | 页面工艺（间距/动效），不替代选图 |
+
+- 禁止用 Chart.js/ECharts 默认主题「随手画一张」绕过 Lieflat 模板  
+- 禁止 Maps，除非用户明确要地图  
+- Tier0 交付优先 **custom 色板**（见 color bridge），同一交付不混色系  
+
+## 计数
+
+场景 skill + lieflat-charts +（可选）1 个 ui-skills craft ≤ 3。

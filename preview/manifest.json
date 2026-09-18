@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-03T05:53:45.010386+00:00",
+  "generatedAt": "2026-09-18T06:29:04.454048+00:00",
   "repoName": "Tier0 Design System",
   "stats": {
-    "totalIndexed": 144,
+    "totalIndexed": 125,
     "htmlPreviews": 44,
     "sections": 10
   },
@@ -684,20 +684,6 @@
           ]
         },
         {
-          "id": "ui_kits--ui_kits/marketing-deck",
-          "label": "marketing-deck",
-          "path": "ui_kits/marketing-deck",
-          "files": [
-            {
-              "path": "ui_kits/marketing-deck/index.html",
-              "name": "index.html",
-              "kind": "html",
-              "previewable": true,
-              "group": "ui_kits/marketing-deck"
-            }
-          ]
-        },
-        {
           "id": "ui_kits--ui_kits/ppt",
           "label": "ppt",
           "path": "ui_kits/ppt",
@@ -707,6 +693,13 @@
               "name": "README.md",
               "kind": "markdown",
               "previewable": false,
+              "group": "ui_kits/ppt"
+            },
+            {
+              "path": "ui_kits/ppt/index.html",
+              "name": "index.html",
+              "kind": "html",
+              "previewable": true,
               "group": "ui_kits/ppt"
             }
           ]
@@ -825,13 +818,20 @@
       "label": "Assets",
       "subtitle": "Logo 等资源",
       "hint": "SVG 等品牌资产",
-      "fileCount": 8,
+      "fileCount": 7,
       "groups": [
         {
           "id": "assets--assets",
           "label": "assets",
           "path": "assets",
           "files": [
+            {
+              "path": "assets/favicon.png",
+              "name": "favicon.png",
+              "kind": "file",
+              "previewable": false,
+              "group": "assets"
+            },
             {
               "path": "assets/marketing-cover-visual.svg",
               "name": "marketing-cover-visual.svg",
@@ -875,27 +875,6 @@
               "group": "assets"
             }
           ]
-        },
-        {
-          "id": "assets--assets/diagrams",
-          "label": "diagrams",
-          "path": "assets/diagrams",
-          "files": [
-            {
-              "path": "assets/diagrams/flow-integration-horizontal.svg",
-              "name": "flow-integration-horizontal.svg",
-              "kind": "image",
-              "previewable": false,
-              "group": "assets/diagrams"
-            },
-            {
-              "path": "assets/diagrams/flow-uns-vertical.svg",
-              "name": "flow-uns-vertical.svg",
-              "kind": "image",
-              "previewable": false,
-              "group": "assets/diagrams"
-            }
-          ]
         }
       ]
     },
@@ -903,8 +882,8 @@
       "id": "fonts",
       "label": "Fonts",
       "subtitle": "本地字体文件",
-      "hint": "IBM Plex Sans/SC · Tektur · Mono",
-      "fileCount": 34,
+      "hint": "Poppins · IBM Plex Sans/SC · Tektur · Mono",
+      "fileCount": 15,
       "groups": [
         {
           "id": "fonts--fonts",
@@ -1025,7 +1004,7 @@
       "label": "References",
       "subtitle": "Skill 工作流参考",
       "hint": "按需加载的 agent workflow 与检查清单",
-      "fileCount": 10,
+      "fileCount": 11,
       "groups": [
         {
           "id": "references--references",
@@ -1035,6 +1014,13 @@
             {
               "path": "references/README.md",
               "name": "README.md",
+              "kind": "markdown",
+              "previewable": false,
+              "group": "references"
+            },
+            {
+              "path": "references/execution-contract.md",
+              "name": "execution-contract.md",
               "kind": "markdown",
               "previewable": false,
               "group": "references"

@@ -9,6 +9,8 @@
 | 布局 / Gallery | `../layout-craft-tier0.md` | layout-first / gallery-fidelity / composition / layouts / layout-gallery / layout-lock |
 | 配图 | `../imagery-tier0.md` | illustration-slots / image-prompts / screenshot-framing |
 | 架构图 | `../diagrams-tier0.md` | architecture-diagrams / archify |
+| 动效 | `../motion-tier0.md` | （已并入上级，勿再读本目录旧副本） |
+| 双格式 | `../dual-output-tier0.md` | （已并入上级） |
 | 整套核查 | `../page-review-tier0.md` | checklist-tier0 |
 | 组件 / 地图 | — | components / tier0-map-component |
 | 其它 | — | themes / intro-v4 grammar / source-first / source-integrity / data-viz / demo / brand |

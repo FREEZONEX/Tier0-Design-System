@@ -1,71 +1,85 @@
 ---
 name: tier0-design
-description: Multi-surface design system for Tier0 (product UI, company website, PPT). Route to the correct surface before generating UI. For sales/presales decks that need HTML + editable PPTX from source materials, also load skills/tier0-slide-skill.
+description: >-
+  Tier0 company design system router. Routes product prototypes, PPT/decks,
+  single-page/poster, and website prototypes. Shares logo/type/color foundations;
+  loads only the matching scenario skill. Truth sources: Tier0-Frontend + Figma,
+  tier0.app, DESIGN.md. Not a generic UI polish skill.
 user-invocable: true
+metadata:
+  version: "3.0.0"
+  architecture: shared-foundations-plus-scenarios
 ---
 
-> **路径约定：** 本文件中 `foundations/`、`tokens/`、`surfaces/`、`sources/`、`preview/`、`ui_kits/`、`assets/`、`skills/` 等均为**技能内置资源**，相对本技能目录 `${CLAUDE_SKILL_DIR}/`（即本 SKILL.md 所在目录）解析、读取与复制。`decks/`、`packages/*` 等指**用户当前项目**目录，不在技能内。成稿 HTML/PPTX 默认输出到**仓库外**。
+# Tier0 Design System · Root
 
-## 1. 识别场景（必做）
+公司设计系统入口。先认场景，再加载**一个**场景 skill；共享层只取品牌资源，不把全库灌进上下文。
 
-| 用户任务关键词 | Surface / Skill | 必读 |
-|----------------|-----------------|------|
-| 后台、Namespace、Broker、表格、表单、侧栏、工作台 | `tier0-product` | `surfaces/tier0-product/README.md` + `sources/spec.product-ui.md` + `tokens/product.css` |
-| 官网、定价、UNS 长页、产品叙事、tier0.app | `company-website` | `surfaces/company-website/README.md` + `sources/spec.company-website.*.md` + `tokens/website.css` |
-| PPT 规范、Masterdeck token、版式骨架、checklist | `ppt`（规范层） | `surfaces/ppt/README.md` + `references/README.md` → `references/ppt-workflow.md` + `tokens/deck.css` |
-| 销售/售前 deck、从 DOCX/截图/PPTX 生成、HTML+可编辑 PPTX、Layout Gallery、intake 确认页 | **`skills/tier0-slide-skill`**（执行层） | `skills/tier0-slide-skill/SKILL.md` + 其 `references/`；VI 冲突时仍以 `tokens/deck.css` / `references/ppt-checklist.md` 为准 |
+```text
+共享层（Logo / 字体 / 颜色 / 气质）
+    │
+    ├── 产品原型      product
+    ├── 网页原型      website
+    ├── PPT 制作      ppt        （规范查询 | 生成 deck）
+    └── 单页与海报    print
+```
 
-若未说明场景，**先问**：产品 UI / 官网 / PPT？以及深色或浅色、受众、交付格式（HTML / React / PPTX）。
+> 路径相对本文件所在目录。成稿默认输出到**仓库外**。  
+> 公共站：[Design System](https://freezonex.github.io/Tier0-Design-System/)
 
-**PPT 双层路由：** 只要用户要「做出可演示/可编辑的 deck」（尤其双格式），进入 `skills/tier0-slide-skill`；只需查规范或改 token/preview 组件时留在 `surfaces/ppt` + `references/ppt-*`。更多 skill 注册表见 [`skills/README.md`](skills/README.md)。
+## Protocol
 
-## 2. 全场景必读
+1. 是否 Tier0 设计任务？否 → `no skill needed`
+2. 场景不清 → **只问一句**：产品 / 网页 / PPT / 单页海报？交付格式？
+3. 选 category（下表）→ **Prefer 1**；双角度最多 2；Never > 3
+4. 读该 skill + 其点名的 1–3 个引用（**禁止**默认读全 `references/`）
+5. **需要图表 / 可视化时**必须加载 [`skills/lieflat-charts/SKILL.md`](skills/lieflat-charts/SKILL.md)（[lieflat-charts](https://github.com/larashero3-dotcom/lieflat-charts)）：按 `catalog.md` 从模板出图，禁止自造图型。Tier0 色桥见同目录 `tier0-color-bridge.md`。规则：`.cursor/rules/lieflat-charts.mdc`
+6. **工艺需要时**再加载 [ui-skills](https://github.com/ibelick/ui-skills)（去 AI 味 / 动效 / a11y / 版式精修）。先 `node skills/scripts/ui-skills-get.mjs suggest …` 或 `list --category …`，再 `get <slug>`；Prefer 1 个 craft skill。索引：[`references/ui-skills-index.json`](references/ui-skills-index.json)。规则：`.cursor/rules/ui-skills-craft.mdc`
+7. 场景 + 图表 + craft 合计 Prefer ≤ 3。交付任务再读 [`references/execution-contract.md`](references/execution-contract.md)
+8. 实现；最终回复只给：**交付文件 · 关键变化 · 仍存在的限制**（可一句注明 lieflat 图型编号 / ui-skills slug）
 
-- **`DESIGN.md`** — Agent 设计指南（对齐 [vercel.com/design.md](https://vercel.com/design.md) 结构：上下文 → 优先级 → 四步工作法 → 视觉权威 → 反例）
-- `foundations/README.md` — 品牌、命名、共享禁忌的细则表
-- `tokens/core.css` — 共享色板（lime `#B2ED1D`、黑 `#050B14` 等）
+读取 root ≠ 完成。ui-skills / lieflat **不能**覆盖 Logo / 主色 / IBM Plex（图表可用 Tier0 custom 色板）。
 
-再加载对应 surface 的 `tokens/*.css` 与 `surfaces/*/README.md`。
+## Categories（四大能力）
 
-## 3. 产品 UI 读库检查（仅 tier0-product，生成代码前必做）
+| Category | 能力 | Load | 真源（冲突时优先） |
+|----------|------|------|-------------------|
+| `product` | 产品原型 / 后台 / UNS 工作台 | [`skills/tier0-product/SKILL.md`](skills/tier0-product/SKILL.md) | ① [Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) ② [Figma · Tier0 UI](https://www.figma.com/design/jmqCj0T7EoMnC4FNsAHfbl/Tier0-UI-Design?node-id=14311-69336) ③ 本仓 `surfaces/tier0-product` + `tokens/product.css` |
+| `website` | 网页原型 / 官网长页 / 营销站 | [`skills/tier0-website/SKILL.md`](skills/tier0-website/SKILL.md) | ① [tier0.app](https://tier0.app/) ② 用户当次提供的参考 ③ `surfaces/company-website` + `tokens/website.css` |
+| `ppt` | PPT / 销售 deck | [`skills/tier0-ppt/SKILL.md`](skills/tier0-ppt/SKILL.md)（查规范）或 [`skills/tier0-slide-skill/SKILL.md`](skills/tier0-slide-skill/SKILL.md)（生成 HTML+PPTX） | ① `tokens/deck.css` + `references/ppt-checklist.md` ② slide-skill Gallery / template |
+| `print` | 单页、海报、活动页、其他视觉物料 | [`skills/tier0-print/SKILL.md`](skills/tier0-print/SKILL.md) | ① [`DESIGN.md`](DESIGN.md) + `foundations/` + `assets/` ② 用户指定的优质 skill / 参考（在规范内发挥） |
 
-收到产品 UI 任务后，**在读设计系统文档之前**，先执行以下检查：
+注册表：[`skills/README.md`](skills/README.md)。
 
-1. 用 Glob 搜索 `packages/theme/src/themes.scss`（任意路径）。
-2. **找到了** → 以前端库为事实来源：
-   - 必读：`packages/theme/src/themes.scss`、`packages/theme/src/variables.scss`、`packages/theme/src/tailwind.css`、`packages/theme/src/token.ts`
-   - 按需读：`packages/ui/components/<与任务相关的组件目录>`
-   - 设计系统 spec 文档作为气质与原则补充，不覆盖库的 prop 名 / className / token 名
-3. **找不到** → 告知用户：
+## 共享层（全场景）
 
-   > 当前 workspace 中未检测到 [Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) 前端库。将库克隆到本地并在 Cursor 中加入 workspace 后，生成代码会更贴近真实实现。是否继续用设计系统文档生成？
+| 资源 | 位置 |
+|------|------|
+| Logo | `assets/tier0-logo-black.svg`（浅底）· `assets/tier0-logo-lime.svg`（深底）· `assets/tier0-logo-white.svg`（反白） |
+| 色板 | `tokens/core.css` · `foundations/color.md` |
+| 字体 | IBM Plex Sans / SC / Mono；PPT 大标题另加 Tektur · `foundations/typography.md` |
+| 品牌气质 | Industrial · Live · Open · `foundations/brand.md` |
+| 设计权威（按需读相关段） | [`DESIGN.md`](DESIGN.md) |
+| 交付硬门槛 | [`references/execution-contract.md`](references/execution-contract.md) |
 
-   等用户确认后，仅凭设计系统文档继续。
+共享层规定 **能用什么品牌材料**；场景 skill 规定 **这页怎么排、对齐谁**。不要在场景里另起一套色/字/Logo。
 
-## 4. 实现与预览
+## 真源冲突时听谁
 
-- **Token 预览：** `preview/_shared/`（原子）· `preview/<surface>/`（场景组件，见各目录 README）
-- **产品 UI 组合稿：** 打开 `ui_kits/tier0-product/index.html`
-- **官网组合稿：** 打开 `ui_kits/company-website/index.html`
-- **PPT 规范：** 见 `surfaces/ppt/`；完整规范 `sources/spec.ppt.md`
-- **PPT 规范参考：** `references/README.md`（索引）→ `references/ppt-workflow.md` → `references/ppt-layout-lock.md` / `references/ppt-layouts.md` / `references/ppt-components.md`；有截图：`references/ppt-screenshots.md`；交付前：`references/ppt-checklist.md`
-- **PPT 销售 deck 执行：** `skills/tier0-slide-skill/`（intake → Layout Gallery → HTML / 双格式 PPTX）；Gallery：`skills/tier0-slide-skill/layout-gallery/`
-- **图标：** 产品 UI 用 Carbon；官网 / PPT / HTML 用 **Lucide**（`foundations/icons-lucide.md`）；带 Icon 卡片用 `.tier0-card-icon`；slide-skill 内图标约定见其 `references/`（IBM Carbon）
+1. **安全 / 事实 / 用户当次硬约束**（数字、客户名、禁止项）  
+2. **场景真源**（上表：Frontend/Figma、tier0.app、deck token、DESIGN.md）  
+3. **本仓 foundations + tokens/core**（共享品牌）  
+4. **lieflat-charts**（图表几何 / 模板；Tier0 任务用 custom 色桥）  
+5. **ui-skills / 其他外部参考**（工艺优化，不得覆盖 Logo/主色/字体家族）  
+6. 默认快修：`baseline-ui` / `improve-ui`；其他 slug 按话题从索引按需 `get`
 
-## 5. 硬规则（全场景）
+产品：Figma 定布局与像素意图；**实现 API / class / token 名**以 Frontend 库为准，可用新版组件适度优化，禁止另造平行组件体系。  
+网页：默认对齐 [tier0.app](https://tier0.app/)；你补充的参考用于提升版式，不换成别的品牌语言。
 
-- **Tier0** 写作：零不是字母 O；**FREEZONEX** 全大写。
-- 饱和 lime `#B2ED1D`：**品牌点缀**，不是产品浅色 UI 的主按钮色（用 `#CCF368`）。
-- 产品 UI：**无 emoji**、无大面积渐变、不要把内部页做成营销 Landing。
-- 官网：标题与正文均为 **IBM Plex Sans**（对齐 tier0.app）；白底强调字用 `#73B200`，主 CTA 用 `#B2ED1D` 绿底近墨字；**禁止 Poppins**。
-- PPT：字体仅 **Tektur / IBM Plex Sans / IBM Plex Sans SC / IBM Plex Mono**（**禁止 Poppins**）；封面与章节大标题 **Tektur Regular**；品牌蓝仅 **`#1D77FE`**；**禁止**画面出现 **FREEZONEX**（仅 Tier0 Logo / 版权）；**重点标题绿**：深底 **`#B2ED1D`**、白底 **`#73B200`**；**项目符号与卡片顶边**始终 **`#B2ED1D`**；**浅底禁止 `#B2ED1D` 文字**（P0-8）；卡片大面积用 **`--ppt-card-fill-*`**（深黑/绿/灰）。
+## Anti-patterns
 
-## 6. 输出
-
-- 原型 / 幻灯片 HTML：可复制 `assets/`，引用对应 `tokens/*.css`。
-- **销售演示稿等成稿：** 输出到**本仓库外**（如 `~/Desktop/<项目>/` 或用户指定的业务仓库），**不要**在本设计系统仓库内创建 `decks/` 或任何成稿 HTML。
-- 生产代码：遵守各 surface 文档中的工程事实来源（产品 UI 见 `packages/theme`）。
-
-## 7. Prompt 例句
-
-自然语言描述需求即可，路由规则与例句见 [`README.md`](README.md)。合入更多 skill：见 [`skills/README.md`](skills/README.md)。
+- 一次读完所有 ppt references 或 slide-skill 全文  
+- 跳过场景 skill，只用 root 臆造规范  
+- 字体拼写 Logo / 自造字标  
+- 把产品页做成营销 Landing，或把官网做成后台 dashboard  
+- 声称做过未在最终文件上执行的验收

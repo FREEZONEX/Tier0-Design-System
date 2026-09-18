@@ -81,6 +81,15 @@ Gallery 是基础样式与布局语言，**不是**把每页硬套进某个 `Sxx
 4. `.tag` 之间有可见空隙（用 `.tag-row`，不要只靠文字空格）。  
 5. 失败信号：整页 `gap:1vh`、流图 `padding:8px`、卡片 `padding:8px 10px` 当主证据容器。
 
+**功能卡 + 架构流（S07/S09 等）：**
+
+| 区域 | 类 / token | 禁止 |
+|------|------------|------|
+| 双栏 | `.feature-split` · `--block-gap` | 内联 `grid … gap:2vw`、嵌套 `.stack` 叠 gap |
+| 2×2 卡 | `.feature-card-grid` · `--sp-5` | `gap:12px` + `padding:20px` 混用 |
+| 右栏流 | `.tier0-flow--linear` · `--sp-6` 面板 | `padding:18px`、步骤 grid 四行等高（箭头被拉满） |
+| 左栏栈 | `.stack-inner` · `--stack-gap` | 标题与卡网格 `gap:12px` 贴 chrome |
+
 ### 2.2 密度档位
 
 | 档位 | 何时用 | 画面特征 |

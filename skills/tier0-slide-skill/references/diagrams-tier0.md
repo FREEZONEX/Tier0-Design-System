@@ -34,6 +34,23 @@
 - 案例页（Henkel / Aramco / IMI 等）常见「上：宽截图 · 下：数据流」：宽图横铺 `object-fit:cover`（或等比铺满证据槽），流图放底栏；禁止竖栏 `contain` 大留白把流图挤没或省略。
 - 功能页右侧架构图必须可读、标签完整；禁止乱码 mono 块或与源语义无关的占位。
 
+## 原生组件（HTML · 优先于内联 style）
+
+销售页 ≤6 节点的 **Linear flow** 与 **功能卡 + 架构流** 双栏，一律用 template 类，禁止 `gap:10px` / `padding:18px` 硬编码。
+
+| 布局 | 类名 | 间距 token |
+|------|------|------------|
+| 左卡 + 右流 | `.feature-split` | 双栏 `gap: var(--block-gap)`（40px） |
+| 2×2 功能卡 | `.feature-card-grid` + `.tier0-card` | 网格 `gap: var(--sp-5)`（16px）；卡内 `padding: var(--sp-6)`（24px） |
+| 竖向架构流 | `.tier0-flow.tier0-flow--linear` | 面板 `padding: var(--sp-6)`；步骤 `gap: var(--sp-4)`（12px） |
+| 流节点 | `.flow-node` / `.flow-node--core` | 节点内 `padding: var(--sp-5) var(--sp-6)` |
+| 步骤箭头 | `.flow-arrow` | 仅占内容高度，`flex:0`；禁止与节点等分高度 |
+| 案例底栏流 | `.flow-rail.flow-row` + `.flow-chip` | 轨道 `gap: var(--sp-4)`；芯片 `padding: var(--sp-4) var(--sp-5)` |
+
+**双栏对齐：** `.feature-split` 用 `align-items:stretch`，左 `.stack-inner` 与右 `.tier0-flow--linear` 同高；左栏标题与卡网格用 `.stack-inner`（`gap: var(--stack-gap)` = 24px），不要嵌套 `.canvas-card.stack`。
+
+**生成检查：** 右栏流图标题（如 `GENERATION FLOW · LINEAR`）与首节点间距 = `--sp-5`；核心步骤用 `.flow-node--core`（`#B2ED1D` 面）；箭头行文案 ≤ 1 行 mono。
+
 ## Tier0 translation rules
 
 - Keep labels in HTML whenever possible. SVG only carries nodes, connectors, and simple geometric state.

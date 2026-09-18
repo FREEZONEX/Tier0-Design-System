@@ -1,9 +1,12 @@
 # Company Website UI Kit
 
-营销/定价页组合参考（Nav、Hero、Features、Pricing、Footer）。
+可打开的官网结构参考（Nav / Hero / Features / Pricing / Footer）。
 
-- 打开 [`index.html`](index.html)  
-- 规范：[`surfaces/company-website/`](../../surfaces/company-website/)  
-- Token：[`tokens/website.css`](../../tokens/website.css)
+Agent：[`skills/tier0-website`](../../skills/tier0-website/SKILL.md)  
+规范：[`surfaces/company-website/`](../../surfaces/company-website/) · Token：[`tokens/website.css`](../../tokens/website.css)  
+真源优先：[tier0.app](https://tier0.app/)
 
-> UNS 长文编辑页请以 [`sources/spec.company-website.editorial.md`](../../sources/spec.company-website.editorial.md) 为准；本 Kit 偏定价营销结构，token 与官网 surface 一致。
+```bash
+./scripts/serve-preview.sh
+# http://localhost:8899/ui_kits/company-website/
+```

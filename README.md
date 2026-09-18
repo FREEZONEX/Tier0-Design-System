@@ -6,15 +6,17 @@
 
 ## 场景选择器
 
-| 我要做… | 阅读 | Token | UI Kit | 预览 |
-|--------|------|-------|--------|------|
-| **产品后台**（Namespace、表格、表单、侧栏） | [`surfaces/tier0-product/`](surfaces/tier0-product/) | [`tokens/product.css`](tokens/product.css) | [`ui_kits/tier0-product/`](ui_kits/tier0-product/) | [`preview/tier0-product/`](preview/tier0-product/) |
-| **公司官网**（长文产品页、UNS 叙事、定价风） | [`surfaces/company-website/`](surfaces/company-website/) | [`tokens/website.css`](tokens/website.css) | [`ui_kits/company-website/`](ui_kits/company-website/) | [`preview/company-website/`](preview/company-website/) |
-| **PPT 规范**（Masterdeck、路演视觉） | [`surfaces/ppt/`](surfaces/ppt/) | [`tokens/deck.css`](tokens/deck.css) | `ui_kits/ppt/` | [`preview/ppt/`](preview/ppt/) |
-| **做一份销售 Deck**（HTML + 可编辑 PPTX） | [`skills/tier0-slide-skill/`](skills/tier0-slide-skill/) | 同上（VI 锁） | skill 内 Gallery | 见 skill README 三步上手 |
+| 我要做… | Skill | 真源 | Token / 预览 |
+|--------|-------|------|----------------|
+| **产品原型**（后台、UNS、表格表单） | [`skills/tier0-product`](skills/tier0-product/SKILL.md) | [Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) · [Figma UI](https://www.figma.com/design/jmqCj0T7EoMnC4FNsAHfbl/Tier0-UI-Design?node-id=14311-69336) | [`tokens/product.css`](tokens/product.css) · [`preview/tier0-product/`](preview/tier0-product/) |
+| **网页原型**（官网长页、营销站） | [`skills/tier0-website`](skills/tier0-website/SKILL.md) | [tier0.app](https://tier0.app/)（+ 你提供的参考） | [`tokens/website.css`](tokens/website.css) · [`preview/company-website/`](preview/company-website/) |
+| **PPT 规范** | [`skills/tier0-ppt`](skills/tier0-ppt/SKILL.md) | Masterdeck / `deck.css` | [`tokens/deck.css`](tokens/deck.css) · [`preview/ppt/`](preview/ppt/) |
+| **PPT 生成**（HTML + 可编辑 PPTX） | [`skills/tier0-slide-skill`](skills/tier0-slide-skill/) | slide-skill + deck VI | Gallery 见 skill README |
+| **单页 / 海报 / 物料** | [`skills/tier0-print`](skills/tier0-print/SKILL.md) | [`DESIGN.md`](DESIGN.md) + foundations（+ 外部 craft skill） | [`tokens/core.css`](tokens/core.css) · `assets/` |
 
-**怎么选：** 只查颜色/字体/组件 → `surfaces/ppt/`；要从素材生成演示稿 → [`skills/tier0-slide-skill/README.md`](skills/tier0-slide-skill/README.md)。  
-**Agent 入口：** [`SKILL.md`](SKILL.md)（路由）· [`DESIGN.md`](DESIGN.md)（设计权威，对齐 vercel.com/design.md 结构）。Skill 注册表：[`skills/README.md`](skills/README.md)。
+**共享：** Logo / 字体 / 颜色 → [`foundations/`](foundations/) · [`assets/`](assets/) · [`tokens/core.css`](tokens/core.css)。  
+**Agent 入口：** [`SKILL.md`](SKILL.md)（root）· [`skills/README.md`](skills/README.md) · [`references/execution-contract.md`](references/execution-contract.md)。  
+**公共站：** [freezonex.github.io/Tier0-Design-System](https://freezonex.github.io/Tier0-Design-System/)
 
 ---
 
@@ -22,33 +24,40 @@
 
 ```
 ├── README.md                 # 本文件（总索引）
-├── SKILL.md                  # Agent 场景路由
-├── DESIGN.md                 # Agent 设计权威（Vercel design.md 格式）
+├── SKILL.md                  # Agent root router（选最小 skill 集）
+├── DESIGN.md                 # Agent 设计权威（Vercel design.md 格式，按需读）
 ├── foundations/              # 全场景共享细则：品牌、术语、Logo、通用禁忌
 ├── tokens/
 │   ├── core.css              # 共享色板与 primitive 类
 │   ├── product.css           # 产品 UI 覆盖
 │   ├── website.css           # 官网编辑风覆盖
 │   └── deck.css              # PPT 主题色覆盖
-├── surfaces/                 # 分场景规范（主文档）
+├── surfaces/                 # 分场景规范（人读 + skill 下钻）
 │   ├── tier0-product/
 │   ├── company-website/
 │   └── ppt/
-├── sources/                  # 你提供的历史规范原文（归档）
-├── references/               # Agent 深度参考（ppt：workflow / layouts / components / checklist…）
+├── skills/                   # 场景 skill：product / website / ppt / print / slide
+│   ├── README.md             # 注册表
+│   ├── tier0-product/
+│   ├── tier0-website/
+│   ├── tier0-ppt/
+│   ├── tier0-print/
+│   ├── tier0-slide-skill/
+│   └── scripts/tier0-skills.mjs
+├── sources/                  # 历史规范归档（默认不读）
+├── references/               # 按需：execution-contract · ppt-*
+│   ├── execution-contract.md
 │   ├── README.md
 │   └── ppt-*.md
-├── skills/                   # 可独立触发的 Agent Skills（注册表见 skills/README.md）
-│   └── tier0-slide-skill/    # 销售/售前 deck：intake → Gallery → HTML + 可编辑 PPTX
 ├── assets/                   # Logo · 封面 SVG · 官网 QR
-├── preview/                  # 见 preview/README.md
-│   ├── _shared/              # 原子 token 卡
-│   ├── tier0-product/        # 产品组件卡
-│   ├── company-website/      # 官网组件卡
-│   └── ppt/                  # 幻灯片组件卡（16:9）
-├── ui_kits/                  # 可打开的 HTML/JSX 参考实现
-├── fonts/                    # 本地字体：IBM Plex Sans/SC、Mono、Tektur（无 Poppins）
-└── .cursor/skills/           # Cursor 发现用软链 → ../../skills/<name>
+├── preview/                  # 组件预览卡
+│   ├── _shared/
+│   ├── tier0-product/
+│   ├── company-website/
+│   └── ppt/
+├── ui_kits/                  # 组合稿：product / company-website / ppt
+├── fonts/
+└── .cursor/skills/           # 软链 → skills/*
 ```
 
 ---

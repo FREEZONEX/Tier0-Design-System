@@ -1,7 +1,8 @@
 # Surface — 公司官网（Tier0 编辑风长页）
 
-> 提炼自 [`sources/spec.company-website.editorial.md`](../../sources/spec.company-website.editorial.md) + [`sources/spec.company-website.tokens.md`](../../sources/spec.company-website.tokens.md)。  
-> 典型页面：**UNS 长文产品叙事页**（非通用 SaaS 营销首页）。
+> 官网长页场景入口。Agent：[`skills/tier0-website`](../../skills/tier0-website/SKILL.md)。  
+> 真源：[tier0.app](https://tier0.app/) · 本仓 `tokens/website.css`（用户可另给参考升工艺）。  
+> 旧全文归档：[`sources/spec.company-website.*.md`](../../sources/)（默认不读）。
 
 ## 定位
 

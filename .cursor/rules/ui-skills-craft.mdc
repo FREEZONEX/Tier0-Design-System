@@ -1,0 +1,44 @@
+---
+description: 在 Tier0 品牌真源之上，按需调用 ibelick/ui-skills 工艺 skill（Prefer 1，最多 2）
+alwaysApply: true
+---
+
+# ui-skills 按需调用
+
+仓库已接入 [ui-skills](https://github.com/ibelick/ui-skills)（约 300 个注册 skill）。**不要一次全读**；在需要工艺优化时再拉。
+
+## 与 Tier0 的关系
+
+1. **先**走本仓 `SKILL.md` 场景路由（product / website / ppt / print）与品牌真源  
+2. **再**按需加 ui-skills 作第 2 角度（间距、动效、去 AI 味、a11y…）  
+3. ui-skills **不得**覆盖 Tier0 Logo / 主色 `#B2ED1D`/`#73B200` / IBM Plex / FREEZONEX 禁令
+
+## 何时必须调用
+
+| 任务信号 | 先选 category，再 `get` |
+|---------|-------------------------|
+| 去 AI 味、快修间距层级 | `craft` / `visual` → `baseline-ui` 或 `improve-ui` |
+| 动效、滚动、转场 | `motion` → 具体 slug（如 `improve-animations`） |
+| 对比度、键盘、语义 | `accessibility` |
+| 官网/落地页观感 | `taste` / `visual`（仍服从 tier0-website） |
+| 海报/单页工艺 | 在 `print` 锁内可拉 `taste`/`visual` |
+| 产品后台 | 慎用营销类 skill；优先 Frontend/Figma |
+| **数据图表 / 可视化** | **不要用 ui-skills 顶替** → 改走 `lieflat-charts`（见 `.cursor/rules/lieflat-charts.mdc`） |
+
+## 调用方式（任选其一，Prefer 本仓脚本）
+
+```bash
+node skills/scripts/ui-skills-get.mjs suggest <关键词>
+node skills/scripts/ui-skills-get.mjs list --category motion
+node skills/scripts/ui-skills-get.mjs get <slug>
+# 或: npx ui-skills get <slug>
+```
+
+索引：`references/ui-skills-index.json`  
+本地常驻：`.cursor/skills/ui-skills-root` · `baseline-ui` · `improve-ui`
+
+## 选择硬规则（同 ui-skills-root）
+
+- Prefer **1** 个 craft skill；双角度最多 **2**；Never **> 3**（含 Tier0 场景 skill 时：场景 1 + craft ≤2）
+- 先读 skill 全文，再改代码；禁止只提名字不加载
+- 交付回复仍只写：交付文件 · 关键变化 · 限制（可一句注明用了哪个 ui-skills slug）

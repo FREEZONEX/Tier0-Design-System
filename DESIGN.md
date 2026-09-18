@@ -13,15 +13,16 @@ Act as an excellent Tier0 designer, editor, information architect, and design en
 
 Make the artifact **industrial, live, and open**: precise, calm, direct, technically literate, evidence-led, and restrained. Build confidence through clarity and command of the material. Never manufacture confidence through hype, decoration, neon cyber aesthetics, purple-gradient SaaS defaults, or exaggerated claims.
 
-Start with the reader’s job and the **surface**, not the document category:
+Start with the reader’s job and the **scenario**, not the document category:
 
-| Surface | Reader job | Path | Tokens |
-|---------|------------|------|--------|
-| Product UI | Operate dense industrial workbenches | `surfaces/tier0-product/` | `tokens/product.css` |
-| Company website | Understand product narrative / pricing | `surfaces/company-website/` | `tokens/website.css` |
-| PPT / sales deck | Present claims with brand-locked slides | `surfaces/ppt/` + `skills/tier0-slide-skill/` | `tokens/deck.css` |
+| Scenario | Reader job | Skill | Truth source |
+|----------|------------|-------|--------------|
+| Product prototype | Operate dense industrial workbenches | `skills/tier0-product` | [Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) → [Figma UI](https://www.figma.com/design/jmqCj0T7EoMnC4FNsAHfbl/Tier0-UI-Design?node-id=14311-69336) → `surfaces/tier0-product/` · `tokens/product.css` |
+| Website prototype | Understand product narrative / pricing | `skills/tier0-website` | [tier0.app](https://tier0.app/) → user refs → `surfaces/company-website/` · `tokens/website.css` |
+| PPT / sales deck | Present claims with brand-locked slides | `skills/tier0-ppt` or `skills/tier0-slide-skill` | `tokens/deck.css` · ppt checklist · slide Gallery |
+| Print / poster / single page | One strong message on a fixed canvas | `skills/tier0-print` | `DESIGN.md` · `foundations/` · `assets/` · optional craft skills |
 
-Treat every Tier0 page as a brand surface. Communicate official Tier0 authorship without copying consumer marketing landing templates, fake dashboards, or decorative AI chrome.
+Shared brand materials live in `foundations/` + `assets/` + `tokens/core.css`. Scenario skills decide layout and which external truth to mirror.
 
 ## Use this priority order
 
@@ -97,9 +98,10 @@ Treat this section as the design authority. Use `tokens/*.css` for exact values.
 
 #### Brand shell
 
-- Logo: lime mark on ink / dark fields; black mark on paper; white mark only as dark-field fallback (`assets/tier0-logo-*.svg`).
+- Logo: **official SVG only** — lime mark on ink / dark fields (`assets/tier0-logo-lime.svg`); black mark on paper (`assets/tier0-logo-black.svg`); white mark only as dark-field fallback (`assets/tier0-logo-white.svg`). Preserve aspect and colors. **Never** typeset “Tier0” / “TIER 0” as the mark, redraw it, or invent a substitute. Copy the file into the deliverable; a broken `src` fails delivery.
 - Writing: **Tier0** (digit zero), **FREEZONEX** all caps, **UNS** for Unified Namespace.
-- QR / `www.tier0.app`: only when intake or brief requires closing CTA; keep quiet zone and high contrast (never lime as QR modules).
+- QR / `www.tier0.app`: only when intake or brief requires closing CTA; keep quiet zone and high contrast (never lime as QR modules). Use `assets/website-qrcode-*.png` when a QR is required.
+- Execution gate: reading this file is not completion — follow [`SKILL.md`](SKILL.md) §0 and [`references/execution-contract.md`](references/execution-contract.md) (constraint ledger, evidence honesty, rendered QA).
 
 #### Color and surfaces
 
@@ -166,17 +168,18 @@ No emoji as UI icons. No mixing two icon libraries on one page. Illustration: th
 
 ### 4. Inspect and revise privately
 
-Review in this order:
+Review against the **final exported/rendered file** (not the plan). Order:
 
 1. **Surface:** Is the correct surface/skill loaded?
-2. **First read:** Is Tier0 authorship immediate? Is the job clear in one viewport?
-3. **Composition:** One dominant object? Accidental empty space? Equal-weight blocks?
-4. **Typography:** Roles consistent? Poppins absent? Peer values aligned?
-5. **Color:** Is green only signal? Any paper `#B2ED1D` body text?
-6. **Evidence:** Real screenshots/data only? Any invented KPI or fake dashboard?
-7. **Restraint:** Can any card, border, icon, or section be removed without loss?
+2. **Brand:** Is the official Logo file actually embedded and visible on the correct field?
+3. **First read:** Is Tier0 authorship immediate? Is the job clear in one viewport?
+4. **Composition:** One dominant object? Accidental empty space? Equal-weight blocks?
+5. **Typography:** Roles consistent? Poppins absent? Peer values aligned?
+6. **Color:** Is green only signal? Any paper `#B2ED1D` body text?
+7. **Semantics / evidence:** Module I/O and connector meanings accurate? Real screenshots/data only? Any invented KPI or fake dashboard? Gaps labeled?
+8. **Restraint / craft:** Overflow, clipping, bad wraps, occlusion, overcrowding? Can any card, border, icon, or section be removed without loss?
 
-Fix the highest-impact systemic defect and repeat. Deliver the implementation, not a scorecard.
+Fix the highest-impact systemic defect and repeat. Do not claim checks you did not run. Final reply: deliverable paths · key changes · remaining limits — not a restated style guide.
 
 ## Reject generated-design reflexes
 
@@ -228,6 +231,8 @@ This file is the agent-facing authority. For deeper tables and examples, read:
 - [`foundations/spacing-layout.md`](foundations/spacing-layout.md)
 - [`foundations/iconography.md`](foundations/iconography.md)
 - [`foundations/voice-content.md`](foundations/voice-content.md)
-- [`SKILL.md`](SKILL.md) — routing skill entry
+- [`SKILL.md`](SKILL.md) — **root router** (ui-skills style: pick ≤3 surface skills, do not load everything)
+- [`skills/README.md`](skills/README.md) — surface skill registry (`product` / `website` / `ppt-spec` / `slide`)
+- [`references/execution-contract.md`](references/execution-contract.md) — delivery hard gate after routing
 
 Do not duplicate conflicting rules in call sites; change this file or `foundations/` / `tokens/` instead.

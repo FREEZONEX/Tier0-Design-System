@@ -7,3 +7,6 @@ skills/*/node_modules/
 
 # Local generated decks / intake uploads (keep out of git)
 projects/
+
+# ui-skills full clone (use references/ui-skills-index.json + CLI get)
+vendor/ui-skills/

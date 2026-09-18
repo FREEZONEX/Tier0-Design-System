@@ -11,4 +11,4 @@
 | [section-strip.html](section-strip.html) | 分区条 F0FBD2 + 73B200 |
 | [workspace-header.html](workspace-header.html) | Header + Controls 条 |
 
-规范：[`surfaces/tier0-product/`](../../surfaces/tier0-product/) · [`sources/spec.product-ui.md`](../../sources/spec.product-ui.md)
+规范：[`surfaces/tier0-product/`](../../surfaces/tier0-product/) · 真源：[Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) / Figma

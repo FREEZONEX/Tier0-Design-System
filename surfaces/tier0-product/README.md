@@ -1,6 +1,8 @@
 # Surface — Tier0 产品 UI
 
-> 提炼自 [`sources/spec.product-ui.md`](../../sources/spec.product-ui.md)（同步自 `Downloads/DESIGN.md`）。工程实现以 monorepo `packages/theme`、`packages/ui` 为准。
+> 产品界面场景入口。Agent：[`skills/tier0-product`](../../skills/tier0-product/SKILL.md)。  
+> 真源：[Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) · [Figma UI](https://www.figma.com/design/jmqCj0T7EoMnC4FNsAHfbl/Tier0-UI-Design?node-id=14311-69336) · 本仓 `tokens/product.css`。  
+> 旧全文归档：[`sources/spec.product-ui.md`](../../sources/spec.product-ui.md)（默认不读）。
 
 ## 定位
 

@@ -1,10 +1,10 @@
 # Tier0 Product UI Kit
 
-产品后台高保真参考：侧栏、Namespace 树、Topic 详情。
+产品后台组合参考：侧栏、Namespace 树、Topic 详情。
 
-- 打开 [`index.html`](index.html) 预览组合稿  
-- 规范：[`surfaces/tier0-product/`](../../surfaces/tier0-product/)  
-- Token：[`tokens/product.css`](../../tokens/product.css)
+Agent：[`skills/tier0-product`](../../skills/tier0-product/SKILL.md)  
+真源优先：[Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) · Figma UI  
+本仓：[`surfaces/tier0-product/`](../../surfaces/tier0-product/) · [`tokens/product.css`](../../tokens/product.css)
 
 | 文件 | 说明 |
 |------|------|

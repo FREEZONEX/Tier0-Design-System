@@ -6,12 +6,14 @@
 |------|------|----------|
 | [`surfaces/ppt/`](../surfaces/ppt/) | 人 + Agent | 场景入口、原则速查、链到本目录 |
 | **`references/`（本目录）** | **Agent 为主** | 分步工作流、版式骨架、组件用法、踩坑清单 |
-| [`sources/spec.ppt.md`](../sources/spec.ppt.md) | 设计 / 母版维护 | 从 Masterdeck 导出的完整规范（冲突时以此为准） |
+| [`sources/`](../sources/) | **归档** | 旧全文备份；默认不读，冲突以外面真源为准 |
 | [`tokens/deck.css`](../tokens/deck.css) | 实现 | CSS 变量与类名事实来源 |
 | [`preview/ppt/`](../preview/ppt/) | 视觉验收 | 全屏 slide 预览（与交付 HTML 同尺寸） |
 | [`skills/tier0-slide-skill/`](../skills/tier0-slide-skill/) | 销售/售前执行 | intake → Layout Gallery → HTML + 可编辑 PPTX（与本目录规范层分工，见 [`skills/README.md`](../skills/README.md)） |
 
-当前仅 **ppt** 试点本结构；产品 UI / 官网仍读 `surfaces/*`。更多可触发 skill 见 [`skills/`](../skills/)。
+**全场景执行契约（先于 ppt 细则）：** [`execution-contract.md`](execution-contract.md) — Logo 真源、约束账本、证据诚实、从最终文件渲染验收。入口亦见根目录 [`SKILL.md`](../SKILL.md) §0。
+
+当前 ppt 试点本结构；产品 UI / 官网仍读 `surfaces/*`。更多可触发 skill 见 [`skills/`](../skills/)。
 
 ---
 
@@ -37,4 +39,4 @@ workflow → layout-lock + themes → layouts → components → flowcharts（�
 
 小改已有 deck：只读 `workflow`（输出规则）+ 改动涉及的 `layouts` / `components` + `checklist`。
 
-细节规则缺失或冲突时，再查 `sources/spec.ppt.md`。
+细节规则缺失时，优先 `tokens/deck.css` + 本目录 `ppt-*.md`；旧全文见归档 `sources/spec.ppt.md`。
