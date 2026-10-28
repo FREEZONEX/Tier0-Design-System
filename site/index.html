@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./site.css?v=20261028-slim2">
+  <link rel="stylesheet" href="./site.css?v=20261028-clean">
 </head>
 <body>
   <div class="page">
@@ -149,81 +149,6 @@
                 <span style="background:#628210" title="800"></span>
                 <span style="background:#48640C" title="900"></span>
               </div>
-              <div class="token-row is-text"><code>--tier0-highlight</code><span>#B2ED1D · 选中/激活</span></div>
-              <div class="token-row is-text"><code>--tier0-highlight-deep</code><span>#73B200 · 白底绿字</span></div>
-              <div class="token-row is-text"><code>--tier0-highlight-bg-primary</code><span>#CEF368 · 高亮按钮底</span></div>
-              <div class="token-row is-text"><code>--tier0-primary</code><span>#050B14 · 近黑主操作</span></div>
-            </div>
-            <div class="token-cols-2" style="margin-top:12px">
-              <div class="token-group">
-                <h3>Grey / Black</h3>
-                <div class="swatch-strip">
-                  <span style="background:#F9F9F9"></span><span style="background:#F3F3F3"></span><span style="background:#EBEBEB"></span><span style="background:#D9D9D9"></span><span style="background:#878787"></span>
-                  <span style="background:#343434"></span><span style="background:#242424"></span><span style="background:#1C1F1E"></span><span style="background:#151A19"></span><span style="background:#050B14"></span>
-                </div>
-              </div>
-              <div class="token-group">
-                <h3>Status</h3>
-                <div class="token-row"><span class="token-swatch" style="background:#53B483"></span><code>success-600</code><span>#53B483</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#FBBC55"></span><code>warning-500</code><span>#FBBC55</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#DC2626"></span><code>error-600</code><span>#DC2626</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#2563EB"></span><code>blue-600</code><span>#2563EB</span></div>
-              </div>
-            </div>
-            <div class="token-cols-2" style="margin-top:12px">
-              <div class="token-group">
-                <h3>Gray（Figma / Tailwind）</h3>
-                <div class="swatch-strip">
-                  <span style="background:#F9FAFB"></span><span style="background:#F3F4F6"></span><span style="background:#E5E7EB"></span><span style="background:#D1D5DB"></span><span style="background:#9CA3AF"></span>
-                  <span style="background:#6B7280"></span><span style="background:#4B5563"></span><span style="background:#374151"></span><span style="background:#1F2937"></span><span style="background:#111827"></span>
-                </div>
-              </div>
-              <div class="token-group">
-                <h3>Blue / Updating</h3>
-                <div class="swatch-strip">
-                  <span style="background:#EFF6FF"></span><span style="background:#DBEAFE"></span><span style="background:#BFDBFE"></span><span style="background:#93C5FD"></span><span style="background:#60A5FA"></span>
-                  <span style="background:#3B82F6"></span><span style="background:#2563EB"></span><span style="background:#1D4ED8"></span><span style="background:#1E40AF"></span><span style="background:#1E3A8A"></span>
-                </div>
-              </div>
-            </div>
-            <div class="token-cols-2" style="margin-top:12px">
-              <div class="token-group">
-                <h3>Success 阶</h3>
-                <div class="swatch-strip">
-                  <span style="background:#F6FEF9"></span><span style="background:#EFFDF6"></span><span style="background:#D9F9E6"></span><span style="background:#B8F1D2"></span><span style="background:#8EE4BA"></span>
-                  <span style="background:#6AD09D"></span><span style="background:#53B483"></span><span style="background:#2F9461"></span><span style="background:#2F7657"></span><span style="background:#255E46"></span>
-                </div>
-              </div>
-              <div class="token-group">
-                <h3>Error 阶</h3>
-                <div class="swatch-strip">
-                  <span style="background:#FEF2F2"></span><span style="background:#FEE2E2"></span><span style="background:#FECACA"></span><span style="background:#FCA5A5"></span><span style="background:#F87171"></span>
-                  <span style="background:#EF4444"></span><span style="background:#DC2626"></span><span style="background:#B91C1C"></span><span style="background:#991B1B"></span><span style="background:#7F1D1D"></span>
-                </div>
-              </div>
-            </div>
-            <div class="rule-grid">
-              <article class="rule"><h3>可以</h3><ul><li>近黑主按钮 · FX Green 高亮</li><li>白底绿字 <code>#73B200</code></li><li>状态用 success/warning/error token</li></ul></article>
-              <article class="rule"><h3>不可以</h3><ul><li>白底写 <code>#B2ED1D</code></li><li>把 FX Green 当通用成功色</li><li>业务页硬编码 hex</li></ul></article>
-            </div>
-          </article>
-
-          <article class="ds-panel" data-panel="type" hidden>
-            <div class="ds-panel__head">
-              <h2>Typography</h2>
-              <p>产品 UI：IBM Plex Sans；标题工具类可配 Inter。对齐 Figma text styles + <code>typo-*</code>。</p>
-              <div class="path">packages/theme/tailwind.css · Figma text styles</div>
-            </div>
-            <div class="type-row"><div class="type-meta">h1<br>38/46 · 700</div><div class="type-sample" style="font-size:32px;font-weight:700;letter-spacing:-.02em">Heading 1</div></div>
-            <div class="type-row"><div class="type-meta">h2<br>30/36 · 600</div><div class="type-sample" style="font-size:26px;font-weight:600">Heading 2</div></div>
-            <div class="type-row"><div class="type-meta">h3 / h4<br>24 / 20</div><div class="type-sample" style="font-size:20px;font-weight:600">Heading 3</div></div>
-            <div class="type-row"><div class="type-meta">body / p2<br>14–16</div><div class="type-sample" style="font-family:'IBM Plex Sans',sans-serif">Body · IBM Plex Sans</div></div>
-            <div class="type-row"><div class="type-meta">detail / mono</div><div class="type-sample is-mono">12px · IBM Plex Mono</div></div>
-            <div class="token-group" style="margin-top:12px">
-              <div class="token-row is-text"><code>--font-app-sans</code><span>IBM Plex Sans</span></div>
-              <div class="token-row is-text"><code>--font-display-sans</code><span>Inter（大标题）</span></div>
-              <div class="token-row is-text"><code>typo-h1 … typo-h4</code><span>Tailwind 标题工具类</span></div>
-            </div>
           </article>
 
           <article class="ds-panel" data-panel="icon" hidden>
@@ -233,10 +158,6 @@
             </div>
             <div class="token-group">
               <div class="token-row is-text"><code>库</code><span>Lucide（产品）</span></div>
-              <div class="token-row is-text"><code>尺寸</code><span>16 / 18 / 20 / 24</span></div>
-              <div class="token-row is-text"><code>颜色</code><span>继承 text token；状态用 semantic</span></div>
-              <div class="token-row is-text"><code>禁止</code><span>emoji、混用图标库</span></div>
-            </div>
           </article>
 
           <article class="ds-panel" data-panel="spacing" hidden>
@@ -246,9 +167,6 @@
             </div>
             <div class="token-group">
               <div class="token-row is-text"><code>panel padding</code><span>12 / 16 / 20</span></div>
-              <div class="token-row is-text"><code>stack gap</code><span>8 / 12 / 16</span></div>
-              <div class="token-row is-text"><code>section</code><span>24 / 32</span></div>
-            </div>
           </article>
 
           <article class="ds-panel" data-panel="radius" hidden>
@@ -280,15 +198,12 @@
               <div class="path">Figma Button · @tier0/ui Button</div>
             </div>
             <div class="demo-row">
-              <span class="demo-btn demo-btn--ink">primary · 近黑</span>
+              <span class="demo-btn demo-btn--ink">primary</span>
               <span class="demo-btn demo-btn--lime">highlight · FX Green</span>
               <span class="demo-btn demo-btn--ghost">outline / ghost</span>
             </div>
             <div class="token-group" style="margin-top:16px">
               <div class="token-row is-text"><code>sm / md / lg</code><span>32 / 36 / 40</span></div>
-              <div class="token-row is-text"><code>bg-button-primary</code><span>--tier0-primary</span></div>
-              <div class="token-row is-text"><code>bg-button-highlight</code><span>--tier0-highlight-bg-primary</span></div>
-            </div>
           </article>
 
           <article class="ds-panel" data-panel="menu" hidden>
@@ -313,8 +228,6 @@
             </div>
             <div class="token-group" style="margin-top:14px">
               <div class="token-row is-text"><code>item hover</code><span>bg-bg-accent</span></div>
-              <div class="token-row is-text"><code>item active</code><span>bg-accent + font-medium</span></div>
-            </div>
           </article>
 
           <article class="ds-panel" data-panel="tree" hidden>
@@ -331,8 +244,6 @@
             </aside>
             <div class="token-group" style="margin-top:14px">
               <div class="token-row is-text"><code>row height</code><span>36px</span></div>
-              <div class="token-row is-text"><code>selected</code><span>--tier0-bg-accent</span></div>
-            </div>
           </article>
 
           <article class="ds-panel" data-panel="card" hidden>
@@ -358,8 +269,6 @@
             </div>
             <div class="token-group" style="margin-top:12px">
               <div class="token-row is-text"><code>row hover</code><span>bg-bg-tertiary / highlight-bg-accent</span></div>
-              <div class="token-row is-text"><code>header</code><span>text-tertiary · medium</span></div>
-            </div>
           </article>
 
           <article class="ds-panel" data-panel="tag" hidden>
@@ -375,9 +284,6 @@
             </div>
             <div class="token-group" style="margin-top:12px">
               <div class="token-row is-text"><code>topic-state</code><span>yellow-50 / 600 / 800</span></div>
-              <div class="token-row is-text"><code>topic-action</code><span>lime-50 / 600 / 800</span></div>
-              <div class="token-row is-text"><code>topic-metric</code><span>blue-50 / 600 / 800</span></div>
-            </div>
           </article>
 
           <article class="ds-panel" data-panel="chart" hidden>
@@ -394,8 +300,6 @@
             </div>
             <div class="token-group" style="margin-top:12px">
               <div class="token-row is-text"><code>--chart-1 … --chart-5</code><span>themes.scss</span></div>
-              <div class="token-row is-text"><code>系列色</code><span>优先 token，禁临时 hex</span></div>
-            </div>
           </article>
 
           <article class="ds-panel" data-panel="input" hidden>
@@ -409,15 +313,11 @@
             </div>
             <div class="token-group" style="margin-top:12px">
               <div class="token-row is-text"><code>active border</code><span>--tier0-highlight</span></div>
-              <div class="token-row is-text"><code>active shadow</code><span>0 0 0 2px --tier0-highlight-20</span></div>
-            </div>
           </article>
 
                     <article class="ds-panel" data-panel="sidebar" hidden>
             <div class="ds-panel__head">
-              <h2>Sidebar</h2>
-              
-            </div>
+              <h2>Sidebar</h2></div>
             <div class="biz-frame biz-frame--sidebar">
               <aside class="biz-sb">
                 <div class="biz-sb__brand"><span class="biz-av biz-av--blue">T</span><strong>Acme Workspace</strong></div>
@@ -439,8 +339,6 @@
                 <div class="biz-sb-main__body">content</div>
               </div>
             </div>
-              <div class="token-row is-text"><code>Upgrade 条</code><span>hl-btn 进度 · 近黑文案</span></div>
-            </div>
           </article>
 
           <article class="ds-panel" data-panel="login" hidden>
@@ -458,8 +356,6 @@
                 <input class="biz-input" placeholder="name@company.com" readonly>
                 <button type="button" class="biz-btn biz-btn--hl">Continue</button>
               </div>
-            </div>
-              <div class="token-row is-text"><code>tab selected</code><span>border-bottom highlight-deep</span></div>
             </div>
           </article>
 
@@ -488,15 +384,11 @@
                 </div>
               </div>
             </div>
-              <div class="token-row is-text"><code>Avatar cat</code><span>--tier0-cat-n-bg/fg</span></div>
-            </div>
           </article>
 
           <article class="ds-panel" data-panel="home" hidden>
             <div class="ds-panel__head">
-              <h2>Home</h2>
-              
-            </div>
+              <h2>Home</h2></div>
             <div class="biz-home">
               <div class="biz-home__hd">
                 <div><strong>Home</strong><span>Recently used apps and data</span></div>
@@ -512,9 +404,7 @@
 
           <article class="ds-panel" data-panel="setting" hidden>
             <div class="ds-panel__head">
-              <h2>Setting</h2>
-              
-            </div>
+              <h2>Setting</h2></div>
             <div class="biz-setting">
               <aside>
                 <div class="lbl">Workspace</div>
@@ -559,15 +449,11 @@
                 <div class="meter is-hl"><i style="width:35%"></i></div>
               </div>
             </div>
-              <div class="token-row is-text"><code>Current badge</code><span>highlight-bg</span></div>
-            </div>
           </article>
 
           <article class="ds-panel" data-panel="uns" hidden>
             <div class="ds-panel__head">
-              <h2>Unified Namespace</h2>
-              
-            </div>
+              <h2>Unified Namespace</h2></div>
             <div class="biz-uns">
               <aside class="biz-tree">
                 <div class="biz-tree__hd">Namespace</div>
@@ -602,15 +488,11 @@
                 </div>
               </div>
             </div>
-              <div class="token-row is-text"><code>Create</code><span>近黑 primary · 禁止绿按钮</span></div>
-            </div>
           </article>
 
           <article class="ds-panel" data-panel="apps" hidden>
             <div class="ds-panel__head">
-              <h2>All Apps / App Builder</h2>
-              
-            </div>
+              <h2>All Apps / App Builder</h2></div>
             <div class="biz-apps">
               <div class="biz-app-card"><div class="ico" style="background:#EFF6FF;color:#2563EB">A</div><div><b>Analytics</b><span>Dashboards</span></div></div>
               <div class="biz-app-card"><div class="ico" style="background:#E7F9B9;color:#7EA815">W</div><div><b>WMS</b><span>Warehouse</span></div></div>
@@ -621,9 +503,7 @@
 
           <article class="ds-panel" data-panel="launchpad" hidden>
             <div class="ds-panel__head">
-              <h2>Launchpad</h2>
-              
-            </div>
+              <h2>Launchpad</h2></div>
             <div class="biz-lp">
               <div class="biz-lp__card">
                 <div class="biz-lp__title">Pump Station</div>
