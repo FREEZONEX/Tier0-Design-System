@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./site.css?v=20261028-biz">
+  <link rel="stylesheet" href="./site.css?v=20261028-slim">
 </head>
 <body>
   <div class="page">
@@ -78,7 +78,6 @@
 
     <section class="shell section" id="tokens">
       <h2 class="section-heading">Token Hub</h2>
-      <p class="hub-source">对齐 Figma DS + Frontend theme；业务壳层取自 Login / Onboarding / Billing 原型</p>
       <div class="ds-browser" data-ds-browser data-skill-base="https://github.com/FREEZONEX/Tier0-Design-System/blob/main/" data-design-md="./tokens/DESIGN.txt" data-skill-md="./skills/SKILL.txt">
         <aside class="ds-nav" aria-label="Token categories">
           <div class="ds-nav__label">Foundations</div>
@@ -295,7 +294,7 @@
           <article class="ds-panel" data-panel="menu" hidden>
             <div class="ds-panel__head">
               <h2>Menu</h2>
-              <div class="path">Figma Menu · sidebar / dropdown · Setting 菜单</div>
+              <div class="path">Figma Menu</div>
             </div>
             <div class="biz-menu-demo">
               <div class="biz-menu">
@@ -321,7 +320,7 @@
           <article class="ds-panel" data-panel="tree" hidden>
             <div class="ds-panel__head">
               <h2>Tree</h2>
-              <div class="path">Figma Tree · UNS namespace</div>
+              <div class="path">Figma Tree</div>
             </div>
             <aside class="biz-tree" style="max-width:280px;border:1px solid #EBEBEB;border-radius:6px">
               <div class="biz-tree__hd">Namespace</div>
@@ -417,8 +416,7 @@
                     <article class="ds-panel" data-panel="sidebar" hidden>
             <div class="ds-panel__head">
               <h2>Sidebar</h2>
-              <p>工作区壳层导航 · 对齐 Onboarding / Billing 原型里的 App Sidebar。</p>
-              <div class="path">@tier0/ui shell · surfaces/prototypes</div>
+              
             </div>
             <div class="biz-frame biz-frame--sidebar">
               <aside class="biz-sb">
@@ -441,8 +439,6 @@
                 <div class="biz-sb-main__body">content</div>
               </div>
             </div>
-            <div class="token-group" style="margin-top:14px">
-              <div class="token-row is-text"><code>active</code><span>bg-accent + 左侧 highlight marker</span></div>
               <div class="token-row is-text"><code>Upgrade 条</code><span>hl-btn 进度 · 近黑文案</span></div>
             </div>
           </article>
@@ -450,7 +446,6 @@
           <article class="ds-panel" data-panel="login" hidden>
             <div class="ds-panel__head">
               <h2>Login</h2>
-              <p>OAuth + Email tabs · Continue 用 FX Green 高亮按钮。</p>
               <div class="path"><a href="./surfaces/prototypes/login.html" target="_blank" rel="noopener">完整原型 ↗</a></div>
             </div>
             <div class="biz-login">
@@ -464,8 +459,6 @@
                 <button type="button" class="biz-btn biz-btn--hl">Continue</button>
               </div>
             </div>
-            <div class="token-group" style="margin-top:14px">
-              <div class="token-row is-text"><code>Continue</code><span>--tier0-highlight-bg-primary</span></div>
               <div class="token-row is-text"><code>tab selected</code><span>border-bottom highlight-deep</span></div>
             </div>
           </article>
@@ -473,7 +466,6 @@
           <article class="ds-panel" data-panel="onboarding" hidden>
             <div class="ds-panel__head">
               <h2>Onboarding</h2>
-              <p>CnDialog 分步：左表单 + 右 workspace 预览。主 CTA 近黑。</p>
               <div class="path"><a href="./surfaces/prototypes/onboarding.html" target="_blank" rel="noopener">完整原型 ↗</a></div>
             </div>
             <div class="biz-onb">
@@ -496,8 +488,6 @@
                 </div>
               </div>
             </div>
-            <div class="token-group" style="margin-top:14px">
-              <div class="token-row is-text"><code>primary CTA</code><span>近黑 --tier0-primary</span></div>
               <div class="token-row is-text"><code>Avatar cat</code><span>--tier0-cat-n-bg/fg</span></div>
             </div>
           </article>
@@ -505,7 +495,7 @@
           <article class="ds-panel" data-panel="home" hidden>
             <div class="ds-panel__head">
               <h2>Home</h2>
-              <div class="path">Figma Home · onboarding shell tiles</div>
+              
             </div>
             <div class="biz-home">
               <div class="biz-home__hd">
@@ -523,8 +513,7 @@
           <article class="ds-panel" data-panel="setting" hidden>
             <div class="ds-panel__head">
               <h2>Setting</h2>
-              <p>Settings 左菜单 + 内容区。</p>
-              <div class="path">Figma Setting · plan-billing shell</div>
+              
             </div>
             <div class="biz-setting">
               <aside>
@@ -539,7 +528,6 @@
               </aside>
               <section>
                 <h3>Plan &amp; Billing</h3>
-                <p>Manage subscription, seats and credits.</p>
                 <div class="biz-field"><span>Workspace name</span><input class="biz-input" value="Acme" readonly></div>
                 <button type="button" class="biz-btn biz-btn--ink sm">Save</button>
               </section>
@@ -549,7 +537,6 @@
           <article class="ds-panel" data-panel="billing" hidden>
             <div class="ds-panel__head">
               <h2>Plan / Billing</h2>
-              <p>套餐卡 · 席位 · Credits · Upgrade。主操作近黑。</p>
               <div class="path"><a href="./surfaces/prototypes/plan-billing.html" target="_blank" rel="noopener">完整原型 ↗</a></div>
             </div>
             <div class="biz-bill">
@@ -572,8 +559,6 @@
                 <div class="meter is-hl"><i style="width:35%"></i></div>
               </div>
             </div>
-            <div class="token-group" style="margin-top:14px">
-              <div class="token-row is-text"><code>Upgrade</code><span>bg-button-primary 近黑</span></div>
               <div class="token-row is-text"><code>Current badge</code><span>highlight-bg</span></div>
             </div>
           </article>
@@ -581,8 +566,7 @@
           <article class="ds-panel" data-panel="uns" hidden>
             <div class="ds-panel__head">
               <h2>Unified Namespace</h2>
-              <p>Tree + Table + Topic Tag。Create 近黑；绿只做 Live/选中。</p>
-              <div class="path">Figma UNS · Tree / Table / Tag</div>
+              
             </div>
             <div class="biz-uns">
               <aside class="biz-tree">
@@ -618,8 +602,6 @@
                 </div>
               </div>
             </div>
-            <div class="token-group" style="margin-top:14px">
-              <div class="token-row is-text"><code>Tree selected</code><span>--tier0-bg-accent</span></div>
               <div class="token-row is-text"><code>Create</code><span>近黑 primary · 禁止绿按钮</span></div>
             </div>
           </article>
@@ -627,7 +609,7 @@
           <article class="ds-panel" data-panel="apps" hidden>
             <div class="ds-panel__head">
               <h2>All Apps / App Builder</h2>
-              <div class="path">Figma App Builder</div>
+              
             </div>
             <div class="biz-apps">
               <div class="biz-app-card"><div class="ico" style="background:#EFF6FF;color:#2563EB">A</div><div><b>Analytics</b><span>Dashboards</span></div></div>
@@ -640,8 +622,7 @@
           <article class="ds-panel" data-panel="launchpad" hidden>
             <div class="ds-panel__head">
               <h2>Launchpad</h2>
-              <p>Readable / Operator 字号档 · IBM Plex。</p>
-              <div class="path">Figma Launchpad text styles</div>
+              
             </div>
             <div class="biz-lp">
               <div class="biz-lp__card">
@@ -651,7 +632,7 @@
               </div>
               <div class="biz-lp__card is-lg">
                 <div class="biz-lp__title">Operator view</div>
-                <div class="biz-lp__desc">Larger touch targets · 22/30 SemiBold</div>
+                <div class="biz-lp__desc">Larger touch targets for the floor</div>
                 <div class="biz-lp__meta">MODE · operator</div>
               </div>
             </div>
@@ -669,7 +650,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="./js/ds-browser.js?v=20261028-biz"></script>
+  <script src="./js/ds-browser.js?v=20261028-slim"></script>
   <script>
     (function () {
       const canvas = document.getElementById('hero-ascii');
