@@ -140,7 +140,7 @@ Prefer spacing, alignment, and typography before borders or nested cards. Radii:
 
 | Surface | Icons |
 |---------|--------|
-| Product UI | IBM Carbon mono-line |
+| Product UI | Lucide (matches Tier0-Frontend `lucide-react`) |
 | Website / PPT / HTML prototypes | Lucide |
 | Slide skill decks | IBM Carbon (see skill references) |
 

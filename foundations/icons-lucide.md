@@ -1,6 +1,6 @@
 # 图标 — Lucide（全局）
 
-除 **产品 UI** 侧栏/表格等仍用 **Carbon 风格**（见 [iconography.md](iconography.md)）外，**官网、PPT、HTML 原型** 统一使用 **[Lucide](https://lucide.dev/icons/)**。
+**产品 UI、官网、PPT、HTML 原型** 统一使用 **[Lucide](https://lucide.dev/icons/)**。产品 UI 以 Tier0-Frontend 的 `lucide-react` 为准，规格见 [`skills/tier0-product`](../skills/tier0-product/references/design-elements.md)。
 
 ## 引用方式
 
@@ -75,5 +75,5 @@ import { Database } from "lucide-react";
 ## 禁止
 
 - Emoji、Font Awesome 填色图标、与 Lucide 混用的另一套线宽  
-- 产品后台侧栏改用 Lucide（仍用 Carbon / `ui_kits/tier0-product/Icons.jsx`）  
+- 产品 UI 里混入 Carbon 或其他图标库（Frontend 只用 `lucide-react`）  
 - 在 PPT 幻灯片上使用复杂多色 SVG 图标库

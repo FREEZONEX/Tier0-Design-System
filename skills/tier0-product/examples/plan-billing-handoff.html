@@ -1,0 +1,1368 @@
+<title>Tier0 Plan &amp; Billing</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* 布局：Tier0 设置页外壳（App 侧栏 + Settings 菜单）+ 862px 内容区；顶部为原型控制条（非产品 UI）。
+   颜色全部来自仓库 packages/theme/src/variables.scss → themes.scss → tailwind.css 三层 token，原样搬运。 */
+:root {
+  /* ---- 原色阶 variables.scss（仅用到的部分） ---- */
+  --tier0-v-primary-white: #fff;
+  --tier0-v-bg-white: #fcfcfc;
+  --tier0-v-fx-green-50: #f7fde8; --tier0-v-fx-green-100: #e7f9b9; --tier0-v-fx-green-200: #dcf797;
+  --tier0-v-fx-green-300: #cef368; --tier0-v-fx-green-500: #b2ed1d; --tier0-v-fx-green-600: #a2db1a;
+  --tier0-v-fx-green-700: #7ea815; --tier0-v-fx-green-800: #628210; --tier0-v-fx-green-deep: #73b200;
+  --tier0-v-grey-50: #f9f9f9; --tier0-v-grey-100: #f3f3f3; --tier0-v-grey-200: #ebebeb;
+  --tier0-v-grey-300: #d9d9d9; --tier0-v-grey-400: #878787;
+  --tier0-v-black-500: #343434; --tier0-v-black-600: #242424; --tier0-v-black-700: #1c1f1e;
+  --tier0-v-black-800: #151a19; --tier0-v-black-900: #050b14; --tier0-v-gray-900: #111827;
+  --tier0-v-error-50: #fef2f2; --tier0-v-error-100: #fee2e2; --tier0-v-error-200: #fecaca;
+  --tier0-v-error-300: #fca5a5; --tier0-v-error-500: #ef4444; --tier0-v-error-600: #dc2626;
+  --tier0-v-warning-100: #fefaf5; --tier0-v-warning-200: #fbf2cb; --tier0-v-warning-300: #fde57e;
+  --tier0-v-warning-500: #fbbc55; --tier0-v-warning-600: #e9a23b; --tier0-v-warning-700: #c8911a;
+  --tier0-v-success-100: #effdf6; --tier0-v-success-200: #d9f9e6; --tier0-v-success-300: #b8f1d2;
+  --tier0-v-success-500: #6ad09d; --tier0-v-success-600: #53b483;
+  --tier0-v-blue-50: #eff6ff; --tier0-v-blue-200: #bfdbfe; --tier0-v-blue-300: #93c5fd;
+  --tier0-v-blue-500: #3b82f6; --tier0-v-blue-600: #2563eb;
+  --tier0-v-amber-50: #fffbeb; --tier0-v-amber-300: #fcd34d; --tier0-v-amber-600: #d97706;
+  --tier0-v-violet-50: #f5f3ff; --tier0-v-violet-600: #7c3aed;
+
+  /* ---- 语义层 themes.scss :root ---- */
+  --tier0-bg-color: var(--tier0-v-primary-white);
+  --tier0-bg-secondary: var(--tier0-v-grey-200);
+  --tier0-bg-accent: var(--tier0-v-grey-100);
+  --tier0-bg-tertiary: var(--tier0-v-grey-50);
+  --tier0-bg-subtle: var(--tier0-v-bg-white);
+  --tier0-text-color: var(--tier0-v-black-900);
+  --tier0-text-secondary: var(--tier0-v-black-600);
+  --tier0-text-accent: var(--tier0-v-black-500);
+  --tier0-text-tertiary: var(--tier0-v-grey-400);
+  --tier0-text-placeholder: var(--tier0-v-grey-300);
+  --tier0-border-secondary: var(--tier0-v-grey-100);
+  --tier0-theme-primary: var(--tier0-v-black-900);
+  --tier0-theme-highlight: var(--tier0-v-fx-green-500);
+  --tier0-primary: var(--tier0-theme-primary);
+  --tier0-primary-foreground: var(--tier0-v-primary-white);
+  --tier0-primary-hover: var(--tier0-v-black-700);
+  --tier0-highlight: var(--tier0-theme-highlight);
+  --tier0-highlight-foreground: var(--tier0-v-black-900);
+  --tier0-highlight-deep: var(--tier0-v-fx-green-deep);
+  --tier0-highlight-bg-primary: var(--tier0-v-fx-green-300);
+  --tier0-highlight-bg-secondary: var(--tier0-v-fx-green-200);
+  --tier0-highlight-bg-accent: var(--tier0-v-fx-green-100);
+  --tier0-highlight-bg-tertiary: var(--tier0-v-fx-green-50);
+  --tier0-highlight-text: var(--tier0-v-fx-green-600);
+  --tier0-highlight-text-deep: var(--tier0-v-fx-green-800);
+  --tier0-highlight-text-accent: var(--tier0-v-fx-green-700);
+  --tier0-highlight-border: var(--tier0-v-fx-green-300);
+  --tier0-success-bg: var(--tier0-v-success-500);
+  --tier0-success-color: var(--tier0-v-success-600);
+  --tier0-success-secondary: var(--tier0-v-success-300);
+  --tier0-success-accent: var(--tier0-v-success-200);
+  --tier0-success-tertiary: var(--tier0-v-success-100);
+  --tier0-error-color: var(--tier0-v-error-600);
+  --tier0-error-secondary: var(--tier0-v-error-300);
+  --tier0-error-accent: var(--tier0-v-error-200);
+  --tier0-error-tertiary: var(--tier0-v-error-100);
+  --tier0-warning-color: var(--tier0-v-warning-500);
+  --tier0-warning-strong: var(--tier0-v-warning-700);
+  --tier0-warning-fill: var(--tier0-v-warning-600);
+  --tier0-warning-secondary: var(--tier0-v-warning-300);
+  --tier0-warning-accent: var(--tier0-v-warning-200);
+  --tier0-warning-tertiary: var(--tier0-v-warning-100);
+  --tier0-blue-tertiary: var(--tier0-v-blue-50);
+  --tier0-blue-secondary: var(--tier0-v-blue-200);
+  --tier0-blue-accent: var(--tier0-v-blue-300);
+  --tier0-blue-color: var(--tier0-v-blue-600);
+  --tier0-amber-tertiary: var(--tier0-v-amber-50);
+  --tier0-amber-secondary: var(--tier0-v-amber-300);
+  --tier0-amber-color: var(--tier0-v-amber-600);
+  --radius: 0.5rem;
+  --foreground: var(--tier0-v-black-900);
+  --background: var(--tier0-v-primary-white);
+  --popover: var(--tier0-v-primary-white);
+  --popover-foreground: var(--tier0-v-black-900);
+  --primary: var(--tier0-primary);
+  --primary-foreground: var(--tier0-primary-foreground);
+  --muted: oklch(97% 0 0deg);
+  --muted-foreground: var(--tier0-v-grey-400);
+  --accent: var(--tier0-v-grey-100);
+  --accent-foreground: var(--tier0-v-black-900);
+  --destructive: var(--tier0-v-error-600);
+  --destructive-hover: var(--tier0-v-error-500);
+  --border: var(--tier0-v-grey-200);
+  --input: oklch(92.2% 0 0deg);
+  --ring: oklch(70.8% 0 0deg);
+  --dialog-title: var(--tier0-v-gray-900);
+  --tab-line: var(--tier0-v-fx-green-700);
+  /* 原型自用：模块分类色（取仓库 cat / command-accent 已有色阶，不新增色值） */
+  --proto-mod-1: var(--tier0-v-fx-green-deep);
+  --proto-mod-2: var(--tier0-v-blue-600);
+  --proto-mod-3: var(--tier0-v-violet-600);
+  --font-app: 'IBM Plex Sans', 'PingFang SC', 'Noto Sans SC', system-ui, sans-serif;
+  --font-display-sans: 'Inter', 'IBM Plex Sans', system-ui, sans-serif;
+  --font-code: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+}
+/* 暗色：themes.scss .dark 原样映射 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --tier0-bg-color: var(--tier0-v-black-900); --tier0-bg-secondary: var(--tier0-v-black-800);
+    --tier0-bg-accent: var(--tier0-v-black-700);
+    --tier0-bg-tertiary: color-mix(in oklab, var(--tier0-v-black-800) 90%, transparent);
+    --tier0-bg-subtle: var(--tier0-v-black-800); --tier0-text-color: var(--tier0-v-primary-white);
+    --tier0-text-secondary: #c9cccb; --tier0-text-tertiary: var(--tier0-v-grey-400);
+    --foreground: oklch(98.5% 0 0deg); --background: var(--tier0-v-black-900);
+    --popover: var(--tier0-v-black-900); --popover-foreground: oklch(98.5% 0 0deg);
+    --muted: oklch(26.9% 0 0deg); --accent: var(--tier0-v-black-700); --accent-foreground: oklch(98.5% 0 0deg);
+    --border: var(--tier0-v-black-800); --input: oklch(100% 0 0deg / 15%); --ring: oklch(55.6% 0 0deg);
+    --dialog-title: var(--tier0-v-primary-white);
+    --tier0-highlight-bg-tertiary: color-mix(in oklab, var(--tier0-v-fx-green-500) 10%, transparent);
+    --tier0-warning-accent: color-mix(in oklab, var(--tier0-v-warning-500) 14%, transparent);
+    --tier0-success-tertiary: color-mix(in oklab, var(--tier0-v-success-500) 12%, transparent);
+    --tier0-error-tertiary: color-mix(in oklab, var(--tier0-v-error-500) 16%, transparent);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --tier0-bg-color: var(--tier0-v-black-900); --tier0-bg-secondary: var(--tier0-v-black-800);
+  --tier0-bg-accent: var(--tier0-v-black-700);
+  --tier0-bg-tertiary: color-mix(in oklab, var(--tier0-v-black-800) 90%, transparent);
+  --tier0-bg-subtle: var(--tier0-v-black-800); --tier0-text-color: var(--tier0-v-primary-white);
+  --tier0-text-secondary: #c9cccb; --tier0-text-tertiary: var(--tier0-v-grey-400);
+  --foreground: oklch(98.5% 0 0deg); --background: var(--tier0-v-black-900);
+  --popover: var(--tier0-v-black-900); --popover-foreground: oklch(98.5% 0 0deg);
+  --muted: oklch(26.9% 0 0deg); --accent: var(--tier0-v-black-700); --accent-foreground: oklch(98.5% 0 0deg);
+  --border: var(--tier0-v-black-800); --input: oklch(100% 0 0deg / 15%); --ring: oklch(55.6% 0 0deg);
+  --dialog-title: var(--tier0-v-primary-white);
+  --tier0-highlight-bg-tertiary: color-mix(in oklab, var(--tier0-v-fx-green-500) 10%, transparent);
+  --tier0-warning-accent: color-mix(in oklab, var(--tier0-v-warning-500) 14%, transparent);
+  --tier0-success-tertiary: color-mix(in oklab, var(--tier0-v-success-500) 12%, transparent);
+  --tier0-error-tertiary: color-mix(in oklab, var(--tier0-v-error-500) 16%, transparent);
+  color-scheme: dark;
+}
+html, body { background: var(--background); color: var(--foreground); height: 100%; }
+body { font-family: var(--font-app); -webkit-font-smoothing: antialiased; overflow: hidden; }
+.tabular { font-variant-numeric: tabular-nums; }
+.font-code { font-family: var(--font-code); }
+/* 标注模式 */
+.inspect [data-component] { outline: 1px dashed color-mix(in oklab, var(--tier0-v-blue-600) 55%, transparent); outline-offset: 2px; }
+.inspect [data-component]:hover { outline: 2px solid var(--tier0-v-blue-600); }
+#inspect-tip { position: fixed; z-index: 90; pointer-events: none; max-width: min(420px, calc(100vw - 32px)); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+</style>
+
+<style type="text/tailwindcss">
+@custom-variant dark (&:is(.dark *));
+/* packages/theme/src/tailwind.css @theme inline（原样） */
+@theme inline {
+  --shadow-input: 0 0 0 2px rgb(162 216 26 / 20%);
+  --shadow-input-invalid: 0 0 0 2px color-mix(in srgb, var(--destructive) 20%, transparent);
+  --color-bg: var(--tier0-bg-color);
+  --color-bg-secondary: var(--tier0-bg-secondary);
+  --color-bg-accent: var(--tier0-bg-accent);
+  --color-bg-tertiary: var(--tier0-bg-tertiary);
+  --color-bg-subtle: var(--tier0-bg-subtle);
+  --color-text: var(--tier0-text-color);
+  --color-text-secondary: var(--tier0-text-secondary);
+  --color-text-accent: var(--tier0-text-accent);
+  --color-text-tertiary: var(--tier0-text-tertiary);
+  --color-text-placeholder: var(--tier0-text-placeholder);
+  --color-border-secondary: var(--tier0-border-secondary);
+  --color-theme-primary: var(--tier0-theme-primary);
+  --color-theme-highlight: var(--tier0-theme-highlight);
+  --color-primary-hover: var(--tier0-primary-hover);
+  --color-highlight: var(--tier0-highlight);
+  --color-highlight-foreground: var(--tier0-highlight-foreground);
+  --color-highlight-deep: var(--tier0-highlight-deep);
+  --color-highlight-bg-primary: var(--tier0-highlight-bg-primary);
+  --color-highlight-bg-secondary: var(--tier0-highlight-bg-secondary);
+  --color-highlight-bg-accent: var(--tier0-highlight-bg-accent);
+  --color-highlight-bg-tertiary: var(--tier0-highlight-bg-tertiary);
+  --color-highlight-border: var(--tier0-highlight-border);
+  --color-highlight-text: var(--tier0-highlight-text);
+  --color-highlight-text-accent: var(--tier0-highlight-text-accent);
+  --color-highlight-text-deep: var(--tier0-highlight-text-deep);
+  --color-success: var(--tier0-success-color);
+  --color-success-bg: var(--tier0-success-bg);
+  --color-success-secondary: var(--tier0-success-secondary);
+  --color-success-accent: var(--tier0-success-accent);
+  --color-success-tertiary: var(--tier0-success-tertiary);
+  --color-error: var(--tier0-error-color);
+  --color-error-secondary: var(--tier0-error-secondary);
+  --color-error-accent: var(--tier0-error-accent);
+  --color-error-tertiary: var(--tier0-error-tertiary);
+  --color-warning: var(--tier0-warning-color);
+  --color-warning-strong: var(--tier0-warning-strong);
+  --color-warning-fill: var(--tier0-warning-fill);
+  --color-warning-secondary: var(--tier0-warning-secondary);
+  --color-warning-accent: var(--tier0-warning-accent);
+  --color-warning-tertiary: var(--tier0-warning-tertiary);
+  --color-blue-tertiary: var(--tier0-blue-tertiary);
+  --color-blue-secondary: var(--tier0-blue-secondary);
+  --color-blue-accent: var(--tier0-blue-accent);
+  --color-blue-color: var(--tier0-blue-color);
+  --color-amber-tertiary: var(--tier0-amber-tertiary);
+  --color-amber-secondary: var(--tier0-amber-secondary);
+  --color-amber-color: var(--tier0-amber-color);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: calc(var(--radius) - 2px);
+  --radius-xl: calc(var(--radius) + 2px);
+  --color-dialog-title: var(--dialog-title);
+  --color-tab-line: var(--tab-line);
+  --color-button-highlight: var(--tier0-highlight-bg-primary);
+  --color-button-highlight-hover: var(--tier0-highlight-bg-secondary);
+  --color-button-destructive: var(--destructive);
+  --color-button-destructive-hover: var(--destructive-hover);
+  --color-button-primary: var(--tier0-primary);
+  --color-button-primary-hover: var(--tier0-primary-hover);
+  --font-sans: var(--font-app);
+  --font-display: var(--font-display-sans);
+  --color-mod-1: var(--proto-mod-1);
+  --color-mod-2: var(--proto-mod-2);
+  --color-mod-3: var(--proto-mod-3);
+}
+@layer base {
+  * { @apply border-border outline-ring/50; }
+}
+</style>
+
+<div id="proto-bar" class="fixed z-[55] flex flex-col items-end" style="right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); max-width: calc(100vw - 32px);"></div>
+
+<div id="app" class="flex h-full overflow-hidden bg-background text-foreground">
+  <aside class="hidden h-full w-[234px] shrink-0 flex-col overflow-hidden border-r border-border bg-bg-tertiary px-4 py-4 xl:flex" data-component="AppSidebar（既有外壳，非本次范围）">
+    <div class="mb-5 flex items-center gap-2 px-1">
+      <span class="flex size-6 items-center justify-center rounded-sm bg-blue-tertiary text-sm font-semibold text-blue-color">F</span>
+      <span class="text-sm font-semibold">FREEZONEX</span>
+      <i data-lucide="chevrons-up-down" class="size-3.5 text-text-tertiary"></i>
+    </div>
+    <nav class="flex flex-col gap-0.5 text-sm text-text" id="app-nav"></nav>
+    <div class="mt-auto rounded-md border border-highlight-border bg-highlight-bg-tertiary p-3">
+      <div class="flex items-center justify-between gap-2">
+        <div><p class="text-sm font-medium">Upgrade your plan</p><p class="text-xs text-text-tertiary">Unlock more features</p></div>
+        <span class="flex size-7 items-center justify-center rounded-full bg-button-highlight"><i data-lucide="zap" class="size-4"></i></span>
+      </div>
+    </div>
+  </aside>
+  <aside class="hidden h-full w-[248px] shrink-0 overflow-hidden border-r border-border px-4 py-5 lg:block" data-component="Settings 菜单（既有，非本次范围）" id="settings-nav"></aside>
+  <main id="main" class="h-full min-w-0 flex-1 overflow-y-auto" style="padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));">
+    <div id="page" class="mx-auto w-full max-w-[887px] pt-12 pb-72 lg:box-content lg:px-5"></div>
+  </main>
+</div>
+
+<div id="dialog-root"></div>
+<div id="toast-root" class="pointer-events-none fixed inset-x-0 z-[80] flex flex-col items-center gap-2" style="top: calc(env(safe-area-inset-top, 0px) + 16px); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));"></div>
+<div id="inspect-tip" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11/dist/index.global.js"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+(function () {
+'use strict';
+
+/* =========================================================================
+ * 1. @tier0/ui 组件（class 字符串逐字取自仓库源码，便于开发直接对照）
+ * ========================================================================= */
+const SRC = {
+  button: 'packages/ui/components/ui/button.tsx',
+  dialog: 'packages/ui/components/cn-dialog.tsx',
+  tabs: 'packages/ui/components/cn-tabs.tsx',
+  progress: 'packages/ui/components/cn-progress.tsx',
+  tooltip: 'packages/ui/components/ui/tooltip.tsx',
+  input: 'packages/ui/components/ui/input.tsx',
+  table: 'packages/ui/components/ui/table.tsx',
+  dropdown: 'packages/ui/components/ui/dropdown-menu.tsx',
+  sonner: 'packages/ui/components/ui/sonner.tsx',
+  chart: 'packages/ui/components/ui/chart.tsx',
+  plan: 'apps/saas-dashboard/app/ws/[workspaceId]/(pages)/settings/components/workspace/plan/',
+};
+const P = SRC.plan;
+
+// button.tsx → buttonVariants（cva）
+const BTN_BASE = "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none cursor-pointer [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]";
+const BTN_VARIANT = {
+  default: 'bg-button-highlight text-highlight-foreground hover:bg-button-highlight-hover',
+  primary: 'bg-button-primary text-white shadow-xs hover:bg-button-primary-hover',
+  destructive: 'bg-button-destructive text-white shadow-xs hover:bg-button-destructive-hover focus-visible:ring-destructive/20',
+  outline: 'border bg-background shadow-xs hover:bg-bg-tertiary hover:text-text dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
+  secondary: 'bg-bg-accent text-text shadow-xs hover:bg-bg-tertiary',
+  ghost: 'hover:bg-bg-tertiary hover:text-text',
+  link: 'text-text underline-offset-4 hover:underline',
+};
+const BTN_SIZE = { sm: 'h-8 rounded-md gap-1.5 px-4', md: 'h-9 rounded-md px-4 py-2', lg: 'h-10 rounded-md px-4', icon: 'size-9' };
+
+// billing-date.tsx → TOOLTIP_CONTENT_CLASS
+const TOOLTIP_CONTENT_CLASS = 'bg-button-primary text-primary-foreground rounded-[2px] px-2 py-1.5 text-sm leading-[22px] font-normal whitespace-nowrap shadow-[0px_2px_8px_0px_rgba(0,0,0,0.15)]';
+
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const ic = (name, cls = '') => `<i data-lucide="${name}" class="${cls}"></i>`;
+const fmt = (n) => Number(n).toLocaleString('en-US');
+const money = (n) => (n < 0 ? '- $' : '$') + fmt(Math.abs(n));
+const meta = (component, src, props = '') =>
+  `data-component="${esc(component)}" data-src="${esc(src)}"${props ? ` data-props="${esc(props)}"` : ''}`;
+
+function Button({ variant = 'default', size = 'sm', label = '', icon = '', iconRight = '', action = '', arg = '', disabled = false, loading = false, cls = '', id = '', name = 'Button' }) {
+  const lead = loading ? ic('loader', 'animate-spin ' + (size === 'sm' ? 'size-4' : 'size-5')) : icon ? ic(icon) : '';
+  // 模拟 cn()（tailwind-merge）：className 带 px-* 时替换尺寸里的默认 px-4
+  const sizeCls = /(^|\s)px-/.test(cls) ? BTN_SIZE[size].replace(/\bpx-\d+\b/, '') : BTN_SIZE[size];
+  return `<button type="button" data-slot="button" ${meta(name, SRC.button, `variant="${variant}" size="${size}"${cls ? ` className="${cls}"` : ''}${loading ? ' loading' : ''}${disabled ? ' disabled' : ''}`)}
+    class="${BTN_BASE} ${BTN_VARIANT[variant]} ${sizeCls} ${loading ? 'cursor-wait opacity-80' : ''} ${cls}"
+    ${id ? `id="${id}"` : ''} ${action ? `data-action="${action}"` : ''} ${arg !== '' ? `data-arg="${esc(arg)}"` : ''} ${disabled || loading ? 'disabled' : ''}>${lead}${label}${iconRight ? ic(iconRight) : ''}</button>`;
+}
+
+// cn-progress.tsx（默认 color='bg-primary' trackColor='bg-primary/20'）
+function CnProgress(value, color, className = '') {
+  // 等同 cn('relative h-2 …', trackColor, className)：传入高度类时替换默认 h-2
+  const height = /\bh-/.test(className) ? '' : 'h-2';
+  return `<div data-slot="progress" ${meta('CnProgress', SRC.progress, `value={${value}}${color ? ` color="${color}"` : ''}${className ? ` className="${className}"` : ''}`)} class="relative ${height} w-full overflow-hidden rounded-full bg-primary/20 ${className}">
+    <div data-slot="progress-indicator" class="h-full w-full flex-1 transition-all ${color || 'bg-primary'}" style="transform: translateX(-${100 - Math.min(100, value || 0)}%)"></div></div>`;
+}
+
+// lib/usage-progress.ts → getUsageBarColor：<70 默认，[70,90] 橙，>90 红
+function getUsageBarColor(p) { if (p > 90) return 'bg-error'; if (p >= 70) return 'bg-warning'; return undefined; }
+function usageTextColor(p) { if (p > 90) return 'text-destructive'; if (p >= 70) return 'text-warning-strong'; return 'text-text-tertiary'; }
+
+// 新增：分段进度（总量 ≤ 10 时使用，> 10 回落 CnProgress）
+function SegmentedProgress(used, total, color) {
+  if (total > 10) return CnProgress(Math.round((used / Math.max(total, 1)) * 100), color || undefined);
+  let segs = '';
+  for (let i = 0; i < total; i++) segs += `<span class="h-2 flex-1 rounded-[2px] ${i < used ? color || 'bg-primary' : 'bg-bg-accent'}"></span>`;
+  return `<div ${meta('SegmentedProgress（新增）', P + 'segmented-progress.tsx', `used={${used}} total={${total}}`)} class="flex gap-0.5" role="meter" aria-valuenow="${used}" aria-valuemax="${total}">${segs}</div>`;
+}
+
+// tooltip.tsx（hover 展示；内容 class 用 TOOLTIP_CONTENT_CLASS）
+function HelpTip(text, size = 'size-3.5') {
+  return `<span class="group relative inline-flex align-middle" ${meta('Tooltip + CircleHelp', SRC.tooltip, 'side="bottom" sideOffset={8}')}>
+    <button type="button" aria-label="${esc(text)}" class="focus-visible:ring-ring/50 inline-flex items-center justify-center rounded-full text-text-tertiary outline-none focus-visible:ring-[3px]">${ic('circle-help', size)}</button>
+    <span role="tooltip" class="pointer-events-none absolute top-full left-1/2 z-50 mt-2 -translate-x-1/2 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 ${TOOLTIP_CONTENT_CLASS}">${esc(text)}</span></span>`;
+}
+
+// AntTag（@tier0/business getWsStatusTag，theme=success）
+function StatusTag(kind) {
+  const map = {
+    active: ['border-success-secondary bg-success-tertiary text-success', 'circle-check', 'Active'],
+    canceled: ['border-warning-secondary bg-warning-accent text-warning-strong', 'clock-4', 'Ends Nov 8'],
+  };
+  const [c, i, l] = map[kind];
+  return `<span ${meta('getWsStatusTag → AntTag', 'packages/business/src/ui/workspace-ui.tsx')} class="inline-flex h-[22px] items-center gap-1.5 rounded-md border px-2 font-sans text-xs/[14px] font-normal ${c}">${ic(i, 'size-3')}${l}</span>`;
+}
+
+/* =========================================================================
+ * 2. 数据（示例数据，口径见交付说明）
+ * ========================================================================= */
+const TODAY = new Date(2026, 9, 27);
+const CYCLE_START = new Date(2026, 9, 8);
+const RESET = new Date(2026, 10, 8);
+const WS_CREATED = new Date(2026, 7, 24);
+const SEAT_PRICE = 99;
+const MODULES = [
+  { key: 'app', name: 'App Builder', dot: 'bg-mod-1', bar: 'var(--proto-mod-1)' },
+  { key: 'uns', name: 'UNS Agent', dot: 'bg-mod-2', bar: 'var(--proto-mod-2)' },
+  { key: 'anchor', name: 'Anchor', dot: 'bg-mod-3', bar: 'var(--proto-mod-3)' },
+];
+const USERS = [
+  { name: 'Simon Peng', you: true, share: 0.39, last: '6 minutes ago', c: 'bg-highlight-bg-accent text-highlight-text-deep' },
+  { name: 'Joy Shu', share: 0.27, last: '2 hours ago', c: 'bg-blue-tertiary text-blue-color' },
+  { name: 'Ameng Yao', share: 0.17, last: '3 days ago', c: 'bg-success-tertiary text-success' },
+  { name: 'Greta Yan', share: 0.12, last: '5 days ago', c: 'bg-warning-accent text-warning-strong' },
+  { name: 'Kevin Zhou', share: 0.05, last: '7 days ago', c: 'bg-error-tertiary text-destructive' },
+];
+const SCENARIOS = {
+  active: { label: 'Active', planName: 'Base', seats: { base: 1, purchased: 9, used: 6 }, credits: { plan: 1000, purchased: 500 }, target: 806, apps: { used: 4, limit: 5 }, storage: { used: 32.4, limit: 100 } },
+  trial: { label: 'Trial', planName: 'Trial', seats: { base: 3, purchased: 0, used: 2 }, credits: { plan: 500, purchased: 0 }, target: 120, apps: { used: 1, limit: 3 }, storage: { used: 2.1, limit: 10 } },
+  limits: { label: '额度用尽', planName: 'Base', seats: { base: 1, purchased: 9, used: 10 }, credits: { plan: 1000, purchased: 500 }, target: 1500, apps: { used: 5, limit: 5 }, storage: { used: 96.8, limit: 100 } },
+  fresh: { label: '新空间（无用量）', planName: 'Base', seats: { base: 1, purchased: 9, used: 6 }, credits: { plan: 1000, purchased: 500 }, target: 0, apps: { used: 1, limit: 5 }, storage: { used: 0, limit: 100 } },
+};
+
+const dayMs = 86400000;
+const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+const sameDay = (a, b) => a && b && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+const daysBetween = (a, b) => Math.round((b - a) / dayMs);
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const fmtDate = (d) => `${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+const fmtShort = (d) => `${MONTHS[d.getMonth()]} ${d.getDate()}`;
+const fmtSlash = (d) => `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+
+// 每日用量：按日期确定性生成，同一天在任何时间范围下数值一致
+function hash(n) { let x = Math.sin(n * 12.9898) * 43758.5453; return x - Math.floor(x); }
+function rawDay(d) {
+  if (d < WS_CREATED || d > TODAY) return [0, 0, 0];
+  const k = Math.floor(d / dayMs);
+  const wd = d.getDay();
+  const base = (wd === 0 || wd === 6 ? 0.35 : 1) * (0.55 + hash(k) * 0.9);
+  return [base * (0.56 + hash(k + 1) * 0.06), base * (0.24 + hash(k + 2) * 0.05), base * (0.14 + hash(k + 3) * 0.05)];
+}
+let SCALE = 1;
+function calibrate(target) {
+  let sum = 0;
+  for (let d = new Date(CYCLE_START); d <= TODAY; d = addDays(d, 1)) sum += rawDay(d).reduce((a, b) => a + b, 0);
+  SCALE = sum ? target / sum : 0;
+}
+const dayUsage = (d) => rawDay(d).map((v) => v * SCALE);
+function sumRange(from, to) {
+  const m = [0, 0, 0];
+  for (let d = new Date(from); d <= to; d = addDays(d, 1)) dayUsage(d).forEach((v, i) => (m[i] += v));
+  return m.map(Math.round);
+}
+
+/* =========================================================================
+ * 3. 状态
+ * ========================================================================= */
+const S = {
+  tab: 'plan', role: 'owner', scenario: 'active', hasCard: true, pendingRemoval: 1, canceled: false,
+  range: '30d', custom: null, breakdown: 'module', inspect: false, menu: null, picker: null,
+  dialog: null, dlg: {}, data: null, drawer: false,
+  panelOpen: window.innerWidth >= 640,
+};
+function loadScenario(key) {
+  S.scenario = key;
+  S.data = JSON.parse(JSON.stringify(SCENARIOS[key]));
+  calibrate(S.data.target);
+  if (key === 'trial') { S.pendingRemoval = 0; S.canceled = false; }
+  if (key === 'fresh') S.pendingRemoval = 0;
+  if (key === 'trial' && S.tab === 'billing') S.tab = 'plan';
+}
+loadScenario('active');
+
+const isOwner = () => S.role === 'owner';
+const isTrial = () => S.scenario === 'trial';
+const seatTotal = () => S.data.seats.base + S.data.seats.purchased;
+function creditsNow() {
+  const used = Math.min(sumRange(CYCLE_START, TODAY).reduce((a, b) => a + b, 0), S.data.credits.plan + S.data.credits.purchased);
+  const plan = S.data.credits.plan, purchased = S.data.credits.purchased;
+  return { used, total: plan + purchased, plan, purchased, usedPlan: Math.min(used, plan), usedPurchased: Math.max(0, used - plan), modules: sumRange(CYCLE_START, TODAY) };
+}
+
+/* =========================================================================
+ * 4. 原型控制条（非产品 UI）
+ * ========================================================================= */
+function seg(group, options, value) {
+  return `<div class="inline-flex items-center rounded-md border border-border bg-background p-0.5" role="group" aria-label="${group}">${options
+    .map(([v, l]) => `<button type="button" data-action="proto" data-key="${group}" data-arg="${v}" class="h-6 rounded-sm px-2 text-xs ${String(value) === String(v) ? 'bg-bg-accent font-medium text-text' : 'text-text-tertiary hover:text-text'}">${l}</button>`)
+    .join('')}</div>`;
+}
+function renderBar() {
+  const dialogs = [
+    ['addSeats', 'Add Seats'], ['addSeatsPromo', 'Add Seats · 优惠码生效'], ['addSeatsInvalid', 'Add Seats · 优惠码无效'],
+    ['addSeatsError', 'Add Seats · 价格加载失败'], ['addSeatsRestored', 'Add Seats · 绑卡后回跳'], ['confirmPay', 'Confirm Payment'],
+    ['removeSeats', 'Remove Seats'], ['seatsInUse', 'Seats In Use · Owner'], ['seatsInUseMember', 'Seats In Use · 非 Owner'],
+    ['notEnough', 'Not enough Builder seats'], ['buyCredits', 'Buy AI Credits'], ['cancelPlan', 'Cancel plan?'],
+  ];
+  const badge = '<span class="rounded-sm bg-button-highlight px-1.5 py-0.5 text-[11px] font-semibold text-highlight-foreground">原型</span>';
+  if (!S.panelOpen) {
+    document.getElementById('proto-bar').innerHTML = `<button type="button" data-action="panel" aria-expanded="false"
+      class="inline-flex h-9 items-center gap-2 rounded-full border border-border bg-popover px-3 text-xs font-medium text-text shadow-lg hover:bg-bg-tertiary">${badge}原型控制${ic('chevron-up', 'size-3.5')}</button>`;
+    return;
+  }
+  const row = (label, control) => `<div class="flex items-center justify-between gap-3"><span class="shrink-0 text-text-tertiary">${label}</span>${control}</div>`;
+  document.getElementById('proto-bar').innerHTML = `
+  <div class="w-[340px] max-w-full rounded-lg border border-border bg-popover text-xs text-popover-foreground shadow-xl" role="region" aria-label="原型控制">
+    <div class="flex items-center justify-between border-b border-border px-3 py-2">
+      <span class="flex items-center gap-2 font-medium text-text">${badge}Plan &amp; Billing · 开发交付</span>
+      <button type="button" data-action="panel" aria-expanded="true" aria-label="收起" class="flex size-6 items-center justify-center rounded-sm text-text-tertiary hover:bg-bg-tertiary hover:text-text">${ic('chevron-down', 'size-4')}</button>
+    </div>
+    <div class="flex flex-col gap-2 px-3 py-3">
+      ${row('角色', seg('role', [['owner', 'Owner'], ['builder', 'Builder']], S.role))}
+      <div class="flex flex-col gap-1.5"><span class="text-text-tertiary">场景</span>${seg('scenario', Object.entries(SCENARIOS).map(([k, v]) => [k, v.label]), S.scenario).replace('inline-flex', 'flex flex-wrap')}</div>
+      ${row('已绑卡', seg('hasCard', [['true', '是'], ['false', '否']], S.hasCard))}
+      ${row('待移除席位', seg('pendingRemoval', [['0', '无'], ['1', '1 个']], S.pendingRemoval ? 1 : 0))}
+      ${row('已取消订阅', seg('canceled', [['false', '否'], ['true', '是']], S.canceled))}
+    </div>
+    <div class="flex items-center gap-2 border-t border-border px-3 py-2">
+      <div class="relative">
+        <button type="button" data-action="menu" data-arg="dialogs" class="inline-flex h-7 items-center gap-1 rounded-md border border-border bg-background px-2 text-xs text-text hover:bg-bg-tertiary">弹窗直达 ${ic('chevron-up', 'size-3.5')}</button>
+        ${S.menu === 'dialogs' ? `<div role="menu" class="absolute bottom-full left-0 z-50 mb-1 max-h-[60vh] w-56 overflow-y-auto rounded-md border border-border bg-popover p-1 shadow-md">${dialogs
+          .map(([k, l]) => `<button type="button" data-action="openDialog" data-arg="${k}" class="flex w-full rounded-sm px-2 py-1.5 text-left text-xs text-text hover:bg-accent">${l}</button>`).join('')}
+          <div class="my-1 h-px bg-border"></div>
+          <button type="button" data-action="toastDemo" class="flex w-full rounded-sm px-2 py-1.5 text-left text-xs text-text hover:bg-accent">Toast 示例（成功 + 失败）</button></div>` : ''}
+      </div>
+      <button type="button" data-action="inspect" aria-pressed="${S.inspect}" class="inline-flex h-7 items-center gap-1.5 rounded-md border px-2 text-xs ${S.inspect ? 'border-blue-accent bg-blue-tertiary text-blue-color' : 'border-border bg-background text-text hover:bg-bg-tertiary'}">${ic('scan-search', 'size-3.5')}组件标注</button>
+      <button type="button" data-action="drawer" class="ml-auto inline-flex h-7 items-center gap-1.5 rounded-md border border-border bg-background px-2 text-xs text-text hover:bg-bg-tertiary">${ic('book-open', 'size-3.5')}交付说明</button>
+    </div>
+  </div>`;
+}
+
+function renderShell() {
+  const nav = [['UNS'], ['house', 'Home'], ['plug', 'Connect'], ['list-tree', 'Namespace'], ['App'], ['message-square-code', 'Builder'], ['library', 'Library'], ['layout-grid', 'All Apps'], ['play', 'Launchpad'], ['Anchor'], ['box', 'Model'], ['clapperboard', 'Scene']];
+  document.getElementById('app-nav').innerHTML = nav.map((n) => n.length === 1
+    ? `<p class="mt-3 mb-1 px-2 text-xs text-text-tertiary">${n[0]}</p>`
+    : `<a class="flex h-8 items-center gap-2.5 rounded-md px-2 hover:bg-bg-accent" href="#plan" tabindex="-1">${ic(n[0], 'size-4')}${n[1]}</a>`).join('');
+  const sn = [['user-round', 'User'], 'Profile', 'Security', 'Preferences', ['layers', 'Workspace'], 'General', 'Members', '*Plan', 'Usage', 'Audit Log', 'API Keys', ['blocks', 'Integrations'], 'API Tokens', 'OAuth Apps'];
+  document.getElementById('settings-nav').innerHTML = sn.map((n) => Array.isArray(n)
+    ? `<p class="mt-4 mb-1 flex items-center gap-2 px-2 text-xs text-text-tertiary first:mt-0">${ic(n[0], 'size-3.5')}${n[1]}</p>`
+    : `<p class="flex h-8 items-center rounded-md px-2 text-sm ${n[0] === '*' ? 'bg-bg-accent font-medium' : ''}">${n.replace('*', '')}</p>`).join('');
+}
+
+/* =========================================================================
+ * 5. 页面：SettingComHeader + CnTabs
+ * ========================================================================= */
+function renderPage() {
+  const tabs = [['plan', 'file-chart-column', 'Plan'], ['usage', 'chart-line', 'Usage']];
+  if (isOwner()) tabs.push(['billing', 'credit-card', 'Billing']);
+  if (!isOwner() && S.tab === 'billing') S.tab = 'plan';
+  const trigger = "inline-flex flex-1 items-center justify-center whitespace-nowrap text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 cursor-pointer text-text-tertiary data-[state=active]:border-b-tab-line data-[state=active]:text-foreground h-12 gap-2.5 rounded-none border-b-2 border-transparent bg-transparent p-0 shadow-none";
+  let body = '';
+  if (S.tab === 'plan') body = renderPlanTab();
+  if (S.tab === 'usage') body = renderUsageTab();
+  if (S.tab === 'billing') body = renderBillingTab();
+  return `
+  <div class="flex flex-col gap-1.5" ${meta('PlanContent', P + 'index.tsx')}>
+    <div ${meta('SettingComHeader', 'apps/saas-dashboard/app/ws/[workspaceId]/(pages)/settings/components/setting-com-header.tsx', 'showSeparator={false}')}>
+      <span class="font-display text-3xl font-semibold">Plan</span>
+      <p class="text-text-secondary mt-1.5 text-sm font-medium">Manage your workspace plan, subscription resources, and billing</p>
+    </div>
+    <div class="flex flex-col gap-2" ${meta('CnTabs', SRC.tabs, 'type="line" tabListWrapClassName="border-border border-b"')}>
+      <div class="flex items-center justify-start border-border border-b overflow-x-auto">
+        <div role="tablist" class="text-muted-foreground inline-flex w-fit items-center justify-center rounded-lg bg-transparent h-12 gap-6 p-0">
+          ${tabs.map(([k, i, l]) => `<button type="button" role="tab" data-action="tab" data-arg="${k}" data-state="${S.tab === k ? 'active' : 'inactive'}" aria-selected="${S.tab === k}" class="${trigger}">${ic(i, 'size-3.5')}${l}</button>`).join('')}
+        </div>
+      </div>
+      <div role="tabpanel" class="flex-1 outline-none">${body}</div>
+    </div>
+  </div>`;
+}
+
+/* ---------- Plan tab ---------- */
+function renderPlanTab() {
+  const d = S.data, owner = isOwner(), trial = isTrial();
+  const cr = creditsNow();
+  // Figma 17844:85586：标签 14/16 灰，值 15/22 Medium，两列各 168px、间距 24
+  const fact = (label, value) => `<div class="flex w-[168px] flex-col gap-1"><span class="text-sm/4 text-text-tertiary">${label}</span><span class="text-[15px]/[22px] font-medium tabular">${value}</span></div>`;
+  const facts = trial
+    ? fact('Trial ends', fmtDate(RESET))
+    : fact('Billing cycle', 'Monthly') + fact(S.canceled ? 'Plan ends' : 'Plan expires', fmtDate(RESET));
+  const footNote = trial
+    ? 'Upgrade before the trial ends to keep your apps and data'
+    : S.canceled ? `Auto-renew off · Plan ends on ${fmtDate(RESET)}` : 'Auto-renew on · Cancel anytime in Billing';
+
+  return `<div class="flex flex-col gap-8 pt-8">
+    <section class="flex flex-col gap-4" ${meta('Current Plan 段', P + 'index.tsx → planTab')}>
+      <h2 class="font-display text-text text-xl font-medium">Current Plan</h2>
+      <div class="border-border overflow-hidden rounded-md border">
+        <div class="flex flex-wrap items-center gap-x-8 gap-y-4 py-5 pr-6 pl-5">
+          <p class="flex w-[280px] items-center gap-2.5 font-display text-[28px]/9 font-medium">${d.planName}${StatusTag(S.canceled ? 'canceled' : 'active')}</p>
+          <span class="hidden h-[50px] w-px bg-border sm:block"></span>
+          <div class="flex flex-wrap gap-6">${facts}</div>
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-3 border-t border-border bg-bg-subtle px-5 py-2.5">
+          <span class="text-sm/6 text-text-tertiary">${footNote}</span>
+          ${Button({ label: 'Upgrade Plan', action: 'upgrade' })}
+        </div>
+      </div>
+      <div class="grid gap-4 md:grid-cols-2">
+        ${renderSeatsCard()}
+        ${renderCreditsCard(cr)}
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4" ${meta('Apps & Resources 段', P + 'applications-card.tsx')}>
+      <h2 class="font-display text-text text-xl font-medium">Apps &amp; Resources</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        ${resourceCard('layout-grid', 'Applications', 'Deployed', d.apps.used, d.apps.limit, '')}
+        ${resourceCard('database', 'Storage', 'Used', d.storage.used, d.storage.limit, ' GB')}
+      </div>
+    </section>
+  </div>`;
+}
+
+// 卡片头：16px 图标（lucide，stroke #878787）+ 6px 间距 + 16/24 Medium 灰色标题
+function cardHead(icon, title, extra = '', right = '') {
+  return `<div class="flex h-6 items-center justify-between gap-5">
+    <div class="flex min-w-0 items-center gap-2"><span class="flex items-center gap-1.5 text-base/6 font-medium text-text-tertiary">${ic(icon, 'size-4')}${title}</span>${extra}</div>${right}</div>`;
+}
+
+// 大数字行：Inter 32 Medium + 14 灰色「/ 总量  x% used」
+function bigNumber(value, total, pct, unitText = 'used') {
+  return `<p class="flex min-w-0 items-baseline gap-1.5 whitespace-nowrap tabular"><span class="font-display text-[32px]/[39px] font-medium">${value}</span><span class="text-sm text-text-tertiary">/ ${total}</span><span class="ml-1.5 text-sm ${usageTextColor(pct)}">${pct}% ${unitText}</span></p>`;
+}
+
+// 进度条下方标签：12 灰 key + 12 Medium 值，间距 8
+const barLabel = (key, value, help = '') => `<span class="flex items-center gap-2 text-xs/6 tabular"><span class="flex items-center gap-1 text-text-tertiary">${key}${help}</span><span class="font-medium text-text">${value}</span></span>`;
+const dashed = '<div class="py-2"><div class="border-border border-t border-dashed"></div></div>';
+
+function renderSeatsCard() {
+  const s = S.data.seats, owner = isOwner(), trial = isTrial();
+  const total = seatTotal();
+  const pct = Math.round((s.used / total) * 100);
+  const planUsed = Math.min(s.used, s.base);
+  const purUsed = Math.max(0, s.used - s.base);
+  let actions = '';
+  if (owner) {
+    // 卡内按钮 Figma 左右内边距 8–12px（窄于 Button sm 默认 px-4），用 className 覆盖
+    const remove = Button({ variant: 'secondary', label: 'Remove Seats', action: 'openDialog', arg: 'removeSeats', disabled: s.purchased === 0, cls: 'px-3' });
+    const add = trial
+      ? Button({ label: 'Add Seats', disabled: true, cls: 'px-3' })
+      : S.hasCard
+        ? Button({ label: 'Add Seats', action: 'openDialog', arg: 'addSeats', cls: 'px-3' })
+        : Button({ variant: 'primary', label: 'Add Card', icon: 'credit-card', action: 'addCard', cls: 'px-3' });
+    const cardHint = !trial && !S.hasCard
+      ? '<span class="pointer-events-none absolute top-full right-0 mt-1 whitespace-nowrap text-xs/[14px] text-warning-strong">Required to add seats</span>'
+      : '';
+    actions = `<div class="flex shrink-0 items-center gap-2">${remove}<span class="relative">${add}${cardHint}</span></div>`;
+  }
+  // Figma：无描边，padding 6/10，间距 8，13/20 正文，Undo Removal 13 Medium
+  const pending = S.pendingRemoval && !trial
+    ? `<div class="bg-warning-accent flex items-center gap-2 rounded-md px-2.5 py-1.5" ${meta('待移除提示', P + 'builder-seats-card.tsx')}>
+        ${ic('circle-alert', 'text-warning size-4 shrink-0')}
+        <span class="flex-1 text-[13px]/5">${S.pendingRemoval} seat${S.pendingRemoval > 1 ? 's' : ''} will be removed on ${fmtShort(RESET)}</span>
+        ${owner ? `<button type="button" data-action="cancelRemoval" class="text-warning-strong text-[13px]/5 font-medium hover:underline">Undo Removal</button>` : ''}</div>` : '';
+  const billing = !trial && s.purchased
+    ? `<div>${dashed}<div class="flex flex-wrap gap-x-4 gap-y-2 pt-1 text-sm">
+        <span class="flex min-w-[193px] items-center gap-2"><span class="flex items-center gap-1 text-text-tertiary">Billing cycle${HelpTip('Only additionally purchased seats are billed monthly.')}</span><span class="font-medium">Monthly</span></span>
+        <span class="flex items-center gap-2"><span class="text-text-tertiary">Next billing</span><span class="font-medium tabular">${fmtDate(RESET)}</span></span>
+      </div></div>` : '';
+  return `<section class="border-border flex flex-col gap-5 rounded-md border p-4" ${meta('BuilderSeatsCard', P + 'builder-seats-card.tsx')}>
+    ${cardHead('blocks', 'Builder Seats')}
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between gap-3 max-sm:flex-wrap">${bigNumber(s.used, total, pct)}${actions}</div>
+    </div>
+    <div class="flex flex-col gap-2">
+      ${SegmentedProgress(s.used, total, getUsageBarColor(pct))}
+      <div class="flex items-center justify-between">${barLabel('Plan', `${planUsed} / ${s.base}`)}${s.purchased ? barLabel('Purchased', `${purUsed} / ${s.purchased}`) : ''}</div>
+    </div>
+    ${billing}
+    ${pending}
+  </section>`;
+}
+
+function renderCreditsCard(cr) {
+  const owner = isOwner();
+  const pct = cr.total ? Math.round((cr.used / cr.total) * 1000) / 10 : 0;
+  const modSum = cr.modules.reduce((a, b) => a + b, 0) || 1;
+  // 模块颜色按用量顺序只排一组；套餐额度用完后，同一组颜色跨过间隔继续排进附加额度
+  let planLeft = Math.min(cr.used, cr.plan);
+  const slices = MODULES.map((m, i) => {
+    const planPart = Math.min(cr.modules[i], planLeft);
+    planLeft -= planPart;
+    return { plan: planPart, extra: cr.modules[i] - planPart, bar: m.bar };
+  });
+  const track = (parts, cap, extraClass, style) => `<div class="flex h-full overflow-hidden rounded-full bg-bg-accent ${extraClass}" ${style}>${parts.map((n, i) => `<span class="h-full" style="width:${cap ? (n / cap) * 100 : 0}%;background:${slices[i].bar}"></span>`).join('')}</div>`;
+  const planStyle = cr.purchased && cr.total ? `style="width:${(cr.plan / cr.total) * 100}%"` : 'style="width:100%"';
+  const bar = `<div class="flex h-2 ${cr.purchased ? 'gap-1' : ''}" role="meter" aria-valuenow="${cr.used}" aria-valuemax="${cr.total}" ${meta('CreditsStackedBar（新增）', P + 'ai-credits-card.tsx', '模块颜色一组往前排；套餐额度与附加额度中间留间隔')}>
+      ${track(slices.map((s) => s.plan), cr.plan, '', planStyle)}
+      ${cr.purchased ? track(slices.map((s) => s.extra), cr.purchased, 'min-w-0 flex-1', '') : ''}
+    </div>`;
+  // 模块明细：行高 24、行距 4；名称 14 Regular text-secondary，数值 14 Medium，占比 14 灰
+  const rowR = (count, p) => `<span class="flex items-center gap-2 tabular"><span class="font-medium">${count}</span><span class="w-9 text-right text-text-tertiary">${p}%</span></span>`;
+  const list = cr.used === 0
+    ? `<div class="flex h-6 items-center justify-between text-sm/6"><span class="text-text-secondary">No usage yet</span>${rowR(0, 0)}</div>`
+    : MODULES.map((m, i) => `<div class="flex h-6 items-center justify-between text-sm/6"><span class="flex items-center gap-2 text-text-secondary"><span class="size-2 rounded-[2px] ${m.dot}"></span>${m.name}</span>${rowR(fmt(cr.modules[i]), Math.round((cr.modules[i] / modSum) * 100))}</div>`).join('');
+  return `<section class="border-border flex flex-col gap-5 rounded-md border p-4" ${meta('AICreditsCard', P + 'ai-credits-card.tsx')}>
+    ${cardHead('coins', 'AI Credits', `<span class="flex gap-1.5 truncate text-xs/[14px] text-text-tertiary">Reset on:<span class="tabular">${fmtDate(RESET)}</span></span>`,
+      `<button type="button" data-action="tab" data-arg="usage" class="inline-flex shrink-0 items-center gap-1 text-sm/6 text-text-tertiary hover:text-text">View usage${ic('arrow-up-right', 'size-4')}</button>`)}
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      ${bigNumber(fmt(cr.used), fmt(cr.total), pct)}
+      ${owner ? Button({ label: 'Buy Credits', action: 'openDialog', arg: 'buyCredits', cls: 'px-3' }) : ''}
+    </div>
+    <div class="flex flex-col gap-2">${bar}
+      <div class="flex items-center justify-between">${barLabel('Plan', `${fmt(cr.usedPlan)} / ${fmt(cr.plan)}`, HelpTip('Includes credits from your plan and seats', 'size-3'))}${cr.purchased ? barLabel('Purchased', `${fmt(cr.usedPurchased)} / ${fmt(cr.purchased)}`) : ''}</div>
+    </div>
+    <div class="flex flex-col gap-2">${dashed}<div class="flex flex-col gap-1">${list}</div></div>
+  </section>`;
+}
+
+function resourceCard(icon, title, label, used, limit, unit) {
+  const pct = limit ? Math.round((used / limit) * 1000) / 10 : 0;
+  const color = getUsageBarColor(pct);
+  // Applications 分段（8px 高、2px 圆角/间距）；Storage 用 CnProgress（Figma 6px 高）
+  const bar = unit ? CnProgress(pct, color, 'h-1.5') : `<div class="py-0.5">${SegmentedProgress(used, limit, color)}</div>`;
+  return `<div class="border-border flex flex-col gap-5 rounded-md border p-4" ${meta(title + ' 卡', P + 'applications-card.tsx')}>
+    ${cardHead(icon, title)}
+    <div class="flex flex-col gap-2">
+      <div class="flex h-7 items-center justify-between gap-2"><span class="text-sm/5">${label}</span>
+        <span class="flex items-center gap-2 tabular"><span class="font-display text-xl/7 font-medium">${fmt(used)} / ${fmt(limit)}${unit}</span><span class="text-sm/6 ${usageTextColor(pct)}">${pct}%</span></span></div>
+      ${bar}
+    </div>
+  </div>`;
+}
+
+/* ---------- Usage tab ---------- */
+const RANGES = { '1h': 'Last hour', '24h': 'Last 24 hours', '7d': 'Last 7 days', '30d': 'Last 30 days', custom: 'Custom range' };
+function rangeDates() {
+  if (S.range === 'custom' && S.custom) return [S.custom.from, S.custom.to];
+  const days = { '1h': 0, '24h': 0, '7d': 6, '30d': 29 }[S.range];
+  return [addDays(TODAY, -days), TODAY];
+}
+function buildSeries() {
+  const [from, to] = rangeDates();
+  if (S.range === '1h' || S.range === '24h') {
+    const n = S.range === '1h' ? 12 : 24;
+    const today = dayUsage(TODAY);
+    return Array.from({ length: n }, (_, i) => {
+      const w = (0.4 + hash(i + 7) * 1.2) / n;
+      const label = S.range === '1h' ? `${String(10).padStart(2, '0')}:${String(i * 5).padStart(2, '0')}` : `${String(i).padStart(2, '0')}:00`;
+      return { label, tip: S.range === '1h' ? `Oct 27, ${label}` : `Oct 27, ${label}`, v: today.map((x) => x * w * (S.range === '1h' ? 0.08 : 1)) };
+    });
+  }
+  const span = daysBetween(from, to) + 1;
+  if (span > 62) {
+    const out = [];
+    for (let d = new Date(from.getFullYear(), from.getMonth(), 1); d <= to; d = new Date(d.getFullYear(), d.getMonth() + 1, 1)) {
+      const a = d < from ? from : d, end = new Date(d.getFullYear(), d.getMonth() + 1, 0), b = end > to ? to : end;
+      out.push({ label: MONTHS[d.getMonth()], tip: `${MONTHS[d.getMonth()]} ${d.getFullYear()}`, v: sumRange(a, b) });
+    }
+    return out;
+  }
+  return Array.from({ length: span }, (_, i) => { const d = addDays(from, i); return { label: fmtShort(d), tip: fmtDate(d), v: dayUsage(d) }; });
+}
+
+function renderUsageTab() {
+  const [from, to] = rangeDates();
+  const cr = creditsNow();
+  const series = buildSeries();
+  const rangeTotal = Math.round(series.reduce((a, s) => a + s.v.reduce((x, y) => x + y, 0), 0));
+  const days = Math.max(1, daysBetween(from, to) + 1);
+  const avg = Math.round(rangeTotal / (S.range === '1h' || S.range === '24h' ? 1 : days));
+  const prevSpan = daysBetween(CYCLE_START, TODAY);
+  const prevStart = new Date(2026, 8, 8);
+  const prev = sumRange(prevStart, addDays(prevStart, prevSpan)).reduce((a, b) => a + b, 0);
+  const delta = prev ? Math.round(((cr.used - prev) / prev) * 100) : 0;
+  const noUsageAtAll = cr.used === 0 && S.scenario === 'fresh';
+  const emptyRange = rangeTotal === 0;
+  const resetIn = daysBetween(TODAY, RESET);
+
+  const tiles = [
+    ['Used this cycle', fmt(cr.used), noUsageAtAll ? '<span class="text-text-tertiary">No usage yet</span>' : `<span class="${delta > 0 ? 'text-destructive' : 'text-success'}">${delta > 0 ? '+' : ''}${delta}% vs Sep to date</span>`],
+    ['Remaining', fmt(cr.total - cr.used), `of ${fmt(cr.plan)} plan${cr.purchased ? ` + ${fmt(cr.purchased)} add-on` : ''}`],
+    ['Daily average', fmt(avg), S.range === '1h' || S.range === '24h' ? 'today' : `${RANGES[S.range].replace('Last', 'last').replace('Custom range', `${days} days`)}`],
+    ['Resets in', `${resetIn} days`, `<span class="text-warning-strong">Resets ${fmtShort(RESET)}</span>`],
+  ];
+  const rangeLabel = S.range === 'custom' ? `${fmtShort(from)} – ${fmtShort(to)}` : RANGES[S.range];
+
+  return `<div class="space-y-4 pt-6" ${meta('UsageContent（新增）', P + 'usage-content.tsx')}>
+    <div class="flex flex-wrap items-center gap-3">
+      <div class="relative">
+        ${Button({ variant: 'outline', size: 'md', label: rangeLabel, icon: 'calendar-days', action: 'menu', arg: 'range', name: 'CnDropdownMenu trigger' })}
+        ${S.menu === 'range' ? renderRangeMenu() : ''}
+        ${S.menu === 'custom' ? renderCustomPicker() : ''}
+      </div>
+      <div class="flex items-center gap-1 text-sm tabular">
+        ${Button({ variant: 'ghost', size: 'icon', icon: 'chevron-left', action: 'shift', arg: '-1', cls: 'size-7', disabled: S.range === '1h' || S.range === '24h' })}
+        <span>${S.range === '1h' || S.range === '24h' ? fmtSlash(TODAY) : `${fmtSlash(from)} – ${fmtSlash(to)}`}</span>
+        ${Button({ variant: 'ghost', size: 'icon', icon: 'chevron-right', action: 'shift', arg: '1', cls: 'size-7', disabled: to >= TODAY })}
+      </div>
+    </div>
+
+    <div class="border-border grid grid-cols-2 overflow-hidden rounded-md border lg:grid-cols-4" ${meta('UsageStatTiles（新增）', P + 'usage-content.tsx')}>
+      ${tiles.map(([l, v, sub], i) => `<div class="flex flex-col gap-1 border-border p-4 ${i % 2 ? '' : 'border-r'} ${i < 2 ? 'border-b lg:border-b-0' : ''} ${i === 1 ? 'lg:border-r' : ''}">
+        <span class="text-xs text-text-tertiary">${l}</span><span class="text-2xl font-medium tabular">${v}</span><span class="text-xs text-text-tertiary">${sub}</span></div>`).join('')}
+    </div>
+
+    <section class="border-border space-y-4 rounded-md border p-4" ${meta('AI Credits Usage 图表', SRC.chart, 'recharts BarChart stackId="credits"')}>
+      <div class="flex items-center justify-between gap-3">
+        <h3 class="text-base font-medium">AI Credits Usage</h3>
+        ${Button({ variant: 'outline', label: 'Export CSV', icon: 'file-down', action: 'exportCsv', disabled: emptyRange })}
+      </div>
+      ${emptyRange ? emptyState(noUsageAtAll ? 'No AI credit usage yet' : 'No usage in this period',
+        noUsageAtAll ? 'Usage will show up here once your team starts using AI features.' : 'Try another date range.',
+        noUsageAtAll ? '' : Button({ variant: 'outline', label: 'Back to last 30 days', action: 'range', arg: '30d' }), 'h-[260px]')
+        : `<div id="chart" class="relative h-[260px] w-full" data-points='${esc(JSON.stringify(series))}'></div>
+           <div class="flex flex-wrap gap-4 text-xs text-text-tertiary">${MODULES.map((m) => `<span class="flex items-center gap-1.5"><span class="size-2 rounded-[2px] ${m.dot}"></span>${m.name}</span>`).join('')}</div>`}
+    </section>
+
+    ${renderBreakdown(series, emptyRange, noUsageAtAll)}
+  </div>`;
+}
+
+function emptyState(title, desc, action = '', h = '') {
+  return `<div class="flex flex-col items-center justify-center gap-1 px-4 py-10 text-center ${h}" ${meta('Empty 空状态', P + 'usage-content.tsx')}>
+    <span class="mb-2 flex size-9 items-center justify-center rounded-md bg-bg-accent text-text-tertiary">${ic('chart-no-axes-column', 'size-4')}</span>
+    <p class="text-sm font-medium">${title}</p><p class="max-w-sm text-xs text-text-tertiary">${desc}</p>${action ? `<div class="mt-3">${action}</div>` : ''}</div>`;
+}
+
+function renderBreakdown(series, empty, noUsageAtAll) {
+  const totals = [0, 0, 0];
+  series.forEach((s) => s.v.forEach((v, i) => (totals[i] += v)));
+  const sum = totals.reduce((a, b) => a + b, 0) || 1;
+  const th = 'text-foreground h-10 px-4 text-left align-middle font-medium whitespace-nowrap text-text-tertiary';
+  const td = 'px-4 py-2.5 align-middle whitespace-nowrap';
+  const shareCell = (p, color) => `<td class="${td}"><div class="flex items-center gap-3"><div class="h-1 w-28 overflow-hidden rounded-full bg-bg-accent"><div class="h-full rounded-full" style="width:${p}%;background:${color}"></div></div><span class="w-9 text-text-tertiary tabular">${p}%</span></div></td>`;
+  let head, rows;
+  if (S.breakdown === 'module') {
+    head = ['Module', 'Credits', 'Share', 'vs last cycle'];
+    rows = MODULES.map((m, i) => {
+      const p = Math.round((totals[i] / sum) * 100);
+      const ch = [10, 14, 21][i];
+      return `<tr class="border-b border-border"><td class="${td}"><span class="flex items-center gap-2"><span class="size-2 rounded-[2px] ${m.dot}"></span>${m.name}</span></td><td class="${td} tabular">${fmt(Math.round(totals[i]))}</td>${shareCell(p, m.bar)}<td class="${td} text-destructive tabular">+${ch}%</td></tr>`;
+    }).join('');
+  } else {
+    head = ['User', 'Credits', 'Share', 'Last active'];
+    rows = USERS.map((u) => `<tr class="border-b border-border"><td class="${td}"><span class="flex items-center gap-2"><span class="flex size-5 items-center justify-center rounded-full text-[10px] font-medium ${u.c}">${u.name[0]}</span>${u.name}${u.you ? '<span class="text-text-tertiary">(You)</span>' : ''}</span></td>
+      <td class="${td} tabular">${fmt(Math.round(sum * u.share))}</td>${shareCell(Math.round(u.share * 100), 'var(--primary)')}<td class="${td} text-text-tertiary">${u.last}</td></tr>`).join('');
+  }
+  const segBtn = (k, l) => `<button type="button" role="tab" data-action="breakdown" data-arg="${k}" data-state="${S.breakdown === k ? 'active' : 'inactive'}" class="h-6 cursor-pointer rounded-sm px-3 text-xs font-medium whitespace-nowrap text-text-tertiary hover:bg-bg-tertiary data-[state=active]:bg-background data-[state=active]:text-text data-[state=active]:shadow-xs">${l}</button>`;
+  return `<section class="border-border space-y-4 rounded-md border p-4" ${meta('Breakdown 明细', P + 'usage-content.tsx')}>
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h3 class="text-base font-medium">Breakdown</h3>
+      <div role="tablist" class="inline-flex h-8 items-center rounded-md border border-border bg-bg-accent p-1" ${meta('CnTabs', SRC.tabs, 'type="card"（tabBarClassName 覆盖为文字分段）')}>${segBtn('module', 'By module')}${segBtn('user', 'By user')}</div>
+    </div>
+    <div class="overflow-x-auto rounded-md border border-border" ${meta('Table', SRC.table)}>
+      <table data-slot="table" class="w-full caption-bottom text-sm">
+        <thead class="[&_tr]:border-b bg-bg-subtle"><tr class="border-b border-border">${head.map((h) => `<th class="${th}">${h}</th>`).join('')}</tr></thead>
+        <tbody class="[&_tr:last-child]:border-0">${empty ? `<tr><td colspan="4">${emptyState(noUsageAtAll ? 'No usage to break down' : 'No usage in this period', noUsageAtAll ? `Credits used by each ${S.breakdown === 'module' ? 'module' : 'member'} will be listed here.` : 'Nothing was used between these dates.')}</td></tr>` : rows}</tbody>
+      </table>
+    </div>
+  </section>`;
+}
+
+function renderRangeMenu() {
+  const item = "focus:bg-accent focus:text-accent-foreground hover:bg-accent relative flex w-full cursor-default items-center justify-between gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none";
+  return `<div class="absolute top-full left-0 z-50 mt-1 w-56 rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md" role="menu" ${meta('CnDropdownMenu', SRC.dropdown)}>
+    ${['1h', '24h', '7d', '30d'].map((k) => `<button type="button" role="menuitemradio" data-action="range" data-arg="${k}" class="${item} ${S.range === k ? 'bg-accent' : ''}">${RANGES[k]}${S.range === k ? ic('check', 'size-4') : ''}</button>`).join('')}
+    <button type="button" role="menuitem" data-action="menu" data-arg="custom" class="${item}">Custom range${ic('chevron-right', 'size-4')}</button>
+    <div class="bg-border -mx-1 my-1 h-px"></div>
+    <p class="px-2 py-1 text-xs text-text-tertiary">UTC+08:00</p>
+  </div>`;
+}
+
+function renderCustomPicker() {
+  const p = S.picker || (S.picker = { month: new Date(2026, 8, 1), from: S.custom?.from || null, to: S.custom?.to || null });
+  const cal = (m, side) => {
+    const first = new Date(m.getFullYear(), m.getMonth(), 1), daysIn = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate();
+    let cells = '';
+    for (let i = 0; i < first.getDay(); i++) cells += '<span></span>';
+    for (let d = 1; d <= daysIn; d++) {
+      const dt = new Date(m.getFullYear(), m.getMonth(), d);
+      const future = dt > TODAY;
+      const sel = sameDay(dt, p.from) || sameDay(dt, p.to);
+      const inR = p.from && p.to && dt > p.from && dt < p.to;
+      cells += `<button type="button" ${future ? 'disabled' : `data-action="pickDay" data-arg="${dt.getTime()}"`} class="h-8 text-sm tabular ${sel ? 'rounded-sm bg-button-highlight font-medium text-highlight-foreground' : inR ? 'bg-highlight-bg-tertiary' : 'rounded-sm hover:bg-bg-tertiary'} ${future ? 'cursor-not-allowed text-text-placeholder' : ''}">${d}</button>`;
+    }
+    const nav = (dir, dis) => `<button type="button" ${dis ? 'disabled' : `data-action="pickMonth" data-arg="${dir}"`} aria-label="${dir < 0 ? 'Previous month' : 'Next month'}" class="flex size-5 items-center justify-center rounded-sm text-text-tertiary hover:text-text disabled:opacity-30">${ic(dir < 0 ? 'chevron-left' : 'chevron-right', 'size-3.5')}</button>`;
+    const nextDisabled = side === 'right' && m.getFullYear() === TODAY.getFullYear() && m.getMonth() === TODAY.getMonth();
+    return `<div class="min-w-0 flex-1">
+      <div class="mb-1 flex h-6 items-center justify-between">${side === 'left' ? nav(-1) : '<span class="size-5"></span>'}<span class="text-sm font-medium">${['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][m.getMonth()]} ${m.getFullYear()}</span>${side === 'right' ? nav(1, nextDisabled) : '<span class="size-5"></span>'}</div>
+      <div class="grid grid-cols-7 gap-y-0.5 text-center">${['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((w) => `<span class="py-1 text-xs text-text-tertiary">${w}</span>`).join('')}${cells}</div></div>`;
+  };
+  const m2 = new Date(p.month.getFullYear(), p.month.getMonth() + 1, 1);
+  // Figma 18001:133253：宽 512，内边距 16，区块间距 16
+  return `<div class="absolute top-full left-0 z-50 mt-1 flex w-[512px] max-w-[calc(100vw-32px)] flex-col gap-4 rounded-md border border-border bg-popover p-4 text-popover-foreground shadow-md" ${meta('Ant Design RangePicker（样式覆盖）', 'antd DatePicker.RangePicker · 规范：日期选择优先 AntD')}>
+    <div class="flex items-center justify-between gap-2"><span class="text-sm font-medium">Custom range</span><span class="text-xs text-text-tertiary">Full days included · UTC+08:00</span></div>
+    <div class="flex min-w-0 flex-col gap-4 sm:flex-row">${cal(p.month, 'left')}${cal(m2, 'right')}</div>
+    <div class="flex items-center justify-between gap-2">
+      ${Button({ variant: 'outline', size: 'md', label: 'Reset', action: 'pickReset' })}
+      <div class="flex gap-2">${Button({ variant: 'outline', size: 'md', label: 'Cancel', action: 'menu', arg: '' })}${Button({ size: 'md', label: 'Apply', action: 'pickApply', disabled: !(p.from && p.to) })}</div>
+    </div>
+  </div>`;
+}
+
+function drawChart() {
+  const el = document.getElementById('chart');
+  if (!el) return;
+  // Tailwind 浏览器版异步生成样式，容器尺寸可能晚于首次绘制，用 ResizeObserver 跟随重绘
+  if (!el._ro && window.ResizeObserver) {
+    el._ro = new ResizeObserver(() => { if (el.clientWidth !== el._w || el.clientHeight !== el._h) drawChart(); });
+    el._ro.observe(el);
+  }
+  el._w = el.clientWidth; el._h = el.clientHeight;
+  const pts = JSON.parse(el.dataset.points);
+  const W = el.clientWidth || 600, H = Math.max(el.clientHeight, 200), padL = 40, padB = 26, padT = 8;
+  const totals = pts.map((p) => p.v.reduce((a, b) => a + b, 0));
+  const maxV = Math.max(...totals, 1);
+  const step = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000].find((s) => maxV / s <= 4) || 1000;
+  const top = Math.ceil(maxV / step) * step;
+  const y = (v) => padT + (H - padT - padB) * (1 - v / top);
+  const bw = (W - padL) / pts.length;
+  const week = pts.length === 7 && S.range !== '1h' && S.range !== '24h';
+  const barW = week ? Math.min(82, Math.max(2, bw - 16)) : Math.max(2, Math.min(28, bw * 0.62));
+  let g = '';
+  for (let t = 0; t <= top; t += step) g += `<line x1="${padL}" x2="${W}" y1="${y(t)}" y2="${y(t)}" stroke="var(--border)" stroke-width="1"/><text x="${padL - 8}" y="${y(t) + 4}" text-anchor="end" font-size="11" fill="var(--muted-foreground)">${fmt(t)}</text>`;
+  const every = Math.ceil(pts.length / 7);
+  let bars = '';
+  pts.forEach((p, i) => {
+    const x = padL + i * bw + (bw - barW) / 2;
+    let acc = 0;
+    p.v.forEach((v, k) => {
+      const h = y(acc) - y(acc + v);
+      if (h > 0) bars += `<rect x="${x}" y="${y(acc + v)}" width="${barW}" height="${h}" fill="${MODULES[k].bar}" shape-rendering="crispEdges"/>`;
+      acc += v;
+    });
+    bars += `<rect data-i="${i}" x="${padL + i * bw}" y="${padT}" width="${bw}" height="${H - padT - padB}" fill="transparent" class="hit"/>`;
+    const last = i === pts.length - 1;
+    if ((i % every === 0 && pts.length - 1 - i >= every / 2) || last) bars += `<text x="${last ? W : x + barW / 2}" y="${H - 6}" text-anchor="${last ? 'end' : 'middle'}" font-size="11" fill="var(--muted-foreground)">${p.label}</text>`;
+  });
+  el.innerHTML = `<svg width="${W}" height="${H}" role="img" aria-label="AI credits usage by day">${g}${bars}</svg><div id="chart-tip" hidden class="pointer-events-none absolute z-10 w-48 rounded-md border border-border bg-popover p-2.5 text-xs text-popover-foreground shadow-md"></div>`;
+  const tip = el.querySelector('#chart-tip');
+  el.querySelectorAll('.hit').forEach((r) => {
+    r.addEventListener('mouseenter', () => {
+      const p = pts[+r.dataset.i];
+      const tot = p.v.reduce((a, b) => a + b, 0);
+      tip.innerHTML = `<div class="mb-1.5 flex justify-between font-medium"><span>${p.tip}</span><span>Total ${fmt(Math.round(tot))}</span></div>` +
+        MODULES.map((m, k) => `<div class="flex justify-between py-0.5"><span class="flex items-center gap-1.5 text-text-tertiary"><span class="size-2 rounded-[2px] ${m.dot}"></span>${m.name}</span><span class="font-medium tabular">${fmt(Math.round(p.v[k] * 10) / 10)}</span></div>`).join('');
+      tip.hidden = false;
+      const bx = +r.getAttribute('x') + bw / 2;
+      tip.style.left = (bx > W / 2 ? Math.max(0, bx - 204) : Math.min(bx + 12, W - 196)) + 'px';
+      tip.style.top = '12px';
+      r.setAttribute('fill', 'color-mix(in oklab, var(--foreground) 5%, transparent)');
+    });
+    r.addEventListener('mouseleave', () => { tip.hidden = true; r.setAttribute('fill', 'transparent'); });
+  });
+}
+
+/* ---------- Billing tab ---------- */
+function renderBillingTab() {
+  if (isTrial()) {
+    return `<section class="space-y-4 pt-6" ${meta('BillingContent', P + 'billing-content.tsx')}>
+      <h2 class="text-text text-xl font-medium">Payment &amp; Billing</h2>
+      ${emptyState('No billing information available', 'No billing information available for your current plan.').replace('chart-no-axes-column', 'receipt-text')}
+    </section>`;
+  }
+  const row = (icon, iconCls, title, desc, btn) => `<div class="border-border flex items-center justify-between gap-4 border-b py-4 last:border-b-0" ${meta('BillingRow', P + 'billing-content.tsx')}>
+    <div class="flex min-w-0 items-start gap-3"><span class="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-sm ${iconCls}">${ic(icon, 'size-4')}</span>
+      <div class="min-w-0"><p class="text-sm font-medium">${title}</p><p class="text-text-tertiary text-sm">${desc}</p></div></div>${btn}</div>`;
+  return `<section class="space-y-4 pt-6" ${meta('BillingContent', P + 'billing-content.tsx')}>
+    <h2 class="text-text text-xl font-medium">Payment &amp; Billing</h2>
+    <div>
+      ${row('credit-card', 'bg-bg-accent text-text', 'Payment method', 'Update payment method in Stripe Customer Portal', Button({ variant: 'secondary', label: 'Manage', iconRight: 'external-link', action: 'portal', cls: 'min-w-[88px]' }))}
+      ${row('receipt-text', 'bg-bg-accent text-text', 'Invoices', 'View billing history in Stripe Customer Portal', Button({ variant: 'secondary', label: 'Open', iconRight: 'external-link', action: 'portal', cls: 'min-w-[88px]' }))}
+      ${S.canceled
+        ? row('circle-x', 'bg-error-tertiary text-destructive', 'Plan cancelled', `Active until ${fmtDate(RESET)}. Add-ons stop at the same time.`, Button({ variant: 'outline', label: 'Undo Cancellation', action: 'undoCancel', loading: S.dlg.undoLoading, cls: 'min-w-[88px]' }))
+        : row('circle-x', 'bg-error-tertiary text-destructive', 'Cancel plan', 'Your plan stays active until the current billing cycle ends. Add-ons will stop at the same time.', Button({ variant: 'destructive', label: 'Cancel Plan', action: 'openDialog', arg: 'cancelPlan', cls: 'min-w-[88px]' }))}
+    </div>
+  </section>`;
+}
+
+/* =========================================================================
+ * 6. 弹窗（旧版设计 10982:79999；结构与 class 对齐仓库 seats-dialog/*）
+ * ========================================================================= */
+function CnDialog({ title, description = '', body = '', footer = '', className = '', src, closable = true, name = 'CnDialog' }) {
+  // 仓库里 cn() = tailwind-merge：className 传入宽度/间距时会替换 DialogContent 默认的 w-full / gap-8 / sm:max-w-2xl
+  const has = (re) => re.test(className);
+  const merged = [has(/(^|\s)w-/) ? '' : 'w-full', has(/(^|\s)gap-/) ? '' : 'gap-8', has(/sm:max-w-/) ? '' : 'sm:max-w-2xl'].join(' ');
+  return `<div class="fixed inset-0 z-50 bg-black/50" data-action="closeDialog" data-overlay></div>
+  <div role="dialog" aria-modal="true" aria-labelledby="dlg-title" ${meta(name, src, `className="${className}"`)}
+    class="bg-background text-foreground fixed top-[50%] left-[50%] z-50 grid max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-md border p-8 shadow-lg [&>*]:min-w-0 max-h-[calc(100vh-2rem)] ${merged} ${className}">
+    <div data-slot="dialog-header" class="flex flex-col gap-4 text-left">
+      <h2 id="dlg-title" data-slot="dialog-title" class="text-dialog-title h-8 text-2xl/8 font-semibold max-w-[90%] truncate">${title}</h2>
+      ${description ? `<div data-slot="dialog-description" class="text-muted-foreground text-sm">${description}</div>` : ''}
+    </div>
+    ${body}
+    ${footer}
+    ${closable ? `<button type="button" data-action="closeDialog" data-slot="dialog-close" class="absolute top-8 right-8 cursor-pointer rounded-xs opacity-70 transition-opacity hover:opacity-100 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-6">${ic('x')}<span class="sr-only">Close</span></button>` : ''}
+  </div>`;
+}
+const footerRow = (...btns) => `<div data-slot="dialog-footer" class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end shrink-0">${btns.join('')}</div>`;
+
+function SeatStepper(value, min, max, key) {
+  const ghostIcon = (icon, delta, dis, cls) => `<button type="button" data-action="step" data-key="${key}" data-arg="${delta}" ${dis ? 'disabled' : ''} aria-label="${delta > 0 ? 'increase' : 'decrease'}" class="${BTN_BASE} ${BTN_VARIANT.ghost} ${BTN_SIZE.icon} ${cls}">${ic(icon, 'size-4')}</button>`;
+  return `<div class="border-border inline-flex items-center rounded-md border" ${meta('SeatStepper', P + 'seats-dialog/seat-stepper.tsx', `value={${value}} min={${min}} max={${max}}`)}>
+    ${ghostIcon('minus', -1, value <= min, 'rounded-r-none')}
+    <span class="border-border min-w-12 border-x px-4 text-center text-sm font-medium tabular-nums leading-9">${value}</span>
+    ${ghostIcon('plus', 1, value >= max, 'rounded-l-none')}</div>`;
+}
+
+const PROMOS = { DISCOUNT50: { ok: true, off: 50 }, CREDITS20: { ok: false, msg: "This code can't be used for seats" } };
+
+function dlgAddSeats() {
+  const d = S.dlg, s = S.data.seats;
+  const n = d.count;
+  const promo = d.promoApplied ? PROMOS[d.promoApplied] : null;
+  const charged = n * SEAT_PRICE;
+  const off = promo?.ok ? Math.min(promo.off, charged) : 0;
+  const nextSeats = s.purchased + n;
+  const impact = `<div class="border-highlight-border bg-highlight-bg-tertiary flex flex-col gap-2 rounded-sm border p-4 text-text">
+      <p class="flex items-center gap-2 text-sm font-medium">${ic('info', 'text-highlight-text-accent size-3.5')}This may affect your billing</p>
+      <p class="text-sm">Additional seat fees and included AI credits will be prorated based on the remaining billing period and charged immediately. Full charges apply from the next billing cycle.</p></div>`;
+  const restored = d.restored ? `<div class="border-success-secondary bg-success-tertiary flex items-start gap-2 rounded-sm border px-3 py-2 text-sm text-text">${ic('circle-check', 'text-success mt-0.5 size-4 shrink-0')}Card saved. We kept your ${n} seat(s) — review and confirm below.</div>` : '';
+  const preview = d.previewError
+    ? `<div class="bg-bg-subtle border-border mt-4 flex items-center justify-between gap-3 rounded-sm border px-4 py-3 text-sm"><span class="text-text-tertiary">Couldn't load the price. Please retry.</span>${Button({ variant: 'outline', label: 'Retry', action: 'retryPreview', loading: d.retrying, name: 'CnAsyncButton' })}</div>`
+    : `<div class="bg-bg-subtle border-border mt-4 flex items-stretch gap-3 rounded-sm border pr-2 pl-4 text-sm/6">
+        <div class="flex flex-col items-center py-4"><span class="size-3 rounded-full border border-border bg-background"></span><span class="w-px flex-1 bg-border"></span><span class="size-3 rounded-full border border-border bg-background"></span></div>
+        <div class="flex-1">
+          <div class="space-y-1 border-b border-border py-3 pr-2">
+            <div class="flex justify-between gap-3"><div><p>Charged right now</p><p class="text-xs text-text-tertiary">${n} added seat${n > 1 ? 's' : ''} · prorated price and credits</p></div><span class="font-semibold tabular">${money(charged)}</span></div>
+            ${off ? `<div class="text-highlight-text-deep flex justify-between border-b border-dashed border-border pb-2 tabular"><span>Discount applied</span><span>- $${off}</span></div>
+            <div class="flex justify-between pt-1 font-semibold tabular"><span>Total due now</span><span>${money(charged - off)}</span></div>` : ''}
+          </div>
+          <div class="flex justify-between gap-3 py-3 pr-2"><div><p>Starting next billing cycle</p><p class="text-xs text-text-tertiary">${nextSeats} purchased seats total · $${SEAT_PRICE}/seat</p></div><span class="tabular">${money(nextSeats * SEAT_PRICE)}/month</span></div>
+        </div></div>`;
+  const promoState = d.promoApplied ? (promo?.ok ? 'ok' : 'bad') : d.promoInvalid ? 'bad' : '';
+  const promoErr = d.promoInvalid ? 'Invalid promo code' : promo && !promo.ok ? promo.msg : '';
+  const inputCls = "border-input file:text-foreground placeholder:text-text-placeholder flex h-9 w-full max-w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none md:text-sm focus-visible:border-highlight-text focus-visible:shadow-input aria-invalid:border-destructive aria-invalid:focus-visible:shadow-input-invalid pr-9";
+  const promoBlock = `<div class="border-border mt-4 border-t border-dashed pt-4">
+      <button type="button" data-action="togglePromo" aria-expanded="${!!d.promoOpen}" class="flex w-full items-center justify-between text-sm font-medium">Have a promo code?${ic(d.promoOpen ? 'chevron-up' : 'chevron-down', 'size-4')}</button>
+      ${d.promoOpen ? `<div class="mt-3" ${meta('Input', SRC.input, 'rightIcon')}>
+        <div class="relative flex max-w-full items-center">
+          <input id="promo-input" data-slot="input" placeholder="Enter a promo code" value="${esc(d.promoText || '')}" ${promoState === 'bad' ? 'aria-invalid="true"' : ''} class="${inputCls}">
+          <span class="text-muted-foreground pointer-events-none absolute right-3 flex items-center">${promoState === 'ok' ? ic('circle-check', 'size-4 text-success') : promoState === 'bad' ? ic('circle-x', 'size-4 text-destructive') : ''}</span>
+        </div>
+        ${promoErr ? `<p class="text-destructive mt-2 text-sm/5">${promoErr}</p>` : '<p class="mt-2 text-xs text-text-tertiary">示例：DISCOUNT50 可用 · CREDITS20 不适用于席位 · 其他为无效</p>'}
+      </div>` : ''}
+    </div>`;
+  return CnDialog({
+    title: 'Add Seats', description: impact, className: 'w-125 gap-4', src: P + 'seats-dialog/add-seats-dialog.tsx',
+    body: `<div>${restored ? `<div class="mb-4">${restored}</div>` : ''}
+      <div class="flex items-center justify-between gap-3"><span class="text-text-secondary text-sm font-medium">Seats to add</span>${SeatStepper(n, 1, 99, 'add')}</div>
+      ${preview}${promoBlock}</div>`,
+    footer: `<div class="mt-4">${footerRow(Button({ variant: 'outline', size: 'md', label: 'Cancel', action: 'closeDialog' }),
+      S.hasCard ? Button({ size: 'md', label: 'Add Seats', action: 'toConfirmPay', disabled: d.previewError || (d.promoApplied && !promo?.ok) || d.promoInvalid, name: 'CnAsyncButton' })
+        : Button({ variant: 'primary', size: 'md', label: 'Add Card', icon: 'credit-card', action: 'addCard' }))}</div>`,
+  });
+}
+
+function dlgConfirmPay() {
+  const d = S.dlg;
+  const promo = d.promoApplied && PROMOS[d.promoApplied]?.ok ? PROMOS[d.promoApplied] : null;
+  const due = d.count * SEAT_PRICE - (promo ? promo.off : 0);
+  return CnDialog({
+    title: 'Confirm Payment', className: 'w-120', src: P + 'seats-dialog/confirm-payment-dialog.tsx',
+    description: 'Your subscription will be updated immediately, and your saved payment method will be charged now.',
+    body: `<div><div class="border-border flex items-center justify-between rounded-sm border px-4 py-2 text-sm"><span>Due now</span><span>${promo ? `<span class="text-highlight-text-deep mr-2 text-xs font-medium">${d.promoApplied} applied</span>` : ''}<span class="font-semibold tabular">${money(due)}</span></span></div>
+      <p class="text-text-tertiary mt-3 text-xs/5">${d.count} seat${d.count > 1 ? 's' : ''} and their included AI credits are added as soon as the payment succeeds.</p></div>`,
+    footer: footerRow(Button({ variant: 'outline', size: 'md', label: 'Cancel', action: 'closeDialog', disabled: d.paying }),
+      Button({ size: 'md', label: 'Confirm and Pay Now', action: 'pay', loading: d.paying, name: 'CnAsyncButton' })),
+  });
+}
+
+function dlgRemoveSeats() {
+  const d = S.dlg, s = S.data.seats;
+  const max = Math.min(s.purchased, seatTotal() - s.used);
+  return CnDialog({
+    title: 'Remove Seats', className: 'w-120 gap-4', src: P + 'seats-dialog/remove-seats-dialog.tsx',
+    description: 'Removed seats stay available until the end of the billing period. You cannot remove seats below assigned count.',
+    body: `<div><div class="flex items-center justify-between gap-3"><span class="text-text-secondary text-sm font-medium">Seats to remove</span>${SeatStepper(d.count, 1, max, 'remove')}</div>
+      <div class="border-border mt-4 rounded-sm border text-sm tabular">
+        <div class="flex justify-between border-b border-border px-4 py-2"><span>Purchased additional seats</span><span>${s.purchased}</span></div>
+        <div class="flex justify-between border-b border-border px-4 py-2"><span>Total seats to remove</span><span>${d.count}</span></div>
+        <div class="flex justify-between px-4 py-2 font-semibold"><span>Additional seats next cycle</span><span>${s.purchased - d.count}</span></div>
+      </div></div>`,
+    footer: `<div class="mt-8 flex justify-end gap-2">${Button({ variant: 'outline', size: 'md', label: 'Cancel', action: 'closeDialog' })}${Button({ variant: 'destructive', size: 'md', label: 'Remove Seats', action: 'removeConfirm', loading: d.loading })}</div>`,
+  });
+}
+
+function dlgSeatsInUse(owner) {
+  return CnDialog({
+    title: 'Seats In Use', className: 'w-120', src: P + 'seats-dialog/seats-in-use-dialog.tsx',
+    description: '<p class="text-text-tertiary text-sm">Some Builder seats are currently assigned. Adjust member seat types or seat usage before scheduling seat removal.</p>',
+    footer: footerRow(Button({ variant: 'outline', size: 'md', label: 'Cancel', action: 'closeDialog' }),
+      owner ? Button({ size: 'md', label: 'Manage Members', action: 'goMembers' }) : Button({ size: 'md', label: 'Got It', action: 'closeDialog' })),
+  });
+}
+
+function dlgNotEnough() {
+  return CnDialog({
+    title: 'Not enough Builder seats', className: 'w-120', src: 'apps/saas-dashboard/app/ws/[workspaceId]/(pages)/settings/components/workspace/members/not-enough-seats-dialog.tsx',
+    description: '<p class="text-text-tertiary text-sm">There are not enough available Builder seats to make this change. Add more seats to continue.</p>',
+    footer: footerRow(Button({ variant: 'outline', size: 'md', label: 'Cancel', action: 'closeDialog' }), Button({ size: 'md', label: 'Add Seats', action: 'openDialog', arg: 'addSeats' })),
+  });
+}
+
+function dlgBuyCredits() {
+  const packs = [[500, 25], [1000, 50], [3000, 150]];
+  const sel = S.dlg.pack ?? 0;
+  return CnDialog({
+    title: 'Buy AI Credits', className: 'w-120', src: P + 'buy-credit-dialog.tsx',
+    description: 'Choose an AI Credits pack. You will be redirected to Stripe to complete payment.',
+    body: `<div class="flex flex-col gap-3" role="radiogroup" aria-label="AI Credits packs">${packs.map(([c, p], i) => `<button type="button" role="radio" aria-checked="${i === sel}" data-action="pack" data-arg="${i}"
+      class="flex w-full items-center gap-4 rounded-md border-[1.5px] p-4 text-left ${i === sel ? 'border-highlight-border bg-highlight-bg-tertiary' : 'border-border hover:bg-bg-tertiary'}">
+      <span class="flex size-4 items-center justify-center rounded-full border ${i === sel ? 'border-highlight-text' : 'border-border'}">${i === sel ? '<span class="bg-highlight-text size-2 rounded-full"></span>' : ''}</span>
+      <span class="flex-1"><span class="text-base font-medium tabular">${fmt(c)}</span> <span class="text-sm text-text-tertiary">AI Credits</span></span><span class="text-base font-medium tabular">$${p}</span></button>`).join('')}</div>`,
+    footer: footerRow(Button({ variant: 'outline', size: 'md', label: 'Cancel', action: 'closeDialog' }), Button({ size: 'md', label: 'Purchase', action: 'purchase', loading: S.dlg.loading, name: 'CnAsyncButton' })),
+  });
+}
+
+function dlgCancelPlan() {
+  return CnDialog({
+    title: 'Cancel plan?', className: 'w-120', src: P + 'cancel-subscription-dialog/index.tsx',
+    description: `<p class="text-text-tertiary text-sm">You will keep access until the end of your current billing period. This action can be undone before then.</p>`,
+    footer: footerRow(Button({ variant: 'outline', size: 'md', label: 'Keep Plan', action: 'closeDialog', disabled: S.dlg.loading }),
+      Button({ variant: 'destructive', size: 'md', label: 'Cancel Plan', action: 'cancelConfirm', loading: S.dlg.loading })),
+  });
+}
+
+function renderDialog() {
+  const root = document.getElementById('dialog-root');
+  const map = {
+    addSeats: dlgAddSeats, confirmPay: dlgConfirmPay, removeSeats: dlgRemoveSeats,
+    seatsInUse: () => dlgSeatsInUse(true), seatsInUseMember: () => dlgSeatsInUse(false),
+    notEnough: dlgNotEnough, buyCredits: dlgBuyCredits, cancelPlan: dlgCancelPlan,
+  };
+  root.innerHTML = S.dialog ? map[S.dialog]() : '';
+}
+
+/* =========================================================================
+ * 7. Toast（sonner）
+ * ========================================================================= */
+function toast(type, msg) {
+  const icons = { success: ['circle-check', 'text-success'], error: ['octagon-x', 'text-destructive'], info: ['info', 'text-blue-color'] };
+  const el = document.createElement('div');
+  el.setAttribute('role', 'status');
+  el.dataset.component = `toast.${type}() · sonner`;
+  el.dataset.src = SRC.sonner;
+  el.className = 'pointer-events-auto flex w-[356px] max-w-full items-center gap-2 rounded-md border border-border bg-popover px-4 py-3 text-sm text-popover-foreground shadow-lg transition-all duration-300 translate-y-[-8px] opacity-0';
+  el.innerHTML = `${ic(icons[type][0], 'size-4 shrink-0 ' + icons[type][1])}<span>${msg}</span>`;
+  document.getElementById('toast-root').appendChild(el);
+  window.lucide && lucide.createIcons();
+  requestAnimationFrame(() => el.classList.remove('translate-y-[-8px]', 'opacity-0'));
+  setTimeout(() => { el.classList.add('opacity-0'); setTimeout(() => el.remove(), 300); }, 3600);
+}
+
+/* =========================================================================
+ * 8. 交付说明抽屉
+ * ========================================================================= */
+function renderDrawer() {
+  let el = document.getElementById('drawer');
+  if (!S.drawer) { if (el) el.remove(); return; }
+  if (!el) { el = document.createElement('div'); el.id = 'drawer'; document.body.appendChild(el); }
+  const tr = (cells, head) => `<tr class="border-b border-border align-top">${cells.map((c) => `<${head ? 'th' : 'td'} class="px-3 py-2 text-left ${head ? 'font-medium text-text-tertiary whitespace-nowrap' : ''}">${c}</${head ? 'th' : 'td'}>`).join('')}</tr>`;
+  const table = (head, rows) => `<div class="overflow-x-auto rounded-md border border-border"><table class="w-full text-xs">${tr(head, true)}${rows.map((r) => tr(r)).join('')}</table></div>`;
+  const tag = (t) => ({ 复用: 'bg-success-tertiary text-success', 改造: 'bg-warning-accent text-warning-strong', 新增: 'bg-blue-tertiary text-blue-color' }[t]);
+  const st = (t) => `<span class="rounded-sm px-1.5 py-0.5 whitespace-nowrap ${tag(t)}">${t}</span>`;
+  const code = (s) => `<code class="font-code text-[11px] break-all">${s}</code>`;
+  el.innerHTML = `<div class="fixed inset-0 z-[60] bg-black/30" data-action="drawer"></div>
+  <aside class="fixed top-0 right-0 bottom-0 z-[61] flex w-[min(640px,100vw)] flex-col border-l border-border bg-background shadow-xl" style="padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); padding-right: env(safe-area-inset-right, 0px);" aria-label="交付说明">
+    <div class="flex items-center justify-between border-b border-border px-5 py-3"><h2 class="text-base font-semibold">交付说明</h2>${Button({ variant: 'ghost', size: 'icon', icon: 'x', action: 'drawer', cls: 'size-8' })}</div>
+    <div class="flex-1 space-y-6 overflow-y-auto px-5 py-5 text-sm leading-6">
+      <section class="space-y-2"><h3 class="font-semibold">怎么用这个原型</h3>
+        <ul class="list-disc space-y-1 pl-5 text-text-secondary">
+          <li>右下角「原型控制」面板切换角色 / 场景 / 已绑卡 / 待移除 / 已取消等页面状态，可收起；「弹窗直达」可单独打开每个弹窗与状态。</li>
+          <li>打开「组件标注」后悬停任意元素，显示对应组件名、props 与仓库文件路径。</li>
+          <li>页面主体 = Figma 最新稿 17896:5453；弹窗 = 旧版稿 10982:79999。所有 class 均为仓库 Tailwind token，按钮/弹窗/Tabs/进度条的 class 字符串逐字取自 @tier0/ui 源码。</li>
+        </ul></section>
+
+      <section class="space-y-2"><h3 class="font-semibold">文件与改动范围</h3>
+        <p class="text-xs text-text-tertiary">路径前缀 ${code(P)}</p>
+        ${table(['区域', '文件', '类型', '说明'], [
+          ['页面容器 / Tabs', code('index.tsx'), st('改造'), 'CnTabs 增加 Usage tab；tab 图标 14px（file-chart-column / chart-line / credit-card）；标题 Inter 30 Semibold，描述改为 Figma 文案；容器宽度由 w-3/5 改为 max-w-[887px]'],
+          ['Current Plan', code('index.tsx → planTab'), st('改造'), '左名称+状态标签，右侧计费周期/到期日分栏；底部 bg-bg-subtle 说明条 + Upgrade Plan'],
+          ['Builder Seats', code('builder-seats-card.tsx'), st('改造'), '与 AI Credits 两列并排；总量 ≤10 用分段进度，>10 回落 CnProgress；Plan / Purchased 分开计数'],
+          ['分段进度', code('segmented-progress.tsx'), st('新增'), '仅本页使用，放 plan 目录（不进 @tier0/ui）；颜色走 getUsageBarColor'],
+          ['AI Credits', code('ai-credits-card.tsx'), st('改造'), '模块颜色一组按用量往前排，跨过套餐额度后继续进入附加额度；两段中间留间隔；条下保留 Plan / Purchased 计数；下方模块明细；View usage 跳 Usage tab'],
+          ['Apps & Resources', code('applications-card.tsx'), st('改造'), '拆为 Applications（Deployed，分段）与 Storage（GB，CnProgress）两卡'],
+          ['Usage tab', code('usage-content.tsx'), st('新增'), '时间范围下拉（CnDropdownMenu）+ 自定义区间（AntD RangePicker）+ 4 个指标 + recharts 堆叠柱 + Breakdown 表'],
+          ['Billing', code('billing-content.tsx'), st('改造'), '每行加 size-7 图标块；取消后行内展示 Plan cancelled + Undo Cancellation（outline）'],
+          ['Add Seats / Confirm Payment / Remove Seats / Seats In Use', code('seats-dialog/*'), st('复用'), '旧版弹窗即现有实现，原型仅还原，不改结构'],
+          ['Buy AI Credits / Cancel plan?', code('buy-credit-dialog.tsx · cancel-subscription-dialog/'), st('复用'), 'Cancel plan? 现为 sm:max-w-md（448px），按 Figma 改为 w-120（480px）'],
+          ['弹窗宽度', code('CnDialog className'), st('复用'), 'Figma：Add Seats 500px（w-125），其余全部 480px（w-120）'],
+          ['卡片规格', code('*-card.tsx'), st('改造'), '卡片 p-4 gap-5；头部 16px lucide 图标（blocks / coins / layout-grid / database）+ gap-1.5 + 16/24 Medium 灰；大数字 Inter 32 Medium；标题与数值使用 font-display（Inter）'],
+          ['Not enough Builder seats', code('members/not-enough-seats-dialog.tsx'), st('复用'), '从 Members 改角色触发，Add Seats 直接接 Add Seats 弹窗'],
+          ['Usage 数据接口', code('services/bff/* + app/api/*'), st('新增'), '需后端提供按日/模块/成员聚合接口；BFF 三件套 route.ts + schema.ts + doc.ts'],
+        ])}</section>
+
+      <section class="space-y-2"><h3 class="font-semibold">状态与规则</h3>
+        ${table(['状态', '表现'], [
+          ['Builder（非 Owner）', '隐藏 Billing tab、Add/Remove Seats、Buy Credits、Undo Removal；Upgrade Plan 仍可点（弹窗内限制 Owner）'],
+          ['Trial', '套餐名称为 Trial，状态标签与 Active 相同；右侧只显示 Trial ends；Add Seats 置灰，不展示行内提示；无计费周期行；Billing tab 显示空状态（仅 hasStripeCustomer 时可见）'],
+          ['未绑卡', 'Add Seats 换成 primary「Add Card」；Required to add seats 绝对定位在按钮正下方，不占竖向布局；绑卡回跳后自动打开 Add Seats 并显示 Card saved 提示'],
+          ['已购席位 = 0', 'Remove Seats 置灰；可移除数 = min(已购, 总数 − 已用)，为 0 时点击弹 Seats In Use'],
+          ['待移除席位', 'warning 提示条 + Undo Removal；生效日 = 下个计费日'],
+          ['用量阈值', '<70% 默认黑；70–90% bg-warning；>90% bg-error（lib/usage-progress.ts）；百分比文字同色'],
+          ['额度用尽', '只靠进度条与百分比变红（>90% bg-error / text-destructive）表达，不额外加红色说明文字'],
+          ['已取消订阅', 'Plan 卡标签变为 Ends Nov 8、说明条改为 Auto-renew off；Billing 行显示 Plan cancelled + Undo Cancellation'],
+          ['Usage 空状态', '新空间：指标为 0 + 图表/明细空状态；所选区间无数据：No usage in this period + 返回最近 30 天'],
+        ])}</section>
+
+      <section class="space-y-2"><h3 class="font-semibold">需产品/后端确认</h3>
+        <ol class="list-decimal space-y-1 pl-5 text-text-secondary">
+          <li>AI Credits 大数字口径：Figma 主稿为 694（剩余），空态稿为 0（已用）。原型统一为「已用 / 总量 · x% used」，与 Builder Seats 一致；剩余量在 Usage 的 Remaining 指标展示。</li>
+          <li>席位单价：旧版弹窗为 $99/seat，原型沿用；以 Stripe 实际价格（preview 接口）为准。</li>
+          <li>Cancel Plan 业务规则：现有代码仅个人 Starter 可取消，Figma 在 Base 上展示，需确认适用套餐。</li>
+          <li>Usage 接口：按日/小时/月 × 模块 × 成员的聚合、vs 上周期对比、CSV 导出，当前后端无契约，需先对齐 proto。</li>
+          <li>重置日与计费日：原型统一用 Nov 8, 2026；若 credits 重置日与订阅计费日不同，Plan 卡需分别展示。</li>
+        </ol></section>
+
+      <section class="space-y-2"><h3 class="font-semibold">i18n（setting 模块）</h3>
+        ${table(['用途', 'key', '状态'], [
+          ['页面描述', code('planBillingDesc'), '改文案：Manage your workspace plan, subscription resources, and billing'],
+          ['Usage tab', code('usageTab'), '新增'],
+          ['撤销移除', code('seatsCancelRemovalCta'), '改文案：Undo Removal'],
+          ['View usage / Buy Credits', code('creditsViewUsage · creditsBuyMoreCta'), '新增 / 改文案'],
+          ['Usage 指标与空状态', code('usageUsedCycle · usageRemaining · usageDailyAvg · usageResetsIn · usageEmpty* · usageRangeEmpty*'), '新增（末级 key ≤25 字符）'],
+          ['已取消行', code('cancelledTitle · cancelledDesc · undoCancellationCta'), '前两项新增，第三项已有'],
+          ['弹窗', code('seatsAdd* · seatsConfirm* · seatsRemove* · seatsInUse* · seatsFull* · creditsBuy* · cancel*'), '已有，不改'],
+        ])}
+        <p class="text-xs text-text-tertiary">写入 ${code('apps/saas-dashboard/messages/modules/setting/{en,zh-cn}.json')}，中文使用「你」。</p></section>
+    </div>
+  </aside>`;
+}
+
+/* =========================================================================
+ * 9. 渲染与事件
+ * ========================================================================= */
+function render() {
+  renderBar();
+  document.getElementById('page').innerHTML = renderPage();
+  renderDialog();
+  renderDrawer();
+  document.body.classList.toggle('inspect', S.inspect);
+  if (window.lucide) lucide.createIcons();
+  drawChart();
+  try { localStorage.setItem('t0-proto', JSON.stringify({ tab: S.tab, role: S.role, scenario: S.scenario })); } catch (e) { /* 存储不可用时忽略 */ }
+}
+
+function openDialog(k) {
+  S.menu = null;
+  const s = S.data.seats;
+  S.dlg = {};
+  if (k === 'removeSeats') {
+    if (Math.min(s.purchased, seatTotal() - s.used) <= 0) { S.dialog = isOwner() ? 'seatsInUse' : 'seatsInUseMember'; return render(); }
+    S.dlg = { count: 1 };
+  }
+  if (k.startsWith('addSeats')) {
+    S.dlg = { count: 1 };
+    if (k === 'addSeatsPromo') S.dlg = { count: 2, promoOpen: true, promoText: 'DISCOUNT50', promoApplied: 'DISCOUNT50' };
+    if (k === 'addSeatsInvalid') S.dlg = { count: 2, promoOpen: true, promoText: 'SUMMER', promoInvalid: true };
+    if (k === 'addSeatsError') S.dlg = { count: 1, previewError: true };
+    if (k === 'addSeatsRestored') S.dlg = { count: 2, restored: true };
+    k = 'addSeats';
+  }
+  if (k === 'confirmPay') S.dlg = { count: 2 };
+  if (k === 'buyCredits') S.dlg = { pack: 0 };
+  S.dialog = k;
+  render();
+}
+const closeDialog = () => { S.dialog = null; S.dlg = {}; render(); };
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+const actions = {
+  proto(el) {
+    const k = el.dataset.key, v = el.dataset.arg;
+    if (k === 'scenario') loadScenario(v);
+    else if (k === 'role') S.role = v;
+    else if (k === 'pendingRemoval') S.pendingRemoval = +v;
+    else S[k] = v === 'true';
+    S.menu = null;
+    render();
+  },
+  tab(el) { S.tab = el.dataset.arg; S.menu = null; render(); document.getElementById('main').scrollTop = 0; },
+  menu(el) { const m = el.dataset.arg; S.menu = S.menu === m || !m ? null : m; if (m === 'custom') S.picker = null; render(); },
+  range(el) { S.range = el.dataset.arg; S.menu = null; render(); },
+  shift(el) {
+    const [from, to] = rangeDates();
+    const span = daysBetween(from, to) + 1, dir = +el.dataset.arg;
+    let nf = addDays(from, dir * span), nt = addDays(to, dir * span);
+    if (nt >= TODAY) {
+      nt = TODAY; nf = addDays(TODAY, -(span - 1));
+      const preset = { 7: '7d', 30: '30d' }[span];
+      if (preset) { S.range = preset; return render(); }
+    }
+    S.custom = { from: nf, to: nt }; S.range = 'custom';
+    render();
+  },
+  pickMonth(el) { const p = S.picker; p.month = new Date(p.month.getFullYear(), p.month.getMonth() + +el.dataset.arg, 1); render(); },
+  pickDay(el) {
+    const d = new Date(+el.dataset.arg), p = S.picker;
+    if (!p.from || p.to) { p.from = d; p.to = null; } else if (d < p.from) { p.to = p.from; p.from = d; } else p.to = d;
+    render();
+  },
+  pickReset() { S.picker.from = S.picker.to = null; render(); },
+  pickApply() { S.custom = { from: S.picker.from, to: S.picker.to }; S.range = 'custom'; S.menu = null; render(); },
+  breakdown(el) { S.breakdown = el.dataset.arg; render(); },
+  exportCsv() { toast('success', 'Export started. The CSV will download shortly.'); },
+  openDialog(el) { openDialog(el.dataset.arg); },
+  closeDialog,
+  step(el) {
+    const d = S.dlg, delta = +el.dataset.arg;
+    const s = S.data.seats;
+    const max = el.dataset.key === 'remove' ? Math.min(s.purchased, seatTotal() - s.used) : 99;
+    d.count = Math.max(1, Math.min(max, d.count + delta));
+    render();
+  },
+  togglePromo() { S.dlg.promoOpen = !S.dlg.promoOpen; render(); setTimeout(() => document.getElementById('promo-input')?.focus()); },
+  async retryPreview() { S.dlg.retrying = true; render(); await wait(800); S.dlg.retrying = false; S.dlg.previewError = false; render(); },
+  toConfirmPay() { const keep = S.dlg; S.dialog = 'confirmPay'; S.dlg = { count: keep.count, promoApplied: keep.promoApplied }; render(); },
+  async pay() {
+    S.dlg.paying = true; render(); await wait(1000);
+    S.data.seats.purchased += S.dlg.count;
+    closeDialog(); toast('success', 'Seats added');
+  },
+  async removeConfirm() {
+    S.dlg.loading = true; render(); await wait(800);
+    S.pendingRemoval = S.dlg.count; closeDialog(); toast('success', 'Seat removal scheduled');
+  },
+  cancelRemoval() { S.pendingRemoval = 0; render(); toast('success', 'Seat removal cancelled'); },
+  addCard() {
+    S.dialog = null; render();
+    toast('info', 'Redirecting to Stripe to add a card…');
+    setTimeout(() => { S.hasCard = true; toast('success', "Your card has been added successfully. We'll take you back to add seats."); openDialog('addSeatsRestored'); }, 1400);
+  },
+  goMembers() { closeDialog(); toast('info', '跳转 Members 页（/ws/[workspaceId]/settings?activeTab=members）'); },
+  pack(el) { S.dlg.pack = +el.dataset.arg; render(); },
+  async purchase() { S.dlg.loading = true; render(); await wait(800); closeDialog(); toast('info', 'Redirecting to Stripe Checkout…'); },
+  async cancelConfirm() {
+    S.dlg.loading = true; render(); await wait(800);
+    S.canceled = true; closeDialog(); toast('success', `Subscription canceled — ends ${fmtDate(RESET)}`);
+  },
+  async undoCancel() { S.dlg.undoLoading = true; render(); await wait(800); S.dlg = {}; S.canceled = false; render(); toast('success', 'Your plan will renew as usual'); },
+  portal() { toast('info', 'Opening Stripe Customer Portal…'); },
+  upgrade() { toast('info', '打开 Upgrade Plan 弹窗（useUpgradePlanDialog，既有）'); },
+  toastDemo() { S.menu = null; render(); toast('success', 'Seats added'); setTimeout(() => toast('error', 'Failed to add seats, please retry'), 500); },
+  inspect() { S.inspect = !S.inspect; render(); },
+  panel() { S.panelOpen = !S.panelOpen; S.menu = null; render(); },
+  drawer() { S.drawer = !S.drawer; S.menu = null; render(); },
+};
+
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-action]');
+  if (!el) {
+    if (S.menu && !e.target.closest('[role="menu"], [data-component^="Ant Design RangePicker"]')) { S.menu = null; render(); }
+    return;
+  }
+  if (el.disabled) return;
+  const fn = actions[el.dataset.action];
+  if (fn) { e.preventDefault(); fn(el); }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    if (S.dialog) closeDialog(); else if (S.menu) { S.menu = null; render(); } else if (S.drawer) { S.drawer = false; render(); }
+  }
+  if (e.key === 'Enter' && e.target.id === 'promo-input') applyPromo(e.target.value);
+});
+document.addEventListener('focusout', (e) => { if (e.target.id === 'promo-input' && e.target.value.trim() && e.target.value.trim().toUpperCase() !== S.dlg.promoApplied) applyPromo(e.target.value); });
+function applyPromo(v) {
+  const code = v.trim().toUpperCase();
+  S.dlg.promoText = code;
+  S.dlg.promoApplied = PROMOS[code] ? code : null;
+  S.dlg.promoInvalid = !!code && !PROMOS[code];
+  render();
+}
+
+// 标注模式悬停提示
+const tipEl = document.getElementById('inspect-tip');
+document.addEventListener('mousemove', (e) => {
+  if (!S.inspect) { tipEl.hidden = true; return; }
+  const t = e.target.closest('[data-component]');
+  if (!t) { tipEl.hidden = true; return; }
+  tipEl.innerHTML = `<div class="rounded-md border border-blue-accent bg-popover px-3 py-2 text-xs text-popover-foreground shadow-lg">
+    <p class="font-semibold text-blue-color">${esc(t.dataset.component)}</p>
+    ${t.dataset.props ? `<p class="font-code mt-0.5 text-[11px] text-text-secondary">${esc(t.dataset.props)}</p>` : ''}
+    <p class="font-code mt-1 text-[11px] break-all text-text-tertiary">${esc(t.dataset.src || '')}</p></div>`;
+  tipEl.hidden = false;
+  const x = Math.min(e.clientX + 14, window.innerWidth - 436), y = Math.min(e.clientY + 16, window.innerHeight - 90);
+  tipEl.style.left = Math.max(8, x) + 'px'; tipEl.style.top = y + 'px';
+});
+
+// 暗色：仓库用 .dark 类（@custom-variant dark），这里按 viewer 主题同步
+function syncDark() {
+  const dt = document.documentElement.getAttribute('data-theme');
+  const dark = dt === 'dark' || (!dt && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.classList.toggle('dark', dark);
+}
+syncDark();
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncDark);
+new MutationObserver(syncDark).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(drawChart, 120); });
+
+try {
+  const saved = JSON.parse(localStorage.getItem('t0-proto') || 'null');
+  if (saved) { S.role = saved.role || 'owner'; loadScenario(saved.scenario || 'active'); S.tab = saved.tab || 'plan'; }
+} catch (e) { /* 忽略 */ }
+renderShell();
+render();
+})();
+</script>

@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- 形态 A 起步骨架：替换 <title>、SRC.page、DATA、renderPage()、弹窗与交付说明内容即可。 -->
+<title>Tier0 Page Name</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* 颜色三层原样取自 Tier0-Frontend：packages/theme/src/variables.scss → themes.scss → tailwind.css。
+   Frontend 更新后同步这里，不要在页面里写 hex。 */
+:root {
+  --tier0-v-primary-white: #fff; --tier0-v-bg-white: #fcfcfc;
+  --tier0-v-fx-green-50: #f7fde8; --tier0-v-fx-green-100: #e7f9b9; --tier0-v-fx-green-200: #dcf797;
+  --tier0-v-fx-green-300: #cef368; --tier0-v-fx-green-500: #b2ed1d; --tier0-v-fx-green-600: #a2db1a;
+  --tier0-v-fx-green-700: #7ea815; --tier0-v-fx-green-800: #628210; --tier0-v-fx-green-deep: #73b200;
+  --tier0-v-grey-50: #f9f9f9; --tier0-v-grey-100: #f3f3f3; --tier0-v-grey-200: #ebebeb;
+  --tier0-v-grey-300: #d9d9d9; --tier0-v-grey-400: #878787;
+  --tier0-v-black-500: #343434; --tier0-v-black-600: #242424; --tier0-v-black-700: #1c1f1e;
+  --tier0-v-black-800: #151a19; --tier0-v-black-900: #050b14; --tier0-v-gray-900: #111827;
+  --tier0-v-error-100: #fee2e2; --tier0-v-error-300: #fca5a5; --tier0-v-error-500: #ef4444; --tier0-v-error-600: #dc2626;
+  --tier0-v-warning-200: #fbf2cb; --tier0-v-warning-300: #fde57e; --tier0-v-warning-500: #fbbc55; --tier0-v-warning-700: #c8911a;
+  --tier0-v-success-100: #effdf6; --tier0-v-success-300: #b8f1d2; --tier0-v-success-600: #53b483;
+  --tier0-v-blue-50: #eff6ff; --tier0-v-blue-300: #93c5fd; --tier0-v-blue-600: #2563eb;
+
+  --tier0-bg-color: var(--tier0-v-primary-white); --tier0-bg-accent: var(--tier0-v-grey-100);
+  --tier0-bg-tertiary: var(--tier0-v-grey-50); --tier0-bg-subtle: var(--tier0-v-bg-white);
+  --tier0-text-color: var(--tier0-v-black-900); --tier0-text-secondary: var(--tier0-v-black-600);
+  --tier0-text-tertiary: var(--tier0-v-grey-400); --tier0-text-placeholder: var(--tier0-v-grey-300);
+  --tier0-primary: var(--tier0-v-black-900); --tier0-primary-foreground: var(--tier0-v-primary-white);
+  --tier0-primary-hover: var(--tier0-v-black-700); --tier0-highlight-foreground: var(--tier0-v-black-900);
+  --tier0-highlight-bg-primary: var(--tier0-v-fx-green-300); --tier0-highlight-bg-secondary: var(--tier0-v-fx-green-200);
+  --tier0-highlight-bg-accent: var(--tier0-v-fx-green-100); --tier0-highlight-bg-tertiary: var(--tier0-v-fx-green-50);
+  --tier0-highlight-text: var(--tier0-v-fx-green-600); --tier0-highlight-text-deep: var(--tier0-v-fx-green-800);
+  --tier0-highlight-text-accent: var(--tier0-v-fx-green-700); --tier0-highlight-border: var(--tier0-v-fx-green-300);
+  --tier0-success-color: var(--tier0-v-success-600); --tier0-success-secondary: var(--tier0-v-success-300); --tier0-success-tertiary: var(--tier0-v-success-100);
+  --tier0-error-color: var(--tier0-v-error-600); --tier0-error-secondary: var(--tier0-v-error-300); --tier0-error-tertiary: var(--tier0-v-error-100);
+  --tier0-warning-color: var(--tier0-v-warning-500); --tier0-warning-strong: var(--tier0-v-warning-700);
+  --tier0-warning-secondary: var(--tier0-v-warning-300); --tier0-warning-accent: var(--tier0-v-warning-200);
+  --tier0-blue-tertiary: var(--tier0-v-blue-50); --tier0-blue-accent: var(--tier0-v-blue-300); --tier0-blue-color: var(--tier0-v-blue-600);
+  --radius: 0.5rem;
+  --foreground: var(--tier0-v-black-900); --background: var(--tier0-v-primary-white);
+  --popover: var(--tier0-v-primary-white); --popover-foreground: var(--tier0-v-black-900);
+  --primary: var(--tier0-primary); --primary-foreground: var(--tier0-primary-foreground);
+  --muted-foreground: var(--tier0-v-grey-400); --accent: var(--tier0-v-grey-100); --accent-foreground: var(--tier0-v-black-900);
+  --destructive: var(--tier0-v-error-600); --destructive-hover: var(--tier0-v-error-500);
+  --border: var(--tier0-v-grey-200); --input: oklch(92.2% 0 0deg); --ring: oklch(70.8% 0 0deg);
+  --dialog-title: var(--tier0-v-gray-900); --tab-line: var(--tier0-v-fx-green-700);
+  --font-app: 'IBM Plex Sans', 'Noto Sans SC', 'PingFang SC', system-ui, sans-serif;
+  --font-display-sans: 'Inter', 'Noto Sans SC', 'PingFang SC', system-ui, sans-serif;
+  --font-code: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+}
+/* 暗色：themes.scss .dark 映射；两处保持一致 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --tier0-bg-color: var(--tier0-v-black-900); --tier0-bg-accent: var(--tier0-v-black-700);
+    --tier0-bg-tertiary: color-mix(in oklab, var(--tier0-v-black-800) 90%, transparent); --tier0-bg-subtle: var(--tier0-v-black-800);
+    --tier0-text-color: var(--tier0-v-primary-white); --tier0-text-secondary: #c9cccb;
+    --foreground: oklch(98.5% 0 0deg); --background: var(--tier0-v-black-900);
+    --popover: var(--tier0-v-black-900); --popover-foreground: oklch(98.5% 0 0deg);
+    --accent: var(--tier0-v-black-700); --accent-foreground: oklch(98.5% 0 0deg);
+    --border: var(--tier0-v-black-800); --input: oklch(100% 0 0deg / 15%); --ring: oklch(55.6% 0 0deg);
+    --dialog-title: var(--tier0-v-primary-white);
+    --tier0-highlight-bg-tertiary: color-mix(in oklab, var(--tier0-v-fx-green-500) 10%, transparent);
+    --tier0-warning-accent: color-mix(in oklab, var(--tier0-v-warning-500) 14%, transparent);
+    --tier0-success-tertiary: color-mix(in oklab, var(--tier0-v-success-600) 14%, transparent);
+    --tier0-error-tertiary: color-mix(in oklab, var(--tier0-v-error-500) 16%, transparent);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --tier0-bg-color: var(--tier0-v-black-900); --tier0-bg-accent: var(--tier0-v-black-700);
+  --tier0-bg-tertiary: color-mix(in oklab, var(--tier0-v-black-800) 90%, transparent); --tier0-bg-subtle: var(--tier0-v-black-800);
+  --tier0-text-color: var(--tier0-v-primary-white); --tier0-text-secondary: #c9cccb;
+  --foreground: oklch(98.5% 0 0deg); --background: var(--tier0-v-black-900);
+  --popover: var(--tier0-v-black-900); --popover-foreground: oklch(98.5% 0 0deg);
+  --accent: var(--tier0-v-black-700); --accent-foreground: oklch(98.5% 0 0deg);
+  --border: var(--tier0-v-black-800); --input: oklch(100% 0 0deg / 15%); --ring: oklch(55.6% 0 0deg);
+  --dialog-title: var(--tier0-v-primary-white);
+  --tier0-highlight-bg-tertiary: color-mix(in oklab, var(--tier0-v-fx-green-500) 10%, transparent);
+  --tier0-warning-accent: color-mix(in oklab, var(--tier0-v-warning-500) 14%, transparent);
+  --tier0-success-tertiary: color-mix(in oklab, var(--tier0-v-success-600) 14%, transparent);
+  --tier0-error-tertiary: color-mix(in oklab, var(--tier0-v-error-500) 16%, transparent);
+  color-scheme: dark;
+}
+html, body { height: 100%; margin: 0; background: var(--background); color: var(--foreground); }
+body { font-family: var(--font-app); -webkit-font-smoothing: antialiased; overflow: hidden; }
+[hidden] { display: none !important; }
+.tabular { font-variant-numeric: tabular-nums; }
+.inspect [data-component] { outline: 1px dashed color-mix(in oklab, var(--tier0-v-blue-600) 55%, transparent); outline-offset: 2px; }
+.inspect [data-component]:hover { outline: 2px solid var(--tier0-v-blue-600); }
+#inspect-tip { position: fixed; z-index: 90; pointer-events: none; max-width: min(420px, calc(100vw - 32px)); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+</style>
+
+<style type="text/tailwindcss">
+@custom-variant dark (&:is(.dark *));
+/* packages/theme/src/tailwind.css @theme inline（节选，需要更多 token 时从源码补） */
+@theme inline {
+  --shadow-input: 0 0 0 2px rgb(162 216 26 / 20%);
+  --shadow-input-invalid: 0 0 0 2px color-mix(in srgb, var(--destructive) 20%, transparent);
+  --color-bg: var(--tier0-bg-color);
+  --color-bg-accent: var(--tier0-bg-accent);
+  --color-bg-tertiary: var(--tier0-bg-tertiary);
+  --color-bg-subtle: var(--tier0-bg-subtle);
+  --color-text: var(--tier0-text-color);
+  --color-text-secondary: var(--tier0-text-secondary);
+  --color-text-tertiary: var(--tier0-text-tertiary);
+  --color-text-placeholder: var(--tier0-text-placeholder);
+  --color-highlight-foreground: var(--tier0-highlight-foreground);
+  --color-highlight-bg-accent: var(--tier0-highlight-bg-accent);
+  --color-highlight-bg-tertiary: var(--tier0-highlight-bg-tertiary);
+  --color-highlight-border: var(--tier0-highlight-border);
+  --color-highlight-text: var(--tier0-highlight-text);
+  --color-highlight-text-accent: var(--tier0-highlight-text-accent);
+  --color-highlight-text-deep: var(--tier0-highlight-text-deep);
+  --color-success: var(--tier0-success-color);
+  --color-success-secondary: var(--tier0-success-secondary);
+  --color-success-tertiary: var(--tier0-success-tertiary);
+  --color-error: var(--tier0-error-color);
+  --color-error-secondary: var(--tier0-error-secondary);
+  --color-error-tertiary: var(--tier0-error-tertiary);
+  --color-warning: var(--tier0-warning-color);
+  --color-warning-strong: var(--tier0-warning-strong);
+  --color-warning-secondary: var(--tier0-warning-secondary);
+  --color-warning-accent: var(--tier0-warning-accent);
+  --color-blue-tertiary: var(--tier0-blue-tertiary);
+  --color-blue-accent: var(--tier0-blue-accent);
+  --color-blue-color: var(--tier0-blue-color);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: calc(var(--radius) - 2px);
+  --color-dialog-title: var(--dialog-title);
+  --color-tab-line: var(--tab-line);
+  --color-button-highlight: var(--tier0-highlight-bg-primary);
+  --color-button-highlight-hover: var(--tier0-highlight-bg-secondary);
+  --color-button-destructive: var(--destructive);
+  --color-button-destructive-hover: var(--destructive-hover);
+  --color-button-primary: var(--tier0-primary);
+  --color-button-primary-hover: var(--tier0-primary-hover);
+  --font-sans: var(--font-app);
+  --font-display: var(--font-display-sans);
+}
+@layer base { * { @apply border-border outline-ring/50; } }
+</style>
+</head>
+<body>
+
+<!-- 壳层：侧栏固定，只有 main 滚动 -->
+<div id="app" class="flex h-full overflow-hidden bg-background text-foreground">
+  <aside class="hidden h-full w-[234px] shrink-0 flex-col overflow-hidden border-r border-border bg-bg-tertiary p-4 xl:flex" data-component="AppSidebar（既有，非本次范围）" id="app-nav"></aside>
+  <aside class="hidden h-full w-[248px] shrink-0 overflow-hidden border-r border-border px-4 py-5 lg:block" data-component="Settings 菜单（既有，非本次范围）" id="settings-nav"></aside>
+  <main id="main" class="h-full min-w-0 flex-1 overflow-y-auto" style="padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));">
+    <div id="page" class="mx-auto w-full max-w-[887px] pt-12 pb-72 lg:box-content lg:px-5"></div>
+  </main>
+</div>
+
+<div id="dialog-root"></div>
+<div id="toast-root" class="pointer-events-none fixed inset-x-0 z-[80] flex flex-col items-center gap-2" style="top: calc(env(safe-area-inset-top, 0px) + 16px); padding-inline: 16px;"></div>
+<div id="proto-bar" class="fixed z-[55] flex flex-col items-end" style="right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); max-width: calc(100vw - 32px);"></div>
+<div id="inspect-tip" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11/dist/index.global.js"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+(function () {
+'use strict';
+
+/* ================= 1. @tier0/ui 组件（class 逐字取自源码） ================= */
+const SRC = {
+  button: 'packages/ui/components/ui/button.tsx',
+  dialog: 'packages/ui/components/cn-dialog.tsx',
+  tabs: 'packages/ui/components/cn-tabs.tsx',
+  progress: 'packages/ui/components/cn-progress.tsx',
+  tooltip: 'packages/ui/components/ui/tooltip.tsx',
+  sonner: 'packages/ui/components/ui/sonner.tsx',
+  // 替换为本页业务组件目录
+  page: 'apps/saas-dashboard/app/ws/[workspaceId]/(pages)/<route>/components/',
+};
+
+const BTN_BASE = "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none cursor-pointer [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]";
+const BTN_VARIANT = {
+  default: 'bg-button-highlight text-highlight-foreground hover:bg-button-highlight-hover',
+  primary: 'bg-button-primary text-white shadow-xs hover:bg-button-primary-hover',
+  destructive: 'bg-button-destructive text-white shadow-xs hover:bg-button-destructive-hover',
+  outline: 'border bg-background shadow-xs hover:bg-bg-tertiary hover:text-text dark:bg-input/30 dark:border-input',
+  secondary: 'bg-bg-accent text-text shadow-xs hover:bg-bg-tertiary',
+  ghost: 'hover:bg-bg-tertiary hover:text-text',
+  link: 'text-text underline-offset-4 hover:underline',
+};
+const BTN_SIZE = { sm: 'h-8 rounded-md gap-1.5 px-4', md: 'h-9 rounded-md px-4 py-2', lg: 'h-10 rounded-md px-4', icon: 'size-9' };
+const TOOLTIP_CONTENT_CLASS = 'bg-button-primary text-primary-foreground rounded-[2px] px-2 py-1.5 text-sm leading-[22px] font-normal whitespace-nowrap shadow-[0px_2px_8px_0px_rgba(0,0,0,0.15)]';
+
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const ic = (name, cls = '') => `<i data-lucide="${name}" class="${cls}"></i>`;
+const fmt = (n) => Number(n).toLocaleString('en-US');
+const meta = (component, src, props = '') =>
+  `data-component="${esc(component)}" data-src="${esc(src)}"${props ? ` data-props="${esc(props)}"` : ''}`;
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+function Button({ variant = 'default', size = 'sm', label = '', icon = '', iconRight = '', action = '', arg = '', disabled = false, loading = false, cls = '', name = 'Button' }) {
+  const lead = loading ? ic('loader', 'animate-spin ' + (size === 'sm' ? 'size-4' : 'size-5')) : icon ? ic(icon) : '';
+  // 模拟 cn()（tailwind-merge）：className 带 px-* 时去掉尺寸默认 px-4
+  const sizeCls = /(^|\s)px-/.test(cls) ? BTN_SIZE[size].replace(/\bpx-\d+\b/, '') : BTN_SIZE[size];
+  return `<button type="button" data-slot="button" ${meta(name, SRC.button, `variant="${variant}" size="${size}"${cls ? ` className="${cls}"` : ''}${loading ? ' loading' : ''}${disabled ? ' disabled' : ''}`)}
+    class="${BTN_BASE} ${BTN_VARIANT[variant]} ${sizeCls} ${loading ? 'cursor-wait opacity-80' : ''} ${cls}"
+    ${action ? `data-action="${action}"` : ''} ${arg !== '' ? `data-arg="${esc(arg)}"` : ''} ${disabled || loading ? 'disabled' : ''}>${lead}${label}${iconRight ? ic(iconRight) : ''}</button>`;
+}
+
+function CnProgress(value, color, className = '') {
+  const height = /\bh-/.test(className) ? '' : 'h-2';
+  return `<div data-slot="progress" ${meta('CnProgress', SRC.progress, `value={${value}}${color ? ` color="${color}"` : ''}`)} class="relative ${height} w-full overflow-hidden rounded-full bg-primary/20 ${className}">
+    <div class="h-full w-full flex-1 transition-all ${color || 'bg-primary'}" style="transform: translateX(-${100 - Math.min(100, value || 0)}%)"></div></div>`;
+}
+
+// 用量阈值（apps/saas-dashboard/lib/usage-progress.ts）
+const getUsageBarColor = (p) => (p > 90 ? 'bg-error' : p >= 70 ? 'bg-warning' : undefined);
+const usageTextColor = (p) => (p > 90 ? 'text-destructive' : p >= 70 ? 'text-warning-strong' : 'text-text-tertiary');
+
+// 总量 ≤ 10 用分段，> 10 回落 CnProgress
+function SegmentedProgress(used, total, color, src = SRC.page + 'segmented-progress.tsx') {
+  if (total > 10) return CnProgress(Math.round((used / Math.max(total, 1)) * 100), color);
+  let segs = '';
+  for (let i = 0; i < total; i++) segs += `<span class="h-2 flex-1 rounded-[2px] ${i < used ? color || 'bg-primary' : 'bg-bg-accent'}"></span>`;
+  return `<div ${meta('SegmentedProgress（新增）', src, `used={${used}} total={${total}}`)} class="flex gap-0.5" role="meter" aria-valuenow="${used}" aria-valuemax="${total}">${segs}</div>`;
+}
+
+function HelpTip(text, size = 'size-3.5') {
+  return `<span class="group relative inline-flex align-middle" ${meta('Tooltip + CircleHelp', SRC.tooltip, 'side="bottom" sideOffset={8}')}>
+    <button type="button" aria-label="${esc(text)}" class="inline-flex items-center justify-center rounded-full text-text-tertiary outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50">${ic('circle-help', size)}</button>
+    <span role="tooltip" class="pointer-events-none absolute top-full left-1/2 z-50 mt-2 -translate-x-1/2 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 ${TOOLTIP_CONTENT_CLASS}">${esc(text)}</span></span>`;
+}
+
+function CnDialog({ title, description = '', body = '', footer = '', className = 'w-120', src = SRC.dialog, name = 'CnDialog' }) {
+  // 模拟 cn()：className 的 w-* / gap-* / sm:max-w-* 替换 DialogContent 默认值
+  const has = (re) => re.test(className);
+  const merged = [has(/(^|\s)w-/) ? '' : 'w-full', has(/(^|\s)gap-/) ? '' : 'gap-8', has(/sm:max-w-/) ? '' : 'sm:max-w-2xl'].join(' ');
+  return `<div class="fixed inset-0 z-50 bg-black/50" data-action="closeDialog"></div>
+  <div role="dialog" aria-modal="true" aria-labelledby="dlg-title" ${meta(name, src, `className="${className}"`)}
+    class="bg-background text-foreground fixed top-[50%] left-[50%] z-50 grid max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-md border p-8 shadow-lg [&>*]:min-w-0 max-h-[calc(100vh-2rem)] ${merged} ${className}">
+    <div class="flex flex-col gap-4 text-left">
+      <h2 id="dlg-title" class="text-dialog-title h-8 text-2xl/8 font-semibold max-w-[90%] truncate">${title}</h2>
+      ${description ? `<div class="text-muted-foreground text-sm">${description}</div>` : ''}
+    </div>
+    ${body}
+    ${footer}
+    <button type="button" data-action="closeDialog" class="absolute top-8 right-8 cursor-pointer rounded-xs opacity-70 transition-opacity hover:opacity-100 [&_svg:not([class*='size-'])]:size-6">${ic('x')}<span class="sr-only">Close</span></button>
+  </div>`;
+}
+const footerRow = (...btns) => `<div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end shrink-0">${btns.join('')}</div>`;
+
+function toast(type, msg) {
+  const icons = { success: ['circle-check', 'text-success'], error: ['octagon-x', 'text-destructive'], info: ['info', 'text-blue-color'] };
+  const el = document.createElement('div');
+  el.setAttribute('role', 'status');
+  el.dataset.component = `toast.${type}() · sonner`;
+  el.dataset.src = SRC.sonner;
+  el.className = 'pointer-events-auto flex w-[356px] max-w-full items-center gap-2 rounded-md border border-border bg-popover px-4 py-3 text-sm text-popover-foreground shadow-lg transition-all duration-300 translate-y-[-8px] opacity-0';
+  el.innerHTML = `${ic(icons[type][0], 'size-4 shrink-0 ' + icons[type][1])}<span>${msg}</span>`;
+  document.getElementById('toast-root').appendChild(el);
+  window.lucide && lucide.createIcons();
+  requestAnimationFrame(() => el.classList.remove('translate-y-[-8px]', 'opacity-0'));
+  setTimeout(() => { el.classList.add('opacity-0'); setTimeout(() => el.remove(), 300); }, 3600);
+}
+
+/* ================= 2. 示例数据（每个场景一份，数字只从这里取） ================= */
+const SCENARIOS = {
+  normal: { label: '正常', used: 6, total: 10 },
+  full: { label: '已满', used: 10, total: 10 },
+  empty: { label: '空', used: 0, total: 10 },
+};
+
+/* ================= 3. 状态 ================= */
+const S = { tab: 'overview', role: 'owner', scenario: 'normal', dialog: null, dlg: {}, menu: null, inspect: false, drawer: false, panelOpen: window.innerWidth >= 640 };
+const data = () => SCENARIOS[S.scenario];
+const isOwner = () => S.role === 'owner';
+
+/* ================= 4. 页面 ================= */
+function cardHead(icon, title, right = '') {
+  return `<div class="flex h-6 items-center justify-between gap-5"><span class="flex items-center gap-1.5 text-base/6 font-medium text-text-tertiary">${ic(icon, 'size-4')}${title}</span>${right}</div>`;
+}
+
+function renderPage() {
+  const tabs = [['overview', 'file-chart-column', 'Overview'], ['usage', 'chart-line', 'Usage']];
+  const trigger = "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-[color,box-shadow] [&_svg]:shrink-0 cursor-pointer text-text-tertiary data-[state=active]:border-b-tab-line data-[state=active]:text-foreground h-12 gap-2.5 rounded-none border-b-2 border-transparent bg-transparent p-0 shadow-none";
+  const d = data();
+  const pct = Math.round((d.used / d.total) * 100);
+  const body = S.tab === 'overview' ? `
+    <div class="flex flex-col gap-8 pt-8">
+      <section class="flex flex-col gap-4">
+        <h2 class="font-display text-xl font-medium">Section Title</h2>
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="border-border flex flex-col gap-5 rounded-md border p-4" ${meta('ExampleCard', SRC.page + 'example-card.tsx')}>
+            ${cardHead('blocks', 'Example Card')}
+            <div class="flex items-center justify-between gap-3 max-sm:flex-wrap">
+              <p class="flex min-w-0 items-baseline gap-1.5 whitespace-nowrap tabular"><span class="font-display text-[32px]/[39px] font-medium">${d.used}</span><span class="text-sm text-text-tertiary">/ ${d.total}</span><span class="ml-1.5 text-sm ${usageTextColor(pct)}">${pct}% used</span></p>
+              ${isOwner() ? Button({ label: 'Open Dialog', action: 'openDialog', arg: 'confirm', cls: 'px-3' }) : ''}
+            </div>
+            <div class="flex flex-col gap-2">
+              ${SegmentedProgress(d.used, d.total, getUsageBarColor(pct))}
+              <span class="flex items-center gap-2 text-xs/6"><span class="flex items-center gap-1 text-text-tertiary">Included${HelpTip('Explain where this number comes from', 'size-3')}</span><span class="font-medium tabular">${d.used} / ${d.total}</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>` : `<div class="pt-8 text-sm text-text-tertiary">Usage tab content</div>`;
+  return `<div class="flex flex-col gap-1.5" ${meta('PageContent', SRC.page + '../page.tsx')}>
+    <div ${meta('SettingComHeader', 'apps/saas-dashboard/app/ws/[workspaceId]/(pages)/settings/components/setting-com-header.tsx')}>
+      <span class="font-display text-3xl font-semibold">Page Title</span>
+      <p class="text-text-secondary mt-1.5 text-sm font-medium">One line that says what this page manages</p>
+    </div>
+    <div class="flex flex-col gap-2" ${meta('CnTabs', SRC.tabs, 'type="line" tabListWrapClassName="border-border border-b"')}>
+      <div class="flex items-center border-border border-b overflow-x-auto">
+        <div role="tablist" class="inline-flex w-fit items-center bg-transparent h-12 gap-6 p-0">
+          ${tabs.map(([k, i, l]) => `<button type="button" role="tab" data-action="tab" data-arg="${k}" data-state="${S.tab === k ? 'active' : 'inactive'}" aria-selected="${S.tab === k}" class="${trigger}">${ic(i, 'size-3.5')}${l}</button>`).join('')}
+        </div>
+      </div>
+      <div role="tabpanel">${body}</div>
+    </div>
+  </div>`;
+}
+
+/* ================= 5. 弹窗 ================= */
+const DIALOGS = {
+  confirm: () => CnDialog({
+    title: 'Confirm Change', className: 'w-120', src: SRC.page + 'confirm-dialog.tsx',
+    description: 'Short sentence that says what happens when the user confirms.',
+    footer: footerRow(Button({ variant: 'outline', size: 'md', label: 'Cancel', action: 'closeDialog', disabled: S.dlg.loading }),
+      Button({ size: 'md', label: 'Confirm', action: 'confirm', loading: S.dlg.loading, name: 'CnAsyncButton' })),
+  }),
+};
+
+/* ================= 6. 原型控制 / 标注 / 交付说明 ================= */
+function seg(key, options, value) {
+  return `<div class="inline-flex items-center rounded-md border border-border bg-background p-0.5" role="group" aria-label="${key}">${options
+    .map(([v, l]) => `<button type="button" data-action="proto" data-key="${key}" data-arg="${v}" class="h-6 rounded-sm px-2 text-xs ${String(value) === String(v) ? 'bg-bg-accent font-medium text-text' : 'text-text-tertiary hover:text-text'}">${l}</button>`).join('')}</div>`;
+}
+function renderPanel() {
+  const el = document.getElementById('proto-bar');
+  const badge = '<span class="rounded-sm bg-button-highlight px-1.5 py-0.5 text-[11px] font-semibold text-highlight-foreground">原型</span>';
+  if (!S.panelOpen) {
+    el.innerHTML = `<button type="button" data-action="panel" aria-expanded="false" class="inline-flex h-9 items-center gap-2 rounded-full border border-border bg-popover px-3 text-xs font-medium text-text shadow-lg hover:bg-bg-tertiary">${badge}原型控制${ic('chevron-up', 'size-3.5')}</button>`;
+    return;
+  }
+  const row = (label, control) => `<div class="flex items-center justify-between gap-3"><span class="shrink-0 text-text-tertiary">${label}</span>${control}</div>`;
+  const dialogs = [['confirm', 'Confirm Change']];
+  el.innerHTML = `<div class="w-[340px] max-w-full rounded-lg border border-border bg-popover text-xs text-popover-foreground shadow-xl" role="region" aria-label="原型控制">
+    <div class="flex items-center justify-between border-b border-border px-3 py-2">
+      <span class="flex items-center gap-2 font-medium text-text">${badge}Page Name · 开发交付</span>
+      <button type="button" data-action="panel" aria-label="收起" class="flex size-6 items-center justify-center rounded-sm text-text-tertiary hover:bg-bg-tertiary hover:text-text">${ic('chevron-down', 'size-4')}</button>
+    </div>
+    <div class="flex flex-col gap-2 px-3 py-3">
+      ${row('角色', seg('role', [['owner', 'Owner'], ['builder', 'Builder']], S.role))}
+      ${row('场景', seg('scenario', Object.entries(SCENARIOS).map(([k, v]) => [k, v.label]), S.scenario))}
+    </div>
+    <div class="flex items-center gap-2 border-t border-border px-3 py-2">
+      <div class="relative">
+        <button type="button" data-action="menu" data-arg="dialogs" class="inline-flex h-7 items-center gap-1 rounded-md border border-border bg-background px-2 text-xs text-text hover:bg-bg-tertiary">弹窗直达 ${ic('chevron-up', 'size-3.5')}</button>
+        ${S.menu === 'dialogs' ? `<div role="menu" class="absolute bottom-full left-0 z-50 mb-1 max-h-[60vh] w-56 overflow-y-auto rounded-md border border-border bg-popover p-1 shadow-md">${dialogs
+          .map(([k, l]) => `<button type="button" data-action="openDialog" data-arg="${k}" class="flex w-full rounded-sm px-2 py-1.5 text-left text-xs text-text hover:bg-accent">${l}</button>`).join('')}
+          <div class="my-1 h-px bg-border"></div>
+          <button type="button" data-action="toastDemo" class="flex w-full rounded-sm px-2 py-1.5 text-left text-xs text-text hover:bg-accent">Toast 示例</button></div>` : ''}
+      </div>
+      <button type="button" data-action="inspect" aria-pressed="${S.inspect}" class="inline-flex h-7 items-center gap-1.5 rounded-md border px-2 text-xs ${S.inspect ? 'border-blue-accent bg-blue-tertiary text-blue-color' : 'border-border bg-background text-text hover:bg-bg-tertiary'}">${ic('scan-search', 'size-3.5')}组件标注</button>
+      <button type="button" data-action="drawer" class="ml-auto inline-flex h-7 items-center gap-1.5 rounded-md border border-border bg-background px-2 text-xs text-text hover:bg-bg-tertiary">${ic('book-open', 'size-3.5')}交付说明</button>
+    </div>
+  </div>`;
+}
+
+function renderDrawer() {
+  let el = document.getElementById('drawer');
+  if (!S.drawer) { if (el) el.remove(); return; }
+  if (!el) { el = document.createElement('div'); el.id = 'drawer'; document.body.appendChild(el); }
+  const tr = (cells, head) => `<tr class="border-b border-border align-top">${cells.map((c) => `<${head ? 'th' : 'td'} class="px-3 py-2 text-left ${head ? 'font-medium whitespace-nowrap text-text-tertiary' : ''}">${c}</${head ? 'th' : 'td'}>`).join('')}</tr>`;
+  const table = (head, rows) => `<div class="overflow-x-auto rounded-md border border-border"><table class="w-full text-xs">${tr(head, true)}${rows.map((r) => tr(r)).join('')}</table></div>`;
+  const st = (t) => `<span class="rounded-sm px-1.5 py-0.5 whitespace-nowrap ${{ 复用: 'bg-success-tertiary text-success', 改造: 'bg-warning-accent text-warning-strong', 新增: 'bg-blue-tertiary text-blue-color' }[t]}">${t}</span>`;
+  const code = (s) => `<code class="text-[11px] break-all" style="font-family: var(--font-code)">${s}</code>`;
+  el.innerHTML = `<div class="fixed inset-0 z-[60] bg-black/30" data-action="drawer"></div>
+  <aside class="fixed top-0 right-0 bottom-0 z-[61] flex w-[min(640px,100vw)] flex-col border-l border-border bg-background shadow-xl" aria-label="交付说明">
+    <div class="flex items-center justify-between border-b border-border px-5 py-3"><h2 class="text-base font-semibold">交付说明</h2>${Button({ variant: 'ghost', size: 'icon', icon: 'x', action: 'drawer', cls: 'size-8' })}</div>
+    <div class="flex-1 space-y-6 overflow-y-auto px-5 py-5 text-sm leading-6">
+      <section class="space-y-2"><h3 class="font-semibold">怎么用这个原型</h3>
+        <ul class="list-disc space-y-1 pl-5 text-text-secondary">
+          <li>右下角「原型控制」切换角色与场景，「弹窗直达」打开每个弹窗。</li>
+          <li>打开「组件标注」后悬停任意元素，显示组件名、props 与仓库路径。</li>
+          <li>主稿：Figma &lt;node-id&gt;；弹窗：Figma &lt;node-id&gt;。</li>
+        </ul></section>
+      <section class="space-y-2"><h3 class="font-semibold">文件与改动范围</h3>
+        <p class="text-xs text-text-tertiary">路径前缀 ${code(SRC.page)}</p>
+        ${table(['区域', '文件', '类型', '说明'], [
+          ['示例卡片', code('example-card.tsx'), st('改造'), '说明改了什么'],
+          ['分段进度', code('segmented-progress.tsx'), st('新增'), '仅本页使用'],
+          ['确认弹窗', code('confirm-dialog.tsx'), st('复用'), '不改结构'],
+        ])}</section>
+      <section class="space-y-2"><h3 class="font-semibold">状态与规则</h3>
+        ${table(['状态', '表现'], [['Builder（非 Owner）', '隐藏操作按钮'], ['已满', '进度条与百分比变红，不加说明文字']])}</section>
+      <section class="space-y-2"><h3 class="font-semibold">需产品 / 后端确认</h3>
+        <ol class="list-decimal space-y-1 pl-5 text-text-secondary"><li>会让开发写错或返工的问题写在这里。</li></ol></section>
+      <section class="space-y-2"><h3 class="font-semibold">i18n</h3>
+        ${table(['用途', 'key', '状态'], [['页面标题', code('pageTitle'), '已有']])}
+        <p class="text-xs text-text-tertiary">写入 ${code('apps/saas-dashboard/messages/modules/<module>/{en,zh-cn}.json')}，中文用「你」。</p></section>
+    </div>
+  </aside>`;
+}
+
+/* ================= 7. 渲染与事件 ================= */
+function render() {
+  document.getElementById('page').innerHTML = renderPage();
+  document.getElementById('dialog-root').innerHTML = S.dialog ? DIALOGS[S.dialog]() : '';
+  renderPanel();
+  renderDrawer();
+  document.body.classList.toggle('inspect', S.inspect);
+  if (window.lucide) lucide.createIcons();
+  try { localStorage.setItem('t0-proto', JSON.stringify({ tab: S.tab, role: S.role, scenario: S.scenario, panelOpen: S.panelOpen })); } catch (e) { /* 存储不可用时忽略 */ }
+}
+function renderShell() {
+  const nav = ['Home', 'Connect', 'Namespace', 'Builder', 'Library', 'All Apps'];
+  document.getElementById('app-nav').innerHTML = `<p class="mb-4 px-1 text-sm font-semibold">WORKSPACE</p>` + nav.map((n) => `<p class="flex h-8 items-center rounded-md px-2 text-sm">${n}</p>`).join('');
+  document.getElementById('settings-nav').innerHTML = ['Profile', 'Members', '*Current Page', 'Audit Log'].map((n) => `<p class="flex h-8 items-center rounded-md px-2 text-sm ${n[0] === '*' ? 'bg-bg-accent font-medium' : ''}">${n.replace('*', '')}</p>`).join('');
+}
+
+const actions = {
+  proto(el) { S[el.dataset.key] = el.dataset.arg; S.menu = null; render(); },
+  tab(el) { S.tab = el.dataset.arg; render(); document.getElementById('main').scrollTop = 0; },
+  menu(el) { S.menu = S.menu === el.dataset.arg ? null : el.dataset.arg; render(); },
+  openDialog(el) { S.menu = null; S.dialog = el.dataset.arg; S.dlg = {}; render(); },
+  closeDialog() { S.dialog = null; S.dlg = {}; render(); },
+  async confirm() { S.dlg.loading = true; render(); await wait(800); S.dialog = null; S.dlg = {}; render(); toast('success', 'Change saved'); },
+  toastDemo() { S.menu = null; render(); toast('success', 'Saved'); setTimeout(() => toast('error', 'Failed to save, please retry'), 500); },
+  inspect() { S.inspect = !S.inspect; render(); },
+  drawer() { S.drawer = !S.drawer; S.menu = null; render(); },
+  panel() { S.panelOpen = !S.panelOpen; S.menu = null; render(); },
+};
+
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-action]');
+  if (!el) { if (S.menu && !e.target.closest('[role="menu"]')) { S.menu = null; render(); } return; }
+  if (el.disabled) return;
+  const fn = actions[el.dataset.action];
+  if (fn) { e.preventDefault(); fn(el); }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  if (S.dialog) actions.closeDialog(); else if (S.menu) { S.menu = null; render(); } else if (S.drawer) { S.drawer = false; render(); }
+});
+
+const tipEl = document.getElementById('inspect-tip');
+document.addEventListener('mousemove', (e) => {
+  const t = S.inspect && e.target.closest('[data-component]');
+  if (!t) { tipEl.hidden = true; return; }
+  tipEl.innerHTML = `<div class="rounded-md border border-blue-accent bg-popover px-3 py-2 text-xs text-popover-foreground shadow-lg">
+    <p class="font-semibold text-blue-color">${esc(t.dataset.component)}</p>
+    ${t.dataset.props ? `<p class="mt-0.5 text-[11px] text-text-secondary" style="font-family: var(--font-code)">${esc(t.dataset.props)}</p>` : ''}
+    <p class="mt-1 text-[11px] break-all text-text-tertiary" style="font-family: var(--font-code)">${esc(t.dataset.src || '')}</p></div>`;
+  tipEl.hidden = false;
+  tipEl.style.left = Math.max(8, Math.min(e.clientX + 14, window.innerWidth - 436)) + 'px';
+  tipEl.style.top = Math.min(e.clientY + 16, window.innerHeight - 90) + 'px';
+});
+
+// 仓库用 .dark 类（@custom-variant dark），按系统 / data-theme 同步
+function syncDark() {
+  const dt = document.documentElement.getAttribute('data-theme');
+  document.documentElement.classList.toggle('dark', dt === 'dark' || (!dt && matchMedia('(prefers-color-scheme: dark)').matches));
+}
+syncDark();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncDark);
+new MutationObserver(syncDark).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+try {
+  const saved = JSON.parse(localStorage.getItem('t0-proto') || 'null');
+  if (saved) Object.assign(S, { tab: saved.tab || S.tab, role: saved.role || S.role, scenario: SCENARIOS[saved.scenario] ? saved.scenario : S.scenario, panelOpen: saved.panelOpen ?? S.panelOpen });
+} catch (e) { /* 忽略 */ }
+renderShell();
+render();
+})();
+</script>
+</body>
+</html>
