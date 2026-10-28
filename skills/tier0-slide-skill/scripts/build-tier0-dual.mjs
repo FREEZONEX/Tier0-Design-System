@@ -175,7 +175,7 @@ function logoElements(slide, sourceDir, dark = false) {
   if (!dark) {
     return [
       text(857, 24, 58, 18, 'TIER', {
-        fontFace: 'Tektur',
+        fontFace: 'IBM Plex Sans',
         fontSize: 12,
         color: C.ink,
         bold: false,
@@ -186,7 +186,7 @@ function logoElements(slide, sourceDir, dark = false) {
   }
   return [
     text(48, 24, 150, 32, 'TIER', {
-      fontFace: 'Tektur',
+      fontFace: 'IBM Plex Sans',
       fontSize: 24,
       color: dark ? C.white : C.ink,
       bold: false,
@@ -303,7 +303,7 @@ function coverEditorial(slide, ctx) {
 }
 
 function sectionDark(slide, ctx) {
-  // Tektur ONLY for ALL-CAPS section divider titles (logo/display face)
+  // Section divider titles: IBM Plex Sans (Tektur reserved for logo assets only)
   const raw = [slide.title, slide.accentTitle].filter(Boolean).join('\n')
     || 'The foundation is only the beginning.';
   const title = String(raw).toUpperCase();
@@ -314,7 +314,7 @@ function sectionDark(slide, ctx) {
     }));
   }
   elements.push(text(48, 144, 835, 170, title, {
-    fontFace: 'Tektur', fontSize: 52, color: C.white, bold: false, fontWeight: 500, margin: 0, lineHeight: 1.08,
+    fontFace: 'IBM Plex Sans', fontSize: 52, color: C.white, bold: false, fontWeight: 500, margin: 0, lineHeight: 1.08,
   }));
   if (slide.note) {
     elements.push(text(52, 342, 520, 54, slide.note, {
@@ -820,7 +820,7 @@ function buildHtml(deck, expanded) {
 <title>${title}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Tektur:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box}
   html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111820}

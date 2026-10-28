@@ -53,7 +53,7 @@
 
 | 主题 | 产品 | 官网 | PPT | 单页/海报 |
 |------|------|------|-----|-----------|
-| 标题字体 | Plex Sans | **Plex Sans 400–500** | **Tektur** | Plex；大标题可用 Tektur |
+| 标题字体 | Plex Sans | **Plex Sans 400–500** | **Plex Sans** | 全场景 Plex；**禁止 Tektur 标题** |
 | 品牌蓝 | 不用 | 极少 | **`#1D77FE`** | 慎用 |
 | 主按钮 | 近黑 + 绿高亮 | 亮绿 CTA | 主题色少 | 按物料 |
 | 真源 | Frontend + Figma | tier0.app | deck token | DESIGN.md + brief |

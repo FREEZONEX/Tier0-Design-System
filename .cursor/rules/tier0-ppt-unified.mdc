@@ -1,0 +1,11 @@
+---
+description: PPT 统一走 tier0-ppt；禁止用 Tektur 做幻灯标题（仅 Logo）
+alwaysApply: true
+---
+
+# PPT 入口与字体
+
+- **唯一 PPT 入口**：`skills/tier0-ppt/SKILL.md`（规范 + 生成）
+- 生成引擎目录：`skills/tier0-slide-skill/`（经 tier0-ppt 加载，勿当第二个并列品牌入口）
+- **禁止 Tektur** 用于封面/章节/正文标题；Tektur 只存在于官方 Logo SVG
+- 标题与章节：IBM Plex Sans / SC；标签：IBM Plex Mono

@@ -10,7 +10,7 @@
   <meta name="description" content="Tier0 设计系统浏览器：左侧分类，右侧 token / 排版 / DESIGN.md 细则。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Sans+SC:wght@400;500&family=Tektur:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../site.css?v=20261028-neutral">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
@@ -25,8 +25,7 @@
 
     <main class="shell">
       <header class="page-hero-lite">
-        <h1>左侧选分类，右侧看细则。</h1>
-        <p>与仓库 <code>tokens/</code>、<code>foundations/</code>、<code>surfaces/</code> 对齐。点左侧切换 Color、字体、排版、场景与 DESIGN.md。</p>
+        <h1>Tokens</h1>
       </header>
 
       <section class="section" style="padding-top:8px;padding-bottom:64px">
@@ -34,7 +33,7 @@
           <aside class="ds-nav" aria-label="Design system categories">
             <div class="ds-nav__label">Foundations</div>
             <button type="button" data-cat="color" class="is-active">Color <small>色板 · 绿规则</small></button>
-            <button type="button" data-cat="type">字体 <small>Plex · Tektur</small></button>
+            <button type="button" data-cat="type">字体 <small>IBM Plex</small></button>
             <button type="button" data-cat="layout">排版 / 间距 <small>字号 · 网格 · 圆角</small></button>
             <button type="button" data-cat="components">Component <small>按钮 · 卡片 · 证据</small></button>
 
@@ -52,8 +51,8 @@
             <!-- Color -->
             <article class="ds-panel" data-panel="color">
               <div class="ds-panel__head">
-                <h2>Color tokens</h2>
-                <p>中性面承载界面；近墨主操作；FX Green 只作高亮信号。白底正文不用 <code>#B2ED1D</code>。</p>
+                <h2>Color</h2>
+                <p>白底正文禁止 <code>#B2ED1D</code>。</p>
                 <div class="path">tokens/core.css · foundations/color.md</div>
               </div>
               <div class="token-cols-2">
@@ -104,7 +103,7 @@
             <article class="ds-panel" data-panel="type" hidden>
               <div class="ds-panel__head">
                 <h2>字体</h2>
-                <p>按场景切换字体族。不要把官网营销字带进 PPT 或产品后台。</p>
+                <p>IBM Plex only · PPT 不用 Tektur。</p>
                 <div class="path">tokens/core.css · foundations/typography.md</div>
               </div>
               <div class="type-row">
@@ -116,8 +115,8 @@
                 <div class="type-sample is-display" style="font-family:'IBM Plex Sans',sans-serif;font-weight:500">官网标题</div>
               </div>
               <div class="type-row">
-                <div class="type-meta">PPT chapter<br>Tektur</div>
-                <div class="type-sample is-display" style="font-family:Tektur,sans-serif">SECTION TITLE</div>
+                <div class="type-meta">PPT chapter<br>IBM Plex Sans</div>
+                <div class="type-sample is-display" style="font-family:'IBM Plex Sans',sans-serif;font-weight:500">SECTION TITLE</div>
               </div>
               <div class="type-row">
                 <div class="type-meta">Mono<br>IBM Plex Mono</div>
@@ -241,8 +240,8 @@
             <!-- PPT -->
             <article class="ds-panel" data-panel="ppt" hidden>
               <div class="ds-panel__head">
-                <h2>PPT / Marketing Deck</h2>
-                <p>16:9 骨架、Tektur 章节、卡片与证据框。与 Slide Skill 共用视觉语法。</p>
+                <h2>PPT / Deck</h2>
+                <p>16:9 · IBM Plex · deck.css</p>
                 <div class="path">surfaces/ppt · tokens/deck.css</div>
               </div>
               <div class="scene-preview"><div class="mini mini--dark">

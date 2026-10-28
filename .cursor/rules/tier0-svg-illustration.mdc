@@ -1,0 +1,14 @@
+---
+description: 技术 SVG 必须是 Oxide 风 spot（小、少字、4px 网格）；Tier0 仅绿灰黑；禁止做成 PPT 整页
+alwaysApply: true
+---
+
+# tier0-svg-illustration
+
+Read `skills/tier0-svg-illustration/SKILL.md` before drawing.
+
+- 先做**元素拆解**（箱/仓/出入/数据流）再画；禁止纯抽象菱形  
+- 默认 ≤400×300 spot，不是 16:9 讲解页  
+- 画面内文字极少（≤4 条短 mono）；用几何表达 📦🏭 母题，禁止贴 emoji  
+- 色：`#050B14` / 灰线字 / `#B2ED1D` 单点高亮  
+- 真实数据图 → `lieflat-charts`

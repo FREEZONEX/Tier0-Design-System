@@ -43,7 +43,7 @@ intake `narrative.sourceTreatment`：
 
 | 维度 | 统一到 |
 |------|--------|
-| 字体 | 白底正文/标题 IBM Plex Sans；mono 标签 IBM Plex Mono；深墨章节巨标题可用 Tektur **全大写** |
+| 字体 | 白底正文/标题 IBM Plex Sans；mono 标签 IBM Plex Mono；深墨章节巨标题用 IBM Plex Sans（可全大写英文）；禁止 Tektur |
 | 颜色 | 纸白 / 墨黑；绿 `#B2ED1D` 只作信号（底/条/点），白底可读强调用深绿 `--accent-text` / `--accent-text-dark`，禁止白底亮绿字 |
 | 边框 | 1px 发丝 `--border-subtle`；少用粗框、双线、装饰描边 |
 | 圆角 | 默认克制/近直角（跟 template）；不要随意 `rounded-2xl` / 胶囊堆 |

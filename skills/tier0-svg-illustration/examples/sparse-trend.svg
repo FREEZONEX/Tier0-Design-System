@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" role="img" aria-label="Sparse trend illustration">
+  <rect width="400" height="300" fill="#050B14"/>
+  <text x="24" y="28" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="0.14em" fill="#73777D">ILLUSTRATIVE � NOT A KPI</text>
+  <path d="M24 220 C 90 210, 120 160, 180 150 C 240 140, 280 90, 376 70" stroke="#B2ED1D" stroke-width="2" fill="none"/>
+  <path d="M24 220 C 90 210, 120 160, 180 150 C 240 140, 280 90, 376 70 L 376 260 L 24 260 Z" fill="#B2ED1D" opacity="0.12"/>
+  <path d="M24 240 C 100 235, 160 230, 220 225 C 300 218, 340 210, 376 200" stroke="#73B200" stroke-width="1.5" opacity="0.7" fill="none"/>
+  <rect x="24" y="48" width="168" height="72" rx="2" fill="#0E1824" stroke="#2B2D2F"/>
+  <text x="36" y="72" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="#FFFFFF">Owned capacity</text>
+  <text x="36" y="96" font-family="IBM Plex Mono, monospace" font-size="11" fill="#B2ED1D">flat cost curve</text>
+  <text x="24" y="288" font-family="IBM Plex Mono, monospace" font-size="10" fill="#73777D">Fig. 1 � Trend sketch</text>
+</svg>

@@ -124,7 +124,7 @@ Tier0 **无** 内置 image-prompt 库。若用外部图像模型：
 
 - B 章节目：低对比 **网格点** 即可
 - **避免** 大块 accent1 铺底
-- Tektur 白字 ≥48pt
+- IBM Plex Sans 白字 ≥48pt
 
 ---
 

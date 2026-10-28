@@ -715,3 +715,19 @@ a{color:inherit;text-decoration:none}
   .section-copy{white-space:normal}
   .section-entries{padding:64px 0}
 }
+
+
+/* slim-home-20261028 */
+.hero--entries{padding-top:48px}
+.hero--entries .hero__inner{position:relative}
+.hero--entries .section-heading{margin-bottom:28px}
+.hero--entries .show-card__body{padding-top:14px;gap:6px}
+.hero--entries .show-card__body h3{margin:0;font-size:18px;font-weight:500}
+.hero--entries .show-card__body p{margin:0;font-size:13px;line-height:1.4;color:var(--text)}
+.hero--entries .show-card__meta,
+.hero--entries .show-card__link,
+.hero--entries .show-card__cta{display:none}
+#tokens .section-heading{margin-bottom:20px}
+.ds-nav button small{display:none}
+.invoke__meta{display:none}
+.page-hero-lite > p{max-width:42ch}
