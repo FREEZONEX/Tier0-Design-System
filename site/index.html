@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./site.css?v=20261028-hub">
+  <link rel="stylesheet" href="./site.css?v=20261028-hub2">
 </head>
 <body>
   <div class="page">
@@ -78,294 +78,399 @@
 
     <section class="shell section" id="tokens">
       <h2 class="section-heading">Token Hub</h2>
+      <p class="hub-source">对齐 Figma Design System + <code>packages/theme</code>（Prototype v2.0）</p>
       <div class="ds-browser" data-ds-browser data-skill-base="https://github.com/FREEZONEX/Tier0-Design-System/blob/main/" data-design-md="./tokens/DESIGN.txt" data-skill-md="./skills/SKILL.txt">
         <aside class="ds-nav" aria-label="Token categories">
           <div class="ds-nav__label">Foundations</div>
           <button type="button" data-cat="color" class="is-active">Color</button>
           <button type="button" data-cat="type">Typography</button>
+          <button type="button" data-cat="icon">Icon</button>
           <button type="button" data-cat="spacing">Spacing</button>
           <button type="button" data-cat="radius">Radius</button>
           <button type="button" data-cat="shadow">Shadow</button>
-          <button type="button" data-cat="icon">Icon</button>
-          <button type="button" data-cat="brand">Brand</button>
           <div class="ds-nav__label">Components</div>
           <button type="button" data-cat="button">Button</button>
-          <button type="button" data-cat="input">Input</button>
+          <button type="button" data-cat="menu">Menu</button>
+          <button type="button" data-cat="tree">Tree</button>
           <button type="button" data-cat="card">Card</button>
-          <button type="button" data-cat="tag">Tag</button>
           <button type="button" data-cat="table">Table</button>
-          <div class="ds-nav__label">Surfaces</div>
-          <button type="button" data-cat="product">Product</button>
-          <button type="button" data-cat="website">Website</button>
-          <button type="button" data-cat="ppt">PPT</button>
+          <button type="button" data-cat="tag">Tag</button>
+          <button type="button" data-cat="chart">Chart</button>
+          <button type="button" data-cat="input">Input</button>
+          <div class="ds-nav__label">Prototype v2</div>
+          <button type="button" data-cat="sidebar">Sidebar</button>
+          <button type="button" data-cat="login">Login</button>
+          <button type="button" data-cat="home">Home</button>
+          <button type="button" data-cat="setting">Setting</button>
+          <button type="button" data-cat="uns">UNS</button>
+          <button type="button" data-cat="apps">App Builder</button>
+          <button type="button" data-cat="launchpad">Launchpad</button>
         </aside>
         <div class="ds-panels">
 
           <article class="ds-panel" data-panel="color">
             <div class="ds-panel__head">
               <h2>Color</h2>
-              <p>白底正文禁 <code>#B2ED1D</code> · 白底绿字用 <code>#73B200</code></p>
-              <div class="path">tokens/core.css · foundations/color.md</div>
+              <p>三层：<code>--tier0-v-*</code> 色板 → <code>--tier0-*</code> 语义 → Tailwind class。白底禁 <code>#B2ED1D</code> 正文。</p>
+              <div class="path">packages/theme · Figma Color&amp;Icons&amp;Typography</div>
             </div>
             <div class="token-cols-2">
               <div class="token-group">
-                <h3>Brand</h3>
-                <div class="token-row"><span class="token-swatch" style="background:#050B14"></span><code>--fx-black</code><span>#050B14</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#B2ED1D"></span><code>--fx-lime</code><span>#B2ED1D</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#73B200"></span><code>--fx-deep-green</code><span>#73B200</span></div>
+                <h3>Primary</h3>
+                <div class="token-row"><span class="token-swatch" style="background:#ffffff;border-color:#ccc"></span><code>Primary/White</code><span>#FFFFFF</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#050B14"></span><code>Primary/Black</code><span>#050B14</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#B2ED1D"></span><code>Primary/Green</code><span>#B2ED1D</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#73B200"></span><code>Deep green</code><span>#73B200</span></div>
               </div>
               <div class="token-group">
-                <h3>Green scale</h3>
-                <div class="token-row"><span class="token-swatch" style="background:#F0FBD2"></span><code>--fx-green-1</code><span>#F0FBD2</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#DDF59C"></span><code>--fx-green-2</code><span>#DDF59C</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#CCF368"></span><code>--fx-button-lime</code><span>#CCF368</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#B2ED1D"></span><code>--fx-green-5</code><span>#B2ED1D</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#73B200"></span><code>--fx-green-6</code><span>#73B200</span></div>
+                <h3>Semantic · Light</h3>
+                <div class="token-row"><span class="token-swatch" style="background:#ffffff;border-color:#ccc"></span><code>--tier0-bg-color</code><span>page</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#EBEBEB"></span><code>--tier0-bg-secondary</code><span>#EBEBEB</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#F3F3F3"></span><code>--tier0-bg-accent</code><span>selected</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#F9F9F9"></span><code>--tier0-bg-tertiary</code><span>hover</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#050B14"></span><code>--tier0-text-color</code><span>#050B14</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#242424"></span><code>--tier0-text-secondary</code><span>#242424</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#878787"></span><code>--tier0-text-tertiary</code><span>#878787</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#EBEBEB"></span><code>--tier0-border</code><span>#EBEBEB</span></div>
               </div>
             </div>
-            <div class="token-cols-2" style="margin-top:8px">
+            <div class="token-group" style="margin-top:12px">
+              <h3>FX Green</h3>
+              <div class="swatch-strip">
+                <span style="background:#F7FDE8" title="50"></span>
+                <span style="background:#E7F9B9" title="100"></span>
+                <span style="background:#DCF797" title="200"></span>
+                <span style="background:#CEF368" title="300"></span>
+                <span style="background:#C1F14A" title="400"></span>
+                <span style="background:#B2ED1D" title="500"></span>
+                <span style="background:#A2DB1A" title="600"></span>
+                <span style="background:#7EA815" title="700"></span>
+                <span style="background:#628210" title="800"></span>
+                <span style="background:#48640C" title="900"></span>
+              </div>
+              <div class="token-row is-text"><code>--tier0-highlight</code><span>#B2ED1D · 选中/激活</span></div>
+              <div class="token-row is-text"><code>--tier0-highlight-deep</code><span>#73B200 · 白底绿字</span></div>
+              <div class="token-row is-text"><code>--tier0-highlight-bg-primary</code><span>#CEF368 · 高亮按钮底</span></div>
+              <div class="token-row is-text"><code>--tier0-primary</code><span>#050B14 · 近黑主操作</span></div>
+            </div>
+            <div class="token-cols-2" style="margin-top:12px">
               <div class="token-group">
-                <h3>Neutrals</h3>
-                <div class="token-row"><span class="token-swatch" style="background:#050B14"></span><code>--fx-black-0</code><span>#050B14</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#585C62"></span><code>--fx-black-4</code><span>#585C62</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#ACAEB1"></span><code>--fx-black-2</code><span>#ACAEB1</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#CDCED0"></span><code>--fx-black-1</code><span>#CDCED0</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#FFFFFF;border-color:#ccc"></span><code>--fx-white</code><span>#FFFFFF</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#CCCCCC"></span><code>--fx-border</code><span>#CCCCCC</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#333333"></span><code>--fx-on-lime</code><span>#333333</span></div>
+                <h3>Grey / Black</h3>
+                <div class="swatch-strip">
+                  <span style="background:#F9F9F9"></span><span style="background:#F3F3F3"></span><span style="background:#EBEBEB"></span><span style="background:#D9D9D9"></span><span style="background:#878787"></span>
+                  <span style="background:#343434"></span><span style="background:#242424"></span><span style="background:#1C1F1E"></span><span style="background:#151A19"></span><span style="background:#050B14"></span>
+                </div>
               </div>
               <div class="token-group">
-                <h3>Semantic</h3>
-                <div class="token-row"><span class="token-swatch" style="background:#050B14"></span><code>--fg-1</code><span>headings</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#585C62"></span><code>--fg-2</code><span>body</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#ACAEB1"></span><code>--fg-3</code><span>caption</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#73B200"></span><code>--fg-link</code><span>links</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#F0FBD2"></span><code>--bg-hover-row</code><span>row hover</span></div>
-                <div class="token-row"><span class="token-swatch" style="background:#B2ED1D"></span><code>--accent</code><span>lime signal</span></div>
+                <h3>Status</h3>
+                <div class="token-row"><span class="token-swatch" style="background:#53B483"></span><code>success-600</code><span>#53B483</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#FBBC55"></span><code>warning-500</code><span>#FBBC55</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#DC2626"></span><code>error-600</code><span>#DC2626</span></div>
+                <div class="token-row"><span class="token-swatch" style="background:#2563EB"></span><code>blue-600</code><span>#2563EB</span></div>
+              </div>
+            </div>
+            <div class="token-cols-2" style="margin-top:12px">
+              <div class="token-group">
+                <h3>Gray（Figma / Tailwind）</h3>
+                <div class="swatch-strip">
+                  <span style="background:#F9FAFB"></span><span style="background:#F3F4F6"></span><span style="background:#E5E7EB"></span><span style="background:#D1D5DB"></span><span style="background:#9CA3AF"></span>
+                  <span style="background:#6B7280"></span><span style="background:#4B5563"></span><span style="background:#374151"></span><span style="background:#1F2937"></span><span style="background:#111827"></span>
+                </div>
+              </div>
+              <div class="token-group">
+                <h3>Blue / Updating</h3>
+                <div class="swatch-strip">
+                  <span style="background:#EFF6FF"></span><span style="background:#DBEAFE"></span><span style="background:#BFDBFE"></span><span style="background:#93C5FD"></span><span style="background:#60A5FA"></span>
+                  <span style="background:#3B82F6"></span><span style="background:#2563EB"></span><span style="background:#1D4ED8"></span><span style="background:#1E40AF"></span><span style="background:#1E3A8A"></span>
+                </div>
+              </div>
+            </div>
+            <div class="token-cols-2" style="margin-top:12px">
+              <div class="token-group">
+                <h3>Success 阶</h3>
+                <div class="swatch-strip">
+                  <span style="background:#F6FEF9"></span><span style="background:#EFFDF6"></span><span style="background:#D9F9E6"></span><span style="background:#B8F1D2"></span><span style="background:#8EE4BA"></span>
+                  <span style="background:#6AD09D"></span><span style="background:#53B483"></span><span style="background:#2F9461"></span><span style="background:#2F7657"></span><span style="background:#255E46"></span>
+                </div>
+              </div>
+              <div class="token-group">
+                <h3>Error 阶</h3>
+                <div class="swatch-strip">
+                  <span style="background:#FEF2F2"></span><span style="background:#FEE2E2"></span><span style="background:#FECACA"></span><span style="background:#FCA5A5"></span><span style="background:#F87171"></span>
+                  <span style="background:#EF4444"></span><span style="background:#DC2626"></span><span style="background:#B91C1C"></span><span style="background:#991B1B"></span><span style="background:#7F1D1D"></span>
+                </div>
               </div>
             </div>
             <div class="rule-grid">
-              <article class="rule"><h3>可以</h3><ul><li>绿作 marker / active / 进度</li><li>官网 CTA：<code>#B2ED1D</code> + 近墨字</li><li>产品浅色 CTA：<code>#CCF368</code> + <code>#333</code></li></ul></article>
-              <article class="rule"><h3>不可以</h3><ul><li>白底写 <code>#B2ED1D</code></li><li>整页铺绿、绿底白字</li><li>网页灰绿 / 橄榄底</li></ul></article>
+              <article class="rule"><h3>可以</h3><ul><li>近黑主按钮 · FX Green 高亮</li><li>白底绿字 <code>#73B200</code></li><li>状态用 success/warning/error token</li></ul></article>
+              <article class="rule"><h3>不可以</h3><ul><li>白底写 <code>#B2ED1D</code></li><li>把 FX Green 当通用成功色</li><li>业务页硬编码 hex</li></ul></article>
             </div>
           </article>
 
           <article class="ds-panel" data-panel="type" hidden>
             <div class="ds-panel__head">
               <h2>Typography</h2>
-              <p>IBM Plex only · PPT 标题不用 Tektur</p>
-              <div class="path">tokens/core.css · foundations/typography.md</div>
+              <p>产品 UI：IBM Plex Sans；标题工具类可配 Inter。对齐 Figma text styles + <code>typo-*</code>。</p>
+              <div class="path">packages/theme/tailwind.css · Figma text styles</div>
             </div>
-            <div class="type-row"><div class="type-meta">Display<br>88</div><div class="type-sample is-display" style="font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:40px;letter-spacing:-.03em">Display</div></div>
-            <div class="type-row"><div class="type-meta">H1 / H2<br>48 / 32</div><div class="type-sample" style="font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:28px">Heading</div></div>
-            <div class="type-row"><div class="type-meta">Body<br>16 / 14</div><div class="type-sample" style="font-family:'IBM Plex Sans',sans-serif">Body · 工作台与官网正文</div></div>
-            <div class="type-row"><div class="type-meta">Mono</div><div class="type-sample is-mono">IBM Plex Mono · kicker / tokens</div></div>
-            <div class="type-row"><div class="type-meta">CJK</div><div class="type-sample" style="font-family:'IBM Plex Sans SC',sans-serif">IBM Plex Sans SC</div></div>
+            <div class="type-row"><div class="type-meta">h1<br>38/46 · 700</div><div class="type-sample" style="font-size:32px;font-weight:700;letter-spacing:-.02em">Heading 1</div></div>
+            <div class="type-row"><div class="type-meta">h2<br>30/36 · 600</div><div class="type-sample" style="font-size:26px;font-weight:600">Heading 2</div></div>
+            <div class="type-row"><div class="type-meta">h3 / h4<br>24 / 20</div><div class="type-sample" style="font-size:20px;font-weight:600">Heading 3</div></div>
+            <div class="type-row"><div class="type-meta">body / p2<br>14–16</div><div class="type-sample" style="font-family:'IBM Plex Sans',sans-serif">Body · IBM Plex Sans</div></div>
+            <div class="type-row"><div class="type-meta">detail / mono</div><div class="type-sample is-mono">12px · IBM Plex Mono</div></div>
             <div class="token-group" style="margin-top:12px">
-              <div class="token-row is-text"><code>--fs-display … --fs-caption</code><span>88 → 12px</span></div>
-              <div class="token-row is-text"><code>--font-sans / --font-mono</code><span>Plex Sans / Mono</span></div>
+              <div class="token-row is-text"><code>--font-app-sans</code><span>IBM Plex Sans</span></div>
+              <div class="token-row is-text"><code>--font-display-sans</code><span>Inter（大标题）</span></div>
+              <div class="token-row is-text"><code>typo-h1 … typo-h4</code><span>Tailwind 标题工具类</span></div>
+            </div>
+          </article>
+
+          <article class="ds-panel" data-panel="icon" hidden>
+            <div class="ds-panel__head">
+              <h2>Icon</h2>
+              <div class="path">Figma icons · lucide-react 16–20px</div>
+            </div>
+            <div class="token-group">
+              <div class="token-row is-text"><code>库</code><span>Lucide（产品）</span></div>
+              <div class="token-row is-text"><code>尺寸</code><span>16 / 18 / 20 / 24</span></div>
+              <div class="token-row is-text"><code>颜色</code><span>继承 text token；状态用 semantic</span></div>
+              <div class="token-row is-text"><code>禁止</code><span>emoji、混用图标库</span></div>
             </div>
           </article>
 
           <article class="ds-panel" data-panel="spacing" hidden>
             <div class="ds-panel__head">
               <h2>Spacing</h2>
-              <div class="path">tokens/core.css · foundations/spacing-layout.md</div>
+              <p>4px 栅格 · 常用 8 / 12 / 16 / 20 / 24</p>
             </div>
             <div class="token-group">
-              <div class="token-row is-text"><code>--sp-1</code><span>4px</span><span class="sp-bar" style="width:4px"></span></div>
-              <div class="token-row is-text"><code>--sp-2</code><span>8px</span><span class="sp-bar" style="width:8px"></span></div>
-              <div class="token-row is-text"><code>--sp-3</code><span>12px</span><span class="sp-bar" style="width:12px"></span></div>
-              <div class="token-row is-text"><code>--sp-4</code><span>16px</span><span class="sp-bar" style="width:16px"></span></div>
-              <div class="token-row is-text"><code>--sp-5</code><span>20px</span><span class="sp-bar" style="width:20px"></span></div>
-              <div class="token-row is-text"><code>--sp-6</code><span>24px</span><span class="sp-bar" style="width:24px"></span></div>
-              <div class="token-row is-text"><code>--sp-7</code><span>28px</span><span class="sp-bar" style="width:28px"></span></div>
-              <div class="token-row is-text"><code>--sp-8</code><span>32px</span><span class="sp-bar" style="width:32px"></span></div>
-              <div class="token-row is-text"><code>--sp-10 / --sp-11</code><span>41 / 44px</span></div>
+              <div class="token-row is-text"><code>panel padding</code><span>12 / 16 / 20</span></div>
+              <div class="token-row is-text"><code>stack gap</code><span>8 / 12 / 16</span></div>
+              <div class="token-row is-text"><code>section</code><span>24 / 32</span></div>
             </div>
-            <p class="hub-note">8px 网格。卡片内边距常见 28px。</p>
           </article>
 
           <article class="ds-panel" data-panel="radius" hidden>
             <div class="ds-panel__head">
               <h2>Radius</h2>
-              <div class="path">tokens/core.css</div>
+              <div class="path">--tier0-radius · --radius</div>
             </div>
             <div class="radius-row">
-              <div class="radius-swatch" style="border-radius:4px"><code>--radius-button</code><span>4px</span></div>
-              <div class="radius-swatch" style="border-radius:10px"><code>--radius-card</code><span>10px</span></div>
-              <div class="radius-swatch" style="border-radius:999px"><code>--radius-pill</code><span>999px</span></div>
+              <div class="radius-swatch" style="border-radius:4px"><code>--tier0-radius</code><span>4px 控件</span></div>
+              <div class="radius-swatch" style="border-radius:8px"><code>--radius</code><span>0.5rem shadcn</span></div>
+              <div class="radius-swatch" style="border-radius:10px"><code>card</code><span>10px 可选</span></div>
             </div>
-            <p class="hub-note">产品控件优先 4px；禁消费级大圆角泛滥。</p>
           </article>
 
           <article class="ds-panel" data-panel="shadow" hidden>
             <div class="ds-panel__head">
               <h2>Shadow</h2>
-              <div class="path">tokens/core.css</div>
+              <p>分层靠边框；弹层可用适度阴影。</p>
             </div>
             <div class="shadow-row">
-              <div class="shadow-swatch" style="box-shadow:1px 2px 8px 0 rgba(5,11,20,.10)"><code>--shadow-card</code></div>
-              <div class="shadow-swatch" style="box-shadow:2px 4px 16px 0 rgba(5,11,20,.14)"><code>--shadow-hover</code></div>
-            </div>
-            <p class="hub-note">边框分层优先于重阴影；禁内阴影 / 新拟态。</p>
-          </article>
-
-          <article class="ds-panel" data-panel="icon" hidden>
-            <div class="ds-panel__head">
-              <h2>Icon</h2>
-              <div class="path">foundations/iconography.md · icons-lucide.md</div>
-            </div>
-            <div class="token-group">
-              <div class="token-row is-text"><code>默认库</code><span>Lucide</span></div>
-              <div class="token-row is-text"><code>线宽</code><span>1.5–2px · 与 UI 密度匹配</span></div>
-              <div class="token-row is-text"><code>颜色</code><span>继承文字色；状态可用 deep-green / lime</span></div>
-              <div class="token-row is-text"><code>禁止</code><span>emoji 装饰、随意混用图标库</span></div>
-            </div>
-            <p style="margin-top:16px"><a class="btn btn-outline" href="https://github.com/FREEZONEX/Tier0-Design-System/blob/main/preview/_shared/icons-lucide.html" target="_blank" rel="noopener">Lucide 预览 →</a></p>
-          </article>
-
-          <article class="ds-panel" data-panel="brand" hidden>
-            <div class="ds-panel__head">
-              <h2>Brand</h2>
-              <div class="path">assets/ · foundations/brand.md</div>
-            </div>
-            <div class="brand-row">
-              <div class="brand-tile"><img src="./assets/brand/tier0-logo-black.svg" alt="black"><code>tier0-logo-black</code></div>
-              <div class="brand-tile is-dark"><img src="./assets/brand/tier0-logo-lime.svg" alt="lime"><code>tier0-logo-lime</code></div>
-              <div class="brand-tile is-dark"><img src="./assets/brand/tier0-logo-white.svg" alt="white"><code>tier0-logo-white</code></div>
-            </div>
-            <div class="token-group" style="margin-top:12px">
-              <div class="token-row is-text"><code>浅底</code><span>black logo</span></div>
-              <div class="token-row is-text"><code>深底</code><span>lime 或 white logo</span></div>
-              <div class="token-row is-text"><code>Tektur</code><span>仅 Logo 字标，不用于标题</span></div>
+              <div class="shadow-swatch" style="box-shadow:1px 2px 8px rgba(5,11,20,.10)"><code>panel</code></div>
+              <div class="shadow-swatch" style="box-shadow:0 8px 24px rgba(5,11,20,.12)"><code>popover / dialog</code></div>
             </div>
           </article>
 
           <article class="ds-panel" data-panel="button" hidden>
             <div class="ds-panel__head">
               <h2>Button</h2>
-              <div class="path">tokens/core.css · preview/_shared/buttons.html</div>
+              <div class="path">Figma Button · @tier0/ui Button</div>
             </div>
             <div class="demo-row">
-              <span class="demo-btn demo-btn--ink">Product primary</span>
-              <span class="demo-btn demo-btn--lime">Website CTA</span>
-              <span class="demo-btn demo-btn--ghost">Secondary</span>
+              <span class="demo-btn demo-btn--ink">primary · 近黑</span>
+              <span class="demo-btn demo-btn--lime">highlight · FX Green</span>
+              <span class="demo-btn demo-btn--ghost">outline / ghost</span>
             </div>
             <div class="token-group" style="margin-top:16px">
-              <div class="token-row is-text"><code>产品主按钮</code><span>近黑底 / 白字 · 4px</span></div>
-              <div class="token-row is-text"><code>官网 CTA</code><span>#B2ED1D + 近墨字</span></div>
-              <div class="token-row is-text"><code>浅色 lime 钮</code><span>#CCF368 + #333</span></div>
-              <div class="token-row is-text"><code>禁止</code><span>白底小按钮满铺 #B2ED1D</span></div>
+              <div class="token-row is-text"><code>sm / md / lg</code><span>32 / 36 / 40</span></div>
+              <div class="token-row is-text"><code>bg-button-primary</code><span>--tier0-primary</span></div>
+              <div class="token-row is-text"><code>bg-button-highlight</code><span>--tier0-highlight-bg-primary</span></div>
             </div>
           </article>
 
-          <article class="ds-panel" data-panel="input" hidden>
+          <article class="ds-panel" data-panel="menu" hidden>
             <div class="ds-panel__head">
-              <h2>Input</h2>
-              <div class="path">preview/_shared/inputs.html</div>
+              <h2>Menu</h2>
+              <div class="path">Figma Menu · sidebar / dropdown</div>
             </div>
-            <div class="demo-field">
-              <label>Label</label>
-              <div class="demo-input">Placeholder</div>
+            <div class="token-group">
+              <div class="token-row is-text"><code>item hover</code><span>bg-bg-accent / --tier0-bg-accent</span></div>
+              <div class="token-row is-text"><code>item active</code><span>highlight-bg-accent + 左侧 marker</span></div>
+              <div class="token-row is-text"><code>icon</code><span>16–20 · text-tertiary → text</span></div>
             </div>
-            <div class="token-group" style="margin-top:16px">
-              <div class="token-row is-text"><code>边框</code><span>--fx-border · focus 2px lime outline</span></div>
-              <div class="token-row is-text"><code>圆角</code><span>--radius-button 4px</span></div>
-              <div class="token-row is-text"><code>字号</code><span>--fs-body 14px</span></div>
+          </article>
+
+          <article class="ds-panel" data-panel="tree" hidden>
+            <div class="ds-panel__head">
+              <h2>Tree</h2>
+              <div class="path">Figma Tree · UNS namespace</div>
+            </div>
+            <div class="token-group">
+              <div class="token-row is-text"><code>row height</code><span>36px</span></div>
+              <div class="token-row is-text"><code>selected</code><span>--tier0-bg-accent</span></div>
+              <div class="token-row is-text"><code>hover</code><span>--tier0-bg-accent / transparent Ant override</span></div>
             </div>
           </article>
 
           <article class="ds-panel" data-panel="card" hidden>
             <div class="ds-panel__head">
               <h2>Card</h2>
-              <div class="path">preview/_shared/cards.html</div>
+              <div class="path">Figma Card · border 分层</div>
             </div>
             <div class="demo-card-ui-row">
-              <div class="demo-card-ui"><strong>Surface card</strong><span>边框分层 · 阴影克制</span></div>
-              <div class="demo-card-ui" style="border-top:3px solid #B2ED1D"><strong>PPT card</strong><span>顶线 --ppt-accent1</span></div>
-            </div>
-            <div class="token-group" style="margin-top:16px">
-              <div class="token-row is-text"><code>--radius-card</code><span>10px</span></div>
-              <div class="token-row is-text"><code>--shadow-card</code><span>1px 2px 8px …</span></div>
-              <div class="token-row is-text"><code>证据框</code><span>真实素材，禁虚构 KPI</span></div>
-            </div>
-          </article>
-
-          <article class="ds-panel" data-panel="tag" hidden>
-            <div class="ds-panel__head">
-              <h2>Tag / Label</h2>
-              <div class="path">preview/_shared/labels-tags.html</div>
-            </div>
-            <div class="demo-row">
-              <span class="hub-tag">■ STATUS</span>
-              <span class="hub-tag is-soft">Tag</span>
-              <span class="hub-tag is-deep">Live</span>
-            </div>
-            <div class="token-group" style="margin-top:16px">
-              <div class="token-row is-text"><code>Mono kicker</code><span>IBM Plex Mono · 小写跟踪</span></div>
-              <div class="token-row is-text"><code>白底标签字</code><span>#73B200，不用 #B2ED1D</span></div>
-              <div class="token-row is-text"><code>软底</code><span>--fx-green-1 #F0FBD2</span></div>
+              <div class="demo-card-ui"><strong>Surface</strong><span>border-border · bg-bg</span></div>
+              <div class="demo-card-ui" style="background:#F9F9F9"><strong>Muted</strong><span>bg-bg-tertiary</span></div>
             </div>
           </article>
 
           <article class="ds-panel" data-panel="table" hidden>
             <div class="ds-panel__head">
               <h2>Table</h2>
-              <div class="path">preview/_shared/table.html · product</div>
+              <div class="path">Figma Table · 高密度工作台</div>
             </div>
             <div class="hub-table">
               <div class="hub-table__head"><span>Name</span><span>Status</span><span>Updated</span></div>
-              <div class="hub-table__row is-hover"><span>namespace.topic</span><span>Live</span><span>2m ago</span></div>
-              <div class="hub-table__row"><span>namespace.metric</span><span>Idle</span><span>1h ago</span></div>
+              <div class="hub-table__row is-hover"><span>namespace.topic</span><span>Live</span><span>2m</span></div>
+              <div class="hub-table__row"><span>namespace.metric</span><span>Idle</span><span>1h</span></div>
             </div>
-            <div class="token-group" style="margin-top:16px">
-              <div class="token-row is-text"><code>行 hover</code><span>--bg-hover-row #F0FBD2</span></div>
-              <div class="token-row is-text"><code>分隔</code><span>--fx-border</span></div>
-              <div class="token-row is-text"><code>密度</code><span>产品工作台优先紧凑</span></div>
+            <div class="token-group" style="margin-top:12px">
+              <div class="token-row is-text"><code>row hover</code><span>bg-bg-tertiary / highlight-bg-accent</span></div>
+              <div class="token-row is-text"><code>header</code><span>text-tertiary · medium</span></div>
             </div>
           </article>
 
-          <article class="ds-panel" data-panel="product" hidden>
+          <article class="ds-panel" data-panel="tag" hidden>
             <div class="ds-panel__head">
-              <h2>Product</h2>
-              <div class="path">tokens/product.css · skills/tier0-product</div>
+              <h2>Tag</h2>
+              <div class="path">Figma Tag · topic / status</div>
             </div>
-            <div class="token-group">
-              <div class="token-row is-text"><code>主按钮</code><span>近黑 · 绿只做状态</span></div>
-              <div class="token-row is-text"><code>字体</code><span>Plex / 产品工程 token</span></div>
-              <div class="token-row is-text"><code>禁止</code><span>营销 Hero、emoji、大面积渐变</span></div>
+            <div class="demo-row">
+              <span class="hub-tag is-soft">State</span>
+              <span class="hub-tag" style="color:#65A30D;background:#F7FEE7;border:0">Action</span>
+              <span class="hub-tag" style="color:#1E40AF;background:#EFF6FF;border:0">Metric</span>
+              <span class="hub-tag is-deep">Live</span>
             </div>
-            <p style="margin-top:16px"><a class="btn btn-primary" href="./surfaces/product.html">Surface →</a></p>
+            <div class="token-group" style="margin-top:12px">
+              <div class="token-row is-text"><code>topic-state</code><span>yellow-50 / 600 / 800</span></div>
+              <div class="token-row is-text"><code>topic-action</code><span>lime-50 / 600 / 800</span></div>
+              <div class="token-row is-text"><code>topic-metric</code><span>blue-50 / 600 / 800</span></div>
+            </div>
           </article>
 
-          <article class="ds-panel" data-panel="website" hidden>
+          <article class="ds-panel" data-panel="chart" hidden>
             <div class="ds-panel__head">
-              <h2>Website</h2>
-              <div class="path">tokens/website.css · skills/tier0-website</div>
+              <h2>Chart</h2>
+              <div class="path">Figma Chart · shadcn chart tokens</div>
             </div>
-            <div class="token-group">
-              <div class="token-row is-text"><code>CTA</code><span>#B2ED1D + near-ink</span></div>
-              <div class="token-row is-text"><code>挑词</code><span>#73B200 白底</span></div>
-              <div class="token-row is-text"><code>Framer</code><span>tier0-framer-page</span></div>
+            <div class="swatch-strip">
+              <span style="background:oklch(64.6% 0.222 41.116)"></span>
+              <span style="background:oklch(60% 0.118 184.704)"></span>
+              <span style="background:oklch(39.8% 0.07 227.392)"></span>
+              <span style="background:oklch(82.8% 0.189 84.429)"></span>
+              <span style="background:oklch(76.9% 0.188 70.08)"></span>
             </div>
-            <p style="margin-top:16px"><a class="btn btn-primary" href="./surfaces/website.html">Surface →</a></p>
+            <div class="token-group" style="margin-top:12px">
+              <div class="token-row is-text"><code>--chart-1 … --chart-5</code><span>themes.scss</span></div>
+              <div class="token-row is-text"><code>系列色</code><span>优先 token，禁临时 hex</span></div>
+            </div>
           </article>
 
-          <article class="ds-panel" data-panel="ppt" hidden>
+          <article class="ds-panel" data-panel="input" hidden>
             <div class="ds-panel__head">
-              <h2>PPT</h2>
-              <div class="path">tokens/deck.css · skills/tier0-ppt</div>
+              <h2>Input</h2>
+              <div class="path">Ant token bridge · height 36</div>
+            </div>
+            <div class="demo-field">
+              <label>Label</label>
+              <div class="demo-input">Placeholder · --tier0-text-placeholder</div>
+            </div>
+            <div class="token-group" style="margin-top:12px">
+              <div class="token-row is-text"><code>active border</code><span>--tier0-highlight</span></div>
+              <div class="token-row is-text"><code>active shadow</code><span>0 0 0 2px --tier0-highlight-20</span></div>
+            </div>
+          </article>
+
+          <article class="ds-panel" data-panel="sidebar" hidden>
+            <div class="ds-panel__head">
+              <h2>Sidebar · Prototype v2</h2>
+              <div class="path">Figma Sidebar · saas-dashboard shell</div>
             </div>
             <div class="token-group">
-              <div class="token-row"><span class="token-swatch" style="background:#050b14"></span><code>--ppt-tx1</code><span>#050B14</span></div>
-              <div class="token-row"><span class="token-swatch" style="background:#ffffff;border-color:#ccc"></span><code>--ppt-bg1</code><span>#FFFFFF</span></div>
-              <div class="token-row"><span class="token-swatch" style="background:#f4f4f4"></span><code>--ppt-lt2</code><span>#F4F4F4</span></div>
-              <div class="token-row"><span class="token-swatch" style="background:#b2ed1d"></span><code>--ppt-accent1</code><span>#B2ED1D</span></div>
-              <div class="token-row"><span class="token-swatch" style="background:#73b200"></span><code>--ppt-accent2</code><span>#73B200</span></div>
-              <div class="token-row"><span class="token-swatch" style="background:#196b24"></span><code>--ppt-accent3</code><span>#196B24</span></div>
+              <div class="token-row is-text"><code>bg</code><span>--sidebar / --tier0-bg-color</span></div>
+              <div class="token-row is-text"><code>active item</code><span>highlight marker + bg-accent</span></div>
+              <div class="token-row is-text"><code>border</code><span>--sidebar-border</span></div>
             </div>
-            <p style="margin-top:16px"><a class="btn btn-primary" href="./slide-skill/">Slide Skill →</a></p>
+          </article>
+
+          <article class="ds-panel" data-panel="login" hidden>
+            <div class="ds-panel__head">
+              <h2>Login · Prototype v2</h2>
+              <div class="path">Figma Login</div>
+            </div>
+            <div class="token-group">
+              <div class="token-row is-text"><code>画布</code><span>白底 / 近黑主按钮</span></div>
+              <div class="token-row is-text"><code>强调</code><span>FX Green CTA 可选</span></div>
+              <div class="token-row is-text"><code>禁止</code><span>营销式巨型 Hero 装饰</span></div>
+            </div>
+          </article>
+
+          <article class="ds-panel" data-panel="home" hidden>
+            <div class="ds-panel__head">
+              <h2>Home · Prototype v2</h2>
+              <div class="path">Figma Home</div>
+            </div>
+            <div class="token-group">
+              <div class="token-row is-text"><code>布局</code><span>workspace：header + controls + content</span></div>
+              <div class="token-row is-text"><code>卡片</code><span>border 分层，阴影克制</span></div>
+            </div>
+          </article>
+
+          <article class="ds-panel" data-panel="setting" hidden>
+            <div class="ds-panel__head">
+              <h2>Setting · Prototype v2</h2>
+              <div class="path">Figma Setting</div>
+            </div>
+            <div class="token-group">
+              <div class="token-row is-text"><code>侧栏菜单</code><span>Menu token</span></div>
+              <div class="token-row is-text"><code>表单</code><span>Input · 紧凑密度</span></div>
+            </div>
+          </article>
+
+          <article class="ds-panel" data-panel="uns" hidden>
+            <div class="ds-panel__head">
+              <h2>Unified Namespace · Prototype v2</h2>
+              <div class="path">Figma UNS · Tree + Table + Tag</div>
+            </div>
+            <div class="token-group">
+              <div class="token-row is-text"><code>树</code><span>Tree token</span></div>
+              <div class="token-row is-text"><code>Topic 标签</code><span>state / action / metric</span></div>
+              <div class="token-row is-text"><code>主操作</code><span>近黑 Create · 绿只做状态</span></div>
+            </div>
+          </article>
+
+          <article class="ds-panel" data-panel="apps" hidden>
+            <div class="ds-panel__head">
+              <h2>All Apps / App Builder · Prototype v2</h2>
+              <div class="path">Figma App Builder</div>
+            </div>
+            <div class="token-group">
+              <div class="token-row is-text"><code>列表</code><span>Table / Card 网格</span></div>
+              <div class="token-row is-text"><code>强调色</code><span>command-accent 可用 violet（Agent）</span></div>
+            </div>
+          </article>
+
+          <article class="ds-panel" data-panel="launchpad" hidden>
+            <div class="ds-panel__head">
+              <h2>Launchpad · Prototype v2</h2>
+              <div class="path">Figma Launchpad · Launchpad text styles</div>
+            </div>
+            <div class="token-group">
+              <div class="token-row is-text"><code>App title</code><span>20–22 / SemiBold Plex</span></div>
+              <div class="token-row is-text"><code>Meta / File</code><span>12–14 Mono / Medium</span></div>
+              <div class="token-row is-text"><code>Readable / Operator</code><span>更大触控与字号档</span></div>
+            </div>
           </article>
 
         </div>
@@ -379,7 +484,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="./js/ds-browser.js?v=20261028-hub"></script>
+  <script src="./js/ds-browser.js?v=20261028-hub2"></script>
   <script>
     (function () {
       const canvas = document.getElementById('hero-ascii');
