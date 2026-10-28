@@ -19,6 +19,7 @@ Root 路由：[`../SKILL.md`](../SKILL.md)（Prefer 1 · 最多 3）
 | **tier0-design** | root | 路由 | — |
 | **tier0-product** | `product` | 产品原型 | [Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) → [Figma UI](https://www.figma.com/design/jmqCj0T7EoMnC4FNsAHfbl/Tier0-UI-Design?node-id=14311-69336) → 本仓 product surface |
 | **tier0-website** | `website` | 网页原型 | [tier0.app](https://tier0.app/) → 用户参考 → website surface |
+| **tier0-framer-page** | `website` 交付 | 官网页面 → Framer 代码组件（构建 + 验收模板） | [tier0.app](https://tier0.app/) → 评审定稿 visual-spec → website surface |
 | **tier0-ppt** | `ppt` 规范 | PPT 规范查询 | `tokens/deck.css` + ppt checklist |
 | **tier0-slide-skill** | `ppt` 生成 | 销售 deck HTML+PPTX | slide-skill + deck VI |
 | **tier0-print** | `print` | 单页 / 海报 / 物料 | DESIGN.md + foundations；外部 skill 可在锁内发挥 |
@@ -31,6 +32,7 @@ Root 路由：[`../SKILL.md`](../SKILL.md)（Prefer 1 · 最多 3）
 |-------|-----|
 | 后台 / UNS / 表单表格原型 | `product` |
 | 对齐官网的网页 / 长页 | `website` |
+| 放进 Framer 官网的页面（列表 / 公告 / 更新日志） | `tier0-framer-page` |
 | 查 PPT 色字版式 | `tier0-ppt` |
 | 做出一套可演示 deck | `tier0-slide-skill` |
 | 海报、单页、KV、展会物料 | `print` |
@@ -79,6 +81,7 @@ node skills/scripts/tier0-skills.mjs get tier0-product
 mkdir -p .cursor/skills
 ln -sfn ../../skills/tier0-product .cursor/skills/tier0-product
 ln -sfn ../../skills/tier0-website .cursor/skills/tier0-website
+ln -sfn ../../skills/tier0-framer-page .cursor/skills/tier0-framer-page
 ln -sfn ../../skills/tier0-ppt .cursor/skills/tier0-ppt
 ln -sfn ../../skills/tier0-print .cursor/skills/tier0-print
 ln -sfn ../../skills/tier0-slide-skill .cursor/skills/tier0-slide-skill

@@ -19,6 +19,7 @@ Start with the reader’s job and the **scenario**, not the document category:
 |----------|------------|-------|--------------|
 | Product prototype | Operate dense industrial workbenches | `skills/tier0-product` | [Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) → [Figma UI](https://www.figma.com/design/jmqCj0T7EoMnC4FNsAHfbl/Tier0-UI-Design?node-id=14311-69336) → `surfaces/tier0-product/` · `tokens/product.css` |
 | Website prototype | Understand product narrative / pricing | `skills/tier0-website` | [tier0.app](https://tier0.app/) → user refs → `surfaces/company-website/` · `tokens/website.css` |
+| Website page in Framer | Browse / filter resource pages on tier0.app | `skills/tier0-framer-page` | [tier0.app](https://tier0.app/) → `skills/tier0-framer-page/references/visual-spec.md` → website surface |
 | PPT / sales deck | Present claims with brand-locked slides | `skills/tier0-ppt` or `skills/tier0-slide-skill` | `tokens/deck.css` · ppt checklist · slide Gallery |
 | Print / poster / single page | One strong message on a fixed canvas | `skills/tier0-print` | `DESIGN.md` · `foundations/` · `assets/` · optional craft skills |
 

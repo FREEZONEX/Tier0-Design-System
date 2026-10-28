@@ -10,6 +10,7 @@
 |--------|-------|------|----------------|
 | **产品原型**（后台、UNS、表格表单） | [`skills/tier0-product`](skills/tier0-product/SKILL.md) | [Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) · [Figma UI](https://www.figma.com/design/jmqCj0T7EoMnC4FNsAHfbl/Tier0-UI-Design?node-id=14311-69336) | [`tokens/product.css`](tokens/product.css) · [`preview/tier0-product/`](preview/tier0-product/) |
 | **网页原型**（官网长页、营销站） | [`skills/tier0-website`](skills/tier0-website/SKILL.md) | [tier0.app](https://tier0.app/)（+ 你提供的参考） | [`tokens/website.css`](tokens/website.css) · [`preview/company-website/`](preview/company-website/) |
+| **Framer 页面交付**（嵌入官网的代码组件） | [`skills/tier0-framer-page`](skills/tier0-framer-page/SKILL.md) | [tier0.app](https://tier0.app/) + 评审定稿细则 | [`template/`](skills/tier0-framer-page/template/README.md)（build + verify） |
 | **PPT 规范** | [`skills/tier0-ppt`](skills/tier0-ppt/SKILL.md) | Masterdeck / `deck.css` | [`tokens/deck.css`](tokens/deck.css) · [`preview/ppt/`](preview/ppt/) |
 | **PPT 生成**（HTML + 可编辑 PPTX） | [`skills/tier0-slide-skill`](skills/tier0-slide-skill/) | slide-skill + deck VI | Gallery 见 skill README |
 | **单页 / 海报 / 物料** | [`skills/tier0-print`](skills/tier0-print/SKILL.md) | [`DESIGN.md`](DESIGN.md) + foundations（+ 外部 craft skill） | [`tokens/core.css`](tokens/core.css) · `assets/` |
@@ -40,6 +41,7 @@
 │   ├── README.md             # 注册表
 │   ├── tier0-product/
 │   ├── tier0-website/
+│   ├── tier0-framer-page/    # 官网页面 → Framer 代码组件
 │   ├── tier0-ppt/
 │   ├── tier0-print/
 │   ├── tier0-slide-skill/
