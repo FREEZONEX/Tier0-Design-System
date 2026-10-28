@@ -2,7 +2,8 @@
 
 ## 全局壳层
 
-- 固定左栏约 **220–240px**，背景 `#050B14`  
+- 固定左栏约 **234px**，浅色底 `bg-bg-tertiary`（Figma Tier0 UI Design）；设置页再加 248px 二级菜单  
+- 侧栏不随页面滚动，只有内容区滚动（规格见 [`skills/tier0-product`](../../skills/tier0-product/references/design-elements.md)）  
 - 内容区白底 `#FFFFFF`，顶栏 + 主内容 flex  
 - 参考：`ui_kits/tier0-product/index.html`
 

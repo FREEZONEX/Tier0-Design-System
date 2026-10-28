@@ -17,7 +17,7 @@ Root 路由：[`../SKILL.md`](../SKILL.md)（Prefer 1 · 最多 3）
 | Skill | Category | 能力 | 真源摘要 |
 |-------|----------|------|----------|
 | **tier0-design** | root | 路由 | — |
-| **tier0-product** | `product` | 产品原型 | [Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) → [Figma UI](https://www.figma.com/design/jmqCj0T7EoMnC4FNsAHfbl/Tier0-UI-Design?node-id=14311-69336) → 本仓 product surface |
+| **tier0-product** | `product` | 产品原型交付（Figma → 单文件 HTML，含原型控制 / 组件标注 / 交付说明） | [Figma UI](https://www.figma.com/design/jmqCj0T7EoMnC4FNsAHfbl/Tier0-UI-Design?node-id=14311-69336) 定视觉 → [Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) 定写法 → 本仓 product surface |
 | **tier0-website** | `website` | 网页原型 | [tier0.app](https://tier0.app/) → 用户参考 → website surface |
 | **tier0-framer-page** | `website` 交付 | 官网页面 → Framer 代码组件（构建 + 验收模板） | [tier0.app](https://tier0.app/) → 评审定稿 visual-spec → website surface |
 | **tier0-ppt** | `ppt` 规范 | PPT 规范查询 | `tokens/deck.css` + ppt checklist |
@@ -30,7 +30,7 @@ Root 路由：[`../SKILL.md`](../SKILL.md)（Prefer 1 · 最多 3）
 
 | 你要… | 选 |
 |-------|-----|
-| 后台 / UNS / 表单表格原型 | `product` |
+| 后台 / UNS / 设置页 / 弹窗 / 引导流程 / 登录页原型，或交给开发的产品原型 | `product` |
 | 对齐官网的网页 / 长页 | `website` |
 | 放进 Framer 官网的页面（列表 / 公告 / 更新日志） | `tier0-framer-page` |
 | 查 PPT 色字版式 | `tier0-ppt` |

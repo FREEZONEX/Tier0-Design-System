@@ -84,7 +84,7 @@
 
 | 你提到… | 路由到 |
 |---------|--------|
-| 产品后台、工作台、Namespace、表格、侧栏… | `tier0-product` |
+| 产品后台、工作台、Namespace、表格、侧栏、设置页、弹窗、开发交付原型… | `tier0-product` |
 | 官网、产品页、落地页、叙事… | `company-website` |
 | PPT 规范、Masterdeck 组件… | `surfaces/ppt` |
 | 生成 / 改一份 HTML+PPTX 演示稿… | `skills/tier0-slide-skill` |
