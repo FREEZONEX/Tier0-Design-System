@@ -1,6 +1,6 @@
 # Surface — PPT（Masterdeck）
 
-> PPT 场景规范入口。Agent 规范查询：[`skills/tier0-ppt`](../../skills/tier0-ppt/SKILL.md)。生成 deck：[`skills/tier0-slide-skill`](../../skills/tier0-slide-skill/)。  
+> PPT 场景规范入口。统一入口：[`skills/tier0-ppt`](../../skills/tier0-ppt/SKILL.md)（规范+生成；引擎 `tier0-slide-skill/`）。  
 > 实现 token：[`tokens/deck.css`](../../tokens/deck.css)。历史全文归档：[`sources/spec.ppt.md`](../../sources/spec.ppt.md)（默认不读）。
 
 ## Agent 深度参考（生成 deck 时优先）

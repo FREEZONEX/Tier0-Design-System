@@ -1,6 +1,6 @@
 ---
 name: tier0-design-guidelines
-description: "Design, build, or substantially improve Tier0-authored surfaces: product UI (UNS console), company website, and sales/presales decks. Use for work that needs Tier0 information architecture, IBM Plex / Tektur typography, industrial restraint, green-as-signal color rules, and correct surface routing."
+description: "Design, build, or substantially improve Tier0-authored surfaces: product UI (UNS console), company website, and sales/presales decks. Use for work that needs Tier0 information architecture, IBM Plex typography, industrial restraint, green-as-signal color rules, and correct surface routing."
 ---
 
 # Design Tier0 surfaces
@@ -37,7 +37,7 @@ When requirements compete, protect them in this order:
 2. Preserve the caller's framework, routes, delivery surface, and this repository’s `tokens/` + `foundations/` + surface READMEs.
 3. Route to the correct surface first (`tier0-product` / `company-website` / `ppt` / `tier0-slide-skill`).
 4. Make the reader’s question, strongest supported answer, and material evidence immediately clear.
-5. Establish unmistakable Tier0 authorship through IBM Plex (and Tektur on PPT), near-ink structure, and green used only as signal.
+5. Establish unmistakable Tier0 authorship through IBM Plex (PPT included), near-ink structure, and green used only as signal.
 6. Choose a composition specific to this material; avoid generic model defaults and fixed decorative templates.
 7. Refine responsive behavior, interaction, and density without weakening hierarchy.
 
@@ -56,7 +56,7 @@ Resolve tokens from this repository:
 
 Detail specs live in [`foundations/`](foundations/) and [`surfaces/*/`](surfaces/). For sales decks that need HTML + editable PPTX, load [`skills/tier0-slide-skill/SKILL.md`](skills/tier0-slide-skill/SKILL.md). For product UI in a monorepo, prefer installed `packages/theme` / `packages/ui` over inventing parallel tokens.
 
-Default network allowlist: Google Fonts (IBM Plex / Tektur when not using local `fonts/`), Tier0 logo/QR assets, and user-supplied evidence. Do not add third-party chart kits, emoji icon packs, stock photos, or analytics without authorization.
+Default network allowlist: Google Fonts (IBM Plex when not using local `fonts/`), Tier0 logo/QR assets, and user-supplied evidence. Do not add third-party chart kits, emoji icon packs, stock photos, or analytics without authorization.
 
 ## Work in four passes
 
@@ -130,7 +130,7 @@ Prefer spacing, alignment, and typography before borders or nested cards. Radii:
 | UI / website titles & body | IBM Plex Sans 400–500 | Product, website |
 | East Asian | IBM Plex Sans SC | All surfaces |
 | Kickers / mono labels | IBM Plex Mono | Website, PPT, docs |
-| PPT cover / dark section titles | Tektur Regular | PPT only |
+| PPT cover / dark section titles | IBM Plex Sans | PPT only · no Tektur |
 
 **Forbid Poppins** and Inter-as-brand-title. Shared scale in `core.css`: display 88 → h1 48 → h2 32 → h3 24 → h4 18 → body 16/14 → caption 12. Establish hierarchy through type before color. Keep prose readable; do not shrink gray text to fake density.
 

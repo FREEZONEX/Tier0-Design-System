@@ -179,8 +179,8 @@ Copyright © 2026 Tier0. All rights reserved.
 
 | 场景 | 元素 | 字体 | 挑词色 |
 |------|------|------|--------|
-| A 封面 | `h1` | Tektur Regular 54–72px | `.accent` → `--ppt-emphasis-on-dark` |
-| B 章节 | `h1` | Tektur Regular 48–60px，白字 | 一般整句白，少挑词 |
+| A 封面 | `h1` | IBM Plex Sans 54–72px | `.accent` → `--ppt-emphasis-on-dark` |
+| B 章节 | `h1` | IBM Plex Sans 48–60px，白字 | 一般整句白，少挑词 |
 | C 页标题 | `h1` | Plex Medium 32–40px | `.accent` → `--ppt-emphasis-on-light` |
 
 ```html

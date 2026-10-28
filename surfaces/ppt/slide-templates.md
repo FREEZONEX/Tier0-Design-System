@@ -35,7 +35,7 @@ HTML deck 与 `preview/ppt/` 预览均为**全屏 slide**（`100vw × 100vh`）�
 
 ## 类型 B — 深色章节
 
-- 全屏深底，Tektur Regular 白字
+- 全屏深底，IBM Plex Sans 白字
 - 低对比网格；避免大块 accent1 底
 
 ## 类型 C — 白底内容

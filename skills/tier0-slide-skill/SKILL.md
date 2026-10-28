@@ -1,18 +1,18 @@
 ---
 name: tier0-slide-skill
 description: >-
-  将 Tier0 PPT / 文档 / 截图 / Demo / 架构图整理为销售·售前演示稿（HTML 和/或可编辑 PPTX）。
-  已有完整布局的 PPTX 默认模式 A：只统一 DESIGN.md / deck token 字体·色·边框·圆角，禁止整套推翻乱排；
-  仅失败页或用户明确重构时模式 B。不做产品后台 UI。触发：Tier0 PPT、售前 deck、优化现有 PPTX、架构说明、案例演示。
+  Tier0 PPT 生成引擎（HTML + 可编辑 PPTX）。对外入口优先 @tier0-ppt；本目录为 template /
+  Gallery / scripts。已有完整布局的 PPTX 默认模式 A：只统一 DESIGN.md / deck token；
+  仅失败页或用户明确重构时模式 B。IBM Plex only — 禁止 Tektur 标题（Tektur 仅 Logo）。
 ---
 
-# Tier0 Slide Skill
+# Tier0 Slide Skill（生成引擎）
 
-**调用**：`@tier0-slide-skill` · 真源：`skills/tier0-slide-skill/`
+**入口**：优先 [`../tier0-ppt/SKILL.md`](../tier0-ppt/SKILL.md) · 本目录真源：`skills/tier0-slide-skill/`
 
 **范围**：销售 / 售前 deck only。禁止画产品后台或写 UI 规范。
 
-**品牌**：IBM Plex · Tektur（深墨大标题）· 绿 `#B2ED1D` 仅信号 · 16:9 · 冲突服从 `DESIGN.md` + `tokens/deck.css`。
+**品牌**：IBM Plex Sans / Mono · **无 Tektur** · 绿 `#B2ED1D` 仅信号 · 16:9 · 冲突服从 `DESIGN.md` + `tokens/deck.css`。
 
 ---
 

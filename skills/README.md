@@ -19,9 +19,10 @@ Root 路由：[`../SKILL.md`](../SKILL.md)（Prefer 1 · 最多 3）
 | **tier0-design** | root | 路由 | — |
 | **tier0-product** | `product` | 产品原型交付（Figma → 单文件 HTML，含原型控制 / 组件标注 / 交付说明） | [Figma UI](https://www.figma.com/design/jmqCj0T7EoMnC4FNsAHfbl/Tier0-UI-Design?node-id=14311-69336) 定视觉 → [Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) 定写法 → 本仓 product surface |
 | **tier0-website** | `website` | 网页原型 | [tier0.app](https://tier0.app/) → 用户参考 → website surface |
-| **tier0-framer-page** | `website` 交付 | 官网页面 → Framer 代码组件（构建 + 验收模板） | [tier0.app](https://tier0.app/) → 评审定稿 visual-spec → website surface |
-| **tier0-ppt** | `ppt` 规范 | PPT 规范查询 | `tokens/deck.css` + ppt checklist |
-| **tier0-slide-skill** | `ppt` 生成 | 销售 deck HTML+PPTX | slide-skill + deck VI |
+| **tier0-framer-page** | `website` 交付 | 官网页面 → Framer 代码组件 | [tier0.app](https://tier0.app/) → website surface |
+| **tier0-ppt** | `ppt` | PPT 规范 + 生成（统一入口） | `tokens/deck.css` + slide-skill 引擎 |
+| **tier0-slide-skill** | `ppt` 引擎 | template / Gallery / scripts（经 tier0-ppt 调用） | deck VI |
+| **tier0-svg-illustration** | craft | 技术 SVG 插画 | Tier0 token |
 | **tier0-print** | `print` | 单页 / 海报 / 物料 | DESIGN.md + foundations；外部 skill 可在锁内发挥 |
 
 站点：[Design System](https://freezonex.github.io/Tier0-Design-System/) · [Slide Skill](https://freezonex.github.io/Tier0-Design-System/site/slide-skill/)
@@ -32,10 +33,15 @@ Root 路由：[`../SKILL.md`](../SKILL.md)（Prefer 1 · 最多 3）
 |-------|-----|
 | 后台 / UNS / 设置页 / 弹窗 / 引导流程 / 登录页原型，或交给开发的产品原型 | `product` |
 | 对齐官网的网页 / 长页 | `website` |
-| 放进 Framer 官网的页面（列表 / 公告 / 更新日志） | `tier0-framer-page` |
-| 查 PPT 色字版式 | `tier0-ppt` |
-| 做出一套可演示 deck | `tier0-slide-skill` |
+| 放进 Framer 的官网页面 | `tier0-framer-page` |
+| 查 PPT 规范或生成 deck | `tier0-ppt` |
+| 技术 SVG 插画 | `tier0-svg-illustration` |
 | 海报、单页、KV、展会物料 | `print` |
+
+## tier0-svg-illustration（插画层，按需）
+
+来源：Oxide 站点 craft 提炼 · 路径 [`tier0-svg-illustration/SKILL.md`](tier0-svg-illustration/SKILL.md)  
+规则：`.cursor/rules/tier0-svg-illustration.mdc`
 
 ## lieflat-charts（图表层，按需）
 

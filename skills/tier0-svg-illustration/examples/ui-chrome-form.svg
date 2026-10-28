@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 360" fill="none" role="img" aria-label="UI chrome form illustration">
+  <rect width="520" height="360" fill="#050B14"/>
+  <!-- left meta -->
+  <text x="28" y="36" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="0.12em" fill="#73777D">STATUS</text>
+  <text x="140" y="36" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="0.08em" fill="#B2ED1D">READY</text>
+  <text x="28" y="58" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="0.12em" fill="#73777D">NAMESPACE</text>
+  <text x="140" y="58" font-family="IBM Plex Mono, monospace" font-size="10" fill="#A3A4A5">plant / line-01</text>
+  <!-- card -->
+  <rect x="28" y="84" width="464" height="220" rx="2" fill="#0E1824" stroke="#2B2D2F" stroke-width="1"/>
+  <rect x="48" y="112" width="424" height="40" rx="2" fill="#111822" stroke="#2B2D2F"/>
+  <text x="60" y="136" font-family="IBM Plex Mono, monospace" font-size="12" fill="#73777D">workload � demo-app</text>
+  <rect x="48" y="168" width="424" height="40" rx="2" fill="#111822" stroke="#2B2D2F"/>
+  <text x="60" y="192" font-family="IBM Plex Mono, monospace" font-size="12" fill="#73777D">image � uns-agent:latest</text>
+  <rect x="48" y="228" width="160" height="40" rx="2" fill="#B2ED1D"/>
+  <text x="128" y="252" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="13" font-weight="500" fill="#050B14">Submit</text>
+  <!-- icons row -->
+  <rect x="48" y="320" width="12" height="12" fill="#B2ED1D"/>
+  <text x="68" y="331" font-family="IBM Plex Mono, monospace" font-size="10" fill="#A3A4A5">API-first</text>
+  <rect x="160" y="320" width="12" height="12" fill="#B2ED1D"/>
+  <text x="180" y="331" font-family="IBM Plex Mono, monospace" font-size="10" fill="#A3A4A5">Fast provision</text>
+  <rect x="310" y="320" width="12" height="12" fill="#B2ED1D"/>
+  <text x="330" y="331" font-family="IBM Plex Mono, monospace" font-size="10" fill="#A3A4A5">Your tools</text>
+</svg>

@@ -28,7 +28,7 @@
 
 | 维度 | 官网 | 产品 UI | PPT |
 |------|------|---------|-----|
-| 字体 | **Plex Sans 标题 + 正文** | Plex only | + Tektur 章节 |
+| 字体 | **Plex Sans 标题 + 正文** | Plex only | 无 Tektur |
 | 绿 | `#B2ED1D` 按钮/面；`#73B200` 白底字 | FX Green 状态 | `#B2ED1D` accent1 |
 | 阴影 | 极轻或无 | 卡片轻阴影 | 默认无 |
 | 结构 | 长页多 section | 工作台 | 幻灯片 |

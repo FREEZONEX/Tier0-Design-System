@@ -20,7 +20,7 @@ Tier0 Masterdeck **不是**「换一套 CSS 就变风格」——而是一套 **
 
 - 自造「居中海报式」全屏标题（除非类型 B 章节页）
 - 全稿出现 **Poppins**（含历史母版残留）
-- 封面（A）与深色章节（B）主标题必须用 **Tektur Regular**
+- 封面（A）与深色章节（B）主标题必须用 **IBM Plex Sans**（禁止 Tektur）
 - 画面出现 **FREEZONEX** 字样、Logo、母公司色条、口播归属
 - 用饱和 `#B2ED1D` **满铺条** 再叠浅色正文
 - 白底 / 浅灰 / 浅绿洗上用 `#B2ED1D` 作**文字**（小标题、Mono 标签）—— 见 **P0-8**
@@ -34,8 +34,8 @@ Tier0 Masterdeck **不是**「换一套 CSS 就变风格」——而是一套 **
 
 | 用途 | 字体 | 字重 | 禁止 |
 |------|------|------|------|
-| A 封面主标题 | Tektur | **Regular 400** | **Poppins**、Bold |
-| B 深色章节 | Tektur | **Regular 400** | **Poppins**、Bold 冒充章节字 |
+| A 封面主标题 | IBM Plex Sans | **Regular 400** | **Tektur**、**Poppins**、Bold |
+| B 深色章节 | IBM Plex Sans | **Regular 400** | **Tektur**、**Poppins**、Bold 冒充章节字 |
 | C 白底页标题 | IBM Plex Sans / **SC** | Medium 500 | **Poppins** |
 | 正文 / 列表 | Sans / **SC** | Regular 400 | 其他中文字体 |
 | 页脚 | IBM Plex Mono | Regular | 含 FREEZONEX 文案 |

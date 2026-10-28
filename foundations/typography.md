@@ -9,7 +9,7 @@
 | Display / Logo | IBM Plex Mono Medium | 产品、部分品牌页 |
 | UI / 正文 / 官网标题 | **IBM Plex Sans**（标题 400–500） | 产品、官网（对齐 tier0.app） |
 | 官网挑词 / 信号字 | IBM Plex Sans + `#73B200` | 白底强调；亮绿 `#B2ED1D` 作面/按钮 |
-| PPT 封面 / 章节大标题 | **Tektur Regular** | 仅 `ppt`（封面与深色章节页） |
+| PPT 封面 / 章节大标题 | **IBM Plex Sans**（400–500） | `ppt`；深墨章节可用全大写。**禁止 Tektur**（仅 Logo SVG） |
 | 中文 / 东亚 | **IBM Plex Sans SC** | 全场景 |
 | 页脚 / kicker / ■ 标签 | IBM Plex Mono | 官网、PPT、文档 |
 

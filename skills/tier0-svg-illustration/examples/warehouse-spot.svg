@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" role="img" aria-labelledby="t d">
+  <title id="t">Warehouse in / out</title>
+  <desc id="d">Boxes enter a warehouse building and exit; dashed data ticks link boxes to the building</desc>
+  <rect width="400" height="300" fill="#050B14"/>
+
+  <!-- ground line -->
+  <path d="M24 236 H376" stroke="#2B2D2F" stroke-width="1"/>
+
+  <!-- ===== warehouse building (🏭 motif) ===== -->
+  <!-- body -->
+  <path d="M148 236 V132 H252 V236 Z" fill="#0E1824" stroke="#303235" stroke-width="1"/>
+  <!-- roof -->
+  <path d="M140 132 L200 88 L260 132 Z" fill="#181A1D" stroke="#303235" stroke-width="1"/>
+  <!-- roof ridge accent -->
+  <path d="M200 88 V132" stroke="#2B2D2F" stroke-width="1"/>
+  <!-- door (active) -->
+  <rect x="184" y="176" width="32" height="60" fill="#050B14" stroke="#B2ED1D" stroke-width="1.2"/>
+  <!-- door handle -->
+  <rect x="208" y="204" width="4" height="4" fill="#B2ED1D"/>
+  <!-- window / bay slots -->
+  <rect x="160" y="148" width="20" height="16" fill="#050B14" stroke="#303235" stroke-width="1"/>
+  <rect x="220" y="148" width="20" height="16" fill="#050B14" stroke="#303235" stroke-width="1"/>
+  <!-- shelf lines inside (hint) -->
+  <path d="M168 200 H184 M216 200 H232" stroke="#303235" stroke-width="1"/>
+
+  <!-- chimney block (factory cue) -->
+  <rect x="228" y="100" width="12" height="28" fill="#0E1824" stroke="#303235" stroke-width="1"/>
+  <rect x="224" y="96" width="20" height="6" fill="#181A1D" stroke="#303235" stroke-width="1"/>
+
+  <!-- ===== IN box (📦) ===== -->
+  <g transform="translate(40 176)">
+    <path d="M0 40 L24 24 L48 40 L24 56 Z" fill="#0E1824" stroke="#B2ED1D" stroke-width="1.2"/>
+    <path d="M0 40 L0 64 L24 80 L24 56 Z" fill="#181A1D" stroke="#B2ED1D" stroke-width="1.2"/>
+    <path d="M48 40 L48 64 L24 80 L24 56 Z" fill="#0E1824" stroke="#B2ED1D" stroke-width="1.2"/>
+    <!-- tape -->
+    <path d="M12 32 L24 40 L36 32" stroke="#73B200" stroke-width="1" fill="none"/>
+    <path d="M24 40 V56" stroke="#73B200" stroke-width="1"/>
+  </g>
+
+  <!-- small waiting boxes (gray) -->
+  <g transform="translate(96 200)" stroke="#303235" stroke-width="1" fill="#0E1824">
+    <path d="M0 24 L16 14 L32 24 L16 34 Z"/>
+    <path d="M0 24 V40 L16 50 L16 34 Z" fill="#181A1D"/>
+    <path d="M32 24 V40 L16 50 L16 34 Z"/>
+  </g>
+
+  <!-- ===== OUT box (📦) ===== -->
+  <g transform="translate(312 184)" stroke="#303235" stroke-width="1" fill="#0E1824">
+    <path d="M0 40 L24 24 L48 40 L24 56 Z"/>
+    <path d="M0 40 V64 L24 80 L24 56 Z" fill="#181A1D"/>
+    <path d="M48 40 V64 L24 80 L24 56 Z"/>
+    <path d="M12 32 L24 40 L36 32" stroke="#73777D" fill="none"/>
+    <path d="M24 40 V56" stroke="#73777D"/>
+  </g>
+
+  <!-- IN arrow / conveyor -->
+  <path d="M92 212 H140" stroke="#73777D" stroke-width="1"/>
+  <path d="M132 208 L144 212 L132 216" stroke="#B2ED1D" stroke-width="1.2" fill="none"/>
+
+  <!-- OUT arrow -->
+  <path d="M260 212 H300" stroke="#73777D" stroke-width="1"/>
+  <path d="M292 208 L304 212 L292 216" stroke="#A3A4A5" stroke-width="1" fill="none"/>
+
+  <!-- data flow (dashed) box ↔ warehouse -->
+  <path d="M64 168 C 64 120, 160 112, 184 148" stroke="#B2ED1D" stroke-width="1" stroke-dasharray="3 3" fill="none" opacity="0.85"/>
+  <path d="M216 148 C 260 112, 336 120, 336 176" stroke="#73777D" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
+  <!-- data ticks -->
+  <circle cx="96" cy="132" r="2" fill="#B2ED1D"/>
+  <circle cx="140" cy="120" r="2" fill="#B2ED1D"/>
+  <circle cx="280" cy="120" r="2" fill="#73777D"/>
+  <circle cx="320" cy="140" r="2" fill="#73777D"/>
+
+  <!-- labels: 3 only -->
+  <text x="64" y="268" text-anchor="middle" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="11" letter-spacing="0.14em" fill="#B2ED1D">IN</text>
+  <text x="200" y="268" text-anchor="middle" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="11" letter-spacing="0.14em" fill="#A3A4A5">WH</text>
+  <text x="336" y="268" text-anchor="middle" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="11" letter-spacing="0.14em" fill="#73777D">OUT</text>
+</svg>

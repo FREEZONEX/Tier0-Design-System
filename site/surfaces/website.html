@@ -39,30 +39,7 @@
             <div class="invoke__fact"><dt>产出</dt><dd>HTML 原型，或 Framer .tsx 代码组件 + preview.html</dd></div>
           </dl>
           <div class="invoke__body">
-            <ol class="invoke__steps">
-              <li>
-                <b>01</b>
-                <div>
-                  <h3>打开规范</h3>
-                  <p>在 Cursor / Codex 里打开本仓库，或点名 <code>surfaces/company-website/</code> 与 <code>tokens/website.css</code>。视觉对照 <a href="https://tier0.app/pricing" target="_blank" rel="noopener">tier0.app</a>。</p>
-                </div>
-              </li>
-              <li>
-                <b>02</b>
-                <div>
-                  <h3>说清要做什么页</h3>
-                  <p>写清受众、章节顺序、主 CTA 文案。用公司官网场景，不要抄产品后台或 PPT 的字体与按钮。</p>
-                </div>
-              </li>
-              <li>
-                <b>03</b>
-                <div>
-                  <h3>生成后对照验收</h3>
-                  <p>白底、IBM Plex、亮绿主按钮、细边框。不要用 Inter / Poppins，不要做巨型 startup Hero。</p>
-                </div>
-              </li>
-            </ol>
-            <pre class="invoke__prompt" data-label="可复制提示词">使用 tier0-website 做一页产品介绍 HTML 原型，对齐 tier0.app；先读场景 skill 和 website token。如果交付到 Framer，改用 tier0-framer-page，提供 .tsx 与 preview.html，并运行 build + verify。</pre>
+<pre class="invoke__prompt" data-label="可复制提示词">使用 tier0-website 做一页产品介绍 HTML 原型，对齐 tier0.app；先读场景 skill 和 website token。如果交付到 Framer，改用 tier0-framer-page，提供 .tsx 与 preview.html，并运行 build + verify。</pre>
             <div class="invoke__links">
               <span>资源</span>
               <a href="https://github.com/FREEZONEX/Tier0-Design-System/tree/main/surfaces/company-website" target="_blank" rel="noopener">GitHub · company-website</a>
@@ -86,8 +63,7 @@
       </section>
 
       <section class="section" id="preview" style="padding-top:12px">
-        <h2 class="section-heading">在真实场景中查看</h2>
-        <p class="section-copy">白底编辑 Hero：括号挑词、绿字信号、主 CTA 用 `#B2ED1D`。</p>
+        <h2 class="section-heading">预览</h2>
         <div class="web-hero-demo">
           <div class="web-hero-demo__copy">
             <div class="eyebrow-demo">HOW IT WORKS</div>
@@ -106,8 +82,7 @@
       </section>
 
       <section class="section" id="components" style="padding-top:24px">
-        <h2 class="section-heading">组件样式</h2>
-        <p class="section-copy">对齐 <code>surfaces/company-website/</code>、<code>tokens/website.css</code> 与线上官网。</p>
+        <h2 class="section-heading">组件</h2>
         <div class="comp-grid">
           <article class="comp-card">
             <div class="comp-card__stage" style="background:#fff">
@@ -117,7 +92,6 @@
             </div>
             <div class="comp-card__meta">
               <h3>Display / 挑词</h3>
-              <p>标题 IBM Plex Sans 500；白底绿字 <code>#73B200</code>。正文同族 400。</p>
               <code>Plex 500 · accent-deep signal</code>
             </div>
           </article>
@@ -128,7 +102,6 @@
             </div>
             <div class="comp-card__meta">
               <h3>CTA</h3>
-              <p>主 CTA：亮绿底 <code>#B2ED1D</code> + 近墨字。次操作白底描边。与 pricing 顶栏一致。</p>
               <code>radius 4px · no heavy shadow</code>
             </div>
           </article>
@@ -145,7 +118,6 @@
             </div>
             <div class="comp-card__meta">
               <h3>Section · Card</h3>
-              <p>白底与中性灰分层，细边框区分内容，不用灰绿色铺底。</p>
               <code>--mist · --line</code>
             </div>
           </article>
@@ -156,7 +128,6 @@
             </div>
             <div class="comp-card__meta">
               <h3>长页节序</h3>
-              <p>参考 Builder：Hero → 对比栏 → How it works → Capabilities → FAQ → CTA。</p>
               <code>surfaces/company-website/README.md</code>
             </div>
           </article>

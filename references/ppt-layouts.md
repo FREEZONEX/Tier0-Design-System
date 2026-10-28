@@ -193,7 +193,7 @@ function go(n) {
 
 **预览：** [`slide-cover-A.html`](../preview/ppt/slide-cover-A.html)
 
-**要点：** 深底 `#050B14` · 左文右图 · `marketing-cover-visual.svg` · **Tektur Regular** 标题 · `.accent` 挑词 · **无** accent1 装饰斜线
+**要点：** 深底 `#050B14` · 左文右图 · `marketing-cover-visual.svg` · **IBM Plex Sans** 标题 · `.accent` 挑词 · **无** accent1 装饰斜线
 
 ```html
 <section class="deck-slide deck-slide--cover" data-slide-type="A" data-theme="dark">
@@ -216,7 +216,7 @@ function go(n) {
 ```
 
 **关键要点：**
-- `h1` 字体由 `--font-cover`（Tektur）驱动，**禁用 Poppins**
+- `h1` 字体由 `--font-cover`（IBM Plex Sans）驱动，**禁用 Poppins**
 - `.accent` 挑词色 = `--ppt-emphasis-on-dark`（`#B2ED1D`）
 - `deck-cover__visual` 全高贴右；多 slide 横向排列时需在业务 CSS 中改为 `position: absolute`，避免 `position: fixed` 穿透其他 slide
 - chrome 右侧封面页可附日期，其他页只写页码
@@ -276,7 +276,7 @@ function go(n) {
 
 **预览：** [`slide-chapter-B.html`](../preview/ppt/slide-chapter-B.html)
 
-**要点：** **Tektur Regular** 大标题垂直居中 · 深底点阵背景 · 内容极简（一句 claim + 可选副标题）· 用于每 2–4 张白底后的节奏断点
+**要点：** **IBM Plex Sans** 大标题垂直居中 · 深底点阵背景 · 内容极简（一句 claim + 可选副标题）· 用于每 2–4 张白底后的节奏断点
 
 ```html
 <section class="deck-slide deck-slide--chapter" data-slide-type="B" data-theme="dark">
@@ -296,7 +296,7 @@ function go(n) {
 ```
 
 **关键要点：**
-- `h1` 由 `--font-chapter`（Tektur）渲染，字号 `clamp(48px, 5.5vw, 60px)`，**垂直居中**显示（`justify-content: center`）
+- `h1` 由 `--font-chapter`（IBM Plex Sans）渲染，字号 `clamp(48px, 5.5vw, 60px)`，**垂直居中**显示（`justify-content: center`）
 - `max-width: 50vw`（约半屏宽）自然折行，视觉重心居中
 - 极简留白：只放一句主张，**不堆子弹点**
 - 标题默认白色，**不需要** `.accent` 挑词（章节页整句本身就是强调）

@@ -38,8 +38,8 @@
   /* deprecated: old parent-company footer bar — do not use on new slides */
   --ppt-footer-pill: #040b13;
 
-  --font-cover: "Tektur", "IBM Plex Sans", sans-serif;
-  --font-chapter: "Tektur", "IBM Plex Sans", sans-serif;
+  --font-cover: "IBM Plex Sans", "IBM Plex Sans SC", system-ui, sans-serif;
+  --font-chapter: "IBM Plex Sans", "IBM Plex Sans SC", system-ui, sans-serif;
   --font-body-latin: "IBM Plex Sans", system-ui, sans-serif;
   --font-body-cjk: "IBM Plex Sans SC", "IBM Plex Sans", system-ui, sans-serif;
   --font-footer: "IBM Plex Mono", monospace;

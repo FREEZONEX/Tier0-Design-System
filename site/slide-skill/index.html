@@ -10,7 +10,7 @@
   <meta name="description" content="Tier0 PPT / 讲解 HTML Skill：预览、组件语法、用法与 Demo。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=Tektur:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../site.css?v=20260806c">
 </head>
 <body>
@@ -27,8 +27,8 @@
 
     <main class="shell">
       <header class="page-hero-lite">
-        <h1>PPT / 讲解 HTML.</h1>
-        <p>把大纲、文档、截图整理成品牌演示稿。同一份 <code>deck.json</code> 产出可改字的 PPTX，和可投屏讲解的 HTML。只做演示稿，不做产品 UI。</p>
+        <h1>PPT / Deck.</h1>
+        <p>HTML + 可改字 PPTX · 入口 <code>@tier0-ppt</code></p>
 
         <aside class="invoke" aria-labelledby="invoke-slide">
           <div class="invoke__head">
@@ -44,47 +44,21 @@
           <div class="invoke__body">
             <ol class="invoke__steps">
               <li>
-                <b>00</b>
-                <div>
-                  <h3>一键安装到本机</h3>
-                  <p>终端粘贴下面一行。会装依赖，并链到 Cursor / Codex（以及 Claude / Agents）的 skills 目录。</p>
-                  <pre class="invoke__prompt" data-label="一键安装" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">curl -fsSL https://raw.githubusercontent.com/FREEZONEX/Tier0-Design-System/main/skills/tier0-slide-skill/scripts/install-skill.sh | bash</pre>
-                </div>
-              </li>
-              <li>
                 <b>01</b>
                 <div>
-                  <h3>打开 Skill，让 Agent 开表单</h3>
-                  <p>安装后<strong>新开</strong>对话，在 Cursor / Codex 里 <code>@tier0-slide-skill</code>，让 Agent 打开 PPT 交付表单。</p>
-                  <pre class="invoke__prompt" data-label="可复制提示词" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">@tier0-slide-skill 帮我打开 PPT 交付表单（intake）入口，我要先填交付格式和素材再生成稿。</pre>
+                  <h3>安装</h3>
+                  <pre class="invoke__prompt" data-label="一键安装" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">curl -fsSL https://raw.githubusercontent.com/FREEZONEX/Tier0-Design-System/main/skills/tier0-slide-skill/scripts/install-skill.sh | bash</pre>
                 </div>
               </li>
               <li>
                 <b>02</b>
                 <div>
-                  <div class="invoke__step-head">
-                    <h3>填完交付表单</h3>
-                    <a class="btn btn-ink invoke__intake-btn" href="http://127.0.0.1:5056" target="_blank" rel="noopener">打开表单 ↗</a>
-                  </div>
-                  <p>说清楚要 HTML、PPTX 还是两者，补上封面信息和素材，确认后继续对话生成。</p>
-                </div>
-              </li>
-              <li>
-                <b>03</b>
-                <div>
-                  <h3>把材料丢给 Agent</h3>
-                  <p>附上大纲、旧 PPT、截图或架构图。需要 HTML + PPTX 时，从一开始就按双格式走，不要先做完一套再手工复制另一套。</p>
-                </div>
-              </li>
-              <li>
-                <b>04</b>
-                <div>
-                  <h3>拿到稿并检查</h3>
-                  <p>HTML 适合现场翻页讲解；PPTX 适合发给客户改字。在本页 Demo 里预览效果，要改某一页直接在对话里说。</p>
+                  <h3>开表单</h3>
+                  <pre class="invoke__prompt" data-label="提示词" style="margin-top:8px;border:1px solid var(--line);border-radius:4px;padding:12px 14px">@tier0-ppt 打开 PPT 交付表单，先填交付格式和素材再生成。</pre>
                 </div>
               </li>
             </ol>
-            <pre class="invoke__prompt" data-label="生成整稿时可复制">用 tier0-slide-skill 做一份 Tier0 产品介绍 PPT：8 页，突出 UNS 与 Builder，交付 HTML + 可编辑 PPTX。先填交付表单；逐页写清本页目的和核心观点，再按 Layout Gallery 做疏密排版；没有证据的 KPI 不要写。</pre>
+            <pre class="invoke__prompt" data-label="生成">@tier0-ppt 做 8 页产品介绍：UNS + Builder，交付 HTML + PPTX。无证据不写 KPI。</pre>
             <div class="invoke__links">
               <span>更多</span>
               <a href="./guide.html">三步上手</a>
