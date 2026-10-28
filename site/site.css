@@ -731,3 +731,37 @@ a{color:inherit;text-decoration:none}
 .ds-nav button small{display:none}
 .invoke__meta{display:none}
 .page-hero-lite > p{max-width:42ch}
+
+
+/* token-hub-20261028 */
+.hero--entries .hero__inner{padding-top:40px}
+.sp-bar{display:inline-block;height:10px;background:var(--accent);margin-left:auto;border-radius:1px}
+.token-row.is-text{gap:12px}
+.token-row .sp-bar{flex:0 0 auto}
+.radius-row,.shadow-row,.brand-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.radius-swatch,.shadow-swatch,.brand-tile{
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:8px;
+  min-height:96px;padding:14px;border:1px solid var(--line);background:#fff;
+}
+.radius-swatch{background:var(--accent-soft)}
+.shadow-swatch{background:#fff}
+.brand-tile img{height:22px;width:auto}
+.brand-tile.is-dark{background:#050B14;color:#fff;border-color:#050B14}
+.brand-tile code,.radius-swatch code,.shadow-swatch code{font:400 11px/1.3 var(--mono);color:inherit}
+.brand-tile span,.radius-swatch span{font-size:12px;color:var(--muted)}
+.hub-note{margin-top:14px;font-size:13px;color:var(--text)}
+.demo-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.demo-field{display:grid;gap:6px;max-width:320px}
+.demo-field label{font-size:12px;color:var(--muted)}
+.demo-input{border:1px solid var(--line);border-radius:4px;padding:10px 12px;color:var(--muted);font-size:14px}
+.hub-tag{display:inline-flex;align-items:center;padding:4px 8px;border-radius:4px;font:400 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent-deep);border:1px solid var(--line)}
+.hub-tag.is-soft{background:var(--accent-soft);border-color:transparent}
+.hub-tag.is-deep{background:var(--ink);color:var(--accent);border-color:transparent}
+.hub-table{border:1px solid var(--line);border-radius:4px;overflow:hidden;font-size:13px}
+.hub-table__head,.hub-table__row{display:grid;grid-template-columns:1.4fr .8fr .8fr;gap:12px;padding:10px 14px}
+.hub-table__head{background:#f7f8f4;font:400 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.hub-table__row{border-top:1px solid var(--line)}
+.hub-table__row.is-hover{background:#F0FBD2}
+@media (max-width:720px){
+  .radius-row,.shadow-row,.brand-row{grid-template-columns:1fr}
+}
