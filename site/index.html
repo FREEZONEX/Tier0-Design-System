@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./site.css?v=20261028-hub2">
+  <link rel="stylesheet" href="./site.css?v=20261028-biz">
 </head>
 <body>
   <div class="page">
@@ -78,7 +78,7 @@
 
     <section class="shell section" id="tokens">
       <h2 class="section-heading">Token Hub</h2>
-      <p class="hub-source">对齐 Figma Design System + <code>packages/theme</code>（Prototype v2.0）</p>
+      <p class="hub-source">对齐 Figma DS + Frontend theme；业务壳层取自 Login / Onboarding / Billing 原型</p>
       <div class="ds-browser" data-ds-browser data-skill-base="https://github.com/FREEZONEX/Tier0-Design-System/blob/main/" data-design-md="./tokens/DESIGN.txt" data-skill-md="./skills/SKILL.txt">
         <aside class="ds-nav" aria-label="Token categories">
           <div class="ds-nav__label">Foundations</div>
@@ -100,8 +100,10 @@
           <div class="ds-nav__label">Prototype v2</div>
           <button type="button" data-cat="sidebar">Sidebar</button>
           <button type="button" data-cat="login">Login</button>
+          <button type="button" data-cat="onboarding">Onboarding</button>
           <button type="button" data-cat="home">Home</button>
           <button type="button" data-cat="setting">Setting</button>
+          <button type="button" data-cat="billing">Plan / Billing</button>
           <button type="button" data-cat="uns">UNS</button>
           <button type="button" data-cat="apps">App Builder</button>
           <button type="button" data-cat="launchpad">Launchpad</button>
@@ -293,12 +295,26 @@
           <article class="ds-panel" data-panel="menu" hidden>
             <div class="ds-panel__head">
               <h2>Menu</h2>
-              <div class="path">Figma Menu · sidebar / dropdown</div>
+              <div class="path">Figma Menu · sidebar / dropdown · Setting 菜单</div>
             </div>
-            <div class="token-group">
-              <div class="token-row is-text"><code>item hover</code><span>bg-bg-accent / --tier0-bg-accent</span></div>
-              <div class="token-row is-text"><code>item active</code><span>highlight-bg-accent + 左侧 marker</span></div>
-              <div class="token-row is-text"><code>icon</code><span>16–20 · text-tertiary → text</span></div>
+            <div class="biz-menu-demo">
+              <div class="biz-menu">
+                <div class="lbl">Workspace</div>
+                <a>General</a>
+                <a class="is-active">Plan &amp; Billing</a>
+                <a>Members</a>
+                <div class="lbl">Account</div>
+                <a>Profile</a>
+              </div>
+              <div class="biz-dropdown">
+                <div class="item">Open</div>
+                <div class="item">Rename</div>
+                <div class="item is-danger">Delete</div>
+              </div>
+            </div>
+            <div class="token-group" style="margin-top:14px">
+              <div class="token-row is-text"><code>item hover</code><span>bg-bg-accent</span></div>
+              <div class="token-row is-text"><code>item active</code><span>bg-accent + font-medium</span></div>
             </div>
           </article>
 
@@ -307,10 +323,16 @@
               <h2>Tree</h2>
               <div class="path">Figma Tree · UNS namespace</div>
             </div>
-            <div class="token-group">
+            <aside class="biz-tree" style="max-width:280px;border:1px solid #EBEBEB;border-radius:6px">
+              <div class="biz-tree__hd">Namespace</div>
+              <div class="biz-tree__row">▾ plant</div>
+              <div class="biz-tree__row pad">▾ line-a</div>
+              <div class="biz-tree__row pad2 is-active">motor-01</div>
+              <div class="biz-tree__row pad2">sensor-temp</div>
+            </aside>
+            <div class="token-group" style="margin-top:14px">
               <div class="token-row is-text"><code>row height</code><span>36px</span></div>
               <div class="token-row is-text"><code>selected</code><span>--tier0-bg-accent</span></div>
-              <div class="token-row is-text"><code>hover</code><span>--tier0-bg-accent / transparent Ant override</span></div>
             </div>
           </article>
 
@@ -392,86 +414,249 @@
             </div>
           </article>
 
-          <article class="ds-panel" data-panel="sidebar" hidden>
+                    <article class="ds-panel" data-panel="sidebar" hidden>
             <div class="ds-panel__head">
-              <h2>Sidebar · Prototype v2</h2>
-              <div class="path">Figma Sidebar · saas-dashboard shell</div>
+              <h2>Sidebar</h2>
+              <p>工作区壳层导航 · 对齐 Onboarding / Billing 原型里的 App Sidebar。</p>
+              <div class="path">@tier0/ui shell · surfaces/prototypes</div>
             </div>
-            <div class="token-group">
-              <div class="token-row is-text"><code>bg</code><span>--sidebar / --tier0-bg-color</span></div>
-              <div class="token-row is-text"><code>active item</code><span>highlight marker + bg-accent</span></div>
-              <div class="token-row is-text"><code>border</code><span>--sidebar-border</span></div>
+            <div class="biz-frame biz-frame--sidebar">
+              <aside class="biz-sb">
+                <div class="biz-sb__brand"><span class="biz-av biz-av--blue">T</span><strong>Acme Workspace</strong></div>
+                <nav class="biz-sb__nav">
+                  <a class="is-active"><i></i>Home</a>
+                  <a>Unified Namespace</a>
+                  <a>All Apps</a>
+                  <a>Launchpad</a>
+                </nav>
+                <div class="biz-sb__grow"></div>
+                <div class="biz-sb__up">
+                  <div class="t">Upgrade Plan</div>
+                  <div class="bar"><i></i></div>
+                </div>
+                <div class="biz-sb__user"><span class="biz-av">A</span><span>alex@tier0.app</span></div>
+              </aside>
+              <div class="biz-sb-main">
+                <div class="biz-sb-main__hd">Home</div>
+                <div class="biz-sb-main__body">content</div>
+              </div>
+            </div>
+            <div class="token-group" style="margin-top:14px">
+              <div class="token-row is-text"><code>active</code><span>bg-accent + 左侧 highlight marker</span></div>
+              <div class="token-row is-text"><code>Upgrade 条</code><span>hl-btn 进度 · 近黑文案</span></div>
             </div>
           </article>
 
           <article class="ds-panel" data-panel="login" hidden>
             <div class="ds-panel__head">
-              <h2>Login · Prototype v2</h2>
-              <div class="path">Figma Login</div>
+              <h2>Login</h2>
+              <p>OAuth + Email tabs · Continue 用 FX Green 高亮按钮。</p>
+              <div class="path"><a href="./surfaces/prototypes/login.html" target="_blank" rel="noopener">完整原型 ↗</a></div>
             </div>
-            <div class="token-group">
-              <div class="token-row is-text"><code>画布</code><span>白底 / 近黑主按钮</span></div>
-              <div class="token-row is-text"><code>强调</code><span>FX Green CTA 可选</span></div>
-              <div class="token-row is-text"><code>禁止</code><span>营销式巨型 Hero 装饰</span></div>
+            <div class="biz-login">
+              <div class="biz-login__welcome">Welcome to <img alt="" src="./assets/brand/tier0-logo-black.svg" width="14" height="16"> Tier0</div>
+              <div class="biz-login__card">
+                <button type="button" class="biz-oauth">Continue with Google</button>
+                <button type="button" class="biz-oauth">Continue with Microsoft</button>
+                <div class="biz-div"><span></span>or<span></span></div>
+                <div class="biz-tabs"><button type="button" class="selected">Email</button><button type="button">Phone</button></div>
+                <input class="biz-input" placeholder="name@company.com" readonly>
+                <button type="button" class="biz-btn biz-btn--hl">Continue</button>
+              </div>
+            </div>
+            <div class="token-group" style="margin-top:14px">
+              <div class="token-row is-text"><code>Continue</code><span>--tier0-highlight-bg-primary</span></div>
+              <div class="token-row is-text"><code>tab selected</code><span>border-bottom highlight-deep</span></div>
+            </div>
+          </article>
+
+          <article class="ds-panel" data-panel="onboarding" hidden>
+            <div class="ds-panel__head">
+              <h2>Onboarding</h2>
+              <p>CnDialog 分步：左表单 + 右 workspace 预览。主 CTA 近黑。</p>
+              <div class="path"><a href="./surfaces/prototypes/onboarding.html" target="_blank" rel="noopener">完整原型 ↗</a></div>
+            </div>
+            <div class="biz-onb">
+              <div class="biz-onb__form">
+                <div class="biz-onb__steps"><span class="on">1</span><span class="on">2</span><span>3</span><span>4</span></div>
+                <h3>Tell us about your work</h3>
+                <p class="biz-onb__lead">We’ll tailor your workspace.</p>
+                <label class="biz-field"><span>Company</span><input class="biz-input" value="FreezoneX" readonly></label>
+                <label class="biz-field"><span>Role</span><input class="biz-input" value="Builder" readonly></label>
+                <div class="biz-onb__btns">
+                  <button type="button" class="biz-btn biz-btn--outline">Back</button>
+                  <button type="button" class="biz-btn biz-btn--ink grow">Continue</button>
+                </div>
+              </div>
+              <div class="biz-onb__preview">
+                <div class="biz-onb__mini-sb"></div>
+                <div class="biz-onb__mini-main">
+                  <div class="hi">Workspace name</div>
+                  <div class="tile"></div><div class="tile"></div>
+                </div>
+              </div>
+            </div>
+            <div class="token-group" style="margin-top:14px">
+              <div class="token-row is-text"><code>primary CTA</code><span>近黑 --tier0-primary</span></div>
+              <div class="token-row is-text"><code>Avatar cat</code><span>--tier0-cat-n-bg/fg</span></div>
             </div>
           </article>
 
           <article class="ds-panel" data-panel="home" hidden>
             <div class="ds-panel__head">
-              <h2>Home · Prototype v2</h2>
-              <div class="path">Figma Home</div>
+              <h2>Home</h2>
+              <div class="path">Figma Home · onboarding shell tiles</div>
             </div>
-            <div class="token-group">
-              <div class="token-row is-text"><code>布局</code><span>workspace：header + controls + content</span></div>
-              <div class="token-row is-text"><code>卡片</code><span>border 分层，阴影克制</span></div>
+            <div class="biz-home">
+              <div class="biz-home__hd">
+                <div><strong>Home</strong><span>Recently used apps and data</span></div>
+                <div class="biz-home__tools"><span class="q">Search</span><button type="button" class="biz-btn biz-btn--ink sm">+ New</button></div>
+              </div>
+              <div class="biz-home__grid">
+                <div class="biz-tile"><b>Connect a data source</b><span>MQTT · OPC UA · Modbus</span></div>
+                <div class="biz-tile"><b>Build an app</b><span>App Builder</span></div>
+                <div class="biz-tile"><b>Explore UNS</b><span>Topics &amp; metrics</span></div>
+              </div>
             </div>
           </article>
 
           <article class="ds-panel" data-panel="setting" hidden>
             <div class="ds-panel__head">
-              <h2>Setting · Prototype v2</h2>
-              <div class="path">Figma Setting</div>
+              <h2>Setting</h2>
+              <p>Settings 左菜单 + 内容区。</p>
+              <div class="path">Figma Setting · plan-billing shell</div>
             </div>
-            <div class="token-group">
-              <div class="token-row is-text"><code>侧栏菜单</code><span>Menu token</span></div>
-              <div class="token-row is-text"><code>表单</code><span>Input · 紧凑密度</span></div>
+            <div class="biz-setting">
+              <aside>
+                <div class="lbl">Workspace</div>
+                <a>General</a>
+                <a class="is-active">Plan &amp; Billing</a>
+                <a>Members</a>
+                <a>API Keys</a>
+                <div class="lbl">Account</div>
+                <a>Profile</a>
+                <a>Security</a>
+              </aside>
+              <section>
+                <h3>Plan &amp; Billing</h3>
+                <p>Manage subscription, seats and credits.</p>
+                <div class="biz-field"><span>Workspace name</span><input class="biz-input" value="Acme" readonly></div>
+                <button type="button" class="biz-btn biz-btn--ink sm">Save</button>
+              </section>
+            </div>
+          </article>
+
+          <article class="ds-panel" data-panel="billing" hidden>
+            <div class="ds-panel__head">
+              <h2>Plan / Billing</h2>
+              <p>套餐卡 · 席位 · Credits · Upgrade。主操作近黑。</p>
+              <div class="path"><a href="./surfaces/prototypes/plan-billing.html" target="_blank" rel="noopener">完整原型 ↗</a></div>
+            </div>
+            <div class="biz-bill">
+              <div class="biz-plan is-current">
+                <div class="biz-plan__top"><span class="badge">Current</span><strong>Pro</strong></div>
+                <div class="price">$99<span>/mo</span></div>
+                <ul><li>10 seats</li><li>50k credits</li><li>Priority support</li></ul>
+                <button type="button" class="biz-btn biz-btn--outline" disabled>Current plan</button>
+              </div>
+              <div class="biz-plan">
+                <div class="biz-plan__top"><strong>Scale</strong></div>
+                <div class="price">$299<span>/mo</span></div>
+                <ul><li>50 seats</li><li>500k credits</li><li>SSO</li></ul>
+                <button type="button" class="biz-btn biz-btn--ink">Upgrade</button>
+              </div>
+              <div class="biz-usage">
+                <div class="row"><span>Seats</span><b>6 / 10</b></div>
+                <div class="meter"><i style="width:60%"></i></div>
+                <div class="row"><span>Credits</span><b>32.4k left</b></div>
+                <div class="meter is-hl"><i style="width:35%"></i></div>
+              </div>
+            </div>
+            <div class="token-group" style="margin-top:14px">
+              <div class="token-row is-text"><code>Upgrade</code><span>bg-button-primary 近黑</span></div>
+              <div class="token-row is-text"><code>Current badge</code><span>highlight-bg</span></div>
             </div>
           </article>
 
           <article class="ds-panel" data-panel="uns" hidden>
             <div class="ds-panel__head">
-              <h2>Unified Namespace · Prototype v2</h2>
-              <div class="path">Figma UNS · Tree + Table + Tag</div>
+              <h2>Unified Namespace</h2>
+              <p>Tree + Table + Topic Tag。Create 近黑；绿只做 Live/选中。</p>
+              <div class="path">Figma UNS · Tree / Table / Tag</div>
             </div>
-            <div class="token-group">
-              <div class="token-row is-text"><code>树</code><span>Tree token</span></div>
-              <div class="token-row is-text"><code>Topic 标签</code><span>state / action / metric</span></div>
-              <div class="token-row is-text"><code>主操作</code><span>近黑 Create · 绿只做状态</span></div>
+            <div class="biz-uns">
+              <aside class="biz-tree">
+                <div class="biz-tree__hd">Namespace</div>
+                <div class="biz-tree__row">▾ plant</div>
+                <div class="biz-tree__row pad">▾ line-a</div>
+                <div class="biz-tree__row pad2 is-active">motor-01</div>
+                <div class="biz-tree__row pad2">sensor-temp</div>
+                <div class="biz-tree__row">▾ line-b</div>
+              </aside>
+              <div class="biz-uns__main">
+                <div class="biz-uns__toolbar">
+                  <strong>plant / line-a / motor-01</strong>
+                  <button type="button" class="biz-btn biz-btn--ink sm">Create</button>
+                </div>
+                <div class="hub-table">
+                  <div class="hub-table__head"><span>Topic</span><span>Type</span><span>Status</span></div>
+                  <div class="hub-table__row is-hover">
+                    <span>rpm</span>
+                    <span><span class="hub-tag" style="color:#65A30D;background:#F7FEE7;border:0">Action</span></span>
+                    <span><span class="hub-tag is-deep">Live</span></span>
+                  </div>
+                  <div class="hub-table__row">
+                    <span>temp</span>
+                    <span><span class="hub-tag" style="color:#1E40AF;background:#EFF6FF;border:0">Metric</span></span>
+                    <span><span class="hub-tag is-soft">Idle</span></span>
+                  </div>
+                  <div class="hub-table__row">
+                    <span>mode</span>
+                    <span><span class="hub-tag is-soft">State</span></span>
+                    <span><span class="hub-tag is-soft">Idle</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="token-group" style="margin-top:14px">
+              <div class="token-row is-text"><code>Tree selected</code><span>--tier0-bg-accent</span></div>
+              <div class="token-row is-text"><code>Create</code><span>近黑 primary · 禁止绿按钮</span></div>
             </div>
           </article>
 
           <article class="ds-panel" data-panel="apps" hidden>
             <div class="ds-panel__head">
-              <h2>All Apps / App Builder · Prototype v2</h2>
+              <h2>All Apps / App Builder</h2>
               <div class="path">Figma App Builder</div>
             </div>
-            <div class="token-group">
-              <div class="token-row is-text"><code>列表</code><span>Table / Card 网格</span></div>
-              <div class="token-row is-text"><code>强调色</code><span>command-accent 可用 violet（Agent）</span></div>
+            <div class="biz-apps">
+              <div class="biz-app-card"><div class="ico" style="background:#EFF6FF;color:#2563EB">A</div><div><b>Analytics</b><span>Dashboards</span></div></div>
+              <div class="biz-app-card"><div class="ico" style="background:#E7F9B9;color:#7EA815">W</div><div><b>WMS</b><span>Warehouse</span></div></div>
+              <div class="biz-app-card"><div class="ico" style="background:#F5F3FF;color:#7C3AED">C</div><div><b>Control</b><span>Agent</span></div></div>
+              <div class="biz-app-card is-new"><div class="ico">+</div><div><b>New app</b><span>App Builder</span></div></div>
             </div>
           </article>
 
           <article class="ds-panel" data-panel="launchpad" hidden>
             <div class="ds-panel__head">
-              <h2>Launchpad · Prototype v2</h2>
-              <div class="path">Figma Launchpad · Launchpad text styles</div>
+              <h2>Launchpad</h2>
+              <p>Readable / Operator 字号档 · IBM Plex。</p>
+              <div class="path">Figma Launchpad text styles</div>
             </div>
-            <div class="token-group">
-              <div class="token-row is-text"><code>App title</code><span>20–22 / SemiBold Plex</span></div>
-              <div class="token-row is-text"><code>Meta / File</code><span>12–14 Mono / Medium</span></div>
-              <div class="token-row is-text"><code>Readable / Operator</code><span>更大触控与字号档</span></div>
+            <div class="biz-lp">
+              <div class="biz-lp__card">
+                <div class="biz-lp__title">Pump Station</div>
+                <div class="biz-lp__desc">Monitor line pressure and alerts</div>
+                <div class="biz-lp__meta">FILE · pump-station.app</div>
+              </div>
+              <div class="biz-lp__card is-lg">
+                <div class="biz-lp__title">Operator view</div>
+                <div class="biz-lp__desc">Larger touch targets · 22/30 SemiBold</div>
+                <div class="biz-lp__meta">MODE · operator</div>
+              </div>
             </div>
           </article>
+
 
         </div>
       </div>
@@ -484,7 +669,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="./js/ds-browser.js?v=20261028-hub2"></script>
+  <script src="./js/ds-browser.js?v=20261028-biz"></script>
   <script>
     (function () {
       const canvas = document.getElementById('hero-ascii');

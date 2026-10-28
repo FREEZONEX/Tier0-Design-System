@@ -1,0 +1,1627 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tier0 Onboarding Prototype</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Inter:wght@600&family=Noto+Sans+SC:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: Tier0 workspace shell underneath, CnDialog-style overlay on top. The dialog is split:
+   form on the left; on the right a scaled-down, minimal replica of the real workspace layout
+   (app-sidebar + app-header + user-dropdown) that bleeds off the dialog's bottom edge and lights
+   up exactly the element each step changes.
+   Every color maps 1:1 to a token in packages/theme (comment = semantic token). */
+:root {
+  /* 中英文统一：拉丁字符 IBM Plex Sans，中文 Noto Sans SC（各平台一致，避免回退到系统字体造成标题/按钮割裂） */
+  --font-ui: "IBM Plex Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;   /* --font-app-sans */
+  --font-display: "Inter", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;     /* 大标题：英文 Inter，中文同样回退到 Noto Sans SC */
+  /* 弹窗字号阶梯：所有步骤共用，只用这四级 */
+  --fs-title: 28px;  --lh-title: 36px;   /* 步骤标题 */
+  --fs-mad: 24px;    --lh-mad: 34px;     /* 填空句（工作信息页的主体，按原版放大） */
+  --fs-lead: 20px;   --lh-lead: 30px;    /* 加载标题 */
+  --fs-body: 14px;   --lh-body: 22px;    /* 副标题、表单、按钮、选项 */
+  --fs-small: 12px;  --lh-small: 18px;   /* 提示、说明、标签 */
+  --font-mono: "Geist Mono", ui-monospace, Menlo, monospace;                        /* --font-geist-mono */
+
+  --bg: #ffffff;               /* --tier0-bg-color */
+  --bg-subtle: #fcfcfc;        /* --tier0-bg-subtle */
+  --bg-tertiary: #f9f9f9;      /* --tier0-bg-tertiary */
+  --bg-accent: #f3f3f3;        /* --tier0-bg-accent */
+  --bg-secondary: #ebebeb;     /* --tier0-bg-secondary */
+  --text: #050b14;             /* --tier0-text-color */
+  --text-secondary: #242424;   /* --tier0-text-secondary */
+  --text-tertiary: #878787;    /* --tier0-text-tertiary */
+  --text-placeholder: #d9d9d9; /* --tier0-text-placeholder */
+  --border: #ebebeb;           /* --tier0-border */
+  --input: #e5e5e5;            /* --input  oklch(92.2% 0 0) */
+  --primary: #050b14;          /* --tier0-primary -> bg-button-primary */
+  --primary-hover: #1c1f1e;    /* --tier0-primary-hover */
+  --on-primary: #ffffff;       /* --tier0-primary-foreground */
+  --hl: #b2ed1d;               /* --tier0-highlight */
+  --hl-btn: #cef368;           /* --tier0-highlight-bg-primary -> bg-button-highlight */
+  --hl-btn-hover: #dcf797;     /* --tier0-highlight-bg-secondary */
+  --hl-accent: #e7f9b9;        /* --tier0-highlight-bg-accent */
+  --hl-tertiary: #f7fde8;      /* --tier0-highlight-bg-tertiary */
+  --hl-text: #a2db1a;          /* --tier0-highlight-text (focus border) */
+  --hl-deep: #73b200;          /* --tier0-highlight-deep */
+  --on-hl: #050b14;            /* --tier0-highlight-foreground */
+  --shadow-input: 0 0 0 2px rgb(162 216 26 / 20%);       /* --shadow-input */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
+  --overlay: rgb(0 0 0 / 50%); /* DialogOverlay bg-black/50 */
+  --error: #dc2626;            /* --tier0-error-color */
+  --error-bg: #fee2e2;         /* --tier0-error-tertiary */
+  --radius-md: 4px;            /* rounded-md = var(--radius) - 4px */
+  --radius-lg: 6px;
+  --radius-xl: 10px;
+
+  /* ComAvatar 分类标识色板 --tier0-cat-{n}-bg / -fg */
+  --cat-1-bg: #fef2f2; --cat-1-fg: #dc2626;
+  --cat-2-bg: #fefce8; --cat-2-fg: #ca8a04;
+  --cat-3-bg: #f5f3ff; --cat-3-fg: #7c3aed;
+  --cat-4-bg: #e7f9b9; --cat-4-fg: #7ea815;
+  --cat-5-bg: #fff7ed; --cat-5-fg: #ea580c;
+  --cat-6-bg: #eff6ff; --cat-6-fg: #2563eb;
+  --cat-7-bg: #ecfeff; --cat-7-fg: #0891b2;
+  --cat-8-bg: #fdf4ff; --cat-8-fg: #c026d3;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #050b14; --bg-subtle: #151a19; --bg-tertiary: #101615; --bg-accent: #1c1f1e; --bg-secondary: #22282a;
+    --text: #ffffff; --text-secondary: #d6d6d6; --text-tertiary: #8f8f8f; --text-placeholder: #4a4f55;
+    --border: #22282a; --input: rgb(255 255 255 / 15%);
+    --primary: #ffffff; --primary-hover: #e6e6e6; --on-primary: #050b14;
+    --hl-accent: rgb(178 237 29 / 14%); --hl-tertiary: rgb(178 237 29 / 7%);
+    --error-bg: rgb(220 38 38 / 14%); --overlay: rgb(0 0 0 / 60%);
+    --shadow-md: 0 6px 16px -4px rgb(0 0 0 / 60%); --shadow-lg: 0 10px 30px -6px rgb(0 0 0 / 60%);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #050b14; --bg-subtle: #151a19; --bg-tertiary: #101615; --bg-accent: #1c1f1e; --bg-secondary: #22282a;
+  --text: #ffffff; --text-secondary: #d6d6d6; --text-tertiary: #8f8f8f; --text-placeholder: #4a4f55;
+  --border: #22282a; --input: rgb(255 255 255 / 15%);
+  --primary: #ffffff; --primary-hover: #e6e6e6; --on-primary: #050b14;
+  --hl-accent: rgb(178 237 29 / 14%); --hl-tertiary: rgb(178 237 29 / 7%);
+  --error-bg: rgb(220 38 38 / 14%); --overlay: rgb(0 0 0 / 60%);
+  --shadow-md: 0 6px 16px -4px rgb(0 0 0 / 60%); --shadow-lg: 0 10px 30px -6px rgb(0 0 0 / 60%);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-ui); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; overflow: hidden; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--hl-text); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+svg.i { width: 16px; height: 16px; flex: none; }
+
+/* ============ @tier0/ui mirrors ============ */
+/* Button (ui/button.tsx: rounded-md text-sm font-medium; sm h-8 / lg h-10) */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; border-radius: var(--radius-md); font-size: var(--fs-body); font-weight: 500; border: 1px solid transparent; height: 32px; padding: 0 16px; transition: background .15s, color .15s, opacity .15s; }
+.btn.lg { height: 40px; }
+.btn.default { background: var(--hl-btn); color: var(--on-hl); }
+.btn.default:hover { background: var(--hl-btn-hover); }
+.btn.primary { background: var(--primary); color: var(--on-primary); box-shadow: var(--shadow-xs); }
+.btn.primary:hover { background: var(--primary-hover); }
+.btn.outline { background: var(--bg); border-color: var(--border); box-shadow: var(--shadow-xs); }
+.btn.outline:hover { background: var(--bg-tertiary); }
+.btn.ghost { background: transparent; padding: 0 8px; color: var(--text-tertiary); }
+.btn.ghost:hover { background: var(--bg-tertiary); color: var(--text); }
+.btn.link { background: none; border: 0; padding: 0; height: auto; text-underline-offset: 4px; }
+.btn.link:hover { text-decoration: underline; }
+.btn:disabled { opacity: .5; pointer-events: none; }
+.btn svg { width: 16px; height: 16px; }
+.spin { width: 14px; height: 14px; border-radius: 99px; border: 2px solid currentColor; border-right-color: transparent; animation: rot .7s linear infinite; flex: none; }
+@keyframes rot { to { transform: rotate(360deg); } }
+/* Label */
+.label { display: flex; align-items: center; gap: 8px; font-size: var(--fs-body); line-height: 1; font-weight: 500; }
+.label .opt { color: var(--text-tertiary); font-weight: 400; }
+/* Input (ui/input.tsx) */
+.input { display: flex; width: 100%; height: 36px; border-radius: var(--radius-md); border: 1px solid var(--input); background: transparent; padding: 4px 12px; box-shadow: var(--shadow-xs); outline: none; transition: border-color .15s, box-shadow .15s; }
+.input::placeholder { color: var(--text-placeholder); }
+.input:focus-visible { border-color: var(--hl-text); box-shadow: var(--shadow-input); outline: none; }
+.input[aria-invalid="true"] { border-color: var(--error); }
+/* CnSelect withBorder */
+.select { position: relative; display: block; }
+.select select { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 32px; background: var(--bg); }
+.select select.ph { color: var(--text-placeholder); }
+.select select option { color: var(--text); }
+.select svg { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; opacity: .5; pointer-events: none; }
+/* ComAvatar / workspace mark */
+.av { width: 24px; height: 24px; border-radius: 99px; display: inline-grid; place-items: center; font-size: 11px; font-weight: 600; flex: none; overflow: hidden; text-transform: uppercase; background-color: var(--bg-accent); color: var(--text-tertiary); background-size: cover; background-position: center; }
+.wsm { width: 22px; height: 22px; border-radius: var(--radius-lg); display: inline-grid; place-items: center; font-size: 11px; font-weight: 600; flex: none; text-transform: uppercase; }
+/* Badge secondary */
+.badge { font-size: var(--fs-small); line-height: 18px; padding: 0 8px; border-radius: var(--radius-md); background: var(--bg-accent); color: var(--text-secondary); white-space: nowrap; }
+
+/* ============ Sidebar（新版 app-sidebar，Figma 17594-308800）— 背景壳层与右侧预览共用 ============ */
+.sb { position: relative; width: 240px; height: 100%; background: var(--bg-tertiary); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding-top: 12px; }
+.sb-ws { display: flex; align-items: center; gap: 8px; height: 40px; margin: 0 8px 12px; padding: 0 8px; border-radius: var(--radius-md); min-width: 0; }
+.sb-mark { width: 24px; height: 24px; border-radius: var(--radius-lg); display: grid; place-items: center; font-size: 13px; font-weight: 600; flex: none; text-transform: uppercase; transition: background-color .3s, color .3s; }
+.sb-ws .nm { font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sb-ws .nm.ph { color: var(--text-placeholder); font-weight: 500; }
+.sb-ws .cv { width: 14px; height: 14px; color: var(--text-tertiary); flex: none; }
+.sb-ws .col { width: 18px; height: 18px; color: var(--text-tertiary); margin-left: auto; flex: none; }
+.sb-nav { display: grid; gap: 2px; padding: 0 8px; align-content: start; }
+.sb-grp { height: 34px; display: flex; align-items: flex-end; padding: 0 10px 6px; color: var(--text-tertiary); font-size: 13px; }
+.sb-item { height: 34px; display: flex; align-items: center; gap: 10px; padding: 0 10px; border-radius: var(--radius-md); color: var(--text-secondary); white-space: nowrap; }
+.sb-item svg { width: 16px; height: 16px; flex: none; }
+.sb-item .ext { margin-left: auto; width: 14px; height: 14px; color: var(--text-tertiary); }
+.sb-item.on { background: var(--bg-accent); color: var(--text); font-weight: 500; }
+.sb-item.target { background: var(--bg-accent); color: var(--text); font-weight: 500; }
+.sb-item .go { margin-left: auto; font-size: 11px; font-weight: 500; color: var(--on-hl); background: var(--hl-btn); border-radius: var(--radius-md); padding: 0 6px; line-height: 18px; }
+.sb-grow { flex: 1; }
+.sb-up { margin: 0 12px 12px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg); padding: 10px 12px; display: grid; gap: 8px; }
+.sb-up .t { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+.sb-up .t svg { width: 16px; height: 16px; }
+.sb-up .b { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-tertiary); }
+.sb-up .bar { flex: 1; height: 6px; border-radius: 99px; background: var(--bg-accent); overflow: hidden; }
+.sb-up .bar i { display: block; height: 100%; width: 6%; background: var(--primary); border-radius: inherit; }
+.sb-sep { border-top: 1px solid var(--border); margin: 0 12px; }
+.sb-user { display: flex; align-items: center; gap: 10px; height: 48px; margin: 6px 8px 8px; padding: 0 8px; border-radius: var(--radius-md); min-width: 0; }
+.sb-user .nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.sb-user .bell { width: 16px; height: 16px; color: var(--text-tertiary); flex: none; }
+.uav { width: 24px; height: 24px; border-radius: 99px; display: grid; place-items: center; overflow: hidden; font-size: 11px; font-weight: 600; text-transform: uppercase; background-size: cover; background-position: center; flex: none; background-color: var(--text); color: var(--bg); transition: background-color .3s, color .3s; }
+.uav svg { width: 60%; height: 60%; }
+/* 下拉菜单（DropdownMenuContent）：workspace 切换向下展开，用户菜单向上展开 */
+.sb-menu { position: absolute; left: 8px; z-index: 3; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: 4px; opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
+.sb-menu.ws { top: 56px; width: 320px; transform: translateY(-4px) scale(.98); transform-origin: top left; }
+.sb-menu.user { bottom: 62px; width: 296px; transform: translateY(4px) scale(.98); transform-origin: bottom left; }
+.sb-menu.open { opacity: 1; transform: none; }
+.mi { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: var(--radius-md); color: var(--text-secondary); }
+.mi svg { width: 16px; height: 16px; flex: none; }
+.mi .ext { margin-left: auto; color: var(--text-tertiary); }
+.mi.danger { color: var(--error); }
+.msep { height: 1px; background: var(--border); margin: 4px; }
+.m-wslist { display: grid; gap: 2px; border-radius: var(--radius-md); }
+.mws { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: var(--radius-md); min-width: 0; }
+.mws.cur { background: var(--bg-tertiary); }
+.mws .tx { display: grid; line-height: 1.3; min-width: 0; }
+.mws .tx b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mws .tx small { font-size: 12px; color: var(--text-tertiary); }
+.mws .ok { margin-left: auto; width: 16px; height: 16px; flex: none; }
+.shell .sb-ws, .shell .mws { cursor: pointer; }
+.shell .mws:hover { background: var(--bg-accent); }
+.mws em { height: 8px; width: 120px; border-radius: 4px; background: var(--bg-accent); display: block; }
+.mme { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: var(--radius-md); min-width: 0; }
+.mme .uav { width: 32px; height: 32px; font-size: 13px; }
+.mme .tx { display: grid; line-height: 1.35; min-width: 0; }
+.mme .tx b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mme .tx small { color: var(--text-tertiary); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ============ Background: Tier0 workspace shell ============ */
+.shell { position: fixed; inset: 0; display: grid; grid-template-columns: 240px 1fr; background: var(--bg); }
+.page { padding: 24px; display: grid; gap: 28px; align-content: start; overflow: hidden; min-width: 0; }
+.page h1 { font-family: var(--font-display); font-size: 22px; line-height: 32px; margin: 0; font-weight: 600; }
+.page .sub { color: var(--text-tertiary); }
+.pg-hd { display: flex; align-items: flex-start; gap: 16px; }
+.pg-tools { margin-left: auto; display: flex; gap: 8px; flex: none; }
+.pg-tools .q { width: 317px; height: 32px; border: 1px solid var(--input); border-radius: var(--radius-md); display: flex; align-items: center; padding: 0 10px; color: var(--text-placeholder); }
+.pg-tools .nb { height: 32px; padding: 0 12px; border-radius: var(--radius-md); background: var(--primary); color: var(--on-primary); display: flex; align-items: center; gap: 6px; font-weight: 500; }
+.pg-tools .nb svg { width: 14px; height: 14px; }
+/* 背景 mock：参照 Figma home（Recent Using App / 最近数据 / Inbox / Workspace Usage） */
+.pg-body { display: grid; grid-template-columns: minmax(0, 1fr) 368px; gap: 24px; align-items: start; }
+.pg-main { display: grid; gap: 32px; min-width: 0; }
+.pg-sec { display: grid; gap: 8px; }
+.pg-sec > .h { font-weight: 600; font-size: 16px; line-height: 32px; }
+.apps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.app .po { height: 97px; border-radius: var(--radius-lg); background: var(--bg-tertiary); border: 1px solid var(--border); display: grid; place-items: center; color: var(--text-tertiary); }
+.app .po svg { width: 24px; height: 24px; }
+.app b { display: block; font-weight: 500; padding: 8px 8px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rtabs { display: flex; gap: 8px; }
+.rtabs span { height: 32px; padding: 0 12px; border-radius: var(--radius-md); border: 1px solid var(--border); display: flex; align-items: center; font-weight: 500; }
+.rtabs span.on { background: var(--bg-accent); border-color: var(--bg-accent); }
+.rtable { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.rtable div { height: 41px; display: grid; grid-template-columns: minmax(0, 1fr) 140px 140px; align-items: center; gap: 12px; padding: 0 16px; border-top: 1px solid var(--border); }
+.rtable div:first-child { border-top: 0; }
+.rtable .n { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.rtable .n svg { width: 14px; height: 14px; color: var(--text-tertiary); flex: none; }
+.rtable .n span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rtable em { font-style: normal; color: var(--text-tertiary); font-size: 13px; }
+.inbox { display: grid; gap: 8px; }
+.inbox div { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 12px 16px; display: grid; grid-template-columns: 8px minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; }
+.inbox i { width: 8px; height: 8px; border-radius: 99px; background: var(--hl); }
+.inbox b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.inbox em { font-style: normal; color: var(--text-tertiary); font-size: 12px; }
+.inbox span { grid-column: 2 / 4; color: var(--text-tertiary); font-size: 13px; }
+.usage { display: grid; gap: 8px; }
+.usage .c { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; display: grid; gap: 8px; }
+.usage .c > b { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+.usage .c > b svg { width: 16px; height: 16px; color: var(--text-tertiary); }
+.usage .big { font-family: var(--font-display); font-size: 20px; font-weight: 600; }
+.usage .row { display: flex; align-items: baseline; justify-content: space-between; color: var(--text-tertiary); }
+.usage .row b { color: var(--text); font-family: var(--font-display); font-size: 16px; font-weight: 600; }
+.usage .meter { height: 6px; border-radius: 99px; background: var(--bg-accent); overflow: hidden; }
+.usage .meter i { display: block; height: 100%; background: var(--hl-btn); border-radius: inherit; }
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.tile { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; display: grid; gap: 4px; }
+.tile b { font-weight: 500; } .tile span { color: var(--text-tertiary); font-size: 13px; }
+
+/* ============ Overlay + dialog (CnDialog) ============ */
+.overlay { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; background: var(--overlay);
+  padding-block: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  transition: opacity .3s ease; animation: fade .2s ease both; }
+.overlay.gone { opacity: 0; pointer-events: none; }
+@keyframes fade { from { opacity: 0; } }
+.dialog { position: relative; width: min(1080px, 100%); height: min(680px, 100%); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg);
+  display: grid; grid-template-columns: minmax(0, 44fr) minmax(0, 56fr); overflow: hidden; animation: zoom .2s ease both; transition: transform .3s ease; }
+.overlay.gone .dialog { transform: scale(.95); }
+@keyframes zoom { from { opacity: 0; transform: scale(.95); } }
+
+.pane { display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 36px 40px 32px; }
+/* 进度：当前步拉长为短条，已完成为实心点，未开始为浅色点 */
+.dots { display: flex; gap: 6px; align-items: center; height: 8px; margin-bottom: 20px; }
+.dots i { height: 4px; width: 4px; border-radius: 4px; background: var(--bg-secondary); transition: width .35s ease, background .35s ease; }
+.dots i.done { background: var(--text); }
+.dots i.on { width: 24px; background: var(--text); }
+.body { flex: 1; min-height: 0; overflow-y: auto; margin: 0 -6px; padding: 0 6px 6px; scrollbar-width: thin; }
+.step { display: grid; gap: 24px; animation: stepIn .3s ease both; }
+.step.back { animation-name: stepBack; }
+@keyframes stepIn { from { opacity: 0; transform: translateX(10px); } }
+@keyframes stepBack { from { opacity: 0; transform: translateX(-10px); } }
+.head h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-title); line-height: var(--lh-title); letter-spacing: 0; margin: 0; text-wrap: balance; }
+.head p { margin: 6px 0 0; color: var(--text-tertiary); font-size: var(--fs-body); line-height: var(--lh-body); }
+.field { display: grid; gap: 8px; }
+.hint { color: var(--text-tertiary); font-size: var(--fs-small); line-height: var(--lh-small); margin: 0; }
+.hint b { color: var(--text-secondary); font-weight: 500; }
+.err { color: var(--error); font-size: var(--fs-small); line-height: var(--lh-small); margin: 0; }
+
+/* Profile picture */
+.pic { display: flex; gap: 20px; align-items: center; }
+.avwrap { position: relative; flex: none; }
+.pic .big { width: 88px; height: 88px; border-radius: 99px; display: grid; place-items: center; font-size: 34px; font-weight: 600; text-transform: uppercase; background-size: cover; background-position: center; transition: background-color .25s, color .25s; }
+.avwrap .cam { position: absolute; right: -2px; bottom: -2px; width: 30px; height: 30px; padding: 0; border-radius: 99px; border: 1px solid var(--border); background: var(--bg); color: var(--text-secondary); box-shadow: var(--shadow-xs); display: grid; place-items: center; }
+.avwrap .cam:hover { background: var(--bg-tertiary); }
+.avwrap .cam svg { width: 15px; height: 15px; }
+.pic .meta { display: grid; gap: 2px; justify-items: start; min-width: 0; }
+.pic .meta b { font-weight: 500; }
+.pic .row { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
+.hint .btn.link { font-size: var(--fs-small); font-weight: 400; color: var(--text-secondary); text-decoration: underline; margin-left: 4px; }
+/* Work 步骤：填空句式 */
+
+/* Work 步骤：填空句式（每个分句一行，长值在槽内省略，窄屏自动换行） */
+.mad { display: grid; gap: 16px; margin: 8px 0 0; font-family: var(--font-display); font-size: var(--fs-mad); font-weight: 600; line-height: var(--lh-mad); letter-spacing: 0; color: var(--text-tertiary); }
+.mad .ln { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 12px; row-gap: 6px; min-width: 0; }
+.mad .nw { display: inline-flex; align-items: baseline; min-width: 0; max-width: 100%; }
+.mad .slot { position: relative; display: inline-flex; align-items: center; min-width: 0; max-width: 100%; padding-bottom: 6px; color: var(--text); border-bottom: 2px dashed var(--input); transition: border-color .15s; }
+.mad .slot:hover, .mad .slot:focus-within { border-bottom-style: solid; border-bottom-color: var(--text); }
+.mad .slot.empty .vt { color: var(--text-placeholder); }
+.mad input { font: inherit; letter-spacing: inherit; color: inherit; border: 0; outline: 0; background: transparent; padding: 0; min-width: 1ch; max-width: 100%; }
+.mad input::placeholder { color: var(--text-placeholder); }
+.mad .slot-btn { font: inherit; letter-spacing: inherit; color: inherit; border: 0; background: none; padding: 0; display: inline-flex; align-items: center; gap: 6px; min-width: 0; max-width: 100%; cursor: pointer; }
+.mad .slot-btn:focus-visible { outline: 2px solid var(--hl-text); outline-offset: 4px; border-radius: 2px; }
+.mad .val { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
+.mad .vt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.mad .vi { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: var(--radius-lg); flex: none; }
+.mad .vi svg { width: 16px; height: 16px; }
+.mad .chev { width: 18px; height: 18px; color: var(--text-tertiary); flex: none; }
+
+
+/* Radio card list */
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.choice { display: flex; align-items: center; gap: 10px; text-align: left; min-height: 44px; padding: 8px 12px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg); font-size: var(--fs-body); line-height: 1.4; transition: border-color .15s, background .15s, box-shadow .15s; }
+.choice:hover { background: var(--bg-tertiary); }
+.choice .dot { width: 16px; height: 16px; border-radius: 99px; border: 1px solid var(--input); flex: none; display: grid; place-items: center; box-shadow: var(--shadow-xs); }
+.choice .dot::after { content: ""; width: 8px; height: 8px; border-radius: 99px; background: var(--primary); transform: scale(0); transition: transform .15s; }
+.choice[aria-checked="true"] { border-color: var(--text); background: var(--bg-tertiary); }
+.choice[aria-checked="true"] .dot { border-color: var(--primary); }
+.choice[aria-checked="true"] .dot::after { transform: scale(1); }
+
+/* Workspace step — Figma pending invitation */
+.sec-t { font-weight: 500; margin: 0 0 8px; display: flex; justify-content: space-between; align-items: baseline; }
+.inv-list { display: grid; gap: 8px; }
+.inv { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 8px 8px 8px 12px; display: grid; gap: 6px; transition: border-color .2s, background .2s; }
+.inv .top { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.inv .nm { font-weight: 500; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.inv .sp { flex: 1; }
+.inv:not(.on):not(.failed):hover { border-color: var(--hl-btn); background: var(--hl-tertiary); }
+.inv:not(.on):not(.failed):hover .btn[data-join]:not(:disabled):not(.default) { background: var(--hl-btn); border-color: var(--hl-btn); color: var(--on-hl); box-shadow: none; }
+.inv.on { border-color: var(--hl-text); background: var(--hl-tertiary); }
+.inv.failed { border-color: var(--error); background: var(--error-bg); }
+.inv:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.inv .msg { font-size: var(--fs-small); color: var(--error); display: flex; gap: 6px; align-items: center; padding-left: 32px; }
+.inv .msg svg { width: 14px; height: 14px; }
+.state { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px; display: flex; align-items: center; gap: 10px; color: var(--text-tertiary); }
+.state.bad { border-color: var(--error); background: var(--error-bg); color: var(--text); }
+.state .sp { flex: 1; }
+.or { display: flex; align-items: center; gap: 12px; color: var(--text-tertiary); font-size: var(--fs-small); }
+.or::before, .or::after { content: ""; height: 1px; background: var(--border); flex: 1; }
+
+
+.summary { display: grid; border: 1px solid var(--border); border-radius: var(--radius-md); }
+.summary div { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-top: 1px solid var(--border); min-width: 0; }
+.summary div:first-child { border-top: 0; }
+.summary .ck { width: 18px; height: 18px; border-radius: 99px; background: var(--hl); color: var(--on-hl); display: grid; place-items: center; flex: none; }
+.summary .ck svg { width: 11px; height: 11px; }
+.summary small { margin-left: auto; color: var(--text-tertiary); text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+
+.foot { display: grid; gap: 12px; padding-top: 20px; }
+.foot .btns { display: flex; gap: 8px; }
+.foot .btns .grow { flex: 1; }
+.foot .meta { text-align: center; color: var(--text-tertiary); font-size: var(--fs-small); line-height: var(--lh-small); margin: 0; }
+.foot .meta .btn.link { color: var(--text); font-size: var(--fs-small); font-weight: 400; text-decoration: underline; }
+
+
+/* ---------- Work 步骤：自定义下拉（对齐 CnSelect content 样式） ---------- */
+.pop { position: fixed; z-index: 60; width: 280px; max-height: 300px; overflow-y: auto; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: 4px; opacity: 0; transform: translateY(-4px) scale(.98); transform-origin: top left; transition: opacity .15s ease, transform .15s ease; pointer-events: none; scrollbar-width: thin; }
+.pop.open { opacity: 1; transform: none; pointer-events: auto; }
+.pop .ph { padding: 6px 8px 4px; font-size: var(--fs-small); color: var(--text-tertiary); }
+.opt-i { width: 100%; display: flex; align-items: center; gap: 10px; padding: 6px 8px; border: 0; background: none; border-radius: var(--radius-md); text-align: left; font-size: var(--fs-body); color: var(--text-secondary); }
+.opt-i:hover, .opt-i:focus-visible { background: var(--bg-accent); color: var(--text); outline: none; }
+.opt-i .oi { width: 26px; height: 26px; border-radius: var(--radius-md); display: grid; place-items: center; flex: none; }
+.opt-i .oi svg { width: 15px; height: 15px; }
+.opt-i .ck { margin-left: auto; width: 16px; height: 16px; flex: none; opacity: 0; color: var(--text); }
+.opt-i[aria-selected="true"] { color: var(--text); font-weight: 500; }
+.opt-i[aria-selected="true"] .ck { opacity: 1; }
+
+/* ---------- Workspace 步骤：单选卡片，选中后在卡片内展开标准 Input ---------- */
+.ws-opts { display: grid; gap: 8px; }
+.wcard { border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg); transition: border-color .15s, background .15s; }
+.whead { width: 100%; display: flex; align-items: center; gap: 12px; text-align: left; padding: 12px 16px; border: 0; background: none; border-radius: var(--radius-md); }
+.whead:hover { background: var(--bg-tertiary); }
+.whead .ic { width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--primary); color: var(--on-primary); display: grid; place-items: center; flex: none; }
+.whead .ic svg { width: 15px; height: 15px; }
+.whead .tx { display: grid; gap: 2px; min-width: 0; flex: 1; }
+.whead .tx b { font-weight: 500; }
+.whead .tx span { color: var(--text-tertiary); font-size: var(--fs-small); line-height: var(--lh-small); }
+.whead .dot { width: 16px; height: 16px; border-radius: 99px; border: 1px solid var(--input); background: var(--bg); box-shadow: var(--shadow-xs); display: grid; place-items: center; flex: none; }
+.whead .dot::after { content: ""; width: 8px; height: 8px; border-radius: 99px; background: var(--primary); transform: scale(0); transition: transform .15s; }
+.wcard[data-on="true"] .dot { border-color: var(--primary); }
+.wcard[data-on="true"] .dot::after { transform: scale(1); }
+.wbody { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .25s ease; }
+.wcard[data-on="true"] .wbody { grid-template-rows: 1fr; }
+.wbody > div { overflow: hidden; }
+.wbody .in { padding: 14px 16px 16px 56px; display: grid; gap: 8px; }
+.wbody .input { background: var(--bg); }
+
+/* ---------- 加载：复刻 apps/saas-dashboard/.../workspace-pending-state.tsx ---------- */
+.loader { position: absolute; inset: 0; z-index: 6; background: var(--bg); display: grid; place-items: center; padding: 24px; animation: fade .3s ease both; }
+.pend { width: 469px; max-width: 100%; display: grid; gap: 8px; justify-items: center; text-align: center; color: var(--text-tertiary); }
+.pend .t { margin: 0; font-family: var(--font-display); font-size: var(--fs-lead); line-height: var(--lh-lead); font-weight: 600; letter-spacing: 0; }
+.pend .s { margin: 0 0 4px; font-size: var(--fs-body); line-height: var(--lh-body); }
+.pend .s .em { color: #7ea815; } /* --tier0-highlight-text-accent */
+.pend .pg { display: flex; align-items: center; gap: 8px; width: 100%; }
+.pend .bar { position: relative; flex: 1; height: 8px; border-radius: 99px; overflow: hidden; background-image: repeating-linear-gradient(115deg, var(--border) 0 8px, var(--bg-accent) 8px 16px); background-size: 36px 100%; animation: workspace-progress-bg 1.1s linear infinite; }
+.pend .bar i { position: absolute; inset: 0; border-radius: inherit; background: var(--hl-btn); transform: translateX(-100%); transition: transform .2s linear; }
+.pend .pc { flex: none; font-size: var(--fs-body); line-height: 24px; color: var(--text); font-variant-numeric: tabular-nums; }
+@keyframes workspace-progress-bg { from { background-position: 0 0; } to { background-position: 36px 0; } }
+
+/* ---------- 右侧专属画面（Work / Start with）：用 @tier0/ui 的 Card、Badge、Item 组合 ---------- */
+/* Work / Start with 的内容直接长在首页内容区里：侧栏、页头工具、右栏与表格保留为淡化的周边界面 */
+.m-sec { display: grid; gap: 12px; align-content: start; animation: secIn .45s cubic-bezier(.2, .8, .2, 1) both; }
+.m-sec[hidden] { display: none; }
+@keyframes secIn { from { opacity: 0; transform: translateY(6px); } }
+.ucard { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow-xs); padding: 20px; display: grid; gap: 14px; margin-bottom: 4px; }
+.ucard .hd { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.ucard .mk { width: 40px; height: 40px; border-radius: var(--radius-lg); display: grid; place-items: center; font-size: 16px; font-weight: 600; text-transform: uppercase; flex: none; background: var(--bg-secondary); transition: background-color .25s, color .25s; }
+.ucard .tx { display: grid; min-width: 0; }
+.ucard .tx b { font-size: 16px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ucard .tx b.ph { color: var(--text-placeholder); font-weight: 500; }
+.ucard .tx span { font-size: 12px; color: var(--text-tertiary); }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.bdg { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 8px; border-radius: var(--radius-md); background: var(--bg-accent); color: var(--text-secondary); font-size: 12px; font-weight: 500; max-width: 100%; animation: tagIn .25s ease both; }
+.bdg svg { width: 12px; height: 12px; flex: none; }
+.bdg.ph { background: transparent; border: 1px dashed var(--border); color: var(--text-placeholder); font-weight: 400; }
+.sl { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+.igroup { display: grid; gap: 8px; }
+.item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg); animation: cardIn .4s cubic-bezier(.2, .8, .2, 1) both; min-width: 0; }
+.item .media { width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 2px; background: var(--bg-tertiary); display: grid; place-items: center; flex: none; color: var(--text-secondary); }
+.item .media svg { width: 16px; height: 16px; }
+.item .ct { flex: 1; display: grid; gap: 2px; min-width: 0; }
+.item .tt { font-size: 14px; font-weight: 500; line-height: 1.35; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .ds { font-size: 12px; color: var(--text-tertiary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .act { width: 16px; height: 16px; color: var(--text-placeholder); flex: none; }
+.item.ghost { border-style: dashed; background: transparent; animation: none; }
+.item.ghost .media { border-style: dashed; background: transparent; }
+.item.ghost .tt { width: 60%; height: 8px; border-radius: 4px; background: var(--bg-secondary); }
+.g-top { display: flex; align-items: center; gap: 8px; }
+.g-top .k { font-size: 13px; color: var(--text-tertiary); }
+.navpill { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px 0 8px; border-radius: var(--radius-md); background: var(--bg); border: 1px solid var(--border); font-size: 13px; font-weight: 500; }
+.navpill svg { width: 14px; height: 14px; }
+.navpill .go { font-size: 10px; font-weight: 500; color: var(--on-hl); background: var(--hl-btn); border-radius: 3px; padding: 0 5px; line-height: 16px; margin-left: 2px; }
+.g-title { font-family: var(--font-display); font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin: 6px 0 4px; }
+
+/* ============ Right: scaled replica of the real workspace layout ============ */
+.preview { position: relative; min-width: 0; overflow: hidden; }
+.frame { position: absolute; top: 32px; bottom: 32px; left: 24px; right: 0; border: 1px solid var(--border); border-right: 0; border-radius: var(--radius-xl) 0 0 var(--radius-xl); overflow: hidden; background: var(--bg); }
+.mini { position: absolute; left: 0; top: 0; width: 1000px; height: 820px; transform-origin: 0 0; display: grid; grid-template-columns: 240px 1fr; transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
+/* Home page */
+.m-page { padding: 28px; display: grid; gap: 22px; align-content: start; min-width: 0; }
+.m-hd { display: flex; align-items: flex-start; gap: 16px; }
+.m-hello { display: grid; gap: 4px; min-width: 0; }
+.m-page h3 { font-family: var(--font-display); font-size: 22px; margin: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m-page .sub { color: var(--text-tertiary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m-tools { margin-left: auto; display: flex; gap: 8px; flex: none; }
+.m-tools span { height: 32px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg); }
+.m-tools .q { width: 160px; } .m-tools .b { width: 92px; background: var(--bg-accent); border-color: var(--bg-accent); }
+.m-body { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; }
+.m-main { display: grid; gap: 18px; min-width: 0; }
+.m-rail { display: grid; gap: 12px; }
+.m-rail .c { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px; display: grid; gap: 10px; }
+.m-rail em, .m-rail .c i { height: 7px; border-radius: 4px; background: var(--bg-accent); display: block; }
+.m-rail .c b { width: 46%; height: 9px; border-radius: 4px; background: var(--bg-secondary); display: block; }
+.m-rail .c i { height: 28px; border-radius: var(--radius-md); background: var(--bg-tertiary); }
+.m-recs { display: grid; gap: 10px; border-radius: var(--radius-lg); }
+.m-recs[hidden] { display: none; }
+.m-recs .t { font-weight: 500; }
+.m-recs .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.m-recs .tag { font-size: 11px; line-height: 20px; padding: 0 8px; border-radius: var(--radius-md); background: var(--bg-accent); color: var(--text-secondary); animation: tagIn .3s ease both; }
+.m-recs .tag.hl { background: var(--hl-accent); color: var(--text); }
+@keyframes tagIn { from { opacity: 0; transform: translateY(3px); } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(8px) scale(.97); } }
+.m-table { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.m-table div { height: 40px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 16px; padding: 0 14px; }
+.m-table div:first-child { border-top: 0; background: var(--bg-tertiary); }
+.m-table em { height: 7px; border-radius: 4px; background: var(--bg-accent); display: block; }
+/* 聚焦：当前步骤关联的位置点亮，其余淡出 */
+.mini [data-zone] { transition: opacity .35s ease, box-shadow .35s ease, background .35s ease; }
+.mini.focus [data-zone] { opacity: .4; }
+.mini.calm [data-zone] { opacity: .32; } /* Work / Start with：周边界面更浅，只留当前内容 */
+.mini.focus [data-zone].lit { opacity: 1; }
+/* 不加描边框：点亮区域只恢复不透明度，侧栏行给一个中性底色；镜头推近到当前区域 */
+.mini .lit:is(.sb-ws, .sb-user) { background: var(--bg-accent); }
+
+/* ============ Prototype panel / toast ============ */
+.proto { position: fixed; z-index: 40; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); width: min(300px, calc(100vw - 32px)); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); font-size: 13px; overflow: hidden; }
+.proto summary { list-style: none; cursor: pointer; padding: 10px 14px; display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.proto summary::-webkit-details-marker { display: none; }
+.proto summary .d { width: 8px; height: 8px; border-radius: 99px; background: var(--hl); box-shadow: 0 0 0 3px var(--hl-accent); }
+.proto summary small { margin-left: auto; color: var(--text-tertiary); font-weight: 400; }
+.proto .pb { padding: 0 14px 14px; display: grid; gap: 12px; max-height: min(64vh, 520px); overflow-y: auto; }
+.proto .lab { font-weight: 500; margin-bottom: 6px; display: block; }
+.jump { display: flex; gap: 6px; flex-wrap: wrap; }
+.jump .btn { height: 28px; padding: 0 10px; font-size: 12px; }
+.jump .btn.on { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.note { background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px; color: var(--text-secondary); line-height: 1.6; }
+.note code { font-family: var(--font-mono); font-size: 12px; }
+.payload { margin: 0; font-family: var(--font-mono); font-size: 11px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px; overflow-x: auto; color: var(--text-secondary); white-space: pre; }
+.toast { position: fixed; z-index: 30; left: 50%; top: max(20px, env(safe-area-inset-top, 0px)); transform: translate(-50%, -8px); opacity: 0; background: var(--bg); color: var(--text); border: 1px solid var(--border); box-shadow: var(--shadow-lg); padding: 10px 14px; border-radius: var(--radius-lg); font-weight: 500; display: flex; gap: 8px; align-items: center; transition: opacity .25s, transform .25s; pointer-events: none; max-width: calc(100vw - 32px); }
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+.toast svg { width: 16px; height: 16px; color: var(--hl-deep); flex: none; }
+
+@media (max-width: 900px) {
+  .dialog { grid-template-columns: minmax(0, 1fr); width: min(560px, 100%); }
+  .preview { display: none; }
+  .shell { grid-template-columns: 1fr; } .shell .sb { display: none; }
+  .tiles { grid-template-columns: 1fr; }
+  .pg-body { grid-template-columns: 1fr; } .usage, .pg-tools { display: none; } .apps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .pane { padding: 24px 16px 16px; }
+  .choices { grid-template-columns: 1fr; }
+  .dialog { height: 100%; }
+  .head h2 { font-size: 24px; line-height: 32px; }
+  .mad { font-size: 20px; line-height: 30px; }
+  .pic { flex-direction: column; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></g></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chevs" viewBox="0 0 24 24"><path d="M7 15l5 5 5-5M7 9l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.4 3.2-5.5 6.5-5.5s5.9 2.1 6.5 5.5"/><path d="M16 4.6a3.5 3.5 0 010 6.8M18.2 14.8c1.8.8 3 2.6 3.3 5.2"/></g></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4 4-6.5 8-6.5s7.2 2.5 8 6.5"/></g></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0112 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9zM10 20a2 2 0 004 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="n-Home" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></g></symbol>
+  <symbol id="n-Library" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></g></symbol>
+  <symbol id="n-Launchpad" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3 20 12 6 21z"/></g></symbol>
+  <symbol id="n-Model" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></g></symbol>
+  <symbol id="n-Scene" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3Z"/><path d="m6.2 5.3 3.1 3.9"/><path d="m12.4 3.4 3.1 4"/><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></g></symbol>
+  <symbol id="n-Connect" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 5 3-3"/><path d="m2 22 3-3"/><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="m12 6 6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"/></g></symbol>
+  <symbol id="n-Namespace" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12h-8"/><path d="M21 6H8"/><path d="M21 18h-8"/><path d="M3 6v4c0 1.1.9 2 2 2h3"/><path d="M3 10v6c0 1.1.9 2 2 2h3"/></g></symbol>
+  <symbol id="n-Builder" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/></g></symbol>
+  <symbol id="n-AllApps" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></g></symbol>
+  <symbol id="i-panel" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></g></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></g></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></g></symbol>
+  <symbol id="i-uplus" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></g></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></g></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></g></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></g></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></g></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></g></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></g></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></g></symbol>
+  <symbol id="ind-car" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></g></symbol>
+  <symbol id="ind-cpu" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></g></symbol>
+  <symbol id="ind-cup" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 8 1.75 12.28a2 2 0 0 0 2 1.72h4.54a2 2 0 0 0 2-1.72L18 8"/><path d="M5 8h14"/><path d="M7 15a6.47 6.47 0 0 1 5 0 6.47 6.47 0 0 0 5 0"/><path d="m12 8 1-6h2"/></g></symbol>
+  <symbol id="ind-pill" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></g></symbol>
+  <symbol id="ind-flask" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></g></symbol>
+  <symbol id="ind-pick" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.531 12.469 6.619 20.38a1 1 0 1 1-3-3l7.912-7.912"/><path d="M15.686 4.314A12.5 12.5 0 0 0 5.461 2.958 1 1 0 0 0 5.58 4.71a22 22 0 0 1 6.318 3.393"/><path d="M17.7 3.7a1 1 0 0 0-1.4 0l-4.6 4.6a1 1 0 0 0 0 1.4l2.6 2.6a1 1 0 0 0 1.4 0l4.6-4.6a1 1 0 0 0 0-1.4z"/><path d="M19.686 8.314a12.501 12.501 0 0 1 1.356 10.225 1 1 0 0 1-1.751-.119 22 22 0 0 0-3.393-6.319"/></g></symbol>
+  <symbol id="ind-zap" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></g></symbol>
+  <symbol id="ind-cog" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/><circle cx="12" cy="12" r="7"/></g></symbol>
+  <symbol id="ind-truck" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></g></symbol>
+  <symbol id="ind-shapes" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="4.5"/><rect x="12" y="12" width="9" height="9" rx="1.5"/></g></symbol>
+  <symbol id="ind-box" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></g></symbol>
+  <symbol id="i-caret" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" fill="currentColor"/></symbol>
+  <symbol id="k-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 14 4-4 4 4 5-5"/></g></symbol>
+  <symbol id="k-board" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></g></symbol>
+  <symbol id="k-table" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M12 3v18"/></g></symbol>
+  <symbol id="k-flow" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect x="13" y="13" width="8" height="8" rx="2"/></g></symbol>
+  <symbol id="k-kanban" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 7v7M12 7v4M16 7v9"/></g></symbol>
+  <symbol id="k-map" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15M9 3.236v15"/></g></symbol>
+  <symbol id="k-tour" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/></g></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></g></symbol>
+  <symbol id="i-logo" viewBox="0 0 66 16"><g fill="currentColor"><path d="M4.86 15.91V1.9H0V.09h11.75V1.9H6.89v14.01z"/><path d="M12.53 16v-1.81l2.83-.11V1.92L12.53 1.81V0l3.84.18L20.22 0v1.81l-2.83.11v12.16l2.83.11V16l-3.84-.18z"/><path d="M21.9 15.91V.09h10.85V1.9h-8.81v4.97h7.68v1.81h-7.68v5.42h9.04v1.81z"/><path d="M36.37 8.68h7.91V1.9h-7.91zM46.31 1.9v6.78l-1.51 1.51 2.76 5.72h-2.19l-2.56-5.42h-6.44v5.42h-2.03V.09h10.17z"/></g><path fill="#73B200" d="M53.1 14.1V1.9L54.9.09h8.36l1.81 1.81v12.2l-1.81 1.81H54.9zm2.03-12.2v12.2h7.91V1.9z"/></symbol>
+</svg>
+
+<!-- Background: the real workspace shell the user is about to enter -->
+<div class="shell" aria-hidden="true" id="shell">
+  <aside class="sb" id="shellSide"></aside>
+  <main class="page">
+    <div class="pg-hd">
+      <div><h1 id="bgHello">Home</h1><div class="sub" id="bgSub">Recently used apps and data</div></div>
+      <div class="pg-tools" id="bgTools"><span class="q" id="bgSearch">Search</span><span class="nb"><svg aria-hidden="true"><use href="#i-plus"/></svg><span id="bgNewT">New</span></span></div>
+    </div>
+    <div class="pg-body" id="bgMock"></div>
+    <div class="tiles" id="bgNew" hidden>
+      <div class="tile"><b data-t="tile1">Connect a data source</b><span data-t="tile1s">MQTT, OPC UA, Modbus, databases</span></div>
+      <div class="tile"><b data-t="tile2">Build a production app</b><span data-t="tile2s">Describe it, Builder writes it</span></div>
+      <div class="tile"><b data-t="tile3">Explore the UNS</b><span data-t="tile3s">Browse live topics across sites</span></div>
+    </div>
+  </main>
+</div>
+
+<div class="overlay" id="overlay">
+  <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="stepTitle">
+    <div class="pane">
+      <div class="dots" id="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <p class="sr-only" id="stepLive" aria-live="polite"></p>
+      <div class="body" id="body"></div>
+      <div class="foot" id="foot"></div>
+    </div>
+
+    <div class="preview" aria-hidden="true">
+      <div class="frame" id="frame">
+        <div class="mini focus" id="mini">
+          <aside class="sb" id="mSide"></aside>
+          <div class="m-page" data-zone="page">
+            <div class="m-hd">
+              <div class="m-hello" data-zone="hello"><h3 id="mHello">Home</h3><div class="sub" id="mSub">Recently used apps and data</div></div>
+              <div class="m-tools" data-zone="tools"><span class="q"></span><span class="b"></span></div>
+            </div>
+            <div class="m-body">
+              <div class="m-main">
+                <section class="m-sec" id="mWork" data-zone="work" hidden>
+                  <div class="ucard">
+                    <div class="hd"><span class="mk" id="wMark"></span><div class="tx"><b id="wName"></b><span id="wSubT">Your workspace</span></div></div>
+                    <div class="badges" id="wBadges"></div>
+                  </div>
+                  <div class="sl" id="wRecT">Recommended templates</div>
+                  <div class="igroup" id="wRecs"></div>
+                </section>
+                <section class="m-sec" id="mGoal" data-zone="goal" hidden>
+                  <div class="g-top"><span class="k" id="gOpens">Opens in</span><span class="navpill" id="gNav"></span></div>
+                  <div class="g-title" id="gTitle"></div>
+                  <div class="igroup" id="gList"></div>
+                </section>
+                <div class="m-recs" data-zone="recs">
+                  <div class="t" id="mRecsT">Recommended for you</div>
+                  <div class="igroup" id="mCards"></div>
+                </div>
+              </div>
+              <div class="m-rail" data-zone="rail">
+                <div class="c"><b></b><em style="width:80%"></em><em style="width:62%"></em><i></i></div>
+                <div class="c"><b></b><em style="width:70%"></em><em style="width:84%"></em><em style="width:52%"></em></div>
+              </div>
+            </div>
+            <div class="m-table" data-zone="table">
+              <div><em style="width:22%"></em><em style="width:14%"></em><em style="width:10%;margin-left:auto"></em></div>
+              <div><em style="width:30%"></em><em style="width:12%"></em><em style="width:10%;margin-left:auto"></em></div>
+              <div><em style="width:24%"></em><em style="width:16%"></em><em style="width:10%;margin-left:auto"></em></div>
+              <div><em style="width:34%"></em><em style="width:10%"></em><em style="width:10%;margin-left:auto"></em></div>
+              <div><em style="width:20%"></em><em style="width:18%"></em><em style="width:10%;margin-left:auto"></em></div>
+              <div><em style="width:28%"></em><em style="width:12%"></em><em style="width:10%;margin-left:auto"></em></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="loader" id="loader" hidden>
+      <div class="pend">
+        <p class="t" id="loaderTitle">Waiting for workspace initialization...</p>
+        <p class="s" id="loaderSub"></p>
+        <div class="pg"><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30" id="lprog"><i id="lbar"></i></div><span class="pc" id="lpct">30%</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="pop" id="pop" role="listbox"></div>
+
+<div class="toast" id="toast" role="status"><svg><use href="#i-check-circle"/></svg><span id="toastTxt"></span></div>
+
+<details class="proto" id="proto">
+  <summary><span class="d"></span>原型控制<small id="protoStep">1 / 5</small></summary>
+  <div class="pb">
+    <div><label class="lab" for="lang">界面语言</label>
+      <span class="select"><select class="input" id="lang"><option value="zh">中文</option><option value="en">English</option></select><svg><use href="#i-chev"/></svg></span>
+    </div>
+    <div><label class="lab" for="scenario">邀请场景（Workspace 步骤）</label>
+      <span class="select"><select class="input" id="scenario">
+        <option value="two">有 2 条待处理邀请</option>
+        <option value="many">有 4 条邀请（默认展示前 3 条）</option>
+        <option value="none">没有邀请</option>
+        <option value="joinfail">加入第一条邀请失败</option>
+        <option value="loading">邀请加载中</option>
+        <option value="error">邀请加载失败</option>
+      </select><svg><use href="#i-chev"/></svg></span>
+    </div>
+    <div><span class="lab">跳到步骤</span><div class="jump" id="jump"></div></div>
+    <div class="note" id="note"></div>
+    <div><span class="lab">提交载荷预览</span><pre class="payload" id="payload"></pre></div>
+  </div>
+</details>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  // 界面语言：原型默认中文，可在「原型控制」里切换。L(en, zh) 返回当前语言文案
+  let LANG = 'zh';
+  const L = (en, zh) => (LANG === 'zh' ? zh : en);
+  const STEPS_N = 4;
+  const stepNames = () => L('Profile|Work|Start with|Workspace', '个人资料|工作信息|起步方向|工作空间').split('|');
+  const LOADING_MS = 3600; // 新建 workspace 的弹窗内初始化
+  const JOIN_MS = 1600;     // 加入已有 workspace 的弹窗内加载
+  const MAX_FULL_NAME = 128;
+  const MAX_COMPANY = 256;
+  const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
+  const IMAGE_TYPES = ['image/png', 'image/jpeg'];
+  const INVITE_CODE_MIN = 6;
+  const CAT_COUNT = 8;
+  const MINI_HEIGHT = 820;
+  const MINI_WIDTH = 1000;
+  const CAM_PAD = 28;
+  const CAM_MAX = 1.3;
+  const CAM_MIN_RATIO = 0.72;
+  const EXPIRED_CODE = 'EXPIRED';
+  const ACCOUNT_EMAIL = 'lin.zhao@acme-mfg.com';
+  // User name 留空时自动生成的默认名：user_ + 4 位序号（真实序号由后端分配）
+  const GENERATED_NAME_PREFIX = 'user_';
+  const genName = () => GENERATED_NAME_PREFIX + String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+
+  // 与 apps/saas-dashboard/app/(auth)/onboarding/constants.ts 同源
+  const JOB_ROLES = {
+    factory_operations: 'Factory Operations', production_engineering: 'Production Engineering',
+    quality_management: 'Quality Management', maintenance_automation: 'Maintenance & Automation',
+    it_digitalization: 'IT & Digitalization', software_integration: 'Industrial Software & Integration',
+    supply_chain_logistics: 'Supply Chain & Logistics', business_leadership: 'Business Leadership',
+    industrial_services: 'Industrial Services', other_industrial_role: 'Other Industrial Role',
+    not_industrial_role: 'Not in an Industrial Role',
+  };
+  // 示例：真实选项运行时由 agent-platform 下发（en-US 名称落库）
+  const INDUSTRIES = ['Automotive', 'Electronics & Semiconductors', 'Food & Beverage', 'Pharmaceuticals', 'Chemicals', 'Metals & Mining', 'Energy & Utilities', 'Industrial Machinery', 'Logistics & Warehousing', 'Other'];
+  // 侧栏菜单，与 apps/saas-dashboard/config/routes.ts 的 menuGroup 一致
+  // 侧栏菜单，与新版 app-sidebar（Figma 17594-308800）一致
+  const MENU = [
+    { group: '', items: ['Home'] },
+    { group: 'UNS', items: ['Connect', 'Namespace'] },
+    { group: 'App', items: ['Builder', 'Library', 'All Apps', 'Launchpad'] },
+    { group: 'Anchor', items: ['Model', 'Scene'] },
+  ];
+  const EXTERNAL_MENU = ['Launchpad'];
+  // nav：完成后默认落地的菜单（待产品确认）；recs：首页推荐卡片示例
+  // nav：完成后默认落地的菜单（待产品确认）；apps：右侧展示的模板 App（k = 缩略图类型）
+  const START_WITH = [
+    { v: 'connect_industrial_data', l: 'Connect Industrial Data', nav: 'Connect', apps: [['MQTT connector', 'flow'], ['OPC UA browser', 'table'], ['Modbus gateway', 'flow']] },
+    { v: 'build_production_apps', l: 'Build Production Apps', nav: 'Builder', apps: [['Work order app', 'kanban'], ['Andon board', 'board'], ['Shift handover', 'table']] },
+    { v: 'plan_production', l: 'Plan Production', nav: 'All Apps', apps: [['Production schedule', 'kanban'], ['Capacity plan', 'chart'], ['Line balancing', 'board']] },
+    { v: 'quality_traceability', l: 'Quality & Traceability', nav: 'Library', apps: [['SPC chart', 'chart'], ['Lot genealogy', 'flow'], ['Defect log', 'table']] },
+    { v: 'maintenance_reliability', l: 'Maintenance & Reliability', nav: 'Namespace', apps: [['Vibration monitor', 'chart'], ['PM schedule', 'kanban'], ['Downtime log', 'table']] },
+    { v: 'inventory_logistics', l: 'Inventory & Logistics', nav: 'Launchpad', apps: [['WIP tracker', 'board'], ['Warehouse map', 'map'], ['Material flow', 'flow']] },
+    { v: 'analyze_industrial_data', l: 'Analyze Industrial Data', nav: 'Namespace', apps: [['OEE dashboard', 'chart'], ['Energy report', 'chart'], ['Trend explorer', 'table']] },
+    { v: 'evaluate_for_team', l: 'Evaluate Tier0 for My Team', nav: 'Home', apps: [['Sample plant', 'map'], ['Guided tour', 'flow'], ['Team workspace', 'board']] },
+    { v: 'other_industrial_use_case', l: 'Other Industrial Use Case', nav: 'Builder', head: 'Start from a blank app', apps: [['Blank app', 'kanban'], ['Describe it to Builder', 'flow'], ['Browse Library', 'table']] },
+    { v: 'no_industrial_use_case', l: 'No Industrial Use Case Yet', nav: 'Home', head: 'Get to know Tier0', apps: [['Product tour', 'tour'], ['Sample plant', 'map'], ['What can Tier0 do?', 'flow']] },
+  ];
+  const DEFAULT_RECS = [['Connect a data source', 'flow'], ['Build an app', 'kanban'], ['Explore the UNS', 'table']];
+  // 首页推荐示例：按行业切换（原型示意，真实推荐由后端/产品定义）
+  const INDUSTRY_RECS = {
+    'Automotive': [['Andon board', 'board'], ['Torque traceability', 'table'], ['Line OEE', 'chart']],
+    'Electronics & Semiconductors': [['SMT yield', 'chart'], ['Reflow profile', 'chart'], ['AOI defect log', 'table']],
+    'Food & Beverage': [['Batch traceability', 'flow'], ['CIP cleaning log', 'table'], ['Fill-weight SPC', 'chart']],
+    'Pharmaceuticals': [['eBatch record', 'table'], ['Cleanroom monitor', 'board'], ['Deviation log', 'kanban']],
+    'Chemicals': [['Reactor monitor', 'chart'], ['Recipe manager', 'table'], ['Tank levels', 'board']],
+    'Metals & Mining': [['Furnace monitor', 'chart'], ['Ore grade tracker', 'table'], ['Energy use', 'chart']],
+    'Energy & Utilities': [['Substation monitor', 'board'], ['Load forecast', 'chart'], ['Outage log', 'table']],
+    'Industrial Machinery': [['Assembly tracker', 'kanban'], ['Test bench', 'chart'], ['Spare parts', 'map']],
+    'Logistics & Warehousing': [['Dock schedule', 'kanban'], ['Pick rate', 'chart'], ['Warehouse map', 'map']],
+  };
+  const INDUSTRY_ICON = {
+    'Automotive': 'ind-car', 'Electronics & Semiconductors': 'ind-cpu', 'Food & Beverage': 'ind-cup', 'Pharmaceuticals': 'ind-pill',
+    'Chemicals': 'ind-flask', 'Metals & Mining': 'ind-pick', 'Energy & Utilities': 'ind-zap', 'Industrial Machinery': 'ind-cog',
+    'Logistics & Warehousing': 'ind-truck', 'Other': 'ind-shapes',
+  };
+  // Start with 对应的使用场景模板：名称 / 场景说明 / 缩略图类型 / 能力标签
+  const GOAL_TPL = {
+    connect_industrial_data: [['MQTT broker bridge', 'Stream PLC tags from your MQTT broker into the Unified Namespace.', 'flow', ['MQTT', 'UNS']], ['OPC UA browser', 'Browse OPC UA servers and map nodes to UNS topics.', 'table', ['OPC UA', 'Mapping']], ['Modbus gateway', 'Poll Modbus devices and publish readings every second.', 'flow', ['Modbus', 'Edge']]],
+    build_production_apps: [['Work order app', 'Release, start and close work orders on the shop floor.', 'kanban', ['Forms', 'Workflow']], ['Andon board', 'Show line status and call for help in one tap.', 'board', ['Alerts', 'Dashboard']], ['Shift handover', 'Capture open issues and notes between shifts.', 'table', ['Forms']]],
+    plan_production: [['Production schedule', 'Drag jobs onto lines and see capacity update live.', 'kanban', ['Scheduling']], ['Capacity plan', 'Compare demand with line capacity week by week.', 'chart', ['Forecast']], ['Line balancing', 'Balance takt time across stations.', 'board', ['Takt time']]],
+    quality_traceability: [['SPC chart', 'Track critical dimensions against control limits.', 'chart', ['SPC', 'Alerts']], ['Lot genealogy', 'Trace every lot from raw material to shipment.', 'flow', ['Traceability']], ['Defect log', 'Log defects with photos and root causes.', 'table', ['Forms', 'Photos']]],
+    maintenance_reliability: [['Vibration monitor', 'Alert when motor vibration drifts out of range.', 'chart', ['Sensors', 'Alerts']], ['PM schedule', 'Plan preventive maintenance by runtime hours.', 'kanban', ['Scheduling']], ['Downtime log', 'Record every stop and its reason automatically.', 'table', ['OEE']]],
+    inventory_logistics: [['WIP tracker', 'See work in progress at every buffer.', 'board', ['Dashboard']], ['Warehouse map', 'Locate bins and stock levels on a floor map.', 'map', ['Map', 'Stock']], ['Material flow', 'Follow material from receiving to the line.', 'flow', ['Traceability']]],
+    analyze_industrial_data: [['OEE dashboard', 'Availability, performance and quality for every line.', 'chart', ['OEE']], ['Energy report', 'Energy per unit by shift and machine.', 'chart', ['Energy']], ['Trend explorer', 'Compare any tags over time.', 'table', ['Historian']]],
+    evaluate_for_team: [['Sample plant', 'A demo factory with live data to explore.', 'map', ['Demo data']], ['Guided tour', 'Ten minutes through the core features.', 'tour', ['Tour']], ['Team workspace', 'Invite teammates and share apps.', 'board', ['Collaboration']]],
+    other_industrial_use_case: [['Blank app', 'Start from an empty canvas and add what you need.', 'kanban', ['Builder']], ['Describe it to Builder', 'Tell Builder what you need in plain words.', 'flow', ['AI']], ['Browse Library', 'Pick from ready-made industrial templates.', 'table', ['Library']]],
+    no_industrial_use_case: [['Product tour', 'Learn the basics in a few minutes.', 'tour', ['Tour']], ['Sample plant', 'Explore a demo factory with live data.', 'map', ['Demo data']], ['What can Tier0 do?', 'See examples from real plants.', 'flow', ['Examples']]],
+  };
+  // 角色对应的首推模板（与行业模板组合成首页推荐）
+  const ROLE_TEMPLATE = {
+    factory_operations: ['Shift dashboard', 'board'], production_engineering: ['Process parameters', 'chart'],
+    quality_management: ['Inspection checklist', 'table'], maintenance_automation: ['PM schedule', 'kanban'],
+    it_digitalization: ['Data pipeline', 'flow'], software_integration: ['API connector', 'flow'],
+    supply_chain_logistics: ['Material tracker', 'map'], business_leadership: ['Plant KPI overview', 'chart'],
+    industrial_services: ['Service tickets', 'kanban'], other_industrial_role: ['Team workspace', 'board'],
+    not_industrial_role: ['Product tour', 'tour'],
+  };
+  // 中文展示名（落库仍用英文值）
+  const ROLE_ZH = { factory_operations: '工厂运营', production_engineering: '生产工程', quality_management: '质量管理', maintenance_automation: '设备维护与自动化', it_digitalization: 'IT 与数字化', software_integration: '工业软件与集成', supply_chain_logistics: '供应链与物流', business_leadership: '企业管理', industrial_services: '工业服务', other_industrial_role: '其他工业岗位', not_industrial_role: '非工业岗位' };
+  const IND_ZH = { 'Automotive': '汽车', 'Electronics & Semiconductors': '电子与半导体', 'Food & Beverage': '食品饮料', 'Pharmaceuticals': '医药', 'Chemicals': '化工', 'Metals & Mining': '金属与采矿', 'Energy & Utilities': '能源与公用事业', 'Industrial Machinery': '工业机械', 'Logistics & Warehousing': '物流与仓储', 'Other': '其他' };
+  const GOAL_ZH = { connect_industrial_data: '连接工业数据', build_production_apps: '搭建生产应用', plan_production: '生产计划', quality_traceability: '质量与追溯', maintenance_reliability: '设备维护与可靠性', inventory_logistics: '库存与物流', analyze_industrial_data: '分析工业数据', evaluate_for_team: '为团队评估 Tier0', other_industrial_use_case: '其他工业场景', no_industrial_use_case: '暂无工业场景' };
+  const GOAL_HEAD_ZH = { other_industrial_use_case: '从空白应用开始', no_industrial_use_case: '了解 Tier0' };
+  const MENU_ZH = { 'Home': '首页', 'Library': '模板库', 'All Apps': '全部应用', 'Launchpad': '应用中心', 'Model': '模型库', 'Scene': '场景' };
+  const GROUP_ZH = { 'App': '应用' };
+  const roleLabel = (v) => (LANG === 'zh' ? ROLE_ZH[v] : JOB_ROLES[v]) || v;
+  const indLabel = (v) => (LANG === 'zh' ? IND_ZH[v] : v) || v;
+  const goalLabel = (g) => (LANG === 'zh' ? GOAL_ZH[g.v] : g.l);
+  const goalHead = (g) => (LANG === 'zh' ? GOAL_HEAD_ZH[g.v] || `${GOAL_ZH[g.v]}相关模板` : g.head || `Templates for ${g.l}`);
+  const menuLabel = (it) => L(it, MENU_ZH[it] || it);
+  const groupLabel = (gname) => L(gname, GROUP_ZH[gname] || gname);
+  const GETTING_STARTED = '__getting_started';
+  // 填空句式里读起来别扭的角色，换成句内说法
+  const ROLE_IN_SENTENCE = { other_industrial_role: 'another industrial field', not_industrial_role: 'a non-industrial role' };
+  const INVITES = [
+    { id: 'prod', name: 'Production Team', role: 'Builder', cat: 6 },
+    { id: 'quality', name: 'Quality Lab', role: 'Operator', cat: 3 },
+    { id: 'plant', name: 'Plant 2', role: 'Viewer', cat: 7 },
+    { id: 'maint', name: 'Maintenance', role: 'Builder', cat: 8 },
+  ];
+  const CODE_WORKSPACE = 'Northwind Ops';
+  // 背景 mock：首次登录弹窗背后展示的示例 workspace（参照 Figma home 17531-119129）
+  const mockWs = () => ({ name: L('Your workspace', '你的工作空间'), kind: 'demo' });
+  const MOCK_APPS = [['LineWatch', 'k-chart'], ['AssetGuard', 'k-board'], ['OEE Monitor', 'k-kanban'], ['FactoryPulse', 'k-flow']];
+  const MOCK_RECENT = [
+    ['n-Namespace', 'FactoryB/Line02/State/OPITON', 'Topic', '2 min ago'],
+    ['i-doc', 'Untitled Notebook 2025-10-10 16:45:50', 'Notebook', '1 hour ago'],
+    ['k-flow', 'Test Flow', 'Flow', 'Yesterday'],
+    ['k-flow', 'Test Flow 02', 'Flow', 'Yesterday'],
+    ['n-Namespace', 'FactoryB/Line02/Metric/num', 'Topic', 'Oct 20'],
+    ['n-Namespace', 'FactoryB/Line01/State/test', 'Topic', 'Oct 18'],
+  ];
+  const MOCK_INBOX = [
+    ['Plan Expiring Soon', 'System', 'Your plan expires in 11 days. Renew to keep your apps running.'],
+    ['Work order WO-2026-001 approved', 'Manufacturing Execution', 'Approved by the line supervisor.'],
+    ['Production line alert triggered', 'OEE Monitor', 'Line 02 availability dropped below 85%.'],
+  ];
+  // workspace 标识色：同一列表内必须一眼可分。自建 workspace 固定品牌绿，邀请码加入固定黄，邀请各自固定冷色，避开相近的红 / 橙
+  const OWN_WS_CAT = 4;
+  const CODE_WS_CAT = 2;
+  const wsCat = (name) => INVITES.find((x) => x.name === name)?.cat || (name === CODE_WORKSPACE ? CODE_WS_CAT : OWN_WS_CAT);
+
+  const NOTES = [
+    '<b>1 个人资料</b>：User name 放在头像上方，默认为空（即 nickName）；留空点 Continue 会自动生成 <code>user_XXXX</code> 并提示可在 Settings 修改。不上传头像时显示首字母文字头像，配色随机分配一个 --tier0-cat-*（不提供选择，新增字段待后端确认）。右侧推近到侧栏底部用户行与用户菜单。',
+    '<b>2 工作信息</b>：填空句式，公司名输入框宽度跟随内容；领域与行业为自定义下拉（CnSelect 弹层样式）。右侧内容直接放在工作台首页内容区：Card（公司标识 + 名称 + 领域 / 行业 Badge）+ 推荐模板 Item 列表；侧栏、页头工具、右栏与表格保留为淡化的周边界面。',
+    '<b>3 目标</b>：对应 <code>startWith</code>。右侧侧栏标出完成后默认打开的菜单（映射待产品确认），右侧首页内容区换成 “Opens in 菜单 · Start here” + 3 个该场景模板，周边界面同样淡化。',
+    '<b>4 Workspace</b>：对齐 Figma pending invitation；Create / Join 为单选卡片，选中后在卡片内展开标准 Input（Workspace name / Invite code）。待处理邀请可加入多个：点击「加入」或在该行按 Enter 后，按钮变为绿色「已加入」。选中状态同时只能有一个，选中哪一条，底部按钮就变成「进入该工作空间名」。进入后，侧栏工作空间菜单里才能切换到其他已加入的邀请。选择新建时，Create workspace 后在弹窗内走初始化流程（复刻 WorkspacePendingState：Waiting for workspace initialization... + 条纹进度条 + 百分比），完成后关闭弹窗进入新首页；确认已选邀请或邀请码时弹窗内短暂显示 Joining 进度后直接进入。背景为 mock 的示例 workspace（Your workspace）。邀请行平时不高亮，hover 时高亮并点亮 Join；无待处理邀请时整块不显示。',
+  ];
+  const FOCUS = [
+    { zones: ['user', 'me'], menu: 'user' },
+    { zones: ['page', 'hello', 'work'], menu: '', calm: true },
+    { zones: ['page', 'hello', 'goal'], menu: '', calm: true },
+    { zones: ['ws', 'wslist'], menu: 'ws' },
+  ];
+
+  const S = {};
+  function reset() {
+    Object.assign(S, {
+      step: 0, dir: 1, name: '', autoName: genName(), color: 1 + Math.floor(Math.random() * CAT_COUNT), image: '', imgErr: '',
+      company: '', role: '', industry: '', goal: '',
+      invState: 'ready', showAll: false, joined: [], selected: null, joining: null, failedOnce: {}, failed: null,
+      mode: null, wsName: '', code: '', codeErr: '', loading: false, closed: false, activeWs: null,
+    });
+  }
+
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  // 实际展示名：输入为空时预览使用将自动生成的默认名
+  const displayName = () => S.name.trim() || S.autoName;
+  const first = () => {
+    const v = S.name.trim();
+    if (v === S.autoName) return v; // 自动生成的名字整体展示，不拆分
+    return (v.split(/[\s._-]+/)[0] || '').replace(/^./, (c) => c.toUpperCase());
+  };
+  const initial = (s) => Array.from(String(s).trim())[0] || '';
+  const hashCat = (seed) => { let h = 0; for (const ch of String(seed)) h = (h * 31 + ch.codePointAt(0)) >>> 0; return (h % CAT_COUNT) + 1; };
+  const catStyle = (n) => `background-color:var(--cat-${n}-bg);color:var(--cat-${n}-fg)`;
+  // 文字头像配色：首次进入随机分配一个 --tier0-cat-*，不提供选择
+  const userCat = () => S.color;
+  const icon = (id, cls = '') => `<svg class="${cls}" aria-hidden="true"><use href="#${id}"/></svg>`;
+  const defaultWsName = () => S.company.trim() || (first() ? L(`${first()}'s workspace`, `${first()} 的工作空间`) : L('My workspace', '我的工作空间'));
+  const goalObj = () => START_WITH.find((g) => g.v === S.goal);
+  const scenario = () => $('#scenario').value;
+  const invites = () => (scenario() === 'many' ? INVITES : scenario() === 'none' ? [] : INVITES.slice(0, 2));
+  const wsMark = (name) => `<span class="wsm" style="${catStyle(wsCat(name))}">${esc(initial(name))}</span>`;
+
+  function joinedList() {
+    return (S.joined || []).map((id) => INVITES.find((x) => x.id === id)).filter(Boolean);
+  }
+  function targetWs() {
+    if (S.mode === 'invite' && S.selected) {
+      const picked = INVITES.find((x) => x.id === S.selected);
+      if (picked) return { ...picked, kind: 'invite' };
+    }
+    if (S.mode === 'create') return { name: S.wsName.trim() || defaultWsName(), kind: 'create' };
+    if (S.mode === 'code') return { name: S.code.trim().length >= INVITE_CODE_MIN ? CODE_WORKSPACE : '', kind: 'code' };
+    return null;
+  }
+  // 用户头像：图片 > 选色文字头像
+  function paintAvatar(el) {
+    if (S.image) { el.setAttribute('style', `background-image:url('${S.image}')`); el.textContent = ''; return; }
+    el.setAttribute('style', catStyle(userCat()));
+    el.textContent = initial(displayName());
+  }
+
+  /* ---------------- Steps (left) ---------------- */
+  function nameHint() {
+    if (!S.name.trim()) return L(`Leave it blank and we'll call you <b>${esc(S.autoName)}</b>. You can change it later.`, `留空将默认使用 <b>${esc(S.autoName)}</b>，之后可在设置中修改。`);
+    return L('Shown in comments, mentions and member lists.', '会显示在评论、@提及和成员列表中。');
+  }
+
+  function stepProfile() {
+    return `
+      <div class="head"><h2 id="stepTitle">${L('Set up your profile', '设置个人资料')}</h2><p>${L('This is how teammates see you in Tier0.', '团队成员会通过这些信息认出你。')}</p></div>
+      <div class="field">
+        <label class="label" for="userName">${L('User name', '用户名')}</label>
+        <input class="input" id="userName" autocomplete="nickname" placeholder="${L('What should your team call you?', '团队成员怎么称呼你')}" maxlength="${MAX_FULL_NAME}" value="${esc(S.name)}" aria-describedby="nameHint">
+        <p class="hint" id="nameHint">${nameHint()}</p>
+      </div>
+      <div class="pic">
+        <div class="avwrap"><span class="big" id="bigAv"></span><button type="button" class="cam" id="picBtn" aria-label="${L('Upload profile picture', '上传头像')}">${icon('i-camera')}</button></div>
+        <div class="meta">
+          <b>${L('Profile picture', '头像')}</b>
+          ${S.imgErr ? `<span class="err" role="alert">${S.imgErr}</span>` : `<span class="hint">${L('PNG or JPEG, up to 10 MB', '支持 PNG、JPEG，不超过 10 MB')}</span>`}
+          <div class="row">
+            <button type="button" class="btn outline" id="uploadBtn">${S.image ? L('Replace', '更换') : L('Upload', '上传')}</button>
+            ${S.image ? `<button type="button" class="btn ghost" id="removeImg">${L('Remove', '移除')}</button>` : ''}
+          </div>
+        </div>
+        <input type="file" id="file" accept="image/png,image/jpeg" hidden>
+      </div>`;
+  }
+
+  function indIcon(v, cls = 'oi') {
+    return `<span class="${cls}" style="${catStyle(hashCat(v))}">${icon(INDUSTRY_ICON[v] || 'ind-shapes')}</span>`;
+  }
+  function stepWork() {
+    return `
+      <div class="head"><h2 id="stepTitle">${L('Tell us about your work', '关于你的工作')}</h2><p>${L("We'll use this to recommend templates for you.", '我们会据此为你推荐合适的模板。')}</p></div>
+      <div class="mad">
+        <span class="ln">${L('I work at', '我就职于')} <span class="slot c-co ${S.company.trim() ? '' : 'empty'}"><input id="company" aria-label="${L('Company name', '公司名称')}" autocomplete="organization" placeholder="${L('company name', '公司名称')}" maxlength="${MAX_COMPANY}" value="${esc(S.company)}"></span></span>
+        <span class="ln">${L('in', '工作领域是')} <span class="nw"><span class="slot c-fd ${S.role ? '' : 'empty'}" id="roleSlot"><button type="button" class="slot-btn" id="roleBtn" data-pop="role" aria-haspopup="listbox" aria-expanded="false" aria-label="${L('Your field', '工作领域')}"><span class="val" id="roleVal">${roleValHtml()}</span>${icon('i-chev', 'chev')}</button></span></span></span>
+        <span class="ln">${L('Our industry is', '所在行业是')} <span class="nw"><span class="slot c-in ${S.industry ? '' : 'empty'}" id="indSlot"><button type="button" class="slot-btn" id="indBtn" data-pop="industry" aria-haspopup="listbox" aria-expanded="false" aria-label="${L('Industry', '所在行业')}"><span class="val" id="indVal">${indValHtml()}</span>${icon('i-chev', 'chev')}</button></span></span></span>
+      </div>`;
+  }
+  // 输入框宽度跟随内容（空时按 placeholder），短公司名不会留出大块空白
+  const measureCtx = document.createElement('canvas').getContext('2d');
+  function fitInput(inp) {
+    const cs = getComputedStyle(inp);
+    measureCtx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    const w = measureCtx.measureText(inp.value || inp.placeholder).width;
+    inp.style.width = `${Math.ceil(w + 3)}px`;
+  }
+  function roleText() { if (LANG === 'zh') return S.role ? ROLE_ZH[S.role] : '请选择'; return S.role ? ROLE_IN_SENTENCE[S.role] || JOB_ROLES[S.role] : 'your field'; }
+  function roleValHtml() { return `<span class="vt">${esc(roleText())}</span>`; }
+  function indValHtml() { return S.industry ? `${indIcon(S.industry, 'vi')}<span class="vt">${esc(indLabel(S.industry))}</span>` : `<span class="vt">${L('pick one', '请选择')}</span>`; }
+  function syncWorkSlots() {
+    $('#roleVal').innerHTML = roleValHtml();
+    $('#roleSlot').classList.toggle('empty', !S.role);
+    $('#indVal').innerHTML = indValHtml();
+    $('#indSlot').classList.toggle('empty', !S.industry);
+  }
+
+  /* 填空句里的下拉：样式对齐 CnSelect 弹层，支持方向键 / Enter / Esc */
+  let popFor = null;
+  function popOptions(kind) {
+    if (kind === 'role') return Object.keys(JOB_ROLES).map((v) => ({ v, l: roleLabel(v), html: '' }));
+    return INDUSTRIES.map((v) => ({ v, l: indLabel(v), html: indIcon(v) }));
+  }
+  function openPop(kind) {
+    const pop = $('#pop'), btn = $(kind === 'role' ? '#roleBtn' : '#indBtn');
+    if (popFor === kind) return closePop(true);
+    popFor = kind;
+    pop.innerHTML = `<div class="ph">${kind === 'role' ? L('Your field', '工作领域') : L('Industry', '所在行业')}</div>` + popOptions(kind).map((o) =>
+      `<button type="button" class="opt-i" role="option" aria-selected="${S[kind] === o.v}" data-v="${esc(o.v)}">${o.html}<span>${esc(o.l)}</span>${icon('i-check', 'ck')}</button>`).join('');
+    const r = btn.getBoundingClientRect();
+    pop.classList.add('open');
+    const h = pop.offsetHeight;
+    const top = r.bottom + 8 + h > window.innerHeight - 12 ? Math.max(12, r.top - h - 8) : r.bottom + 8;
+    pop.style.top = `${top}px`;
+    pop.style.left = `${Math.min(r.left, window.innerWidth - pop.offsetWidth - 12)}px`;
+    btn.setAttribute('aria-expanded', 'true');
+    (pop.querySelector('[aria-selected="true"]') || pop.querySelector('.opt-i')).focus({ preventScroll: false });
+  }
+  function closePop(refocus) {
+    if (!popFor) return;
+    const btn = $(popFor === 'role' ? '#roleBtn' : '#indBtn');
+    btn?.setAttribute('aria-expanded', 'false');
+    $('#pop').classList.remove('open');
+    popFor = null;
+    if (refocus) btn?.focus();
+  }
+  $('#pop').addEventListener('click', (e) => {
+    const o = e.target.closest('.opt-i'); if (!o) return;
+    S[popFor] = o.dataset.v;
+    closePop(true); syncWorkSlots(); syncPreview(); syncProto();
+  });
+  $('#pop').addEventListener('keydown', (e) => {
+    const items = [...$('#pop').querySelectorAll('.opt-i')];
+    const i = items.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown') { e.preventDefault(); items[Math.min(items.length - 1, i + 1)].focus(); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); items[Math.max(0, i - 1)].focus(); }
+    if (e.key === 'Escape' || e.key === 'Tab') { e.preventDefault(); closePop(true); }
+  });
+  document.addEventListener('mousedown', (e) => { if (popFor && !e.target.closest('#pop, .slot-btn')) closePop(false); });
+  window.addEventListener('resize', () => closePop(false));
+
+  function stepGoal() {
+    const items = START_WITH.map((g) => `<button type="button" class="choice" role="radio" aria-checked="${S.goal === g.v}" data-goal="${g.v}"><span class="dot"></span>${goalLabel(g)}</button>`).join('');
+    return `
+      <div class="head"><h2 id="stepTitle">${L('What would you like to start with?', '你想先从哪里开始？')}</h2><p>${L("We'll open the right place first. You can switch any time.", '我们会先为你打开对应的页面，之后可随时切换。')}</p></div>
+      <div class="choices" role="radiogroup" aria-labelledby="stepTitle">${items}</div>`;
+  }
+
+  function invitesHtml() {
+    if (S.invState === 'loading') return `<p class="sec-t">${L('Pending invitations', '待处理的邀请')}</p><div class="state"><span class="spin"></span>${L('Checking for invitations…', '正在检查邀请…')}</div>`;
+    if (S.invState === 'error') return `<p class="sec-t">${L('Pending invitations', '待处理的邀请')}</p><div class="state bad">${icon('i-alert', 'i')}<span class="sp">${L('Unable to load invitations.', '邀请加载失败。')}</span><button type="button" class="btn outline" id="invRetry">${L('Try again', '重试')}</button></div>`;
+    const list = invites();
+    if (!list.length) return '';
+    const shown = S.showAll ? list : list.slice(0, 3);
+    const rows = shown.map((w) => {
+      const joined = S.joined.includes(w.id), on = S.selected === w.id, joining = S.joining === w.id, failed = S.failed === w.id;
+      const btn = joined
+        ? `<button type="button" class="btn ${on ? 'default' : 'outline'}" data-join="${w.id}" tabindex="-1" style="opacity:1">${icon('i-check')}${L('Joined', '已加入')}</button>`
+        : joining ? `<button type="button" class="btn outline" tabindex="-1" disabled><span class="spin"></span>${L('Joining', '加入中')}</button>`
+        : `<button type="button" class="btn outline" data-join="${w.id}" tabindex="-1">${failed ? L('Try again', '重试') : L('Join', '加入')}</button>`;
+      return `<div class="inv ${on ? 'on' : ''} ${failed ? 'failed' : ''}" data-inv="${w.id}" tabindex="0" role="radio" aria-checked="${on}">
+        <div class="top">${wsMark(w.name)}<span class="nm">${esc(w.name)}</span><span class="badge">${w.role}</span><span class="sp"></span>${btn}</div>
+        ${failed ? `<div class="msg">${icon('i-alert')}${L('Unable to join this workspace. Please try again.', '加入失败，请重试。')}</div>` : ''}
+      </div>`;
+    }).join('');
+    const more = list.length > 3 ? `<button type="button" class="btn link" id="showMore" style="font-size:12px;color:var(--text-tertiary)">${S.showAll ? L('Show less', '收起') : L(`Show ${list.length - 3} more`, `展开其余 ${list.length - 3} 个`)}</button>` : '';
+    return `<p class="sec-t"><span>${L('Pending invitations', '待处理的邀请')}</span>${more}</p><div class="inv-list" role="radiogroup" aria-label="${L('Pending invitations', '待处理的邀请')}">${rows}</div>`;
+  }
+
+  function stepWorkspace() {
+    const hasInv = S.invState !== 'ready' || invites().length > 0;
+    const card = (mode, ic, title, desc, body) => `
+        <div class="wcard" data-opt="${mode}" data-on="${S.mode === mode}">
+          <button type="button" class="whead" role="radio" aria-checked="${S.mode === mode}" data-mode="${mode}"><span class="ic">${icon(ic)}</span><span class="tx"><b>${title}</b><span>${desc}</span></span><span class="dot"></span></button>
+          <div class="wbody" ${S.mode === mode ? '' : 'inert'}><div><div class="in">${body}</div></div></div>
+        </div>`;
+    return `
+      <div class="head"><h2 id="stepTitle">${L('Set up your workspace', '设置工作空间')}</h2><p>${hasInv ? L('Join your team, or start a workspace of your own.', '加入团队，或创建自己的工作空间。') : L('Create a workspace for your team, or join one with an invite code.', '为团队创建工作空间，或用邀请码加入已有的工作空间。')}</p></div>
+      <div id="invBox">${invitesHtml()}</div>
+      ${hasInv ? `<div class="or">${L('or', '或')}</div>` : ''}
+      <div class="ws-opts" role="radiogroup" aria-label="${L('Workspace options', '工作空间选项')}">
+        ${card('create', 'i-plus', L('Create a new workspace', '创建新的工作空间'), L('Start with a 14-day trial.', '可免费试用 14 天。'), `
+            <label class="label" for="wsName">${L('Workspace name', '工作空间名称')}</label>
+            <input class="input" id="wsName" maxlength="64" placeholder="${esc(defaultWsName())}" value="${esc(S.wsName)}">`)}
+        ${card('code', 'i-users', L('Join an existing workspace', '加入已有的工作空间'), L('Join your team with an invite code.', '使用团队的邀请码加入。'), `
+            <label class="label" for="code">${L('Invite code', '邀请码')}</label>
+            <input class="input" id="code" maxlength="16" placeholder="7KQ2M9" value="${esc(S.code)}" aria-invalid="${!!S.codeErr}" aria-describedby="codeMsg" style="font-family:var(--font-mono)">
+            ${S.codeErr ? `<p class="err" id="codeMsg" role="alert">${S.codeErr}</p>` : ''}`)}
+      </div>`;
+  }
+
+  const STEPS = [stepProfile, stepWork, stepGoal, stepWorkspace];
+
+  function footHtml() {
+    let label = L('Continue', '继续'), disabled = false, extra = '';
+    const back = S.step > 0;
+    if (S.step === 0) extra = `<p class="meta">${L('Not you?', '不是你？')} <button type="button" class="btn link" id="logout">${L('Log out', '退出登录')}</button></p>`;
+    if (S.step === 1 || S.step === 2) extra = `<p class="meta"><button type="button" class="btn link" id="skip">${L('Skip for now', '暂时跳过')}</button></p>`;
+    if (S.step === 3) {
+      const w = targetWs();
+      if (S.mode === 'invite' && S.selected && w) label = L(`Enter ${w.name}`, `进入 ${w.name}`);
+      else if (S.mode === 'create') label = L('Create workspace', '创建工作空间');
+      else if (S.mode === 'code') { label = L('Join workspace', '加入工作空间'); disabled = S.code.trim().length < INVITE_CODE_MIN; }
+      else disabled = true;
+      if (S.joining) disabled = true;
+    }
+    return `<div class="btns">${back ? `<button type="button" class="btn outline lg" id="back">${L('Back', '返回')}</button>` : ''}
+      <button type="button" class="btn primary lg grow" id="next" ${disabled ? 'disabled' : ''}>${esc(label)}</button></div>${extra}`;
+  }
+
+  function render(focus = true) {
+    const body = $('#body');
+    body.innerHTML = `<div class="step ${S.dir < 0 ? 'back' : ''}">${STEPS[S.step]()}</div>`;
+    body.scrollTop = 0;
+    closePop(false);
+    document.querySelectorAll('#dots i').forEach((d, i) => { d.className = i === S.step ? 'on' : i < S.step ? 'done' : ''; });
+    $('#stepLive').textContent = L(`Step ${S.step + 1} of ${STEPS_N}: ${stepNames()[S.step]}`, `第 ${S.step + 1} 步，共 ${STEPS_N} 步：${stepNames()[S.step]}`);
+    if (S.step === 0) paintAvatar($('#bigAv'));
+    renderFoot();
+    bindStep();
+    syncPreview();
+    syncProto();
+    if (focus) {
+      const sel = { 0: '#userName', 1: '#company' }[S.step];
+      const el = sel && $(sel);
+      if (el) { el.focus({ preventScroll: true }); el.setSelectionRange(el.value.length, el.value.length); }
+    }
+  }
+  function refreshName() {
+    $('#nameHint').innerHTML = nameHint();
+    paintAvatar($('#bigAv'));
+    syncPreview(); syncProto();
+  }
+  function renderFoot() { $('#foot').innerHTML = footHtml(); bindFoot(); }
+  function renderInv() { const b = $('#invBox'); if (b) { b.innerHTML = invitesHtml(); bindInv(); } renderFoot(); syncPreview(); syncProto(); }
+  function go(step) { S.dir = step >= S.step ? 1 : -1; S.step = step; render(); }
+
+  /* ---------------- Bindings ---------------- */
+  function bindStep() {
+    if (S.step === 0) {
+      const inp = $('#userName');
+      inp.addEventListener('input', () => { S.name = inp.value; refreshName(); });
+      inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') next(); });
+      const file = $('#file');
+      $('#uploadBtn').addEventListener('click', () => file.click());
+      $('#picBtn').addEventListener('click', () => file.click());
+      $('#removeImg')?.addEventListener('click', () => { S.image = ''; render(false); });
+      file.addEventListener('change', () => {
+        const f = file.files && file.files[0];
+        if (!f) return;
+        if (!IMAGE_TYPES.includes(f.type)) { S.imgErr = L('Use a PNG or JPEG file.', '请上传 PNG 或 JPEG 图片。'); return render(false); }
+        if (f.size > MAX_IMAGE_BYTES) { S.imgErr = L('This image is larger than 10 MB.', '图片超过 10 MB。'); return render(false); }
+        const r = new FileReader();
+        r.onload = () => { S.image = r.result; S.imgErr = ''; render(false); };
+        r.readAsDataURL(f);
+      });
+    }
+    if (S.step === 1) {
+      const c = $('#company');
+      c.addEventListener('input', () => {
+        S.company = c.value;
+        fitInput(c);
+        c.parentNode.classList.toggle('empty', !c.value.trim());
+        syncPreview(); syncProto();
+      });
+      c.addEventListener('keydown', (e) => { if (e.key === 'Enter') next(); });
+      fitInput(c);
+      document.fonts?.ready.then(() => $('#company') && fitInput($('#company')));
+      document.querySelectorAll('.slot-btn').forEach((b) => b.addEventListener('click', () => openPop(b.dataset.pop)));
+
+    }
+    if (S.step === 2) {
+      document.querySelectorAll('.choice').forEach((b) => b.addEventListener('click', () => {
+        S.goal = S.goal === b.dataset.goal ? '' : b.dataset.goal;
+        document.querySelectorAll('.choice').forEach((x) => x.setAttribute('aria-checked', x.dataset.goal === S.goal));
+        syncPreview(); syncProto();
+      }));
+    }
+    if (S.step === 3) {
+      bindInv();
+      document.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.mode)));
+      bindWsField();
+    }
+  }
+
+  function bindWsField() {
+    const wn = $('#wsName');
+    if (wn) {
+      wn.addEventListener('input', () => { S.wsName = wn.value; syncPreview(); renderFoot(); syncProto(); });
+      wn.addEventListener('keydown', (e) => { if (e.key === 'Enter') next(); });
+    }
+    const cd = $('#code');
+    if (cd) {
+      cd.addEventListener('input', () => {
+        S.code = cd.value.toUpperCase(); cd.value = S.code;
+        if (S.codeErr) { S.codeErr = ''; cd.setAttribute('aria-invalid', 'false'); $('#codeMsg')?.remove(); }
+        syncPreview(); renderFoot(); syncProto();
+      });
+      cd.addEventListener('keydown', (e) => { if (e.key === 'Enter') next(); });
+    }
+  }
+
+  function paintCards() {
+    document.querySelectorAll('.wcard').forEach((c) => {
+      const on = c.dataset.opt === S.mode;
+      c.dataset.on = on;
+      c.querySelector('.whead').setAttribute('aria-checked', on);
+      c.querySelector('.wbody').inert = !on;
+    });
+  }
+  function setMode(mode) {
+    S.mode = S.mode === mode ? (S.selected ? 'invite' : null) : mode;
+    if (S.mode === 'create' || S.mode === 'code') S.selected = null; // 三者单选：选了下方卡片，上方邀请取消选中
+    paintCards();
+    renderInv();
+    const sel = { create: '#wsName', code: '#code' }[S.mode];
+    if (sel) setTimeout(() => $(sel)?.focus({ preventScroll: true }), 180);
+    syncPreview(); renderFoot(); syncProto();
+  }
+
+  function bindInv() {
+    $('#invRetry')?.addEventListener('click', () => {
+      S.invState = 'loading'; renderInv();
+      setTimeout(() => { $('#scenario').value = 'two'; S.invState = 'ready'; renderInv(); }, 900);
+    });
+    $('#showMore')?.addEventListener('click', () => { S.showAll = !S.showAll; renderInv(); });
+    document.querySelectorAll('[data-join]').forEach((b) => b.addEventListener('click', () => toggleInvite(b.dataset.join)));
+    const list = document.querySelector('.inv-list');
+    list?.addEventListener('click', (e) => {
+      const row = e.target.closest('[data-inv]');
+      if (!row || e.target.closest('[data-join]')) return;
+      toggleInvite(row.dataset.inv);
+    });
+    list?.addEventListener('keydown', (e) => {
+      const row = e.target.closest('[data-inv]');
+      if (!row) return;
+      const rows = [...list.querySelectorAll('[data-inv]')];
+      const index = rows.indexOf(row);
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        rows[e.key === 'ArrowDown' ? Math.min(rows.length - 1, index + 1) : Math.max(0, index - 1)].focus();
+      }
+      if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('[data-join]')) {
+        e.preventDefault();
+        toggleInvite(row.dataset.inv);
+      }
+    });
+  }
+
+  function focusInvite(id) {
+    document.querySelector(`[data-inv="${id}"]`)?.focus({ preventScroll: true });
+  }
+  function toggleInvite(id) {
+    if (S.joining) return;
+    const joined = S.joined.includes(id);
+    if (!joined && scenario() === 'joinfail' && !S.failedOnce[id] && id === invites()[0].id) {
+      S.joining = id; S.failed = null; renderInv();
+      setTimeout(() => { S.joining = null; S.failedOnce[id] = true; S.failed = id; renderInv(); focusInvite(id); }, 700);
+      return;
+    }
+    S.failed = S.failed === id ? null : S.failed;
+    if (!joined) S.joined = [...S.joined, id];
+    S.selected = id;
+    S.mode = 'invite';
+    paintCards();
+    renderInv();
+    focusInvite(id);
+  }
+
+  function bindFoot() {
+    $('#next')?.addEventListener('click', next);
+    $('#back')?.addEventListener('click', () => go(S.step - 1));
+    $('#skip')?.addEventListener('click', () => go(S.step + 1));
+    $('#logout')?.addEventListener('click', () => toast(L('Would sign out and return to /login', '将退出登录并返回登录页')));
+  }
+
+  function next() {
+    if (S.loading) return;
+    if (S.step === 0 && !S.name.trim()) {
+      S.name = S.autoName;
+      toast(L(`You're ${S.autoName} for now. Change it anytime in Settings.`, `已使用 ${S.autoName} 作为用户名，可随时在设置中修改。`));
+    }
+    if (S.step < 3) return go(S.step + 1);
+    if (!S.mode || (S.mode === 'invite' && !S.selected)) return;
+    if (S.mode === 'code' && S.code.trim().length < INVITE_CODE_MIN) return;
+    if (S.mode === 'code' && S.code.trim() === EXPIRED_CODE) { S.codeErr = L('This invite code has expired. Ask your admin for a new one.', '该邀请码已过期，请联系管理员获取新的邀请码。'); return render(false); }
+    startLoading();
+  }
+
+  // Continue 之后进入加载态：复刻产品现有的 WorkspacePendingState（30% 起步，模拟推进到 100%）
+  const PENDING_START = 30;
+  let progTimer;
+  function startLoading() {
+    const w = targetWs();
+    S.loading = true;
+    const create = w.kind === 'create';
+    const joinName = w.name;
+    // 新建：弹窗内复刻 WorkspacePendingState 走初始化；加入：弹窗内短进度
+    $('#loaderTitle').textContent = create ? L('Waiting for workspace initialization...', '正在初始化工作空间…') : L(`Joining ${joinName}...`, `正在加入 ${joinName}…`);
+    $('#loaderSub').innerHTML = create ? L(`A link will be sent to <span class="em">${esc(ACCOUNT_EMAIL)}</span> once it's ready.`, `准备就绪后，我们会将链接发送至 <span class="em">${esc(ACCOUNT_EMAIL)}</span>。`) : L('This only takes a moment.', '马上就好。');
+    runProgress('#lbar', '#lpct', '#lprog', create ? LOADING_MS : JOIN_MS, () => { stopLoading(); finish(); });
+    $('#loader').hidden = false;
+    syncProto();
+  }
+  // 进度从 30% 起步，缓出推进到 100% 后回调
+  function runProgress(bar, pct, prog, ms, done) {
+    clearInterval(progTimer);
+    const start = performance.now();
+    const paint = () => {
+      const t = Math.min(1, (performance.now() - start) / ms);
+      const v = Math.round(PENDING_START + (100 - PENDING_START) * (1 - Math.pow(1 - t, 2)));
+      $(bar).style.transform = `translateX(-${100 - v}%)`;
+      $(pct).textContent = `${v}%`;
+      $(prog).setAttribute('aria-valuenow', v);
+      if (t >= 1) { clearInterval(progTimer); setTimeout(done, 300); }
+    };
+    paint();
+    progTimer = setInterval(paint, 100);
+  }
+  function stopLoading() {
+    clearInterval(progTimer);
+    S.loading = false;
+    $('#loader').hidden = true;
+    $('#lbar').style.transform = 'translateX(-100%)';
+  }
+
+  function finish() {
+    const w = targetWs() || { name: defaultWsName(), kind: 'create' };
+    S.closed = true;
+    S.activeWs = w;
+    $('#overlay').classList.add('gone');
+    syncPanels();
+    renderShell(w, false);
+    $('#shell').removeAttribute('aria-hidden');
+    const shown = w.name;
+    const hello = () => {
+      $('#bgHello').textContent = first() ? L(`Good to see you, ${first()}`, `你好，${first()}`) : L('Good to see you', '你好');
+      $('#bgSub').textContent = `${shown} · ${w.kind === 'create' ? L('14-day trial', '14 天试用') : L('Joined just now', '刚刚加入')}`;
+    };
+    // 新建的 workspace 显示入门卡片，加入的 workspace 显示其首页数据
+    hello(); setPage(w.kind === 'create' ? 'new' : 'mock');
+    setTimeout(() => toast(L(`Welcome to ${shown}`, `欢迎来到 ${shown}`)), 300);
+    syncProto();
+  }
+
+  function restart() {
+    stopLoading();
+    reset(); applyScenario();
+    resetBg();
+    render();
+  }
+  // 背景回到弹窗期间的 mock workspace
+  function resetBg() {
+    $('#overlay').classList.remove('gone');
+    $('#shell').setAttribute('aria-hidden', 'true');
+    renderShell(null);
+    $('#bgHello').textContent = L('Home', '首页'); $('#bgSub').textContent = L('Recently used apps and data', '最近使用的应用和数据');
+    setPage('mock');
+  }
+
+  /* ---------------- Sidebar（背景壳层与右侧预览共用） ---------------- */
+  function userAv(useDefault) {
+    if (useDefault) return `<span class="uav">${icon('i-user')}</span>`;
+    if (S.image) return `<span class="uav" style="background-image:url('${S.image}')"></span>`;
+    return `<span class="uav" style="${catStyle(userCat())}">${esc(initial(displayName()))}</span>`;
+  }
+  const sbMark = (name) => name
+    ? `<span class="sb-mark" style="${catStyle(wsCat(name))}">${esc(initial(name))}</span>`
+    : '<span class="sb-mark" style="background:var(--bg-secondary)"></span>';
+  const wsSub = (w) => (w.kind === 'create' ? L('Owned by you · Trial', '你创建的 · 试用') : w.kind === 'invite' ? w.role : w.kind === 'demo' ? L('Sample data', '示例数据') : L('Member', '成员'));
+
+  // 背景首页 mock：最近使用的 App、最近数据、Inbox、Workspace Usage
+  function mockHomeHtml() {
+    const apps = MOCK_APPS.map(([n, k]) => `<div class="app"><div class="po">${icon(k)}</div><b>${n}</b></div>`).join('');
+    const rows = MOCK_RECENT.map(([k, n, t, d]) => `<div><span class="n">${icon(k)}<span>${esc(n)}</span></span><em>${t}</em><em>${d}</em></div>`).join('');
+    const inbox = MOCK_INBOX.map(([t, src, d]) => `<div><i></i><b>${esc(t)}</b><em>${esc(src)} · ${L('Today at 9:42 AM', '今天 9:42')}</em><span>${esc(d)}</span></div>`).join('');
+    const meter = (label, v, max, pct) => `<div class="row">${label}<b>${v}/${max}</b></div><div class="meter"><i style="width:${pct}%"></i></div>`;
+    return `
+      <div class="pg-main">
+        <section class="pg-sec"><div class="h">${L('Recent Using App', '最近使用的应用')}</div><div class="apps">${apps}</div></section>
+        <section class="pg-sec"><div class="rtabs"><span class="on">${L('Recent data', '最近数据')}</span><span>${L('Favorites', '收藏')}</span></div><div class="rtable">${rows}</div></section>
+        <section class="pg-sec"><div class="h">${L('Inbox', '收件箱')}</div><div class="inbox">${inbox}</div></section>
+      </div>
+      <aside class="usage">
+        <div class="h" style="font-weight:600;font-size:16px;line-height:32px">${L('Workspace Usage', '工作空间用量')}</div>
+        <div class="c"><b>${icon('k-board')}${L('Current Plan', '当前套餐')}</b><span class="big">Growth</span><span class="sub">${L('Expires on Feb 1, 2027 (11 days left)', '2027 年 2 月 1 日到期（剩 11 天）')}</span></div>
+        <div class="c"><b>${icon('i-up')}AI Credits</b>${meter(L('Credits used', '已用 Credits'), 2000, 10000, 20)}</div>
+        <div class="c"><b>${icon('n-AllApps')}${L('Applications', '应用')}</b>${meter(L('Created apps', '已创建应用'), 6, 10, 60)}${meter(L('Deployed apps', '已部署应用'), 2, 5, 40)}</div>
+        <div class="c"><b>${icon('i-users')}${L('Seats', '席位')}</b>${meter('Builder', 4, 5, 80)}<div class="row">Operator<b>23/∞</b></div></div>
+      </aside>`;
+  }
+  // 背景页面两种状态：mock 首页（弹窗期间 / 加入已有 workspace）、新 workspace 首页
+  function setPage(mode) {
+    $('#bgMock').hidden = mode !== 'mock';
+    $('#bgNew').hidden = mode !== 'new';
+    if (mode === 'mock' && !$('#bgMock').children.length) $('#bgMock').innerHTML = mockHomeHtml();
+  }
+
+  // o: { ws, target, menu, others, name, email, defaultAvatar }
+  function sidebarHtml(o) {
+    const w = o.ws && o.ws.name ? o.ws : null;
+    const nav = MENU.map((g) => (g.group ? `<div class="sb-grp">${groupLabel(g.group)}</div>` : '') + g.items.map((it) => {
+      const isTarget = it === o.target;
+      const cls = isTarget ? 'target' : it === 'Home' && !o.target ? 'on' : '';
+      const tail = isTarget ? `<span class="go">${L('Start here', '从这里开始')}</span>` : EXTERNAL_MENU.includes(it) ? icon('i-ext', 'ext') : '';
+      return `<div class="sb-item ${cls}">${icon('n-' + it.replace(/\s/g, ''))}${menuLabel(it)}${tail}</div>`;
+    }).join('')).join('');
+    const list = (w
+      ? `<div class="mws cur" data-ws="${esc(w.id || w.name)}">${sbMark(w.name)}<div class="tx"><b>${esc(w.name)}</b><small>${wsSub(w)}</small></div>${icon('i-check', 'ok')}</div>`
+      : `<div class="mws cur">${sbMark('')}<em></em></div>`)
+      + o.others.map((x) => `<div class="mws" data-ws="${esc(x.id || x.name)}">${sbMark(x.name)}<div class="tx"><b>${esc(x.name)}</b><small>${esc(x.role || '')}</small></div></div>`).join('');
+    const av = userAv(o.defaultAvatar);
+    return `
+      <div class="sb-ws" data-zone="ws">${sbMark(w ? w.name : '')}<span class="nm ${w ? '' : 'ph'}">${esc(w ? w.name : L('Workspace', '工作空间'))}</span>${icon('i-chevs', 'cv')}${icon('i-panel', 'col')}</div>
+      <div class="sb-nav" data-zone="nav">${nav}</div>
+      <div class="sb-grow"></div>
+      ${w && w.kind === 'create' ? `<div class="sb-up" data-zone="upgrade"><div class="t">${icon('i-up')}${L('Upgrade Plan', '升级套餐')}</div><div class="b"><span class="bar"><i></i></span>${L('14d left', '剩 14 天')}</div></div>` : ''}
+      <div class="sb-sep"></div>
+      <div class="sb-user" data-zone="user">${av}<span class="nm">${esc(o.name)}</span>${icon('i-bell', 'bell')}</div>
+      <div class="sb-menu ws ${o.menu === 'ws' ? 'open' : ''}">
+        <div class="m-wslist" data-zone="wslist">${list}</div>
+        <div class="msep"></div>
+        <div class="mi">${icon('i-uplus')}${L('Invite to Workspace', '邀请成员')}</div>
+        <div class="mi">${icon('i-plus')}${L('Add Workspace', '添加工作空间')}</div>
+        <div class="mi">${icon('i-gear')}${L('Workspace Settings', '工作空间设置')}</div>
+      </div>
+      <div class="sb-menu user ${o.menu === 'user' ? 'open' : ''}">
+        <div class="mme" data-zone="me">${av}<div class="tx"><b>${esc(o.name)}</b><small>${esc(o.email)}</small></div></div>
+        <div class="msep"></div>
+        <div class="mi">${icon('i-gear')}${L('Settings', '设置')}</div>
+        <div class="mi">${icon('i-dl')}${L('Download Tier0 App', '下载 Tier0 App')}</div>
+        <div class="msep"></div>
+        <div class="mi">${icon('i-msg')}${L('Feedback', '反馈')}</div>
+        <div class="mi">${icon('i-doc')}${L('Docs', '文档')}${icon('i-ext', 'ext')}</div>
+        <div class="mi">${icon('i-shield')}${L('Privacy Policy', '隐私政策')}</div>
+        <div class="msep"></div>
+        <div class="mi danger">${icon('i-logout')}${L('Logout', '退出登录')}</div>
+      </div>`;
+  }
+
+  // 背景壳层：完成前显示当前产品的默认头像与系统分配名，完成后切到目标 workspace
+  function renderShell(w, menuOpen) {
+    const g = goalObj();
+    const others = w && w.kind === 'invite' ? joinedList().filter((x) => x.id !== w.id) : [];
+    $('#shellSide').innerHTML = sidebarHtml({
+      ws: w || mockWs(), target: w && g && g.nav !== 'Home' ? g.nav : '', menu: menuOpen ? 'ws' : '', others,
+      name: w ? displayName() : ACCOUNT_EMAIL.split('@')[0], email: ACCOUNT_EMAIL, defaultAvatar: !w,
+    });
+    $('#shellSide').querySelector('.go')?.remove();
+    $('#shellSide').querySelector('.target')?.classList.replace('target', 'on');
+    if (w && S.closed) bindShell();
+  }
+  function bindShell() {
+    const side = $('#shellSide');
+    side.querySelector('.sb-ws')?.addEventListener('click', () => {
+      const open = side.querySelector('.sb-menu.ws')?.classList.contains('open');
+      renderShell(S.activeWs, !open);
+    });
+    side.querySelectorAll('.mws[data-ws]').forEach((row) => {
+      row.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = row.dataset.ws;
+        const current = S.activeWs;
+        if (!current || String(current.id || current.name) === id) return renderShell(current, false);
+        const next = joinedList().find((x) => x.id === id);
+        if (!next) return;
+        S.activeWs = { ...next, kind: 'invite' };
+        renderShell(S.activeWs, true);
+        $('#bgSub').textContent = `${next.name} · ${L('Joined just now', '刚刚加入')}`;
+        toast(L(`Switched to ${next.name}`, `已切换到 ${next.name}`));
+      });
+    });
+  }
+
+  /* ---------------- Preview (right) ---------------- */
+  function syncPreview() {
+    const f = FOCUS[S.step];
+    const w = targetWs();
+    const g = goalObj();
+    const side = $('#mSide');
+    // 先以上一次的菜单状态渲染，再切换到当前状态，保证下拉的展开/收起有过渡
+    const prevMenu = side.dataset.menu || '';
+    side.innerHTML = sidebarHtml({
+      ws: w, target: S.step === 2 && g ? g.nav : '', menu: prevMenu, // 「从这里开始」只在起步方向那一步出现
+      others: invites().filter((x) => !(w && x.name === w.name)).slice(0, 2),
+      name: displayName(), email: ACCOUNT_EMAIL, defaultAvatar: false,
+    });
+    const mini = $('#mini');
+    mini.classList.toggle('focus', !!f.zones);
+    mini.classList.toggle('calm', !!f.calm);
+    mini.querySelectorAll('[data-zone]').forEach((z) => z.classList.toggle('lit', !!f.zones && f.zones.includes(z.dataset.zone)));
+    if (prevMenu !== f.menu) {
+      side.dataset.menu = f.menu;
+      void side.offsetWidth;
+      side.querySelectorAll('.sb-menu').forEach((m) => m.classList.toggle('open', !!f.menu && m.classList.contains(f.menu)));
+    }
+
+    // 首页：问候 + 公司/行业插图 + 推荐模板
+    $('#mHello').textContent = S.step >= 1 ? (first() ? L(`Welcome, ${first()}`, `欢迎，${first()}`) : L('Welcome', '欢迎')) : L('Home', '首页');
+    $('#mSub').textContent = S.company.trim() ? S.company.trim() : L('Recently used apps and data', '最近使用的应用和数据');
+    // 推荐：Start with 之后展示该目标的模板 App；之前按「领域 + 行业」组合，并标注推荐依据
+    let heading, recs;
+    if (S.step >= 2 && g) {
+      heading = goalHead(g);
+      recs = g.apps.map(([n, k]) => ({ n, k, why: goalLabel(g), c: 'var(--hl-deep)' }));
+    } else {
+      recs = [];
+      if (S.role) { const [n, k] = ROLE_TEMPLATE[S.role]; recs.push({ n, k, why: roleLabel(S.role), c: `var(--cat-${hashCat(S.role)}-fg)` }); }
+      (INDUSTRY_RECS[S.industry] || []).forEach(([n, k]) => recs.push({ n, k, why: indLabel(S.industry), c: `var(--cat-${hashCat(S.industry)}-fg)` }));
+      DEFAULT_RECS.forEach(([n, k]) => recs.push({ n, k, why: L('Getting started', '入门推荐'), c: 'var(--text-placeholder)' }));
+      recs = recs.filter((r, i, a) => a.findIndex((x) => x.n === r.n) === i).slice(0, 3);
+      heading = S.role || S.industry ? L('Recommended for you', '为你推荐') : L('Get started', '快速开始');
+    }
+    $('#mRecsT').textContent = heading;
+    const cards = $('#mCards');
+    const key = LANG + recs.map((r) => r.n + r.why).join('|');
+    if (cards.dataset.k !== key) {
+      cards.dataset.k = key;
+      cards.innerHTML = recs.map((r, i) => itemHtml(r.n, r.k, r.why, i)).join('');
+    }
+    syncPanels();
+    updateCam();
+  }
+
+  // Work 推荐 = 领域模板 + 行业模板（不足时补入门模板），标注推荐依据
+  function workRecs() {
+    const recs = [];
+    if (S.role) { const [n, k] = ROLE_TEMPLATE[S.role]; recs.push({ n, k, why: roleLabel(S.role), c: 'var(--cat-6-fg)' }); }
+    (INDUSTRY_RECS[S.industry] || []).forEach(([n, k]) => recs.push({ n, k, why: indLabel(S.industry), c: 'var(--cat-2-fg)' }));
+    DEFAULT_RECS.forEach(([n, k]) => recs.push({ n, k, why: GETTING_STARTED, c: 'var(--text-placeholder)' }));
+    return recs.filter((r, i, a) => a.findIndex((x) => x.n === r.n) === i).slice(0, 3);
+  }
+
+  // Work / Start with 的内容替换首页推荐区，仍处于同一工作台布局中
+  function syncPanels() {
+    const work = !S.closed && S.step === 1, goal = !S.closed && S.step === 2;
+    $('#mWork').hidden = !work;
+    $('#mGoal').hidden = !goal;
+    document.querySelector('.m-recs').hidden = work || goal;
+    if (work) renderWorkPanel();
+    if (goal) renderGoalPanel();
+  }
+
+  const CHEVRON = '<svg class="act" aria-hidden="true"><use href="#i-right"/></svg>';
+  const itemHtml = (n, k, ds, i) => `<div class="item" style="animation-delay:${i * 70}ms"><span class="media">${icon('k-' + k)}</span><span class="ct"><span class="tt">${esc(n)}</span>${ds ? `<span class="ds">${esc(ds)}</span>` : ''}</span>${CHEVRON}</div>`;
+  const ghostItems = (n) => Array.from({ length: n }, () => '<div class="item ghost"><span class="media"></span><span class="ct"><span class="tt"></span></span></div>').join('');
+
+  // Work：Card（公司 + 领域 / 行业 Badge）+ 推荐模板 Item 列表
+  function renderWorkPanel() {
+    const co = S.company.trim();
+    const mk = $('#wMark');
+    if (co) { mk.setAttribute('style', catStyle(hashCat(co))); mk.textContent = initial(co); } else { mk.removeAttribute('style'); mk.textContent = ''; }
+    const nm = $('#wName'); nm.textContent = co || L('Your company', '你的公司'); nm.classList.toggle('ph', !co);
+    const field = S.role ? `<span class="bdg">${esc(roleLabel(S.role))}</span>` : `<span class="bdg ph">${L('Field', '工作领域')}</span>`;
+    const ind = S.industry ? `<span class="bdg" style="${catStyle(hashCat(S.industry))}">${icon(INDUSTRY_ICON[S.industry])}${esc(indLabel(S.industry))}</span>` : `<span class="bdg ph">${L('Industry', '所在行业')}</span>`;
+    const bk = `${LANG}|${S.role}|${S.industry}`;
+    if ($('#wBadges').dataset.k !== bk) { $('#wBadges').dataset.k = bk; $('#wBadges').innerHTML = field + ind; }
+    const recs = workRecs();
+    const box = $('#wRecs');
+    const key = LANG + recs.map((r) => r.n + r.why).join('|');
+    if (box.dataset.k !== key) {
+      box.dataset.k = key;
+      box.innerHTML = recs.map((r, i) => itemHtml(r.n, r.k, r.why === GETTING_STARTED ? L('Getting started', '入门推荐') : L(`For ${r.why}`, `适合${r.why}`), i)).join('');
+    }
+  }
+
+  // Start with：打开的菜单 + 该场景的模板（只列名称，保持简洁）
+  function renderGoalPanel() {
+    const g = goalObj();
+    const navName = g ? g.nav : 'Home';
+    $('#gNav').innerHTML = `${icon('n-' + navName.replace(/\s/g, ''))}${menuLabel(navName)}${g ? `<span class="go">${L('Start here', '从这里开始')}</span>` : ''}`;
+    $('#gTitle').textContent = g ? goalHead(g) : L('Pick a starting point', '选择一个起点');
+    const list = $('#gList');
+    const key = LANG + (g ? g.v : '');
+    if (list.dataset.k === key && list.children.length) return;
+    list.dataset.k = key;
+    list.innerHTML = g ? GOAL_TPL[g.v].map(([n, , k], i) => itemHtml(n, k, '', i)).join('') : ghostItems(3);
+  }
+
+
+  // 镜头：默认按高度缩放（侧栏完整可见、内容区向右出血），每一步推近到相关区域
+  const CAM = [['user', '.sb-menu.user'], ['hello', 'work'], ['hello', 'goal'], ['ws', '.sb-menu.ws']];
+  function boxIn(el, root) {
+    let x = 0, y = 0, e = el;
+    while (e && e !== root) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent; }
+    return { x0: x, y0: y, x1: x + el.offsetWidth, y1: y + el.offsetHeight };
+  }
+  function updateCam() {
+    const fr = $('#frame'), mini = $('#mini');
+    const fw = fr.clientWidth, fh = fr.clientHeight;
+    if (!fh) return;
+    const base = fh / MINI_HEIGHT;
+    const keys = S.closed ? null : CAM[S.step];
+    let s = base, x = 0, y = 0;
+    const boxes = (keys || []).map((k) => mini.querySelector(k.startsWith('.') ? k : `[data-zone="${k}"]`)).filter(Boolean).map((el) => boxIn(el, mini));
+    if (boxes.length) {
+      const b = boxes.reduce((a, c) => ({ x0: Math.min(a.x0, c.x0), y0: Math.min(a.y0, c.y0), x1: Math.max(a.x1, c.x1), y1: Math.max(a.y1, c.y1) }));
+      const inPage = FOCUS[S.step].calm;
+      if (inPage) {
+        // 从侧栏左缘取景：整条淡化侧栏可见，内容区尽量放大，右侧与下方自然露出右栏和表格
+        s = Math.max(base * CAM_MIN_RATIO, Math.min(CAM_MAX, (fw - CAM_PAD) / b.x1, (fh - CAM_PAD * 2) / (b.y1 - b.y0)));
+        x = 0;
+        y = Math.min(0, Math.max(fh - MINI_HEIGHT * s, CAM_PAD - b.y0 * s));
+      } else {
+        const fit = Math.min(CAM_MAX, fw / (b.x1 - b.x0 + CAM_PAD * 2), fh / (b.y1 - b.y0 + CAM_PAD * 2));
+        s = Math.max(base, fit);
+        x = Math.min(0, Math.max(fw - MINI_WIDTH * s, fw / 2 - ((b.x0 + b.x1) / 2) * s));
+        x = Math.min(0, Math.max(x, CAM_PAD - b.x0 * s)); // 区域左边缘始终可见（侧栏不被裁掉）
+        y = Math.min(0, Math.max(fh - MINI_HEIGHT * s, fh / 2 - ((b.y0 + b.y1) / 2) * s));
+      }
+    }
+    mini.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+  }
+  if ('ResizeObserver' in window) new ResizeObserver(() => updateCam()).observe($('#frame'));
+
+  /* ---------------- Prototype panel ---------------- */
+  function applyScenario() {
+    const sc = scenario();
+    S.invState = sc === 'loading' ? 'loading' : sc === 'error' ? 'error' : 'ready';
+    Object.assign(S, { joined: [], selected: null, joining: null, failed: null, failedOnce: {}, showAll: false, mode: sc === 'none' ? 'create' : null });
+  }
+  $('#scenario').addEventListener('change', () => {
+    applyScenario();
+    if (S.closed) return restart();
+    S.step === 3 ? render(false) : go(3);
+  });
+  const renderJump = () => { $('#jump').innerHTML = stepNames().map((n, i) => `<button type="button" class="btn outline" data-jump="${i}">${i + 1} · ${n}</button>`).join('') + '<button type="button" class="btn outline" id="restart">重新开始</button>'; };
+  renderJump();
+  // 不随渲染函数生成的静态文案
+  const STATIC_T = {
+    bgHello: ['Home', '首页'], bgSub: ['Recently used apps and data', '最近使用的应用和数据'],
+    wSubT: ['Your workspace', '你的工作空间'], wRecT: ['Recommended templates', '推荐模板'], gOpens: ['Opens in', '打开位置'],
+    bgSearch: ['Search', '搜索文件夹、应用…'], bgNewT: ['New', '创建'],
+    tile1: ['Connect a data source', '连接数据源'], tile1s: ['MQTT, OPC UA, Modbus, databases', 'MQTT、OPC UA、Modbus、数据库'],
+    tile2: ['Build a production app', '搭建生产应用'], tile2s: ['Describe it, Builder writes it', '描述需求，Builder 帮你生成'],
+    tile3: ['Explore the UNS', '浏览 UNS'], tile3s: ['Browse live topics across sites', '浏览各站点的实时主题'],
+  };
+  function applyStatic() {
+    document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : 'en';
+    Object.entries(STATIC_T).forEach(([k, v]) => { const el = document.getElementById(k) || document.querySelector(`[data-t="${k}"]`); if (el) el.textContent = L(v[0], v[1]); });
+  }
+  $('#lang').addEventListener('change', (e) => {
+    LANG = e.target.value;
+    applyStatic(); renderJump();
+    $('#bgMock').innerHTML = '';
+    if (S.closed) return restart();
+    stopLoading();
+    resetBg();
+    render(false);
+  });
+  $('#jump').addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.id === 'restart') return restart();
+    const i = +b.dataset.jump;
+    stopLoading();
+    if (S.closed) { S.closed = false; resetBg(); }
+    go(i);
+  });
+  function syncProto() {
+    $('#protoStep').textContent = S.closed ? '已进入 workspace' : S.loading ? '加载中' : `${S.step + 1} / ${STEPS_N}`;
+    document.querySelectorAll('[data-jump]').forEach((b) => b.classList.toggle('on', !S.closed && +b.dataset.jump === S.step));
+    $('#note').innerHTML = S.closed
+      ? '<b>结束态</b>：侧栏显示刚进入的 workspace。加入邀请时，点侧栏工作空间名称可展开并切换到其他邀请；新建的 workspace 显示入门卡片，加入的 workspace 显示其首页数据。点“重新开始”再走一遍。'
+      : NOTES[S.step];
+    const w = targetWs();
+    $('#payload').textContent = JSON.stringify({
+      completeOnboarding: { fullName: S.name.trim() || undefined, companyName: S.company.trim() || undefined, jobRole: S.role || undefined, industry: S.industry || undefined, startWith: S.goal || undefined },
+      profileExtras: S.image ? { avatar: '<uploaded image>' } : { avatarColor: `cat-${userCat()}` },
+      workspace: !w ? null : w.kind === 'invite' ? { action: 'acceptInvitation', workspace: w.name } : w.kind === 'create' ? { action: 'createWorkspace', name: w.name, plan: 'trial-14d' } : { action: 'joinByCode', code: S.code.trim() },
+    }, null, 2);
+  }
+  if (window.matchMedia('(min-width: 1560px)').matches) $('#proto').open = true;
+
+  let tt;
+  function toast(msg) {
+    $('#toastTxt').textContent = msg; $('#toast').classList.add('on');
+    clearTimeout(tt); tt = setTimeout(() => $('#toast').classList.remove('on'), 2200);
+  }
+
+  reset();
+  applyScenario();
+  applyStatic();
+  setPage('mock');
+  renderShell(null);
+  render();
+})();
+</script>
+</body>
+</html>
