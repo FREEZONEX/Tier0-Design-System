@@ -5,7 +5,12 @@ on:
     branches: [main]
     paths:
       - 'site/**'
-      - 'skills/tier0-slide-skill/**'
+      - 'skills/**'
+      - 'SKILL.md'
+      - 'DESIGN.md'
+      - 'foundations/**'
+      - 'references/**'
+      - 'surfaces/**'
       - 'tokens/**'
       - 'scripts/build-public-site.mjs'
       - '.github/workflows/pages.yml'

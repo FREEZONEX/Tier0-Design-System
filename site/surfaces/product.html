@@ -6,12 +6,12 @@
   <link rel="icon" href="../assets/brand/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>产品后台 · Tier0 Design System</title>
-  <meta name="description" content="Tier0 Product UI：组件样式、用法与预览。">
+  <title>产品原型交付 · Tier0 Design System</title>
+  <meta name="description" content="Tier0 产品原型交付：Figma 到单文件 HTML，包含状态控制、组件标注与开发交付说明。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../site.css?v=20260806c">
+  <link rel="stylesheet" href="../site.css?v=20261028">
 </head>
 <body>
   <div class="page">
@@ -24,49 +24,50 @@
 
     <main class="shell">
       <header class="page-hero-lite">
-        <h1>产品后台.</h1>
-        <p>高密度工业工作台。IBM Plex，近黑主按钮，绿色只做状态与选中。下面是调用方法；再往下是组件样式与场景预览。</p>
+        <h1>产品原型交付.</h1>
+        <p>Figma 定视觉，Tier0-Frontend 定写法。交付一个能演示状态、对照组件、交给开发的 HTML 文件。</p>
 
         <aside class="invoke" aria-labelledby="invoke-product">
           <div class="invoke__head">
             <h2 id="invoke-product" class="invoke__title">怎么开始</h2>
-            <span class="invoke__meta">打开规范 → 对话生成 → 落到产品工程</span>
+            <span class="invoke__meta">Figma + 代码 → 状态矩阵 → 验证与交付</span>
           </div>
           <dl class="invoke__facts">
-            <div class="invoke__fact"><dt>准备</dt><dd>打开本仓库，或产品工程里已有 <code>@tier0/ui</code></dd></div>
-            <div class="invoke__fact"><dt>流程</dt><dd>说清页面目标，按产品后台规范生成界面</dd></div>
-            <div class="invoke__fact"><dt>耗时</dt><dd>大概 10 分钟</dd></div>
-            <div class="invoke__fact"><dt>产出</dt><dd>工作台页面（React / HTML）+ token 用法</dd></div>
+            <div class="invoke__fact"><dt>准备</dt><dd>Figma 节点、沿用的旧版弹窗、Frontend 源码与角色场景</dd></div>
+            <div class="invoke__fact"><dt>流程</dt><dd>选交付形态，列状态矩阵，再实现页面、弹窗与原型控制</dd></div>
+            <div class="invoke__fact"><dt>验收</dt><dd>验证脚本、400px 无横向滚动、弹窗宽度与 Figma 一致</dd></div>
+            <div class="invoke__fact"><dt>产出</dt><dd>单文件 HTML；形态 A 含组件标注与交付说明抽屉</dd></div>
           </dl>
           <div class="invoke__body">
             <ol class="invoke__steps">
               <li>
                 <b>01</b>
                 <div>
-                  <h3>打开规范</h3>
-                  <p>在 Cursor / Codex 里打开本仓库，或点名 <code>surfaces/tier0-product/</code> 与 <code>tokens/product.css</code>。不要从官网 / PPT 抄字体和主按钮色。</p>
+                  <h3>选一种交付形态</h3>
+                  <p>使用 <code>tier0-product</code>。A 组件级交付：业务页与弹窗；B 流程原型：引导与中英对照；C 品牌视觉：登录页与叙事动效。不确定时选 A。</p>
                 </div>
               </li>
               <li>
                 <b>02</b>
                 <div>
-                  <h3>说清要做什么页</h3>
-                  <p>写清页面目标、表格字段、关键操作。用产品后台场景：近黑主按钮，绿色只做状态与选中。</p>
+                  <h3>对齐视觉、代码与状态</h3>
+                  <p>提供最新 Figma 与旧版节点；复用 Frontend 组件 class、token 和 i18n。列出角色、场景及空态、加载、失败等边界状态。</p>
                 </div>
               </li>
               <li>
                 <b>03</b>
                 <div>
-                  <h3>生成后落到工程</h3>
-                  <p>对照本页预览验收；有 monorepo 时优先用 <code>packages/theme</code> / <code>packages/ui</code>，少写死颜色值。</p>
+                  <h3>验证后交给开发</h3>
+                  <p>右下角控制面板切换状态；形态 A 可查看组件标注、文件映射、i18n 改动与待确认项。运行 verify-prototype.mjs，再交付文件与链接。</p>
                 </div>
               </li>
             </ol>
-            <pre class="invoke__prompt" data-label="可复制提示词">按 Tier0 产品后台规范做 Namespace 列表页：左侧导航 + 主区表格 + 近黑 Create 按钮。绿色只做状态，不要营销 Hero。先读 surfaces/tier0-product 和 tokens/product.css。</pre>
+            <pre class="invoke__prompt" data-label="可复制提示词">使用 tier0-product，把我提供的 Figma 节点做成形态 A 的单文件 HTML 交付原型。先读 Frontend 组件、token 与 i18n，列状态矩阵；加入右下角状态控制、组件标注、交付说明抽屉。运行验证脚本，列出与 Figma / 代码的差异和待确认项。</pre>
             <div class="invoke__links">
               <span>资源</span>
-              <a href="https://github.com/FREEZONEX/Tier0-Design-System/tree/main/surfaces/tier0-product" target="_blank" rel="noopener">GitHub · surfaces/tier0-product</a>
+              <a href="https://github.com/FREEZONEX/Tier0-Design-System/tree/main/skills/tier0-product" target="_blank" rel="noopener">GitHub · tier0-product</a>
               <a href="../tokens/?cat=product">Tokens · product</a>
+              <a href="https://github.com/FREEZONEX/Tier0-Design-System/tree/main/skills/tier0-product/examples" target="_blank" rel="noopener">三种交付示例</a>
               <a href="#components">本页组件预览</a>
             </div>
           </div>
@@ -75,7 +76,7 @@
 
       <section class="section" id="preview" style="padding-top:12px">
         <h2 class="section-heading">在真实场景中查看</h2>
-        <p class="section-copy">同一套 product token 落到工作台骨架——侧栏、主区表格、近黑 CTA。</p>
+        <p class="section-copy">下方为基础工作台示意。最新交付形态请查看 skill 中的组件交付、引导流程与登录动效示例。</p>
         <div class="scene-preview" style="max-width:100%;aspect-ratio:16/9">
           <div class="mini" style="min-height:100%;flex-direction:row;gap:0;padding:0;overflow:hidden">
             <div style="width:22%;background:#050B14;color:#fff;padding:16px 14px;display:flex;flex-direction:column;gap:12px">
@@ -105,7 +106,7 @@
 
       <section class="section" id="components" style="padding-top:24px">
         <h2 class="section-heading">组件样式</h2>
-        <p class="section-copy">对齐 <code>surfaces/tier0-product/components.md</code> 与 <code>tokens/core.css</code> primitive。</p>
+        <p class="section-copy">以下为基础样式示意；实际原型以 Figma 和 Frontend 源码为准。正文 Plex、标题与大数字 Inter、中文 Noto Sans SC。</p>
         <div class="comp-grid">
           <article class="comp-card">
             <div class="comp-card__stage">
@@ -154,7 +155,7 @@
             </div>
             <div class="comp-card__meta">
               <h3>Form · Card</h3>
-              <p>白/浅底 + 细边框；卡片圆角 10px；边框分层优先于重阴影。</p>
+              <p>白/浅底 + 细边框；尺寸与圆角按 Figma；边框分层优先于重阴影。</p>
               <code>--radius-card · --fx-border</code>
             </div>
           </article>

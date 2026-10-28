@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Sans+SC:wght@400;500&family=Tektur:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../site.css?v=20260806c">
+  <link rel="stylesheet" href="../site.css?v=20261028">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
@@ -30,7 +30,7 @@
       </header>
 
       <section class="section" style="padding-top:8px;padding-bottom:64px">
-        <div class="ds-browser" data-ds-browser data-design-md="./DESIGN.txt" data-skill-md="../slide-skill/SKILL.txt">
+        <div class="ds-browser" data-ds-browser data-skill-base="https://github.com/FREEZONEX/Tier0-Design-System/blob/main/" data-design-md="./DESIGN.txt" data-skill-md="../skills/SKILL.txt">
           <aside class="ds-nav" aria-label="Design system categories">
             <div class="ds-nav__label">Foundations</div>
             <button type="button" data-cat="color" class="is-active">Color <small>色板 · 绿规则</small></button>
@@ -45,7 +45,7 @@
 
             <div class="ds-nav__label">Guides</div>
             <button type="button" data-cat="design">DESIGN.md <small>foundations/</small></button>
-            <button type="button" data-cat="skill">SKILL.md <small>slide-skill</small></button>
+            <button type="button" data-cat="skill">Skill Hub <small>四场景 · 按需加载</small></button>
           </aside>
 
           <div class="ds-panels">
@@ -108,7 +108,7 @@
                 <div class="path">tokens/core.css · foundations/typography.md</div>
               </div>
               <div class="type-row">
-                <div class="type-meta">Product<br>IBM Plex Sans</div>
+                <div class="type-meta">Product<br>Plex 正文 · Inter 标题<br>Noto Sans SC 中文</div>
                 <div class="type-sample" style="font-family:'IBM Plex Sans',sans-serif">工作台正文与表格。密度高，字重克制。</div>
               </div>
               <div class="type-row">
@@ -206,7 +206,7 @@
             <article class="ds-panel" data-panel="product" hidden>
               <div class="ds-panel__head">
                 <h2>Product UI</h2>
-                <p>高密度工业工作台：Namespace、表格、侧栏。IBM Plex，近黑主按钮，绿色只做状态。</p>
+                <p>产品交付原型：Figma 定视觉，Frontend 定组件、token 与文案；单文件 HTML 含状态控制，形态 A 含组件标注与交付说明。</p>
                 <div class="path">surfaces/tier0-product · tokens/product.css</div>
               </div>
               <div class="scene-preview"><div class="mini">
@@ -279,8 +279,8 @@
             <article class="ds-panel" data-panel="skill" hidden>
               <div class="ds-panel__head">
                 <h2>SKILL.md</h2>
-                <p>Slide Skill 工作流合同：intake → Gallery → HTML + PPTX。只做销售 deck，不做产品 UI。</p>
-                <div class="path">skills/tier0-slide-skill/SKILL.md</div>
+                <p>总入口：产品原型、网页与 Framer、PPT、单页海报。图表与工艺 skill 按需加载。</p>
+                <div class="path">SKILL.md · skills/README.md</div>
               </div>
               <div class="md-body" id="skill-md-body">加载中…</div>
             </article>
@@ -296,6 +296,6 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="../js/ds-browser.js?v=20260806b"></script>
+  <script src="../js/ds-browser.js?v=20261028"></script>
 </body>
 </html>

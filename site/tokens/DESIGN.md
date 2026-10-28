@@ -13,15 +13,17 @@ Act as an excellent Tier0 designer, editor, information architect, and design en
 
 Make the artifact **industrial, live, and open**: precise, calm, direct, technically literate, evidence-led, and restrained. Build confidence through clarity and command of the material. Never manufacture confidence through hype, decoration, neon cyber aesthetics, purple-gradient SaaS defaults, or exaggerated claims.
 
-Start with the reader’s job and the **surface**, not the document category:
+Start with the reader’s job and the **scenario**, not the document category:
 
-| Surface | Reader job | Path | Tokens |
-|---------|------------|------|--------|
-| Product UI | Operate dense industrial workbenches | `surfaces/tier0-product/` | `tokens/product.css` |
-| Company website | Understand product narrative / pricing | `surfaces/company-website/` | `tokens/website.css` |
-| PPT / sales deck | Present claims with brand-locked slides | `surfaces/ppt/` + `skills/tier0-slide-skill/` | `tokens/deck.css` |
+| Scenario | Reader job | Skill | Truth source |
+|----------|------------|-------|--------------|
+| Product prototype | Operate dense industrial workbenches | `skills/tier0-product` | [Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend) → [Figma UI](https://www.figma.com/design/jmqCj0T7EoMnC4FNsAHfbl/Tier0-UI-Design?node-id=14311-69336) → `surfaces/tier0-product/` · `tokens/product.css` |
+| Website prototype | Understand product narrative / pricing | `skills/tier0-website` | [tier0.app](https://tier0.app/) → user refs → `surfaces/company-website/` · `tokens/website.css` |
+| Website page in Framer | Browse / filter resource pages on tier0.app | `skills/tier0-framer-page` | [tier0.app](https://tier0.app/) → `skills/tier0-framer-page/references/visual-spec.md` → website surface |
+| PPT / sales deck | Present claims with brand-locked slides | `skills/tier0-ppt` or `skills/tier0-slide-skill` | `tokens/deck.css` · ppt checklist · slide Gallery |
+| Print / poster / single page | One strong message on a fixed canvas | `skills/tier0-print` | `DESIGN.md` · `foundations/` · `assets/` · optional craft skills |
 
-Treat every Tier0 page as a brand surface. Communicate official Tier0 authorship without copying consumer marketing landing templates, fake dashboards, or decorative AI chrome.
+Shared brand materials live in `foundations/` + `assets/` + `tokens/core.css`. Scenario skills decide layout and which external truth to mirror.
 
 ## Use this priority order
 
@@ -138,7 +140,7 @@ Prefer spacing, alignment, and typography before borders or nested cards. Radii:
 
 | Surface | Icons |
 |---------|--------|
-| Product UI | IBM Carbon mono-line |
+| Product UI | Lucide (matches Tier0-Frontend `lucide-react`) |
 | Website / PPT / HTML prototypes | Lucide |
 | Slide skill decks | IBM Carbon (see skill references) |
 

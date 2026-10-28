@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../site.css?v=20260806c">
+  <link rel="stylesheet" href="../site.css?v=20261028">
 </head>
 <body>
   <div class="page">
@@ -25,18 +25,18 @@
     <main class="shell">
       <header class="page-hero-lite">
         <h1>公司官网.</h1>
-        <p style="white-space:nowrap">长文产品叙事对齐 <a href="https://tier0.app/pricing" target="_blank" rel="noopener" style="color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px">Pricing</a> 与 <a href="https://tier0.app/product/tier0-builder" target="_blank" rel="noopener" style="color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px">Builder</a>：IBM Plex Sans 标题、亮绿 CTA、■ Mono 标签、细边框。</p>
+        <p>长文产品叙事对齐 <a href="https://tier0.app/pricing" target="_blank" rel="noopener" style="color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px">Pricing</a> 与 <a href="https://tier0.app/product/tier0-builder" target="_blank" rel="noopener" style="color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px">Builder</a>：IBM Plex Sans 标题、亮绿 CTA、■ Mono 标签、细边框。</p>
 
         <aside class="invoke" aria-labelledby="invoke-website">
           <div class="invoke__head">
             <h2 id="invoke-website" class="invoke__title">怎么开始</h2>
-            <span class="invoke__meta">打开规范 → 对话生成 → 对照官网验收</span>
+            <span class="invoke__meta">选 HTML 或 Framer → 对话生成 → 验收交付</span>
           </div>
           <dl class="invoke__facts">
-            <div class="invoke__fact"><dt>准备</dt><dd>打开本仓库，或让 Agent 读 <code>DESIGN.md</code> / 官网规范</dd></div>
-            <div class="invoke__fact"><dt>流程</dt><dd>说清页面目标，按官网编辑风生成 HTML</dd></div>
-            <div class="invoke__fact"><dt>耗时</dt><dd>大概 10 分钟</dd></div>
-            <div class="invoke__fact"><dt>产出</dt><dd>可嵌入营销站的静态 HTML 长页</dd></div>
+            <div class="invoke__fact"><dt>准备</dt><dd>页面目标、素材、主 CTA，以及 HTML / Framer 交付形式</dd></div>
+            <div class="invoke__fact"><dt>流程</dt><dd>网页原型用 tier0-website；Framer 组件用 tier0-framer-page</dd></div>
+            <div class="invoke__fact"><dt>验收</dt><dd>对照官网；Framer 另验中英、交互与三个断点</dd></div>
+            <div class="invoke__fact"><dt>产出</dt><dd>HTML 原型，或 Framer .tsx 代码组件 + preview.html</dd></div>
           </dl>
           <div class="invoke__body">
             <ol class="invoke__steps">
@@ -62,7 +62,7 @@
                 </div>
               </li>
             </ol>
-            <pre class="invoke__prompt" data-label="可复制提示词">按 Tier0 公司官网规范做一页产品介绍长页，对齐 tier0.app 的编辑风：白底、IBM Plex、亮绿主按钮。先读 surfaces/company-website 和 tokens/website.css，再出 HTML。</pre>
+            <pre class="invoke__prompt" data-label="可复制提示词">使用 tier0-website 做一页产品介绍 HTML 原型，对齐 tier0.app；先读场景 skill 和 website token。如果交付到 Framer，改用 tier0-framer-page，提供 .tsx 与 preview.html，并运行 build + verify。</pre>
             <div class="invoke__links">
               <span>资源</span>
               <a href="https://github.com/FREEZONEX/Tier0-Design-System/tree/main/surfaces/company-website" target="_blank" rel="noopener">GitHub · company-website</a>
@@ -73,6 +73,17 @@
           </div>
         </aside>
       </header>
+
+      <section class="section" id="framer">
+        <h2 class="section-heading">交付到 Framer</h2>
+        <p class="section-copy">适合资源列表、公告、更新日志与文档目录。使用 tier0-framer-page。</p>
+        <div class="rule-grid">
+          <article class="rule"><h3>构建与验收</h3><ul><li>修改 src 数据、文案与样式，构建生成 .tsx 和 preview.html；不手改生成文件。</li><li>透明画布、4px 圆角、细边框、无阴影，语言跟随站点。</li><li>容器查询适配 1440 / 730 / 390，验证中英 SSR、hydration、筛选展开与溢出。</li></ul></article>
+          <article class="rule"><h3>放进 Framer 的三步</h3><ol><li>Assets → Code → New code file，粘贴整份 .tsx。</li><li>拖到页面，各断点宽度 Fill、高度 Fit Content。</li><li>Language 默认 Auto，按页头调整 Nav offset；外层已有边距时 Side padding 设 0。</li></ol><p>使用代码组件，不是 Embed。</p></article>
+        </div>
+        <pre class="invoke__prompt" data-label="可复制提示词">使用 tier0-framer-page，把这些公告做成可筛选、可展开的 Framer 页面。跟随站点语言，用容器查询适配三个断点。只改源文件，build + verify 后交付 .tsx、HTML 预览与安装说明。</pre>
+        <p><a class="btn btn-outline" href="https://github.com/FREEZONEX/Tier0-Design-System/blob/main/skills/tier0-framer-page/SKILL.md" target="_blank" rel="noopener">Framer skill 与模板 ↗</a></p>
+      </section>
 
       <section class="section" id="preview" style="padding-top:12px">
         <h2 class="section-heading">在真实场景中查看</h2>

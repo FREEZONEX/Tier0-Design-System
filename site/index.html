@@ -7,11 +7,11 @@
   <link rel="apple-touch-icon" href="./assets/brand/apple-touch-icon.png">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Tier0 Design System</title>
-  <meta name="description" content="Tier0 设计系统快速上手：三场景入口、Token 与 Slide Skill。">
+  <meta name="description" content="Tier0 设计系统快速上手：四大场景：产品交付原型、网页与 Framer、PPT、单页海报；共享品牌与按需图表能力。">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Sans+SC:wght@400;500&family=Tektur:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./site.css?v=20260806c">
+  <link rel="stylesheet" href="./site.css?v=20261028">
 </head>
 <body>
   <div class="page">
@@ -29,18 +29,18 @@
       <canvas class="hero__ascii" id="hero-ascii" aria-hidden="true"></canvas>
       <div class="shell hero__inner">
         <h1 id="page-title" class="section-heading">Pick where you work.</h1>
-        <p class="section-copy">三场景入口。每张卡有预览；点进去看组件样式、用法与可交互预览。</p>
+        <p class="section-copy">四大场景，共享品牌基础。选好交付形式，再查看对应 skill、用法与预览。</p>
         <div class="entry-grid">
           <a class="show-card" href="./surfaces/product.html">
             <div class="show-card__preview">
               <img class="show-card__shot" src="./assets/previews/surface-product.png" alt="Tier0 UNS Console 产品后台截图" loading="lazy">
               <span class="show-card__tag">产品后台</span>
             </div>
-            <div class="show-card__meta"><span>@tier0</span><span>surfaces/tier0-product</span></div>
+            <div class="show-card__meta"><span>@tier0</span><span>skills/tier0-product</span></div>
             <div class="show-card__body">
               <span class="show-card__link">查看组件与用法 →</span>
-              <h3>产品 UI</h3>
-              <p>后台工作台界面：表格、侧栏、表单。IBM Plex，近黑主按钮，绿色只做状态。</p>
+              <h3>产品交付原型</h3>
+              <p>Figma → 单文件交互 HTML。组件级、流程与品牌视觉三种形态，支持状态切换与开发交付。</p>
               <span class="show-card__cta">使用此场景</span>
             </div>
           </a>
@@ -50,11 +50,11 @@
               <img class="show-card__shot" src="./assets/previews/surface-website.png" alt="tier0.app 官网首页截图" loading="lazy">
               <span class="show-card__tag">公司官网</span>
             </div>
-            <div class="show-card__meta"><span>@tier0</span><span>surfaces/company-website</span></div>
+            <div class="show-card__meta"><span>@tier0</span><span>website / framer-page</span></div>
             <div class="show-card__body">
               <span class="show-card__link">查看组件与用法 →</span>
               <h3>网页 / 官网</h3>
-              <p>公司官网与产品介绍长页。IBM Plex 标题 + 绿挑词，留白优先（对齐 tier0.app）。</p>
+              <p>对齐 tier0.app 的网页原型；交付到 Framer 时生成 .tsx 代码组件，支持站点语言与多断点验收。</p>
               <span class="show-card__cta">使用此场景</span>
             </div>
           </a>
@@ -72,7 +72,23 @@
               <span class="show-card__cta">使用此模板</span>
             </div>
           </a>
+          <a class="show-card" href="https://github.com/FREEZONEX/Tier0-Design-System/blob/main/skills/tier0-print/SKILL.md" target="_blank" rel="noopener">
+            <div class="show-card__preview"><div class="mini mini--dark" style="height:100%"><div class="mini__title">单页 / 海报 / KV</div><p>一个画布，一条核心信息</p></div><span class="show-card__tag">视觉物料</span></div>
+            <div class="show-card__meta"><span>@tier0</span><span>skills/tier0-print</span></div>
+            <div class="show-card__body"><span class="show-card__link">查看规范与用法 ↗</span><h3>单页 / 海报</h3><p>活动单页、海报与展会物料。共享 Logo、字体与色板，按画布和受众组织内容。</p><span class="show-card__cta">使用此场景</span></div>
+          </a>
         </div>
+      </div>
+    </section>
+
+    <section class="shell section" id="skill-updates">
+      <h2 class="section-heading">Skill Hub 更新</h2>
+      <p class="section-copy">2026-10-28 · 产品原型与 Framer 交付升级；延续 9 月的四场景架构。</p>
+      <div class="rule-grid">
+        <article class="rule"><h3>产品原型 → 开发交付</h3><p>新增组件级、流程、品牌视觉三种形态及示例。状态控制、组件标注、交付说明与验证脚本一起交付。</p><a href="./surfaces/product.html">产品交付指南 →</a></article>
+        <article class="rule"><h3>官网 → Framer 组件</h3><p>新增 tier0-framer-page：.tsx + HTML 预览，跟随站点语言，以容器查询适配 1440 / 730 / 390 断点。</p><a href="./surfaces/website.html#framer">Framer 交付指南 →</a></article>
+        <article class="rule"><h3>四场景，共享品牌</h3><p>产品、网页、PPT、单页海报各有入口。先选一个场景，再按需补充图表或工艺 skill。</p><a href="https://github.com/FREEZONEX/Tier0-Design-System/blob/main/skills/README.md" target="_blank" rel="noopener">完整注册表 ↗</a></article>
+        <article class="rule"><h3>图表与工艺按需加载</h3><p>图表从 lieflat-charts 目录选择模板并使用 Tier0 色桥；ui-skills 补充动效、无障碍与版式精修，不覆盖品牌规则。</p><a href="https://github.com/FREEZONEX/Tier0-Design-System/blob/main/skills/lieflat-charts/tier0-color-bridge.md" target="_blank" rel="noopener">图表色桥 ↗</a></article>
       </div>
     </section>
 
@@ -81,7 +97,7 @@
     <section class="shell section" id="tokens">
       <h2 class="section-heading">Browse the design system.</h2>
       <p class="section-copy">左侧切换分类，右侧查看色板、字体、排版、场景与 DESIGN.md — 与仓库 tokens / foundations 对齐。</p>
-      <div class="ds-browser" data-ds-browser data-design-md="./tokens/DESIGN.txt" data-skill-md="./slide-skill/SKILL.txt">
+      <div class="ds-browser" data-ds-browser data-skill-base="https://github.com/FREEZONEX/Tier0-Design-System/blob/main/" data-design-md="./tokens/DESIGN.txt" data-skill-md="./skills/SKILL.txt">
         <aside class="ds-nav" aria-label="Design system categories">
           <div class="ds-nav__label">Foundations</div>
           <button type="button" data-cat="color" class="is-active">Color <small>色板 · 绿规则</small></button>
@@ -94,13 +110,13 @@
           <button type="button" data-cat="ppt">PPT / Deck <small>deck.css</small></button>
           <div class="ds-nav__label">Guides</div>
           <button type="button" data-cat="design">DESIGN.md <small>foundations/</small></button>
-          <button type="button" data-cat="skill">SKILL.md <small>slide-skill</small></button>
+          <button type="button" data-cat="skill">Skill Hub <small>四场景 · 按需加载</small></button>
         </aside>
         <div class="ds-panels">
           <article class="ds-panel" data-panel="color">
             <div class="ds-panel__head">
               <h2>Color tokens</h2>
-              <p>中性面承载界面；近墨主操作；FX Green 只作高亮。白底正文不用 <code>#B2ED1D</code>。</p>
+              <p>共享色板是品牌基础：产品原型优先使用 Frontend token，官网 CTA 用亮绿底近墨字。白底正文不用 <code>#B2ED1D</code>。</p>
               <div class="path">tokens/core.css · foundations/color.md</div>
             </div>
             <div class="token-cols-2">
@@ -132,7 +148,7 @@
               <p>按场景切换字体族，不要混用。</p>
               <div class="path">foundations/typography.md</div>
             </div>
-            <div class="type-row"><div class="type-meta">Product<br>IBM Plex Sans</div><div class="type-sample" style="font-family:'IBM Plex Sans',sans-serif">工作台正文与表格</div></div>
+            <div class="type-row"><div class="type-meta">Product<br>Plex / Inter / Noto Sans SC</div><div class="type-sample" style="font-family:'IBM Plex Sans',sans-serif">正文 Plex；标题与数字 Inter；中文 Noto Sans SC</div></div>
             <div class="type-row"><div class="type-meta">Website<br>IBM Plex Sans</div><div class="type-sample is-display" style="font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:32px">官网标题</div></div>
             <div class="type-row"><div class="type-meta">PPT<br>Tektur</div><div class="type-sample is-display" style="font-family:Tektur,sans-serif;font-size:32px">章节标题</div></div>
             <div class="type-row"><div class="type-meta">Mono<br>IBM Plex Mono</div><div class="type-sample is-mono">■ kicker / tokens</div></div>
@@ -167,8 +183,8 @@
           <article class="ds-panel" data-panel="product" hidden>
             <div class="ds-panel__head">
               <h2>Product UI</h2>
-              <p>高密度工作台。IBM Plex，近黑主按钮，绿色只做状态。</p>
-              <div class="path">surfaces/tier0-product</div>
+              <p>Figma 定视觉，Frontend 定组件 class、token 与 i18n；交付可切换状态的单文件 HTML。</p>
+              <div class="path">skills/tier0-product · Figma + Tier0-Frontend</div>
             </div>
             <div class="scene-preview"><div class="mini"><div class="mini__bar"><span class="mini__logo">Product</span></div><div class="mini__title">Namespace · Tables</div><div class="mini__row"><i class="mini__chip is-on"></i><i class="mini__chip"></i></div></div></div>
             <p><a class="btn btn-outline" href="./tokens/?cat=product">细则</a> <a class="btn btn-primary" href="./surfaces/product.html">Surface 页 →</a></p>
@@ -200,7 +216,7 @@
           <article class="ds-panel" data-panel="skill" hidden>
             <div class="ds-panel__head">
               <h2>SKILL.md</h2>
-              <p>Slide Skill 工作流合同。</p>
+              <p>总入口按产品、网页、PPT、单页海报路由；图表与工艺能力按需加载。</p>
             </div>
             <div class="md-body" id="home-skill-md">加载中…</div>
             <p style="margin-top:16px"><a class="btn btn-outline" href="./tokens/?cat=skill">完整 SKILL.md →</a> <a class="btn btn-primary" href="./slide-skill/">Slide Skill →</a></p>
@@ -216,7 +232,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="./js/ds-browser.js?v=20260806b"></script>
+  <script src="./js/ds-browser.js?v=20261028"></script>
   <script>
     (function () {
       const canvas = document.getElementById('hero-ascii');

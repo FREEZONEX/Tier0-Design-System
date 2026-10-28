@@ -15,7 +15,7 @@
       return res.text();
     }
 
-    async function loadMd(el, url) {
+    async function loadMd(el, url, linkBase) {
       if (!el || el.dataset.loaded === '1') return;
       const candidates = [url];
       // Fallbacks: .txt survives Jekyll; bare .md may 404 when frontmatter is rewritten
@@ -40,6 +40,15 @@
         el.innerHTML = window.marked
           ? marked.parse(md)
           : '<pre>' + md.replace(/</g, '&lt;') + '</pre>';
+        // 快照保留仓库相对路径；展示时将文档链接指回真实源码。
+        if (linkBase) {
+          el.querySelectorAll('a[href]').forEach((link) => {
+            const href = link.getAttribute('href');
+            if (href && !/^(?:[a-z][a-z0-9+.-]*:|#|\/\/)/i.test(href)) {
+              link.href = new URL(href, linkBase).href;
+            }
+          });
+        }
         el.dataset.loaded = '1';
       } catch (e) {
         el.innerHTML =
@@ -72,7 +81,7 @@
           root.querySelector('#skill-md-body') ||
           root.querySelector('#home-skill-md') ||
           root.querySelector('[data-panel="skill"] .md-body');
-        loadMd(el, skillUrl);
+        loadMd(el, skillUrl, root.dataset.skillBase);
       }
     }
 

@@ -52,6 +52,11 @@ const galleryDest = join(site, 'vendor', 'layout-gallery');
 rmSync(galleryDest, { recursive: true, force: true });
 copyDir(gallerySrc, galleryDest, { skip: [/source\.png$/i, /^\./] });
 
+// 总路由与场景注册表直接取自真源，避免公共站停留在 PPT 单一入口。
+mkdirSync(join(site, 'skills'), { recursive: true });
+writeFileSync(join(site, 'skills', 'SKILL.txt'), readFileSync(join(root, 'SKILL.md')));
+writeFileSync(join(site, 'skills', 'README.txt'), readFileSync(join(root, 'skills', 'README.md')));
+
 cpSync(join(skill, 'SKILL.md'), join(site, 'slide-skill', 'SKILL.md'));
 // Plain .txt for browser fetch — Jekyll rewrites frontmatter *.md to *.html
 writeFileSync(join(site, 'slide-skill', 'SKILL.txt'), readFileSync(join(skill, 'SKILL.md')));
@@ -154,7 +159,7 @@ writeFileSync(join(site, 'README.md'), `# Tier0 Design System — Public showcas
 
 GitHub Pages 产品展示站（\`site/\`）。
 
-- 气质：白底黑字快速上手；Hero ASCII；三场景入口 + 两列 Design System 画廊
+- 气质：白底黑字快速上手；Hero ASCII；四场景入口 + 最新能力说明 + 两列 Design System 画廊
 - Tokens 门户：场景预览、完整 token 表、根目录 \`DESIGN.md\`（Vercel design.md 格式）
 - Local preview: \`python3 -m http.server 8898 --directory site\` → http://127.0.0.1:8898/
 - Rebuild vendor / demos / DESIGN.md: \`node scripts/build-public-site.mjs\`
@@ -165,11 +170,13 @@ GitHub Pages 产品展示站（\`site/\`）。
 | \`/\` | Hero + entries + system gallery |
 | \`/tokens/\` | Design system portal (tokens + DESIGN.md) |
 | \`/vendor/foundations/\` | Synced foundations markdown |
-| \`/slide-skill/\` | Skill hub |
+| \`/skills/SKILL.txt\` | 自动同步的总路由快照 |
+| \`/skills/README.txt\` | 自动同步的场景注册表 |
+| \`/slide-skill/\` | PPT 生成指南 |
 | \`/slide-skill/demo-zh/\` | Chinese polished deck |
 | \`/slide-skill/demo-en/\` | English dual-output example |
 
-Do not hand-edit \`vendor/\`, \`slide-skill/demo/\`, \`demo-en/\`, \`demo-zh/\`, or \`tokens/DESIGN.md\` — they are synced by the build script from skill / root \`DESIGN.md\`.
+Do not hand-edit \`skills/*.txt\`, \`vendor/\`, \`slide-skill/demo/\`, \`demo-en/\`, \`demo-zh/\`, or \`tokens/DESIGN.md\` — they are synced by the build script from skill / root \`DESIGN.md\`.
 `);
 
 console.log('Public site built → site/');
