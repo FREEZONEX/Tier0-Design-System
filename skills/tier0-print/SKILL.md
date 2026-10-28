@@ -10,6 +10,8 @@ description: >-
 
 单页、海报、活动 KV、招聘/展会物料、基于品牌元素的其他视觉生成。
 
+工作方式遵循 [任务策略](../../references/task-strategy.md)：简洁交付，按任务选方法。
+
 ## 真源（按优先级）
 
 1. **共享品牌系统** — [`DESIGN.md`](../../DESIGN.md) · `foundations/` · `tokens/core.css` · `assets/`  

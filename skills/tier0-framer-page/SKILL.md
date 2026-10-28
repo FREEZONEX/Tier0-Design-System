@@ -18,6 +18,10 @@ description: >-
 
 本 skill 是 `website` 场景的交付分支：品牌与版式仍以 [`tier0-website`](../tier0-website/SKILL.md) 为准，这里补充 **Framer 落地方式、评审中确认过的视觉细则、交付流程与验收脚本**。
 
+工作方式遵循 [任务策略](../../references/task-strategy.md)：简洁交付，按任务选方法。
+
+网页底色与文档层级以 [中性视觉基线](../../references/web-visual-baseline.md) 为准；Tier0-doc 参考阅读结构，Frontend 参考组件与中性色。
+
 ## 真源（按优先级）
 
 1. 用户当次硬约束（文案、数据、邮箱、禁用项）  
@@ -63,7 +67,7 @@ description: >-
 - **主 CTA 方形**：`#B2ED1D` 底 + 近墨字 + Mono 大写，4px 圆角，放 Hero 右上；联系 / 上报类动作用 `mailto:` 按钮  
 - **不放语言切换**：语言跟随站点（Framer 本地化 → `<html lang>` → 浏览器），组件属性可强制  
 - **Hero 描述一行**：桌面不换行（英文 ≈80 字符内、中文 ≈40 字内）  
-- **配色只用三组**：亮绿 `#B2ED1D`、浅灰（`#F8F8F7`–`#EBEBEB`）、近墨 `#050B14`；禁止橄榄绿与绿调灰  
+- **配色只用三组**：亮绿 `#B2ED1D`、中性灰（`#F9F9F9` / `#F3F3F3` / `#EBEBEB`）、近墨 `#050B14`；禁止橄榄绿与绿调灰  
 - **手机端不靠横向滑动**：Framer 发布页里横滑可能被拦截；筛选平铺（2 列网格）或下拉，卡片竖排  
 - **响应式用 container query**，不用 `@media`（Framer 画布里各断点共用一个窗口宽度）  
 - 字体：IBM Plex Sans（标题 / 正文）+ IBM Plex Mono（标签 / CTA）；禁止 Poppins  

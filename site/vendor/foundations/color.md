@@ -2,6 +2,10 @@
 
 实现：`tokens/core.css`。各 surface 另有扩展（`tokens/website.css`、`tokens/deck.css`）。
 
+## 网页 / 文档 / Skill Hub
+
+普通容器用白与中性灰（`#F9F9F9` / `#F3F3F3` / `#EBEBEB`），禁止灰绿、橄榄灰与鼠尾草底色。绿色限 CTA、品牌标记和有语义的状态；详见 [视觉基线](../references/web-visual-baseline.md)。这不替换产品组件的选中 / 成功 / 警告 token。
+
 ## 使用顺序（产品 UI）
 
 - `--tier0-*` / `--fx-*` 语义变量  

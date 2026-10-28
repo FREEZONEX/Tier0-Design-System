@@ -27,6 +27,10 @@ metadata:
 > 路径相对本文件所在目录。成稿默认输出到**仓库外**。  
 > 公共站：[Design System](https://freezonex.github.io/Tier0-Design-System/)
 
+## 工作方式
+
+按 [任务策略](references/task-strategy.md) 选择当前任务的一种工作方式；默认直接给结果，省略开场与重复说明。网页 / 文档 / Skill Hub 先对齐 [中性视觉基线](references/web-visual-baseline.md)，禁止灰绿铺底。
+
 ## Protocol
 
 1. 是否 Tier0 设计任务？否 → `no skill needed`

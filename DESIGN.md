@@ -25,6 +25,10 @@ Start with the reader’s job and the **scenario**, not the document category:
 
 Shared brand materials live in `foundations/` + `assets/` + `tokens/core.css`. Scenario skills decide layout and which external truth to mirror.
 
+## 工作方式与网页底色
+
+遵循 [任务策略](references/task-strategy.md)：直接交付，省略开场、复述与无信息量的解释。网页、文档与 Skill Hub 按 [中性视觉基线](references/web-visual-baseline.md) 使用白 / 中性灰底；Tier0-doc 参考信息层级，Frontend 参考组件与 token。禁止灰绿铺满普通容器，语义状态色保留。
+
 ## Use this priority order
 
 When requirements compete, protect them in this order:
@@ -156,9 +160,9 @@ No emoji as UI icons. No mixing two icon libraries on one page. Illustration: th
 
 **Company website**
 
-- Align to tier0.app Pricing / Builder editorial craft.
+- 官网叙事参考 tier0.app，文档层级参考 Tier0-doc，基础控件与中性色参考 Tier0-Frontend。
 - Paper titles IBM Plex Sans; pick-words `#73B200`; primary CTA `#B2ED1D` + near-ink type.
-- Mono ■ kickers; hairline borders; quiet cards.
+- 白 / 中性灰卡片与细边框；只有帮助理解时才保留 Mono 标签，删除重复标题与装饰性说明。
 
 **PPT / slide skill**
 

@@ -61,8 +61,8 @@ import { Database } from "lucide-react";
 | Token / 类 | 官网 | PPT 白底卡 |
 |------------|------|-----------|
 | CSS 入口 | `tokens/website.css` | `tokens/deck.css` |
-| 图标盒 | 42×42px，`#EEF6D7` 底，`#8EBB1D` 描边 | 40×40px，同色逻辑 |
-| 卡片 | 1px `#E2E6DE`，padding 26px，min-h 184px | padding 20px，min-h 160px |
+| 图标盒 | 42×42px，`#F3F3F3` 底，`#343434` 图标 | 40×40px，按 deck token |
+| 卡片 | 1px `#ebebeb`，padding 26px，min-h 184px | padding 20px，min-h 160px |
 
 预览：
 

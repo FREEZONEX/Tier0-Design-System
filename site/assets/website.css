@@ -4,23 +4,23 @@
 
 :root {
   --page: #ffffff;
-  --section-soft: #f7f8f4;
+  --section-soft: #f9f9f9;
   --surface: #ffffff;
-  --surface-soft: #f6f7f3;
-  --surface-soft-2: #f9faf6;
+  --surface-soft: #f3f3f3;
+  --surface-soft-2: #f9f9f9;
 
   --text: #171a22;
   --text-2: #454c57;
   --text-3: #707780;
   --text-4: #99a1aa;
 
-  --border: #e2e6de;
-  --border-2: #d6ddcf;
+  --border: #ebebeb;
+  --border-2: #d9d9d9;
 
   --green-brand: #b2ed1d;
   --green-brand-2: #73b200;
   --green-soft: #f0fbd2;
-  --green-soft-2: #f7fbe8;
+  --green-soft-2: #f3f3f3;
   --green-border: #d4e89a;
 
   --font-heading: "IBM Plex Sans", "IBM Plex Sans SC", "PingFang SC", sans-serif;
@@ -39,8 +39,8 @@
   /* Lucide icon tile (grid card) */
   --icon-box-size: 42px;
   --icon-box-radius: 6px;
-  --icon-box-bg: var(--green-soft);
-  --icon-box-color: var(--green-brand-2);
+  --icon-box-bg: var(--surface-soft);
+  --icon-box-color: var(--text);
   --icon-size: 22px;
   --icon-stroke: 1.75;
   --icon-box-gap: 18px;

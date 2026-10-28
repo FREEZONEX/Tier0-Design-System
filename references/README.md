@@ -17,6 +17,11 @@
 
 ---
 
+## 通用工作方式
+
+- [任务策略](task-strategy.md)：六种任务的执行方式、简洁输出与评审量表。
+- [网页中性视觉基线](web-visual-baseline.md)：Tier0-doc / Frontend 来源、中性色与场景边界。
+
 ## Marketing Deck 文件地图
 
 | 文件 | 何时读 |

@@ -1,6 +1,6 @@
 /* Tier0 Security Advisories widget — every rule is scoped to .t0sa so it can live inside Framer without leaking. */
 .t0sa{
-  --t0-bg:#fff;--t0-surface:#f8f8f7;--t0-subtle:#f2f2f1;--t0-border:#ebebeb;--t0-border-soft:#f1f1f0;--t0-input:#e2e2e2;
+  --t0-bg:#fff;--t0-surface:#f9f9f9;--t0-subtle:#f3f3f3;--t0-border:#ebebeb;--t0-border-soft:#f3f3f3;--t0-input:#e2e2e2;
   --t0-fg:#050b14;--t0-fg2:#343434;--t0-muted:#62666b;--t0-faint:#8a8d90;
   --t0-lime:#b2ed1d;--t0-lime-hover:#a2db1a;--t0-lime-50:#f7fde8;--t0-lime-100:#eefad0;--t0-lime-200:#dcf797;--t0-lime-700:#7ea815;--t0-lime-900:#48640c;
   --t0-lime-glow:rgba(178,237,29,.45);
@@ -68,7 +68,7 @@
 .t0sa-seg button{height:32px;padding:0 6px;border-radius:3px;font-size:13px;font-weight:500;color:var(--t0-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .15s,background .15s,box-shadow .15s}
 .t0sa-seg button:hover{color:var(--t0-fg)}
 .t0sa-seg button[aria-pressed=true]{background:var(--t0-bg);color:var(--t0-fg);box-shadow:0 0 0 1px var(--t0-border)}
-.t0sa-help{position:relative;padding:18px;border:1px solid var(--t0-lime-200);border-radius:4px;background:var(--t0-lime-50);overflow:hidden}
+.t0sa-help{position:relative;padding:18px;border:1px solid var(--t0-border);border-radius:4px;background:var(--t0-surface);overflow:hidden}
 .t0sa-help-ico{display:grid;place-items:center;width:36px;height:36px;margin-bottom:12px;border-radius:4px;background:var(--t0-lime);color:var(--t0-fg)}
 .t0sa-help-ico .t0sa-ico{width:18px;height:18px}
 .t0sa-help h2{font-size:15px;font-weight:600;letter-spacing:-.01em}

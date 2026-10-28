@@ -1,14 +1,14 @@
 # Surface — 公司官网（Tier0 编辑风长页）
 
 > 官网长页场景入口。Agent：[`skills/tier0-website`](../../skills/tier0-website/SKILL.md)。  
-> 真源：[tier0.app](https://tier0.app/) · 本仓 `tokens/website.css`（用户可另给参考升工艺）。  
+> 真源：用户约束 → [中性视觉基线](../../references/web-visual-baseline.md)（Tier0-doc / Frontend）→ tier0.app 叙事与本仓 `tokens/website.css`。  
 > 旧全文归档：[`sources/spec.company-website.*.md`](../../sources/)（默认不读）。
 
 ## 定位
 
 长滚动、**编辑感 + 工业可信** 的产品说明页（对齐 [tier0.app](https://tier0.app/pricing) / [Builder](https://tier0.app/product/tier0-builder)）：
 
-- 白底为主、浅灰绿分组带点缀  
+- 白底为主、中性浅灰分组  
 - **IBM Plex Sans** 标题（400–500）+ 括号挑词 `[Keyword]` / 绿字 `#73B200`  
 - **IBM Plex Mono** 小节标签 `■ HOW IT WORKS`  
 - 主 CTA：**亮绿底 `#B2ED1D` + 近墨字**；次 CTA：白底细边框  
@@ -52,11 +52,11 @@
 ## 背景层次
 
 1. 根画布 `#FFFFFF`  
-2. 分组带 `#F7F8F4`（节制使用）  
+2. 分组带 `#f9f9f9`（节制使用）  
 3. 卡片 `#FFFFFF`  
-4. 图示舞台 `#F6F7F3` / `#F9FAF6`  
+4. 图示舞台 `#f3f3f3` / `#f9f9f9`  
 
-**白底优先， tint 其次。**
+**白底优先，中性灰分层；绿只作有含义的信号。**
 
 ## 颜色（`tokens/website.css`）
 
@@ -65,7 +65,7 @@
 | `--green-brand` | 标题挑词、箭头、强调框 |
 | `--text` `#171A22` | 主标题 |
 | `--text-3` | 正文 |
-| `--border` `#E2E6DE` | 面板描边 |
+| `--border` `#ebebeb` | 面板描边 |
 
 绿 **不** 用于整段正文。
 
@@ -102,7 +102,9 @@ Eyebrow chip、Hero 标题块、Diagram panel、Code panel、Feature card、**Ca
 
 > **注意：** 现有 UI Kit 偏定价营销；新建 UNS 长页时请优先遵循本 surface + [`spec.company-website.tokens.md`](../../sources/spec.company-website.tokens.md)。
 
-## 完整规范
+## 历史参考
+
+以下旧稿只用于叙事参考；配色与组件以当前 token 和中性视觉基线为准，不沿用旧灰绿背景。
 
 - 叙事与版式：[`sources/spec.company-website.editorial.md`](../../sources/spec.company-website.editorial.md)  
 - Token / 组件 CSS：[`sources/spec.company-website.tokens.md`](../../sources/spec.company-website.tokens.md)

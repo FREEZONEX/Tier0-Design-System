@@ -1,11 +1,11 @@
 # 官网 — 组件规格（摘要）
 
-完整 CSS 见 [`sources/spec.company-website.tokens.md`](../../sources/spec.company-website.tokens.md)。
+当前实现以 `tokens/website.css` 与 [中性视觉基线](../../references/web-visual-baseline.md) 为准；sources 仅作历史归档。
 
 ## Eyebrow Chip
 
 - 高 22px，`0 10px` padding，`radius 999px`  
-- 底 `#F3F8E8`，边 `#D7E5B2`，字 `#8EBB1D`  
+- 底 `#F3F3F3`，边 `#EBEBEB`，字 `#343434`  
 - IBM Plex Mono 10px，uppercase  
 
 ## Hero Title
@@ -15,13 +15,13 @@
 
 ## Diagram Panel
 
-- 半径 4px，边 `#E2E6DE`  
-- 底 `#F9FAF6` 或 `#FFFFFF`  
+- 半径 4px，边 `#ebebeb`  
+- 底 `#f9f9f9` 或 `#FFFFFF`  
 - padding 28–40px，**无阴影**  
 
 ## Code Panel
 
-- 底 `#F6F7F3`，mono 标签  
+- 底 `#f3f3f3`，mono 标签  
 - 语法点缀：`--code-orange`、`--code-teal`  
 
 ## Feature Card（无 Icon）
@@ -36,18 +36,18 @@
 
 | 元素 | 规格 |
 |------|------|
-| 图标盒 | 42×42px，`#F0FBD2` 底，Lucide **`#73B200`**，圆角 6px |
+| 图标盒 | 42×42px，`#F3F3F3` 底，Lucide **`#343434`**，圆角 6px |
 | 图标 | Lucide 22px，`stroke-width: 1.75` — 按语义选名见 [icons-lucide.md](../../foundations/icons-lucide.md) |
 | 标题 | IBM Plex Sans 500，22–24px |
 | 正文 | Plex Sans 14px，`--text-3` |
-| 卡片 | min-h 184px，padding 26px，border `#E2E6DE` |
+| 卡片 | min-h 184px，padding 26px，border `#ebebeb` |
 
 预览：[`preview/company-website/card-with-icon.html`](../../preview/company-website/card-with-icon.html)
 
 ## Comparison Card（Closing）
 
 - 两卡同宽  
-- Tier0 侧：`--green-soft-2` 或 accent 边框  
+- 两侧均用中性背景；Tier0 侧可用小型亮绿标记，避免整卡铺绿  
 
 ## 按钮
 

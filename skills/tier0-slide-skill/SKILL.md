@@ -16,6 +16,8 @@ description: >-
 
 ---
 
+工作方式遵循 [任务策略](../../references/task-strategy.md)：简洁交付，按任务选方法。
+
 ## Agent 工作流
 
 ```

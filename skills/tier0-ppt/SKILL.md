@@ -9,6 +9,8 @@ description: >-
 
 路演、售前、对内讲解的幻灯片。
 
+工作方式遵循 [任务策略](../../references/task-strategy.md)：简洁交付，按任务选方法。
+
 ## 两种模式
 
 | 模式 | 何时 | Load |

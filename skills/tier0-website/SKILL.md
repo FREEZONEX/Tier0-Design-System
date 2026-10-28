@@ -10,6 +10,10 @@ description: >-
 
 官网长页、产品叙事页、定价风页面、可打开的网页原型。
 
+工作方式遵循 [任务策略](../../references/task-strategy.md)：简洁交付，按任务选方法。
+
+网页底色与文档层级以 [中性视觉基线](../../references/web-visual-baseline.md) 为准；Tier0-doc 参考阅读结构，Frontend 参考组件与中性色。
+
 ## 真源（按优先级）
 
 1. **线上官网** — [tier0.app](https://tier0.app/)（视觉节奏、编辑风、CTA、信息架构的默认对齐对象）
@@ -29,7 +33,7 @@ description: >-
 
 ## Hard rules
 
-- 白底编辑风；对齐 Pricing / Builder，不做 startup 巨型 Hero 套路  
+- 白 / 中性灰底，不用灰绿、橄榄灰或鼠尾草色铺底；对齐 Pricing / Builder，不做 startup 巨型 Hero 套路  
 - 字体：IBM Plex Sans + Mono 标签；**禁止 Poppins**  
 - 白底强调字 `#73B200`；主 CTA `#B2ED1D` + 近墨字  
 - Logo：浅底 `assets/tier0-logo-black.svg`（官方文件，禁止文字伪 logo）  
