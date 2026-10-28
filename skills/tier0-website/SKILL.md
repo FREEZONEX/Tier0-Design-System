@@ -36,6 +36,10 @@ description: >-
 - 圆角 ~4px；细边框；几乎无阴影  
 - 外部参考可以更疏/更密/更强图示，但色板与字族不变
 
+## 交付到 Framer
+
+页面要放进 Framer 官网（代码组件、多断点、跟随站点语言）时，改用 [`tier0-framer-page`](../tier0-framer-page/SKILL.md)：含评审定稿的视觉细则、Framer 坑位与 build / verify 模板。
+
 ## Preview
 
 `preview/company-website/` · `ui_kits/company-website/index.html`  
