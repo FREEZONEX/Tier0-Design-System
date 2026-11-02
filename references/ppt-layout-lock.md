@@ -48,6 +48,8 @@ Tier0 Masterdeck **不是**「换一套 CSS 就变风格」——而是一套 **
 
 ## 3. 颜色锁（单主题 · 按底区分强调绿）
 
+> **v3 色板（2026-11，优先于本文旧值）**：文字 `#050B14` · 次要 `#71717A` · Tier0 绿 `#CBF368`（仅填充 / 深底挑词）· 面 `#FAFAFA` · 线 `#E4E4E7`。白底不再用 `#73B200` 绿字；`#B2ED1D` → `#CBF368`；`#F4F4F4` → `#FAFAFA`。详见 [`skills/tier0-ppt/references/pptx-restyle.md`](../skills/tier0-ppt/references/pptx-restyle.md)。
+
 Masterdeck **只有一套主题色**，不从多 preset 里混搭。变量定义见 [`ppt-themes.md`](ppt-themes.md) 与 [`tokens/deck.css`](../tokens/deck.css)。
 
 | 语义 | 变量 | HEX | 用于 |

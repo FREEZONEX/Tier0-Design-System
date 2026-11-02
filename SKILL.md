@@ -50,7 +50,7 @@ metadata:
 |----------|------|------|-------------------|
 | `product` | 产品原型 / 后台 / UNS 工作台 / 开发交付原型 | [`skills/tier0-product/SKILL.md`](skills/tier0-product/SKILL.md) | ① Figma · Tier0 UI（视觉）② [Tier0-Frontend](https://github.com/FREEZONEX/Tier0-Frontend)（组件 class / token / i18n）③ 本仓 `surfaces/tier0-product` + `tokens/product.css` |
 | `website` | 网页原型 / 官网长页 / 营销站 | [`skills/tier0-website/SKILL.md`](skills/tier0-website/SKILL.md)；**交付到 Framer**（代码组件嵌入官网）改用 [`skills/tier0-framer-page/SKILL.md`](skills/tier0-framer-page/SKILL.md) | ① [tier0.app](https://tier0.app/) ② 用户当次提供的参考 ③ `surfaces/company-website` + `tokens/website.css` |
-| `ppt` | PPT / 销售 deck | [`skills/tier0-ppt/SKILL.md`](skills/tier0-ppt/SKILL.md)（查规范）或 [`skills/tier0-slide-skill/SKILL.md`](skills/tier0-slide-skill/SKILL.md)（生成 HTML+PPTX） | ① `tokens/deck.css` + `references/ppt-checklist.md` ② slide-skill Gallery / template |
+| `ppt` | PPT / 销售 deck | [`skills/tier0-ppt/SKILL.md`](skills/tier0-ppt/SKILL.md)（查规范 · 改现有 .pptx）或 [`skills/tier0-slide-skill/SKILL.md`](skills/tier0-slide-skill/SKILL.md)（生成 HTML+PPTX） | ① `tokens/deck.css` + `references/ppt-checklist.md` ② slide-skill Gallery / template |
 | `print` | 单页、海报、活动页、其他视觉物料 | [`skills/tier0-print/SKILL.md`](skills/tier0-print/SKILL.md) | ① [`DESIGN.md`](DESIGN.md) + `foundations/` + `assets/` ② 用户指定的优质 skill / 参考（在规范内发挥） |
 
 注册表：[`skills/README.md`](skills/README.md)。

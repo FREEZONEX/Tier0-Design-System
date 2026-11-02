@@ -6,6 +6,8 @@ Tier0 Masterdeck 使用 **一套绑定 PPT 主题色的品牌盘**。**不允许
 
 ---
 
+> **v3 色板（2026-11，优先于本文旧值）**：文字 `#050B14` · 次要 `#71717A` · Tier0 绿 `#CBF368`（仅填充 / 深底挑词）· 面 `#FAFAFA` · 线 `#E4E4E7`。白底不再用 `#73B200` 绿字；`#B2ED1D` → `#CBF368`；`#F4F4F4` → `#FAFAFA`。详见 [`skills/tier0-ppt/references/pptx-restyle.md`](../skills/tier0-ppt/references/pptx-restyle.md)。
+
 ## 使用方法（HTML / Agent）
 
 1. 在 deck HTML 中 **只** `@import` 或 `<link>` 引用 `tokens/deck.css`（已 `@import core.css`）。

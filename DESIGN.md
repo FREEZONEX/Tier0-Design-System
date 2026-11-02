@@ -167,7 +167,7 @@ No emoji as UI icons. No mixing two icon libraries on one page. Illustration: th
 **PPT / slide skill**
 
 - One language per page; one `coreClaim`; one hero element.
-- Green rules: dark-field title green `#B2ED1D`; paper title green `#73B200`; structure hairlines `#B2ED1D`; never `#B2ED1D` body text on paper (P0-8).
+- Green rules (v3, 2026-11): PPT palette = ink `#050B14` · muted `#71717A` · Tier0 green `#CBF368` (fills + dark-field pick-words only) · surface `#FAFAFA` · border `#E4E4E7`. No green text on paper, no `#73B200`. Restyling an existing .pptx → `skills/tier0-ppt/references/pptx-restyle.md`.
 - No FREEZONEX wordmark on slides (Tier0 only). Gallery + template supply craft language; layout-first principles decide composition—do not force every page into an `Sxx` shell.
 - Dual-output HTML is not the visual bar for sales HTML craft.
 

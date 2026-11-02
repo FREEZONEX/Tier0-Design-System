@@ -49,10 +49,13 @@
 |------|-----|------|
 | tx1 / dk1 | `#050B14` | 深底、主字 |
 | bg1 | `#FFFFFF` | 内容页 |
-| accent1 | `#B2ED1D` | 深色页重点标题 / 挑词 |
-| accent2 | `#73B200` | **白底页**重点标题、eyebrow、KPI 数字 |
+| accent1 · Tier0 绿 | `#CBF368` | 填充：标签方块 ■、徽章、VALUE 标签、Tier0 节点；深色页挑词（v3，原 `#B2ED1D`） |
+| muted | `#71717A` | 眉标 `CASE STUDY`、KPI 类别、页码（v3） |
 | accent4 / 链接 | **`#1D77FE`** | 唯一品牌蓝（可用透明度阶） |
-| lt2 | `#F4F4F4` | 浅灰辅助底 |
+| lt2 · surface | `#FAFAFA` | 卡片 / 面板底（v3，原 `#F4F4F4`） |
+| border | `#E4E4E7` | 0.75pt 细边（v3） |
+
+> v3 起白底页**不用** `#73B200` 绿字；强调靠字重 / 字号。改现有 .pptx 走 [`skills/tier0-ppt/references/pptx-restyle.md`](../../skills/tier0-ppt/references/pptx-restyle.md)。
 
 改版时写回 `theme1.xml`，禁止手绘吸色脱离主题。
 
@@ -89,9 +92,10 @@
 ## 组件要点
 
 - 页脚：`Copyright © 2026 Tier0. All rights reserved.` — Plex Mono 10pt（**不得**含 FREEZONEX）  
-- 圆角矩形统一 **4pt**  
-- 白底白卡片必须有浅描边或 `lt2` 填充  
-- **禁止**饱和 `#B2ED1D` 满铺条上叠浅色字  
+- 直角为主；圆角只有 **4px**（卡片 / 面板 / chip / 节点）  
+- 卡片 = `#FAFAFA` + `#E4E4E7` 0.75pt 细边（shadcn），无彩色顶边  
+- 分区标签：`#CBF368` 实心方块 ■ + Mono caps 黑字  
+- **禁止**绿色文字叠白底；禁止饱和绿满铺条上叠浅色字  
 
 ## 可访问性与投影
 
