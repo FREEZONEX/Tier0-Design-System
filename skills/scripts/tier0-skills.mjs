@@ -17,7 +17,7 @@ const catalog = [
   { slug: 'tier0-product', category: 'product', path: 'skills/tier0-product/SKILL.md', summary: 'Product prototype delivery: Figma → single-file HTML handoff (@tier0/ui classes, state panel, annotations)' },
   { slug: 'tier0-website', category: 'website', path: 'skills/tier0-website/SKILL.md', summary: 'Web prototypes (tier0.app)' },
   { slug: 'tier0-framer-page', category: 'website', path: 'skills/tier0-framer-page/SKILL.md', summary: 'Website page delivered as a Framer code component' },
-  { slug: 'tier0-ppt', category: 'ppt', path: 'skills/tier0-ppt/SKILL.md', summary: 'PPT spec / Masterdeck rules' },
+  { slug: 'tier0-ppt', category: 'ppt', path: 'skills/tier0-ppt/SKILL.md', summary: 'PPT spec + restyle existing .pptx (v3 python-pptx kit)' },
   { slug: 'tier0-slide-skill', category: 'ppt', path: 'skills/tier0-slide-skill/SKILL.md', summary: 'PPT generate HTML + PPTX' },
   { slug: 'tier0-print', category: 'print', path: 'skills/tier0-print/SKILL.md', summary: 'Single page / poster / campaign' },
 ];

@@ -4,16 +4,19 @@
 
 :root {
   /* Theme colors (PowerPoint theme1 aligned) */
-  --ppt-tx1: #050b14;
+  /* v3 (2026-11): 5-colour PPT palette — see skills/tier0-ppt/references/pptx-restyle.md §2 */
+  --ppt-tx1: #050b14;        /* all text on light slides */
   --ppt-bg1: #ffffff;
-  --ppt-lt2: #f4f4f4;
-  --ppt-accent1: #b2ed1d;
-  --ppt-accent2: #73b200;
+  --ppt-lt2: #fafafa;        /* card / panel surface (was #f4f4f4) */
+  --ppt-border: #e4e4e7;     /* 0.75pt hairline on cards, panels, screenshots */
+  --ppt-muted: #71717a;      /* eyebrow, KPI category, page number */
+  --ppt-accent1: #cbf368;    /* Tier0 green (was #b2ed1d) — fills + dark-slide pick-words only */
+  --ppt-accent2: #050b14;    /* v3: no grey-green text on paper (was #73b200) */
   /* Emphasis title text (pick by canvas) */
-  --ppt-emphasis-on-dark: var(--ppt-accent1);   /* #B2ED1D — dark slides: title pick-words */
-  --ppt-emphasis-on-light: var(--ppt-accent2); /* #73B200 — white slides: eyebrow, title pick-words, KPI */
+  --ppt-emphasis-on-dark: var(--ppt-accent1);   /* #CBF368 — dark slides: title pick-words */
+  --ppt-emphasis-on-light: var(--ppt-tx1); /* v3: ink — emphasis on paper via weight/size, not green text */
   /* Structure on white slides: bullets, card top rule — always accent1 */
-  --ppt-accent-marker: var(--ppt-accent1);      /* #B2ED1D — dots, card top border */
+  --ppt-accent-marker: var(--ppt-accent1);      /* #CBF368 — label ■, badges, VALUE tag (fills only) */
   --ppt-accent3: #196b24;
   --ppt-accent4: #1d77fe;
   --ppt-accent5: #a02b93;
@@ -378,10 +381,10 @@
   --flow-card-lime: var(--ppt-card-fill-green);
   --flow-card-white: #ffffff;
   --flow-card-blue: #d2e4ff;
-  --flow-stroke-green: #73b200;
+  --flow-stroke-green: #050b14; /* v3: ink lines (was #73b200) */
   --flow-stroke-blue: #1d77fe;
   --flow-subtitle-muted: #585c62;
-  --flow-line: #73b200;
+  --flow-line: #050b14; /* v3 (was #73b200) */
   --flow-radius-card: 4px;
   --flow-stroke-width: 1.5px;
   --flow-line-width: 1.5px;
@@ -584,7 +587,7 @@
 }
 
 .deck-slide .tier0-card-icon--dark .tier0-card-icon__rule {
-  border-top-color: rgba(178, 237, 29, 0.35);
+  border-top-color: rgba(203, 243, 104, 0.35);
 }
 
 .deck-slide .tier0-card-icon--dark .card-title {
