@@ -5,7 +5,7 @@
       "$description": "品牌色：官网、物料、产品通用。",
       "fx-green-500": {
         "$value": "{color.palette.fx-green.500}",
-        "$description": "Lime 品牌绿。用于信号、主操作和重点区块。",
+        "$description": "品牌绿。用于信号、主操作和重点区块。",
         "$extensions": {
           "tier0": {
             "displayName": "Light Green"
