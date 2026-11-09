@@ -2,10 +2,10 @@
   "color": {
     "$type": "color",
     "brand": {
-      "$description": "品牌色：官网、物料、产品通用。",
+      "$description": "品牌色。",
       "fx-green-500": {
-        "$value": "{color.palette.fx-green.500}",
-        "$description": "品牌绿。用于信号、主操作和重点区块。",
+        "$value": "{color.scale.fx-green.500}",
+        "$description": "品牌主色。",
         "$extensions": {
           "tier0": {
             "displayName": "Light Green"
@@ -13,8 +13,8 @@
         }
       },
       "fx-green-deep": {
-        "$value": "{color.palette.fx-green-deep}",
-        "$description": "深一档的品牌绿。用于描边、图标、大号数字；在白底上对比度约 2.6:1，不用于正文和小字。",
+        "$value": "{color.scale.fx-green-deep}",
+        "$description": "次级品牌色，用得较少。Light Green 对比度不够时使用，如白底上的标题强调字、白底版 Logo；或需要多个绿色做层次时使用。",
         "$extensions": {
           "tier0": {
             "displayName": "Deep Green"
@@ -22,8 +22,8 @@
         }
       },
       "black-900": {
-        "$value": "{color.palette.black.900}",
-        "$description": "品牌黑。用于文字、深色背景、主按钮。",
+        "$value": "{color.scale.black.900}",
+        "$description": "文字。",
         "$extensions": {
           "tier0": {
             "displayName": "Black"
@@ -31,8 +31,8 @@
         }
       },
       "primary-white": {
-        "$value": "{color.palette.primary-white}",
-        "$description": "品牌白。用于浅色背景、深色背景上的文字。",
+        "$value": "{color.scale.primary-white}",
+        "$description": "背景。",
         "$extensions": {
           "tier0": {
             "displayName": "White"
@@ -40,8 +40,8 @@
         }
       },
       "grey-25": {
-        "$value": "{color.palette.grey.25}",
-        "$description": "品牌浅灰。用于浅色背景上的分区底色。",
+        "$value": "{color.scale.grey.25}",
+        "$description": "卡片、大面积区块的底色。",
         "$extensions": {
           "tier0": {
             "displayName": "Light Grey"
@@ -49,16 +49,8 @@
         }
       }
     },
-    "palette": {
-      "$description": "产品色：完整色阶与状态色，主要用于产品界面。命名与前端 packages/theme 的原始变量一致（--tier0-v-<名称>-<色阶>）。",
-      "primary-white": {
-        "$value": "#FFFFFF",
-        "$description": "纯白"
-      },
-      "bg-white": {
-        "$value": "#FCFCFC",
-        "$description": "近白"
-      },
+    "scale": {
+      "$description": "品牌色所在色系的色阶。",
       "fx-green": {
         "50": {
           "$value": "#F7FDE8"
@@ -76,8 +68,7 @@
           "$value": "#C1F14A"
         },
         "500": {
-          "$value": "#B2ED1D",
-          "$description": "品牌主色 Light Green"
+          "$value": "#B2ED1D"
         },
         "600": {
           "$value": "#A2D81A"
@@ -93,8 +84,7 @@
         }
       },
       "fx-green-deep": {
-        "$value": "#73B200",
-        "$description": "深绿，不在色阶内的独立色"
+        "$value": "#73B200"
       },
       "black": {
         "500": {
@@ -115,8 +105,7 @@
       },
       "grey": {
         "25": {
-          "$value": "#FAFAFA",
-          "$description": "品牌浅灰"
+          "$value": "#FAFAFA"
         },
         "50": {
           "$value": "#F9F9F9"
@@ -134,39 +123,13 @@
           "$value": "#878787"
         }
       },
-      "success": {
-        "50": {
-          "$value": "#F6FEF9"
-        },
-        "100": {
-          "$value": "#EFFDF6"
-        },
-        "200": {
-          "$value": "#D9F9E6"
-        },
-        "300": {
-          "$value": "#B8F1D2"
-        },
-        "400": {
-          "$value": "#8EE4BA"
-        },
-        "500": {
-          "$value": "#6AD09D"
-        },
-        "600": {
-          "$value": "#53B483"
-        },
-        "700": {
-          "$value": "#2F9461"
-        },
-        "800": {
-          "$value": "#2F7657"
-        },
-        "900": {
-          "$value": "#255E46"
-        }
-      },
-      "error": {
+      "primary-white": {
+        "$value": "#FFFFFF"
+      }
+    },
+    "auxiliary": {
+      "$description": "辅助色。按色相区分，不带语义，用于图表、标签等分类较多的场景。",
+      "red": {
         "50": {
           "$value": "#FEF2F2"
         },
@@ -198,36 +161,132 @@
           "$value": "#7F1D1D"
         }
       },
-      "warning": {
+      "orange": {
         "50": {
-          "$value": "#FFFCF5"
+          "$value": "#FFF7ED"
         },
         "100": {
-          "$value": "#FEFAF5"
+          "$value": "#FFEDD5"
         },
         "200": {
-          "$value": "#FBF2CB"
+          "$value": "#FED7AA"
         },
         "300": {
-          "$value": "#FDE57E"
+          "$value": "#FDBA74"
         },
         "400": {
-          "$value": "#FFD16A"
+          "$value": "#FB923C"
         },
         "500": {
-          "$value": "#FBBC55"
+          "$value": "#F97316"
         },
         "600": {
-          "$value": "#E9A23B"
+          "$value": "#EA580C"
         },
         "700": {
-          "$value": "#C8911A"
+          "$value": "#C2410C"
         },
         "800": {
-          "$value": "#A35C00"
+          "$value": "#9A3412"
         },
         "900": {
-          "$value": "#884A00"
+          "$value": "#7C2D12"
+        }
+      },
+      "yellow": {
+        "50": {
+          "$value": "#FEFCE8"
+        },
+        "100": {
+          "$value": "#FEF9C3"
+        },
+        "200": {
+          "$value": "#FEF08A"
+        },
+        "300": {
+          "$value": "#FDE047"
+        },
+        "400": {
+          "$value": "#FACC15"
+        },
+        "500": {
+          "$value": "#EAB308"
+        },
+        "600": {
+          "$value": "#CA8A04"
+        },
+        "700": {
+          "$value": "#A16207"
+        },
+        "800": {
+          "$value": "#854D0E"
+        },
+        "900": {
+          "$value": "#713F12"
+        }
+      },
+      "green": {
+        "50": {
+          "$value": "#F0FDF4"
+        },
+        "100": {
+          "$value": "#DCFCE7"
+        },
+        "200": {
+          "$value": "#BBF7D0"
+        },
+        "300": {
+          "$value": "#86EFAC"
+        },
+        "400": {
+          "$value": "#4ADE80"
+        },
+        "500": {
+          "$value": "#22C55E"
+        },
+        "600": {
+          "$value": "#16A34A"
+        },
+        "700": {
+          "$value": "#15803D"
+        },
+        "800": {
+          "$value": "#166534"
+        },
+        "900": {
+          "$value": "#14532D"
+        }
+      },
+      "cyan": {
+        "50": {
+          "$value": "#ECFEFF"
+        },
+        "100": {
+          "$value": "#CFFAFE"
+        },
+        "200": {
+          "$value": "#A5F3FC"
+        },
+        "300": {
+          "$value": "#67E8F9"
+        },
+        "400": {
+          "$value": "#22D3EE"
+        },
+        "500": {
+          "$value": "#06B6D4"
+        },
+        "600": {
+          "$value": "#0891B2"
+        },
+        "700": {
+          "$value": "#0E7490"
+        },
+        "800": {
+          "$value": "#155E75"
+        },
+        "900": {
+          "$value": "#164E63"
         }
       },
       "blue": {
@@ -294,294 +353,6 @@
           "$value": "#4C1D95"
         }
       },
-      "yellow": {
-        "50": {
-          "$value": "#FEFCE8"
-        },
-        "100": {
-          "$value": "#FEF9C3"
-        },
-        "200": {
-          "$value": "#FEF08A"
-        },
-        "300": {
-          "$value": "#FDE047"
-        },
-        "400": {
-          "$value": "#FACC15"
-        },
-        "500": {
-          "$value": "#EAB308"
-        },
-        "600": {
-          "$value": "#CA8A04"
-        },
-        "700": {
-          "$value": "#A16207"
-        },
-        "800": {
-          "$value": "#854D0E"
-        },
-        "900": {
-          "$value": "#713F12"
-        }
-      },
-      "lime": {
-        "50": {
-          "$value": "#F7FEE7"
-        },
-        "100": {
-          "$value": "#ECFCCB"
-        },
-        "200": {
-          "$value": "#D9F99D"
-        },
-        "300": {
-          "$value": "#BEF264"
-        },
-        "400": {
-          "$value": "#A3E635"
-        },
-        "500": {
-          "$value": "#84CC16"
-        },
-        "600": {
-          "$value": "#65A30D"
-        },
-        "700": {
-          "$value": "#4D7C0F"
-        },
-        "800": {
-          "$value": "#3F6212"
-        },
-        "900": {
-          "$value": "#365314"
-        }
-      },
-      "green": {
-        "50": {
-          "$value": "#F0FDF4"
-        },
-        "100": {
-          "$value": "#DCFCE7"
-        },
-        "200": {
-          "$value": "#BBF7D0"
-        },
-        "300": {
-          "$value": "#86EFAC"
-        },
-        "400": {
-          "$value": "#4ADE80"
-        },
-        "500": {
-          "$value": "#22C55E"
-        },
-        "600": {
-          "$value": "#16A34A"
-        },
-        "700": {
-          "$value": "#15803D"
-        },
-        "800": {
-          "$value": "#166534"
-        },
-        "900": {
-          "$value": "#14532D"
-        }
-      },
-      "orange": {
-        "50": {
-          "$value": "#FFF7ED"
-        },
-        "100": {
-          "$value": "#FFEDD5"
-        },
-        "200": {
-          "$value": "#FED7AA"
-        },
-        "300": {
-          "$value": "#FDBA74"
-        },
-        "400": {
-          "$value": "#FB923C"
-        },
-        "500": {
-          "$value": "#F97316"
-        },
-        "600": {
-          "$value": "#EA580C"
-        },
-        "700": {
-          "$value": "#C2410C"
-        },
-        "800": {
-          "$value": "#9A3412"
-        },
-        "900": {
-          "$value": "#7C2D12"
-        }
-      },
-      "amber": {
-        "50": {
-          "$value": "#FFFBEB"
-        },
-        "100": {
-          "$value": "#FEF3C7"
-        },
-        "200": {
-          "$value": "#FDE68A"
-        },
-        "300": {
-          "$value": "#FCD34D"
-        },
-        "400": {
-          "$value": "#FBBF24"
-        },
-        "500": {
-          "$value": "#F59E0B"
-        },
-        "600": {
-          "$value": "#D97706"
-        },
-        "700": {
-          "$value": "#B45309"
-        },
-        "800": {
-          "$value": "#92400E"
-        },
-        "900": {
-          "$value": "#78350F"
-        }
-      },
-      "emerald": {
-        "50": {
-          "$value": "#ECFDF5"
-        },
-        "100": {
-          "$value": "#D1FAE5"
-        },
-        "200": {
-          "$value": "#A7F3D0"
-        },
-        "300": {
-          "$value": "#6EE7B7"
-        },
-        "400": {
-          "$value": "#34D399"
-        },
-        "500": {
-          "$value": "#10B981"
-        },
-        "600": {
-          "$value": "#059669"
-        },
-        "700": {
-          "$value": "#047857"
-        },
-        "800": {
-          "$value": "#065F46"
-        },
-        "900": {
-          "$value": "#064E3B"
-        }
-      },
-      "teal": {
-        "50": {
-          "$value": "#F0FDFA"
-        },
-        "100": {
-          "$value": "#CCFBF1"
-        },
-        "200": {
-          "$value": "#99F6E4"
-        },
-        "300": {
-          "$value": "#5EEAD4"
-        },
-        "400": {
-          "$value": "#2DD4BF"
-        },
-        "500": {
-          "$value": "#14B8A6"
-        },
-        "600": {
-          "$value": "#0D9488"
-        },
-        "700": {
-          "$value": "#0F766E"
-        },
-        "800": {
-          "$value": "#115E59"
-        },
-        "900": {
-          "$value": "#134E4A"
-        }
-      },
-      "cyan": {
-        "50": {
-          "$value": "#ECFEFF"
-        },
-        "100": {
-          "$value": "#CFFAFE"
-        },
-        "200": {
-          "$value": "#A5F3FC"
-        },
-        "300": {
-          "$value": "#67E8F9"
-        },
-        "400": {
-          "$value": "#22D3EE"
-        },
-        "500": {
-          "$value": "#06B6D4"
-        },
-        "600": {
-          "$value": "#0891B2"
-        },
-        "700": {
-          "$value": "#0E7490"
-        },
-        "800": {
-          "$value": "#155E75"
-        },
-        "900": {
-          "$value": "#164E63"
-        }
-      },
-      "sky": {
-        "50": {
-          "$value": "#F0F9FF"
-        },
-        "100": {
-          "$value": "#E0F2FE"
-        },
-        "200": {
-          "$value": "#BAE6FD"
-        },
-        "300": {
-          "$value": "#7DD3FC"
-        },
-        "400": {
-          "$value": "#38BDF8"
-        },
-        "500": {
-          "$value": "#0EA5E9"
-        },
-        "600": {
-          "$value": "#0284C7"
-        },
-        "700": {
-          "$value": "#0369A1"
-        },
-        "800": {
-          "$value": "#075985"
-        },
-        "900": {
-          "$value": "#0C4A6E"
-        }
-      },
       "fuchsia": {
         "50": {
           "$value": "#FDF4FF"
@@ -613,39 +384,6 @@
         "900": {
           "$value": "#701A75"
         }
-      },
-      "gray": {
-        "50": {
-          "$value": "#F9FAFB"
-        },
-        "100": {
-          "$value": "#F3F4F6"
-        },
-        "200": {
-          "$value": "#E5E7EB"
-        },
-        "300": {
-          "$value": "#D1D5DB"
-        },
-        "400": {
-          "$value": "#9CA3AF"
-        },
-        "500": {
-          "$value": "#6B7280"
-        },
-        "600": {
-          "$value": "#4B5563"
-        },
-        "700": {
-          "$value": "#374151"
-        },
-        "800": {
-          "$value": "#1F2937"
-        },
-        "900": {
-          "$value": "#111827"
-        },
-        "$description": "通用冷灰，仅用于滚动条、弹窗标题等少数组件；品牌灰请用 grey。"
       }
     }
   }
