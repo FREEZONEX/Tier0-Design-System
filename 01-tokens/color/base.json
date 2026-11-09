@@ -130,6 +130,7 @@
     "auxiliary": {
       "$description": "辅助色。按色相区分，不带语义，用于图表、标签等分类较多的场景。",
       "red": {
+        "$description": "状态：错误（error-*）。",
         "50": {
           "$value": "#FEF2F2"
         },
@@ -194,67 +195,69 @@
         }
       },
       "yellow": {
+        "$description": "状态：警告（warning-*）。",
         "50": {
-          "$value": "#FEFCE8"
+          "$value": "#FFFCF5"
         },
         "100": {
-          "$value": "#FEF9C3"
+          "$value": "#FEFAF5"
         },
         "200": {
-          "$value": "#FEF08A"
+          "$value": "#FBF2CB"
         },
         "300": {
-          "$value": "#FDE047"
+          "$value": "#FDE57E"
         },
         "400": {
-          "$value": "#FACC15"
+          "$value": "#FFD16A"
         },
         "500": {
-          "$value": "#EAB308"
+          "$value": "#FBBC55"
         },
         "600": {
-          "$value": "#CA8A04"
+          "$value": "#E9A23B"
         },
         "700": {
-          "$value": "#A16207"
+          "$value": "#C8911A"
         },
         "800": {
-          "$value": "#854D0E"
+          "$value": "#A35C00"
         },
         "900": {
-          "$value": "#713F12"
+          "$value": "#884A00"
         }
       },
       "green": {
+        "$description": "状态：成功（success-*）。与品牌绿 fx-green 不同，不用于品牌强调。",
         "50": {
-          "$value": "#F0FDF4"
+          "$value": "#F6FEF9"
         },
         "100": {
-          "$value": "#DCFCE7"
+          "$value": "#EFFDF6"
         },
         "200": {
-          "$value": "#BBF7D0"
+          "$value": "#D9F9E6"
         },
         "300": {
-          "$value": "#86EFAC"
+          "$value": "#B8F1D2"
         },
         "400": {
-          "$value": "#4ADE80"
+          "$value": "#8EE4BA"
         },
         "500": {
-          "$value": "#22C55E"
+          "$value": "#6AD09D"
         },
         "600": {
-          "$value": "#16A34A"
+          "$value": "#53B483"
         },
         "700": {
-          "$value": "#15803D"
+          "$value": "#2F9461"
         },
         "800": {
-          "$value": "#166534"
+          "$value": "#2F7657"
         },
         "900": {
-          "$value": "#14532D"
+          "$value": "#255E46"
         }
       },
       "cyan": {
@@ -290,6 +293,7 @@
         }
       },
       "blue": {
+        "$description": "状态：信息（blue-*）。",
         "50": {
           "$value": "#EFF6FF"
         },

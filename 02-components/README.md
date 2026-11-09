@@ -24,3 +24,27 @@
 | Tier0 特有 | [取景框](focus-frame/)、[信号点](signal/)、[路径](path/)、[读数](readout/)、[状态标签](status-tag/)、[AI](ai-message/) |
 
 编写顺序：先写按钮、输入框、选择器、表格、弹窗，再写 Tier0 特有组件，最后补其余组件。
+
+## 状态色对应
+
+组件表达状态时只用下表的用途 token，不直接写原始色。原始色按色相命名、不带语义，状态和色相的对应关系以此表为准。
+
+| 状态 | 用途 token（`color/light.json`） | 原始色（`color/base.json`） | 典型用法 |
+|---|---|---|---|
+| 成功 | `success-color` / `success-secondary` / `success-accent` / `success-tertiary` / `success-bg` | `auxiliary.green` | 完成、在线、校验通过 |
+| 错误 | `error-color` / `error-secondary` / `error-accent` / `error-tertiary` | `auxiliary.red` | 失败、离线、校验不通过、危险操作 |
+| 警告 | `warning-color` / `warning-strong` / `warning-fill` / `warning-secondary` / `warning-accent` / `warning-tertiary` | `auxiliary.yellow` | 需要注意、即将超限、用量接近上限 |
+| 信息 | `blue-color` / `blue-secondary` / `blue-accent` / `blue-tertiary` | `auxiliary.blue` | 提示、更新中、处理中 |
+
+层级用法（四种状态相同）：
+
+| 后缀 | 用在 |
+|---|---|
+| `-color` | 文字、图标 |
+| `-secondary` | 边框 |
+| `-accent` | 无边框的背景 |
+| `-tertiary` | 有边框的浅背景（最常用） |
+
+搭配规则：深色前景 + 浅色背景，如 `success-tertiary` 背景配 `success-color` 文字，不反过来用。
+
+其余辅助色（橙、青、紫、品红）不表达状态，只用于图表、分类标签等需要区分"哪一个"的场景。品牌绿 `fx-green` 只用于品牌强调，不表示"成功"。
