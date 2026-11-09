@@ -1,0 +1,22 @@
+{
+  "color": {
+    "$type": "color",
+    "$description": "Tier0 品牌色。全系统只允许这四个颜色，其他颜色一律不使用。",
+    "light-green": {
+      "$value": "#B2ED1D",
+      "$description": "Lime 品牌绿。用于信号、主操作和重点区块。"
+    },
+    "deep-green": {
+      "$value": "#73B200",
+      "$description": "深一档的品牌绿。用于描边、图标、大号数字；在白底上对比度约 2.6:1，不用于正文和小字。"
+    },
+    "black": {
+      "$value": "#050B14",
+      "$description": "品牌黑。用于文字、深色背景。"
+    },
+    "white": {
+      "$value": "#FFFFFF",
+      "$description": "品牌白。用于浅色背景、深色背景上的文字。"
+    }
+  }
+}
