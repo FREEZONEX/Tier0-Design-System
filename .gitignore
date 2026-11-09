@@ -4,6 +4,7 @@ skills-lock.json
 
 # Agent skill runtimes (install locally per skill README)
 skills/*/node_modules/
+_legacy/skills/*/node_modules/
 
 # Local generated decks / intake uploads (keep out of git)
 projects/

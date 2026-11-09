@@ -4,15 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'site/**'
-      - 'skills/**'
-      - 'SKILL.md'
-      - 'DESIGN.md'
-      - 'foundations/**'
-      - 'references/**'
-      - 'surfaces/**'
-      - 'tokens/**'
-      - 'scripts/build-public-site.mjs'
+      - '_legacy/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -34,16 +26,16 @@ jobs:
         with:
           node-version: '20'
           cache: npm
-          cache-dependency-path: skills/tier0-slide-skill/package-lock.json
+          cache-dependency-path: _legacy/skills/tier0-slide-skill/package-lock.json
       - name: Install slide-skill deps
         run: npm ci
-        working-directory: skills/tier0-slide-skill
+        working-directory: _legacy/skills/tier0-slide-skill
       - name: Build public site
-        run: node scripts/build-public-site.mjs
+        run: node _legacy/scripts/build-public-site.mjs
       - name: Stage Pages artifact under /site
         run: |
           mkdir -p _pages/site
-          cp -R site/. _pages/site/
+          cp -R _legacy/site/. _pages/site/
           cat > _pages/index.html <<'EOF'
           <!doctype html>
           <html lang="zh-CN">
