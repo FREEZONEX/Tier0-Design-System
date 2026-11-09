@@ -21,9 +21,4 @@
 
 CSS、Tailwind、Figma 变量等成品文件不放在仓库里，需要时由脚本在构建时生成。
 
-## 命名
-
-与前端 `Tier0-Frontend/packages/theme` 保持同一套命名，不另起一套：
-
-- 色值沿用前端原始变量名，如 `fx-green-500` 对应前端 `--tier0-v-fx-green-500`；品牌色另带显示名（Light Green、Deep Green 等），用于官网和文档展示。
-- 用途映射（`light.json` / `dark.json`）沿用前端语义变量名，如 `bg-color`、`text-secondary`、`highlight`。
+命名与前端 `packages/theme` 保持一致，不另起一套。
