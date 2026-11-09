@@ -1,0 +1,185 @@
+{
+  "color": {
+    "$type": "color",
+    "bg-color": {
+      "$value": "{color.palette.black.900}",
+      "$description": "用于页面主背景。不用于卡片内再套一层背景。"
+    },
+    "bg-secondary": {
+      "$value": "{color.palette.black.800}",
+      "$description": "用于较深的中性背景，如分组底色。不用于大面积页面背景。"
+    },
+    "bg-accent": {
+      "$value": "{color.palette.black.700}",
+      "$description": "用于选中项、悬停项的中性背景。不用于表达状态或品牌强调（改用 highlight-bg-*）。"
+    },
+    "bg-tertiary": {
+      "$value": "{color.palette.black.800}",
+      "$description": "用于更浅的中性背景，如卡片、侧栏。不用于主内容区背景。"
+    },
+    "bg-subtle": {
+      "$value": "{color.palette.black.800}",
+      "$description": "用于明细卡、表格区等近白分区底，和纯白容器区分。不用于需要明显对比的区域。"
+    },
+    "text-color": {
+      "$value": "{color.palette.primary-white}",
+      "$description": "用于正文、标题。不用于放在品牌绿背景上的文字（改用 highlight-foreground）。"
+    },
+    "text-secondary": {
+      "$value": "{color.palette.grey.200}",
+      "$description": "用于次要文字、说明。不用于需要强调的内容。"
+    },
+    "text-accent": {
+      "$value": "{color.palette.grey.300}",
+      "$description": "用于介于主文字和次要文字之间的强调说明。不用于大段正文。"
+    },
+    "text-tertiary": {
+      "$value": "{color.palette.grey.400}",
+      "$description": "用于弱文字、元信息、时间戳。不用于承载必要信息的文字。"
+    },
+    "text-placeholder": {
+      "$value": "{color.palette.grey.400}",
+      "$description": "用于输入框占位文字。不用于已填写的内容。"
+    },
+    "border": {
+      "$value": "{color.palette.black.700}",
+      "$description": "用于标准边框、分隔线。不用于表达状态（改用对应状态色）。"
+    },
+    "border-secondary": {
+      "$value": "{color.palette.black.800}",
+      "$description": "用于更弱的边框。不用于需要明确区分的边界。"
+    },
+    "primary": {
+      "$value": "{color.palette.black.900}",
+      "$description": "用于主色：主按钮背景、主要操作。不用于大面积背景。"
+    },
+    "primary-hover": {
+      "$value": "{color.palette.black.700}",
+      "$description": "用于主按钮悬停。不用于默认状态。"
+    },
+    "primary-foreground": {
+      "$value": "{color.palette.primary-white}",
+      "$description": "用于主色背景上的文字和图标。不用于浅色背景上的文字。"
+    },
+    "highlight": {
+      "$value": "{color.palette.fx-green.500}",
+      "$description": "用于品牌绿：信号、高亮按钮、重点标记。不用于大面积背景、装饰、图标、箭头。"
+    },
+    "highlight-foreground": {
+      "$value": "{color.palette.black.900}",
+      "$description": "用于品牌绿背景上的文字和图标。不用于白色文字（对比度不足）。"
+    },
+    "highlight-deep": {
+      "$value": "{color.palette.fx-green-deep}",
+      "$description": "用于深品牌绿：描边、图标、大号数字。不用于正文和小字（白底对比度约 2.6:1）。"
+    },
+    "highlight-bg-primary": {
+      "$value": "{color.palette.fx-green.300}",
+      "$description": "用于较深的高亮背景。不用于大面积背景。"
+    },
+    "highlight-bg-secondary": {
+      "$value": "{color.palette.fx-green.200}",
+      "$description": "用于中等高亮背景。不用于大面积背景。"
+    },
+    "highlight-bg-accent": {
+      "$value": "{color.palette.fx-green.100}",
+      "$description": "用于常用浅高亮背景，如选中行。不用于表达成功状态（改用 success-*）。"
+    },
+    "highlight-bg-tertiary": {
+      "$value": "{color.palette.fx-green.50}",
+      "$description": "用于最浅的高亮背景。不用于表达成功状态（改用 success-*）。"
+    },
+    "highlight-text": {
+      "$value": "{color.palette.fx-green.600}",
+      "$description": "用于高亮文字。不用于正文。"
+    },
+    "highlight-text-accent": {
+      "$value": "{color.palette.fx-green.700}",
+      "$description": "用于较深的高亮文字。不用于正文。"
+    },
+    "highlight-text-deep": {
+      "$value": "{color.palette.fx-green.800}",
+      "$description": "用于最深的高亮文字，浅底上可读性最好。不用于大段正文。"
+    },
+    "highlight-border": {
+      "$value": "{color.palette.fx-green.300}",
+      "$description": "用于高亮边框。不用于普通边框。"
+    },
+    "success-color": {
+      "$value": "{color.palette.success.600}",
+      "$description": "用于成功状态的文字、图标。不用于装饰或分类标识。"
+    },
+    "success-secondary": {
+      "$value": "{color.palette.success.300}",
+      "$description": "用于成功状态的边框。不用于文字。"
+    },
+    "success-accent": {
+      "$value": "{color.palette.success.200}",
+      "$description": "用于成功状态的无边框背景。不用于文字。"
+    },
+    "success-tertiary": {
+      "$value": "{color.palette.success.100}",
+      "$description": "用于成功状态的浅背景（最常用）。不用于文字。"
+    },
+    "error-color": {
+      "$value": "{color.palette.error.600}",
+      "$description": "用于错误状态的文字、图标。不用于装饰或分类标识。"
+    },
+    "error-secondary": {
+      "$value": "{color.palette.error.300}",
+      "$description": "用于错误状态的边框。不用于文字。"
+    },
+    "error-accent": {
+      "$value": "{color.palette.error.200}",
+      "$description": "用于错误状态的无边框背景。不用于文字。"
+    },
+    "error-tertiary": {
+      "$value": "{color.palette.error.100}",
+      "$description": "用于错误状态的浅背景（最常用）。不用于文字。"
+    },
+    "warning-color": {
+      "$value": "{color.palette.warning.500}",
+      "$description": "用于警告状态的文字、图标。不用于装饰或分类标识。"
+    },
+    "warning-secondary": {
+      "$value": "{color.palette.warning.300}",
+      "$description": "用于警告状态的边框。不用于文字。"
+    },
+    "warning-accent": {
+      "$value": "{color.palette.warning.200}",
+      "$description": "用于警告状态的无边框背景。不用于文字。"
+    },
+    "warning-tertiary": {
+      "$value": "{color.palette.warning.100}",
+      "$description": "用于警告状态的浅背景（最常用）。不用于文字。"
+    },
+    "blue-color": {
+      "$value": "{color.palette.blue.600}",
+      "$description": "用于信息状态的文字、图标。不用于装饰或分类标识。"
+    },
+    "blue-secondary": {
+      "$value": "{color.palette.blue.200}",
+      "$description": "用于信息状态的边框。不用于文字。"
+    },
+    "blue-accent": {
+      "$value": "{color.palette.blue.300}",
+      "$description": "用于信息标签边框。不用于文字。"
+    },
+    "blue-tertiary": {
+      "$value": "{color.palette.blue.50}",
+      "$description": "用于信息状态的浅背景（最常用）。不用于文字。"
+    },
+    "success-bg": {
+      "$value": "{color.palette.success.500}",
+      "$description": "用于成功状态的实心背景。不用于文字。"
+    },
+    "warning-strong": {
+      "$value": "{color.palette.warning.700}",
+      "$description": "用于白底上的警告正文（warning-color 太浅）。不用于背景。"
+    },
+    "warning-fill": {
+      "$value": "{color.palette.warning.600}",
+      "$description": "用于进度条、用量条的实心填充。不用于文字。"
+    }
+  }
+}
