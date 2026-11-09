@@ -11,7 +11,7 @@ Tier0 的品牌与设计系统，同时服务对外的品牌宣传和对内的�
 | [`00-foundation/`](00-foundation/foundation.md) | 品牌故事、设计原则、品牌特征、约束与边界 |
 | [`01-tokens/`](01-tokens/) | 基础真源：颜色、字体、间距、圆角、动效、音效 |
 | [`02-components/`](02-components/) | 对内：产品界面组件与用法 |
-| [`03-brand/`](03-brand/) | 对外：Logo、颜色、字体、纹理、动效、音效、图片、图标、模版 |
+| [`03-brand/`](03-brand/) | 对外：品牌资产：Logo、纹理、动画、音效、图片、图标、模版 |
 | [`04-skills/`](04-skills/) | AI 调用规则：UI 界面、官网、Slides、宣传物料 |
 | [`changelog.md`](changelog.md) | 变更记录 |
 
