@@ -9,7 +9,7 @@
 | `color/base.json` | 品牌色（5 个）、色阶（绿、黑、灰）、辅助色（8 个色相） | 已定 |
 | `color/light.json` | 浅色主题：主层 18 个（表面与文字、品牌、状态）+ 产品扩展 | 已定 |
 | `color/dark.json` | 深色主题：同上 | 已定 |
-| `typography.json` | 字体、字号、行高、字重 | 待编写 |
+| `typography.json` | 字体、字重、字阶（11 级） | 已定 |
 | `spacing.json` | 间距 | 待编写 |
 | `radius.json` | 圆角 | 待编写 |
 | `border.json` | 线宽 | 待编写 |
@@ -69,3 +69,38 @@ CSS、Tailwind、Figma 变量等成品文件不放在仓库里，需要时由脚
 5. 不用渐变文字、渐变描边或大面积色彩晕染。
 
 `extended` 分组是前端现有的细分 token（如 `bg-secondary`、`success-tertiary`），保留用于兼容，新组件优先使用主层。
+
+## 字体
+
+| 用途 | 字体 | Token |
+|---|---|---|
+| 标题 | Inter | `font.family.display` |
+| 正文与界面文字 | IBM Plex Sans | `font.family.sans` |
+| 代码、数据路径、数值 | IBM Plex Mono | `font.family.mono` |
+| 中文 | IBM Plex Sans SC | `font.family.sc`（作为以上三种的中文回落） |
+| Logo 字标 | Tektur | `font.family.logo`（仅 Logo，交付时转为路径） |
+
+**字阶**
+
+| Token | 字体 | 字号 / 行高 | 字重 | 用途 |
+|---|---|---|---|---|
+| `display` | Inter | 48 / 56 | 500 | 官网首屏、Deck 封面，每页最多一次 |
+| `typo-h1` | Inter | 38 / 46 | 700 | 页面大标题 |
+| `typo-h2` | Inter | 30 / 36 | 600 | 分区标题 |
+| `typo-h3` | Inter | 24 / 32 | 600 | 子标题、弹窗标题 |
+| `typo-h4` | Inter | 20 / 28 | 500 | 面板、卡片标题 |
+| `body` | IBM Plex Sans | 16 / 24 | 400 | 官网正文、长段落 |
+| `body-sm` | IBM Plex Sans | 14 / 20 | 400 | 产品界面正文（默认） |
+| `label` | IBM Plex Sans | 14 / 20 | 500 | 按钮、表单标签、导航 |
+| `caption` | IBM Plex Sans | 12 / 16 | 400 | 辅助说明、时间戳，最小字号 |
+| `overline` | IBM Plex Sans | 11 / 16 | 500 | 全大写分组小标题，仅英文 |
+| `code` | IBM Plex Mono | 13 / 20 | 400 | 代码、命令行、数据路径 |
+
+**规则**
+
+1. 不引入以上之外的字体。
+2. 中文字间距为 0；标题的负字间距只对英文生效。
+3. 最小字号 12px（`overline` 除外，且只用于英文大写）。
+4. 字重只用 400 / 500 / 600 / 700。
+5. 表格和读数中的数字使用等宽数字（tabular-nums）。
+6. 不用斜体做强调。

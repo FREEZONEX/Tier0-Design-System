@@ -1,0 +1,199 @@
+{
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "display": {
+        "$value": [
+          "Inter",
+          "IBM Plex Sans SC",
+          "Arial",
+          "sans-serif"
+        ],
+        "$description": "标题字体：页面标题、分区标题、官网大标题。中文自动回落到 IBM Plex Sans SC。"
+      },
+      "sans": {
+        "$value": [
+          "IBM Plex Sans",
+          "IBM Plex Sans SC",
+          "Arial",
+          "sans-serif"
+        ],
+        "$description": "正文字体：正文、按钮、表单、标签等所有界面文字。"
+      },
+      "mono": {
+        "$value": [
+          "IBM Plex Mono",
+          "IBM Plex Sans SC",
+          "ui-monospace",
+          "monospace"
+        ],
+        "$description": "等宽字体：代码、命令行、数据路径、数值。"
+      },
+      "sc": {
+        "$value": [
+          "IBM Plex Sans SC",
+          "sans-serif"
+        ],
+        "$description": "中文字体：所有中文文字。作为以上三种字体的中文回落，不单独用于英文。"
+      },
+      "logo": {
+        "$value": [
+          "Tektur"
+        ],
+        "$description": "仅用于 Logo 字标，且交付时转为路径。不用于任何标题、正文或界面文字。"
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": {
+        "$value": 400
+      },
+      "medium": {
+        "$value": 500
+      },
+      "semibold": {
+        "$value": 600
+      },
+      "bold": {
+        "$value": 700
+      }
+    }
+  },
+  "typography": {
+    "$description": "字阶。标题用 display 字体，其余用 sans，代码用 mono。",
+    "display": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontSize": "48px",
+        "lineHeight": "56px",
+        "fontWeight": "{font.weight.medium}",
+        "letterSpacing": "-0.96px"
+      },
+      "$description": "官网首屏、Deck 封面大标题。每页最多一次。"
+    },
+    "typo-h1": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontSize": "38px",
+        "lineHeight": "46px",
+        "fontWeight": "{font.weight.bold}",
+        "letterSpacing": "-0.456px"
+      },
+      "$description": "页面大标题。"
+    },
+    "typo-h2": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontSize": "30px",
+        "lineHeight": "36px",
+        "fontWeight": "{font.weight.semibold}",
+        "letterSpacing": "-0.225px"
+      },
+      "$description": "分区标题。"
+    },
+    "typo-h3": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontSize": "24px",
+        "lineHeight": "32px",
+        "fontWeight": "{font.weight.semibold}",
+        "letterSpacing": "-0.144px"
+      },
+      "$description": "子标题、弹窗标题。"
+    },
+    "typo-h4": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontSize": "20px",
+        "lineHeight": "28px",
+        "fontWeight": "{font.weight.medium}",
+        "letterSpacing": "-0.1px"
+      },
+      "$description": "面板、卡片标题。"
+    },
+    "body": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "16px",
+        "lineHeight": "24px",
+        "fontWeight": "{font.weight.regular}",
+        "letterSpacing": "0px"
+      },
+      "$description": "官网正文、长段落。"
+    },
+    "body-sm": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "{font.weight.regular}",
+        "letterSpacing": "0px"
+      },
+      "$description": "产品界面正文（默认）。"
+    },
+    "label": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "14px",
+        "lineHeight": "20px",
+        "fontWeight": "{font.weight.medium}",
+        "letterSpacing": "0px"
+      },
+      "$description": "按钮、表单标签、导航。"
+    },
+    "caption": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "12px",
+        "lineHeight": "16px",
+        "fontWeight": "{font.weight.regular}",
+        "letterSpacing": "0px"
+      },
+      "$description": "辅助说明、时间戳、注释。全系统最小字号。"
+    },
+    "overline": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontSize": "11px",
+        "lineHeight": "16px",
+        "fontWeight": "{font.weight.medium}",
+        "letterSpacing": "0.88px"
+      },
+      "$description": "全大写的分组小标题，仅用于英文。"
+    },
+    "code": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontSize": "13px",
+        "lineHeight": "20px",
+        "fontWeight": "{font.weight.regular}",
+        "letterSpacing": "0px"
+      },
+      "$description": "代码、命令行、数据路径。"
+    },
+    "$extensions": {
+      "tier0": {
+        "rules": [
+          "标题用 Inter，正文用 IBM Plex Sans，代码与数据用 IBM Plex Mono，中文用 IBM Plex Sans SC；Tektur 只用于 Logo。",
+          "不引入以上之外的字体。",
+          "中文字间距为 0；标题的负字间距只对英文生效。",
+          "最小字号 12px（overline 除外，且只用于英文大写）。",
+          "字重只用 400 / 500 / 600 / 700。",
+          "数值、表格中的数字使用等宽数字（tabular-nums）。",
+          "不用斜体做强调。"
+        ]
+      }
+    }
+  }
+}
