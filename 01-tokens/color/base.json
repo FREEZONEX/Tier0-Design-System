@@ -1,21 +1,267 @@
 {
   "color": {
     "$type": "color",
-    "light-green": {
-      "$value": "#B2ED1D",
-      "$description": "Lime 品牌绿。用于信号、主操作和重点区块。"
+    "brand": {
+      "$description": "品牌色：官网、物料、产品通用。",
+      "fx-green-500": {
+        "$value": "{color.palette.fx-green.500}",
+        "$description": "Lime 品牌绿。用于信号、主操作和重点区块。",
+        "$extensions": {
+          "tier0": {
+            "displayName": "Light Green"
+          }
+        }
+      },
+      "fx-green-deep": {
+        "$value": "{color.palette.fx-green-deep}",
+        "$description": "深一档的品牌绿。用于描边、图标、大号数字；在白底上对比度约 2.6:1，不用于正文和小字。",
+        "$extensions": {
+          "tier0": {
+            "displayName": "Deep Green"
+          }
+        }
+      },
+      "black-900": {
+        "$value": "{color.palette.black.900}",
+        "$description": "品牌黑。用于文字、深色背景、主按钮。",
+        "$extensions": {
+          "tier0": {
+            "displayName": "Black"
+          }
+        }
+      },
+      "primary-white": {
+        "$value": "{color.palette.primary-white}",
+        "$description": "品牌白。用于浅色背景、深色背景上的文字。",
+        "$extensions": {
+          "tier0": {
+            "displayName": "White"
+          }
+        }
+      },
+      "grey-25": {
+        "$value": "{color.palette.grey.25}",
+        "$description": "品牌浅灰。用于浅色背景上的分区底色。",
+        "$extensions": {
+          "tier0": {
+            "displayName": "Light Grey"
+          }
+        }
+      }
     },
-    "deep-green": {
-      "$value": "#73B200",
-      "$description": "深一档的品牌绿。用于描边、图标、大号数字；在白底上对比度约 2.6:1，不用于正文和小字。"
-    },
-    "black": {
-      "$value": "#050B14",
-      "$description": "品牌黑。用于文字、深色背景。"
-    },
-    "white": {
-      "$value": "#FFFFFF",
-      "$description": "品牌白。用于浅色背景、深色背景上的文字。"
+    "palette": {
+      "$description": "产品色：完整色阶与状态色，主要用于产品界面。命名与前端 packages/theme 的原始变量一致（--tier0-v-<名称>-<色阶>）。",
+      "primary-white": {
+        "$value": "#FFFFFF",
+        "$description": "纯白"
+      },
+      "bg-white": {
+        "$value": "#FCFCFC",
+        "$description": "近白"
+      },
+      "fx-green": {
+        "50": {
+          "$value": "#F7FDE8"
+        },
+        "100": {
+          "$value": "#E7F9B9"
+        },
+        "200": {
+          "$value": "#DCF797"
+        },
+        "300": {
+          "$value": "#CBF368"
+        },
+        "400": {
+          "$value": "#C1F14A"
+        },
+        "500": {
+          "$value": "#B2ED1D",
+          "$description": "品牌主色 Light Green"
+        },
+        "600": {
+          "$value": "#A2D81A"
+        },
+        "700": {
+          "$value": "#7EA815"
+        },
+        "800": {
+          "$value": "#628210"
+        },
+        "900": {
+          "$value": "#4B640C"
+        }
+      },
+      "fx-green-deep": {
+        "$value": "#73B200",
+        "$description": "深绿，不在色阶内的独立色"
+      },
+      "black": {
+        "500": {
+          "$value": "#343434"
+        },
+        "600": {
+          "$value": "#242424"
+        },
+        "700": {
+          "$value": "#1C1F1E"
+        },
+        "800": {
+          "$value": "#151A19"
+        },
+        "900": {
+          "$value": "#050B14"
+        }
+      },
+      "grey": {
+        "25": {
+          "$value": "#FAFAFA",
+          "$description": "品牌浅灰"
+        },
+        "50": {
+          "$value": "#F9F9F9"
+        },
+        "100": {
+          "$value": "#F3F3F3"
+        },
+        "200": {
+          "$value": "#EBEBEB"
+        },
+        "300": {
+          "$value": "#D9D9D9"
+        },
+        "400": {
+          "$value": "#878787"
+        }
+      },
+      "success": {
+        "50": {
+          "$value": "#F6FEF9"
+        },
+        "100": {
+          "$value": "#EFFDF6"
+        },
+        "200": {
+          "$value": "#D9F9E6"
+        },
+        "300": {
+          "$value": "#B8F1D2"
+        },
+        "400": {
+          "$value": "#8EE4BA"
+        },
+        "500": {
+          "$value": "#6AD09D"
+        },
+        "600": {
+          "$value": "#53B483"
+        },
+        "700": {
+          "$value": "#2F9461"
+        },
+        "800": {
+          "$value": "#2F7657"
+        },
+        "900": {
+          "$value": "#255E46"
+        }
+      },
+      "error": {
+        "50": {
+          "$value": "#FEF2F2"
+        },
+        "100": {
+          "$value": "#FEE2E2"
+        },
+        "200": {
+          "$value": "#FECACA"
+        },
+        "300": {
+          "$value": "#FCA5A5"
+        },
+        "400": {
+          "$value": "#F87171"
+        },
+        "500": {
+          "$value": "#EF4444"
+        },
+        "600": {
+          "$value": "#DC2626"
+        },
+        "700": {
+          "$value": "#B91C1C"
+        },
+        "800": {
+          "$value": "#991B1B"
+        },
+        "900": {
+          "$value": "#7F1D1D"
+        }
+      },
+      "warning": {
+        "50": {
+          "$value": "#FFFCF5"
+        },
+        "100": {
+          "$value": "#FEFAF5"
+        },
+        "200": {
+          "$value": "#FBF2CB"
+        },
+        "300": {
+          "$value": "#FDE57E"
+        },
+        "400": {
+          "$value": "#FFD16A"
+        },
+        "500": {
+          "$value": "#FBBC55"
+        },
+        "600": {
+          "$value": "#E9A23B"
+        },
+        "700": {
+          "$value": "#C8911A"
+        },
+        "800": {
+          "$value": "#A35C00"
+        },
+        "900": {
+          "$value": "#884A00"
+        }
+      },
+      "blue": {
+        "50": {
+          "$value": "#EFF6FF"
+        },
+        "100": {
+          "$value": "#DBEAFE"
+        },
+        "200": {
+          "$value": "#BFDBFE"
+        },
+        "300": {
+          "$value": "#93C5FD"
+        },
+        "400": {
+          "$value": "#60A5FA"
+        },
+        "500": {
+          "$value": "#3B82F6"
+        },
+        "600": {
+          "$value": "#2563EB"
+        },
+        "700": {
+          "$value": "#1D4ED8"
+        },
+        "800": {
+          "$value": "#1E40AF"
+        },
+        "900": {
+          "$value": "#1E3A8A"
+        }
+      }
     }
   }
 }
