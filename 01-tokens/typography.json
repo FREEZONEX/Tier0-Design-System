@@ -9,7 +9,7 @@
           "Arial",
           "sans-serif"
         ],
-        "$description": "标题字体：页面标题、分区标题、官网大标题。中文自动回落到 IBM Plex Sans SC。"
+        "$description": "标题：页面标题、分区标题、官网与 Deck 大标题——字形紧凑、几何感强，配合略收的字距，读起来利落、确定。中文回落到 IBM Plex Sans SC。"
       },
       "sans": {
         "$value": [
@@ -18,7 +18,7 @@
           "Arial",
           "sans-serif"
         ],
-        "$description": "正文字体：正文、按钮、表单、标签等所有界面文字。"
+        "$description": "正文与界面文字：段落、按钮、表单、标签、导航——中性、耐读，带一点工程字体的硬朗，长时间阅读不累。"
       },
       "mono": {
         "$value": [
@@ -27,35 +27,39 @@
           "ui-monospace",
           "monospace"
         ],
-        "$description": "等宽字体：代码、命令行、数据路径、数值。"
+        "$description": "代码、命令行、数据路径、数值与读数——等宽对齐，数字像仪表读数一样整齐，是界面里技术感的主要来源。"
       },
       "sc": {
         "$value": [
           "IBM Plex Sans SC",
           "sans-serif"
         ],
-        "$description": "中文字体：所有中文文字。作为以上三种字体的中文回落，不单独用于英文。"
+        "$description": "中文：所有中文文字——与 IBM Plex Sans 同一家族，中英文混排时笔画粗细和气质一致。作为以上三种字体的中文回落，不单独用于英文。"
       },
       "logo": {
         "$value": [
           "Tektur"
         ],
-        "$description": "仅用于 Logo 字标，且交付时转为路径。不用于任何标题、正文或界面文字。"
+        "$description": "Logo 字标——方正、带切角的显示字体，只存在于 Logo 中，交付时转为路径。不用于标题、正文或界面文字。"
       }
     },
     "weight": {
       "$type": "fontWeight",
       "regular": {
-        "$value": 400
+        "$value": 400,
+        "$description": "正文、说明、代码。"
       },
       "medium": {
-        "$value": 500
+        "$value": 500,
+        "$description": "按钮、标签、导航、小标题——比正文稍重，用于需要被点击或扫读的文字。"
       },
       "semibold": {
-        "$value": 600
+        "$value": 600,
+        "$description": "分区标题、子标题。"
       },
       "bold": {
-        "$value": 700
+        "$value": 700,
+        "$description": "页面大标题。只用于标题，不用于正文强调。"
       }
     }
   },
@@ -70,7 +74,7 @@
         "fontWeight": "{font.weight.medium}",
         "letterSpacing": "-0.96px"
       },
-      "$description": "官网首屏、Deck 封面大标题。每页最多一次。"
+      "$description": "官网首屏、Deck 封面——全系统最大的字号，每页最多一次。"
     },
     "typo-h1": {
       "$type": "typography",
@@ -81,7 +85,7 @@
         "fontWeight": "{font.weight.bold}",
         "letterSpacing": "-0.456px"
       },
-      "$description": "页面大标题。"
+      "$description": "页面大标题——每页一个，负字距让大字显得紧凑。"
     },
     "typo-h2": {
       "$type": "typography",
@@ -92,7 +96,7 @@
         "fontWeight": "{font.weight.semibold}",
         "letterSpacing": "-0.225px"
       },
-      "$description": "分区标题。"
+      "$description": "分区标题——划分页面的主要段落。"
     },
     "typo-h3": {
       "$type": "typography",
@@ -114,7 +118,7 @@
         "fontWeight": "{font.weight.medium}",
         "letterSpacing": "-0.1px"
       },
-      "$description": "面板、卡片标题。"
+      "$description": "面板、卡片标题——产品界面里最常用的标题。"
     },
     "body": {
       "$type": "typography",
@@ -125,7 +129,7 @@
         "fontWeight": "{font.weight.regular}",
         "letterSpacing": "0px"
       },
-      "$description": "官网正文、长段落。"
+      "$description": "官网正文、长段落——字号和行高更宽松，适合连续阅读。"
     },
     "body-sm": {
       "$type": "typography",
@@ -136,7 +140,7 @@
         "fontWeight": "{font.weight.regular}",
         "letterSpacing": "0px"
       },
-      "$description": "产品界面正文（默认）。"
+      "$description": "产品界面正文（默认）——信息密度和可读性的平衡点。"
     },
     "label": {
       "$type": "typography",
@@ -147,7 +151,7 @@
         "fontWeight": "{font.weight.medium}",
         "letterSpacing": "0px"
       },
-      "$description": "按钮、表单标签、导航。"
+      "$description": "按钮、表单标签、导航——与正文同字号，用 500 字重区分可操作的文字。"
     },
     "caption": {
       "$type": "typography",
@@ -158,7 +162,7 @@
         "fontWeight": "{font.weight.regular}",
         "letterSpacing": "0px"
       },
-      "$description": "辅助说明、时间戳、注释。全系统最小字号。"
+      "$description": "辅助说明、时间戳、注释——全系统最小字号。"
     },
     "overline": {
       "$type": "typography",
@@ -169,7 +173,7 @@
         "fontWeight": "{font.weight.medium}",
         "letterSpacing": "0.88px"
       },
-      "$description": "全大写的分组小标题，仅用于英文。"
+      "$description": "分组小标题——全大写、加字距，仅用于英文，如 EDGE_DATA / SOURCES。"
     },
     "code": {
       "$type": "typography",
@@ -180,7 +184,7 @@
         "fontWeight": "{font.weight.regular}",
         "letterSpacing": "0px"
       },
-      "$description": "代码、命令行、数据路径。"
+      "$description": "代码、命令行、数据路径——比正文小一号，保持与正文的视觉重量一致。"
     },
     "$extensions": {
       "tier0": {
