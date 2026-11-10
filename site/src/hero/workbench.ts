@@ -224,7 +224,7 @@ export class Workbench {
     }
     const face = () => new THREE.MeshBasicMaterial({ color: '#ffffff', toneMapped: false, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 })
     this.wire = { frame: face(), white: face(), dark: face(), light: face(), led: this.mats.led, green: new THREE.MeshBasicMaterial({ color: GREEN, toneMapped: false }), panel: face(), hatch: hatchMaterial(6), bezel: face() }
-    this.guideMat = new THREE.LineBasicMaterial({ color: '#050B14', transparent: true, opacity: 0.28 })
+    this.guideMat = new THREE.LineBasicMaterial({ color: '#050B14', transparent: true, opacity: 0.16 })
     this.edgeMat = new THREE.LineBasicMaterial({ color: '#050B14', transparent: true, opacity: 0.62 })
     this.matTop = new THREE.MeshBasicMaterial({ map: matTexture(), toneMapped: false })
 
@@ -372,9 +372,6 @@ export class Workbench {
     const gp: number[] = []
     const L = (x1: number, y1: number, x2: number, y2: number) => gp.push(x1, y1, -0.6, x2, y2, -0.6)
     L(-30, 0, 30, 0)
-    // 尺寸线（宽 3200、台面高 925）
-    L(-1.6, 2.48, 1.6, 2.48); L(-1.6, 2.44, -1.6, 2.52); L(1.6, 2.44, 1.6, 2.52)
-    L(1.82, 0, 1.82, 0.925); L(1.78, 0, 1.86, 0); L(1.78, 0.925, 1.86, 0.925)
     const gg = new THREE.BufferGeometry()
     gg.setAttribute('position', new THREE.Float32BufferAttribute(gp, 3))
     this.guides.add(new THREE.LineSegments(gg, this.guideMat))
@@ -444,7 +441,7 @@ export class Workbench {
     set('panel', dark ? '#0a1119' : '#FCFCFB'); set('frame', dark ? '#0f161e' : '#FFFFFF'); set('light', dark ? '#ffffff' : '#FFFFFF')
     set('white', dark ? '#1c242c' : '#E6E8EA'); set('dark', dark ? '#3a444e' : '#33383d'); set('bezel', dark ? '#0f161e' : '#FFFFFF')
     for (const h of [this.wire.hatch as THREE.ShaderMaterial, this.groundMat]) { h.uniforms.uBg.value.set(dark ? '#0f161e' : '#FFFFFF'); h.uniforms.uLine.value.set(fg) }
-    this.groundMat.uniforms.uBg.value.set(bg); this.groundMat.uniforms.uAlpha.value = 0.18
+    this.groundMat.uniforms.uBg.value.set(bg); this.groundMat.uniforms.uAlpha.value = 0.1
     this.holeMat.color.set(dark ? '#232c35' : '#DDE0E3')
     this.cableMat.color.set(dark ? '#aab1b8' : '#30353a')
     this.edgeMat.color.set(fg)

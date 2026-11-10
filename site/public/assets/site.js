@@ -213,7 +213,6 @@
     return `<section class="wb" data-workbench><div class="wb-stage"><canvas aria-hidden="true"></canvas>
         <div class="wb-ctl"><div class="seg sm"><button type="button" data-wb-mode="wire" aria-pressed="true">线框</button><button type="button" data-wb-mode="material" aria-pressed="false">材质</button></div></div>
         ${tags.map(([t, a]) => `<span class="wb-tag" data-anchor="${a}"><i></i>${t}</span>`).join('')}
-        ${[['3200', '0,2.48,-0.6'], ['925', '1.82,0.46,-0.6']].map(([t, a]) => `<span class="wb-dim" data-anchor="${a}">${t}</span>`).join('')}
 </div></section>
       <div class="home-body">`
       + `<section class="sec" id="h-go"><div class="mod-grid">${tiles.map(([h, t, d], i) => `<a class="mod" href="#${h}"><span class="mod-no">${String(i + 1).padStart(2, '0')}</span><b>${t}</b><span class="mod-d">${d}</span><i class="mod-led"></i></a>`).join('')}</div></section>`

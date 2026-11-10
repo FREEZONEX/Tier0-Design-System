@@ -500,8 +500,7 @@ details.fold > .code { border: 0; border-top: 1px solid var(--border); border-ra
 body.hero-on .app { grid-template-columns: 0px minmax(0, 1fr); }
 body.hero-on .sidebar { opacity: 0; transform: translateX(-24px); pointer-events: none; padding-left: 0; padding-right: 0; overflow: hidden; }
 .wb { height: 280vh; border-bottom: 0; }
-.wb-stage { background: var(--subtle); }
-.wb-dim { background: var(--subtle); }
+.wb-stage { background: var(--background); }
 .wb-dim { position: absolute; left: 0; top: 0; margin: -8px 0 0 -18px; padding: 0 6px; background: var(--background); font-family: var(--font-mono); font-size: 10px; line-height: 16px; color: var(--muted-foreground); pointer-events: none; will-change: transform; }
 .wb:not([data-ready]) .wb-dim { display: none; }
 .home-body { position: relative; max-width: none; padding-top: 0; }
