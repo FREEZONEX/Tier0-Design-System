@@ -32,10 +32,15 @@
   // ---------- data ----------
   const D = { base: null, light: null, dark: null, typo: null, md: '', root: '' };
   async function tryFetch(path, type) {
-    for (const prefix of ['../', './']) {
+    for (const prefix of ['./', '../']) {
       try {
         const r = await fetch(prefix + path, { cache: 'no-cache' });
-        if (r.ok) { if (!D.root) D.root = prefix; return type === 'text' ? r.text() : r.json(); }
+        if (!r.ok) continue;
+        const body = await r.text();
+        if (body.trim().startsWith('<')) continue; // an HTML fallback page, not the file
+        const data = type === 'text' ? body : JSON.parse(body);
+        if (!D.root) D.root = prefix;
+        return data;
       } catch (e) { /* try next */ }
     }
     return null;
