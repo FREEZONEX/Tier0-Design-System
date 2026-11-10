@@ -151,7 +151,8 @@ export class Workbench {
   private edgeFar = new THREE.LineBasicMaterial({ color: T.g400, transparent: true, opacity: 0.18 })
   private gridMat = new THREE.LineBasicMaterial({ color: T.g300, transparent: true, opacity: 0.32 })
   private cableMat = new THREE.MeshStandardMaterial({ color: T.b600, roughness: 0.5 })
-  private holeMat = new THREE.MeshBasicMaterial({ color: T.g300, toneMapped: false })
+  private holeMat = new THREE.MeshBasicMaterial({ color: T.g500, toneMapped: false })
+  private axisMat = new THREE.LineBasicMaterial({ color: T.b500, transparent: true, opacity: 0 })
   private screens: Screen[] = []
   private flows: THREE.ShaderMaterial[] = []
   private leds: { mesh: THREE.Mesh; phase: number }[] = []
@@ -177,7 +178,7 @@ export class Workbench {
     this.renderer.toneMappingExposure = 1.0
     const pmrem = new THREE.PMREMGenerator(this.renderer)
     this.scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture
-    this.scene.fog = new THREE.Fog(T.g25, 4, 18)
+    this.scene.fog = new THREE.Fog(T.g25, 6, 28)
 
     const brushed = brushedTexture(T.g200)
     const brushedDark = brushedTexture(T.g400)
@@ -206,6 +207,17 @@ export class Workbench {
     this.scene.add(this.root)
     this.buildHall()
     this.buildBench(0, 0, true)
+    // 透视轴线：随后退逐渐出现，汇向灭点
+    const ap: number[] = []
+    for (const x of [-1.5, 1.5]) for (const y of [0, 0.925, 2.36]) ap.push(x, y, 0.43, x * 0.02, 1.3, -60)
+    ap.push(0, 0, 14, 0, 0, -20)
+    ap.push(-20, 1.3, -20, 20, 1.3, -20)
+    for (const x of [-1.5, 1.5]) ap.push(x, 0, 0.43, x, 0, 14)
+    const ag = new THREE.BufferGeometry()
+    ag.setAttribute('position', new THREE.Float32BufferAttribute(ap, 3))
+    const axes = new THREE.LineSegments(ag, this.axisMat)
+    axes.renderOrder = 2
+    this.scene.add(axes)
     this.applyTheme()
 
     this.io = new IntersectionObserver(([e]) => { this.visible = e.isIntersecting })
@@ -256,12 +268,19 @@ export class Workbench {
     const curve = new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p)))
     const len = curve.getLength()
     const mat = new THREE.ShaderMaterial({
+      fog: true,
       uniforms: {
+        ...THREE.UniformsUtils.clone(THREE.UniformsLib.fog),
         uTime: { value: 0 }, uLen: { value: len }, uN: { value: n }, uSpeed: { value: speed * 2.2 }, uOffset: { value: Math.random() },
         uBase: { value: new THREE.Color(T.b600) }, uGlow: { value: new THREE.Color(T.green) }, uCore: { value: new THREE.Color('#F7FDE8') },
       },
-      vertexShader: 'varying vec2 vUv; varying vec3 vN; void main(){ vUv = uv; vN = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+      vertexShader: `#include <fog_pars_vertex>
+        varying vec2 vUv; varying vec3 vN;
+        void main(){ vUv = uv; vN = normalize(normalMatrix * normal); vec4 mvPosition = modelViewMatrix * vec4(position,1.0); gl_Position = projectionMatrix * mvPosition;
+        #include <fog_vertex>
+        }`,
       fragmentShader: `
+        #include <fog_pars_fragment>
         uniform float uTime, uLen, uN, uSpeed, uOffset; uniform vec3 uBase, uGlow, uCore;
         varying vec2 vUv; varying vec3 vN;
         void main(){
@@ -275,6 +294,7 @@ export class Workbench {
           vec3 c = mix(uBase * shade, uGlow, tail) + uGlow * tail * 0.25;
           c = mix(c, uCore, core * 0.65);
           gl_FragColor = vec4(c, 1.0);
+          #include <fog_fragment>
         }`,
     })
     this.root.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 160, 0.0034, 10), mat))
@@ -315,6 +335,14 @@ export class Workbench {
     }
     B(2.58, 0.92, 0.015, 'paint', 0, F + 0.56, -0.4)
     if (!hero) return
+    B(3.0, 0.012, 0.012, 'rubber', 0, F - 0.03, 0.428, 'none')
+    for (const x of [-1.27, -0.02, 1.27]) for (const y of [F + 0.13, F + 0.99]) C(0.007, 0.004, 'alu', x, y, -0.39, 'z', 'none')
+    for (const x of [-1.32, 1.32]) {
+      B(0.05, 0.022, 0.003, 'plastic', x, F + 1.2, -0.346, 'none')
+      B(0.03, 0.006, 0.002, 'alu', x, F + 1.2, -0.344, 'none')
+    }
+    // 台面下方拖链（线缆槽）
+    for (let i = 0; i < 18; i++) B(0.045, 0.03, 0.05, 'plastic', -1.1 + i * 0.048, F - 0.14, -0.3, 'none')
 
     // ---- 左：工具墙（洞洞板 + 挂具）与零件抽屉柜 ----
     const holes: THREE.Vector3[] = []
@@ -503,7 +531,7 @@ export class Workbench {
     for (let x = -5.9; x <= 5.9; x += 0.25) this.cyl(0.03, 0.66, 'housing', x, 0.86, CZ, 'z', 'none')
     const crates: THREE.Mesh[] = []
     for (let i = 0; i < 6; i++) crates.push(this.box(0.45, 0.32, 0.45, i % 3 === 1 ? 'paint' : 'paint', 0, 1.06, CZ, 'far'))
-    this.movers.push(t => crates.forEach((c, i) => { c.position.x = -6 + ((t * 0.0004 + i / crates.length) % 1) * 12 }))
+    this.movers.push(t => crates.forEach((c, i) => { c.position.x = -6 + ((t * 0.00008 + i / crates.length) % 1) * 12 }))
     // 机械臂
     this.cyl(0.3, 0.3, 'paint', 3.2, 0.15, CZ - 1.2, 'y', 'far')
     const turret = new THREE.Group()
@@ -575,6 +603,7 @@ export class Workbench {
     const py = this.pan.y * 0.04
     this.camera.position.set(px, y + py, z)
     this.camera.lookAt(px * 0.4, y + py * 0.5, z - 10)
+    this.axisMat.opacity = 0.35 * Math.min(1, Math.max(0, (p - 0.08) / 0.3)) * (1 - Math.min(1, Math.max(0, (p - 0.7) / 0.25)))
   }
 
   private loop = (t: number) => {
@@ -636,6 +665,7 @@ function mount(host: HTMLElement) {
     const p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0
     wb.setProgress(p)
     host.style.setProperty('--wb-p', p.toFixed(3))
+    document.documentElement.style.setProperty('--wb-p', p.toFixed(3))
   }
   host.addEventListener('pointermove', e => {
     const r = host.getBoundingClientRect()

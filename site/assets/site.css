@@ -524,3 +524,6 @@ body.hero-on .sidebar { opacity: 0; transform: translateX(-24px); pointer-events
 body.nav-short .topbar { margin: 12px max(16px, calc((100% - 640px) / 2)) 0; height: 48px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--background); }
 body.nav-short .app { margin-top: -61px; }
 .app { transition: grid-template-columns 420ms var(--ease), margin 520ms var(--ease); }
+
+/* content rises in as the scene recedes */
+.wb + .home-body { --k: clamp(0, calc((var(--wb-p, 1) - 0.6) * 3), 1); opacity: var(--k); transform: translateY(calc((1 - var(--k)) * 80px)); will-change: transform, opacity; }
