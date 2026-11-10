@@ -5,7 +5,7 @@
       "$description": "品牌色。",
       "fx-green-500": {
         "$value": "{color.scale.fx-green.500}",
-        "$description": "品牌主色，品牌层面唯一的颜色。只以色块、圆点、粗条的形式出现，上面放近黑文字；不用作白底上的文字、细线和图标。",
+        "$description": "信号、实时数据、选中、重点区块——高饱和的黄绿色，品牌层面唯一的颜色。只以色块、圆点、粗条出现，上面放近黑文字。",
         "$extensions": {
           "tier0": {
             "displayName": "Light Green"
@@ -14,7 +14,7 @@
       },
       "fx-green-deep": {
         "$value": "{color.scale.fx-green-deep}",
-        "$description": "深绿。白底上需要绿色识别性的文字、线条、图标或 Logo 时使用。",
+        "$description": "白底上的绿色文字、线条、图标、Logo——比 Light Green 深一档，在白底上清晰可读。",
         "$extensions": {
           "tier0": {
             "displayName": "Deep Green"
@@ -23,7 +23,7 @@
       },
       "black-900": {
         "$value": "{color.scale.black.900}",
-        "$description": "文字。",
+        "$description": "正文、标题、主操作、深色背景——接近纯黑的近黑色。",
         "$extensions": {
           "tier0": {
             "displayName": "Black"
@@ -32,7 +32,7 @@
       },
       "primary-white": {
         "$value": "{color.scale.primary-white}",
-        "$description": "背景。",
+        "$description": "页面画布、卡片表面、深色背景上的反色文字——纯白。",
         "$extensions": {
           "tier0": {
             "displayName": "White"
@@ -41,7 +41,7 @@
       },
       "grey-25": {
         "$value": "{color.scale.grey.25}",
-        "$description": "卡片、大面积区块的底色。",
+        "$description": "卡片区、表格区等大面积区块的底色——极浅的灰，用来托住内容。",
         "$extensions": {
           "tier0": {
             "displayName": "Light Grey"
@@ -53,84 +53,107 @@
       "$description": "品牌色所在色系的色阶。",
       "fx-green": {
         "50": {
-          "$value": "#F7FDE8"
+          "$value": "#F7FDE8",
+          "$description": "选中行、高亮行的浅绿底——最浅的绿。"
         },
         "100": {
-          "$value": "#E7F9B9"
+          "$value": "#E7F9B9",
+          "$description": "常用的浅高亮背景。"
         },
         "200": {
-          "$value": "#DCF797"
+          "$value": "#DCF797",
+          "$description": "中等高亮背景。"
         },
         "300": {
-          "$value": "#CBF368"
+          "$value": "#CBF368",
+          "$description": "较深的高亮背景、高亮边框。"
         },
         "400": {
-          "$value": "#C1F14A"
+          "$value": "#C1F14A",
+          "$description": "色阶过渡，较少直接使用。"
         },
         "500": {
-          "$value": "#B2ED1D"
+          "$value": "#B2ED1D",
+          "$description": "同品牌色 Light Green。"
         },
         "600": {
-          "$value": "#A2D81A"
+          "$value": "#A2D81A",
+          "$description": "深色背景上的高亮文字。"
         },
         "700": {
-          "$value": "#7EA815"
+          "$value": "#7EA815",
+          "$description": "浅底上较深的高亮文字。"
         },
         "800": {
-          "$value": "#628210"
+          "$value": "#628210",
+          "$description": "浅底上最深的高亮文字，可读性最好。"
         },
         "900": {
-          "$value": "#4B640C"
+          "$value": "#4B640C",
+          "$description": "色阶终点，较少直接使用。"
         }
       },
       "fx-green-deep": {
-        "$value": "#73B200"
+        "$value": "#73B200",
+        "$description": "同品牌色 Deep Green。"
       },
       "black": {
         "500": {
-          "$value": "#343434"
+          "$value": "#343434",
+          "$description": "介于主文字和次要文字之间的强调说明——深灰。"
         },
         "600": {
-          "$value": "#242424"
+          "$value": "#242424",
+          "$description": "次要文字——比主文字浅一档。"
         },
         "700": {
-          "$value": "#1C1F1E"
+          "$value": "#1C1F1E",
+          "$description": "主按钮悬停；深色模式下的选中背景、边框。"
         },
         "800": {
-          "$value": "#151A19"
+          "$value": "#151A19",
+          "$description": "深色模式下的卡片、面板、分区底——比近黑略亮，营造层次。"
         },
         "900": {
-          "$value": "#050B14"
+          "$value": "#050B14",
+          "$description": "同品牌色 Black。"
         }
       },
       "grey": {
         "25": {
-          "$value": "#FAFAFA"
+          "$value": "#FAFAFA",
+          "$description": "同品牌色 Light Grey。"
         },
         "50": {
-          "$value": "#F9F9F9"
+          "$value": "#F9F9F9",
+          "$description": "更浅的中性背景、侧栏——比 Light Grey 略深。"
         },
         "100": {
-          "$value": "#F3F3F3"
+          "$value": "#F3F3F3",
+          "$description": "悬停填充、行内代码、较弱的边框——浅灰。"
         },
         "200": {
-          "$value": "#EBEBEB"
+          "$value": "#EBEBEB",
+          "$description": "卡片边框、分隔线——1px 细线代替阴影区分层级。"
         },
         "300": {
-          "$value": "#D9D9D9"
+          "$value": "#D9D9D9",
+          "$description": "占位文字、禁用状态、深色模式下的次要文字——中浅灰。"
         },
         "400": {
-          "$value": "#878787"
+          "$value": "#878787",
+          "$description": "说明、次要标签、时间戳——中灰，最弱的可读文字。"
         }
       },
       "primary-white": {
-        "$value": "#FFFFFF"
+        "$value": "#FFFFFF",
+        "$description": "同品牌色 White。"
       }
     },
     "auxiliary": {
       "$description": "辅助色。按色相区分，不带语义，用于图表、标签等分类较多的场景。",
       "red": {
-        "$description": "状态：错误（error-*）。",
+        "$description": "错误状态（error-*）；图表、分类标签——红色。",
         "50": {
           "$value": "#FEF2F2"
         },
@@ -163,6 +186,7 @@
         }
       },
       "orange": {
+        "$description": "图表、分类标签——橙色。",
         "50": {
           "$value": "#FFF7ED"
         },
@@ -195,7 +219,7 @@
         }
       },
       "yellow": {
-        "$description": "状态：警告（warning-*）。",
+        "$description": "警告状态（warning-*）；图表、分类标签——偏橙的黄色。",
         "50": {
           "$value": "#FFFCF5"
         },
@@ -228,7 +252,7 @@
         }
       },
       "green": {
-        "$description": "状态：成功（success-*）。与品牌绿 fx-green 不同，不用于品牌强调。",
+        "$description": "成功状态（success-*）；图表、分类标签——偏薄荷的绿色，与品牌绿不同，不用于品牌强调。",
         "50": {
           "$value": "#F6FEF9"
         },
@@ -261,6 +285,7 @@
         }
       },
       "cyan": {
+        "$description": "图表、分类标签——青色。",
         "50": {
           "$value": "#ECFEFF"
         },
@@ -293,7 +318,7 @@
         }
       },
       "blue": {
-        "$description": "状态：信息（blue-*）。",
+        "$description": "信息状态（blue-*）；图表、分类标签——蓝色。",
         "50": {
           "$value": "#EFF6FF"
         },
@@ -326,6 +351,7 @@
         }
       },
       "violet": {
+        "$description": "图表、分类标签——紫色。",
         "50": {
           "$value": "#F5F3FF"
         },
@@ -358,6 +384,7 @@
         }
       },
       "fuchsia": {
+        "$description": "图表、分类标签——品红。",
         "50": {
           "$value": "#FDF4FF"
         },
