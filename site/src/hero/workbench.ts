@@ -5,7 +5,7 @@ import * as THREE from 'three'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 
 type Mode = 'material' | 'wire'
-type MatKey = 'frame' | 'white' | 'dark' | 'light' | 'led' | 'green'
+type MatKey = 'frame' | 'white' | 'dark' | 'light' | 'led' | 'green' | 'panel' | 'hatch' | 'bezel'
 
 const GREEN = '#B2ED1D'
 
@@ -50,17 +50,17 @@ class Screen {
     const g = this.canvas.getContext('2d')!
     const W = this.canvas.width
     const H = this.canvas.height
-    const line = '#E4E6E8'
+    const line = '#C9CDD1'
     const ink = '#050B14'
-    const mute = '#8A8F94'
+    const mute = '#5F656B'
     g.fillStyle = '#FFFFFF'
     g.fillRect(0, 0, W, H)
     g.lineWidth = 2
     g.strokeStyle = line
     if (this.kind === 'main') {
-      g.font = '22px "IBM Plex Sans", sans-serif'
-      g.fillStyle = mute
-      g.fillText('Factory-A / Line-01', 28, 44)
+      g.font = '500 24px "IBM Plex Sans", sans-serif'
+      g.fillStyle = ink
+      g.fillText('Factory-A / Line-01', 28, 46)
       g.fillStyle = GREEN
       g.fillRect(W - 128, 28, 14, 14)
       g.fillStyle = ink
@@ -69,8 +69,8 @@ class Screen {
       const rows: [string, number, boolean][] = [['Factory-A', 0, false], ['Line-01', 1, false], ['CNC-03', 2, true], ['Metrics', 3, false], ['State', 3, false], ['Action', 3, false]]
       rows.forEach(([s, lv, on], i) => {
         const y = 92 + i * 44
-        if (on) { g.fillStyle = '#F2FBD9'; g.fillRect(16, y - 6, 400, 38) }
-        g.fillStyle = on ? GREEN : ink
+        if (on) { g.fillStyle = GREEN; g.fillRect(16, y - 6, 400, 38) }
+        g.fillStyle = ink
         g.fillRect(32 + lv * 26, y + 8, 10, 10)
         g.fillStyle = ink
         g.fillText(s, 54 + lv * 26, y + 21)
@@ -84,16 +84,16 @@ class Screen {
       g.fillText(`${Math.round(pct * 100)}%`, W - 32, 120)
       g.textAlign = 'left'
       g.fillStyle = ink
-      g.font = '500 108px Inter, sans-serif'
-      g.fillText(v.toFixed(1), 462, 240)
+      g.font = '600 132px Inter, sans-serif'
+      g.fillText(v.toFixed(1), 462, 256)
       const tw = g.measureText(v.toFixed(1)).width
       g.font = '26px "IBM Plex Sans", sans-serif'
       g.fillStyle = mute
-      g.fillText('°C', 474 + tw, 240)
+      g.fillText('°C', 474 + tw, 256)
       g.fillStyle = '#EEF0F1'
-      g.fillRect(468, 284, W - 500, 10)
+      g.fillRect(468, 290, W - 500, 16)
       g.fillStyle = GREEN
-      g.fillRect(468, 284, (W - 500) * pct, 10)
+      g.fillRect(468, 290, (W - 500) * pct, 16)
       g.strokeStyle = line
       for (let i = 0; i < 4; i++) { g.strokeRect(468 + i * 96, 340, 80, 120) ; g.fillStyle = i === 1 ? GREEN : '#D5D8DB'; g.fillRect(480 + i * 96, 352, 10, 10) }
     } else if (this.kind === 'tree') {
@@ -174,6 +174,14 @@ export class Workbench {
   private mats: Record<MatKey, THREE.Material>
   private wire: Record<MatKey, THREE.Material>
   private edgeMat: THREE.LineBasicMaterial
+  private guideMat!: THREE.LineBasicMaterial
+  private guides = new THREE.Group()
+  private holeMat = new THREE.MeshBasicMaterial({ color: '#dfe2e5', toneMapped: false })
+  private cableMat = new THREE.MeshBasicMaterial({ color: '#30353a', toneMapped: false })
+  private groundMat = hatchMaterial(9)
+  private mouse = new THREE.Vector2()
+  private pan = new THREE.Vector2()
+  private spin: THREE.Object3D[] = []
   private matTop: THREE.MeshBasicMaterial
   private screens: Screen[] = []
   private flows: { curve: THREE.CatmullRomCurve3; dots: THREE.Mesh[]; speed: number; offset: number }[] = []
@@ -206,14 +214,18 @@ export class Workbench {
     this.mats = {
       frame: new THREE.MeshStandardMaterial({ color: '#f1f3f5', map: brushed, roughnessMap: brushed, metalness: 1, roughness: 0.42, envMapIntensity: 1.25 }),
       white: new THREE.MeshStandardMaterial({ color: '#f3f4f5', metalness: 0, roughness: 0.82 }),
-      dark: new THREE.MeshStandardMaterial({ color: '#8d9399', map: brushedDark, roughnessMap: brushedDark, metalness: 1, roughness: 0.5, envMapIntensity: 1.1 }),
+      dark: new THREE.MeshStandardMaterial({ color: '#4a4f55', map: brushedDark, roughnessMap: brushedDark, metalness: 1, roughness: 0.5, envMapIntensity: 1.1 }),
       light: new THREE.MeshBasicMaterial({ color: '#ffffff', toneMapped: false }),
       led: new THREE.MeshBasicMaterial({ color: GREEN, toneMapped: false }),
       green: new THREE.MeshStandardMaterial({ color: '#b2ed1d', metalness: 0, roughness: 0.7 }),
+      panel: new THREE.MeshStandardMaterial({ color: '#fbfbfa', metalness: 0, roughness: 0.95 }),
+      hatch: new THREE.MeshStandardMaterial({ color: '#c9cdd1', map: brushedDark, metalness: 0.9, roughness: 0.55 }),
+      bezel: new THREE.MeshStandardMaterial({ color: '#f1f3f5', map: brushed, metalness: 1, roughness: 0.4 }),
     }
     const face = () => new THREE.MeshBasicMaterial({ color: '#ffffff', toneMapped: false, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 })
-    this.wire = { frame: face(), white: face(), dark: hatchMaterial(7), light: face(), led: this.mats.led, green: new THREE.MeshBasicMaterial({ color: GREEN, toneMapped: false }) }
-    this.edgeMat = new THREE.LineBasicMaterial({ color: '#050B14', transparent: true, opacity: 0.5 })
+    this.wire = { frame: face(), white: face(), dark: face(), light: face(), led: this.mats.led, green: new THREE.MeshBasicMaterial({ color: GREEN, toneMapped: false }), panel: face(), hatch: hatchMaterial(6), bezel: face() }
+    this.guideMat = new THREE.LineBasicMaterial({ color: '#050B14', transparent: true, opacity: 0.28 })
+    this.edgeMat = new THREE.LineBasicMaterial({ color: '#050B14', transparent: true, opacity: 0.62 })
     this.matTop = new THREE.MeshBasicMaterial({ map: matTexture(), toneMapped: false })
 
     this.scene.add(new THREE.HemisphereLight('#ffffff', '#d5d8db', 1.0))
@@ -277,11 +289,11 @@ export class Workbench {
     // 背板（洞洞板）
     const holes: THREE.Vector3[] = []
     for (const px of [-1.0, 0, 1.0]) {
-      this.box(0.96, 0.9, 0.02, 'white', px, 1.42, -0.44)
+      this.box(0.96, 0.9, 0.02, 'panel', px, 1.42, -0.44)
       if (px === 0) continue
       for (let ix = 0; ix < 13; ix++) for (let iy = 0; iy < 12; iy++) holes.push(new THREE.Vector3(px - 0.42 + ix * 0.07, 1.035 + iy * 0.07, -0.429))
     }
-    const hole = new THREE.InstancedMesh(new THREE.CircleGeometry(0.006, 10), new THREE.MeshBasicMaterial({ color: '#b3b8bd' }), holes.length)
+    const hole = new THREE.InstancedMesh(new THREE.CircleGeometry(0.005, 10), this.holeMat, holes.length)
     holes.forEach((p, i) => hole.setMatrixAt(i, new THREE.Matrix4().makeTranslation(p.x, p.y, p.z)))
     hole.userData.keep = true
     this.root.add(hole)
@@ -289,12 +301,12 @@ export class Workbench {
     // 主屏
     this.box(0.035, 0.26, 0.035, 'frame', 0, 1.055, -0.36)
     this.box(0.26, 0.012, 0.16, 'frame', 0, 0.931, -0.33)
-    this.box(0.96, 0.59, 0.03, 'frame', 0, 1.475, -0.36)
+    this.box(0.97, 0.6, 0.03, 'bezel', 0, 1.475, -0.36)
     this.screenPlane(new Screen('main'), 0.92, 0.545, 0, 1.475, -0.344)
     // 左屏（HMI）、右屏
-    this.box(0.44, 0.31, 0.03, 'frame', -1.0, 1.6, -0.415)
+    this.box(0.44, 0.31, 0.03, 'bezel', -1.0, 1.6, -0.415)
     this.screenPlane(new Screen('tree'), 0.4, 0.27, -1.0, 1.6, -0.399)
-    this.box(0.36, 0.26, 0.03, 'frame', 1.0, 1.62, -0.415)
+    this.box(0.36, 0.26, 0.03, 'bezel', 1.0, 1.62, -0.415)
     this.screenPlane(new Screen('gauge'), 0.32, 0.22, 1.0, 1.62, -0.399)
     // 洞洞板上的挂件：线槽盒、工具
     this.box(0.3, 0.06, 0.05, 'frame', -1.25, 1.2, -0.4)
@@ -345,25 +357,45 @@ export class Workbench {
     // 下层：电机 + 泵、收纳箱
     this.cyl(0.11, 0.34, 'frame', -0.95, 0.4, 0, 'x')
     for (let i = 0; i < 7; i++) this.cyl(0.118, 0.012, 'dark', -1.07 + i * 0.04, 0.4, 0, 'x')
+    const fan = this.box(0.012, 0.16, 0.012, 'dark', -0.635, 0.4, 0.06)
+    this.spin.push(fan)
     this.cyl(0.03, 0.14, 'frame', -0.71, 0.4, 0, 'x')
-    this.box(0.18, 0.2, 0.2, 'dark', -0.55, 0.385, 0)
+    this.box(0.18, 0.2, 0.2, 'hatch', -0.55, 0.385, 0)
     this.cyl(0.05, 0.1, 'frame', -0.41, 0.4, 0, 'x')
     this.box(0.5, 0.02, 0.26, 'frame', -0.85, 0.295, 0)
     this.box(0.5, 0.26, 0.4, 'white', 0.3, 0.415, 0)
     this.box(0.5, 0.03, 0.42, 'frame', 0.3, 0.56, 0)
-    this.box(0.42, 0.2, 0.4, 'dark', 0.95, 0.385, 0)
+    this.box(0.42, 0.2, 0.4, 'hatch', 0.95, 0.385, 0)
     this.box(0.14, 0.03, 0.01, 'frame', 0.95, 0.42, 0.205, false)
+
+    // 制图辅助线：地面线、台面线、边界线、30° 参考线与尺寸线
+    const gp: number[] = []
+    const L = (x1: number, y1: number, x2: number, y2: number) => gp.push(x1, y1, -0.6, x2, y2, -0.6)
+    L(-30, 0, 30, 0)
+    // 尺寸线（宽 3200、台面高 925）
+    L(-1.6, 2.48, 1.6, 2.48); L(-1.6, 2.44, -1.6, 2.52); L(1.6, 2.44, 1.6, 2.52)
+    L(1.82, 0, 1.82, 0.925); L(1.78, 0, 1.86, 0); L(1.78, 0.925, 1.86, 0.925)
+    const gg = new THREE.BufferGeometry()
+    gg.setAttribute('position', new THREE.Float32BufferAttribute(gp, 3))
+    this.guides.add(new THREE.LineSegments(gg, this.guideMat))
+    // 地面：斜线填充带
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(60, 0.09), this.groundMat)
+    ground.position.set(0, -0.045, -0.6)
+    this.guides.add(ground)
+    this.scene.add(this.guides)
 
     // 数据流：细线缆 + 绿色小点
     const cable = (pts: [number, number, number][], n: number, speed: number) => {
       const curve = new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p)))
-      const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 80, 0.0032, 6), new THREE.MeshBasicMaterial({ color: '#8a9096' }))
+      const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 96, 0.0021, 6), this.cableMat)
       tube.userData.keep = true
       tube.userData.cable = true
       this.root.add(tube)
       const dots: THREE.Mesh[] = []
-      for (let i = 0; i < n; i++) {
-        const d = new THREE.Mesh(new THREE.SphereGeometry(0.0095, 12, 8), this.mats.led)
+      for (let i = 0; i < n * 4; i++) {
+        const tail = i % 4
+        const d = new THREE.Mesh(new THREE.SphereGeometry(0.0085 - tail * 0.0017, 12, 8), new THREE.MeshBasicMaterial({ color: GREEN, toneMapped: false, transparent: true, opacity: 1 - tail * 0.24 }))
+        d.userData.tail = tail
         d.userData.keep = true
         this.root.add(d)
         dots.push(d)
@@ -398,7 +430,7 @@ export class Workbench {
       // 台面顶面始终是制图垫板
       o.material = o.userData.top ? [base, base, this.matTop, base, base, base] : base
     })
-    this.edgeMat.opacity = mode === 'wire' ? 0.5 : 0.14
+    this.edgeMat.opacity = mode === 'wire' ? 0.62 : 0.14
     this.host.dataset.mode = mode
   }
 
@@ -406,14 +438,21 @@ export class Workbench {
     const css = getComputedStyle(document.documentElement)
     const bg = css.getPropertyValue('--background').trim() || '#FFFFFF'
     const fg = css.getPropertyValue('--foreground').trim() || '#050B14'
-    for (const k of ['frame', 'white', 'light'] as MatKey[]) (this.wire[k] as THREE.MeshBasicMaterial).color.set(bg)
-    const h = this.wire.dark as THREE.ShaderMaterial
-    h.uniforms.uBg.value.set(bg)
-    h.uniforms.uLine.value.set(fg)
+    const dark = new THREE.Color(bg).getHSL({ h: 0, s: 0, l: 0 }).l < 0.5
+    const set = (k: MatKey, c: string) => (this.wire[k] as THREE.MeshBasicMaterial).color.set(c)
+    // 层次：背板最浅，框架白，前景硬件逐级加深
+    set('panel', dark ? '#0a1119' : '#FCFCFB'); set('frame', dark ? '#0f161e' : '#FFFFFF'); set('light', dark ? '#ffffff' : '#FFFFFF')
+    set('white', dark ? '#1c242c' : '#E6E8EA'); set('dark', dark ? '#3a444e' : '#33383d'); set('bezel', dark ? '#0f161e' : '#FFFFFF')
+    for (const h of [this.wire.hatch as THREE.ShaderMaterial, this.groundMat]) { h.uniforms.uBg.value.set(dark ? '#0f161e' : '#FFFFFF'); h.uniforms.uLine.value.set(fg) }
+    this.groundMat.uniforms.uBg.value.set(bg); this.groundMat.uniforms.uAlpha.value = 0.18
+    this.holeMat.color.set(dark ? '#232c35' : '#DDE0E3')
+    this.cableMat.color.set(dark ? '#aab1b8' : '#30353a')
     this.edgeMat.color.set(fg)
+    this.guideMat.color.set(fg)
   }
 
   setProgress(p: number) { this.progress = p }
+  setMouse(x: number, y: number) { this.mouse.set(x, y) }
 
   addAnchor(el: HTMLElement, x: number, y: number, z: number) {
     this.anchors.push({ el, pos: new THREE.Vector3(x, y, z) })
@@ -432,7 +471,7 @@ export class Workbench {
   private updateCamera() {
     const p = this.progress
     const ss = (a: number, b: number, x: number) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t) }
-    const SWITCH = 0.5
+    const SWITCH = 0.62
     let height: number
     const cam = this.camera
     if (p < SWITCH) {
@@ -441,14 +480,18 @@ export class Workbench {
       height = h0 + (0.62 - h0) * e
       const cy = 1.2 + (0.99 - 1.2) * e
       cam.up.set(0, 1, 0)
-      cam.position.set(0, cy, 10)
-      cam.lookAt(0, cy, 0)
+      const px = this.pan.x * 0.035 * (1 - e)
+      const py = this.pan.y * 0.02 * (1 - e)
+      cam.position.set(px, cy + py, 10)
+      cam.lookAt(px, cy + py, 0)
+      this.guides.visible = true
     } else {
       const e = ss(SWITCH, 1, p)
       const h0 = 0.9
-      height = h0 + (0.42 - h0) * e
+      height = h0 + (0.66 - h0) * e
       const cx = 0.28 * e
       const cz = 0.02 + 0.1 * e
+      this.guides.visible = false
       cam.up.set(0, 0, -1)
       cam.position.set(cx, 1.85, cz)
       cam.lookAt(cx, 0, cz)
@@ -479,10 +522,13 @@ export class Workbench {
       for (const l of this.lines) l.seg.geometry.setDrawRange(0, Infinity)
       this.lines = []
     }
+    this.pan.lerp(this.mouse, 0.06)
+    for (const o of this.spin) o.rotation.x = time * 0.004
     this.updateCamera()
     for (const f of this.flows) {
       f.dots.forEach((d, i) => {
-        const u = (f.offset + time * 0.001 * f.speed + i / f.dots.length) % 1
+        const n = f.dots.length / 4
+        const u = (((f.offset + time * 0.001 * f.speed + Math.floor(i / 4) / n - (d.userData.tail as number) * 0.012) % 1) + 1) % 1
         d.position.copy(f.curve.getPointAt(u))
       })
     }
@@ -545,6 +591,7 @@ function mount(host: HTMLElement) {
     wb.setProgress(p)
     host.style.setProperty('--wb-p', p.toFixed(3))
   }
+  host.addEventListener('pointermove', e => { const r = host.getBoundingClientRect(); wb.setMouse(((e.clientX - r.left) / r.width) * 2 - 1, -(((e.clientY) / innerHeight) * 2 - 1)) })
   addEventListener('scroll', onScroll, { passive: true })
   onScroll()
   const mo = new MutationObserver(() => wb.applyTheme())

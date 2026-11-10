@@ -109,6 +109,8 @@
   // ---------- data ----------
   const D = { base: null, light: null, dark: null, typo: null, md: '', root: '' };
   async function tryFetch(path, type) {
+    const pre = window.__T0_DATA && window.__T0_DATA[path];
+    if (pre != null) { D.root = './'; return type === 'text' ? pre : JSON.parse(pre); }
     for (const prefix of ['./', '../']) {
       try {
         const r = await fetch(prefix + path, { cache: 'no-cache' });
@@ -128,7 +130,7 @@
       tryFetch('01-tokens/typography.json'), tryFetch('00-foundation/foundation.md', 'text')]);
     Object.assign(D, { base: r[0], light: r[1], dark: r[2], typo: r[3], md: r[4] || '' });
   }
-  const asset = p => (D.root || '../') + p;
+  const asset = p => (window.__T0_ASSETS && window.__T0_ASSETS[p]) || (D.root || '../') + p;
   const entries = o => Object.entries(o || {}).filter(([k]) => k[0] !== '$');
   function walk(root, ref) { let n = root; for (const k of ref.replace(/[{}]/g, '').split('.')) { if (!n) return null; n = n[k]; } return n; }
   function colorOf(ref) { if (!ref) return null; if (ref[0] !== '{') return ref; const n = walk(D.base, ref); return n ? colorOf(n.$value) : null; }
@@ -211,6 +213,7 @@
     return `<section class="wb" data-workbench><div class="wb-stage"><canvas aria-hidden="true"></canvas>
         <div class="wb-ctl"><div class="seg sm"><button type="button" data-wb-mode="wire" aria-pressed="true">线框</button><button type="button" data-wb-mode="material" aria-pressed="false">材质</button></div></div>
         ${tags.map(([t, a]) => `<span class="wb-tag" data-anchor="${a}"><i></i>${t}</span>`).join('')}
+        ${[['3200', '0,2.48,-0.6'], ['925', '1.82,0.46,-0.6']].map(([t, a]) => `<span class="wb-dim" data-anchor="${a}">${t}</span>`).join('')}
 </div></section>
       <div class="home-body">`
       + `<section class="sec" id="h-go"><div class="mod-grid">${tiles.map(([h, t, d], i) => `<a class="mod" href="#${h}"><span class="mod-no">${String(i + 1).padStart(2, '0')}</span><b>${t}</b><span class="mod-d">${d}</span><i class="mod-led"></i></a>`).join('')}</div></section>`
@@ -336,6 +339,7 @@
       buildToc();
       document.dispatchEvent(new CustomEvent('portal:render'));
     }
+    heroState();
     document.querySelectorAll('[data-r]').forEach(a => { if (a.dataset.r === id) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
     document.getElementById('sidebar').classList.remove('open');
     const item = NAV.flatMap(g => g.items).find(i => i[0] === page);
@@ -343,6 +347,7 @@
     if (id.startsWith('c-')) { const el = document.getElementById(id); if (el) el.scrollIntoView(); }
     else if (keepScroll === true) window.scrollTo(0, scrollY);
     else window.scrollTo(0, 0);
+    heroState();
   }
 
   document.addEventListener('click', e => {
@@ -367,7 +372,11 @@
     }
     if (id === 'sk-brief') { sk.brief = e.target.value; document.getElementById('sk-out').innerHTML = codeBlock(skPrompt()); }
   });
-  window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); }, { passive: true });
+  function heroState() {
+    const wb = document.querySelector('.wb');
+    document.body.classList.toggle('hero-on', !!wb && wb.getBoundingClientRect().bottom > innerHeight * 1.05);
+  }
+  window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); heroState(); }, { passive: true });
   window.addEventListener('hashchange', () => route('anchor'));
 
   (async function start() {
