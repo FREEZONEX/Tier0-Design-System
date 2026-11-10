@@ -205,18 +205,11 @@
 
   // ---------- home ----------
   function vHome() {
-    const what = mdSection('### Tier0 是什么').split('\n').filter(l => l.trim() && !l.startsWith('>'))[0] || '';
-    const traits = mdRows(mdSection('### 特征'));
-    const principles = [...mdSection('## 2. 设计原则').matchAll(/\*\*(.+?)\*\*\n(.+)/g)];
-    const tiles = [['color', '颜色', '品牌色、色阶和用途 token。'], ['typography', '字体', 'Inter、IBM Plex 与两套字阶。'], ['components', '组件', '以 Tier0-Frontend 组件库为准。'], ['foundation', '品牌与原则', '品牌故事、设计原则和品牌特征。'], ['logo', 'Logo', '四种底色下的标准用法。'], ['skills', 'Skills', '让 AI 按设计系统生成界面和物料。']];
     const tags = [['PLC / MODBUS', '-0.7,1.17,-0.2'], ['UNS / Factory-A / Line-01', '0.05,1.72,-0.3'], ['EDGE_BOX / 192.168.1.50', '0.95,1.02,-0.05']];
     return `<section class="wb" data-workbench><div class="wb-stage"><canvas aria-hidden="true"></canvas>
         ${tags.map(([t, a]) => `<span class="wb-tag" data-anchor="${a}"><i></i>${t}</span>`).join('')}
 </div></section>
-      <div class="home-body">`
-      + `<section class="sec" id="h-go"><div class="mod-grid">${tiles.map(([h, t, d], i) => `<a class="mod" href="#${h}"><span class="mod-no">${String(i + 1).padStart(2, '0')}</span><b>${t}</b><span class="mod-d">${d}</span><i class="mod-led"></i></a>`).join('')}</div></section>`
-      + sec('h-traits', '品牌特征', '', `<div class="trait-grid">${traits.map((t, i) => `<div class="trait"><span class="mod-no">${String(i + 1).padStart(2, '0')}</span><b>${esc(plain(t[0]))}</b><span>${esc(plain(t[1]).split('。')[0])}。</span></div>`).join('')}</div>`)
-      + sec('h-principles', '设计原则', '', `<div class="rows">${principles.map(m => `<div><b>${esc(m[1])}</b><span>${esc(m[2])}</span></div>`).join('')}</div>`) + '</div>';
+      <div class="home-body">${vFoundation()}</div>`;
   }
   function initHome() {
     const t = document.getElementById('ro-t'), b = document.getElementById('ro-b'), l = document.getElementById('ro-l');
@@ -240,11 +233,15 @@
   function vFoundation() {
     const traits = mdRows(mdSection('### 特征'));
     const principles = [...mdSection('## 2. 设计原则').matchAll(/\*\*(.+?)\*\*\n(.+)/g)];
-    return docHead('Foundation', 'Foundation 定义 Tier0 设计系统的基础原则，包括品牌定位、视觉特征与设计准则，为界面、组件和品牌物料提供一致的设计依据。')
-      + sec('brand-story','Tier0 品牌故事','Tier0 为制造业构建 Agentic 工业数据平台。', `<div class="brand-position">Tier0 将设备与业务系统的数据一次接入，按工厂、产线、设备等语义关系组织起来，让 AI Agent 在统一的数据基础上持续分析、执行和生成应用。接入、组织、生成，构成 Tier0 的品牌故事。</div><iframe class="brand-story-animation" src="assets/brand-story.html" title="Tier0 品牌故事：接入、组织与生成" sandbox="allow-scripts" loading="eager"></iframe>`)
+    const what = mdSection('### Tier0 是什么');
+    const story = mdSection('### 故事');
+    const traitIntro = mdSection('## 3. 品牌特征').split(/\n###\s/)[0].trim();
+    const opener = plain(mdSection('# Tier0 Foundation').split('\n').map(l => l.trim()).find(l => l && !l.startsWith('#')) || '');
+    return docHead('Foundation', (opener.split('。')[0] || '设计系统的起点') + '。')
+      + sec('brand-story','Tier0 品牌故事','', `<div class="brand-copy">${md([what, story].filter(Boolean).join('\n\n'))}</div><iframe class="brand-story-animation" src="assets/brand-story.html?v=5" title="Tier0 品牌故事：接入、组织与生成" sandbox="allow-scripts" loading="eager"></iframe>`)
 
-      + sec('brand-traits','品牌特征','Tier0 的视觉语言强调稳定、秩序与可靠，同时体现现代工具的精确和易用。以白色与浅灰组织界面、细线划分层级、近直角保持结构感；品牌绿用于运行状态、实时数据和选中项。以下六项特征用于指导具体设计。', `<div class="trait-grid">${traits.map((t,i)=>`<details class="trait-card"><summary>${traitArt(i)}<div class="trait-title"><h3>${esc(plain(t[0]))}</h3><span class="trait-plus">+</span></div><p>${esc(plain(t[1]).split('。')[0])}。</p></summary><div class="trait-rule">${esc(plain(t[1]))}</div></details>`).join('')}</div>`)
-      + sec('design-principles','设计原则','每一处选择，都有明确的理由。',`<div class="principle-grid">${principles.map((m,i)=>`<article><h3>${esc(m[1])}</h3><p>${esc(m[2])}</p></article>`).join('')}</div>`) ;
+      + sec('brand-traits','品牌特征','', `<div class="brand-copy">${md(traitIntro)}</div><div class="trait-grid">${traits.map((t,i)=>`<details class="trait-card"><summary>${traitArt(i)}<div class="trait-title"><h3>${esc(plain(t[0]))}</h3><span class="trait-plus">+</span></div><p>${esc(plain(t[1]).split('。')[0])}。</p></summary><div class="trait-rule">${esc(plain(t[1]))}</div></details>`).join('')}</div>`)
+      + sec('design-principles','设计原则','',`<div class="principle-grid">${principles.map((m)=>`<article><h3>${esc(m[1])}</h3><p>${esc(m[2])}</p></article>`).join('')}</div>`) ;
   }
 
   // ---------- color ----------
@@ -345,13 +342,13 @@
   const VIEWS = { home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, logo: vLogo, skills: vSkills };
   let current = '';
   function route(keepScroll) {
-    if (!location.hash || location.hash === '#home') history.replaceState(null, '', '#foundation');
+    if (!location.hash) history.replaceState(null, '', '#foundation');
     const id = location.hash.slice(1).replace(/[^a-z0-9-]/gi, '') || 'foundation';
     const page = id.startsWith('c-') ? 'components' : id;
     const scrollY = window.scrollY;
     const prev = current; current = page;
     if (page !== prev || keepScroll !== 'anchor') {
-      document.getElementById('main').innerHTML = `<div class="doc-wrap p-${page}"><div class="doc">${(VIEWS[page] || (() => vSoon(page)))()}</div><nav class="toc" id="toc" aria-label="本页"></nav></div>`;
+      document.getElementById('main').innerHTML = `<div class="doc-wrap p-${page}${page === 'home' ? ' p-foundation' : ''}"><div class="doc">${(VIEWS[page] || (() => vSoon(page)))()}</div><nav class="toc" id="toc" aria-label="本页"></nav></div>`;
       buildToc();
       document.dispatchEvent(new CustomEvent('portal:render'));
     }
