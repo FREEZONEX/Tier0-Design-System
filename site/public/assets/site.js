@@ -98,11 +98,11 @@
     { id: 'tier0-marketing', zh: '宣传物料', desc: '生成社媒图、海报等宣传物料。', typo: 'web' },
   ];
   const NAV = [
-    { zh: '开始', en: 'Start', items: [['home', '概览', 'Overview'], ['foundation', '品牌与原则', 'Foundation']] },
-    { zh: '基础', en: 'Foundations', items: [['color', '颜色', 'Color'], ['typography', '字体', 'Typography'], ['spacing', '间距与圆角', 'Spacing', 1], ['motion', '动效', 'Motion', 1]] },
-    { zh: '组件', en: 'Components', items: [['components', '全部组件', 'All components']] },
-    { zh: '品牌', en: 'Brand', items: [['logo', 'Logo', 'Logo'], ['templates', '模版', 'Templates', 1]] },
-    { zh: 'Agent', en: 'Agent', items: [['skills', 'Skills', 'Skills'], ['designmd', 'DESIGN.md', 'DESIGN.md', 1]] },
+    { zh: '', en: '', items: [['foundation', 'Foundation', 'Foundation']] },
+    { zh: 'Tokens', en: 'Tokens', items: [['color', '颜色', 'Color'], ['typography', '字体', 'Typography'], ['spacing', '间距与圆角', 'Spacing & radius', 1], ['motion', '动效', 'Motion', 1]] },
+    { zh: 'Components', en: 'Components', items: [['components', '全部组件', 'All components']] },
+    { zh: 'Brand', en: 'Brand', items: [['logo', 'Logo', 'Logo'], ['templates', '模版', 'Templates', 1]] },
+    { zh: 'Skills', en: 'Skills', items: [['skills', 'AI 调用规则', 'AI guidelines'], ['designmd', 'DESIGN.md', 'DESIGN.md', 1]] },
   ];
   const I18N = { tbd: { zh: '待定', en: 'TBD' }, copy: { zh: '复制', en: 'Copy' }, copied: { zh: '已复制', en: 'Copied' } };
 
@@ -188,7 +188,7 @@
     b.title = { system: '主题：跟随系统', light: '主题：浅色', dark: '主题：深色' }[m];
   }
   function renderSidebar() {
-    document.getElementById('sidebar').innerHTML = NAV.map(g => `<h6>${g[lang]}</h6>` + g.items.map(([id, zh, en, tbd, sub]) =>
+    document.getElementById('sidebar').innerHTML = NAV.map(g => (g[lang] ? `<h6>${g[lang]}</h6>` : '') + g.items.map(([id, zh, en, tbd, sub]) =>
       `<a href="#${id}" data-r="${id}"${sub ? ' class="sub"' : ''}>${esc(lang === 'zh' ? zh : en)}${tbd ? `<span class="tbd">${tr('tbd')}</span>` : ''}</a>`).join('')).join('');
     document.getElementById('lang-btn').textContent = lang === 'zh' ? 'EN' : '中';
   }
@@ -226,8 +226,25 @@
   }
 
   // ---------- foundation ----------
+  function traitArt(i) {
+    const art = [
+      '<div class="mini-panel"><span class="signal-dot"></span><code>已连接</code><div class="mini-bars"><i></i><i></i><i></i></div><strong>72.4 <small>°C</small></strong></div>',
+      '<div class="surface-stack"><div></div><div></div><div><span></span><span></span></div></div>',
+      '<div class="line-grid"><i></i><i></i><i></i><i></i><i></i><i></i></div>',
+      '<div class="corner-frame"><div></div><code>R 4</code></div>',
+      '<div class="mini-panel"><code>产线设备</code><div class="mini-bars"><i></i><i></i><i></i></div><div class="mini-action">查看数据 ↗</div></div>',
+      '<div class="mini-tree"><span>工厂</span><span>└ 产线</span><span>　└ 设备 <i></i></span></div>'
+    ];
+    return `<div class="trait-art art-${i}" aria-hidden="true">${art[i]}</div>`;
+  }
   function vFoundation() {
-    return `<article class="prose">${D.md ? md(D.md) : '<p class="muted">没有读取到 foundation.md。</p>'}</article>`;
+    const traits = mdRows(mdSection('### 特征'));
+    const principles = [...mdSection('## 2. 设计原则').matchAll(/\*\*(.+?)\*\*\n(.+)/g)];
+    return docHead('Foundation', 'Foundation 定义 Tier0 设计系统的基础原则，包括品牌定位、视觉特征与设计准则，为界面、组件和品牌物料提供一致的设计依据。')
+      + sec('brand-story','Tier0 品牌故事','Tier0 为制造业构建 Agentic 工业数据平台。', `<div class="brand-position">Tier0 将设备与业务系统的数据一次接入，按工厂、产线、设备等语义关系组织起来，让 AI Agent 在统一的数据基础上持续分析、执行和生成应用。接入、组织、生成，构成 Tier0 的品牌故事。</div><iframe class="brand-story-animation" src="assets/brand-story.html" title="Tier0 品牌故事：接入、组织与生成" sandbox="allow-scripts" loading="eager"></iframe>`)
+
+      + sec('brand-traits','品牌特征','Tier0 的视觉语言强调稳定、秩序与可靠，同时体现现代工具的精确和易用。以白色与浅灰组织界面、细线划分层级、近直角保持结构感；品牌绿用于运行状态、实时数据和选中项。以下六项特征用于指导具体设计。', `<div class="trait-grid">${traits.map((t,i)=>`<details class="trait-card"><summary>${traitArt(i)}<div class="trait-title"><h3>${esc(plain(t[0]))}</h3><span class="trait-plus">+</span></div><p>${esc(plain(t[1]).split('。')[0])}。</p></summary><div class="trait-rule">${esc(plain(t[1]))}</div></details>`).join('')}</div>`)
+      + sec('design-principles','设计原则','每一处选择，都有明确的理由。',`<div class="principle-grid">${principles.map((m,i)=>`<article><h3>${esc(m[1])}</h3><p>${esc(m[2])}</p></article>`).join('')}</div>`) ;
   }
 
   // ---------- color ----------
@@ -328,7 +345,8 @@
   const VIEWS = { home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, logo: vLogo, skills: vSkills };
   let current = '';
   function route(keepScroll) {
-    const id = (location.hash || '#home').slice(1).replace(/[^a-z0-9-]/gi, '') || 'home';
+    if (!location.hash || location.hash === '#home') history.replaceState(null, '', '#foundation');
+    const id = location.hash.slice(1).replace(/[^a-z0-9-]/gi, '') || 'foundation';
     const page = id.startsWith('c-') ? 'components' : id;
     const scrollY = window.scrollY;
     const prev = current; current = page;
