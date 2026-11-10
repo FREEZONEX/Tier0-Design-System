@@ -373,6 +373,7 @@
   function heroState() {
     const wb = document.querySelector('.wb');
     document.body.classList.toggle('hero-on', !!wb && scrollY < wb.offsetHeight - innerHeight * 1.2);
+    document.body.classList.toggle('nav-short', !!wb && scrollY < 24);
   }
   window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); heroState(); }, { passive: true });
   window.addEventListener('hashchange', () => route('anchor'));

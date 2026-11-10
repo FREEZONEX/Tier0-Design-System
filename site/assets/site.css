@@ -516,5 +516,11 @@ body.hero-on .sidebar { opacity: 0; transform: translateX(-24px); pointer-events
 /* workbench v5: perspective scene, dolly back through the hall, then fade into content */
 .wb { height: 300vh; }
 .wb-stage::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: var(--background);
-  opacity: clamp(0, calc((var(--wb-p, 0) - 0.72) * 4), 1); }
-.wb + .home-body { margin-top: -30vh; position: relative; }
+  opacity: clamp(0, calc((var(--wb-p, 0) - 0.62) * 2.6), 1); }
+.wb + .home-body { margin-top: -75vh; position: relative; z-index: 1; }
+
+/* nav: short pill on arrival, stretches to a full bar on scroll */
+.topbar { transition: margin 520ms var(--ease), border-radius 520ms var(--ease), height 520ms var(--ease), border-color 520ms var(--ease), background 520ms var(--ease); }
+body.nav-short .topbar { margin: 12px max(16px, calc((100% - 640px) / 2)) 0; height: 48px; border: 1px solid var(--border); border-radius: 12px; background: color-mix(in srgb, var(--subtle) 88%, transparent); backdrop-filter: blur(10px); }
+body.nav-short .app { margin-top: -61px; }
+.app { transition: grid-template-columns 420ms var(--ease), margin 520ms var(--ease); }

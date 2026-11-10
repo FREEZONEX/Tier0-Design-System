@@ -148,8 +148,8 @@ export class Workbench {
   private root = new THREE.Group()
   private mats: Record<MatKey, THREE.Material>
   private edgeNear = new THREE.LineBasicMaterial({ color: T.b500, transparent: true, opacity: 0.38 })
-  private edgeFar = new THREE.LineBasicMaterial({ color: T.g400, transparent: true, opacity: 0.55 })
-  private gridMat = new THREE.LineBasicMaterial({ color: T.g300, transparent: true, opacity: 0.8 })
+  private edgeFar = new THREE.LineBasicMaterial({ color: T.g400, transparent: true, opacity: 0.3 })
+  private gridMat = new THREE.LineBasicMaterial({ color: T.g300, transparent: true, opacity: 0.5 })
   private cableMat = new THREE.MeshStandardMaterial({ color: T.b600, roughness: 0.5 })
   private holeMat = new THREE.MeshBasicMaterial({ color: T.g300, toneMapped: false })
   private screens: Screen[] = []
@@ -177,12 +177,12 @@ export class Workbench {
     this.renderer.toneMappingExposure = 1.0
     const pmrem = new THREE.PMREMGenerator(this.renderer)
     this.scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture
-    this.scene.fog = new THREE.Fog(T.g25, 9, 34)
+    this.scene.fog = new THREE.Fog(T.g25, 5, 24)
 
     const brushed = brushedTexture(T.g200)
     const brushedDark = brushedTexture(T.g400)
     this.mats = {
-      alu: new THREE.MeshStandardMaterial({ color: '#ffffff', map: brushed, roughnessMap: brushed, metalness: 0.85, roughness: 0.32, envMapIntensity: 1.4 }),
+      alu: new THREE.MeshStandardMaterial({ color: '#ffffff', map: brushed, roughnessMap: brushed, metalness: 0.9, roughness: 0.28, envMapIntensity: 1.6 }),
       laminate: new THREE.MeshStandardMaterial({ color: T.g100, roughness: 0.75 }),
       paint: new THREE.MeshStandardMaterial({ color: T.g50, roughness: 0.85 }),
       housing: new THREE.MeshStandardMaterial({ color: T.g300, map: brushedDark, metalness: 0.55, roughness: 0.45 }),
@@ -283,11 +283,19 @@ export class Workbench {
       B(0.34, 0.05, 0.72, 'alu', x, 0.025, 0)
       B(0.06, 0.02, 0.06, 'rubber', x, 0.01, 0.33)
       B(0.065, 1.3, 0.065, 'alu', x, F + 0.65, -0.38)
+      B(0.012, 1.26, 0.004, 'plastic', x, F + 0.65, -0.346, 'none')
+      B(0.012, F - 0.16, 0.004, 'plastic', x, (F - 0.1) / 2, 0.046, 'none')
     }
     B(2.58, 0.05, 0.05, 'alu', 0, 0.3, 0)
     B(2.76, 0.06, 0.08, 'alu', 0, F + 1.33, -0.38)
     B(2.3, 0.07, 0.24, 'alu', 0, F + 1.42, -0.18)
     B(2.2, 0.016, 0.18, 'light', 0, F + 1.382, -0.18, 'none')
+    if (hero) {
+      const glow = this.box(2.2, 0.004, 0.18, 'led', 0, F + 1.372, -0.18, 'none', g)
+      const gm = new THREE.MeshBasicMaterial({ color: T.green200, transparent: true, opacity: 0.0, toneMapped: false })
+      glow.material = gm
+      this.movers.push(t => { gm.opacity = 0.12 + Math.sin(t / 1600) * 0.08 })
+    }
     B(2.58, 0.92, 0.015, 'paint', 0, F + 0.56, -0.4)
     if (!hero) return
 
@@ -477,7 +485,7 @@ export class Workbench {
     for (let x = -6; x <= 6; x += 1.5) this.box(0.08, 0.8, 0.6, 'alu', x, 0.4, CZ, 'far')
     for (let x = -5.9; x <= 5.9; x += 0.25) this.cyl(0.03, 0.66, 'housing', x, 0.86, CZ, 'z', 'none')
     const crates: THREE.Mesh[] = []
-    for (let i = 0; i < 6; i++) crates.push(this.box(0.45, 0.32, 0.45, i % 3 === 1 ? 'bin' : 'paint', 0, 1.06, CZ, 'far'))
+    for (let i = 0; i < 6; i++) crates.push(this.box(0.45, 0.32, 0.45, i % 3 === 1 ? 'paint' : 'paint', 0, 1.06, CZ, 'far'))
     this.movers.push(t => crates.forEach((c, i) => { c.position.x = -6 + ((t * 0.0004 + i / crates.length) % 1) * 12 }))
     // 机械臂
     this.cyl(0.3, 0.3, 'paint', 3.2, 0.15, CZ - 1.2, 'y', 'far')
@@ -492,7 +500,7 @@ export class Workbench {
     const elbow = new THREE.Group()
     elbow.position.set(0, 1.1, 0)
     shoulder.add(elbow)
-    this.cyl(0.13, 0.26, 'bin', 0, 0, 0, 'z', 'far', elbow)
+    this.cyl(0.13, 0.26, 'paint', 0, 0, 0, 'z', 'far', elbow)
     this.box(0.9, 0.14, 0.14, 'paint', 0.45, 0, 0, 'far', elbow)
     this.box(0.1, 0.18, 0.16, 'housing', 0.92, -0.08, 0, 'far', elbow)
     this.movers.push(t => {
@@ -505,7 +513,7 @@ export class Workbench {
       for (let x = -8.5; x <= -4.5; x += 1) this.box(0.08, 4, 0.08, 'alu', x, 2, rz, 'far')
       for (let y = 0.2; y < 4; y += 1.25) {
         this.box(4.1, 0.06, 1.0, 'alu', -6.5, y, rz + 0.45, 'far')
-        for (let x = -8.25; x <= -5.3; x += 1) this.box(0.85, 0.8, 0.9, Math.round(x + y * 3) % 3 === 0 ? 'bin' : 'paint', x + 0.25, y + 0.43, rz + 0.45, 'far')
+        for (let x = -8.25; x <= -5.3; x += 1) this.box(0.85, 0.8, 0.9, Math.round(x + y * 3) % 3 === 0 ? 'paint' : 'paint', x + 0.25, y + 0.43, rz + 0.45, 'far')
       }
     }
     for (const [x, z] of [[4.2, -9.5], [4.2, -13], [-0.2, -9.5], [-0.2, -13]] as [number, number][]) this.buildBench(x, z, false)
@@ -513,9 +521,8 @@ export class Workbench {
     const agv = new THREE.Group()
     this.root.add(agv)
     this.box(0.9, 0.22, 0.6, 'paint', 0, 0.13, 0, 'far', agv)
-    this.box(0.7, 0.4, 0.45, 'bin', 0, 0.45, 0, 'far', agv)
-    this.led(0.45, 0.16, 0.0, 0.03, agv)
-    agv.rotation.y = Math.PI / 2
+    this.box(0.7, 0.4, 0.45, 'paint', 0, 0.45, 0, 'far', agv)
+        agv.rotation.y = Math.PI / 2
     this.movers.push(t => { agv.position.set(-1.8, 0, 6 - ((t * 0.00006) % 1) * 20) })
   }
 
@@ -539,19 +546,18 @@ export class Workbench {
     this.camera.updateProjectionMatrix()
   }
 
-  /** 正视角沿纵深后退：从工作台近景退到整个车间，朝向不变、不放大。 */
+  /** 水平后退：镜头高度与朝向保持水平，只沿纵深向后移动。 */
   private updateCamera() {
     const p = this.progress
-    const e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2
+    const e = 1 - Math.pow(1 - Math.min(1, p / 0.85), 3)
     const fit = Math.max(1, 1.55 / this.aspect)
     const z0 = 3.25 * fit
-    const z1 = 16
-    const z = z0 + (z1 - z0) * e
-    const y = 1.32 + (3.1 - 1.32) * e
-    const px = this.pan.x * 0.08 * (1 - e * 0.5)
+    const z = z0 + (17 - z0) * e
+    const y = 1.3
+    const px = this.pan.x * 0.08
     const py = this.pan.y * 0.04
     this.camera.position.set(px, y + py, z)
-    this.camera.lookAt(px * 0.4, 1.18 + (1.6 - 1.18) * e, -2)
+    this.camera.lookAt(px * 0.4, y + py * 0.5, z - 10)
   }
 
   private loop = (t: number) => {
