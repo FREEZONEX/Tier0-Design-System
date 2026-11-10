@@ -9,7 +9,15 @@
           "Arial",
           "sans-serif"
         ],
-        "$description": "标题：页面标题、分区标题、官网与 Deck 大标题——字形紧凑、几何感强，配合略收的字距，读起来利落、确定。中文回落到 IBM Plex Sans SC。"
+        "$description": "标题：页面标题、分区标题、官网与 Deck 大标题——字形紧凑、几何感强，配合略收的字距，读起来利落、确定。中文回落到 IBM Plex Sans SC。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "cssVar": "--font-display-sans",
+              "tailwind": "font-display"
+            }
+          }
+        }
       },
       "sans": {
         "$value": [
@@ -18,7 +26,15 @@
           "Arial",
           "sans-serif"
         ],
-        "$description": "正文与界面文字：段落、按钮、表单、标签、导航——中性、耐读，带一点工程字体的硬朗，长时间阅读不累。"
+        "$description": "正文与界面文字：段落、按钮、表单、标签、导航——中性、耐读，带一点工程字体的硬朗，长时间阅读不累。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "cssVar": "--font-app-sans",
+              "tailwind": "默认字体（body）"
+            }
+          }
+        }
       },
       "mono": {
         "$value": [
@@ -27,7 +43,16 @@
           "ui-monospace",
           "monospace"
         ],
-        "$description": "代码、命令行、数据路径、数值与读数——等宽对齐，数字像仪表读数一样整齐，是界面里技术感的主要来源。"
+        "$description": "代码、命令行、数据路径、数值与读数——等宽对齐，数字像仪表读数一样整齐，是界面里技术感的主要来源。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "cssVar": "--font-geist-mono",
+              "tailwind": "font-mono",
+              "note": "前端当前为 Geist Mono，需改为 IBM Plex Mono"
+            }
+          }
+        }
       },
       "sc": {
         "$value": [
@@ -70,11 +95,19 @@
       "$value": {
         "fontFamily": "{font.family.display}",
         "fontSize": "48px",
-        "lineHeight": "56px",
+        "lineHeight": "60px",
         "fontWeight": "{font.weight.medium}",
         "letterSpacing": "-0.96px"
       },
-      "$description": "官网首屏、Deck 封面——全系统最大的字号，每页最多一次。"
+      "$description": "官网首屏、Deck 封面——全系统最大的字号，每页最多一次。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "css": "h1 元素",
+            "tailwind": "text-5xl leading-tight font-medium"
+          }
+        }
+      }
     },
     "typo-h1": {
       "$type": "typography",
@@ -85,7 +118,14 @@
         "fontWeight": "{font.weight.bold}",
         "letterSpacing": "-0.456px"
       },
-      "$description": "页面大标题——每页一个，负字距让大字显得紧凑。"
+      "$description": "页面大标题——每页一个，负字距让大字显得紧凑。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "typo-h1"
+          }
+        }
+      }
     },
     "typo-h2": {
       "$type": "typography",
@@ -96,7 +136,14 @@
         "fontWeight": "{font.weight.semibold}",
         "letterSpacing": "-0.225px"
       },
-      "$description": "分区标题——划分页面的主要段落。"
+      "$description": "分区标题——划分页面的主要段落。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "typo-h2"
+          }
+        }
+      }
     },
     "typo-h3": {
       "$type": "typography",
@@ -107,7 +154,14 @@
         "fontWeight": "{font.weight.semibold}",
         "letterSpacing": "-0.144px"
       },
-      "$description": "子标题、弹窗标题。"
+      "$description": "子标题、弹窗标题。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "typo-h3"
+          }
+        }
+      }
     },
     "typo-h4": {
       "$type": "typography",
@@ -118,7 +172,14 @@
         "fontWeight": "{font.weight.medium}",
         "letterSpacing": "-0.1px"
       },
-      "$description": "面板、卡片标题——产品界面里最常用的标题。"
+      "$description": "面板、卡片标题——产品界面里最常用的标题。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "typo-h4"
+          }
+        }
+      }
     },
     "body": {
       "$type": "typography",
@@ -129,7 +190,14 @@
         "fontWeight": "{font.weight.regular}",
         "letterSpacing": "0px"
       },
-      "$description": "官网正文、长段落——字号和行高更宽松，适合连续阅读。"
+      "$description": "官网正文、长段落——字号和行高更宽松，适合连续阅读。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "text-base"
+          }
+        }
+      }
     },
     "body-sm": {
       "$type": "typography",
@@ -140,7 +208,14 @@
         "fontWeight": "{font.weight.regular}",
         "letterSpacing": "0px"
       },
-      "$description": "产品界面正文（默认）——信息密度和可读性的平衡点。"
+      "$description": "产品界面正文（默认）——信息密度和可读性的平衡点。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "text-sm"
+          }
+        }
+      }
     },
     "label": {
       "$type": "typography",
@@ -151,7 +226,14 @@
         "fontWeight": "{font.weight.medium}",
         "letterSpacing": "0px"
       },
-      "$description": "按钮、表单标签、导航——与正文同字号，用 500 字重区分可操作的文字。"
+      "$description": "按钮、表单标签、导航——与正文同字号，用 500 字重区分可操作的文字。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "text-sm font-medium"
+          }
+        }
+      }
     },
     "caption": {
       "$type": "typography",
@@ -162,18 +244,33 @@
         "fontWeight": "{font.weight.regular}",
         "letterSpacing": "0px"
       },
-      "$description": "辅助说明、时间戳、注释——全系统最小字号。"
+      "$description": "辅助说明、时间戳、注释——全系统最小字号。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "text-xs",
+            "note": "前端 .caption 为 9px、.note 为 10px，低于 12px 下限，需改为 text-xs"
+          }
+        }
+      }
     },
-    "overline": {
+    "title": {
       "$type": "typography",
       "$value": {
         "fontFamily": "{font.family.sans}",
         "fontSize": "11px",
         "lineHeight": "16px",
         "fontWeight": "{font.weight.medium}",
-        "letterSpacing": "0.88px"
+        "letterSpacing": "0.55px"
       },
-      "$description": "分组小标题——全大写、加字距，仅用于英文，如 EDGE_DATA / SOURCES。"
+      "$description": "分组小标题——全大写、加字距，仅用于英文，如 EDGE_DATA / SOURCES。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "title（text-[11px] font-medium tracking-wider uppercase）"
+          }
+        }
+      }
     },
     "code": {
       "$type": "typography",
@@ -184,7 +281,14 @@
         "fontWeight": "{font.weight.regular}",
         "letterSpacing": "0px"
       },
-      "$description": "代码、命令行、数据路径——比正文小一号，保持与正文的视觉重量一致。"
+      "$description": "代码、命令行、数据路径——比正文小一号，保持与正文的视觉重量一致。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "font-mono text-[13px]"
+          }
+        }
+      }
     },
     "$extensions": {
       "tier0": {
@@ -192,7 +296,7 @@
           "标题用 Inter，正文用 IBM Plex Sans，代码与数据用 IBM Plex Mono，中文用 IBM Plex Sans SC；Tektur 只用于 Logo。",
           "不引入以上之外的字体。",
           "中文字间距为 0；标题的负字间距只对英文生效。",
-          "最小字号 12px（overline 除外，且只用于英文大写）。",
+          "最小字号 12px（title 除外，且只用于英文大写）。",
           "字重只用 400 / 500 / 600 / 700。",
           "数值、表格中的数字使用等宽数字（tabular-nums）。",
           "不用斜体做强调。"

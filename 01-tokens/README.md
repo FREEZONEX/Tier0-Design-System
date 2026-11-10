@@ -93,9 +93,11 @@ CSS、Tailwind、Figma 变量等成品文件不放在仓库里，需要时由脚
 
 **字阶**
 
+名称与前端 `packages/theme/src/tailwind.css` 一致：`typo-h1` 至 `typo-h4`、`title` 直接对应同名 class，`body`、`body-sm`、`caption` 对应 Tailwind 的 `text-base`、`text-sm`、`text-xs`。每个 token 的前端对应写在 `typography.json` 的 `$extensions.tier0.frontend` 里。
+
 | Token | 字体 | 字号 / 行高 | 字重 | 用途 |
 |---|---|---|---|---|
-| `display` | Inter | 48 / 56 | 500 | 官网首屏、Deck 封面，每页最多一次 |
+| `display` | Inter | 48 / 60 | 500 | 官网首屏、Deck 封面，每页最多一次 |
 | `typo-h1` | Inter | 38 / 46 | 700 | 页面大标题 |
 | `typo-h2` | Inter | 30 / 36 | 600 | 分区标题 |
 | `typo-h3` | Inter | 24 / 32 | 600 | 子标题、弹窗标题 |
@@ -104,14 +106,14 @@ CSS、Tailwind、Figma 变量等成品文件不放在仓库里，需要时由脚
 | `body-sm` | IBM Plex Sans | 14 / 20 | 400 | 产品界面正文（默认） |
 | `label` | IBM Plex Sans | 14 / 20 | 500 | 按钮、表单标签、导航 |
 | `caption` | IBM Plex Sans | 12 / 16 | 400 | 辅助说明、时间戳，最小字号 |
-| `overline` | IBM Plex Sans | 11 / 16 | 500 | 全大写分组小标题，仅英文 |
+| `title` | IBM Plex Sans | 11 / 16 | 500 | 全大写分组小标题，仅英文 |
 | `code` | IBM Plex Mono | 13 / 20 | 400 | 代码、命令行、数据路径 |
 
 **规则**
 
 1. 只使用以上规定的字体，Tektur 仅用于 Logo。
 2. 中文字间距为 0；标题的负字间距只对英文生效。
-3. 最小字号 12px（`overline` 除外，且只用于英文大写）。
+3. 最小字号 12px（`title` 除外，且只用于英文大写）。
 4. 字重只用 400 / 500 / 600 / 700。
 5. 表格和读数中的数字使用等宽数字（tabular-nums）。
 6. 不用斜体做强调。
