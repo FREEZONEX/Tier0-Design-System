@@ -25,17 +25,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Stage site with tokens and brand assets
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Build site
+        working-directory: site
+        run: |
+          npm ci
+          npx vite build
+      - name: Stage
         run: |
           mkdir -p _pages
-          cp -R site 00-foundation 01-tokens 03-brand _pages/
+          cp -R site/dist _pages/site
           cat > _pages/index.html <<'HTML'
           <!doctype html>
           <html lang="zh-CN">
           <head>
             <meta charset="utf-8">
             <meta http-equiv="refresh" content="0;url=./site/">
-            <link rel="canonical" href="./site/">
             <title>Tier0 Design System</title>
           </head>
           <body><p><a href="./site/">Open Tier0 Design System</a></p></body>
