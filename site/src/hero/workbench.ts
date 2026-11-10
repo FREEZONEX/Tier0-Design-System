@@ -148,12 +148,12 @@ export class Workbench {
   private root = new THREE.Group()
   private mats: Record<MatKey, THREE.Material>
   private edgeNear = new THREE.LineBasicMaterial({ color: T.b500, transparent: true, opacity: 0.38 })
-  private edgeFar = new THREE.LineBasicMaterial({ color: T.g400, transparent: true, opacity: 0.3 })
-  private gridMat = new THREE.LineBasicMaterial({ color: T.g300, transparent: true, opacity: 0.5 })
+  private edgeFar = new THREE.LineBasicMaterial({ color: T.g400, transparent: true, opacity: 0.18 })
+  private gridMat = new THREE.LineBasicMaterial({ color: T.g300, transparent: true, opacity: 0.32 })
   private cableMat = new THREE.MeshStandardMaterial({ color: T.b600, roughness: 0.5 })
   private holeMat = new THREE.MeshBasicMaterial({ color: T.g300, toneMapped: false })
   private screens: Screen[] = []
-  private flows: { curve: THREE.CatmullRomCurve3; dots: THREE.Mesh[]; speed: number; offset: number }[] = []
+  private flows: THREE.ShaderMaterial[] = []
   private leds: { mesh: THREE.Mesh; phase: number }[] = []
   private movers: ((t: number) => void)[] = []
   private anchors: { el: HTMLElement; pos: THREE.Vector3 }[] = []
@@ -177,7 +177,7 @@ export class Workbench {
     this.renderer.toneMappingExposure = 1.0
     const pmrem = new THREE.PMREMGenerator(this.renderer)
     this.scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture
-    this.scene.fog = new THREE.Fog(T.g25, 5, 24)
+    this.scene.fog = new THREE.Fog(T.g25, 4, 18)
 
     const brushed = brushedTexture(T.g200)
     const brushedDark = brushedTexture(T.g400)
@@ -251,17 +251,34 @@ export class Workbench {
     parent.add(m)
     this.screens.push(s)
   }
+  /** 数据流：线缆本身发光。绿色脉冲带一段渐隐的尾迹沿线缆滑动，没有额外几何体。 */
   private flow(pts: [number, number, number][], n: number, speed: number) {
-    const curve = this.tube(pts, 0.0024, this.cableMat)
-    const dots: THREE.Mesh[] = []
-    for (let i = 0; i < n * 4; i++) {
-      const tail = i % 4
-      const d = new THREE.Mesh(new THREE.SphereGeometry(0.0075 - tail * 0.0015, 12, 8), new THREE.MeshBasicMaterial({ color: T.green, toneMapped: false, transparent: true, opacity: 1 - tail * 0.24 }))
-      d.userData.tail = tail
-      this.root.add(d)
-      dots.push(d)
-    }
-    this.flows.push({ curve, dots, speed, offset: Math.random() })
+    const curve = new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p)))
+    const len = curve.getLength()
+    const mat = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 }, uLen: { value: len }, uN: { value: n }, uSpeed: { value: speed * 2.2 }, uOffset: { value: Math.random() },
+        uBase: { value: new THREE.Color(T.b600) }, uGlow: { value: new THREE.Color(T.green) }, uCore: { value: new THREE.Color('#F7FDE8') },
+      },
+      vertexShader: 'varying vec2 vUv; varying vec3 vN; void main(){ vUv = uv; vN = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+      fragmentShader: `
+        uniform float uTime, uLen, uN, uSpeed, uOffset; uniform vec3 uBase, uGlow, uCore;
+        varying vec2 vUv; varying vec3 vN;
+        void main(){
+          float s = vUv.x * uLen;
+          float period = uLen / uN;
+          float head = (uTime * uSpeed + uOffset) * uLen;
+          float d = mod(head - s, period);
+          float tail = smoothstep(0.0, 1.0, exp(-d / 0.04));
+          float core = 1.0 - smoothstep(0.0, 0.016, d);
+          float shade = 0.72 + 0.28 * clamp(vN.y * 0.5 + vN.z * 0.5 + 0.5, 0.0, 1.0);
+          vec3 c = mix(uBase * shade, uGlow, tail) + uGlow * tail * 0.25;
+          c = mix(c, uCore, core * 0.65);
+          gl_FragColor = vec4(c, 1.0);
+        }`,
+    })
+    this.root.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 160, 0.0034, 10), mat))
+    this.flows.push(mat)
   }
 
   // ---------- 工作台 ----------
@@ -568,13 +585,7 @@ export class Workbench {
     this.pan.lerp(this.mouse, 0.05)
     this.updateCamera()
     for (const m of this.movers) m(time)
-    for (const f of this.flows) {
-      const n = f.dots.length / 4
-      f.dots.forEach((d, i) => {
-        const u = (((f.offset + time * 0.001 * f.speed + Math.floor(i / 4) / n - (d.userData.tail as number) * 0.012) % 1) + 1) % 1
-        d.position.copy(f.curve.getPointAt(u))
-      })
-    }
+    for (const f of this.flows) f.uniforms.uTime.value = time * 0.001
     for (const l of this.leds) l.mesh.visible = this.reduced || Math.sin(time / 380 + l.phase) > -0.6
     if (t - this.lastScreen > 120) {
       this.lastScreen = t
