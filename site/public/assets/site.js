@@ -209,9 +209,8 @@
     const traits = mdRows(mdSection('### 特征'));
     const principles = [...mdSection('## 2. 设计原则').matchAll(/\*\*(.+?)\*\*\n(.+)/g)];
     const tiles = [['color', '颜色', '品牌色、色阶和用途 token。'], ['typography', '字体', 'Inter、IBM Plex 与两套字阶。'], ['components', '组件', '以 Tier0-Frontend 组件库为准。'], ['foundation', '品牌与原则', '品牌故事、设计原则和品牌特征。'], ['logo', 'Logo', '四种底色下的标准用法。'], ['skills', 'Skills', '让 AI 按设计系统生成界面和物料。']];
-    const tags = [['PLC / MODBUS', '-1.0,1.2,-0.24'], ['UNS / Factory-A / Line-01', '0,1.8,-0.34'], ['EDGE_BOX / 192.168.1.50', '1.0,1.08,-0.05']];
+    const tags = [['PLC / MODBUS', '-0.95,1.15,-0.12'], ['UNS / Factory-A / Line-01', '0.05,1.7,-0.3'], ['EDGE_BOX / 192.168.1.50', '0.95,1.0,0.03']];
     return `<section class="wb" data-workbench><div class="wb-stage"><canvas aria-hidden="true"></canvas>
-        <div class="wb-ctl"><div class="seg sm"><button type="button" data-wb-mode="wire" aria-pressed="true">线框</button><button type="button" data-wb-mode="material" aria-pressed="false">材质</button></div></div>
         ${tags.map(([t, a]) => `<span class="wb-tag" data-anchor="${a}"><i></i>${t}</span>`).join('')}
 </div></section>
       <div class="home-body">`
@@ -373,7 +372,7 @@
   });
   function heroState() {
     const wb = document.querySelector('.wb');
-    document.body.classList.toggle('hero-on', !!wb && wb.getBoundingClientRect().bottom > innerHeight * 1.05);
+    document.body.classList.toggle('hero-on', !!wb && scrollY < wb.offsetHeight * 0.45);
   }
   window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); heroState(); }, { passive: true });
   window.addEventListener('hashchange', () => route('anchor'));

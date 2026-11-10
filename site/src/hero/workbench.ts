@@ -5,7 +5,7 @@ import * as THREE from 'three'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 
 type Mode = 'material' | 'wire'
-type MatKey = 'frame' | 'white' | 'dark' | 'light' | 'led' | 'green' | 'panel' | 'hatch' | 'bezel'
+type MatKey = 'frame' | 'white' | 'dark' | 'light' | 'led' | 'green' | 'panel' | 'hatch' | 'bezel' | 'yellow' | 'orange' | 'red' | 'blue' | 'black'
 
 const GREEN = '#B2ED1D'
 
@@ -204,37 +204,46 @@ export class Workbench {
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
     this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
     this.renderer.outputColorSpace = THREE.SRGBColorSpace
-    this.renderer.toneMapping = THREE.ACESFilmicToneMapping
-    this.renderer.toneMappingExposure = 1.1
+    this.renderer.toneMapping = THREE.NeutralToneMapping
+    this.renderer.toneMappingExposure = 0.95
     const pmrem = new THREE.PMREMGenerator(this.renderer)
     this.scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture
 
     const brushed = brushedTexture()
     const brushedDark = brushedTexture()
     this.mats = {
-      frame: new THREE.MeshStandardMaterial({ color: '#f1f3f5', map: brushed, roughnessMap: brushed, metalness: 1, roughness: 0.42, envMapIntensity: 1.25 }),
-      white: new THREE.MeshStandardMaterial({ color: '#f3f4f5', metalness: 0, roughness: 0.82 }),
-      dark: new THREE.MeshStandardMaterial({ color: '#4a4f55', map: brushedDark, roughnessMap: brushedDark, metalness: 1, roughness: 0.5, envMapIntensity: 1.1 }),
+      frame: new THREE.MeshStandardMaterial({ color: '#ffffff', map: brushed, roughnessMap: brushed, metalness: 0.9, roughness: 0.36, envMapIntensity: 1.35 }),
+      white: new THREE.MeshStandardMaterial({ color: '#f7f8f9', metalness: 0, roughness: 0.7 }),
+      dark: new THREE.MeshStandardMaterial({ color: '#3a3f44', map: brushedDark, metalness: 0.6, roughness: 0.5 }),
       light: new THREE.MeshBasicMaterial({ color: '#ffffff', toneMapped: false }),
       led: new THREE.MeshBasicMaterial({ color: GREEN, toneMapped: false }),
       green: new THREE.MeshStandardMaterial({ color: '#b2ed1d', metalness: 0, roughness: 0.7 }),
       panel: new THREE.MeshStandardMaterial({ color: '#fbfbfa', metalness: 0, roughness: 0.95 }),
       hatch: new THREE.MeshStandardMaterial({ color: '#c9cdd1', map: brushedDark, metalness: 0.9, roughness: 0.55 }),
-      bezel: new THREE.MeshStandardMaterial({ color: '#f1f3f5', map: brushed, metalness: 1, roughness: 0.4 }),
+      bezel: new THREE.MeshStandardMaterial({ color: '#ffffff', map: brushed, metalness: 0.9, roughness: 0.34, envMapIntensity: 1.3 }),
+      yellow: new THREE.MeshStandardMaterial({ color: '#ffc81a', metalness: 0, roughness: 0.55 }),
+      orange: new THREE.MeshStandardMaterial({ color: '#ff6a1a', metalness: 0, roughness: 0.5 }),
+      red: new THREE.MeshStandardMaterial({ color: '#e5402e', metalness: 0, roughness: 0.5 }),
+      blue: new THREE.MeshStandardMaterial({ color: '#2f6fd8', metalness: 0, roughness: 0.6 }),
+      black: new THREE.MeshStandardMaterial({ color: '#1b1e21', metalness: 0.3, roughness: 0.45 }),
     }
     const face = () => new THREE.MeshBasicMaterial({ color: '#ffffff', toneMapped: false, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 })
-    this.wire = { frame: face(), white: face(), dark: face(), light: face(), led: this.mats.led, green: new THREE.MeshBasicMaterial({ color: GREEN, toneMapped: false }), panel: face(), hatch: hatchMaterial(6), bezel: face() }
+    this.wire = { ...this.mats, hatch: hatchMaterial(6) }
+    void face
     this.guideMat = new THREE.LineBasicMaterial({ color: '#050B14', transparent: true, opacity: 0.16 })
-    this.edgeMat = new THREE.LineBasicMaterial({ color: '#050B14', transparent: true, opacity: 0.62 })
+    this.edgeMat = new THREE.LineBasicMaterial({ color: '#050B14', transparent: true, opacity: 0.32 })
     this.matTop = new THREE.MeshBasicMaterial({ map: matTexture(), toneMapped: false })
 
-    this.scene.add(new THREE.HemisphereLight('#ffffff', '#d5d8db', 1.0))
-    const key = new THREE.DirectionalLight('#ffffff', 1.2)
-    key.position.set(1.5, 3, 6)
+    this.scene.add(new THREE.HemisphereLight('#ffffff', '#cfd3d7', 1.25))
+    const key = new THREE.DirectionalLight('#ffffff', 1.6)
+    key.position.set(2.5, 4, 6)
+    const rim = new THREE.DirectionalLight('#ffffff', 0.6)
+    rim.position.set(-3, 2, 3)
+    this.scene.add(rim)
     this.scene.add(key)
     this.scene.add(this.root)
     this.build()
-    this.setMode('wire')
+    this.setMode('material')
     this.applyTheme()
 
     this.io = new IntersectionObserver(([e]) => { this.visible = e.isIntersecting })
@@ -270,112 +279,136 @@ export class Workbench {
   }
 
   private build() {
-    // 台面（顶面为制图垫板）与框架
-    const top = this.box(3.2, 0.05, 0.9, 'white', 0, 0.9, 0)
-    top.userData.top = true
-    this.box(3.1, 0.07, 0.04, 'frame', 0, 0.84, 0.43)
-    for (const x of [-1.52, 1.52]) {
-      for (const z of [-0.4, 0.4]) this.box(0.06, 0.875, 0.06, 'frame', x, 0.4375, z)
-      this.box(0.06, 0.06, 0.74, 'frame', x, 0.14, 0)
-      this.box(0.06, 1.36, 0.06, 'frame', x, 1.605, -0.42)
-      this.box(0.1, 0.02, 0.1, 'dark', x, 0.01, 0.4)
+    const F = 0.925 // 台面高度
+    // ---------- 铝型材框架（T 形立柱、地脚、横梁） ----------
+    this.box(3.0, 0.045, 0.85, 'white', 0, F - 0.0225, 0)
+    this.box(3.02, 0.02, 0.86, 'frame', 0, F - 0.055, 0)
+    this.box(2.6, 0.07, 0.05, 'frame', 0, F - 0.1, 0.38)
+    for (const x of [-1.32, 1.32]) {
+      this.box(0.09, F - 0.1, 0.09, 'frame', x, (F - 0.1) / 2, 0)
+      for (let i = 0; i < 6; i++) this.box(0.008, 0.06, 0.004, 'dark', x, 0.18 + i * 0.1, 0.046, false)
+      this.box(0.34, 0.05, 0.7, 'frame', x, 0.025, 0)
+      this.box(0.06, 0.02, 0.06, 'black', x - 0.13, 0.01, 0.3)
+      this.box(0.06, 0.02, 0.06, 'black', x + 0.13, 0.01, 0.3)
+      // 上部立柱（带槽）
+      this.box(0.065, 1.3, 0.065, 'frame', x, F + 0.65, -0.38)
+      this.box(0.012, 1.24, 0.004, 'dark', x, F + 0.65, -0.346, false)
     }
-    this.box(2.98, 0.03, 0.7, 'white', 0, 0.27, 0)
-    this.box(2.98, 0.05, 0.04, 'frame', 0, 0.14, 0.38)
-    // 顶梁、灯条、线槽
-    this.box(3.1, 0.08, 0.14, 'frame', 0, 2.25, -0.36)
-    this.box(2.7, 0.022, 0.05, 'light', 0, 2.199, -0.31)
-    this.box(3.0, 0.045, 0.03, 'frame', 0, 1.92, -0.43)
-    // 背板（洞洞板）
-    const holes: THREE.Vector3[] = []
-    for (const px of [-1.0, 0, 1.0]) {
-      this.box(0.96, 0.9, 0.02, 'panel', px, 1.42, -0.44)
-      if (px === 0) continue
-      for (let ix = 0; ix < 13; ix++) for (let iy = 0; iy < 12; iy++) holes.push(new THREE.Vector3(px - 0.42 + ix * 0.07, 1.035 + iy * 0.07, -0.429))
-    }
-    const hole = new THREE.InstancedMesh(new THREE.CircleGeometry(0.005, 10), this.holeMat, holes.length)
-    holes.forEach((p, i) => hole.setMatrixAt(i, new THREE.Matrix4().makeTranslation(p.x, p.y, p.z)))
-    hole.userData.keep = true
-    this.root.add(hole)
+    this.box(2.58, 0.05, 0.05, 'frame', 0, 0.3, 0)
+    // 顶部灯架与灯
+    this.box(2.76, 0.06, 0.08, 'frame', 0, F + 1.33, -0.38)
+    this.box(2.3, 0.07, 0.22, 'frame', 0, F + 1.42, -0.2)
+    this.box(2.2, 0.018, 0.16, 'light', 0, F + 1.381, -0.2)
+    this.box(0.04, 0.12, 0.04, 'frame', -1.0, F + 1.38, -0.3)
+    this.box(0.04, 0.12, 0.04, 'frame', 1.0, F + 1.38, -0.3)
 
-    // 主屏
-    this.box(0.035, 0.26, 0.035, 'frame', 0, 1.055, -0.36)
-    this.box(0.26, 0.012, 0.16, 'frame', 0, 0.931, -0.33)
-    this.box(0.97, 0.6, 0.03, 'bezel', 0, 1.475, -0.36)
-    this.screenPlane(new Screen('main'), 0.92, 0.545, 0, 1.475, -0.344)
-    // 左屏（HMI）、右屏
-    this.box(0.44, 0.31, 0.03, 'bezel', -1.0, 1.6, -0.415)
-    this.screenPlane(new Screen('tree'), 0.4, 0.27, -1.0, 1.6, -0.399)
-    this.box(0.36, 0.26, 0.03, 'bezel', 1.0, 1.62, -0.415)
-    this.screenPlane(new Screen('gauge'), 0.32, 0.22, 1.0, 1.62, -0.399)
-    // 洞洞板上的挂件：线槽盒、工具
-    this.box(0.3, 0.06, 0.05, 'frame', -1.25, 1.2, -0.4)
-    this.box(0.012, 0.2, 0.012, 'frame', -0.72, 1.22, -0.42)
-    this.box(0.012, 0.16, 0.012, 'frame', -0.68, 1.2, -0.42)
-    this.box(0.012, 0.24, 0.012, 'frame', -0.64, 1.24, -0.42)
-    this.box(0.22, 0.14, 0.06, 'dark', 1.28, 1.22, -0.4)
-    for (let i = 0; i < 4; i++) this.box(0.03, 0.03, 0.01, i === 1 ? 'green' : 'white', 1.205 + i * 0.05, 1.22, -0.366)
-
-    // 左侧：DIN 导轨 + 电源 + PLC 模块
-    this.box(1.12, 0.03, 0.02, 'frame', -0.94, 1.03, -0.4)
-    this.box(0.16, 0.26, 0.14, 'frame', -1.4, 0.925 + 0.13, -0.3)
-    for (let i = 0; i < 6; i++) this.box(0.1, 0.006, 0.005, 'dark', -1.4, 1.02 + i * 0.022, -0.228, false)
-    for (let i = 0; i < 8; i++) {
-      const x = -1.25 + i * 0.1
-      const h = i < 2 ? 0.24 : 0.2
-      this.box(0.09, h, 0.12, i < 2 ? 'dark' : 'white', x, 0.925 + h / 2, -0.3)
-      this.box(0.06, 0.03, 0.005, 'frame', x, 0.925 + 0.035, -0.238, false)
-      for (let k = 0; k < 3; k++) {
-        const led = this.box(0.012, 0.012, 0.005, 'led', x - 0.022, 0.925 + h - 0.035 - k * 0.024, -0.238, false)
-        this.leds.push({ mesh: led, phase: Math.random() * 6.28 })
+    // ---------- 背板：左侧料盒架、中间面板、右侧百叶孔板 ----------
+    this.box(2.58, 0.92, 0.015, 'panel', 0, F + 0.56, -0.4)
+    for (const y of [F + 0.42, F + 0.64]) {
+      this.box(0.86, 0.025, 0.05, 'frame', -0.86, y - 0.06, -0.37)
+      for (let i = 0; i < 6; i++) {
+        const x = -1.22 + i * 0.145
+        this.box(0.13, 0.1, 0.14, 'yellow', x, y, -0.32)
+        this.box(0.13, 0.03, 0.005, 'yellow', x, y + 0.035, -0.248, false)
+        this.box(0.05, 0.016, 0.004, 'white', x, y - 0.02, -0.249, false)
       }
     }
-    // 端子排
-    for (let i = 0; i < 16; i++) this.box(0.022, 0.055, 0.06, i % 4 === 3 ? 'frame' : 'green', -0.42 + i * 0.026, 0.9525, -0.31)
+    const slots: THREE.Vector3[] = []
+    for (let ix = 0; ix < 9; ix++) for (let iy = 0; iy < 9; iy++) slots.push(new THREE.Vector3(0.62 + ix * 0.07, F + 0.2 + iy * 0.075, -0.391))
+    const slot = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.032, 0.012), this.holeMat, slots.length)
+    slots.forEach((p, i) => slot.setMatrixAt(i, new THREE.Matrix4().makeTranslation(p.x, p.y, p.z)))
+    slot.userData.keep = true
+    this.root.add(slot)
+    // 仪器层板
+    this.box(1.2, 0.025, 0.3, 'frame', 0.65, F + 0.86, -0.27)
+    this.box(0.36, 0.17, 0.26, 'white', 0.3, F + 0.957, -0.27)
+    this.screenPlane(new Screen('gauge'), 0.2, 0.12, 0.25, F + 0.965, -0.139)
+    for (let i = 0; i < 3; i++) this.cyl(0.013, 0.02, i === 2 ? 'orange' : 'dark', 0.4, F + 1.0 - i * 0.04, -0.13, 'z')
+    this.box(0.4, 0.15, 0.26, 'dark', 0.78, F + 0.947, -0.27)
+    this.box(0.22, 0.09, 0.004, 'black', 0.72, F + 0.955, -0.138, false)
+    this.box(0.02, 0.02, 0.006, 'led', 0.92, F + 0.98, -0.137, false)
+    this.box(0.22, 0.12, 0.24, 'frame', 1.12, F + 0.935, -0.27)
+    this.box(0.12, 0.028, 0.004, 'black', 1.1, F + 0.95, -0.148, false)
+    this.cyl(0.016, 0.02, 'red', 1.08, F + 0.905, -0.14, 'z')
+    this.cyl(0.016, 0.02, 'black', 1.15, F + 0.905, -0.14, 'z')
+    // 立柱上的控制盒
+    this.box(0.12, 0.3, 0.08, 'frame', 1.42, F + 0.62, -0.33)
+    const btn: [MatKey, number][] = [['green', 0.08], ['red', 0.0], ['yellow', -0.08]]
+    for (const [k, dy] of btn) this.cyl(0.018, 0.02, k, 1.42, F + 0.62 + dy, -0.28, 'z')
 
-    // 右侧：交换机、边缘盒子、IO 模块、信号灯塔、传感器
-    this.box(0.44, 0.045, 0.24, 'frame', 0.62, 0.9475, -0.2)
-    for (let i = 0; i < 8; i++) this.box(0.03, 0.02, 0.005, 'dark', 0.45 + i * 0.045, 0.948, -0.078, false)
-    this.box(0.4, 0.13, 0.26, 'dark', 1.08, 0.99, -0.2)
-    for (let i = 0; i < 9; i++) this.box(0.005, 0.08, 0.005, 'frame', 0.93 + i * 0.02, 0.99, -0.068, false)
-    const edgeLed = this.box(0.018, 0.018, 0.006, 'led', 1.22, 1.02, -0.067, false)
+    // ---------- 主屏（支臂） ----------
+    this.box(0.035, 0.22, 0.035, 'frame', 0.05, F + 0.2, -0.33)
+    this.box(0.2, 0.012, 0.14, 'frame', 0.05, F + 0.006, -0.3)
+    this.box(0.9, 0.55, 0.03, 'bezel', 0.05, F + 0.5, -0.31)
+    this.screenPlane(new Screen('main'), 0.86, 0.51, 0.05, F + 0.5, -0.294)
+
+    // ---------- 台面：PLC 托架与端子、边缘盒子、键盘 ----------
+    this.box(1.0, 0.02, 0.26, 'frame', -0.82, F + 0.01, -0.12)
+    this.box(0.98, 0.025, 0.02, 'frame', -0.82, F + 0.09, -0.2)
+    this.box(0.14, 0.2, 0.13, 'frame', -1.24, F + 0.12, -0.18)
+    for (let i = 0; i < 5; i++) this.box(0.09, 0.005, 0.004, 'dark', -1.24, F + 0.15 + i * 0.02, -0.114, false)
+    const psu = this.box(0.016, 0.016, 0.005, 'led', -1.27, F + 0.06, -0.113, false)
+    this.leds.push({ mesh: psu, phase: 1 })
+    for (let i = 0; i < 6; i++) {
+      const x = -1.1 + i * 0.085
+      const h = i === 0 ? 0.2 : 0.17
+      this.box(0.078, h, 0.12, i < 2 ? 'black' : 'dark', x, F + 0.02 + h / 2, -0.18)
+      for (let k = 0; k < 3; k++) {
+        const led = this.box(0.01, 0.01, 0.005, 'led', x - 0.02, F + 0.02 + h - 0.03 - k * 0.02, -0.118, false)
+        this.leds.push({ mesh: led, phase: Math.random() * 6.28 })
+      }
+      this.box(0.05, 0.02, 0.005, 'blue', x + 0.008, F + 0.05, -0.118, false)
+    }
+    for (let i = 0; i < 12; i++) this.box(0.018, 0.06, 0.06, i % 4 === 3 ? 'frame' : 'green', -0.55 + i * 0.022, F + 0.05, -0.18)
+    // 彩色接线（蓝、红）
+    const wire = (pts: [number, number, number][], k: MatKey) => {
+      const c = new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p)))
+      const m = new THREE.Mesh(new THREE.TubeGeometry(c, 32, 0.0026, 6), this.mats[k])
+      m.userData.keep = true
+      this.root.add(m)
+    }
+    for (let i = 0; i < 12; i++) {
+      const x = -0.55 + i * 0.022
+      wire([[x, F + 0.02, -0.15], [x + 0.01, F + 0.012, -0.08], [x - 0.04 + i * 0.006, F + 0.012, 0.0]], i % 5 === 2 ? 'red' : 'blue')
+    }
+    this.box(0.38, 0.11, 0.24, 'black', 0.95, F + 0.055, -0.1)
+    for (let i = 0; i < 9; i++) this.box(0.005, 0.07, 0.005, 'frame', 0.82 + i * 0.02, F + 0.055, 0.021, false)
+    const edgeLed = this.box(0.016, 0.016, 0.006, 'led', 1.08, F + 0.08, 0.022, false)
     this.leds.push({ mesh: edgeLed, phase: 0 })
-    this.box(0.012, 0.012, 0.006, 'frame', 1.22, 0.985, -0.067, false)
-    this.box(0.18, 0.09, 0.14, 'white', 1.4, 0.97, 0.1)
-    this.cyl(0.03, 0.04, 'dark', 1.42, 0.945, -0.32)
-    this.cyl(0.012, 0.16, 'frame', 1.42, 1.04, -0.32)
-    this.cyl(0.028, 0.05, 'white', 1.42, 1.145, -0.32)
-    this.cyl(0.028, 0.05, 'white', 1.42, 1.2, -0.32)
-    this.cyl(0.028, 0.05, 'green', 1.42, 1.255, -0.32)
-    // 台面上的物件
-    this.box(0.5, 0.016, 0.16, 'frame', 0.02, 0.933, 0.24)
-    this.box(0.07, 0.022, 0.11, 'white', 0.4, 0.936, 0.24)
-    this.box(0.26, 0.012, 0.34, 'frame', -0.72, 0.931, 0.14)
-    this.cyl(0.035, 0.09, 'frame', -1.2, 0.97, 0.22)
-    this.box(0.3, 0.008, 0.03, 'frame', 0.9, 0.929, 0.3)
+    this.box(0.03, 0.012, 0.006, 'orange', 1.08, F + 0.035, 0.022, false)
+    this.box(0.46, 0.016, 0.15, 'frame', 0.1, F + 0.008, 0.22)
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 12; c++) this.box(0.028, 0.006, 0.028, c === 11 && r === 0 ? 'orange' : 'white', -0.105 + c * 0.037, F + 0.019, 0.17 + r * 0.04, false)
+    this.box(0.07, 0.02, 0.1, 'white', 0.42, F + 0.01, 0.22)
+    // 右侧摆臂平板
+    this.box(0.3, 0.03, 0.03, 'frame', 1.5, F + 0.3, -0.1)
+    this.box(0.28, 0.2, 0.02, 'bezel', 1.62, F + 0.42, -0.1)
+    this.screenPlane(new Screen('tree'), 0.25, 0.17, 1.62, F + 0.42, -0.089)
 
-    // 下层：电机 + 泵、收纳箱
-    this.cyl(0.11, 0.34, 'frame', -0.95, 0.4, 0, 'x')
-    for (let i = 0; i < 7; i++) this.cyl(0.118, 0.012, 'dark', -1.07 + i * 0.04, 0.4, 0, 'x')
-    const fan = this.box(0.012, 0.16, 0.012, 'dark', -0.635, 0.4, 0.06)
+    // ---------- 台下：伺服电机、抽屉柜、垃圾桶、工控机 ----------
+    this.cyl(0.075, 0.22, 'black', -0.82, 0.42, 0.05, 'x')
+    this.box(0.14, 0.15, 0.15, 'black', -0.64, 0.42, 0.05)
+    this.cyl(0.02, 0.1, 'frame', -0.98, 0.42, 0.05, 'x')
+    const fan = this.box(0.012, 0.12, 0.012, 'frame', -1.03, 0.42, 0.1)
     this.spin.push(fan)
-    this.cyl(0.03, 0.14, 'frame', -0.71, 0.4, 0, 'x')
-    this.box(0.18, 0.2, 0.2, 'hatch', -0.55, 0.385, 0)
-    this.cyl(0.05, 0.1, 'frame', -0.41, 0.4, 0, 'x')
-    this.box(0.5, 0.02, 0.26, 'frame', -0.85, 0.295, 0)
-    this.box(0.5, 0.26, 0.4, 'white', 0.3, 0.415, 0)
-    this.box(0.5, 0.03, 0.42, 'frame', 0.3, 0.56, 0)
-    this.box(0.42, 0.2, 0.4, 'hatch', 0.95, 0.385, 0)
-    this.box(0.14, 0.03, 0.01, 'frame', 0.95, 0.42, 0.205, false)
+    const mled = this.box(0.016, 0.016, 0.006, 'led', -0.64, 0.46, 0.128, false)
+    this.leds.push({ mesh: mled, phase: 2 })
+    this.box(0.44, 0.02, 0.3, 'frame', -0.78, 0.335, 0.05)
+    this.box(0.48, 0.5, 0.5, 'white', 0.95, F - 0.37, 0.05)
+    for (let i = 0; i < 3; i++) {
+      this.box(0.46, 0.004, 0.004, 'frame', 0.95, F - 0.2 - i * 0.16, 0.302, false)
+      this.box(0.14, 0.014, 0.01, 'frame', 0.95, F - 0.155 - i * 0.16, 0.306, false)
+    }
+    this.cyl(0.1, 0.28, 'white', -1.0, 0.19, 0.2)
+    this.box(0.22, 0.02, 0.2, 'frame', -1.0, 0.04, 0.2)
+    this.box(0.36, 0.42, 0.34, 'frame', 0.1, 0.32, -0.05)
+    for (let i = 0; i < 8; i++) this.box(0.26, 0.006, 0.004, 'dark', 0.1, 0.18 + i * 0.03, 0.122, false)
+    this.box(0.02, 0.02, 0.006, 'led', 0.22, 0.48, 0.123, false)
 
-    // 制图辅助线：地面线、台面线、边界线、30° 参考线与尺寸线
-    const gp: number[] = []
-    const L = (x1: number, y1: number, x2: number, y2: number) => gp.push(x1, y1, -0.6, x2, y2, -0.6)
-    L(-30, 0, 30, 0)
+    // 地面线与地面斜线带
+    const gp = [-30, 0, -0.6, 30, 0, -0.6]
     const gg = new THREE.BufferGeometry()
     gg.setAttribute('position', new THREE.Float32BufferAttribute(gp, 3))
     this.guides.add(new THREE.LineSegments(gg, this.guideMat))
-    // 地面：斜线填充带
     const ground = new THREE.Mesh(new THREE.PlaneGeometry(60, 0.09), this.groundMat)
     ground.position.set(0, -0.045, -0.6)
     this.guides.add(ground)
@@ -386,7 +419,6 @@ export class Workbench {
       const curve = new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p)))
       const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 96, 0.0021, 6), this.cableMat)
       tube.userData.keep = true
-      tube.userData.cable = true
       this.root.add(tube)
       const dots: THREE.Mesh[] = []
       for (let i = 0; i < n * 4; i++) {
@@ -399,14 +431,12 @@ export class Workbench {
       }
       this.flows.push({ curve, dots, speed, offset: Math.random() })
     }
-    cable([[-1.0, 0.95, -0.22], [-0.8, 0.935, 0.0], [-0.35, 0.935, -0.1], [-0.1, 1.0, -0.33], [-0.02, 1.2, -0.34]], 3, 0.08)
-    cable([[0.95, 0.99, -0.06], [0.75, 0.935, 0.04], [0.3, 0.935, -0.16], [0.1, 1.02, -0.33], [0.03, 1.2, -0.34]], 3, 0.1)
-    cable([[-1.15, 1.17, -0.3], [-1.2, 1.32, -0.4], [-1.02, 1.44, -0.42]], 2, 0.12)
-    cable([[1.2, 1.06, -0.2], [1.24, 1.3, -0.4], [1.02, 1.49, -0.42]], 2, 0.11)
-    cable([[1.4, 0.975, 0.02], [1.3, 0.935, 0.0], [1.2, 0.96, -0.08]], 2, 0.14)
-    cable([[0.62, 0.95, -0.08], [0.6, 0.935, 0.05], [0.3, 0.935, 0.2]], 2, 0.13)
-    cable([[-0.72, 0.94, 0.0], [-0.6, 0.935, -0.2], [-0.3, 0.96, -0.3]], 2, 0.12)
-    cable([[-0.78, 0.4, 0.1], [-0.3, 0.3, 0.2], [0.05, 0.33, 0.22]], 2, 0.09)
+    cable([[-0.9, F + 0.19, -0.13], [-0.6, F + 0.2, -0.05], [-0.3, F + 0.02, 0.0], [-0.05, F + 0.04, -0.25], [0.02, F + 0.22, -0.3]], 3, 0.08)
+    cable([[0.82, F + 0.06, 0.03], [0.6, F + 0.015, 0.05], [0.3, F + 0.02, -0.15], [0.1, F + 0.15, -0.3]], 3, 0.1)
+    cable([[1.08, F + 0.11, -0.1], [1.2, F + 0.4, -0.25], [1.08, F + 0.85, -0.3], [0.95, F + 0.88, -0.27]], 2, 0.12)
+    cable([[1.12, F + 0.06, -0.12], [1.35, F + 0.12, -0.12], [1.47, F + 0.3, -0.1]], 2, 0.14)
+    cable([[-0.64, 0.5, 0.06], [-0.4, 0.75, 0.1], [-0.5, F - 0.08, 0.1], [-0.6, F + 0.02, -0.05]], 2, 0.09)
+    cable([[0.2, 0.5, 0.05], [0.4, 0.75, 0.1], [0.7, F - 0.07, 0.0], [0.85, F + 0.02, -0.05]], 2, 0.11)
   }
 
   private screenPlane(s: Screen, w: number, h: number, x: number, y: number, z: number) {
@@ -427,7 +457,7 @@ export class Workbench {
       // 台面顶面始终是制图垫板
       o.material = o.userData.top ? [base, base, this.matTop, base, base, base] : base
     })
-    this.edgeMat.opacity = mode === 'wire' ? 0.62 : 0.14
+    this.edgeMat.opacity = 0.32
     this.host.dataset.mode = mode
   }
 
@@ -436,13 +466,9 @@ export class Workbench {
     const bg = css.getPropertyValue('--background').trim() || '#FFFFFF'
     const fg = css.getPropertyValue('--foreground').trim() || '#050B14'
     const dark = new THREE.Color(bg).getHSL({ h: 0, s: 0, l: 0 }).l < 0.5
-    const set = (k: MatKey, c: string) => (this.wire[k] as THREE.MeshBasicMaterial).color.set(c)
-    // 层次：背板最浅，框架白，前景硬件逐级加深
-    set('panel', dark ? '#0a1119' : '#FCFCFB'); set('frame', dark ? '#0f161e' : '#FFFFFF'); set('light', dark ? '#ffffff' : '#FFFFFF')
-    set('white', dark ? '#1c242c' : '#E6E8EA'); set('dark', dark ? '#3a444e' : '#33383d'); set('bezel', dark ? '#0f161e' : '#FFFFFF')
-    for (const h of [this.wire.hatch as THREE.ShaderMaterial, this.groundMat]) { h.uniforms.uBg.value.set(dark ? '#0f161e' : '#FFFFFF'); h.uniforms.uLine.value.set(fg) }
+    this.groundMat.uniforms.uLine.value.set(fg)
     this.groundMat.uniforms.uBg.value.set(bg); this.groundMat.uniforms.uAlpha.value = 0.1
-    this.holeMat.color.set(dark ? '#232c35' : '#DDE0E3')
+    this.holeMat.color.set(dark ? '#232c35' : '#C9CED3')
     this.cableMat.color.set(dark ? '#aab1b8' : '#30353a')
     this.edgeMat.color.set(fg)
     this.guideMat.color.set(fg)
@@ -464,42 +490,21 @@ export class Workbench {
     this.aspect = w / h
   }
 
-  /** 两段都是正视角：先正面推近台面，再切到台面俯视图并继续推近垫板。 */
+  /** 固定正视角，鼠标带来轻微视差。 */
   private updateCamera() {
-    const p = this.progress
-    const ss = (a: number, b: number, x: number) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t) }
-    const SWITCH = 0.62
-    let height: number
     const cam = this.camera
-    if (p < SWITCH) {
-      const e = ss(0, SWITCH, p)
-      const h0 = Math.max(2.75, 3.7 / this.aspect)
-      height = h0 + (0.62 - h0) * e
-      const cy = 1.2 + (0.99 - 1.2) * e
-      cam.up.set(0, 1, 0)
-      const px = this.pan.x * 0.035 * (1 - e)
-      const py = this.pan.y * 0.02 * (1 - e)
-      cam.position.set(px, cy + py, 10)
-      cam.lookAt(px, cy + py, 0)
-      this.guides.visible = true
-    } else {
-      const e = ss(SWITCH, 1, p)
-      const h0 = 0.9
-      height = h0 + (0.66 - h0) * e
-      const cx = 0.28 * e
-      const cz = 0.02 + 0.1 * e
-      this.guides.visible = false
-      cam.up.set(0, 0, -1)
-      cam.position.set(cx, 1.85, cz)
-      cam.lookAt(cx, 0, cz)
-    }
+    const height = Math.max(2.7, 3.9 / this.aspect)
+    const cy = 1.2
+    const px = this.pan.x * 0.03
+    const py = this.pan.y * 0.018
+    cam.up.set(0, 1, 0)
+    cam.position.set(px, cy + py, 10)
+    cam.lookAt(px, cy + py, 0)
     cam.top = height / 2
     cam.bottom = -height / 2
     cam.right = (height * this.aspect) / 2
     cam.left = -cam.right
     cam.updateProjectionMatrix()
-    const fade = Math.min(1, Math.abs(p - SWITCH) / 0.06)
-    this.renderer.domElement.style.opacity = String(fade)
   }
 
   private loop = (t: number) => {
@@ -542,7 +547,7 @@ export class Workbench {
     for (const a of this.anchors) {
       v.copy(a.pos).project(this.camera)
       a.el.style.transform = `translate(${((v.x + 1) / 2) * w}px, ${((1 - v.y) / 2) * h}px)`
-      a.el.style.opacity = String(Math.max(0, Math.min(1, el - 1.6) - this.progress * 8))
+      a.el.style.opacity = String(Math.max(0, Math.min(1, el - 1.6)))
     }
   }
 

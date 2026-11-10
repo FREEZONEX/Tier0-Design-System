@@ -507,3 +507,8 @@ body.hero-on .sidebar { opacity: 0; transform: translateX(-24px); pointer-events
 .home-body > * { max-width: 1084px; }
 .home-body { padding-top: 40px; }
 @media (max-width: 800px) { body.hero-on .app { grid-template-columns: 1fr; } }
+
+/* workbench v4: single combined view, no scroll transition; cards without black top rule */
+.wb { height: calc(100vh - var(--top)); }
+.wb-ctl { display: none; }
+.mod-grid, .trait-grid { border-top-color: var(--border); }
