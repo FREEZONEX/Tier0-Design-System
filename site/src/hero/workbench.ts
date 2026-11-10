@@ -12,7 +12,7 @@ const T = {
   green: '#B2ED1D', green300: '#CBF368', green200: '#DCF797', green700: '#7EA815',
 }
 
-type MatKey = 'peg' | 'alu' | 'laminate' | 'paint' | 'housing' | 'plastic' | 'rubber' | 'bin' | 'led' | 'light' | 'glass' | 'hall' | 'hallDark'
+type MatKey = 'ink' | 'peg' | 'alu' | 'laminate' | 'paint' | 'housing' | 'plastic' | 'rubber' | 'bin' | 'led' | 'light' | 'glass' | 'hall' | 'hallDark'
 type Edge = 'near' | 'far' | 'none'
 
 function brushedTexture(base: string) {
@@ -186,6 +186,7 @@ export class Workbench {
     const brushedDark = brushedTexture(T.g400)
     this.mats = {
       alu: new THREE.MeshStandardMaterial({ color: '#ffffff', map: brushed, roughnessMap: brushed, metalness: 0.9, roughness: 0.28, envMapIntensity: 1.6 }),
+      ink: new THREE.MeshStandardMaterial({ color: T.b900, metalness: 0.25, roughness: 0.42, envMapIntensity: 0.9 }),
       peg: new THREE.MeshBasicMaterial({ color: T.green, toneMapped: false }),
       laminate: new THREE.MeshStandardMaterial({ color: T.g100, roughness: 0.75 }),
       paint: new THREE.MeshStandardMaterial({ color: T.g50, roughness: 0.85 }),
@@ -315,7 +316,7 @@ export class Workbench {
     const C = (r: number, l: number, k: MatKey, x: number, y: number, z: number, a: 'x' | 'y' | 'z' = 'y', edge: Edge = e) => this.cyl(r, l, k, x, y, z, a, edge, g)
 
     // 框架
-    B(3.0, 0.045, 0.85, 'laminate', 0, F - 0.0225, 0)
+    B(3.0, 0.045, 0.85, hero ? 'ink' : 'laminate', 0, F - 0.0225, 0)
     B(3.02, 0.022, 0.86, 'alu', 0, F - 0.056, 0)
     B(2.6, 0.07, 0.05, 'alu', 0, F - 0.1, 0.38)
     for (const x of [-1.32, 1.32]) {
@@ -328,7 +329,7 @@ export class Workbench {
     }
     B(2.58, 0.05, 0.05, 'alu', 0, 0.3, 0)
     B(2.76, 0.06, 0.08, 'alu', 0, F + 1.33, -0.38)
-    B(2.3, 0.07, 0.24, 'alu', 0, F + 1.42, -0.18)
+    B(2.3, 0.07, 0.24, hero ? 'ink' : 'alu', 0, F + 1.42, -0.18)
     B(2.2, 0.016, 0.18, 'light', 0, F + 1.382, -0.18, 'none')
     B(2.58, 0.92, 0.015, hero ? 'peg' : 'paint', 0, F + 0.56, -0.4)
     if (!hero) return
@@ -349,8 +350,8 @@ export class Workbench {
       g.add(im)
     }
     /** 屏幕：铝外框 + 深色细内框 + 画面，边界清楚但不压重。 */
-    const display = (scr: Screen, w: number, h: number, x: number, y: number, z: number, frame = 0.022) => {
-      R(w + frame * 2, h + frame * 2, 0.026, 0.01, 'alu', x, y, z)
+    const display = (scr: Screen, w: number, h: number, x: number, y: number, z: number, frame = 0.022, k: MatKey = 'alu') => {
+      R(w + frame * 2, h + frame * 2, 0.026, 0.01, k, x, y, z)
       B(w + 0.008, h + 0.008, 0.002, 'housing', x, y, z + 0.0135, 'none')
       this.screen(scr, w, h, x, y, z + 0.0148, g)
     }
@@ -391,12 +392,12 @@ export class Workbench {
     for (let r = 0; r < 4; r++) for (let c = 0; c < 5; c++) {
       const x = -1.18 + c * 0.13
       const y = F + 0.6 + r * 0.08
-      B(0.115, 0.068, 0.012, r === 1 && c === 2 ? 'bin' : 'housing', x, y, -0.196)
+      B(0.115, 0.068, 0.012, 'housing', x, y, -0.196)
       B(0.04, 0.008, 0.008, 'plastic', x, y - 0.018, -0.186, 'none')
     }
     // ---- 右：百叶孔板 + 仪器层板 ----
-    B(1.2, 0.025, 0.3, 'alu', 0.65, F + 0.86, -0.27)
-    for (const x of [0.1, 1.2]) B(0.02, 0.06, 0.26, 'alu', x, F + 0.83, -0.27)
+    B(1.2, 0.025, 0.3, 'ink', 0.65, F + 0.86, -0.27)
+    for (const x of [0.1, 1.2]) B(0.02, 0.06, 0.26, 'ink', x, F + 0.83, -0.27)
     B(0.4, 0.2, 0.26, 'paint', 0.32, F + 0.972, -0.27)
     display(new Screen('scope'), 0.21, 0.13, 0.27, F + 0.975, -0.15, 0.012)
     for (let i = 0; i < 3; i++) C(0.013, 0.02, i === 0 ? 'bin' : 'plastic', 0.455, F + 1.03 - i * 0.045, -0.13, 'z')
@@ -413,7 +414,7 @@ export class Workbench {
     // ---- 主屏 ----
     B(0.035, 0.24, 0.035, 'alu', 0.05, F + 0.2, -0.33)
     B(0.2, 0.012, 0.15, 'alu', 0.05, F + 0.006, -0.3)
-    display(new Screen('main'), 0.86, 0.5, 0.05, F + 0.52, -0.315, 0.024)
+    display(new Screen('main'), 0.86, 0.5, 0.05, F + 0.52, -0.315, 0.024, 'ink')
 
     // ---- 台面左：放大镜灯、焊台、元件盘 ----
     B(0.22, 0.1, 0.16, 'housing', -0.72, F + 0.05, 0.18)
@@ -457,7 +458,7 @@ export class Workbench {
     display(new Screen('psu'), 0.22, 0.13, -1.62, F + 0.48, -0.11, 0.016)
 
     // ---- 台下 ----
-    B(0.48, 0.5, 0.5, 'paint', 0.95, F - 0.37, 0.05)
+    B(0.48, 0.5, 0.5, 'ink', 0.95, F - 0.37, 0.05)
     for (let i = 0; i < 3; i++) B(0.14, 0.014, 0.01, 'alu', 0.95, F - 0.155 - i * 0.16, 0.306, 'none')
     C(0.075, 0.22, 'plastic', -0.82, 0.42, 0.05, 'x')
     B(0.14, 0.15, 0.15, 'plastic', -0.64, 0.42, 0.05)
