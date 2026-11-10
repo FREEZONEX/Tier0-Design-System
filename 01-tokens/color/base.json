@@ -14,7 +14,7 @@
       },
       "fx-green-deep": {
         "$value": "{color.scale.fx-green-deep}",
-        "$description": "白底上的绿色文字、线条、图标、Logo——比 Light Green 深一档，在白底上清晰可读。",
+        "$description": "Logo、品牌图形和大面积的绿色识别——比 Light Green 深一档。在白底上对比度约 2.6:1，不用于文字和图标。",
         "$extensions": {
           "tier0": {
             "displayName": "Deep Green"
@@ -86,11 +86,11 @@
         },
         "800": {
           "$value": "#628210",
-          "$description": "浅底上最深的高亮文字，可读性最好。"
+          "$description": "浅色模式下的焦点环——在白底上约 4.5:1。"
         },
         "900": {
           "$value": "#4B640C",
-          "$description": "色阶终点，较少直接使用。"
+          "$description": "浅色模式下的绿色文字和图标、深色模式下的选中底——在白底上约 6.7:1。"
         }
       },
       "fx-green-deep": {
@@ -142,7 +142,11 @@
         },
         "400": {
           "$value": "#878787",
-          "$description": "说明、次要标签、时间戳——中灰，最弱的可读文字。"
+          "$description": "深色模式下的次要文字、输入框边框——中灰。在白底上只有 3.6:1，浅色模式下不用于需要阅读的文字。"
+        },
+        "500": {
+          "$value": "#737373",
+          "$description": "浅色模式下的次要文字——比 400 深一档，在白底和浅灰底上都达到 4.5:1。"
         }
       },
       "primary-white": {

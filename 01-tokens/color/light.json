@@ -35,12 +35,16 @@
         "$description": "悬停填充、行内代码、输入框底。"
       },
       "muted-foreground": {
-        "$value": "{color.scale.grey.400}",
+        "$value": "{color.scale.grey.500}",
         "$description": "说明、次要标签、时间戳。"
       },
       "border": {
         "$value": "{color.scale.grey.200}",
         "$description": "单元格之间、卡片周围的细线。"
+      },
+      "input": {
+        "$value": "{color.scale.grey.400}",
+        "$description": "输入框、选择器等交互控件的边框，需与背景达到 3:1。"
       }
     },
     "brand": {
@@ -63,25 +67,29 @@
       },
       "highlight-deep": {
         "$value": "{color.scale.fx-green-deep}",
-        "$description": "深绿：白底上需要绿色识别性的文字、线条、图标或 Logo。"
+        "$description": "深绿：Logo、品牌图形和大面积的绿色识别。不用于文字和图标（改用 highlight-ink）。"
+      },
+      "highlight-ink": {
+        "$value": "{color.scale.fx-green.900}",
+        "$description": "绿色的文字和图标：需要阅读、辨认的绿色元素。"
       },
       "accent": {
         "$value": "{color.scale.fx-green.50}",
         "$description": "选中行、高亮行的浅绿底。"
       },
       "ring": {
-        "$value": "{color.scale.fx-green-deep}",
-        "$description": "键盘焦点环。"
+        "$value": "{color.scale.fx-green.800}",
+        "$description": "键盘焦点环，宽 2px。"
       }
     },
     "status": {
       "$description": "状态。只用于真实的结果，并且总是配合图标或文字。",
       "success": {
-        "$value": "{color.auxiliary.green.600}",
+        "$value": "{color.auxiliary.green.800}",
         "$description": "已完成、已保存、已连接。"
       },
       "warning": {
-        "$value": "{color.auxiliary.yellow.700}",
+        "$value": "{color.auxiliary.yellow.800}",
         "$description": "需要注意、接近上限。"
       },
       "destructive": {
