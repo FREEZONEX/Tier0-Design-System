@@ -13,6 +13,7 @@ Tier0 的品牌与设计系统，同时服务对外的品牌宣传和对内的�
 | [`02-components/`](02-components/) | 对内：产品界面组件与用法 |
 | [`03-brand/`](03-brand/) | 对外：品牌资产：Logo、纹理、动画、音效、图片、图标、模版 |
 | [`04-skills/`](04-skills/) | AI 调用规则：UI 界面、官网、Slides、宣传物料 |
+| [`site/`](site/) | 设计系统门户网站：读取以上目录实时展示，本地用 `python3 -m http.server` 在仓库根目录启动后访问 `/site/` |
 | [`changelog.md`](changelog.md) | 变更记录 |
 
 ## 依赖方向

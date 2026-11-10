@@ -4,11 +4,12 @@
     "$extensions": {
       "tier0": {
         "rules": [
+          "组件只使用 light.json / dark.json 主层的 token，不直接使用 base.json 的色值。",
           "使用语义工具类：bg-background、text-muted-foreground、border-border。",
           "组件中不写物理颜色：不用 #fff、gray-500、bg-white。",
           "组件中不写 dark: 分支。深色模式由 .dark 类和 token 层负责。",
-          "品牌绿不用于大面积背景、装饰、图标和箭头。",
-          "不用渐变文字、渐变描边或大面积色彩晕染。"
+          "页面不用彩色大面积背景；品牌绿不用于装饰；白底上的绿色文字和图标使用 highlight-ink。",
+          "不用渐变、玻璃质感、渐变文字、渐变描边或大面积色彩晕染。"
         ]
       }
     },

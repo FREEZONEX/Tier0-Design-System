@@ -1,10 +1,13 @@
-name: Deploy public site
+name: Deploy design system site
 
 on:
   push:
     branches: [main]
     paths:
-      - '_legacy/**'
+      - 'site/**'
+      - '00-foundation/**'
+      - '01-tokens/**'
+      - '03-brand/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -22,38 +25,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: npm
-          cache-dependency-path: _legacy/skills/tier0-slide-skill/package-lock.json
-      - name: Install slide-skill deps
-        run: npm ci
-        working-directory: _legacy/skills/tier0-slide-skill
-      - name: Build public site
-        run: node _legacy/scripts/build-public-site.mjs
-      - name: Stage Pages artifact under /site
+      - name: Stage site with tokens and brand assets
         run: |
-          mkdir -p _pages/site
-          cp -R _legacy/site/. _pages/site/
-          cat > _pages/index.html <<'EOF'
+          mkdir -p _pages
+          cp -R site 00-foundation 01-tokens 03-brand _pages/
+          cat > _pages/index.html <<'HTML'
           <!doctype html>
           <html lang="zh-CN">
           <head>
             <meta charset="utf-8">
-            <link rel="icon" href="./site/assets/brand/favicon.png" type="image/png">
             <meta http-equiv="refresh" content="0;url=./site/">
             <link rel="canonical" href="./site/">
             <title>Tier0 Design System</title>
           </head>
-          <body>
-            <p><a href="./site/">Open Tier0 Design System site</a></p>
-          </body>
+          <body><p><a href="./site/">Open Tier0 Design System</a></p></body>
           </html>
-          EOF
+          HTML
           touch _pages/.nojekyll
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages
 
