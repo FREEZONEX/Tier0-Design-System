@@ -512,3 +512,9 @@ body.hero-on .sidebar { opacity: 0; transform: translateX(-24px); pointer-events
 .wb { height: calc(100vh - var(--top)); }
 .wb-ctl { display: none; }
 .mod-grid, .trait-grid { border-top-color: var(--border); }
+
+/* workbench v5: perspective scene, dolly back through the hall, then fade into content */
+.wb { height: 300vh; }
+.wb-stage::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: var(--background);
+  opacity: clamp(0, calc((var(--wb-p, 0) - 0.72) * 4), 1); }
+.wb + .home-body { margin-top: -30vh; position: relative; }
