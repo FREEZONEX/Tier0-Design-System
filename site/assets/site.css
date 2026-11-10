@@ -486,3 +486,10 @@ details.fold > .code { border: 0; border-top: 1px solid var(--border); border-ra
 .home-body > .sec:first-child { margin-top: 24px; }
 [data-island][data-enhanced] { display: block; }
 .rules { list-style: decimal; }
+
+/* workbench v2: no dot grid, flat, lighter tags */
+.wb { height: 320vh; }
+.wb-stage { background-image: none; }
+.wb-stage canvas { transition: opacity 80ms linear; }
+.wb-tag { border-color: color-mix(in srgb, var(--foreground) 35%, transparent); color: var(--muted-foreground); font-size: 10px; height: 20px; }
+.wb-tag::before { background: color-mix(in srgb, var(--foreground) 35%, transparent); }

@@ -209,10 +209,9 @@
     const tiles = [['color', '颜色', '品牌色、色阶和用途 token。'], ['typography', '字体', 'Inter、IBM Plex 与两套字阶。'], ['components', '组件', '以 Tier0-Frontend 组件库为准。'], ['foundation', '品牌与原则', '品牌故事、设计原则和品牌特征。'], ['logo', 'Logo', '四种底色下的标准用法。'], ['skills', 'Skills', '让 AI 按设计系统生成界面和物料。']];
     const tags = [['PLC / MODBUS', '-1.0,1.2,-0.24'], ['UNS / Factory-A / Line-01', '0,1.8,-0.34'], ['EDGE_BOX / 192.168.1.50', '1.0,1.08,-0.05']];
     return `<section class="wb" data-workbench><div class="wb-stage"><canvas aria-hidden="true"></canvas>
-        <div class="wb-head"><h1>Connect once,<br><em>Reuse everywhere.</em></h1><p>${esc(plain(what))}</p></div>
-        <div class="wb-ctl"><div class="seg sm"><button type="button" data-wb-mode="material" aria-pressed="true">材质</button><button type="button" data-wb-mode="wire" aria-pressed="false">线框</button></div></div>
+        <div class="wb-ctl"><div class="seg sm"><button type="button" data-wb-mode="wire" aria-pressed="true">线框</button><button type="button" data-wb-mode="material" aria-pressed="false">材质</button></div></div>
         ${tags.map(([t, a]) => `<span class="wb-tag" data-anchor="${a}"><i></i>${t}</span>`).join('')}
-        <div class="wb-foot"><span><i class="sig"></i>数据接入中</span><span>向下滚动，走近工作台</span></div></div></section>
+</div></section>
       <div class="home-body">`
       + `<section class="sec" id="h-go"><div class="mod-grid">${tiles.map(([h, t, d], i) => `<a class="mod" href="#${h}"><span class="mod-no">${String(i + 1).padStart(2, '0')}</span><b>${t}</b><span class="mod-d">${d}</span><i class="mod-led"></i></a>`).join('')}</div></section>`
       + sec('h-traits', '品牌特征', '', `<div class="trait-grid">${traits.map((t, i) => `<div class="trait"><span class="mod-no">${String(i + 1).padStart(2, '0')}</span><b>${esc(plain(t[0]))}</b><span>${esc(plain(t[1]).split('。')[0])}。</span></div>`).join('')}</div>`)
