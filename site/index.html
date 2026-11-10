@@ -5,42 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Tier0 Design System</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Tier0 的品牌与设计系统：Foundation、颜色、字体、组件、品牌素材与 Agent Skills。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+SC:wght@400;500;600&family=Tektur:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+SC:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 <header class="topbar">
-  <div class="topbar-inner">
-    <a class="brandmark" href="#home" aria-label="Tier0 Design System 首页">
-      <img class="logo-light" data-src="03-brand/logo/assets/tier0-logo-black.svg" alt="Tier0">
-      <img class="logo-dark" data-src="03-brand/logo/assets/tier0-logo-white.svg" alt="Tier0">
-      <span>Design System</span>
-    </a>
-    <nav class="topnav" id="topnav" aria-label="主导航"></nav>
-    <div class="topbar-tools">
-      <button class="tool-btn" id="theme-btn" type="button" aria-label="切换主题">◐ 跟随系统</button>
-      <a class="tool-btn" href="https://github.com/FREEZONEX/Tier0-Design-System" target="_blank" rel="noopener">GitHub ↗</a>
-    </div>
+  <button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="目录"></button>
+  <a class="brandmark" href="#home" aria-label="Tier0 Design System">
+    <img class="logo-light" data-src="03-brand/logo/assets/tier0-logo-black.svg" alt="Tier0">
+    <img class="logo-dark" data-src="03-brand/logo/assets/tier0-logo-white.svg" alt="Tier0">
+  </a>
+  <div class="tools">
+    <a class="icon-btn" id="gh-btn" href="https://github.com/FREEZONEX/Tier0-Design-System" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"></a>
+    <button class="icon-btn txt" id="lang-btn" type="button" title="语言" aria-label="切换语言">EN</button>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="切换主题"></button>
   </div>
 </header>
-<div class="shell">
-  <nav class="sidenav" id="sidenav" aria-label="目录"></nav>
+<div class="app">
+  <nav class="sidebar" id="sidebar" aria-label="目录"></nav>
   <main id="main"></main>
 </div>
-<footer class="footer">
-  <div class="footer-inner">
-    <div>
-      <div class="eyebrow"><b>Tier0</b>/<span>Agentic 工业数据平台</span></div>
-      <p class="slogan">Connect once,<br>Reuse everywhere.</p>
-    </div>
-    <div><h6>基础</h6><a href="#foundation">Foundation</a><a href="#color">颜色</a><a href="#typography">字体</a></div>
-    <div><h6>使用</h6><a href="#components">组件</a><a href="#playground">试用台</a><a href="#skills">Skills</a></div>
-    <div><h6>相关</h6><a href="https://tier0.app" target="_blank" rel="noopener">tier0.app ↗</a><a href="https://docs.tier0.app" target="_blank" rel="noopener">文档 ↗</a><a href="https://github.com/FREEZONEX/Tier0-Design-System" target="_blank" rel="noopener">GitHub ↗</a></div>
-  </div>
-</footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script src="assets/site.js"></script>
