@@ -5,7 +5,7 @@
       "$description": "品牌色。",
       "fx-green-500": {
         "$value": "{color.scale.fx-green.500}",
-        "$description": "信号、实时数据、选中、重点区块——高饱和的黄绿色，品牌层面唯一的颜色。只以色块、圆点、粗条出现，上面放近黑文字。",
+        "$description": "信号、实时数据、选中、重点区块——亮绿色，品牌主色。",
         "$extensions": {
           "tier0": {
             "displayName": "Light Green"

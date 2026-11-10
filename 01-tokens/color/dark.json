@@ -55,7 +55,7 @@
       },
       "highlight": {
         "$value": "{color.scale.fx-green.500}",
-        "$description": "品牌绿：信号、实时数据、选中、重点区块。只以色块、圆点、粗条的形式出现，上面放近黑文字；不用作白底上的文字、细线和图标。"
+        "$description": "品牌绿：信号、实时数据、选中、重点区块。"
       },
       "highlight-foreground": {
         "$value": "{color.scale.black.900}",
