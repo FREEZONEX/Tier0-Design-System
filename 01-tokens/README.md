@@ -93,7 +93,9 @@ CSS、Tailwind、Figma 变量等成品文件不放在仓库里，需要时由脚
 
 **字阶**
 
-名称与前端 `packages/theme/src/tailwind.css` 一致：`typo-h1` 至 `typo-h4`、`title` 直接对应同名 class，`body`、`body-sm`、`caption` 对应 Tailwind 的 `text-base`、`text-sm`、`text-xs`。每个 token 的前端对应写在 `typography.json` 的 `$extensions.tier0.frontend` 里。
+字阶分两套：**产品字阶**用于产品后台，与前端 `packages/theme/src/tailwind.css` 一致；**官网字阶**用于官网、Deck 和宣传物料，与官网现状一致。每个 token 的前端对应写在 `typography.json` 的 `$extensions.tier0.frontend` 里。
+
+*产品字阶*（`typography.product`）
 
 | Token | 字体 | 字号 / 行高 | 字重 | 用途 |
 |---|---|---|---|---|
@@ -102,12 +104,21 @@ CSS、Tailwind、Figma 变量等成品文件不放在仓库里，需要时由脚
 | `typo-h2` | Inter | 30 / 36 | 600 | 分区标题 |
 | `typo-h3` | Inter | 24 / 32 | 600 | 子标题、弹窗标题 |
 | `typo-h4` | Inter | 20 / 28 | 500 | 面板、卡片标题 |
-| `body` | IBM Plex Sans | 16 / 24 | 400 | 官网正文、长段落 |
+| `body` | IBM Plex Sans | 16 / 24 | 400 | 长段落 |
 | `body-sm` | IBM Plex Sans | 14 / 20 | 400 | 产品界面正文（默认） |
 | `label` | IBM Plex Sans | 14 / 20 | 500 | 按钮、表单标签、导航 |
 | `caption` | IBM Plex Sans | 12 / 16 | 400 | 辅助说明、时间戳，最小字号 |
 | `title` | IBM Plex Sans | 11 / 16 | 500 | 全大写分组小标题，仅英文 |
 | `code` | IBM Plex Mono | 13 / 20 | 400 | 代码、命令行、数据路径 |
+
+*官网字阶*（`typography.web`）
+
+标题、正文、说明、代码与产品字阶相同，只有下面两级不同：
+
+| Token | 字体 | 字号 / 行高 | 字重 | 用途 |
+|---|---|---|---|---|
+| `label` | IBM Plex Mono | 14 / 20 | 500 | 导航、按钮、链接；按钮文字可全大写 |
+| `title` | IBM Plex Mono | 11 / 16 | 400 | 分组小标签，全大写，用斜杠分隔层级，如 `EDGE_DATA / INDEPENDENT SOURCES` |
 
 **规则**
 

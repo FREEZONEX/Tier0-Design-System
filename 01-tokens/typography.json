@@ -89,205 +89,284 @@
     }
   },
   "typography": {
-    "$description": "字阶。标题用 display 字体，其余用 sans，代码用 mono。",
-    "display": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "{font.family.display}",
-        "fontSize": "48px",
-        "lineHeight": "60px",
-        "fontWeight": "{font.weight.medium}",
-        "letterSpacing": "-0.96px"
+    "$description": "字阶分两套：product 用于产品后台，web 用于官网和宣传物料。",
+    "product": {
+      "$description": "产品字阶：产品后台界面使用，与前端 packages/theme 一致。",
+      "display": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "48px",
+          "lineHeight": "60px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "-0.96px"
+        },
+        "$description": "官网首屏、Deck 封面——全系统最大的字号，每页最多一次。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "css": "h1 元素",
+              "tailwind": "text-5xl leading-tight font-medium"
+            }
+          }
+        }
       },
-      "$description": "官网首屏、Deck 封面——全系统最大的字号，每页最多一次。",
-      "$extensions": {
-        "tier0": {
-          "frontend": {
-            "css": "h1 元素",
-            "tailwind": "text-5xl leading-tight font-medium"
+      "typo-h1": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "38px",
+          "lineHeight": "46px",
+          "fontWeight": "{font.weight.bold}",
+          "letterSpacing": "-0.456px"
+        },
+        "$description": "页面大标题——每页一个，负字距让大字显得紧凑。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "typo-h1"
+            }
+          }
+        }
+      },
+      "typo-h2": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "{font.weight.semibold}",
+          "letterSpacing": "-0.225px"
+        },
+        "$description": "分区标题——划分页面的主要段落。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "typo-h2"
+            }
+          }
+        }
+      },
+      "typo-h3": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "24px",
+          "lineHeight": "32px",
+          "fontWeight": "{font.weight.semibold}",
+          "letterSpacing": "-0.144px"
+        },
+        "$description": "子标题、弹窗标题。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "typo-h3"
+            }
+          }
+        }
+      },
+      "typo-h4": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "20px",
+          "lineHeight": "28px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "-0.1px"
+        },
+        "$description": "面板、卡片标题——产品界面里最常用的标题。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "typo-h4"
+            }
+          }
+        }
+      },
+      "body": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "16px",
+          "lineHeight": "24px",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "0px"
+        },
+        "$description": "官网正文、长段落——字号和行高更宽松，适合连续阅读。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "text-base"
+            }
+          }
+        }
+      },
+      "body-sm": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "14px",
+          "lineHeight": "20px",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "0px"
+        },
+        "$description": "产品界面正文（默认）——信息密度和可读性的平衡点。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "text-sm"
+            }
+          }
+        }
+      },
+      "label": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "14px",
+          "lineHeight": "20px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "0px"
+        },
+        "$description": "按钮、表单标签、导航——与正文同字号，用 500 字重区分可操作的文字。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "text-sm font-medium"
+            }
+          }
+        }
+      },
+      "caption": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "12px",
+          "lineHeight": "16px",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "0px"
+        },
+        "$description": "辅助说明、时间戳、注释——全系统最小字号。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "text-xs",
+              "note": "前端 .caption 为 9px、.note 为 10px，低于 12px 下限，需改为 text-xs"
+            }
+          }
+        }
+      },
+      "title": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "11px",
+          "lineHeight": "16px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "0.55px"
+        },
+        "$description": "分组小标题——全大写、加字距，仅用于英文，如 EDGE_DATA / SOURCES。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "title（text-[11px] font-medium tracking-wider uppercase）"
+            },
+            "textTransform": "uppercase"
+          }
+        }
+      },
+      "code": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.mono}",
+          "fontSize": "13px",
+          "lineHeight": "20px",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "0px"
+        },
+        "$description": "代码、命令行、数据路径——比正文小一号，保持与正文的视觉重量一致。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "font-mono text-[13px]"
+            }
           }
         }
       }
     },
-    "typo-h1": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "{font.family.display}",
-        "fontSize": "38px",
-        "lineHeight": "46px",
-        "fontWeight": "{font.weight.bold}",
-        "letterSpacing": "-0.456px"
+    "web": {
+      "$description": "官网字阶：官网、Deck、宣传物料使用。标题与正文同产品字阶；导航、按钮和分组小标签使用等宽字体，与官网一致。",
+      "display": {
+        "$type": "typography",
+        "$value": "{typography.product.display}",
+        "$description": "官网首屏、Deck 封面——同产品字阶。"
       },
-      "$description": "页面大标题——每页一个，负字距让大字显得紧凑。",
-      "$extensions": {
-        "tier0": {
-          "frontend": {
-            "tailwind": "typo-h1"
+      "typo-h1": {
+        "$type": "typography",
+        "$value": "{typography.product.typo-h1}",
+        "$description": "同产品字阶。"
+      },
+      "typo-h2": {
+        "$type": "typography",
+        "$value": "{typography.product.typo-h2}",
+        "$description": "同产品字阶。"
+      },
+      "typo-h3": {
+        "$type": "typography",
+        "$value": "{typography.product.typo-h3}",
+        "$description": "同产品字阶。"
+      },
+      "typo-h4": {
+        "$type": "typography",
+        "$value": "{typography.product.typo-h4}",
+        "$description": "同产品字阶。"
+      },
+      "body": {
+        "$type": "typography",
+        "$value": "{typography.product.body}",
+        "$description": "官网正文、长段落——同产品字阶。"
+      },
+      "body-sm": {
+        "$type": "typography",
+        "$value": "{typography.product.body-sm}",
+        "$description": "卡片说明、辅助段落——同产品字阶。"
+      },
+      "label": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.mono}",
+          "fontSize": "14px",
+          "lineHeight": "20px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "0px"
+        },
+        "$description": "导航、按钮、链接——等宽字体，带出代码和工程气质；按钮文字可全大写，如 FREE TRIAL、LOG IN。"
+      },
+      "title": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.mono}",
+          "fontSize": "11px",
+          "lineHeight": "16px",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "0.55px"
+        },
+        "$description": "分组小标签——等宽、全大写，用斜杠分隔层级，如 EDGE_DATA / INDEPENDENT SOURCES。",
+        "$extensions": {
+          "tier0": {
+            "textTransform": "uppercase"
           }
         }
-      }
-    },
-    "typo-h2": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "{font.family.display}",
-        "fontSize": "30px",
-        "lineHeight": "36px",
-        "fontWeight": "{font.weight.semibold}",
-        "letterSpacing": "-0.225px"
       },
-      "$description": "分区标题——划分页面的主要段落。",
-      "$extensions": {
-        "tier0": {
-          "frontend": {
-            "tailwind": "typo-h2"
-          }
-        }
-      }
-    },
-    "typo-h3": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "{font.family.display}",
-        "fontSize": "24px",
-        "lineHeight": "32px",
-        "fontWeight": "{font.weight.semibold}",
-        "letterSpacing": "-0.144px"
+      "caption": {
+        "$type": "typography",
+        "$value": "{typography.product.caption}",
+        "$description": "同产品字阶。"
       },
-      "$description": "子标题、弹窗标题。",
-      "$extensions": {
-        "tier0": {
-          "frontend": {
-            "tailwind": "typo-h3"
-          }
-        }
-      }
-    },
-    "typo-h4": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "{font.family.display}",
-        "fontSize": "20px",
-        "lineHeight": "28px",
-        "fontWeight": "{font.weight.medium}",
-        "letterSpacing": "-0.1px"
-      },
-      "$description": "面板、卡片标题——产品界面里最常用的标题。",
-      "$extensions": {
-        "tier0": {
-          "frontend": {
-            "tailwind": "typo-h4"
-          }
-        }
-      }
-    },
-    "body": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "{font.family.sans}",
-        "fontSize": "16px",
-        "lineHeight": "24px",
-        "fontWeight": "{font.weight.regular}",
-        "letterSpacing": "0px"
-      },
-      "$description": "官网正文、长段落——字号和行高更宽松，适合连续阅读。",
-      "$extensions": {
-        "tier0": {
-          "frontend": {
-            "tailwind": "text-base"
-          }
-        }
-      }
-    },
-    "body-sm": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "{font.family.sans}",
-        "fontSize": "14px",
-        "lineHeight": "20px",
-        "fontWeight": "{font.weight.regular}",
-        "letterSpacing": "0px"
-      },
-      "$description": "产品界面正文（默认）——信息密度和可读性的平衡点。",
-      "$extensions": {
-        "tier0": {
-          "frontend": {
-            "tailwind": "text-sm"
-          }
-        }
-      }
-    },
-    "label": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "{font.family.sans}",
-        "fontSize": "14px",
-        "lineHeight": "20px",
-        "fontWeight": "{font.weight.medium}",
-        "letterSpacing": "0px"
-      },
-      "$description": "按钮、表单标签、导航——与正文同字号，用 500 字重区分可操作的文字。",
-      "$extensions": {
-        "tier0": {
-          "frontend": {
-            "tailwind": "text-sm font-medium"
-          }
-        }
-      }
-    },
-    "caption": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "{font.family.sans}",
-        "fontSize": "12px",
-        "lineHeight": "16px",
-        "fontWeight": "{font.weight.regular}",
-        "letterSpacing": "0px"
-      },
-      "$description": "辅助说明、时间戳、注释——全系统最小字号。",
-      "$extensions": {
-        "tier0": {
-          "frontend": {
-            "tailwind": "text-xs",
-            "note": "前端 .caption 为 9px、.note 为 10px，低于 12px 下限，需改为 text-xs"
-          }
-        }
-      }
-    },
-    "title": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "{font.family.sans}",
-        "fontSize": "11px",
-        "lineHeight": "16px",
-        "fontWeight": "{font.weight.medium}",
-        "letterSpacing": "0.55px"
-      },
-      "$description": "分组小标题——全大写、加字距，仅用于英文，如 EDGE_DATA / SOURCES。",
-      "$extensions": {
-        "tier0": {
-          "frontend": {
-            "tailwind": "title（text-[11px] font-medium tracking-wider uppercase）"
-          }
-        }
-      }
-    },
-    "code": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "{font.family.mono}",
-        "fontSize": "13px",
-        "lineHeight": "20px",
-        "fontWeight": "{font.weight.regular}",
-        "letterSpacing": "0px"
-      },
-      "$description": "代码、命令行、数据路径——比正文小一号，保持与正文的视觉重量一致。",
-      "$extensions": {
-        "tier0": {
-          "frontend": {
-            "tailwind": "font-mono text-[13px]"
-          }
-        }
+      "code": {
+        "$type": "typography",
+        "$value": "{typography.product.code}",
+        "$description": "同产品字阶。"
       }
     },
     "$extensions": {
