@@ -39,15 +39,15 @@ CSS、Tailwind、Figma 变量等成品文件不放在仓库里，需要时由脚
 | `muted-foreground` | 说明、次要标签、时间戳 |
 | `border` | 单元格之间、卡片周围的细线 |
 
-**品牌**：主操作用黑色；品牌绿每屏只出现一次：信号、高亮，或一个结果。
+**品牌**：主操作用近黑；品牌绿是品牌层面唯一的颜色，每个区域只有一个绿色焦点。
 
 | Token | 用途 |
 |---|---|
 | `primary` | 唯一的主操作 |
 | `primary-foreground` | 主操作上的文字 |
-| `highlight` | 品牌绿：信号、高亮按钮、重点标记 |
+| `highlight` | 品牌绿：信号、实时数据、选中、重点区块。只以色块、圆点、粗条出现，上面放近黑文字 |
 | `highlight-foreground` | 品牌绿底上的文字 |
-| `highlight-deep` | 品牌绿对比度不够时使用：白底上的强调字、白底版 Logo |
+| `highlight-deep` | 深绿：白底上需要绿色识别性的文字、线条、图标或 Logo |
 | `accent` | 选中行、高亮行的浅绿底 |
 | `ring` | 键盘焦点环 |
 
@@ -65,7 +65,7 @@ CSS、Tailwind、Figma 变量等成品文件不放在仓库里，需要时由脚
 1. 使用语义工具类：`bg-background`、`text-muted-foreground`、`border-border`。
 2. 组件中不写物理颜色：不用 `#fff`、`gray-500`、`bg-white`。
 3. 组件中不写 `dark:` 分支。深色模式由 `.dark` 类和 token 层负责。
-4. 品牌绿不用于大面积背景、装饰、图标和箭头。
+4. 品牌绿不用于大面积背景和装饰，也不用作白底上的文字、细线和图标（改用 `highlight-deep`）。
 5. 不用渐变文字、渐变描边或大面积色彩晕染。
 
 `extended` 分组是前端现有的细分 token（如 `bg-secondary`、`success-tertiary`），保留用于兼容，新组件优先使用主层。

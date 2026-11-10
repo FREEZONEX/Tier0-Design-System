@@ -44,7 +44,7 @@
       }
     },
     "brand": {
-      "$description": "品牌。主操作用黑色；品牌绿每屏只出现一次：信号、高亮，或一个结果。",
+      "$description": "品牌。主操作用近黑；品牌绿是品牌层面唯一的颜色，每个区域只有一个绿色焦点。",
       "primary": {
         "$value": "{color.scale.black.900}",
         "$description": "唯一的主操作。"
@@ -55,7 +55,7 @@
       },
       "highlight": {
         "$value": "{color.scale.fx-green.500}",
-        "$description": "品牌绿：信号、高亮按钮、重点标记。"
+        "$description": "品牌绿：信号、实时数据、选中、重点区块。只以色块、圆点、粗条的形式出现，上面放近黑文字；不用作白底上的文字、细线和图标。"
       },
       "highlight-foreground": {
         "$value": "{color.scale.black.900}",
@@ -63,7 +63,7 @@
       },
       "highlight-deep": {
         "$value": "{color.scale.fx-green-deep}",
-        "$description": "品牌绿对比度不够时使用：白底上的强调字、白底版 Logo。"
+        "$description": "深绿：白底上需要绿色识别性的文字、线条、图标或 Logo。"
       },
       "accent": {
         "$value": "{color.scale.fx-green.50}",
