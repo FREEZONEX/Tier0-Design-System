@@ -527,3 +527,12 @@ body.nav-short .app { margin-top: -61px; }
 
 /* content rises in as the scene recedes */
 .wb + .home-body { --k: clamp(0, calc((var(--wb-p, 1) - 0.6) * 3), 1); opacity: var(--k); transform: translateY(calc((1 - var(--k)) * 80px)); will-change: transform, opacity; }
+
+/* device tags: quiet, two-level (name / address), leader line + dot */
+.wb-tag { margin: -46px 0 0 0; transform-origin: 0 0; height: auto; padding: 5px 8px; gap: 8px; border: 0; border-radius: var(--radius);
+  background: color-mix(in srgb, var(--background) 92%, transparent); box-shadow: 0 0 0 1px var(--border); color: var(--foreground);
+  font-family: var(--font-sans); font-size: 11px; line-height: 14px; text-transform: none; }
+.wb-tag b { font-weight: 500; }
+.wb-tag span { font-family: var(--font-mono); font-size: 10px; color: var(--muted-foreground); }
+.wb-tag::before { left: 0; top: 100%; height: 22px; background: var(--border); }
+.wb-tag::after { content: ""; position: absolute; left: -2px; top: calc(100% + 20px); width: 5px; height: 5px; border-radius: 50%; background: var(--foreground); }

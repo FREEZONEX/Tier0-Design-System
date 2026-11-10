@@ -74,9 +74,10 @@ class Screen {
       g.font = '22px "IBM Plex Sans", sans-serif'
       rows.forEach(([s, lv, on], i) => {
         const y = 94 + i * 44
-        if (on) { g.fillStyle = T.green; g.fillRect(16, y - 6, 400, 38) }
-        g.fillStyle = ink
+        if (on) { g.fillStyle = '#F2FBD9'; g.fillRect(16, y - 6, 400, 38); g.fillStyle = T.green; g.fillRect(16, y - 6, 4, 38) }
+        g.fillStyle = on ? T.green : ink
         g.fillRect(32 + lv * 26, y + 8, 10, 10)
+        g.fillStyle = ink
         g.fillText(s, 54 + lv * 26, y + 21)
       })
       g.beginPath(); g.moveTo(436, 70); g.lineTo(436, H); g.stroke()
@@ -152,6 +153,7 @@ export class Workbench {
   private gridMat = new THREE.LineBasicMaterial({ color: T.g300, transparent: true, opacity: 0.32 })
   private cableMat = new THREE.MeshStandardMaterial({ color: T.b600, roughness: 0.5 })
   private holeMat = new THREE.MeshBasicMaterial({ color: T.g500, toneMapped: false })
+  private pegMat = new THREE.MeshBasicMaterial({ color: T.g300, toneMapped: false })
   private axisMat = new THREE.LineBasicMaterial({ color: T.b500, transparent: true, opacity: 0 })
   private screens: Screen[] = []
   private flows: THREE.ShaderMaterial[] = []
@@ -327,148 +329,140 @@ export class Workbench {
     B(2.76, 0.06, 0.08, 'alu', 0, F + 1.33, -0.38)
     B(2.3, 0.07, 0.24, 'alu', 0, F + 1.42, -0.18)
     B(2.2, 0.016, 0.18, 'light', 0, F + 1.382, -0.18, 'none')
-    if (hero) {
-      const glow = this.box(2.2, 0.004, 0.18, 'led', 0, F + 1.372, -0.18, 'none', g)
-      const gm = new THREE.MeshBasicMaterial({ color: T.green200, transparent: true, opacity: 0.0, toneMapped: false })
-      glow.material = gm
-      this.movers.push(t => { gm.opacity = 0.12 + Math.sin(t / 1600) * 0.08 })
-    }
     B(2.58, 0.92, 0.015, 'paint', 0, F + 0.56, -0.4)
     if (!hero) return
-    B(3.0, 0.012, 0.012, 'rubber', 0, F - 0.03, 0.428, 'none')
-    for (const x of [-1.27, -0.02, 1.27]) for (const y of [F + 0.13, F + 0.99]) C(0.007, 0.004, 'alu', x, y, -0.39, 'z', 'none')
-    for (const x of [-1.32, 1.32]) {
-      B(0.05, 0.022, 0.003, 'plastic', x, F + 1.2, -0.346, 'none')
-      B(0.03, 0.006, 0.002, 'alu', x, F + 1.2, -0.344, 'none')
-    }
-    // 台面下方拖链（线缆槽）
-    for (let i = 0; i < 18; i++) B(0.045, 0.03, 0.05, 'plastic', -1.1 + i * 0.048, F - 0.14, -0.3, 'none')
 
-    // ---- 左：工具墙（洞洞板 + 挂具）与零件抽屉柜 ----
+    // 设备造型：白色哑光壳体 + 大圆角 + 圆形旋钮 + 网格孔（博朗 / Teenage Engineering）。
+    // 品牌绿只用于信号：指示灯、数据脉冲、屏幕里的状态。实物一律中性色。
+    const R = (w: number, h: number, d: number, r: number, k: MatKey, x: number, y: number, z: number) =>
+      this.mesh(new RoundedBoxGeometry(w, h, d, 4, r), k, x, y, z, 'near', g)
+    const knob = (r: number, x: number, y: number, z: number, k: MatKey = 'plastic') => {
+      C(r, 0.016, k, x, y, z + 0.008, 'z')
+      B(0.003, r * 0.9, 0.003, 'paint', x, y + r * 0.45, z + 0.017, 'none')
+    }
+    const grille = (cols: number, rows: number, step: number, x: number, y: number, z: number) => {
+      const pts: THREE.Vector3[] = []
+      for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++) pts.push(new THREE.Vector3(x + i * step, y - j * step, z))
+      const im = new THREE.InstancedMesh(new THREE.CircleGeometry(step * 0.28, 12), this.holeMat, pts.length)
+      pts.forEach((p, i) => im.setMatrixAt(i, new THREE.Matrix4().makeTranslation(p.x, p.y, p.z)))
+      g.add(im)
+    }
+    /** 屏幕：铝外框 + 深色细内框 + 画面，边界清楚但不压重。 */
+    const display = (scr: Screen, w: number, h: number, x: number, y: number, z: number, frame = 0.022) => {
+      R(w + frame * 2, h + frame * 2, 0.026, 0.01, 'alu', x, y, z)
+      B(w + 0.008, h + 0.008, 0.002, 'rubber', x, y, z + 0.0135, 'none')
+      this.screen(scr, w, h, x, y, z + 0.0148, g)
+    }
+
+    B(3.0, 0.01, 0.01, 'housing', 0, F - 0.03, 0.428, 'none')
+    // 洞洞板：整块背板均匀打孔，浅灰
     const holes: THREE.Vector3[] = []
-    for (let ix = 0; ix < 14; ix++) for (let iy = 0; iy < 6; iy++) holes.push(new THREE.Vector3(-1.22 + ix * 0.06, F + 0.12 + iy * 0.06, -0.391))
-    const hm = new THREE.InstancedMesh(new THREE.CircleGeometry(0.006, 10), this.holeMat, holes.length)
+    const step = 0.04
+    for (let x = -1.26; x <= 1.261; x += step) for (let y = F + 0.13; y <= F + 1.0; y += step) holes.push(new THREE.Vector3(x, y, -0.391))
+    const hm = new THREE.InstancedMesh(new THREE.CircleGeometry(0.0045, 10), this.pegMat, holes.length)
     holes.forEach((p, i) => hm.setMatrixAt(i, new THREE.Matrix4().makeTranslation(p.x, p.y, p.z)))
     g.add(hm)
-    for (let i = 0; i < 4; i++) {
-      const x = -1.18 + i * 0.05
-      C(0.006, 0.16, 'alu', x, F + 0.33, -0.37)
-      C(0.011, 0.07, i % 2 ? 'plastic' : 'bin', x, F + 0.44, -0.37)
+    for (const x of [-1.27, -0.02, 1.27]) for (const y of [F + 0.13, F + 0.99]) C(0.007, 0.004, 'alu', x, y, -0.39, 'z', 'none')
+
+    // ---- 背板左：洞洞板 + 整齐的一排工具 ----
+    B(0.72, 0.012, 0.03, 'alu', -0.89, F + 0.42, -0.38)
+    for (let i = 0; i < 6; i++) {
+      const x = -1.18 + i * 0.06
+      C(0.004, 0.11, 'alu', x, F + 0.3, -0.37)
+      C(0.011, 0.075, i === 2 ? 'housing' : 'plastic', x, F + 0.385, -0.37)
     }
-    for (let i = 0; i < 2; i++) B(0.012, 0.15, 0.01, 'plastic', -0.92 + i * 0.03, F + 0.32, -0.37)
-    B(0.05, 0.05, 0.012, 'alu', -0.905, F + 0.42, -0.37)
-    for (let i = 0; i < 3; i++) {
-      C(0.04, 0.03, i === 1 ? 'bin' : 'housing', -0.74 + i * 0.1, F + 0.4, -0.36, 'z')
-      C(0.016, 0.034, 'paint', -0.74 + i * 0.1, F + 0.4, -0.36, 'z')
-    }
-    C(0.045, 0.05, 'plastic', -0.5, F + 0.24, -0.36, 'z')
-    // 零件抽屉柜
-    B(0.66, 0.36, 0.2, 'paint', -0.92, F + 0.72, -0.3)
+    R(0.08, 0.12, 0.016, 0.006, 'paint', -0.76, F + 0.33, -0.37)
+    C(0.02, 0.016, 'alu', -0.76, F + 0.36, -0.36, 'z')
+    R(0.05, 0.16, 0.014, 0.004, 'housing', -0.65, F + 0.3, -0.37)
+    // 零件抽屉柜（白色，铝拉手）
+    R(0.66, 0.34, 0.2, 0.01, 'paint', -0.92, F + 0.71, -0.3)
     for (let r = 0; r < 4; r++) for (let c = 0; c < 5; c++) {
       const x = -1.18 + c * 0.13
-      const y = F + 0.6 + r * 0.08
-      B(0.115, 0.068, 0.012, r === 1 && c === 2 ? 'bin' : 'housing', x, y, -0.196)
-      B(0.04, 0.008, 0.008, 'plastic', x, y - 0.018, -0.186, 'none')
+      const y = F + 0.6 + r * 0.075
+      R(0.118, 0.064, 0.01, 0.004, 'laminate', x, y, -0.196)
+      B(0.04, 0.007, 0.008, 'alu', x, y - 0.016, -0.188, 'none')
     }
-    // ---- 右：百叶孔板 + 仪器层板 ----
-    const slots: THREE.Vector3[] = []
-    for (let ix = 0; ix < 9; ix++) for (let iy = 0; iy < 8; iy++) slots.push(new THREE.Vector3(0.62 + ix * 0.07, F + 0.14 + iy * 0.07, -0.391))
-    const sm = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.032, 0.012), this.holeMat, slots.length)
-    slots.forEach((p, i) => sm.setMatrixAt(i, new THREE.Matrix4().makeTranslation(p.x, p.y, p.z)))
-    g.add(sm)
+
+    // ---- 背板右：百叶孔板 + 仪器层板 ----
     B(1.2, 0.025, 0.3, 'alu', 0.65, F + 0.86, -0.27)
-    for (const x of [0.1, 1.2]) B(0.02, 0.06, 0.26, 'alu', x, F + 0.83, -0.27)
-    B(0.4, 0.2, 0.26, 'paint', 0.32, F + 0.972, -0.27)
-    B(0.24, 0.15, 0.008, 'plastic', 0.27, F + 0.975, -0.136, 'none')
-    this.screen(new Screen('scope'), 0.22, 0.13, 0.27, F + 0.975, -0.131, g)
-    for (let i = 0; i < 3; i++) C(0.013, 0.02, i === 0 ? 'bin' : 'plastic', 0.455, F + 1.03 - i * 0.045, -0.13, 'z')
-    B(0.3, 0.14, 0.24, 'housing', 0.72, F + 0.942, -0.27)
-    this.screen(new Screen('psu'), 0.12, 0.06, 0.66, F + 0.96, -0.149, g)
-    C(0.016, 0.02, 'plastic', 0.8, F + 0.96, -0.144, 'z')
-    C(0.008, 0.02, 'bin', 0.78, F + 0.905, -0.144, 'z')
-    C(0.008, 0.02, 'plastic', 0.83, F + 0.905, -0.144, 'z')
-    B(0.12, 0.3, 0.08, 'alu', 1.42, F + 0.6, -0.34)
-    C(0.02, 0.022, 'led', 1.42, F + 0.68, -0.29, 'z', 'none')
-    C(0.02, 0.022, 'plastic', 1.42, F + 0.6, -0.29, 'z')
-    C(0.02, 0.022, 'housing', 1.42, F + 0.52, -0.29, 'z')
+    // 示波器：白色壳体，深色屏，三枚圆旋钮
+    R(0.42, 0.22, 0.24, 0.018, 'paint', 0.33, F + 0.983, -0.27)
+    display(new Screen('scope'), 0.2, 0.13, 0.27, F + 0.985, -0.146, 0.012)
+    for (let i = 0; i < 3; i++) knob(0.016, 0.45, F + 1.04 - i * 0.05, -0.15, i === 0 ? 'housing' : 'plastic')
+    // 电源：白色壳体，大旋钮，网格
+    R(0.3, 0.16, 0.22, 0.016, 'paint', 0.75, F + 0.953, -0.27)
+    display(new Screen('psu'), 0.12, 0.055, 0.69, F + 0.98, -0.166, 0.008)
+    knob(0.026, 0.83, F + 0.96, -0.162)
+    grille(6, 2, 0.014, 0.64, F + 0.925, -0.159)
+    // 控制盒（立柱）：白色，一枚绿色指示按钮
+    R(0.11, 0.28, 0.08, 0.014, 'paint', 1.42, F + 0.6, -0.34)
+    C(0.018, 0.012, 'led', 1.42, F + 0.68, -0.296, 'z', 'none')
+    knob(0.02, 1.42, F + 0.6, -0.31)
+    knob(0.02, 1.42, F + 0.52, -0.31, 'housing')
 
     // ---- 主屏 ----
-    B(0.035, 0.24, 0.035, 'alu', 0.05, F + 0.2, -0.33)
-    B(0.2, 0.012, 0.15, 'alu', 0.05, F + 0.006, -0.3)
-    B(0.9, 0.55, 0.03, 'alu', 0.05, F + 0.52, -0.31)
-    this.screen(new Screen('main'), 0.86, 0.51, 0.05, F + 0.52, -0.294, g)
+    C(0.016, 0.24, 'alu', 0.05, F + 0.13, -0.33)
+    R(0.22, 0.012, 0.16, 0.006, 'alu', 0.05, F + 0.006, -0.3)
+    display(new Screen('main'), 0.86, 0.5, 0.05, F + 0.52, -0.315, 0.024)
 
-    // ---- 台面左：放大镜灯、焊台、元件盘 ----
-    C(0.05, 0.02, 'plastic', -1.25, F + 0.01, 0.2)
-    const arm1 = C(0.009, 0.42, 'alu', -1.2, F + 0.22, 0.2)
-    arm1.rotation.z = 0.25
-    const arm2 = C(0.009, 0.34, 'alu', -1.08, F + 0.47, 0.2)
-    arm2.rotation.z = -1.0
-    const ring = this.mesh(new THREE.TorusGeometry(0.075, 0.012, 12, 40), 'paint', -0.92, F + 0.5, 0.22, 'near', g)
-    ring.rotation.x = -1.2
-    const lens = this.mesh(new THREE.CircleGeometry(0.066, 32), 'glass', -0.92, F + 0.5, 0.22, 'none', g)
-    lens.rotation.x = -1.2
-    B(0.22, 0.1, 0.16, 'housing', -0.72, F + 0.05, 0.18)
-    this.led(-0.66, F + 0.07, 0.262, 0.012, g)
-    B(0.06, 0.02, 0.006, 'plastic', -0.76, F + 0.06, 0.262, 'none')
-    C(0.025, 0.06, 'alu', -0.55, F + 0.03, 0.2)
-    const iron = C(0.008, 0.18, 'plastic', -0.53, F + 0.1, 0.2)
-    iron.rotation.z = 0.5
-    B(0.26, 0.012, 0.2, 'paint', -0.3, F + 0.006, 0.2)
-    for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) B(0.05, 0.014, 0.07, c === 2 && r === 0 ? 'bin' : 'laminate', -0.39 + c * 0.06, F + 0.016, 0.16 + r * 0.08, 'none')
+    // ---- 台面左：焊台、放大镜灯 ----
+    R(0.2, 0.09, 0.16, 0.014, 'paint', -1.12, F + 0.045, 0.16)
+    display(new Screen('psu'), 0.07, 0.032, -1.16, F + 0.06, 0.241, 0.006)
+    knob(0.018, -1.06, F + 0.055, 0.236)
+    C(0.022, 0.05, 'alu', -0.95, F + 0.025, 0.18)
+    const iron = C(0.007, 0.16, 'plastic', -0.93, F + 0.09, 0.18)
+    iron.rotation.z = 0.35
 
-    // ---- 台面中后：PLC 托架 + 端子 + 接线 ----
-    B(1.0, 0.02, 0.24, 'alu', -0.62, F + 0.01, -0.16)
-    B(0.14, 0.2, 0.13, 'housing', -1.04, F + 0.12, -0.2)
-    this.led(-1.07, F + 0.06, -0.133, 0.014, g)
-    for (let i = 0; i < 6; i++) {
-      const x = -0.9 + i * 0.085
-      const h = i === 0 ? 0.2 : 0.17
-      B(0.078, h, 0.12, i < 2 ? 'plastic' : 'housing', x, F + 0.02 + h / 2, -0.2)
-      for (let k = 0; k < 3; k++) this.led(x - 0.02, F + 0.02 + h - 0.03 - k * 0.02, -0.138, 0.01, g)
+    // ---- 台面中后：DIN 导轨上的 PLC（白色模块 + 深色前标签条） ----
+    B(0.74, 0.02, 0.05, 'alu', -0.86, F + 0.14, -0.29)
+    for (let i = 0; i < 7; i++) {
+      const x = -1.17 + i * 0.09
+      const h = i === 0 ? 0.24 : 0.2
+      R(0.084, h, 0.12, 0.008, i === 0 ? 'alu' : 'paint', x, F + h / 2, -0.24)
+      B(0.044, 0.014, 0.002, 'housing', x + 0.008, F + h - 0.03, -0.179, 'none')
+      for (let k = 0; k < 3; k++) this.led(x - 0.026, F + h - 0.035 - k * 0.018, -0.178, 0.008, g)
+      for (let k = 0; k < 4; k++) C(0.005, 0.004, 'housing', x - 0.02 + k * 0.014, F + 0.03, -0.179, 'z', 'none')
     }
-    for (let i = 0; i < 10; i++) B(0.018, 0.06, 0.06, i % 4 === 3 ? 'housing' : 'bin', -0.37 + i * 0.022, F + 0.05, -0.2)
-    for (let i = 0; i < 10; i++) {
-      const x = -0.37 + i * 0.022
-      this.tube([[x, F + 0.02, -0.17], [x, F + 0.012, -0.1], [x - 0.05 + i * 0.008, F + 0.012, -0.02]], 0.0022, i % 4 === 1 ? this.mats.bin : this.cableMat)
-    }
+    // 端子排（中性色）
+    for (let i = 0; i < 12; i++) R(0.018, 0.06, 0.06, 0.003, i % 4 === 3 ? 'housing' : 'laminate', -0.5 + i * 0.021, F + 0.03, -0.24)
 
-    // ---- 台面右：边缘盒子、交换机、键盘 ----
-    B(0.38, 0.11, 0.24, 'plastic', 0.95, F + 0.055, -0.12)
-    for (let i = 0; i < 9; i++) B(0.005, 0.07, 0.005, 'alu', 0.82 + i * 0.02, F + 0.055, 0.001, 'none')
-    this.led(1.08, F + 0.08, 0.002, 0.016, g)
-    B(0.4, 0.04, 0.2, 'alu', 0.55, F + 0.02, -0.2)
-    for (let i = 0; i < 8; i++) B(0.03, 0.018, 0.005, 'plastic', 0.4 + i * 0.042, F + 0.02, -0.098, 'none')
-    B(0.46, 0.016, 0.15, 'alu', 0.12, F + 0.008, 0.22)
-    for (let r = 0; r < 3; r++) for (let c = 0; c < 12; c++) B(0.028, 0.006, 0.028, c === 11 && r === 0 ? 'bin' : 'paint', -0.085 + c * 0.037, F + 0.019, 0.17 + r * 0.04, 'none')
-    B(0.06, 0.02, 0.1, 'paint', 0.45, F + 0.01, 0.22)
-    B(0.3, 0.03, 0.03, 'alu', 1.5, F + 0.32, -0.1)
-    B(0.28, 0.2, 0.02, 'alu', 1.62, F + 0.44, -0.1)
-    this.screen(new Screen('tree'), 0.25, 0.17, 1.62, F + 0.44, -0.089, g)
+    // ---- 台面右：边缘盒子（TE 风格）、交换机、键盘 ----
+    R(0.36, 0.1, 0.24, 0.02, 'paint', 0.9, F + 0.05, -0.14)
+    grille(9, 3, 0.016, 0.76, F + 0.075, -0.019)
+    knob(0.02, 1.0, F + 0.055, -0.026)
+    this.led(1.05, F + 0.075, -0.018, 0.012, g)
+    B(0.07, 0.012, 0.002, 'rubber', 1.02, F + 0.03, -0.019, 'none')
+    R(0.36, 0.04, 0.18, 0.008, 'alu', 0.5, F + 0.02, -0.22)
+    for (let i = 0; i < 8; i++) B(0.028, 0.016, 0.002, 'rubber', 0.36 + i * 0.04, F + 0.02, -0.129, 'none')
+    // 键盘：铝底 + 白键，一排深色功能键
+    R(0.5, 0.018, 0.16, 0.006, 'alu', 0.1, F + 0.009, 0.22)
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 12; c++) R(0.03, 0.008, 0.03, 0.004, r === 0 ? 'housing' : 'paint', -0.104 + c * 0.0375, F + 0.022, 0.172 + r * 0.04)
+    // 摆臂平板
+    B(0.3, 0.026, 0.026, 'alu', 1.5, F + 0.32, -0.1)
+    display(new Screen('tree'), 0.24, 0.16, 1.62, F + 0.44, -0.11, 0.016)
 
     // ---- 台下 ----
-    B(0.48, 0.5, 0.5, 'paint', 0.95, F - 0.37, 0.05)
-    for (let i = 0; i < 3; i++) B(0.14, 0.014, 0.01, 'alu', 0.95, F - 0.155 - i * 0.16, 0.306, 'none')
+    R(0.48, 0.5, 0.5, 0.012, 'paint', 0.95, F - 0.37, 0.05)
+    for (let i = 0; i < 3; i++) B(0.16, 0.012, 0.01, 'alu', 0.95, F - 0.16 - i * 0.16, 0.305, 'none')
     C(0.075, 0.22, 'plastic', -0.82, 0.42, 0.05, 'x')
-    B(0.14, 0.15, 0.15, 'plastic', -0.64, 0.42, 0.05)
+    R(0.15, 0.15, 0.15, 0.01, 'plastic', -0.64, 0.42, 0.05)
     C(0.02, 0.1, 'alu', -0.98, 0.42, 0.05, 'x')
-    const coupling = C(0.028, 0.04, 'bin', -1.04, 0.42, 0.05, 'x')
+    const coupling = C(0.028, 0.04, 'alu', -1.04, 0.42, 0.05, 'x')
     this.movers.push(t => { coupling.rotation.x = t * 0.004 })
-    this.led(-0.64, 0.46, 0.128, 0.014, g)
+    this.led(-0.6, 0.46, 0.128, 0.012, g)
     B(0.44, 0.02, 0.3, 'alu', -0.78, 0.335, 0.05)
-    B(0.36, 0.42, 0.34, 'housing', 0.1, 0.32, -0.05)
-    for (let i = 0; i < 8; i++) B(0.26, 0.006, 0.004, 'plastic', 0.1, 0.18 + i * 0.03, 0.122, 'none')
-    this.led(0.22, 0.48, 0.123, 0.016, g)
-    C(0.1, 0.3, 'paint', -1.75, 0.15, 0.25)
+    R(0.34, 0.4, 0.32, 0.016, 'paint', 0.1, 0.32, -0.05)
+    grille(10, 8, 0.02, 0.0, 0.42, 0.111)
+    this.led(0.22, 0.47, 0.111, 0.012, g)
+    for (let i = 0; i < 18; i++) B(0.045, 0.03, 0.05, 'plastic', -1.1 + i * 0.048, F - 0.14, -0.3, 'none')
 
     // ---- 数据流 ----
-    this.flow([[-0.7, F + 0.19, -0.15], [-0.45, F + 0.2, -0.08], [-0.2, F + 0.02, -0.02], [-0.02, F + 0.04, -0.26], [0.03, F + 0.22, -0.31]], 3, 0.08)
-    this.flow([[0.82, F + 0.06, 0.0], [0.6, F + 0.015, 0.04], [0.3, F + 0.02, -0.14], [0.1, F + 0.15, -0.31]], 3, 0.1)
-    this.flow([[1.08, F + 0.11, -0.12], [1.2, F + 0.4, -0.25], [1.0, F + 0.85, -0.3], [0.8, F + 0.88, -0.27]], 2, 0.12)
-    this.flow([[1.12, F + 0.06, -0.12], [1.35, F + 0.12, -0.12], [1.47, F + 0.32, -0.1]], 2, 0.14)
-    this.flow([[-0.64, 0.5, 0.06], [-0.4, 0.75, 0.1], [-0.5, F - 0.08, 0.1], [-0.6, F + 0.02, -0.08]], 2, 0.09)
-    this.flow([[0.2, 0.52, 0.05], [0.4, 0.75, 0.1], [0.7, F - 0.07, 0.0], [0.85, F + 0.02, -0.08]], 2, 0.11)
-    this.flow([[-0.92, F + 0.54, -0.2], [-0.8, F + 0.4, -0.3], [-0.6, F + 0.2, -0.22]], 2, 0.1)
+    this.flow([[-0.72, F + 0.12, -0.18], [-0.5, F + 0.012, -0.1], [-0.2, F + 0.012, -0.12], [-0.02, F + 0.03, -0.28], [0.03, F + 0.22, -0.32]], 3, 0.08)
+    this.flow([[0.72, F + 0.05, -0.05], [0.5, F + 0.012, 0.02], [0.25, F + 0.012, -0.16], [0.1, F + 0.15, -0.32]], 3, 0.1)
+    this.flow([[1.08, F + 0.1, -0.16], [1.2, F + 0.4, -0.3], [1.0, F + 0.86, -0.3], [0.85, F + 0.89, -0.27]], 2, 0.12)
+    this.flow([[1.08, F + 0.05, -0.16], [1.35, F + 0.12, -0.12], [1.47, F + 0.32, -0.1]], 2, 0.14)
+    this.flow([[-0.6, 0.5, 0.06], [-0.4, 0.75, 0.1], [-0.5, F - 0.08, 0.1], [-0.72, F + 0.02, -0.15]], 2, 0.09)
+    this.flow([[0.2, 0.52, 0.05], [0.4, 0.75, 0.1], [0.7, F - 0.07, 0.0], [0.8, F + 0.02, -0.1]], 2, 0.11)
   }
 
   // ---------- 工厂车间（线描） ----------
