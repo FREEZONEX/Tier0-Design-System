@@ -437,3 +437,52 @@ details.fold > .code { border: 0; border-top: 1px solid var(--border); border-ra
 .spec-body.center { padding: 48px 32px; }
 .spec-code .code { border: 0; border-radius: 0; }
 .spec-code .code pre { padding: 20px; font-size: 13px; line-height: 21px; }
+
+/* ---------- home: workbench hero ---------- */
+.doc-wrap.p-home { display: block; max-width: none; }
+.doc-wrap.p-home .doc { max-width: none; padding: 0; animation: none; }
+.doc-wrap.p-home .toc { display: none; }
+.home-body { max-width: 1180px; padding: 24px 48px 96px; }
+.wb { position: relative; height: 230vh; border-bottom: 1px solid var(--border); }
+.wb-stage { position: sticky; top: calc(var(--top) + env(safe-area-inset-top, 0px)); height: calc(100vh - var(--top)); overflow: hidden;
+  background-image: radial-gradient(var(--dot) 1px, transparent 1.2px); background-size: 16px 16px; }
+.wb-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.wb-head { position: absolute; left: 48px; top: 40px; max-width: 520px; opacity: calc(1 - var(--wb-p, 0) * 3.2); transform: translateY(calc(var(--wb-p, 0) * -40px)); pointer-events: none; }
+.wb-head h1 { font-size: clamp(34px, 4vw, 56px); line-height: 1.02; font-weight: 500; letter-spacing: -0.035em; }
+.wb-head h1 em { font-style: normal; color: var(--muted-foreground); }
+.wb-head p { margin-top: 16px; font-size: 15px; line-height: 24px; color: var(--muted-foreground); max-width: 380px; }
+.wb-ctl { position: absolute; right: 24px; top: 24px; }
+.wb:not([data-ready]) .wb-ctl, .wb:not([data-ready]) .wb-tag { display: none; }
+.wb-tag { position: absolute; left: 0; top: 0; margin: -34px 0 0 10px; display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 8px; white-space: nowrap;
+  background: var(--background); border: 1px solid var(--foreground); font-family: var(--font-mono); font-size: 11px; line-height: 1; text-transform: uppercase; pointer-events: none; will-change: transform; }
+.wb-tag::before { content: ""; position: absolute; left: -1px; top: 100%; width: 1px; height: 26px; background: var(--foreground); }
+.wb-tag i { width: 6px; height: 6px; background: var(--highlight); }
+.wb-foot { position: absolute; left: 48px; right: 24px; bottom: 20px; display: flex; justify-content: space-between; font-size: 12px; color: var(--muted-foreground); opacity: calc(1 - var(--wb-p, 0) * 3.2); }
+.wb-foot span { display: inline-flex; align-items: center; gap: 8px; }
+
+/* module grid: numbered, hardware-panel feel */
+.mod-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--foreground); border-left: 1px solid var(--border); }
+.mod { position: relative; display: grid; gap: 6px; align-content: end; min-height: 168px; padding: 20px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--background); transition: background var(--fast) var(--ease); }
+.mod:hover { background: var(--subtle); }
+.mod-no { position: absolute; left: 20px; top: 18px; font-family: var(--font-mono); font-size: 11px; color: var(--muted-foreground); }
+.mod b { font-family: var(--font-display); font-size: 22px; line-height: 28px; font-weight: 600; letter-spacing: -0.01em; }
+.mod-d { color: var(--muted-foreground); font-size: 13px; line-height: 20px; }
+.mod-led { position: absolute; right: 20px; top: 20px; width: 8px; height: 8px; background: var(--border); transition: background var(--fast) var(--ease); }
+.mod:hover .mod-led { background: var(--highlight); }
+.trait-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--foreground); border-left: 1px solid var(--border); }
+.trait-grid .trait { position: relative; padding: 48px 20px 24px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); display: grid; gap: 8px; align-content: start; }
+.trait-grid .trait b { font-family: var(--font-display); font-size: 17px; font-weight: 600; }
+.trait-grid .trait > span:last-child { color: var(--muted-foreground); font-size: 13px; line-height: 21px; }
+@media (max-width: 800px) {
+  .home-body { padding: 16px 16px 64px; }
+  .wb { height: 200vh; }
+  .wb-head { left: 16px; top: 24px; right: 16px; }
+  .wb-foot { left: 16px; right: 16px; }
+  .wb-ctl { right: 16px; top: auto; bottom: 48px; }
+  .wb-tag { display: none; }
+  .mod-grid, .trait-grid { grid-template-columns: 1fr; }
+}
+
+.home-body > .sec:first-child { margin-top: 24px; }
+[data-island][data-enhanced] { display: block; }
+.rules { list-style: decimal; }

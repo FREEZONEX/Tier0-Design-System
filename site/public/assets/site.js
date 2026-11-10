@@ -207,13 +207,16 @@
     const traits = mdRows(mdSection('### 特征'));
     const principles = [...mdSection('## 2. 设计原则').matchAll(/\*\*(.+?)\*\*\n(.+)/g)];
     const tiles = [['color', '颜色', '品牌色、色阶和用途 token。'], ['typography', '字体', 'Inter、IBM Plex 与两套字阶。'], ['components', '组件', '以 Tier0-Frontend 组件库为准。'], ['foundation', '品牌与原则', '品牌故事、设计原则和品牌特征。'], ['logo', 'Logo', '四种底色下的标准用法。'], ['skills', 'Skills', '让 AI 按设计系统生成界面和物料。']];
-    return `<section class="sec"><div class="hero"><div><h1>Connect once,<br><em>Reuse everywhere.</em></h1><p>${esc(plain(what))}</p></div>
-        <div class="console"><div class="console-head"><span>Factory-A / Line-01</span><span class="live"><i class="sig"></i>运行中</span></div>
-          <ul class="tree"><li><i></i>Factory-A</li><li class="l1"><i></i>Line-01</li><li class="l2 on"><i></i>CNC-03<span>实时</span></li><li class="l3"><i></i>Metrics</li><li class="l3"><i></i>State</li><li class="l3"><i></i>Action</li></ul>
-          <div class="readout"><div class="muted" style="font-size:12px;display:flex;justify-content:space-between"><span>主轴温度</span><span id="ro-l" class="num">68%</span></div><div class="v"><span id="ro-t">72.4</span><small>°C</small></div><div class="bar"><span id="ro-b"></span></div></div></div></div></section>`
-      + sec('h-go', '从这里开始', '', `<div class="tiles">${tiles.map(([h, t, d]) => `<a href="#${h}"><b>${t}</b><span>${d}</span></a>`).join('')}</div>`)
-      + sec('h-traits', '品牌特征', '', `<div class="rows">${traits.map(t => `<div><b>${esc(plain(t[0]))}</b><span>${esc(plain(t[1]).split('。')[0])}。</span></div>`).join('')}</div>`)
-      + sec('h-principles', '设计原则', '', `<div class="rows">${principles.map(m => `<div><b>${esc(m[1])}</b><span>${esc(m[2])}</span></div>`).join('')}</div>`);
+    const tags = [['PLC / MODBUS', '-1.0,1.2,-0.24'], ['UNS / Factory-A / Line-01', '0,1.8,-0.34'], ['EDGE_BOX / 192.168.1.50', '1.0,1.08,-0.05']];
+    return `<section class="wb" data-workbench><div class="wb-stage"><canvas aria-hidden="true"></canvas>
+        <div class="wb-head"><h1>Connect once,<br><em>Reuse everywhere.</em></h1><p>${esc(plain(what))}</p></div>
+        <div class="wb-ctl"><div class="seg sm"><button type="button" data-wb-mode="material" aria-pressed="true">材质</button><button type="button" data-wb-mode="wire" aria-pressed="false">线框</button></div></div>
+        ${tags.map(([t, a]) => `<span class="wb-tag" data-anchor="${a}"><i></i>${t}</span>`).join('')}
+        <div class="wb-foot"><span><i class="sig"></i>数据接入中</span><span>向下滚动，走近工作台</span></div></div></section>
+      <div class="home-body">`
+      + `<section class="sec" id="h-go"><div class="mod-grid">${tiles.map(([h, t, d], i) => `<a class="mod" href="#${h}"><span class="mod-no">${String(i + 1).padStart(2, '0')}</span><b>${t}</b><span class="mod-d">${d}</span><i class="mod-led"></i></a>`).join('')}</div></section>`
+      + sec('h-traits', '品牌特征', '', `<div class="trait-grid">${traits.map((t, i) => `<div class="trait"><span class="mod-no">${String(i + 1).padStart(2, '0')}</span><b>${esc(plain(t[0]))}</b><span>${esc(plain(t[1]).split('。')[0])}。</span></div>`).join('')}</div>`)
+      + sec('h-principles', '设计原则', '', `<div class="rows">${principles.map(m => `<div><b>${esc(m[1])}</b><span>${esc(m[2])}</span></div>`).join('')}</div>`) + '</div>';
   }
   function initHome() {
     const t = document.getElementById('ro-t'), b = document.getElementById('ro-b'), l = document.getElementById('ro-l');
@@ -241,7 +244,7 @@
       + sec('brand', '品牌色', '五个品牌色构成 Tier0 的识别。', `<div class="sw-grid">${brand.map(x => `<button class="sw" data-copy="${x.hex}"><div class="chip" style="background:${x.hex}"></div><b>${esc(x.name)}</b><span>${x.hex}</span></button>`).join('')}</div>`)
       + sec('scale', '色阶', '绿、黑、灰三组色阶，与前端 <code>packages/theme</code> 同名。', `<div class="ramps">${scale.map(ramp).join('')}</div>`)
       + sec('aux', '辅助色', '只用于图表和分类标签，不带语义。', `<div class="ramps">${aux.map(ramp).join('')}</div>`)
-      + sec('tokens', '用途 token', '组件只使用这一层。左为浅色、右为深色，点击一行复制变量。', `<table class="tok-table"><thead><tr><th>Token</th><th>浅 / 深</th><th>用途</th></tr></thead><tbody>${sem.map(([t, list]) => `<tr class="grp"><td colspan="3">${esc(t)}</td></tr>` + list.map(x => `<tr data-copy="var(--${x.k})"><td><code>--${x.k}</code></td><td><span class="pair"><i style="background:${x.l}"></i><i style="background:${x.d}"></i></span></td><td class="d">${esc(x.desc)}</td></tr>`).join('')).join('')}</tbody></table>`)
+      + sec('tokens', '用途 token', '组件只使用这一层。左为浅色、右为深色，点击一行复制变量。', `<div data-island="token-grid" data-props="${esc(JSON.stringify(sem.flatMap(([t, list]) => list.map(x => ({ group: t, token: x.k, light: x.l, dark: x.d, desc: x.desc })))))}">` + `<table class="tok-table"><thead><tr><th>Token</th><th>浅 / 深</th><th>用途</th></tr></thead><tbody>${sem.map(([t, list]) => `<tr class="grp"><td colspan="3">${esc(t)}</td></tr>` + list.map(x => `<tr data-copy="var(--${x.k})"><td><code>--${x.k}</code></td><td><span class="pair"><i style="background:${x.l}"></i><i style="background:${x.d}"></i></span></td><td class="d">${esc(x.desc)}</td></tr>`).join('')).join('')}</tbody></table>` + '</div>')
       + sec('rules', '使用规则', '', `<ol class="rules">${rules.map(r => `<li>${esc(r)}</li>`).join('')}</ol>`);
   }
 
@@ -330,14 +333,14 @@
     const scrollY = window.scrollY;
     const prev = current; current = page;
     if (page !== prev || keepScroll !== 'anchor') {
-      document.getElementById('main').innerHTML = `<div class="doc-wrap"><div class="doc">${(VIEWS[page] || (() => vSoon(page)))()}</div><nav class="toc" id="toc" aria-label="本页"></nav></div>`;
+      document.getElementById('main').innerHTML = `<div class="doc-wrap p-${page}"><div class="doc">${(VIEWS[page] || (() => vSoon(page)))()}</div><nav class="toc" id="toc" aria-label="本页"></nav></div>`;
       buildToc();
+      document.dispatchEvent(new CustomEvent('portal:render'));
     }
     document.querySelectorAll('[data-r]').forEach(a => { if (a.dataset.r === id) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
     document.getElementById('sidebar').classList.remove('open');
     const item = NAV.flatMap(g => g.items).find(i => i[0] === page);
     document.title = page === 'home' ? 'Tier0 Design System' : `${item ? item[1] : page} · Tier0`;
-    if (page === 'home') initHome();
     if (id.startsWith('c-')) { const el = document.getElementById(id); if (el) el.scrollIntoView(); }
     else if (keepScroll === true) window.scrollTo(0, scrollY);
     else window.scrollTo(0, 0);

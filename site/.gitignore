@@ -12,3 +12,4 @@ src/vendor/
 backup-pre-*/
 src/styles/globals.css
 src/components/
+src/local/
