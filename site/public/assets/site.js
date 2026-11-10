@@ -100,7 +100,7 @@
   const NAV = [
     { zh: '开始', en: 'Start', items: [['home', '概览', 'Overview'], ['foundation', '品牌与原则', 'Foundation']] },
     { zh: '基础', en: 'Foundations', items: [['color', '颜色', 'Color'], ['typography', '字体', 'Typography'], ['spacing', '间距与圆角', 'Spacing', 1], ['motion', '动效', 'Motion', 1]] },
-    { zh: '组件', en: 'Components', items: [['components', '全部组件', 'All components']].concat(COMPONENTS.map(c => ['c-' + c.id, c.zh, c.en, 0, 1])) },
+    { zh: '组件', en: 'Components', items: [['components', '全部组件', 'All components']] },
     { zh: '品牌', en: 'Brand', items: [['logo', 'Logo', 'Logo'], ['templates', '模版', 'Templates', 1]] },
     { zh: 'Agent', en: 'Agent', items: [['skills', 'Skills', 'Skills'], ['designmd', 'DESIGN.md', 'DESIGN.md', 1]] },
   ];
@@ -278,9 +278,11 @@
     const scope = compTheme === 'dark' ? ' dark-scope' : compTheme === 'light' ? ' light-scope' : '';
     return docHead('组件', `以 Tier0-Frontend 的 <code>packages/ui</code> 为准，按前端的尺寸、圆角、颜色和状态还原。代码请以前端仓库为准。`)
       + `<div style="margin:-24px 0 40px">${seg('ctheme', [['auto', '跟随页面'], ['light', '浅色'], ['dark', '深色']], compTheme)}</div>`
-      + COMPONENTS.map(c => sec('c-' + c.id, c.zh, esc(c.desc), `<div class="spec"><div class="spec-body dots center${scope}">${c.html()}</div>
-          <details class="fold"><summary>代码<span class="src">${esc(c.src)}</span></summary>${codeBlock(c.code)}</details>
-          ${foot(FE + c.src.split(' · ')[0])}</div>`)).join('');
+      + COMPONENTS.map(c => sec('c-' + c.id, c.zh, esc(c.desc), `<div class="spec" data-spec>
+          <div class="spec-tabs"><div class="seg sm" role="tablist"><button type="button" data-view="preview" aria-pressed="true">预览</button><button type="button" data-view="code" aria-pressed="false">代码</button></div>
+            <div class="src-list">${c.src.split(' · ').map(f => `<button type="button" class="src-chip" data-copy="${esc(FE + f)}" title="复制路径 ${esc(FE + f)}">${esc(f.replace(/^ui\//, ''))}</button>`).join('')}</div></div>
+          <div class="spec-body center${scope}" data-pane="preview">${c.html()}</div>
+          <div class="spec-code" data-pane="code" hidden>${codeBlock(c.code)}</div></div>`)).join('');
   }
 
   // ---------- logo ----------
@@ -310,16 +312,27 @@
   }
 
   // ---------- router ----------
+  function buildToc() {
+    const hs = [...document.querySelectorAll('.doc .sec[id] > h2, .prose h2')];
+    hs.forEach((h, i) => { if (!h.id && !h.parentElement.id) h.id = 'sec-' + i; });
+    const toc = document.getElementById('toc');
+    if (hs.length < 2) { toc.innerHTML = ''; buildToc.spy = null; return; }
+    toc.innerHTML = '<h6>本页</h6>' + hs.map(h => { const id = h.parentElement.id && h.parentElement.classList.contains('sec') ? h.parentElement.id : h.id; return `<a href="#${current}" data-jump="${id}">${esc(h.textContent)}</a>`; }).join('');
+    const links = [...toc.querySelectorAll('a')];
+    buildToc.spy = () => { let on = links[0]; hs.forEach((h, i) => { if (h.getBoundingClientRect().top < 160) on = links[i]; }); links.forEach(a => a.classList.toggle('on', a === on)); };
+    buildToc.spy();
+  }
   const VIEWS = { home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, logo: vLogo, skills: vSkills };
   let current = '';
   function route(keepScroll) {
     const id = (location.hash || '#home').slice(1).replace(/[^a-z0-9-]/gi, '') || 'home';
     const page = id.startsWith('c-') ? 'components' : id;
     const scrollY = window.scrollY;
-    if (page !== current || keepScroll !== 'anchor') {
-      document.getElementById('main').innerHTML = `<div class="doc">${(VIEWS[page] || (() => vSoon(page)))()}</div>`;
+    const prev = current; current = page;
+    if (page !== prev || keepScroll !== 'anchor') {
+      document.getElementById('main').innerHTML = `<div class="doc-wrap"><div class="doc">${(VIEWS[page] || (() => vSoon(page)))()}</div><nav class="toc" id="toc" aria-label="本页"></nav></div>`;
+      buildToc();
     }
-    current = page;
     document.querySelectorAll('[data-r]').forEach(a => { if (a.dataset.r === id) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
     document.getElementById('sidebar').classList.remove('open');
     const item = NAV.flatMap(g => g.items).find(i => i[0] === page);
@@ -333,6 +346,8 @@
   document.addEventListener('click', e => {
     const t = e.target;
     const cp = t.closest('[data-copy]'); if (cp) { e.preventDefault(); copy(cp.dataset.copy); return; }
+    const jp = t.closest('[data-jump]'); if (jp) { e.preventDefault(); const el = document.getElementById(jp.dataset.jump); if (el) el.scrollIntoView({ behavior: 'smooth' }); return; }
+    const vw = t.closest('[data-view]'); if (vw) { const sp = vw.closest('[data-spec]'); sp.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', b === vw)); sp.querySelectorAll('[data-pane]').forEach(p => { p.hidden = p.dataset.pane !== vw.dataset.view; }); return; }
     const tab = t.closest('[data-tab]'); if (tab) { const w = tab.closest('[data-tabs]'); w.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b === tab)); w.querySelector('.ui-tabs-panel').textContent = tab.dataset.tab; return; }
     const sg = t.closest('[data-seg] button'); if (sg) {
       const k = sg.parentElement.dataset.seg, v = sg.dataset.v;
@@ -350,6 +365,7 @@
     }
     if (id === 'sk-brief') { sk.brief = e.target.value; document.getElementById('sk-out').innerHTML = codeBlock(skPrompt()); }
   });
+  window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); }, { passive: true });
   window.addEventListener('hashchange', () => route('anchor'));
 
   (async function start() {
