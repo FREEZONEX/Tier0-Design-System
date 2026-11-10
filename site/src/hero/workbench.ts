@@ -186,7 +186,7 @@ export class Workbench {
     const brushedDark = brushedTexture(T.g400)
     this.mats = {
       alu: new THREE.MeshStandardMaterial({ color: '#ffffff', map: brushed, roughnessMap: brushed, metalness: 0.9, roughness: 0.28, envMapIntensity: 1.6 }),
-      peg: new THREE.MeshStandardMaterial({ color: T.green300, roughness: 0.8 }),
+      peg: new THREE.MeshBasicMaterial({ color: T.green, toneMapped: false }),
       laminate: new THREE.MeshStandardMaterial({ color: T.g100, roughness: 0.75 }),
       paint: new THREE.MeshStandardMaterial({ color: T.g50, roughness: 0.85 }),
       housing: new THREE.MeshStandardMaterial({ color: T.g300, map: brushedDark, metalness: 0.55, roughness: 0.45 }),
