@@ -1178,3 +1178,14 @@ body.hero-on .wb { cursor: none; }
 .lab-exp select { height: 32px; border: 1px solid var(--border); border-radius: 4px; background: var(--background); color: var(--foreground); font: inherit; font-size: 13px; padding: 0 8px; }
 .lab-exp .ui-btn svg { width: 14px; height: 14px; }
 .t0-logo .lg-ring { fill: none; stroke: var(--logo-zero); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+
+/* ---------- 插画与图形 ---------- */
+.il-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 16px; }
+.il-grid.il-arch { grid-template-columns: 1fr; }
+.il-fig { margin: 0; display: grid; gap: 8px; }
+.il-fig a { display: grid; place-items: center; aspect-ratio: 4 / 3; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: #FFFFFF; }
+.il-arch .il-fig a { aspect-ratio: auto; padding: 24px; }
+.il-glow .il-fig a { background: #050B14; border-color: #1C1F24; }
+.il-fig img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
+.il-arch .il-fig img { width: 100%; }
+.il-fig figcaption { font-size: 13px; line-height: 20px; color: var(--muted-foreground); }

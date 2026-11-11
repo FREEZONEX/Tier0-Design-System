@@ -104,7 +104,7 @@
     { zh: '', en: '', items: [['foundation', 'Foundation', 'Foundation']] },
     { zh: 'Tokens', en: 'Tokens', items: [['color', '颜色', 'Color'], ['typography', '字体', 'Typography'], ['spacing', '间距与布局', 'Spacing & layout'], ['shape', '圆角、线宽与阴影', 'Radius, border & shadow'], ['motion', '动效', 'Motion']] },
     { zh: 'Components', en: 'Components', items: [['components', 'Tier0 平台组件', 'Tier0 platform'], ['scaffold', '应用脚手架', 'App scaffold']] },
-    { zh: 'Brand', en: 'Brand', items: [['logo', 'Logo', 'Logo'], ['texture', 'Texture', 'Texture'], ['templates', '模版', 'Templates', 1]] },
+    { zh: 'Brand', en: 'Brand', items: [['logo', 'Logo', 'Logo'], ['texture', 'Texture', 'Texture'], ['illustration', '插画与图形', 'Illustration'], ['templates', '模版', 'Templates', 1]] },
     { zh: 'Skills', en: 'Skills', items: [['skills', 'AI 调用规则', 'AI guidelines'], ['designmd', 'DESIGN.md', 'DESIGN.md', 1]] },
   ];
   const I18N = { tbd: { zh: '待定', en: 'TBD' }, copy: { zh: '复制', en: 'Copy' }, copied: { zh: '已复制', en: 'Copied' } };
@@ -521,6 +521,20 @@
     });
   }
 
+  // ---------- 插画与图形：等距插画、架构图、暗色发光 ----------
+  const ILLUS = [
+    ['iso', '等距插画', '用于配图和解释原理：数据怎么分层、设备怎么连接、一次开发怎么复用。', [['iso-layers', '分层：设备层 → 平台层 → 应用层'], ['iso-logistics', '场景：工厂、仓储与物流的数据连接'], ['iso-reuse', '原理：一个数据源，被多处复用']],
+      ['30° 等距视角，所有物体用同一套角度，不混用透视。', '描边 1px 深色线，面用米白与浅灰，品牌绿只给「数据、连接、正在发生」的部分。', '连接用品牌绿实线或虚线，标签用浅绿底的小方牌，文字用等宽字体。', '背景留白或浅灰点阵，不加渐变和投影。', '人物、车辆只做比例参照，不做主角。']],
+    ['arch', '架构图', '用于解释平台架构：左边是接入的数据源，中间是 Tier0 平台，右边是输出的应用和能力。', [['arch-platform', 'Tier0 平台架构：数据接入 → 统一命名空间 → 应用与 AI']],
+      ['从左到右读：输入 → 平台 → 输出，箭头只朝一个方向。', '平台范围用品牌绿虚线框出，内部模块用 1px 细线卡片。', '模块名用正文字体，分组标题用等宽小字。', '同一张图里图标风格一致，只用线性图标。', '品牌绿只用于连接线和平台边界，不给每个模块上色。']],
+    ['glow', '暗色发光', '品牌宣传活动使用的主题风格：深色底、品牌绿发光、半透明卡片。只用于活动海报、社媒和发布会，不用于产品界面和官网正文。', [['glow-builder', '活动海报：Tier0 Builder'], ['glow-reuse', '社媒长图：一次开发，多场景复用'], ['glow-compare', '对比图：Tier0 与传统项目']],
+      ['底色固定为 #050B14，发光只用品牌绿，强度克制，一张图只有一个发光中心。', '半透明卡片只用于主信息，周围元素保持实色或线框。', '背景可用 T0 字符点阵，透明度低，不抢标题。', '标题用 Inter / 中文系统字体，强调词用品牌绿，不加描边和渐变文字。', '只在宣传场景使用：Foundation 里「玻璃拟态、霓虹渐变」的禁用规则对产品界面和官网依然有效。']],
+  ];
+  function vIllustration() {
+    return docHead('插画与图形', '三种图形风格，分别用于解释原理、说明架构和品牌宣传。')
+      + ILLUS.map(([id, n, d, imgs, rules]) => sec('il-' + id, n, d, `<div class="il-grid il-${id}">${imgs.map(([f, cap]) => `<figure class="il-fig"><a href="${asset('assets/brand/' + f + '.jpg')}" target="_blank" rel="noopener"><img src="${asset('assets/brand/' + f + '.jpg')}" alt="${esc(cap)}" loading="lazy"></a><figcaption>${esc(cap)}</figcaption></figure>`).join('')}</div>${rulesBox(rules)}`)).join('');
+  }
+
   // ---------- texture ----------
   // [key, 名称, 含义与用途, 亮色 CSS, 暗色 CSS（可省略，省略时用品牌绿低透明度）]
   const TEXTURES = [
@@ -844,7 +858,7 @@
       + sec('rules', '使用规则', '', ruleList(M));
   }
 
-  const VIEWS = { spacing: vSpacing, shape: vShape, motion: vMotion, home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, scaffold: vScaffold, logo: vLogo, texture: vTexture, skills: vSkills };
+  const VIEWS = { spacing: vSpacing, shape: vShape, motion: vMotion, home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, scaffold: vScaffold, logo: vLogo, texture: vTexture, illustration: vIllustration, skills: vSkills };
   let current = '';
   function route(keepScroll) {
     if (!location.hash) history.replaceState(null, '', '#home');
