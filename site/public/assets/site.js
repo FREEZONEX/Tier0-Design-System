@@ -204,7 +204,8 @@
   const codeBlock = code => `<div class="code"><pre><code>${esc(code)}</code></pre><span class="copy">${copyBtn(code)}</span></div>`;
   const seg = (id, opts, cur) => `<div class="seg" data-seg="${id}">${opts.map(([v, l]) => `<button type="button" data-v="${v}" aria-pressed="${v === cur}">${l}</button>`).join('')}</div>`;
   const sec = (id, title, lead, body) => `<section class="sec" id="${id}"><h2>${esc(title)}</h2>${lead ? `<p class="lead">${lead}</p>` : ''}${body}</section>`;
-  const docHead = (title, desc) => `<header class="doc-head"><h1>${esc(title)}</h1>${desc ? `<p>${desc}</p>` : ''}</header>`;
+  const eyebrow = () => { const g = NAV.find(x => x.items.some(i => i[0] === current)); const it = g && g.items.find(i => i[0] === current); return [g && g.zh, it && it[1]].filter(Boolean).join(' / '); };
+  const docHead = (title, desc) => `<header class="doc-head"><span class="eyebrow">${esc(eyebrow())}</span><h1>${esc(title)}</h1>${desc ? `<p>${desc}</p>` : ''}</header>`;
   const foot = code => `<div class="spec-foot"><code>${esc(code)}</code>${copyBtn(code)}</div>`;
 
   // ---------- shell ----------
@@ -268,7 +269,7 @@
     return docHead('Foundation', (opener.split('。')[0] || '设计系统的起点') + '。')
       + sec('brand-story','Tier0 品牌故事','', `<div class="brand-copy">${md([what, story].filter(Boolean).join('\n\n'))}</div><iframe class="brand-story-animation" src="assets/brand-story.html?v=5" title="Tier0 品牌故事：接入、组织与生成" sandbox="allow-scripts" loading="eager"></iframe>`)
 
-      + sec('brand-traits','品牌特征','', `<div class="brand-copy">${md(traitIntro)}</div><div class="trait-grid">${traits.map((t,i)=>`<details class="trait-card"><summary>${traitArt(i)}<div class="trait-title"><h3>${esc(plain(t[0]))}</h3><span class="trait-plus">+</span></div><p>${esc(plain(t[1]).split('。')[0])}。</p></summary><div class="trait-rule">${esc(plain(t[1]))}</div></details>`).join('')}</div>`)
+      + sec('brand-traits','品牌特征','', `<div class="brand-copy">${md(traitIntro)}</div><div class="trait-grid">${traits.map((t,i)=>{ const full = plain(t[1]); const k = full.indexOf('。'); const head = k >= 0 ? full.slice(0, k + 1) : full; const rest = k >= 0 ? full.slice(k + 1).trim() : ''; return rest ? `<details class="trait-card"><summary>${traitArt(i)}<div class="trait-title"><h3>${esc(plain(t[0]))}</h3><span class="trait-plus" aria-hidden="true">+</span></div><p>${esc(head)}</p></summary><div class="trait-rule">${esc(rest)}</div></details>` : `<div class="trait-card"><div class="trait-static">${traitArt(i)}<div class="trait-title"><h3>${esc(plain(t[0]))}</h3></div><p>${esc(head)}</p></div></div>`; }).join('')}</div>`)
       + sec('design-principles','设计原则','',`<div class="principle-grid">${principles.map((m)=>`<article><h3>${esc(m[1])}</h3><p>${esc(m[2])}</p></article>`).join('')}</div>`) ;
   }
 
@@ -277,13 +278,13 @@
     if (!D.base) return '<p class="muted">没有读取到颜色 token。</p>';
     const c = D.base.color;
     const brand = entries(c.brand).map(([k, v]) => ({ name: ext(v).displayName || k, hex: colorOf(v.$value), desc: (v.$description || '').split('——')[0] }));
-    const ramp = ([g, list]) => `<div class="ramp-line"><span>${esc(g)}</span><div class="ramp">${list.map(([n, hex]) => `<button data-copy="${hex}" style="background:${hex}" title="${esc(n)} ${hex}" aria-label="${esc(n)} ${hex}"></button>`).join('')}</div></div>`;
+    const ramp = ([g, list]) => `<div class="ramp-line"><span>${esc(g)}</span><div class="ramp">${list.map(([n, hex]) => `<button data-copy="${hex}" style="background:${hex};color:${lum(hex) > 0.4 ? '#050B14' : '#FFFFFF'}" aria-label="复制 ${esc(n)} ${hex}"><span class="rtip"><b>${esc(n.replace(/^.*?-(?=\d)/, ''))}</b>${hex}</span></button>`).join('')}</div></div>`;
     const scale = entries(c.scale).map(([g, o]) => [g, o.$value ? [[g, colorOf(o.$value)]] : entries(o).map(([s, v]) => [`${g}-${s}`, colorOf(v.$value)])]);
     const aux = entries(c.auxiliary).map(([g, o]) => [g, entries(o).map(([s, v]) => [`${g}-${s}`, colorOf(v.$value)])]);
     const sem = CORE.map(g => [(D.light.color[g].$description || g).split('。')[0], entries(D.light.color[g]).map(([k, v]) => ({ k, l: colorOf(v.$value), d: colorOf(D.dark.color[g][k].$value), desc: (v.$description || '').split('——')[0] }))]);
     const rules = ext(D.light.color).rules || [];
     return docHead('颜色', '近单色的界面，品牌绿只出现在信号、实时数据、选中和重点区块上。点击任一色块复制色值。')
-      + sec('brand', '品牌色', '五个品牌色构成 Tier0 的识别。', `<div class="sw-grid">${brand.map(x => `<button class="sw" data-copy="${x.hex}"><div class="chip" style="background:${x.hex}"></div><b>${esc(x.name)}</b><span>${x.hex}</span></button>`).join('')}</div>`)
+      + sec('brand', '品牌色', '五个品牌色构成 Tier0 的识别。', `<div class="brand-board">${brand.map((x, i) => `<button type="button" class="bsw${i === 0 ? ' lead' : ''}" data-copy="${x.hex}" style="background:${x.hex};color:${lum(x.hex) > 0.4 ? '#050B14' : '#FFFFFF'}" aria-label="复制 ${esc(x.name)} ${x.hex}"><span class="bsw-name">${esc(x.name)}</span><span class="bsw-hex">${x.hex.replace('#', '')}</span><span class="bsw-copy">${I.copy}复制</span></button>`).join('')}</div>`)
       + sec('scale', '色阶', '绿、黑、灰三组色阶，与前端 <code>packages/theme</code> 同名。', `<div class="ramps">${scale.map(ramp).join('')}</div>`)
       + sec('aux', '辅助色', '只用于图表和分类标签，不带语义。', `<div class="ramps">${aux.map(ramp).join('')}</div>`)
       + sec('tokens', '用途 token', '组件只使用这一层。左为浅色、右为深色，点击一行复制变量。', `<div class="tok-groups">${sem.map(([t, list]) => `<div class="tok-group"><div class="tok-group-h"><h3>${esc(t)}</h3><span>${list.length}</span></div><div class="tok-list">${list.map(x => `<button type="button" class="tok-row" data-copy="var(--${x.k})" title="复制 var(--${x.k})"><span class="tok-sw"><i style="background:${x.l}"></i><i style="background:${x.d}"></i></span><span class="tok-name"><code>--${x.k}</code><small>${esc(x.desc)}</small></span><span class="tok-hex"><em>浅</em>${x.l}</span><span class="tok-hex"><em>深</em>${x.d}</span></button>`).join('')}</div></div>`).join('')}</div>`)
@@ -362,7 +363,7 @@
     hs.forEach((h, i) => { if (!h.id && !h.parentElement.id) h.id = 'sec-' + i; });
     const toc = document.getElementById('toc');
     if (hs.length < 2) { toc.innerHTML = ''; buildToc.spy = null; return; }
-    toc.innerHTML = '<h6>本页</h6>' + hs.map(h => { const id = h.parentElement.id && h.parentElement.classList.contains('sec') ? h.parentElement.id : h.id; return `<a href="#${current}" data-jump="${id}">${esc(h.textContent)}</a>`; }).join('');
+    toc.innerHTML = '<div class="toc-in"><h6>本页</h6>' + hs.map(h => { const id = h.parentElement.id && h.parentElement.classList.contains('sec') ? h.parentElement.id : h.id; return `<a href="#${current}" data-jump="${id}">${esc(h.textContent)}</a>`; }).join('') + '</div>';
     const links = [...toc.querySelectorAll('a')];
     buildToc.spy = () => { let on = links[0]; hs.forEach((h, i) => { if (h.getBoundingClientRect().top < 160) on = links[i]; }); links.forEach(a => a.classList.toggle('on', a === on)); };
     buildToc.spy();

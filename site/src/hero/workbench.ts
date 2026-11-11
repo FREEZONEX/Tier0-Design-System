@@ -212,16 +212,10 @@ export class Workbench {
     this.buildHall()
     this.buildBench(0, 0, true)
     // 透视轴线：随后退逐渐出现，汇向灭点
+    // 透视轴线：一点透视的「方盒」——工作台四个外角（左上、右上、左下、右下）
+    // 沿纵深方向的平行线，往后汇向灭点、往前延伸到镜头，四根一组，不加其它方向的线
     const ap: number[] = []
-    for (const x of [-1.5, 1.5]) for (const y of [0, 0.925, 2.36]) ap.push(x, y, 0.43, x * 0.02, 1.3, -60)
-    ap.push(0, 0, 14, 0, 0, -20)
-    ap.push(-20, 1.3, -20, 20, 1.3, -20)
-    for (const x of [-1.5, 1.5]) ap.push(x, 0, 0.43, x, 0, 14)
-    // 四角向镜头方向发散的透视线（左上、右上、左下、右下）
-    for (const sx of [-1, 1]) {
-      ap.push(sx * 1.55, 2.37, 0.43, sx * 6.5, 5.6, 9)
-      ap.push(sx * 1.5, 0, 0.43, sx * 6.5, 0, 9)
-    }
+    for (const x of [-1.52, 1.52]) for (const y of [0.002, 2.37]) { ap.push(x, y, 0.43, x, y, 14); ap.push(x, y, 0.43, x, y, -20) }
     const ag = new THREE.BufferGeometry()
     ag.setAttribute('position', new THREE.Float32BufferAttribute(ap, 3))
     const axes = new THREE.LineSegments(ag, this.axisMat)

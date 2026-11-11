@@ -621,3 +621,77 @@ body.nav-short .app { margin-top: -61px; }
 .trait-card { transition: border-color var(--fast) var(--ease); }
 .trait-card:hover { border-color: var(--input) !important; }
 @media (prefers-reduced-motion: reduce) { .trait-art * { transition: none; } }
+
+/* ======================================================================
+   工业图纸质感：侧栏分组与导轨、内容区斜线边带、页眉标签、节编号框
+   ====================================================================== */
+.app { grid-template-columns: 264px minmax(0, 1fr); }
+.sidebar { border-right: 1px solid var(--border); padding: 32px 20px 48px 24px; }
+.sidebar h6 { margin: 28px 0 10px; font: 500 11px/16px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted-foreground); }
+.sidebar h6 ~ a { margin-left: 0; border-radius: 0; border-left: 1px solid var(--border); padding-left: 16px; height: 32px; }
+.sidebar h6 ~ a:hover { border-left-color: var(--input); }
+.sidebar a[aria-current="page"] { background: transparent; color: var(--foreground); font-weight: 600; }
+.sidebar h6 ~ a[aria-current="page"] { border-left: 2px solid var(--foreground); padding-left: 15px; }
+.sidebar > a:first-child { border: 1px solid var(--border); border-radius: var(--radius); }
+.sidebar > a:first-child[aria-current="page"] { border-color: var(--foreground); }
+/* 内容区两侧斜线边带 */
+main { position: relative; }
+.doc-wrap:not(.p-home) { max-width: none; margin: 0; padding: 0 32px; grid-template-columns: minmax(0, 1fr) 232px; gap: 0;
+  background:
+    repeating-linear-gradient(-45deg, color-mix(in srgb, var(--foreground) 9%, transparent) 0 1px, transparent 1px 7px) left top / 32px 100% no-repeat,
+    repeating-linear-gradient(-45deg, color-mix(in srgb, var(--foreground) 9%, transparent) 0 1px, transparent 1px 7px) right top / 32px 100% no-repeat; }
+.doc-wrap:not(.p-home) > .doc { max-width: none !important; width: 100%; margin: 0; padding: 56px clamp(32px, 6vw, 96px) 120px !important; border-left: 1px solid var(--border); border-right: 1px solid var(--border); background: var(--background); }
+.doc-wrap:not(.p-home) > .doc > * { max-width: 960px; margin-left: auto; margin-right: auto; }
+.doc-wrap:not(.p-home) > .toc { background: var(--background); border-right: 1px solid var(--border); padding: 64px 24px 0; align-self: stretch; position: relative; top: 0; max-height: none; }
+.toc h6 { font: 500 11px/16px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+@media (max-width: 1240px) { .doc-wrap:not(.p-home) { grid-template-columns: minmax(0, 1fr); } .doc-wrap:not(.p-home) > .doc { border-right: 1px solid var(--border); } }
+/* 页眉标签 */
+.eyebrow { display: block; margin-bottom: 12px; font: 500 12px/16px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted-foreground); }
+.eyebrow:empty { display: none; }
+/* 节编号框 */
+.doc { counter-reset: sec; }
+.doc .sec > h2 { counter-increment: sec; display: flex; align-items: center; gap: 14px; }
+.doc .sec > h2::before { content: counter(sec, decimal-leading-zero); display: inline-grid; place-items: center; min-width: 30px; height: 26px; padding: 0 6px; border: 1px solid var(--input); border-radius: 2px; font: 500 11px/1 var(--font-mono); color: var(--muted-foreground); }
+.doc .sec > p.lead { padding-left: 44px; }
+.doc .sec > h2 + *, .doc .sec > .lead + * { margin-top: 24px; }
+/* 页头下沿：带端点刻度的细线 */
+.doc-head { position: relative; }
+.doc-head::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 7px; border-left: 1px solid var(--input); border-right: 1px solid var(--input); }
+
+/* ---------- 品牌色：一大四小，悬停显示色号与复制 ---------- */
+.brand-board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.bsw { position: relative; aspect-ratio: 1 / 1; border: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent); border-radius: var(--radius); padding: 0; cursor: pointer; display: grid; place-items: center; overflow: hidden; font-family: var(--font-display); }
+.bsw.lead { grid-column: 1 / -1; aspect-ratio: auto; height: 280px; }
+.bsw-name { position: absolute; left: 16px; top: 14px; font: 500 13px/20px var(--font-sans); opacity: .7; }
+.bsw-hex { font: 600 22px/1 var(--font-display); letter-spacing: -0.01em; transition: transform 200ms var(--ease); }
+.bsw.lead .bsw-hex { font-size: 30px; }
+.bsw-copy { position: absolute; right: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: var(--radius); font: 500 12px/1 var(--font-sans); background: color-mix(in srgb, currentColor 12%, transparent); opacity: 0; transform: translateY(4px); transition: opacity 160ms var(--ease), transform 160ms var(--ease); }
+.bsw-copy svg { width: 14px; height: 14px; }
+.bsw:hover .bsw-copy, .bsw:focus-visible .bsw-copy { opacity: 1; transform: none; }
+@media (max-width: 800px) { .brand-board { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bsw.lead { height: 180px; } }
+/* 色阶：悬停显示色号 */
+.ramp button { position: relative; height: 44px; }
+.ramp button:hover { transform: none; z-index: 1; outline: 1px solid var(--foreground); outline-offset: 2px; }
+.rtip { position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translate(-50%, 4px); display: grid; gap: 2px; padding: 6px 8px; background: var(--primary); color: var(--primary-foreground); border-radius: var(--radius); font: 400 11px/14px var(--font-mono); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 140ms var(--ease), transform 140ms var(--ease); text-align: left; }
+.rtip b { font-weight: 500; opacity: .7; }
+.ramp button:hover .rtip, .ramp button:focus-visible .rtip { opacity: 1; transform: translate(-50%, 0); }
+/* 品牌特征：无展开内容时不显示 + */
+.trait-static { padding: 12px 12px 20px; }
+.trait-static > p { padding: 8px 8px 0; font: 400 14px/22px var(--font-sans); color: var(--muted-foreground); }
+
+.toc-in { position: sticky; top: calc(var(--top) + 32px); display: grid; gap: 2px; }
+.doc-wrap:not(.p-home) > .toc { display: block; }
+.toc-in { align-content: start; }
+.doc-wrap:not(.p-home) > .toc { overflow: visible; max-height: none; }
+/* 去掉编号框与大写等宽标签；侧栏收紧 */
+.doc .sec > h2::before { content: none; display: none; }
+.doc .sec > h2 { gap: 0; }
+.doc .sec > p.lead { padding-left: 0; }
+.eyebrow { font: 400 13px/20px var(--font-sans); letter-spacing: 0; text-transform: none; margin-bottom: 8px; }
+.sidebar h6, .toc h6 { font: 500 12px/16px var(--font-sans); letter-spacing: 0; text-transform: none; }
+.sidebar { padding: 24px 16px 40px 20px; }
+.sidebar h6 { margin: 18px 0 6px; }
+.sidebar h6 ~ a { height: 30px; font-size: 14px; }
+.sidebar > a:first-child { height: 34px; }
+.doc .sec > h2 + p.lead { margin-top: 8px; }
+.doc-head::after { content: none; }
