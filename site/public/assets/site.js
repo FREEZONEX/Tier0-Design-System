@@ -332,7 +332,6 @@
           <label class="ctl"><span class="ctl-h">字间距<b id="ty-tv">${ty.ls}em</b></span><input type="range" id="ty-t" min="-0.05" max="0.1" step="0.005" value="${ty.ls}"></label></div></div>
         <div class="spec-body"><div class="spec-sample" id="ty-sample" contenteditable="true" spellcheck="false" style="${tyCss()}">${lang === 'zh' || ty.fam === 'sc' ? 'Factory-A / Line-01 设备状态 72.4 °C<br>CNC-03 主轴温度持续升高，已通知当班工程师。' : 'Factory-A / Line-01 status 72.4 °C<br>CNC-03 spindle temperature keeps rising; the shift engineer was notified.'}</div></div>${foot(tyCss())}</div>`)
       + sec('scale', '字阶', '每一级都按实际大小展示。产品字阶用于产品后台，官网字阶用于官网、Deck 和宣传物料。', `<div style="margin-bottom:16px">${seg('tyset', [['product', '产品字阶'], ['web', '官网字阶']], ty.set)}</div><div>${rows}</div>`)
-      + sec('scenes', '不同场景下的字号', '同一套字阶，在不同设备上取不同的档：手机正文放大到 16px，大屏上关键数字放大，便于站在远处读。', sceneFrame('type', 375))
       + sec('families', '字体家族', '', `<div class="fam-wrap">${fams}</div>`)
       + sec('rules', '使用规则', '', rulesBox(rulesOf(D.typo.typography)));
   }
@@ -342,7 +341,7 @@
   function vComponents() {
     const scope = compTheme === 'dark' ? ' dark-scope' : compTheme === 'light' ? ' light-scope' : '';
     return docHead('Tier0 平台组件', `Tier0 平台自身使用的组件。生成平台应用模版用的是另一套：<a href="#scaffold">应用脚手架</a>。`)
-      + `<div class="repo-row">${repoCard(FE_REPO, I.github, '代码仓库', 'FREEZONEX/Tier0-Frontend')}</div>`
+
       + `<div style="margin:-24px 0 40px">${seg('ctheme', [['auto', '跟随页面'], ['light', '亮色'], ['dark', '暗色']], compTheme)}</div>`
       + COMPONENTS.map(c => sec('c-' + c.id, c.zh, esc(c.desc), `<div class="spec" data-spec>
           <div class="spec-tabs"><div class="seg sm" role="tablist"><button type="button" data-view="preview" aria-pressed="true">预览</button><button type="button" data-view="code" aria-pressed="false">代码</button></div>
@@ -367,6 +366,87 @@
     fetch(src, { method: 'HEAD' }).then(r => { if (!r.ok || !/html/.test(r.headers.get('content-type') || '')) throw 0; show(); }).catch(() => { box.querySelector('.sc-empty').hidden = false; });
   }
 
+  // ---------- 材质实验：底图 + 半调 / 抖动 / ASCII，可换图片或视频，实时调参 ----------
+  const LAB_MODES = [['halftone', '模糊点阵'], ['dither', '抖动'], ['ascii', '动态 ASCII']];
+  const LAB_DEF = { mode: 'halftone', cell: 8, blur: 2, contrast: 1.2, bright: 0, speed: 0.6, wave: 0.5, ink: '#B2ED1D', bg: '#050B14', chars: ' .:-=+*#%@', invert: false, paused: false, mouse: true };
+  const lab = Object.assign({}, LAB_DEF);
+  const LAB_SL = [
+    ['cell', '格子', 4, 24, 1, 'px'], ['blur', '模糊', 0, 12, 0.5, 'px'], ['contrast', '对比度', 0.4, 2.5, 0.05, ''],
+    ['bright', '亮度', -0.5, 0.5, 0.01, ''], ['speed', '速度', 0, 2, 0.05, ''], ['wave', '波动', 0, 1, 0.05, ''],
+  ];
+  const labSlider = ([k, n, min, max, step, u]) => { const v = lab[k], pct = ((v - min) / (max - min)) * 100; return `<label class="lab-sl" style="--f:${pct}%"><span>${n}</span><input type="range" data-lab="${k}" min="${min}" max="${max}" step="${step}" value="${v}"><em>${(+v).toFixed(step < 1 ? (step < 0.1 ? 2 : 1) : 0)}${u}</em></label>`; };
+  function vTextureLab() {
+    return `<div class="lab"><div class="lab-view"><canvas id="lab-cv"></canvas><div class="lab-over">${seg('labmode', LAB_MODES, lab.mode)}<label class="ui-btn ghost lab-up">${I.open}换图片 / 视频<input type="file" id="lab-file" accept="image/*,video/*" hidden></label></div></div>
+      <div class="lab-panel"><div class="lab-h"><b>参数</b><button type="button" class="ui-btn ghost" data-lab-reset>重置</button></div>
+        <div class="lab-grid">${LAB_SL.map(labSlider).join('')}
+          <label class="lab-sl lab-color"><span>墨色</span><em>${lab.ink}</em><input type="color" data-lab="ink" value="${lab.ink}"></label>
+          <label class="lab-sl lab-color"><span>底色</span><em>${lab.bg}</em><input type="color" data-lab="bg" value="${lab.bg}"></label>
+          <label class="lab-sl lab-text"><span>字符</span><input type="text" data-lab="chars" value="${esc(lab.chars)}" spellcheck="false"></label>
+          <label class="lab-sl lab-tg"><span>反相</span><input type="checkbox" data-lab="invert" ${lab.invert ? 'checked' : ''}><i></i></label>
+          <label class="lab-sl lab-tg"><span>跟随鼠标</span><input type="checkbox" data-lab="mouse" ${lab.mouse ? 'checked' : ''}><i></i></label>
+          <label class="lab-sl lab-tg"><span>暂停</span><input type="checkbox" data-lab="paused" ${lab.paused ? 'checked' : ''}><i></i></label>
+        </div></div></div>`;
+  }
+  const LabRT = { src: null, raf: 0, mx: -1, my: -1, t: 0, last: 0 };
+  function labSource(url, isVideo) {
+    if (LabRT.src && LabRT.src.pause) LabRT.src.pause();
+    if (isVideo) { const v = document.createElement('video'); v.src = url; v.muted = true; v.loop = true; v.playsInline = true; v.play().catch(() => {}); LabRT.src = v; }
+    else { const im = new Image(); im.src = url; LabRT.src = im; }
+  }
+  const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(v => (v + 0.5) / 16);
+  function mountLab() {
+    const cv = document.getElementById('lab-cv'); if (!cv) return;
+    if (!LabRT.src) labSource(asset('assets/texture-base.jpg'), false);
+    const ctx = cv.getContext('2d'), off = document.createElement('canvas'), octx = off.getContext('2d', { willReadFrequently: true });
+    cv.addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(); LabRT.mx = (e.clientX - r.left) / r.width; LabRT.my = (e.clientY - r.top) / r.height; });
+    cv.addEventListener('pointerleave', () => { LabRT.mx = LabRT.my = -1; });
+    cancelAnimationFrame(LabRT.raf);
+    const frame = now => {
+      if (!cv.isConnected) return;
+      LabRT.raf = requestAnimationFrame(frame);
+      const dt = Math.min(64, now - (LabRT.last || now)); LabRT.last = now;
+      if (!lab.paused) LabRT.t += dt / 1000 * lab.speed;
+      const W = cv.clientWidth, H = cv.clientHeight, dpr = Math.min(2, devicePixelRatio || 1);
+      if (cv.width !== W * dpr || cv.height !== H * dpr) { cv.width = W * dpr; cv.height = H * dpr; }
+      const src = LabRT.src, sw = src && (src.videoWidth || src.naturalWidth), sh = src && (src.videoHeight || src.naturalHeight);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = lab.bg; ctx.fillRect(0, 0, W, H);
+      if (!sw) return;
+      const cell = lab.cell, cols = Math.ceil(W / cell), rows = Math.ceil(H / cell);
+      off.width = cols; off.height = rows;
+      const sc = Math.max(cols / sw, rows / sh), dw = sw * sc, dh = sh * sc;
+      octx.filter = lab.blur ? `blur(${lab.blur / cell}px)` : 'none';
+      octx.drawImage(src, (cols - dw) / 2, (rows - dh) / 2, dw, dh);
+      const px = octx.getImageData(0, 0, cols, rows).data, t = LabRT.t, wv = lab.wave;
+      ctx.fillStyle = lab.ink;
+      if (lab.mode === 'ascii') { ctx.font = `500 ${cell * 1.15}px ${getComputedStyle(document.body).getPropertyValue('--font-mono') || 'monospace'}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; }
+      const chars = lab.chars || ' .#';
+      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+        // 让取样位置随时间轻微摆动，画面像在呼吸
+        const ox = Math.round(Math.sin(y * 0.18 + t * 2.2) * wv * 1.5), oy = Math.round(Math.cos(x * 0.15 + t * 1.7) * wv);
+        const sx = Math.min(cols - 1, Math.max(0, x + ox)), sy = Math.min(rows - 1, Math.max(0, y + oy));
+        const i = (sy * cols + sx) * 4;
+        let l = (0.2126 * px[i] + 0.7152 * px[i + 1] + 0.0722 * px[i + 2]) / 255;
+        l = (l - 0.5) * lab.contrast + 0.5 + lab.bright;
+        if (lab.mouse && LabRT.mx >= 0) { const dx = x / cols - LabRT.mx, dy = (y / rows - LabRT.my) * H / W, d = Math.hypot(dx, dy); if (d < 0.12) l += (0.12 - d) * 4; }
+        if (lab.invert) l = 1 - l;
+        l = Math.max(0, Math.min(1, l));
+        const cx = x * cell + cell / 2, cy = y * cell + cell / 2;
+        if (lab.mode === 'halftone') { const r = Math.sqrt(l) * cell * 0.5; if (r > 0.3) { ctx.beginPath(); ctx.arc(cx, cy, r, 0, 6.2832); ctx.fill(); } }
+        else if (lab.mode === 'dither') { const th = BAYER[(y & 3) * 4 + (x & 3)]; const flick = wv * 0.08 * Math.sin(t * 6 + x * 0.7 + y * 1.3); if (l + flick > th) ctx.fillRect(x * cell, y * cell, cell - 1, cell - 1); }
+        else { const n = chars.length - 1; const jit = wv * 0.15 * Math.sin(t * 5 + x * 0.9 + y * 0.6); const k = Math.max(0, Math.min(n, Math.round((l + jit) * n))); const ch = chars[k]; if (ch && ch !== ' ') ctx.fillText(ch, cx, cy); }
+      }
+    };
+    LabRT.raf = requestAnimationFrame(frame);
+  }
+  function labInput(e) {
+    const k = e.target.dataset.lab; if (!k) return false;
+    const el = e.target; lab[k] = el.type === 'checkbox' ? el.checked : el.type === 'range' ? +el.value : el.value;
+    const row = el.closest('.lab-sl'); const sl = LAB_SL.find(x => x[0] === k);
+    if (sl) { row.style.setProperty('--f', ((lab[k] - sl[2]) / (sl[3] - sl[2])) * 100 + '%'); row.querySelector('em').textContent = (+lab[k]).toFixed(sl[4] < 1 ? (sl[4] < 0.1 ? 2 : 1) : 0) + sl[5]; }
+    if (el.type === 'color') row.querySelector('em').textContent = el.value.toUpperCase();
+    return true;
+  }
+
   // ---------- texture ----------
   const TEXTURES = [
     ['dots', '点阵', '来自工作台的洞洞板。用于大面积品牌区块和空状态背景，表示「可以接入」。', 'background-image: radial-gradient(currentColor 1px, transparent 1.5px); background-size: 12px 12px;'],
@@ -375,6 +455,7 @@
   ];
   function vTexture() {
     return docHead('Texture', '纹理只用细线和点，颜色取 border 或品牌绿的低透明度，不抢内容。一个区块只用一种纹理。')
+      + sec('lab', '材质实验', '用一张底图生成材质：模糊点阵、抖动和动态 ASCII。可以换成自己的图片或视频，右侧调参数，鼠标移到画面上会局部点亮。', vTextureLab())
       + sec('list', '纹理', '点击卡片底部复制 CSS。', `<div class="tx-grid">${TEXTURES.map(([k, n, d, css]) => `<div class="tx-card"><div class="tx-stage"><div class="tx-fill" style="${css}"></div><div class="tx-fill tx-lime" style="${css}"></div></div><div class="tx-body"><b>${n}</b><span>${d}</span></div>${foot(css)}</div>`).join('')}</div>`)
       + sec('rules', '使用规则', '', rulesBox(['纹理只放在背景层，上面的文字和数据必须清楚可读。', '默认用 border 颜色；品牌区块可用品牌绿，透明度不超过 30%。', '一个区块只用一种纹理，不叠加，不做动画。', '表格、表单、卡片内部不用纹理。']));
   }
@@ -391,77 +472,45 @@
     ['r', 'M282.069 67.3038H343.414V14.7228H282.069V67.3038ZM359.188 14.7228V67.3038L347.445 79.0468L368.828 123.39H351.827L332.021 81.3254H282.069V123.39H266.295V0.701172H345.166L359.188 14.7228Z'],
     ['z', 'M411.795 109.369V14.7228L425.816 0.701172H490.666L504.688 14.7228V109.369L490.666 123.39H425.816L411.795 109.369ZM427.569 14.7228V109.369H488.914V14.7228H427.569Z'],
   ];
-  // 字母中心（字标坐标），用于代码闪动
-  const LG_C = { t: 45, i: 127, e: 212, r: 317 };
-  const logoSvg = cls => `<svg class="t0-logo ${cls || ''}" viewBox="-4 -4 513 133" role="img" aria-label="Tier0"><g class="lg-all">${LOGO_P.map(([k, d]) => `<path class="lg-${k}" d="${d}" pathLength="1"/>`).join('')}${Object.entries(LG_C).map(([k, x]) => `<text class="lg-code" data-k="${k}" x="${x}" y="100" text-anchor="middle"></text>`).join('')}<circle class="lg-ring" cx="458" cy="62" r="9"/><circle class="lg-ring" cx="458" cy="62" r="9"/><rect class="lg-dot" x="449" y="53" width="18" height="18"/></g></svg>`;
-  // 数据点出现并向外发两次信号 → 描出 0 → 闪出 T 组成 T0 → 向两侧展开，I、E、R 以代码闪动后落定。约 5 秒。
+  const logoSvg = cls => `<svg class="t0-logo ${cls || ''}" viewBox="-4 -4 513 133" role="img" aria-label="Tier0"><g class="lg-all">${LOGO_P.map(([k, d]) => `<path class="lg-${k}" d="${d}" pathLength="1"/>`).join('')}<circle class="lg-ring" cx="458" cy="62" r="9"/><circle class="lg-ring" cx="458" cy="62" r="9"/><rect class="lg-dot" x="449" y="53" width="18" height="18"/></g></svg>`;
+  // 数据点出现并发出两次信号 → 描出 0 → T 闪动出现组成 T0 → 向两侧展开，I、E、R 依次闪动出现。约 4.5 秒。
   const EZ = { std: 'cubic-bezier(0.4,0,0.2,1)', enter: 'cubic-bezier(0,0,0.2,1)' };
-  const GLYPHS = '01<>/{}#=*:;$%&ABCDEF';
-  function scramble(el, at, dur) {
-    const t0 = performance.now() + at;
-    const tick = now => {
-      if (!el.isConnected) return;
-      const k = now - t0;
-      if (k < 0) return requestAnimationFrame(tick);
-      if (k > dur) { el.textContent = ''; return; }
-      const f = Math.floor(k / 50);
-      if (f !== el._f) { el._f = f; el.textContent = Array.from({ length: 2 }, () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)]).join(''); }
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }
+  // 闪动：只改透明度，像信号接通时的两次明灭
+  const FLICK = [{ opacity: 0 }, { opacity: 1, offset: 0.2 }, { opacity: 0.15, offset: 0.4 }, { opacity: 1, offset: 0.6 }, { opacity: 0.5, offset: 0.75 }, { opacity: 1 }];
   function playLogo(svg) {
     if (!svg || !svg.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const q = c => svg.querySelector(c), qa = c => [...svg.querySelectorAll(c)];
     svg.getAnimations({ subtree: true }).forEach(a => a.cancel());
     const A = (el, kf, o) => el.animate(kf, Object.assign({ fill: 'both' }, o));
-    const MID = -206, T0X = 302, T0MID = -151, OPEN = 3700, TOTAL = 4500;
-    // 整体位置：先让 0 居中，T 出现后让 T0 居中，最后展开到完整字标
+    const MID = -206, T0X = 302, T0MID = -151, OPEN = 3500, TOTAL = 4300;
     A(q('.lg-all'), [
       { transform: `translateX(${MID}px)` },
-      { transform: `translateX(${MID}px)`, offset: 2700 / TOTAL, easing: EZ.std },
-      { transform: `translateX(${T0MID}px)`, offset: 3100 / TOTAL },
+      { transform: `translateX(${MID}px)`, offset: 2600 / TOTAL, easing: EZ.std },
+      { transform: `translateX(${T0MID}px)`, offset: 3000 / TOTAL },
       { transform: `translateX(${T0MID}px)`, offset: OPEN / TOTAL, easing: EZ.std },
       { transform: 'none' },
     ], { duration: TOTAL });
-    // 1. 数据点：出现、闪两下
+    // 1. 数据点
     A(q('.lg-dot'), [
       { transform: 'scale(0)', opacity: 1, easing: EZ.enter },
       { transform: 'scale(1)', opacity: 1, offset: 0.1 },
-      { transform: 'scale(1)', opacity: 0.3, offset: 0.22 }, { transform: 'scale(1)', opacity: 1, offset: 0.3 },
-      { transform: 'scale(1)', opacity: 0.3, offset: 0.5 }, { transform: 'scale(1)', opacity: 1, offset: 0.58 },
-      { transform: 'scale(1)', opacity: 1, offset: 0.85, easing: EZ.std },
+      { transform: 'scale(1)', opacity: 1, offset: 0.8, easing: EZ.std },
       { transform: 'scale(0.4)', opacity: 0 },
     ], { duration: 2200 });
-    // 2. 信号：两圈向外扩散
+    // 2. 信号两圈
     qa('.lg-ring').forEach((r, n) => A(r, [{ transform: 'scale(1)', opacity: 0.7 }, { transform: 'scale(6)', opacity: 0 }], { duration: 900, delay: 400 + n * 500, easing: EZ.enter, fill: 'none' }));
-    // 3. 由数据点描出 0，再填色
+    // 3. 描出 0
     A(q('.lg-z'), [{ strokeDashoffset: 1, strokeWidth: 3, fillOpacity: 0 }, { strokeDashoffset: 0, strokeWidth: 3, fillOpacity: 0, offset: 0.75 }, { strokeDashoffset: 0, strokeWidth: 0, fillOpacity: 1 }], { duration: 1000, delay: 1500, easing: EZ.std });
-    // 4. T：先闪代码，再落定在 0 旁边，组成 T0
-    const tCode = q('.lg-code[data-k="t"]');
-    tCode.setAttribute('x', LG_C.t + T0X);
-    scramble(tCode, 2700, 400);
-    A(q('.lg-t'), [
-      { transform: `translateX(${T0X}px)`, opacity: 0 },
-      { transform: `translateX(${T0X + 6}px)`, opacity: 1, offset: 0.3 }, { transform: `translateX(${T0X - 3}px)`, opacity: 0.3, offset: 0.55 },
-      { transform: `translateX(${T0X}px)`, opacity: 1 },
-    ], { duration: 360, delay: 3050, easing: 'steps(1, end)' });
-    A(q('.lg-t'), [{ transform: `translateX(${T0X}px)` }, { transform: 'none' }], { duration: TOTAL - OPEN, delay: OPEN, easing: EZ.std, fill: 'forwards' });
-    // 5. 展开：I、E、R 位置先闪代码，再落定
-    ['i', 'e', 'r'].forEach((k, n) => {
-      const at = OPEN + 250 + n * 120;
-      scramble(q(`.lg-code[data-k="${k}"]`), at, 380);
-      A(q('.lg-' + k), [
-        { opacity: 0, transform: 'translateX(-10px)' },
-        { opacity: 1, transform: 'translateX(5px)', offset: 0.3 }, { opacity: 0.25, transform: 'translateX(-2px)', offset: 0.6 },
-        { opacity: 1, transform: 'none' },
-      ], { duration: 360, delay: at + 300, easing: 'steps(1, end)' });
-    });
+    // 4. T 闪动出现，组成 T0，展开时移回原位
+    A(q('.lg-t'), [{ transform: `translateX(${T0X}px)` }, { transform: `translateX(${T0X}px)`, offset: OPEN / TOTAL, easing: EZ.std }, { transform: 'none' }], { duration: TOTAL });
+    q('.lg-t').animate(FLICK, { duration: 400, delay: 3000, fill: 'both', easing: 'linear' });
+    // 5. I、E、R 依次闪动出现
+    ['.lg-i', '.lg-e', '.lg-r'].forEach((c, n) => A(q(c), FLICK, { duration: 400, delay: OPEN + 200 + n * 120, easing: 'linear' }));
   }
 
   function vLogo() {
     return docHead('Logo', '字标使用 Tektur，交付时为路径。只在下面四种底色上使用。')
-      + sec('motion', '动效', '一个数据点出现，向外发出两次信号；从这个点描出 0；T 以代码闪动的方式出现，和 0 组成 T0；最后向两侧展开，I、E、R 先闪过一串代码再落定。对应「数据只接一次，之后到处可用」。全程约 5 秒，用于开场、视频和演示，不在网站顶栏使用；系统开启「减少动态效果」时直接显示静态字标。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><code>数据点与信号 1.4s · 描出 0 1.0s · T0 0.7s · 展开 0.8s · 代码闪动 50ms/帧</code><button type="button" class="ui-btn ghost" data-logo-replay>重播</button></div></div>`)
+      + sec('motion', '动效', '一个数据点出现，向外发出两次信号；从这个点描出 0；T 闪动着出现，和 0 组成 T0；最后向两侧展开，I、E、R 依次闪动着出现。对应「数据只接一次，之后到处可用」。全程约 4.5 秒，用于开场、视频和演示，不在网站顶栏使用；系统开启「减少动态效果」时直接显示静态字标。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><code>数据点与信号 1.4s · 描出 0 1.0s · T0 0.4s · 展开 0.8s</code><button type="button" class="ui-btn ghost" data-logo-replay>重播</button></div></div>`)
       + sec('variants', '版本', '', `<div class="logo-grid">${LOGOS.map(([f, n, bg]) => `<div class="logo-card"><div class="stage" style="background:${bg}"><img alt="Tier0 ${n}" src="${asset('03-brand/logo/assets/' + f)}"></div><div class="foot"><span>${n}<span class="muted"> · ${bg}</span></span><a class="ui-btn ghost" href="${asset('03-brand/logo/assets/' + f)}" download="${f}">${I.download}下载 SVG</a></div></div>`).join('')}</div>`);
   }
 
@@ -566,14 +615,24 @@
   }
 
   // ---------- 圆角、线宽与阴影 ----------
+  const BL = [
+    ['card', '卡片与面板', 'border.default · 1px', '页面内的容器只用 1px 细线分隔，不加阴影。', '<div class="bl-card"><b>CNC-03</b><span>主轴温度</span><strong>72.4 °C</strong></div>'],
+    ['table', '表格分隔', 'border.default · 1px', '行与行之间只用 1px 横线；点一行看选中。', '<div class="bl-table"><span>PLC-7</span><span>在线</span><span class="on">CNC-03</span><span>告警</span><span>AGV-2</span><span>在线</span></div>'],
+    ['input', '输入框焦点', '1px → 2px focus', '获得焦点时线宽和颜色同时变化，告诉用户正在输入哪里。', '<input class="bl-input" value="Line-01" aria-label="示例输入框">'],
+    ['nav', '选中项', 'border.strong · 2px', '侧栏、标签页的当前项用 2px 竖线或底线标出。', '<div class="bl-nav"><span>设备</span><span class="on">告警</span><span>工单</span></div>'],
+    ['drop', '拖放区 / 待创建', 'dashed · 1px', '虚线表示「还不存在、可以放进来」的对象；拖入时变实线。', '<div class="bl-drop">把文件拖到这里</div>'],
+    ['chart', '图表强调', '1px / 2px', '对比线用 1px，被关注的那条用 2px。', '<svg class="bl-chart" viewBox="0 0 200 80"><path class="l1" d="M0 60 C40 50 60 62 100 44 S160 40 200 30"/><path class="l2" d="M0 50 C40 40 70 30 100 36 S160 20 200 12"/></svg>'],
+  ];
+  const borderLab = () => `<div class="bl-grid">${BL.map(([k, n, tok, d, html]) => `<div class="bl-tile" data-bl="${k}"><div class="bl-stage">${html}</div><div class="bl-meta"><b>${n}</b><code>${tok}</code><span>${d}</span></div></div>`).join('')}</div>`;
   function vShape() {
     const R = D.radius, B = D.border, H = D.shadow;
     if (!R || !B || !H) return '<p class="muted">没有读取到圆角、线宽与阴影 token。</p>';
     return docHead('圆角、线宽与阴影', '组件的外形：圆角以 4px 为主，层级以 1px 细线为主，阴影只用于浮层与交互反馈。')
       + sec('radius', '圆角', '控件 4px，卡片 6px，上限 8px；圆形元素是唯一的例外。', `<div class="shape-grid">${entries(R.radius).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo" style="border-radius:${k === 'full' ? '999px' : o.$value}${k === 'full' ? ';width:96px;height:32px' : ''}"></span><code>radius.${k}</code><b>${esc(o.$value === '9999px' ? '全圆' : o.$value)}</b><small>${esc(o.$description)}</small></button>`).join('')}</div>` + ruleList(R))
-      + sec('concentric', '嵌套圆角', '内层圆角 = 外层圆角 − 内边距。拖动两个滑块，对比「同心」与「等值」。', `<div class="spec cc"><div class="spec-bar">${seg('ccmode', [['concentric', '同心'], ['equal', '等值']], 'concentric')}<span class="spacer"></span><label class="ctl"><span class="ctl-h">外层圆角<b id="cc-ov">6px</b></span><input type="range" id="cc-o" min="0" max="16" value="6"></label><label class="ctl"><span class="ctl-h">内边距<b id="cc-iv">8px</b></span><input type="range" id="cc-i" min="2" max="24" value="8"></label></div><div class="spec-body cc-stage"><div class="cc-outer" id="cc-outer"><div class="cc-inner" id="cc-inner"><i></i><i></i></div></div></div><div class="spec-foot"><code id="cc-f">inner 0 = outer 6 − inset 8</code></div></div><p class="cc-note">外层 6px（卡片）、内边距 8px 时内层为 0，内层元素用直角或 radius.sm；内边距小于外层圆角时，内层才需要圆角。等值嵌套会让四角的间隙宽窄不一，看起来不贴合。</p>`)
+      + sec('concentric', '嵌套圆角', '内层圆角 = 外层圆角 − 内边距。拖动两个滑块，对比「同心」与「等值」。', `<div class="spec cc"><div class="spec-bar">${seg('ccmode', [['concentric', '同心'], ['equal', '等值']], 'concentric')}<span class="spacer"></span><label class="ctl"><span class="ctl-h">外层圆角<b id="cc-ov">6px</b></span><input type="range" id="cc-o" min="0" max="16" value="6"></label><label class="ctl"><span class="ctl-h">内边距<b id="cc-iv">8px</b></span><input type="range" id="cc-i" min="2" max="24" value="8"></label></div><div class="spec-body cc-stage"><div class="cc-outer" id="cc-outer"><div class="cc-inner" id="cc-inner"><i></i><i></i></div></div></div><div class="spec-foot"><code id="cc-f">inner 0 = outer 6 − inset 8</code></div></div>${rulesBox(['外层 6px（卡片）、内边距 8px 时内层为 0，内层元素用直角或 radius.sm。', '内边距小于外层圆角时，内层才需要圆角。', '等值嵌套会让四角的间隙宽窄不一，看起来不贴合。'])}`)
       + sec('border', '线宽', '1px 为默认；2px 只用于焦点、选中与图表强调；虚线表示尚未存在的对象。', `<div class="shape-grid">${entries(B.border).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo line" style="border-width:${o.$value}"></span><code>border.${k}</code><b>${esc(o.$value)}</b><small>${esc(o.$description)}</small></button>`).join('')}${entries(B.style).map(([k, o]) => `<div class="shape-card"><span class="shape-demo line" style="border-style:${o.$value}"></span><code>style.${k}</code><b>${esc(o.$value)}</b><small>${esc(o.$description)}</small></div>`).join('')}</div>` + ruleList(B))
-      + sec('shadow', '阴影', '页面内的容器不用阴影。阴影只出现在浮层和交互反馈上，每一档写明原因。', `<div class="shape-grid sh">${entries(H.shadow).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo sh" style="box-shadow:${o.$value === 'none' ? 'none' : o.$value}"></span><code>shadow.${k}</code><small>${esc(o.$description)}</small>${why(o)}</button>`).join('')}</div>` + ruleList(H));
+      + sec('border-lab', '线宽怎么用', '点一下每个例子，看线宽在真实界面里的变化。', borderLab())
+      + sec('shadow', '阴影', '页面内的容器不用阴影。阴影只出现在浮层和交互反馈上。', `<div class="shape-grid sh">${entries(H.shadow).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo sh" style="box-shadow:${o.$value === 'none' ? 'none' : o.$value}"></span><code>shadow.${k}</code><small>${esc(o.$description)}${why(o)}</small></button>`).join('')}</div>` + ruleList(H));
   }
 
   // ---------- 动效 ----------
@@ -631,6 +690,11 @@
     const jp = t.closest('[data-jump]'); if (jp) { e.preventDefault(); const el = document.getElementById(jp.dataset.jump); if (el) el.scrollIntoView({ behavior: 'smooth' }); return; }
     const vw = t.closest('[data-view]'); if (vw) { const sp = vw.closest('[data-spec]'); sp.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', b === vw)); sp.querySelectorAll('[data-pane]').forEach(p => { p.hidden = p.dataset.pane !== vw.dataset.view; }); return; }
     const ep = t.closest('[data-ez-play]'); if (ep) { playEz(ep.closest('.ez-card')); return; }
+    const blt = t.closest('.bl-table span'); if (blt) { const all = [...blt.parentElement.children]; const i = all.indexOf(blt) & ~1; all.forEach(x => x.classList.remove('on')); all[i].classList.add('on'); return; }
+    const bln = t.closest('.bl-nav span'); if (bln) { bln.parentElement.querySelectorAll('span').forEach(x => x.classList.toggle('on', x === bln)); return; }
+    const bld = t.closest('.bl-drop'); if (bld) { bld.classList.toggle('on'); bld.textContent = bld.classList.contains('on') ? '已放入：line-01.csv' : '把文件拖到这里'; return; }
+    const blc = t.closest('.bl-chart'); if (blc) { blc.classList.toggle('swap'); return; }
+    if (t.closest('[data-lab-reset]')) { Object.assign(lab, LAB_DEF); route(true); return; }
     if (t.closest('[data-logo-replay]')) { playLogo(t.closest('.spec').querySelector('.t0-logo')); return; }
     const md = t.closest('[data-mo-demo]'); if (md) { const M = D.motion; const ms = k => parseFloat(M.duration[k].$value); const cb = k => `cubic-bezier(${M.easing[k].$value.join(',')})`;
       if (md.dataset.moDemo === 'menu') { const el = document.getElementById('mo-menu'); const open = !el.classList.contains('open'); el.style.transition = open ? `opacity ${ms('base')}ms ${cb('enter')}, transform ${ms('base')}ms ${cb('enter')}` : `opacity ${ms('fast')}ms ${cb('exit')}, transform ${ms('fast')}ms ${cb('exit')}`; el.classList.toggle('open', open); md.textContent = open ? '关闭下拉' : '打开下拉'; }
@@ -641,11 +705,13 @@
     const tab = t.closest('[data-tab]'); if (tab) { const w = tab.closest('[data-tabs]'); w.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b === tab)); w.querySelector('.ui-tabs-panel').textContent = tab.dataset.tab; return; }
     const sg = t.closest('[data-seg] button'); if (sg) {
       const k = sg.parentElement.dataset.seg, v = sg.dataset.v;
+      if (k === 'labmode') { lab.mode = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
       if (k === 'tyfam') ty.fam = v; if (k === 'tyset') ty.set = v; if (k === 'ctheme') compTheme = v; if (k === 'skill') sk.id = v;
       return route(true);
     }
   });
   document.addEventListener('input', e => {
+    if (labInput(e)) return;
     const id = e.target.id;
     if (id === 'cc-o' || id === 'cc-i') ccPaint();
     if (id === 'ty-w' || id === 'ty-s' || id === 'ty-l' || id === 'ty-t') {
@@ -681,7 +747,8 @@
     document.getElementById('cc-ov').textContent = ov + 'px'; document.getElementById('cc-iv').textContent = iv + 'px';
     document.getElementById('cc-f').textContent = mode && mode.v === 'equal' ? `inner ${inner} = outer ${ov}（等值，四角间隙不均）` : `inner ${inner} = outer ${ov} − inset ${iv}${ov - iv < 0 ? '（小于 0 取 0）' : ''}`; }
   (() => { const bm = document.querySelector('.brandmark'); if (!bm) return; bm.innerHTML = logoSvg(); })();
-  document.addEventListener('portal:render', () => { mountScaffold(); mountScenes(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
+  document.addEventListener('change', e => { if (e.target.id === 'lab-file' && e.target.files[0]) { const f = e.target.files[0]; labSource(URL.createObjectURL(f), f.type.startsWith('video')); } });
+  document.addEventListener('portal:render', () => { mountScaffold(); mountScenes(); mountLab(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
   window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); heroState(); }, { passive: true });
   window.addEventListener('hashchange', () => route('anchor'));
 
