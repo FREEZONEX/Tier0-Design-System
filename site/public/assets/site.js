@@ -357,16 +357,16 @@
   const repoCard = (href, icon, title, sub) => `<a class="repo-card" href="${href}" target="_blank" rel="noopener"><span class="rc-ic">${icon}</span><span class="rc-tx"><b>${title}</b><small>${sub}</small></span><span class="rc-go">${I.arrow}</span></a>`;
   function vScaffold() {
     return docHead('应用脚手架', '用来生成平台应用模版的组件。主题色之后可以更换，所以这里的颜色以脚手架为准。')
-      + `<div class="repo-row">${repoCard(SCAFFOLD_REPO, I.github, '代码仓库', 'FREEZONEX/Tier0-App-Scaffold')}${repoCard(asset('scaffold/index.html'), I.open, '组件门户', '在新窗口中打开')}</div>`
+      + `<div class="repo-row">${repoCard(SCAFFOLD_REPO, I.github, '代码仓库', 'FREEZONEX/Tier0-App-Scaffold')}${repoCard(asset('scaffold-v85a4d4e/index.html'), I.open, '组件门户', '在新窗口中打开')}</div>`
       + `<div class="sc-frame" id="sc-frame"><div class="sc-empty" hidden><p>组件预览暂时无法加载，请在代码仓库中查看。</p></div></div>`;
   }
   function mountScaffold() {
     const box = document.getElementById('sc-frame'); if (!box) return;
-    const packed = asset('scaffold/single.html'); const src = packed.startsWith('data:') ? packed : asset('scaffold/index.html');
+    const packed = asset('scaffold/single.html'); const src = packed.startsWith('data:') ? packed : asset('scaffold-v85a4d4e/index.html');
     const show = () => box.insertAdjacentHTML('afterbegin', `<iframe title="应用脚手架组件预览" src="${src}" loading="lazy"></iframe>`);
     if (src.startsWith('data:')) return show();
     if (location.protocol === 'file:') { box.querySelector('.sc-empty').hidden = false; return; }
-    fetch(src, { method: 'HEAD' }).then(r => { if (!r.ok || !/html/.test(r.headers.get('content-type') || '')) throw 0; show(); }).catch(() => { box.querySelector('.sc-empty').hidden = false; });
+    fetch(src, { cache: 'no-store' }).then(async r => { if (!r.ok) throw 0; const html = await r.text(); if (!html.includes('id="root"')) throw 0; if (box.isConnected) show(); }).catch(() => { box.querySelector('.sc-empty').hidden = false; });
   }
 
   // ---------- 材质实验：底图 → 点阵 / 条纹 / 抖动 / 字符，可换图片或视频，实时调参 ----------
@@ -542,7 +542,7 @@
   // [key, 名称, 含义与用途, 亮色 CSS, 暗色 CSS（可省略，省略时用品牌绿低透明度）]
   const TEXTURES = [
     ['fine', '细点阵', '最小单位的规则排列，代表稳定和秩序。', 'background-image: radial-gradient(currentColor 0.7px, transparent 1px); background-size: 6px 6px;'],
-    ['dots', '点阵', '工作台洞洞板的放大版，表示「可以接入」。', 'background-image: radial-gradient(currentColor 1px, transparent 1.5px); background-size: 12px 12px;'],
+    ['dots', '点阵', '工作台洞洞板的放大版。', 'background-image: radial-gradient(currentColor 1px, transparent 1.5px); background-size: 12px 12px;'],
     ['peg', '穿孔板', '工位上真实的洞洞板，孔更大、更稀。', 'background-image: radial-gradient(circle, currentColor 2px, transparent 2.6px); background-size: 20px 20px;'],
     ['grid', '网格', '工程图纸的格子，代表结构和对齐。', 'background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 24px 24px;'],
     ['ruler', '刻度', '量具上的刻度，代表测量和精度。', 'background-image: linear-gradient(90deg, currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 40px 20px, 8px 8px; background-repeat: repeat-x; background-position: 0 0, 0 0;'],

@@ -1322,3 +1322,5 @@ body.hero-on .wb { cursor: none; }
   .spec-body > *, .spec-body .stack, .ui-alert, .ui-dialog, .spec-body .ui-field { max-width: 100% !important; min-width: 0; }
   .ui-dialog { width: 100% !important; }
 }
+
+.sc-empty[hidden] { display: none; }
