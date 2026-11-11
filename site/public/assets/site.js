@@ -244,6 +244,7 @@
     const tags = [['PLC / MODBUS', '-0.7,1.17,-0.2'], ['UNS / Factory-A / Line-01', '0.05,1.72,-0.3'], ['EDGE_BOX / 192.168.1.50', '0.95,1.02,-0.05']];
     return `<section class="wb" data-workbench><div class="wb-stage"><canvas aria-hidden="true"></canvas>
         ${tags.map(([t, a]) => `<span class="wb-tag" data-anchor="${a}"><i></i>${t}</span>`).join('')}
+        <div class="wb-story"><h1>让工厂数据<br>成为可用的语言。</h1></div>
 </div></section>`;
   }
   function initHome() {
@@ -957,7 +958,7 @@
   })();
   function heroState() {
     const wb = document.querySelector('.wb');
-    document.body.classList.toggle('hero-on', !!wb && scrollY < wb.offsetHeight - innerHeight * 1.2);
+    document.body.classList.toggle('hero-on', !!wb && scrollY < wb.offsetHeight * 0.1);
     document.body.classList.toggle('nav-short', !!wb && scrollY < 24);
     scrollCue.update();
   }

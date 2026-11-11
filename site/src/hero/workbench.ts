@@ -1,5 +1,5 @@
 // 首屏场景：three.js 透视建模。近景是一张工业工作台，背后是线描风格的工厂车间。
-// 滚动时镜头沿纵深后退，工作台缩小、车间展开，最后淡出到页面内容。
+// 滚动时镜头后退，整个工作台成为首页主视觉。
 // 配色只用 01-tokens 的灰阶、黑阶与品牌绿。只依赖公开的 three.js。
 import * as THREE from 'three'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
@@ -149,8 +149,8 @@ export class Workbench {
   private root = new THREE.Group()
   private mats: Record<MatKey, THREE.Material>
   private edgeNear = new THREE.LineBasicMaterial({ color: T.b500, transparent: true, opacity: 0.38 })
-  private edgeFar = new THREE.LineBasicMaterial({ color: T.g400, transparent: true, opacity: 0.18 })
-  private gridMat = new THREE.LineBasicMaterial({ color: T.g300, transparent: true, opacity: 0.32 })
+  private edgeFar = new THREE.LineBasicMaterial({ color: T.g400, transparent: true, opacity: 0.35 })
+  private gridMat = new THREE.LineBasicMaterial({ color: T.g400, transparent: true, opacity: 0.22 })
   private cableMat = new THREE.MeshStandardMaterial({ color: T.b600, roughness: 0.5 })
   private holeMat = new THREE.MeshBasicMaterial({ color: T.g500, toneMapped: false })
   private pegMat = new THREE.MeshBasicMaterial({ color: T.green700, toneMapped: false })
@@ -180,7 +180,8 @@ export class Workbench {
     this.renderer.toneMappingExposure = 1.0
     const pmrem = new THREE.PMREMGenerator(this.renderer)
     this.scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.03).texture
-    this.scene.fog = new THREE.Fog(T.g25, 6, 28)
+    this.scene.background = new THREE.Color(T.b900)
+    this.scene.fog = new THREE.Fog(T.b900, 6, 28)
 
     const brushed = brushedTexture(T.g200)
     const brushedDark = brushedTexture(T.g400)
@@ -197,10 +198,10 @@ export class Workbench {
       led: new THREE.MeshBasicMaterial({ color: T.green, toneMapped: false }),
       light: new THREE.MeshBasicMaterial({ color: '#ffffff', toneMapped: false }),
       glass: new THREE.MeshStandardMaterial({ color: '#ffffff', transparent: true, opacity: 0.25, roughness: 0.1, metalness: 0 }),
-      hall: new THREE.MeshStandardMaterial({ color: T.g25, roughness: 1 }),
+      hall: new THREE.MeshStandardMaterial({ color: '#111820', roughness: 1 }),
       scenery: new THREE.MeshStandardMaterial({ color: T.g50, roughness: 0.85 }),
       sceneryMetal: new THREE.MeshStandardMaterial({ color: T.g200, metalness: 0.3, roughness: 0.6 }),
-      hallDark: new THREE.MeshStandardMaterial({ color: T.g200, roughness: 1 }),
+      hallDark: new THREE.MeshStandardMaterial({ color: '#232b32', roughness: 1 }),
     }
 
     this.scene.add(new THREE.HemisphereLight('#ffffff', T.g300, 1.2))
@@ -604,7 +605,7 @@ export class Workbench {
 
   // ---------- 状态 ----------
   applyTheme() {
-    const bg = getComputedStyle(document.documentElement).getPropertyValue('--background').trim() || T.g25
+    const bg = T.b900
     ;(this.scene.fog as THREE.Fog).color.set(bg)
     const dark = new THREE.Color(bg).getHSL({ h: 0, s: 0, l: 0 }).l < 0.5
     // 深色模式：车间地面、墙面与网格转为深色中性灰，工作台本身不变
@@ -616,7 +617,6 @@ export class Workbench {
     ;(this.mats.sceneryMetal as THREE.MeshStandardMaterial).color.set(dark ? '#2C3036' : T.g200)
   }
   setProgress(p: number) { this.progress = p }
-  setMouse(x: number, y: number) { this.mouse.set(x, y) }
   addAnchor(el: HTMLElement, x: number, y: number, z: number) { this.anchors.push({ el, pos: new THREE.Vector3(x, y, z) }) }
 
   private resize() {
@@ -630,13 +630,13 @@ export class Workbench {
     this.camera.updateProjectionMatrix()
   }
 
-  /** 水平后退：镜头高度与朝向保持水平，只沿纵深向后移动。 */
+  /** 镜头后退，保留完整工作台供首页主视觉使用。 */
   private updateCamera() {
     const p = this.progress
-    const e = 1 - Math.pow(1 - Math.min(1, p / 0.85), 3)
+    const e = 1 - Math.pow(1 - Math.min(1, p / 0.72), 3)
     const fit = Math.max(1, 1.55 / this.aspect)
     const z0 = 3.85 * fit
-    const z = z0 + (17 - z0) * e
+    const z = z0 + (8 - z0) * e
     const y = 1.3
     const px = this.pan.x * 0.08
     const py = this.pan.y * 0.04
@@ -702,14 +702,27 @@ function mount(host: HTMLElement) {
     const r = host.getBoundingClientRect()
     const span = r.height - innerHeight
     const p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0
+    const settle = Math.min(1, Math.max(0, (p - 0.18) / 0.52))
+    const stage = host.querySelector<HTMLElement>('.wb-stage')!
+    const fullWidth = host.clientWidth
+    const finalWidth = Math.min(1084, Math.max(0, fullWidth - 96))
+    const fullHeight = innerHeight - 56
+    const finalScale = finalWidth / fullWidth
+    const scale = 1 + (finalScale - 1) * settle
+    const finalCrop = Math.max(0, (fullHeight - finalWidth * 9 / 16 / finalScale) / 2)
+    const crop = finalCrop * settle
+    const frameTop = 96
+    const visibleTop = 56 + (fullHeight * (1 - scale)) / 2 + crop * scale
+    const rise = (frameTop - visibleTop) * settle
+    stage.style.transform = `translateY(${rise}px) scale(${scale})`
+    stage.style.clipPath = `inset(${crop}px 0 round ${12 * settle}px)`
+    stage.style.setProperty('--frame-crop', `${crop}px`)
+    document.documentElement.style.setProperty('--wb-body-overlap', `${Math.max(0, innerHeight - frameTop - finalWidth * 9 / 16 - 72 + 48)}px`)
     wb.setProgress(p)
     host.style.setProperty('--wb-p', p.toFixed(3))
     document.documentElement.style.setProperty('--wb-p', p.toFixed(3))
+    host.classList.toggle('wb-copy-visible', p >= 0.66)
   }
-  host.addEventListener('pointermove', e => {
-    const r = host.getBoundingClientRect()
-    wb.setMouse(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY / innerHeight) * 2 - 1))
-  })
   addEventListener('scroll', onScroll, { passive: true })
   onScroll()
   const mo = new MutationObserver(() => wb.applyTheme())
