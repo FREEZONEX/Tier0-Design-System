@@ -286,7 +286,7 @@
       + sec('brand', '品牌色', '五个品牌色构成 Tier0 的识别。', `<div class="sw-grid">${brand.map(x => `<button class="sw" data-copy="${x.hex}"><div class="chip" style="background:${x.hex}"></div><b>${esc(x.name)}</b><span>${x.hex}</span></button>`).join('')}</div>`)
       + sec('scale', '色阶', '绿、黑、灰三组色阶，与前端 <code>packages/theme</code> 同名。', `<div class="ramps">${scale.map(ramp).join('')}</div>`)
       + sec('aux', '辅助色', '只用于图表和分类标签，不带语义。', `<div class="ramps">${aux.map(ramp).join('')}</div>`)
-      + sec('tokens', '用途 token', '组件只使用这一层。左为浅色、右为深色，点击一行复制变量。', `<div data-island="token-grid" data-props="${esc(JSON.stringify(sem.flatMap(([t, list]) => list.map(x => ({ group: t, token: x.k, light: x.l, dark: x.d, desc: x.desc })))))}">` + `<table class="tok-table"><thead><tr><th>Token</th><th>浅 / 深</th><th>用途</th></tr></thead><tbody>${sem.map(([t, list]) => `<tr class="grp"><td colspan="3">${esc(t)}</td></tr>` + list.map(x => `<tr data-copy="var(--${x.k})"><td><code>--${x.k}</code></td><td><span class="pair"><i style="background:${x.l}"></i><i style="background:${x.d}"></i></span></td><td class="d">${esc(x.desc)}</td></tr>`).join('')).join('')}</tbody></table>` + '</div>')
+      + sec('tokens', '用途 token', '组件只使用这一层。左为浅色、右为深色，点击一行复制变量。', `<div class="tok-groups">${sem.map(([t, list]) => `<div class="tok-group"><div class="tok-group-h"><h3>${esc(t)}</h3><span>${list.length}</span></div><div class="tok-list">${list.map(x => `<button type="button" class="tok-row" data-copy="var(--${x.k})" title="复制 var(--${x.k})"><span class="tok-sw"><i style="background:${x.l}"></i><i style="background:${x.d}"></i></span><span class="tok-name"><code>--${x.k}</code><small>${esc(x.desc)}</small></span><span class="tok-hex"><em>浅</em>${x.l}</span><span class="tok-hex"><em>深</em>${x.d}</span></button>`).join('')}</div></div>`).join('')}</div>`)
       + sec('rules', '使用规则', '', `<ol class="rules">${rules.map(r => `<li>${esc(r)}</li>`).join('')}</ol>`);
   }
 
@@ -303,7 +303,7 @@
       const tt = ext(v).textTransform || ext(src).textTransform || '';
       const famName = (D.typo.font.family[fk] || { $value: [fk] }).$value[0];
       const css = `font-family:var(--font-${fk});font-size:${t.fontSize};line-height:${t.lineHeight};font-weight:${t.fontWeight};letter-spacing:${t.letterSpacing || 0};${tt ? 'text-transform:' + tt + ';' : ''}`;
-      const sample = tt ? 'Edge data / Independent sources' : (parseInt(t.fontSize) >= 20 ? '一次接入，处处复用' : '设备和业务系统的数据只需接入一次，就能被语义化集成。');
+      const sample = tt ? 'Edge data / Independent sources' : (parseInt(t.fontSize) >= 20 ? '设备状态与实时数据' : 'Line-01 共 12 台设备在线，CNC-03 主轴温度 72.4 °C。');
       return `<div class="ty-row"><div class="meta"><b>${esc(k)}</b><span>${esc(famName)} ${t.fontWeight} · ${parseInt(t.fontSize)} / ${parseInt(t.lineHeight)}</span></div><div class="sample" style="${css}">${esc(sample)}</div></div>`;
     }).join('');
     const fams = entries(D.typo.font.family).map(([k, v]) => `<div class="fam"><div class="aa" style="font-family:var(--font-${k === 'sc' ? 'sans' : k})">Aa 字</div><b>${esc(v.$value[0])}</b><span>${esc((v.$description || '').split('——')[0])}</span></div>`).join('');
@@ -311,7 +311,7 @@
       + sec('specimen', '试排', '选择字体，调整字重和字号，然后直接改写示例文字。', `<div class="spec"><div class="spec-bar">${seg('tyfam', FAMS, ty.fam)}<span class="spacer"></span>
           <label class="ctl"><span class="ctl-h">字重<b id="ty-wv">${ty.w}</b></span><input type="range" id="ty-w" min="400" max="700" step="100" value="${ty.w}"></label>
           <label class="ctl"><span class="ctl-h">字号<b id="ty-sv">${ty.s}px</b></span><input type="range" id="ty-s" min="12" max="96" value="${ty.s}"></label></div>
-        <div class="spec-body"><div class="spec-sample" id="ty-sample" contenteditable="true" spellcheck="false" style="${tyCss()};line-height:1.08;letter-spacing:${ty.fam === 'display' ? '-0.03em' : '0'}">Connect once, Reuse everywhere. 一次接入，处处复用。</div></div>${foot(tyCss())}</div>`)
+        <div class="spec-body"><div class="spec-sample" id="ty-sample" contenteditable="true" spellcheck="false" style="${tyCss()};line-height:1.08;letter-spacing:${ty.fam === 'display' ? '-0.03em' : '0'}">Factory-A / Line-01 设备状态 72.4 °C</div></div>${foot(tyCss())}</div>`)
       + sec('scale', '字阶', '每一级都按实际大小展示。产品字阶用于产品后台，官网字阶用于官网、Deck 和宣传物料。', `<div style="margin-bottom:16px">${seg('tyset', [['product', '产品字阶'], ['web', '官网字阶']], ty.set)}</div><div>${rows}</div>`)
       + sec('families', '字体家族', '', `<div class="fam-grid">${fams}</div>`)
       + sec('rules', '使用规则', '', `<ol class="rules">${(ext(D.typo.typography).rules || []).map(r => `<li>${esc(r)}</li>`).join('')}</ol>`);

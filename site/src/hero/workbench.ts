@@ -154,7 +154,7 @@ export class Workbench {
   private cableMat = new THREE.MeshStandardMaterial({ color: T.b600, roughness: 0.5 })
   private holeMat = new THREE.MeshBasicMaterial({ color: T.g500, toneMapped: false })
   private pegMat = new THREE.MeshBasicMaterial({ color: T.green700, toneMapped: false })
-  private axisMat = new THREE.LineBasicMaterial({ color: T.b500, transparent: true, opacity: 0 })
+  private axisMat = new THREE.LineBasicMaterial({ color: T.b500, transparent: true, opacity: 0, depthWrite: false })
   private screens: Screen[] = []
   private flows: THREE.ShaderMaterial[] = []
   private leds: { mesh: THREE.Mesh; phase: number }[] = []
@@ -217,10 +217,15 @@ export class Workbench {
     ap.push(0, 0, 14, 0, 0, -20)
     ap.push(-20, 1.3, -20, 20, 1.3, -20)
     for (const x of [-1.5, 1.5]) ap.push(x, 0, 0.43, x, 0, 14)
+    // 四角向镜头方向发散的透视线（左上、右上、左下、右下）
+    for (const sx of [-1, 1]) {
+      ap.push(sx * 1.55, 2.37, 0.43, sx * 6.5, 5.6, 9)
+      ap.push(sx * 1.5, 0, 0.43, sx * 6.5, 0, 9)
+    }
     const ag = new THREE.BufferGeometry()
     ag.setAttribute('position', new THREE.Float32BufferAttribute(ap, 3))
     const axes = new THREE.LineSegments(ag, this.axisMat)
-    axes.renderOrder = 2
+    axes.renderOrder = -1
     this.scene.add(axes)
     this.applyTheme()
 
@@ -451,10 +456,28 @@ export class Workbench {
     B(0.46, 0.016, 0.15, 'alu', 0.12, F + 0.008, 0.22)
     for (let r = 0; r < 3; r++) for (let c = 0; c < 12; c++) B(0.028, 0.006, 0.028, c === 11 && r === 0 ? 'bin' : 'paint', -0.085 + c * 0.037, F + 0.019, 0.17 + r * 0.04, 'none')
     B(0.06, 0.02, 0.1, 'paint', 0.45, F + 0.01, 0.22)
-    B(0.3, 0.03, 0.03, 'ink', 1.5, F + 0.32, -0.1)
+    // 两侧小屏：立柱夹座 + 两节铝摆臂 + 关节 + VESA 背板，屏幕不再悬空
+    const link = (a: THREE.Vector3, b: THREE.Vector3, r: number, k: MatKey) => {
+      const d = new THREE.Vector3().subVectors(b, a)
+      const m = this.mesh(new THREE.CylinderGeometry(r, r, d.length(), 24), k, (a.x + b.x) / 2, (a.y + b.y) / 2, (a.z + b.z) / 2, 'near', g)
+      m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize())
+    }
+    const arm = (s: number, y: number) => {
+      B(0.1, 0.09, 0.1, 'ink', s * 1.32, y, -0.38)
+      C(0.008, 0.004, 'alu', s * 1.32, y + 0.02, -0.328, 'z', 'none')
+      C(0.008, 0.004, 'alu', s * 1.32, y - 0.02, -0.328, 'z', 'none')
+      const p0 = new THREE.Vector3(s * 1.37, y, -0.35)
+      const p1 = new THREE.Vector3(s * 1.5, y, -0.24)
+      const p2 = new THREE.Vector3(s * 1.6, y, -0.16)
+      link(p0, p1, 0.013, 'alu')
+      link(p1, p2, 0.011, 'alu')
+      C(0.019, 0.045, 'ink', p1.x, y, p1.z)
+      C(0.017, 0.04, 'ink', p2.x, y, p2.z)
+      R(0.1, 0.08, 0.014, 0.004, 'ink', s * 1.62, y, -0.137)
+    }
+    arm(1, F + 0.44)
     display(new Screen('tree'), 0.24, 0.16, 1.62, F + 0.44, -0.11, 0.016, 'ink')
-    // 左侧小屏（立柱外侧摆臂 HMI）
-    B(0.3, 0.026, 0.026, 'ink', -1.5, F + 0.36, -0.1)
+    arm(-1, F + 0.48)
     display(new Screen('psu'), 0.22, 0.13, -1.62, F + 0.48, -0.11, 0.016, 'ink')
 
     // ---- 台下 ----
@@ -613,7 +636,7 @@ export class Workbench {
     const py = this.pan.y * 0.04
     this.camera.position.set(px, y + py, z)
     this.camera.lookAt(px * 0.4, y + py * 0.5, z - 10)
-    this.axisMat.opacity = 0.35 * Math.min(1, Math.max(0, (p - 0.08) / 0.3)) * (1 - Math.min(1, Math.max(0, (p - 0.7) / 0.25)))
+    this.axisMat.opacity = 0.22 * Math.min(1, Math.max(0, (p - 0.08) / 0.3)) * (1 - Math.min(1, Math.max(0, (p - 0.7) / 0.25)))
   }
 
   private loop = (t: number) => {
