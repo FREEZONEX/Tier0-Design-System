@@ -228,7 +228,8 @@
     document.getElementById('gh-btn').innerHTML = I.github;
     document.getElementById('menu-btn').innerHTML = I.menu;
     document.getElementById('menu-btn').addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open'));
-    document.getElementById('theme-btn').addEventListener('click', () => setMode(MODES[(MODES.indexOf(store.get('t0-theme', 'system')) + 1) % 3]));
+    // 一次点击就在浅色与深色之间切换；首次以系统主题为起点
+    document.getElementById('theme-btn').addEventListener('click', () => { const m = store.get('t0-theme', 'system'); const isDark = m === 'dark' || (m === 'system' && matchMedia('(prefers-color-scheme: dark)').matches); setMode(isDark ? 'light' : 'dark'); });
     document.getElementById('lang-btn').addEventListener('click', () => { lang = lang === 'zh' ? 'en' : 'zh'; store.set('t0-lang', lang); document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en'; renderSidebar(); route(); });
     setMode(store.get('t0-theme', 'system'));
     renderSidebar();
@@ -312,7 +313,7 @@
       const tt = ext(v).textTransform || ext(src).textTransform || '';
       const famName = (D.typo.font.family[fk] || { $value: [fk] }).$value[0];
       const css = `font-family:var(--font-${fk});font-size:${t.fontSize};line-height:${t.lineHeight};font-weight:${t.fontWeight};letter-spacing:${t.letterSpacing || 0};${tt ? 'text-transform:' + tt + ';' : ''}`;
-      const sample = tt ? 'Edge data / Independent sources' : (parseInt(t.fontSize) >= 20 ? '设备状态与实时数据' : 'Line-01 共 12 台设备在线，CNC-03 主轴温度 72.4 °C。');
+      const sample = tt ? 'Edge data / Independent sources' : lang === 'zh' ? (parseInt(t.fontSize) >= 20 ? '设备状态与实时数据' : 'Line-01 共 12 台设备在线，CNC-03 主轴温度 72.4 °C。') : (parseInt(t.fontSize) >= 20 ? 'Device status and live data' : '12 devices online on Line-01. CNC-03 spindle at 72.4 °C.');
       return `<div class="ty-row"><div class="meta"><b>${esc(k)}</b><span>${esc(famName)} ${t.fontWeight} · ${parseInt(t.fontSize)} / ${parseInt(t.lineHeight)}</span></div><div class="sample" style="${css}">${esc(sample)}</div></div>`;
     }).join('');
     const fams = entries(D.typo.font.family).map(([k, v]) => `<div class="fam"><div class="aa" style="font-family:var(--font-${k === 'sc' ? 'sans' : k})">Aa 字</div><b>${esc(v.$value[0])}</b><span>${esc((v.$description || '').split('——')[0])}</span></div>`).join('');
@@ -320,7 +321,7 @@
       + sec('specimen', '试排', '选择字体，调整字重和字号，然后直接改写示例文字。', `<div class="spec"><div class="spec-bar">${seg('tyfam', FAMS, ty.fam)}<span class="spacer"></span>
           <label class="ctl"><span class="ctl-h">字重<b id="ty-wv">${ty.w}</b></span><input type="range" id="ty-w" min="400" max="700" step="100" value="${ty.w}"></label>
           <label class="ctl"><span class="ctl-h">字号<b id="ty-sv">${ty.s}px</b></span><input type="range" id="ty-s" min="12" max="96" value="${ty.s}"></label></div>
-        <div class="spec-body"><div class="spec-sample" id="ty-sample" contenteditable="true" spellcheck="false" style="${tyCss()};line-height:1.08;letter-spacing:${ty.fam === 'display' ? '-0.03em' : '0'}">Factory-A / Line-01 设备状态 72.4 °C</div></div>${foot(tyCss())}</div>`)
+        <div class="spec-body"><div class="spec-sample" id="ty-sample" contenteditable="true" spellcheck="false" style="${tyCss()};line-height:1.08;letter-spacing:${ty.fam === 'display' ? '-0.03em' : '0'}">${lang === 'zh' ? 'Factory-A / Line-01 设备状态 72.4 °C' : 'Factory-A / Line-01 status 72.4 °C'}</div></div>${foot(tyCss())}</div>`)
       + sec('scale', '字阶', '每一级都按实际大小展示。产品字阶用于产品后台，官网字阶用于官网、Deck 和宣传物料。', `<div style="margin-bottom:16px">${seg('tyset', [['product', '产品字阶'], ['web', '官网字阶']], ty.set)}</div><div>${rows}</div>`)
       + sec('families', '字体家族', '', `<div class="fam-grid">${fams}</div>`)
       + sec('rules', '使用规则', '', `<ol class="rules">${(ext(D.typo.typography).rules || []).map(r => `<li>${esc(r)}</li>`).join('')}</ol>`);
@@ -408,6 +409,7 @@
     if (!R || !B || !H) return '<p class="muted">没有读取到圆角、线宽与阴影 token。</p>';
     return docHead('圆角、线宽与阴影', '组件的外形：圆角以 4px 为主，层级以 1px 细线为主，阴影只用于浮层与交互反馈。')
       + sec('radius', '圆角', '控件 4px，卡片 6px，上限 8px；圆形元素是唯一的例外。', `<div class="shape-grid">${entries(R.radius).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo" style="border-radius:${k === 'full' ? '999px' : o.$value}${k === 'full' ? ';width:96px;height:32px' : ''}"></span><code>radius.${k}</code><b>${esc(o.$value === '9999px' ? '全圆' : o.$value)}</b><small>${esc(o.$description)}</small></button>`).join('')}</div>` + ruleList(R))
+      + sec('concentric', '嵌套圆角', '内层圆角 = 外层圆角 − 内边距。拖动两个滑块，对比「同心」与「等值」。', `<div class="spec cc"><div class="spec-bar">${seg('ccmode', [['concentric', '同心'], ['equal', '等值']], 'concentric')}<span class="spacer"></span><label class="ctl"><span class="ctl-h">外层圆角<b id="cc-ov">6px</b></span><input type="range" id="cc-o" min="0" max="16" value="6"></label><label class="ctl"><span class="ctl-h">内边距<b id="cc-iv">8px</b></span><input type="range" id="cc-i" min="2" max="24" value="8"></label></div><div class="spec-body cc-stage"><div class="cc-outer" id="cc-outer"><div class="cc-inner" id="cc-inner"><i></i><i></i></div></div></div><div class="spec-foot"><code id="cc-f">inner 0 = outer 6 − inset 8</code></div></div><p class="cc-note">外层 6px（卡片）、内边距 8px 时内层为 0，内层元素用直角或 radius.sm；内边距小于外层圆角时，内层才需要圆角。等值嵌套会让四角的间隙宽窄不一，看起来不贴合。</p>`)
       + sec('border', '线宽', '1px 为默认；2px 只用于焦点、选中与图表强调；虚线表示尚未存在的对象。', `<div class="shape-grid">${entries(B.border).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo line" style="border-width:${o.$value}"></span><code>border.${k}</code><b>${esc(o.$value)}</b><small>${esc(o.$description)}</small></button>`).join('')}${entries(B.style).map(([k, o]) => `<div class="shape-card"><span class="shape-demo line" style="border-style:${o.$value}"></span><code>style.${k}</code><b>${esc(o.$value)}</b><small>${esc(o.$description)}</small></div>`).join('')}</div>` + ruleList(B))
       + sec('shadow', '阴影', '页面内的容器不用阴影。阴影只出现在浮层和交互反馈上，每一档写明原因。', `<div class="shape-grid sh">${entries(H.shadow).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo sh" style="box-shadow:${o.$value === 'none' ? 'none' : o.$value}"></span><code>shadow.${k}</code><small>${esc(o.$description)}</small>${why(o)}</button>`).join('')}</div>` + ruleList(H));
   }
@@ -416,10 +418,19 @@
   function vMotion() {
     const M = D.motion;
     if (!M) return '<p class="muted">没有读取到动效 token。</p>';
-    const curve = v => { const [a, b, c, d] = v; return `<svg viewBox="0 0 100 100" class="ez"><path d="M0 100 C ${a * 100} ${100 - b * 100}, ${c * 100} ${100 - d * 100}, 100 0" /></svg>`; };
-    return docHead('动效', '动效用来说明状态变化和层级关系，不用来装饰。点击「播放」查看每一档的实际速度。')
-      + sec('duration', '时长', '移动距离越大，时长越长。', `<div class="mo-list">${entries(M.duration).filter(([k]) => k !== 'signal').map(([k, o]) => `<div class="mo-row"><div class="mo-meta"><code>duration.${k}</code><b>${esc(o.$value)}</b><small>${esc(o.$description)}</small></div><div class="mo-track"><i data-mo-dur="${px(o.$value)}"></i></div><button type="button" class="ui-btn outline" data-mo-play>播放</button></div>`).join('')}<div class="mo-row"><div class="mo-meta"><code>duration.signal</code><b>${esc(M.duration.signal.$value)}</b><small>${esc(M.duration.signal.$description)}</small></div><div class="mo-track sig-track"><i class="sig" style="animation-duration:${M.duration.signal.$value}"></i></div><span></span></div></div>`)
-      + sec('easing', '曲线', '进入用 enter，退出用 exit，其余用 standard。不用回弹和弹性。', `<div class="mo-list">${entries(M.easing).map(([k, o]) => `<div class="mo-row"><div class="mo-meta"><code>easing.${k}</code><b>cubic-bezier(${o.$value.join(', ')})</b><small>${esc(o.$description)}</small></div><div class="mo-curve">${curve(o.$value)}<div class="mo-track"><i data-mo-dur="600" data-mo-ease="cubic-bezier(${o.$value.join(',')})"></i></div></div><button type="button" class="ui-btn outline" data-mo-play>播放</button></div>`).join('')}</div>`)
+    const dur = k => px((M.duration[k] || {}).$value);
+    const curve = v => { const [a, b, c, d] = v; const X = x => 10 + x * 180, Y = y => 90 - y * 70; return `<svg viewBox="0 0 200 100" class="ez"><path class="ez-guide" d="M10 90 H190 M10 20 H190"/><path class="ez-handle" d="M${X(0)} ${Y(0)} L${X(a)} ${Y(b)} M${X(1)} ${Y(1)} L${X(c)} ${Y(d)}"/><circle class="ez-pt" cx="${X(a)}" cy="${Y(b)}" r="3"/><circle class="ez-pt" cx="${X(c)}" cy="${Y(d)}" r="3"/><path class="ez-curve" d="M${X(0)} ${Y(0)} C ${X(a)} ${Y(b)}, ${X(c)} ${Y(d)}, ${X(1)} ${Y(1)}"/></svg>`; };
+    const cards = entries(M.easing).map(([k, o]) => { const pair = ext(o).pair || 'duration.base'; const ms = dur(pair.split('.')[1]); const cb = `cubic-bezier(${o.$value.join(', ')})`; return `<div class="ez-card" data-ez="${cb}" data-ms="${ms}"><div class="ez-head"><div><code>easing.${k}</code><p>${esc(o.$description)}</p></div><button type="button" class="ez-play" data-ez-play aria-label="播放">${'<svg viewBox="0 0 16 16"><path d="M5 3.5v9l7-4.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>'}</button></div>${curve(o.$value)}<div class="ez-track"><i></i></div><p class="ez-why">${esc(ext(o).rationale || '')}</p><code class="ez-foot">${cb} · ${ms}ms</code></div>`; }).join('');
+    const scene = `<div class="spec mo-lab"><div class="spec-bar"><span class="muted">点击按钮，在真实组件上看每一档动效</span></div><div class="spec-body mo-stage">
+      <div class="mo-demo"><button type="button" class="ui-btn outline" data-mo-demo="menu">打开下拉</button><div class="mo-menu" id="mo-menu"><div>重命名</div><div>复制路径</div><div>导出</div></div><small>进入 enter · ${dur('base')}ms，关闭 exit · ${dur('fast')}ms</small></div>
+      <div class="mo-demo"><button type="button" class="ui-btn outline" data-mo-demo="drawer">推入侧滑面板</button><div class="mo-drawer-wrap"><div class="mo-drawer" id="mo-drawer"><b>CNC-03</b><span>主轴温度 72.4 °C</span></div></div><small>移动 standard · ${dur('slow')}ms</small></div>
+      <div class="mo-demo"><button type="button" class="ui-btn primary mo-hover">悬停 / 按下</button><small>颜色变化 · ${dur('fast')}ms</small></div>
+      <div class="mo-demo"><span class="mo-led"><i class="sig" style="animation-duration:${M.duration.signal.$value}"></i>运行中</span><small>循环 signal · ${M.duration.signal.$value}，同一视图只有一个</small></div>
+    </div></div>`;
+    return docHead('动效', '动效用来说明状态变化和层级关系：元素从哪里来、到哪里去、现在处于什么状态。不用来装饰。')
+      + sec('scene', '场景演示', '每种界面变化对应一组固定的时长和曲线。', scene)
+      + sec('easing', '曲线', '每条曲线进入视野时播放一次，点击右上角可再次播放。不用回弹和弹性曲线：工业界面里回弹会被读成「数值在抖动」。', `<div class="ez-grid">${cards}</div>`)
+      + sec('duration', '时长', '移动距离越大，时长越长；退出比进入短。', tokTable(M, M.duration, 'duration.', v => `<i class="sp-bar" style="width:${Math.min(px(v) / 4, 120)}px"></i>`))
       + sec('rules', '使用规则', '', ruleList(M));
   }
 
@@ -457,6 +468,12 @@
     const cp = t.closest('[data-copy]'); if (cp) { e.preventDefault(); copy(cp.dataset.copy); return; }
     const jp = t.closest('[data-jump]'); if (jp) { e.preventDefault(); const el = document.getElementById(jp.dataset.jump); if (el) el.scrollIntoView({ behavior: 'smooth' }); return; }
     const vw = t.closest('[data-view]'); if (vw) { const sp = vw.closest('[data-spec]'); sp.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', b === vw)); sp.querySelectorAll('[data-pane]').forEach(p => { p.hidden = p.dataset.pane !== vw.dataset.view; }); return; }
+    const ep = t.closest('[data-ez-play]'); if (ep) { playEz(ep.closest('.ez-card')); return; }
+    const md = t.closest('[data-mo-demo]'); if (md) { const M = D.motion; const ms = k => parseFloat(M.duration[k].$value); const cb = k => `cubic-bezier(${M.easing[k].$value.join(',')})`;
+      if (md.dataset.moDemo === 'menu') { const el = document.getElementById('mo-menu'); const open = !el.classList.contains('open'); el.style.transition = open ? `opacity ${ms('base')}ms ${cb('enter')}, transform ${ms('base')}ms ${cb('enter')}` : `opacity ${ms('fast')}ms ${cb('exit')}, transform ${ms('fast')}ms ${cb('exit')}`; el.classList.toggle('open', open); md.textContent = open ? '关闭下拉' : '打开下拉'; }
+      if (md.dataset.moDemo === 'drawer') { const el = document.getElementById('mo-drawer'); el.style.transition = `transform ${ms('slow')}ms ${cb('standard')}`; const open = !el.classList.contains('open'); el.classList.toggle('open', open); md.textContent = open ? '收回侧滑面板' : '推入侧滑面板'; }
+      return; }
+    const cm = t.closest('[data-seg="ccmode"] button'); if (cm) { cm.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === cm)); ccPaint(); return; }
     const mp = t.closest('[data-mo-play]'); if (mp) { mp.closest('.mo-row').querySelectorAll('[data-mo-dur]').forEach(b => { b.style.transition = 'none'; b.style.transform = 'translateX(0)'; void b.offsetWidth; b.style.transition = `transform ${b.dataset.moDur}ms ${b.dataset.moEase || 'cubic-bezier(0.4,0,0.2,1)'}`; b.style.transform = 'translateX(calc(var(--mo-w) - 16px))'; }); return; }
     const tab = t.closest('[data-tab]'); if (tab) { const w = tab.closest('[data-tabs]'); w.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b === tab)); w.querySelector('.ui-tabs-panel').textContent = tab.dataset.tab; return; }
     const sg = t.closest('[data-seg] button'); if (sg) {
@@ -467,6 +484,7 @@
   });
   document.addEventListener('input', e => {
     const id = e.target.id;
+    if (id === 'cc-o' || id === 'cc-i') ccPaint();
     if (id === 'ty-w' || id === 'ty-s') {
       ty.w = +document.getElementById('ty-w').value; ty.s = +document.getElementById('ty-s').value;
       document.getElementById('ty-wv').textContent = ty.w; document.getElementById('ty-sv').textContent = ty.s + 'px';
@@ -480,6 +498,12 @@
     document.body.classList.toggle('hero-on', !!wb && scrollY < wb.offsetHeight - innerHeight * 1.2);
     document.body.classList.toggle('nav-short', !!wb && scrollY < 24);
   }
+  function playEz(card) { if (!card) return; const k = card.querySelector('.ez-track i'); k.style.transition = 'none'; k.style.left = '0px'; void k.offsetWidth; k.style.transition = `left ${card.dataset.ms}ms ${card.dataset.ez}`; k.style.left = 'calc(100% - 28px)'; }
+  function ccPaint() { const o = document.getElementById('cc-o'); if (!o) return; const i = document.getElementById('cc-i'); const mode = (document.querySelector('[data-seg="ccmode"] [aria-pressed="true"]') || {}).dataset; const ov = +o.value, iv = +i.value; const inner = mode && mode.v === 'equal' ? ov : Math.max(0, ov - iv);
+    const out = document.getElementById('cc-outer'), inn = document.getElementById('cc-inner'); out.style.borderRadius = ov + 'px'; out.style.padding = iv + 'px'; inn.style.borderRadius = inner + 'px';
+    document.getElementById('cc-ov').textContent = ov + 'px'; document.getElementById('cc-iv').textContent = iv + 'px';
+    document.getElementById('cc-f').textContent = mode && mode.v === 'equal' ? `inner ${inner} = outer ${ov}（等值，四角间隙不均）` : `inner ${inner} = outer ${ov} − inset ${iv}${ov - iv < 0 ? '（小于 0 取 0）' : ''}`; }
+  document.addEventListener('portal:render', () => { ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
   window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); heroState(); }, { passive: true });
   window.addEventListener('hashchange', () => route('anchor'));
 

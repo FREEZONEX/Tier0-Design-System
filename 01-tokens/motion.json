@@ -73,12 +73,14 @@
         0.2,
         1
       ],
-      "$description": "默认：位置和颜色变化。",
+      "$description": "移动与变形：已经在屏幕上的元素改变位置或大小，如侧滑面板推入、面板展开收起、列表重排。搭配 duration.slow（300ms）。",
       "$extensions": {
         "tier0": {
           "frontend": {
             "tailwind": "ease-in-out（Tailwind 默认）"
-          }
+          },
+          "rationale": "两端都减速：元素从静止出发、在新位置停稳，用户能看清它从哪里来、到哪里去；移动距离大，所以用最长的一档时长。",
+          "pair": "duration.slow"
         }
       }
     },
@@ -89,13 +91,14 @@
         0.2,
         1
       ],
-      "$description": "进入：浮层出现、元素进场。",
+      "$description": "进入：下拉、气泡、弹窗、通知出现。搭配 duration.base（200ms）。",
       "$extensions": {
         "tier0": {
           "frontend": {
             "tailwind": "ease-out"
           },
-          "rationale": "开始快、结束慢，元素平稳地停在最终位置。"
+          "rationale": "开始快、结束慢：用户一操作，元素立刻开始响应；结尾减速让它平稳停在最终位置，视线容易落定。",
+          "pair": "duration.base"
         }
       }
     },
@@ -106,13 +109,14 @@
         1,
         1
       ],
-      "$description": "退出：浮层消失、元素离场。",
+      "$description": "退出：下拉、弹窗、通知关闭；元素被移除。搭配 duration.fast（150ms）。",
       "$extensions": {
         "tier0": {
           "frontend": {
             "tailwind": "ease-in"
           },
-          "rationale": "开始慢、结束快，离开时不拖泥带水。"
+          "rationale": "开始慢、结束快，比进入更短：用户已经决定关闭，界面应尽快让开，不拖住下一步操作。",
+          "pair": "duration.fast"
         }
       }
     }
