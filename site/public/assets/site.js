@@ -17,6 +17,7 @@
     info: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v4M8 5v.01"/></svg>',
     alert: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4M8 11v.01"/></svg>',
     open: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2.5" width="12" height="11" rx="1.5"/><path d="M2 5.5h12"/></svg>',
+    download: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2.5v8M4.5 7L8 10.5 11.5 7M3 13.5h10"/></svg>',
     x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   };
 
@@ -297,7 +298,7 @@
       + sec('brand', '品牌色', '五个品牌色构成 Tier0 的识别。', `<div class="brand-board">${brand.map((x, i) => `<button type="button" class="bsw${i === 0 ? ' lead' : ''}" data-copy="${x.hex}" style="background:${x.hex};color:${lum(x.hex) > 0.4 ? '#050B14' : '#FFFFFF'}" aria-label="复制 ${esc(x.name)} ${x.hex}"><span class="bsw-name">${esc(x.name)}</span><span class="bsw-hex">${x.hex.replace('#', '')}</span><span class="bsw-copy">${I.copy}复制</span></button>`).join('')}</div>`)
       + sec('scale', '色阶', '绿、黑、灰三组色阶。', `<div class="ramps">${scale.map(ramp).join('')}</div>`)
       + sec('aux', '辅助色', '只用于图表和分类标签，不带语义。', `<div class="ramps">${aux.map(ramp).join('')}</div>`)
-      + sec('tokens', '用途 token', '组件只使用这一层。左为浅色、右为深色，点击一行复制变量。', `<div class="tok-groups">${sem.map(([t, list]) => `<div class="tok-group"><div class="tok-group-h"><h3>${esc(t)}</h3><span>${list.length}</span></div><div class="tok-list">${list.map(x => `<button type="button" class="tok-row" data-copy="var(--${x.k})" title="复制 var(--${x.k})"><span class="tok-sw"><i style="background:${x.l}"></i><i style="background:${x.d}"></i></span><span class="tok-name"><code>--${x.k}</code><small>${esc(x.desc)}</small></span><span class="tok-hex"><em>浅</em>${x.l}</span><span class="tok-hex"><em>深</em>${x.d}</span></button>`).join('')}</div></div>`).join('')}</div>`)
+      + sec('tokens', '用途 token', '组件只使用这一层。左为亮色、右为暗色，点击一行复制变量。', `<div class="tok-groups">${sem.map(([t, list]) => `<div class="tok-group"><div class="tok-group-h"><h3>${esc(t)}</h3><span>${list.length}</span></div><div class="tok-list">${list.map(x => `<button type="button" class="tok-row" data-copy="var(--${x.k})" title="复制 var(--${x.k})"><span class="tok-sw"><i style="background:${x.l}"></i><i style="background:${x.d}"></i></span><span class="tok-name"><code>--${x.k}</code><small>${esc(x.desc)}</small></span><span class="tok-hex"><em>亮</em>${x.l}</span><span class="tok-hex"><em>暗</em>${x.d}</span></button>`).join('')}</div></div>`).join('')}</div>`)
       + sec('rules', '使用规则', '', rulesBox(rules));
   }
 
@@ -318,19 +319,21 @@
       return `<div class="ty-row"><div class="meta"><b>${esc(k)}</b><span>${esc(famName)} ${t.fontWeight} · ${parseInt(t.fontSize)} / ${parseInt(t.lineHeight)}</span></div><div class="sample" style="${css}">${esc(sample)}</div></div>`;
     }).join('');
     const SC_OS = [['macOS / iOS', 'PingFang SC 苹方'], ['Windows', 'Microsoft YaHei 微软雅黑'], ['Android', 'Noto Sans CJK SC 思源黑体']];
-    const fams = entries(D.typo.font.family).map(([k, v]) => k === 'sc'
-      ? `<div class="fam"><div class="aa" style="font-family:var(--font-sc)">中文 字</div><b>中文系统字体</b><dl class="os-list">${SC_OS.map(([o, f]) => `<dt>${o}</dt><dd>${f}</dd>`).join('')}</dl><span>不加载中文 Web 字体，按设备自动使用。</span></div>`
-      : `<div class="fam"><div class="aa" style="font-family:var(--font-${k})">Aa 字</div><b>${esc(v.$value[0])}</b><span>${esc((v.$description || '').split('——')[0])}</span></div>`).join('');
+    const famCard = ([k, v]) => k === 'sc'
+      ? `<div class="fam"><div class="aa" style="font-family:var(--font-sc)">中文</div><b>中文系统字体</b><dl class="os-list">${SC_OS.map(([o, f]) => { const parts = f.split(' '); const z = parts.pop(); return `<div><dt>${o}</dt><dd><b>${z}</b><span>${parts.join(' ')}</span></dd></div>`; }).join('')}</dl><span>不加载中文 Web 字体，按设备自动使用。</span></div>`
+      : `<div class="fam"><div class="aa" style="font-family:var(--font-${k})">Aa</div><b>${esc(v.$value[0])}</b><span>${esc((v.$description || '').split('——')[0])}</span></div>`;
+    const famList = entries(D.typo.font.family);
+    const fams = `<div class="fam-latin">${famList.filter(([k]) => k !== 'sc').map(famCard).join('')}</div>${famList.filter(([k]) => k === 'sc').map(famCard).join('')}`;
     return docHead('字体', '标题用 Inter，正文用 IBM Plex Sans，代码与数据用 IBM Plex Mono。中文不加载 Web 字体，使用系统字体：苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体（Noto Sans CJK）。')
-      + sec('specimen', '试排', '选择字体，调整字重、字号、行高和字间距，然后直接改写示例文字。正文行高约 1.4–1.5，标题约 1.2；字间距一般为 0，大号标题可收紧到 -0.02em。', `<div class="spec"><div class="spec-bar">${seg('tyfam', FAMS, ty.fam)}<span class="spacer"></span>
+      + sec('specimen', '试排', '选择字体，调整字重、字号、行高和字间距，然后直接改写示例文字。正文行高约 1.4–1.5，标题约 1.2；字间距一般为 0，大号标题可收紧到 -0.02em。', `<div class="spec"><div class="spec-bar ty-bar">${seg('tyfam', FAMS, ty.fam)}<div class="ty-ctls">
           <label class="ctl"><span class="ctl-h">字重<b id="ty-wv">${ty.w}</b></span><input type="range" id="ty-w" min="400" max="700" step="100" value="${ty.w}"></label>
           <label class="ctl"><span class="ctl-h">字号<b id="ty-sv">${ty.s}px</b></span><input type="range" id="ty-s" min="12" max="96" value="${ty.s}"></label>
           <label class="ctl"><span class="ctl-h">行高<b id="ty-lv">${ty.lh}</b></span><input type="range" id="ty-l" min="1" max="2" step="0.05" value="${ty.lh}"></label>
-          <label class="ctl"><span class="ctl-h">字间距<b id="ty-tv">${ty.ls}em</b></span><input type="range" id="ty-t" min="-0.05" max="0.1" step="0.005" value="${ty.ls}"></label></div>
+          <label class="ctl"><span class="ctl-h">字间距<b id="ty-tv">${ty.ls}em</b></span><input type="range" id="ty-t" min="-0.05" max="0.1" step="0.005" value="${ty.ls}"></label></div></div>
         <div class="spec-body"><div class="spec-sample" id="ty-sample" contenteditable="true" spellcheck="false" style="${tyCss()}">${lang === 'zh' || ty.fam === 'sc' ? 'Factory-A / Line-01 设备状态 72.4 °C<br>CNC-03 主轴温度持续升高，已通知当班工程师。' : 'Factory-A / Line-01 status 72.4 °C<br>CNC-03 spindle temperature keeps rising; the shift engineer was notified.'}</div></div>${foot(tyCss())}</div>`)
       + sec('scale', '字阶', '每一级都按实际大小展示。产品字阶用于产品后台，官网字阶用于官网、Deck 和宣传物料。', `<div style="margin-bottom:16px">${seg('tyset', [['product', '产品字阶'], ['web', '官网字阶']], ty.set)}</div><div>${rows}</div>`)
       + sec('scenes', '不同场景下的字号', '同一套字阶，在不同设备上取不同的档：手机正文放大到 16px，大屏上关键数字放大，便于站在远处读。', sceneFrame('type', 375))
-      + sec('families', '字体家族', '', `<div class="fam-grid">${fams}</div>`)
+      + sec('families', '字体家族', '', `<div class="fam-wrap">${fams}</div>`)
       + sec('rules', '使用规则', '', rulesBox(rulesOf(D.typo.typography)));
   }
 
@@ -340,7 +343,7 @@
     const scope = compTheme === 'dark' ? ' dark-scope' : compTheme === 'light' ? ' light-scope' : '';
     return docHead('Tier0 平台组件', `Tier0 平台自身使用的组件。生成平台应用模版用的是另一套：<a href="#scaffold">应用脚手架</a>。`)
       + `<div class="repo-row">${repoCard(FE_REPO, I.github, '代码仓库', 'FREEZONEX/Tier0-Frontend')}</div>`
-      + `<div style="margin:-24px 0 40px">${seg('ctheme', [['auto', '跟随页面'], ['light', '浅色'], ['dark', '深色']], compTheme)}</div>`
+      + `<div style="margin:-24px 0 40px">${seg('ctheme', [['auto', '跟随页面'], ['light', '亮色'], ['dark', '暗色']], compTheme)}</div>`
       + COMPONENTS.map(c => sec('c-' + c.id, c.zh, esc(c.desc), `<div class="spec" data-spec>
           <div class="spec-tabs"><div class="seg sm" role="tablist"><button type="button" data-view="preview" aria-pressed="true">预览</button><button type="button" data-view="code" aria-pressed="false">代码</button></div>
             <div class="src-list">${c.src.split(' · ').map(f => `<button type="button" class="src-chip" data-copy="${esc(FE + f)}" title="复制路径 ${esc(FE + f)}">${esc(f.replace(/^ui\//, ''))}</button>`).join('')}</div></div>
@@ -388,54 +391,78 @@
     ['r', 'M282.069 67.3038H343.414V14.7228H282.069V67.3038ZM359.188 14.7228V67.3038L347.445 79.0468L368.828 123.39H351.827L332.021 81.3254H282.069V123.39H266.295V0.701172H345.166L359.188 14.7228Z'],
     ['z', 'M411.795 109.369V14.7228L425.816 0.701172H490.666L504.688 14.7228V109.369L490.666 123.39H425.816L411.795 109.369ZM427.569 14.7228V109.369H488.914V14.7228H427.569Z'],
   ];
-  // 数据源方块（拆成三条，用于 glitch）位于 0 的中心
-  const SRC = [0, 1, 2].map(n => `<rect class="lg-s" x="438" y="${42 + n * 13.33}" width="40" height="13.34"/>`).join('');
-  const logoSvg = cls => `<svg class="t0-logo ${cls || ''}" viewBox="-4 -4 513 133" role="img" aria-label="Tier0"><g class="lg-all">${LOGO_P.map(([k, d]) => `<path class="lg-${k}" d="${d}" pathLength="1"/>`).join('')}<g class="lg-src">${SRC}</g></g></svg>`;
-  // 方块（数据源）出现 → 代码式 glitch → 收成一道竖杠 → 由杠向外描出 0 → glitch 拉开出现 T、I、E、R。约 4.4 秒。
+  // 字母中心（字标坐标），用于代码闪动
+  const LG_C = { t: 45, i: 127, e: 212, r: 317 };
+  const logoSvg = cls => `<svg class="t0-logo ${cls || ''}" viewBox="-4 -4 513 133" role="img" aria-label="Tier0"><g class="lg-all">${LOGO_P.map(([k, d]) => `<path class="lg-${k}" d="${d}" pathLength="1"/>`).join('')}${Object.entries(LG_C).map(([k, x]) => `<text class="lg-code" data-k="${k}" x="${x}" y="100" text-anchor="middle"></text>`).join('')}<circle class="lg-ring" cx="458" cy="62" r="9"/><circle class="lg-ring" cx="458" cy="62" r="9"/><rect class="lg-dot" x="449" y="53" width="18" height="18"/></g></svg>`;
+  // 数据点出现并向外发两次信号 → 描出 0 → 闪出 T 组成 T0 → 向两侧展开，I、E、R 以代码闪动后落定。约 5 秒。
   const EZ = { std: 'cubic-bezier(0.4,0,0.2,1)', enter: 'cubic-bezier(0,0,0.2,1)' };
+  const GLYPHS = '01<>/{}#=*:;$%&ABCDEF';
+  function scramble(el, at, dur) {
+    const t0 = performance.now() + at;
+    const tick = now => {
+      if (!el.isConnected) return;
+      const k = now - t0;
+      if (k < 0) return requestAnimationFrame(tick);
+      if (k > dur) { el.textContent = ''; return; }
+      const f = Math.floor(k / 50);
+      if (f !== el._f) { el._f = f; el.textContent = Array.from({ length: 2 }, () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)]).join(''); }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
   function playLogo(svg) {
     if (!svg || !svg.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const q = c => svg.querySelector(c), qa = c => [...svg.querySelectorAll(c)];
     svg.getAnimations({ subtree: true }).forEach(a => a.cancel());
     const A = (el, kf, o) => el.animate(kf, Object.assign({ fill: 'both' }, o));
-    const MID = -206; // 让 0 居中
-    // 整体：0 居中，3000ms 后与字母一起展开到最终位置
-    A(q('.lg-all'), [{ transform: `translateX(${MID}px)` }, { transform: `translateX(${MID}px)`, offset: 3000 / 3900, easing: EZ.std }, { transform: 'none' }], { duration: 3900 });
-    // 1. 数据源方块出现，停顿
-    const src = q('.lg-src');
-    A(src, [
+    const MID = -206, T0X = 302, T0MID = -151, OPEN = 3700, TOTAL = 4500;
+    // 整体位置：先让 0 居中，T 出现后让 T0 居中，最后展开到完整字标
+    A(q('.lg-all'), [
+      { transform: `translateX(${MID}px)` },
+      { transform: `translateX(${MID}px)`, offset: 2700 / TOTAL, easing: EZ.std },
+      { transform: `translateX(${T0MID}px)`, offset: 3100 / TOTAL },
+      { transform: `translateX(${T0MID}px)`, offset: OPEN / TOTAL, easing: EZ.std },
+      { transform: 'none' },
+    ], { duration: TOTAL });
+    // 1. 数据点：出现、闪两下
+    A(q('.lg-dot'), [
       { transform: 'scale(0)', opacity: 1, easing: EZ.enter },
-      { transform: 'scale(1)', opacity: 1, offset: 300 / 2000 },
-      { transform: 'scale(1)', opacity: 1, offset: 1300 / 2000, easing: EZ.std },
-      { transform: 'scale(0.4, 3)', opacity: 1, offset: 1600 / 2000 },
-      { transform: 'scale(0.4, 3)', opacity: 1, offset: 1750 / 2000 },
-      { transform: 'scale(0.4, 3)', opacity: 0 },
-    ], { duration: 2000 });
-    // 2. glitch：三条切片错位、闪烁（700–1300ms）
-    const jit = [[-14, 9, -4, 0], [10, -12, 6, 0], [-6, 14, -10, 0]];
-    qa('.lg-s').forEach((r, n) => A(r, [
-      { transform: 'none', opacity: 1 },
-      { transform: `translateX(${jit[n][0]}px)`, opacity: 0.4, offset: 0.2 },
-      { transform: `translateX(${jit[n][1]}px)`, opacity: 1, offset: 0.45 },
-      { transform: `translateX(${jit[n][2]}px)`, opacity: 0.6, offset: 0.7 },
-      { transform: 'none', opacity: 1 },
-    ], { duration: 600, delay: 700, easing: 'steps(1, end)', fill: 'none' }));
-    // 3. 由竖杠向外描出 0，然后填色（1700–2700ms）
-    A(q('.lg-z'), [{ strokeDashoffset: 1, strokeWidth: 3, fillOpacity: 0 }, { strokeDashoffset: 0, strokeWidth: 3, fillOpacity: 0, offset: 0.8 }, { strokeDashoffset: 0, strokeWidth: 0, fillOpacity: 1 }], { duration: 1000, delay: 1700, easing: EZ.std });
-    // 4. glitch 拉开：T、I、E、R 依次闪入（3000ms 起，与整体展开同步）
-    ['.lg-t', '.lg-i', '.lg-e', '.lg-r'].forEach((c, n) => A(q(c), [
-      { opacity: 0, transform: 'translateX(-18px)' },
-      { opacity: 1, transform: 'translateX(8px)', offset: 0.25 },
-      { opacity: 0.2, transform: 'translateX(-4px)', offset: 0.5 },
-      { opacity: 1, transform: 'translateX(2px)', offset: 0.75 },
-      { opacity: 1, transform: 'none' },
-    ], { duration: 420, delay: 3050 + n * 110, easing: 'steps(1, end)' }));
+      { transform: 'scale(1)', opacity: 1, offset: 0.1 },
+      { transform: 'scale(1)', opacity: 0.3, offset: 0.22 }, { transform: 'scale(1)', opacity: 1, offset: 0.3 },
+      { transform: 'scale(1)', opacity: 0.3, offset: 0.5 }, { transform: 'scale(1)', opacity: 1, offset: 0.58 },
+      { transform: 'scale(1)', opacity: 1, offset: 0.85, easing: EZ.std },
+      { transform: 'scale(0.4)', opacity: 0 },
+    ], { duration: 2200 });
+    // 2. 信号：两圈向外扩散
+    qa('.lg-ring').forEach((r, n) => A(r, [{ transform: 'scale(1)', opacity: 0.7 }, { transform: 'scale(6)', opacity: 0 }], { duration: 900, delay: 400 + n * 500, easing: EZ.enter, fill: 'none' }));
+    // 3. 由数据点描出 0，再填色
+    A(q('.lg-z'), [{ strokeDashoffset: 1, strokeWidth: 3, fillOpacity: 0 }, { strokeDashoffset: 0, strokeWidth: 3, fillOpacity: 0, offset: 0.75 }, { strokeDashoffset: 0, strokeWidth: 0, fillOpacity: 1 }], { duration: 1000, delay: 1500, easing: EZ.std });
+    // 4. T：先闪代码，再落定在 0 旁边，组成 T0
+    const tCode = q('.lg-code[data-k="t"]');
+    tCode.setAttribute('x', LG_C.t + T0X);
+    scramble(tCode, 2700, 400);
+    A(q('.lg-t'), [
+      { transform: `translateX(${T0X}px)`, opacity: 0 },
+      { transform: `translateX(${T0X + 6}px)`, opacity: 1, offset: 0.3 }, { transform: `translateX(${T0X - 3}px)`, opacity: 0.3, offset: 0.55 },
+      { transform: `translateX(${T0X}px)`, opacity: 1 },
+    ], { duration: 360, delay: 3050, easing: 'steps(1, end)' });
+    A(q('.lg-t'), [{ transform: `translateX(${T0X}px)` }, { transform: 'none' }], { duration: TOTAL - OPEN, delay: OPEN, easing: EZ.std, fill: 'forwards' });
+    // 5. 展开：I、E、R 位置先闪代码，再落定
+    ['i', 'e', 'r'].forEach((k, n) => {
+      const at = OPEN + 250 + n * 120;
+      scramble(q(`.lg-code[data-k="${k}"]`), at, 380);
+      A(q('.lg-' + k), [
+        { opacity: 0, transform: 'translateX(-10px)' },
+        { opacity: 1, transform: 'translateX(5px)', offset: 0.3 }, { opacity: 0.25, transform: 'translateX(-2px)', offset: 0.6 },
+        { opacity: 1, transform: 'none' },
+      ], { duration: 360, delay: at + 300, easing: 'steps(1, end)' });
+    });
   }
 
   function vLogo() {
     return docHead('Logo', '字标使用 Tektur，交付时为路径。只在下面四种底色上使用。')
-      + sec('motion', '动效', '一个方块代表数据源，出现在中心；像代码一样闪动、错位，收成一道竖杠；从这道杠向外描出 0；最后错位拉开，出现 T、I、E、R。对应「数据只接一次，之后到处可用」。全程约 4.4 秒，用于开场、视频和演示，不在网站顶栏使用；系统开启「减少动态效果」时直接显示静态字标。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><code>方块 300ms · 停顿 · glitch 600ms · 收成竖杠 300ms · 描出 0 1000ms · 拉开 900ms</code><button type="button" class="ui-btn ghost" data-logo-replay>重播</button></div></div>`)
-      + sec('variants', '版本', '', `<div class="logo-grid">${LOGOS.map(([f, n, bg]) => `<div class="logo-card"><div class="stage" style="background:${bg}"><img alt="Tier0 ${n}" src="${asset('03-brand/logo/assets/' + f)}"></div><div class="foot"><span>${n}<span class="muted"> · ${bg}</span></span><a class="ui-btn ghost" href="${asset('03-brand/logo/assets/' + f)}" target="_blank" rel="noopener">SVG ${I.arrow}</a></div></div>`).join('')}</div>`);
+      + sec('motion', '动效', '一个数据点出现，向外发出两次信号；从这个点描出 0；T 以代码闪动的方式出现，和 0 组成 T0；最后向两侧展开，I、E、R 先闪过一串代码再落定。对应「数据只接一次，之后到处可用」。全程约 5 秒，用于开场、视频和演示，不在网站顶栏使用；系统开启「减少动态效果」时直接显示静态字标。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><code>数据点与信号 1.4s · 描出 0 1.0s · T0 0.7s · 展开 0.8s · 代码闪动 50ms/帧</code><button type="button" class="ui-btn ghost" data-logo-replay>重播</button></div></div>`)
+      + sec('variants', '版本', '', `<div class="logo-grid">${LOGOS.map(([f, n, bg]) => `<div class="logo-card"><div class="stage" style="background:${bg}"><img alt="Tier0 ${n}" src="${asset('03-brand/logo/assets/' + f)}"></div><div class="foot"><span>${n}<span class="muted"> · ${bg}</span></span><a class="ui-btn ghost" href="${asset('03-brand/logo/assets/' + f)}" download="${f}">${I.download}下载 SVG</a></div></div>`).join('')}</div>`);
   }
 
   // ---------- skills ----------
@@ -471,12 +498,12 @@
   // ---------- token 页面公用 ----------
   const px = v => parseFloat(v) || 0;
   const tokVal = (doc, v) => { let x = v; for (let i = 0; i < 4 && typeof x === 'string' && x[0] === '{'; i++) { const n = walk(doc, x); x = n ? n.$value : x; } return x; };
-  const why = o => (ext(o).rationale ? `<span class="why">${esc(ext(o).rationale)}</span>` : '');
+  const why = o => (ext(o).rationale ? `<span class="why-tip" data-tip="${esc(ext(o).rationale)}" aria-label="${esc(ext(o).rationale)}">${I.info}</span>` : '');
   const feOf = o => { const f = ext(o).frontend; return f ? esc(f.tailwind || f.component || '') : ''; };
   const rulesOf = doc => (doc && ext(doc).rules) || [];
   const rulesBox = list => `<details class="rules-box"><summary><span class="rb-h"><svg class="rb-chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg>注意事项</span><button type="button" class="ui-btn ghost" data-copy="${esc(list.map((r, i) => `${i + 1}. ${r}`).join('\n'))}">${I.copy}复制全部</button></summary><ol class="rules">${list.map(r => `<li>${esc(r)}</li>`).join('')}</ol></details>`;
   const ruleList = doc => rulesBox(rulesOf(doc));
-  const tokTable = (doc, group, prefix, visual, sort) => `<div class="tk-table">${(sort ? entries(group).sort((x, y) => px(tokVal(doc, x[1].$value)) - px(tokVal(doc, y[1].$value))) : entries(group)).map(([k, o]) => { const v = tokVal(doc, o.$value); return `<button type="button" class="tk-row" data-copy="${esc(String(v))}"><span class="tk-vis">${visual(v, k, o)}</span><span class="tk-name"><code>${prefix}${k}</code><small>${esc(o.$description || '')}</small>${why(o)}</span><span class="tk-val">${esc(Array.isArray(v) ? 'cubic-bezier(' + v.join(', ') + ')' : String(v))}</span><span class="tk-fe">${feOf(o)}</span></button>`; }).join('')}</div>`;
+  const tokTable = (doc, group, prefix, visual, sort) => `<div class="tk-table">${(sort ? entries(group).sort((x, y) => px(tokVal(doc, x[1].$value)) - px(tokVal(doc, y[1].$value))) : entries(group)).map(([k, o]) => { const v = tokVal(doc, o.$value); return `<button type="button" class="tk-row" data-copy="${esc(String(v))}"><span class="tk-vis">${visual(v, k, o)}</span><span class="tk-name"><code>${prefix}${k}</code><small>${esc(o.$description || '')}${why(o)}</small></span><span class="tk-val">${esc(Array.isArray(v) ? 'cubic-bezier(' + v.join(', ') + ')' : String(v))}</span><span class="tk-fe">${feOf(o)}</span></button>`; }).join('')}</div>`;
 
   // ---------- 场景预览：拖动宽度，观察布局与字号如何随场景变化 ----------
   const SCENES = [[375, '手机'], [768, '车间手持 / 平板'], [1024, '工控屏 / 平板横屏'], [1280, '工位显示器'], [1600, '控制室大屏']];
@@ -496,7 +523,7 @@
           <div class="sv-kpis">${[['OEE', '86.4', '%'], ['产量', '1,284', '件'], ['主轴温度', '72.4', '°C'], ['告警', '2', '条']].map(([k, v, u]) => `<div class="sv-kpi"><span>${k}</span><b>${v}<small>${u}</small></b></div>`).join('')}</div>
           <div class="sv-row"><div class="sv-chart">${Array.from({ length: 24 }, (_, n) => `<i style="height:${30 + Math.round(Math.abs(Math.sin(n * 0.7)) * 60)}%"></i>`).join('')}</div><div class="sv-list">${['CNC-03 温度偏高', 'AGV-2 电量低', 'PLC-7 已恢复'].map(t => `<span>${t}</span>`).join('')}</div></div>
         </main></div></div><span class="scene-handle" title="拖动调整宽度"></span></div></div>
-      <ul class="scene-notes" data-snotes>${sceneOf(w).notes.map(n => `<li>${n}</li>`).join('')}</ul></div>`;
+      <div class="scene-notes"><span class="sn-h">这个宽度下</span><ul data-snotes>${sceneOf(w).notes.map(n => `<li>${n}</li>`).join('')}</ul></div></div>`;
   function sceneSet(root, w) {
     w = Math.round(Math.max(320, Math.min(1600, w)));
     const box = root.querySelector('.scene-box'), stage = root.querySelector('.scene-stage'), sc0 = root.querySelector('.scene-scale');
@@ -527,7 +554,7 @@
     const levels = [['元素内', '4–6px', '图标 + 文字', 6], ['组内', '8px', '标签 + 输入框；按钮组', 8], ['组与组', '16px', '表单的两组字段；并排的卡片', 16], ['区块内边距', '24px', '卡片、面板', 24], ['区块与区块', '32–48px', '页面里的两个分区', 40]];
     const bps = entries(L.breakpoint).map(([k, o]) => [k, px(o.$value), o]);
     const maxBp = 1600;
-    return docHead('间距与布局', '间距和布局决定信息层级：同一层级用同一档间距，层级越高间距越大。每一项写明用途与依据。')
+    return docHead('间距与布局', '间距和布局决定信息层级：同一层级用同一档间距，层级越高间距越大。')
       + sec('scale', '间距刻度', '4px 基准。只用下列档位，点击一行复制数值。', tokTable(S, S.space, 'space.', v => `<i class="sp-bar" style="width:${Math.max(px(v), 1)}px"></i>`, true))
       + sec('levels', '层级与间距', '进入更高一层级时，间距至少升一档。', `<div class="lv-list">${levels.map(([n, v, eg, w]) => `<div class="lv-row"><b>${n}</b><span class="lv-demo"><i></i><em style="width:${w}px"></em><i></i></span><code>${v}</code><span class="muted">${eg}</span></div>`).join('')}</div>`)
       + sec('semantic', '按用途的间距', '组件与页面优先用这一层。', tokTable(S, S.semantic, '', v => `<i class="sp-bar" style="width:${Math.max(px(v), 1)}px"></i>`))
