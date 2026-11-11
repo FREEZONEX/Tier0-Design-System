@@ -16,6 +16,7 @@
     arrow: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>',
     info: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v4M8 5v.01"/></svg>',
     alert: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4M8 11v.01"/></svg>',
+    open: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2.5" width="12" height="11" rx="1.5"/><path d="M2 5.5h12"/></svg>',
     x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   };
 
@@ -328,6 +329,7 @@
           <label class="ctl"><span class="ctl-h">字间距<b id="ty-tv">${ty.ls}em</b></span><input type="range" id="ty-t" min="-0.05" max="0.1" step="0.005" value="${ty.ls}"></label></div>
         <div class="spec-body"><div class="spec-sample" id="ty-sample" contenteditable="true" spellcheck="false" style="${tyCss()}">${lang === 'zh' || ty.fam === 'sc' ? 'Factory-A / Line-01 设备状态 72.4 °C<br>CNC-03 主轴温度持续升高，已通知当班工程师。' : 'Factory-A / Line-01 status 72.4 °C<br>CNC-03 spindle temperature keeps rising; the shift engineer was notified.'}</div></div>${foot(tyCss())}</div>`)
       + sec('scale', '字阶', '每一级都按实际大小展示。产品字阶用于产品后台，官网字阶用于官网、Deck 和宣传物料。', `<div style="margin-bottom:16px">${seg('tyset', [['product', '产品字阶'], ['web', '官网字阶']], ty.set)}</div><div>${rows}</div>`)
+      + sec('scenes', '不同场景下的字号', '同一套字阶，在不同设备上取不同的档：手机正文放大到 16px，大屏上关键数字放大，便于站在远处读。', sceneFrame('type', 375))
       + sec('families', '字体家族', '', `<div class="fam-grid">${fams}</div>`)
       + sec('rules', '使用规则', '', rulesBox(rulesOf(D.typo.typography)));
   }
@@ -337,7 +339,7 @@
   function vComponents() {
     const scope = compTheme === 'dark' ? ' dark-scope' : compTheme === 'light' ? ' light-scope' : '';
     return docHead('Tier0 平台组件', `Tier0 平台自身使用的组件。生成平台应用模版用的是另一套：<a href="#scaffold">应用脚手架</a>。`)
-      + `<div class="repo-row"><a class="ui-btn ghost" href="${FE_REPO}" target="_blank" rel="noopener">代码仓库 ${I.arrow}</a></div>`
+      + `<div class="repo-row">${repoCard(FE_REPO, I.github, '代码仓库', 'FREEZONEX/Tier0-Frontend')}</div>`
       + `<div style="margin:-24px 0 40px">${seg('ctheme', [['auto', '跟随页面'], ['light', '浅色'], ['dark', '深色']], compTheme)}</div>`
       + COMPONENTS.map(c => sec('c-' + c.id, c.zh, esc(c.desc), `<div class="spec" data-spec>
           <div class="spec-tabs"><div class="seg sm" role="tablist"><button type="button" data-view="preview" aria-pressed="true">预览</button><button type="button" data-view="code" aria-pressed="false">代码</button></div>
@@ -347,14 +349,15 @@
   }
 
   // ---------- scaffold ----------
+  const repoCard = (href, icon, title, sub) => `<a class="repo-card" href="${href}" target="_blank" rel="noopener"><span class="rc-ic">${icon}</span><span class="rc-tx"><b>${title}</b><small>${sub}</small></span><span class="rc-go">${I.arrow}</span></a>`;
   function vScaffold() {
     return docHead('应用脚手架', '用来生成平台应用模版的组件。主题色之后可以更换，所以这里的颜色以脚手架为准。')
-      + `<div class="repo-row"><a class="ui-btn ghost" href="${SCAFFOLD_REPO}" target="_blank" rel="noopener">代码仓库 ${I.arrow}</a><a class="ui-btn ghost" href="${asset('scaffold/index.html')}" target="_blank" rel="noopener">新窗口打开 ${I.arrow}</a></div>`
+      + `<div class="repo-row">${repoCard(SCAFFOLD_REPO, I.github, '代码仓库', 'FREEZONEX/Tier0-App-Scaffold')}${repoCard(asset('scaffold/index.html'), I.open, '组件门户', '在新窗口中打开')}</div>`
       + `<div class="sc-frame" id="sc-frame"><div class="sc-empty" hidden><p>组件预览暂时无法加载，请在代码仓库中查看。</p></div></div>`;
   }
   function mountScaffold() {
     const box = document.getElementById('sc-frame'); if (!box) return;
-    const src = asset('scaffold/index.html');
+    const packed = asset('scaffold/single.html'); const src = packed.startsWith('data:') ? packed : asset('scaffold/index.html');
     const show = () => box.insertAdjacentHTML('afterbegin', `<iframe title="应用脚手架组件预览" src="${src}" loading="lazy"></iframe>`);
     if (src.startsWith('data:')) return show();
     if (location.protocol === 'file:') { box.querySelector('.sc-empty').hidden = false; return; }
@@ -366,7 +369,6 @@
     ['dots', '点阵', '来自工作台的洞洞板。用于大面积品牌区块和空状态背景，表示「可以接入」。', 'background-image: radial-gradient(currentColor 1px, transparent 1.5px); background-size: 12px 12px;'],
     ['hatch', '斜线', '表示不可用或保留的区域，如页面两侧留白、禁用的拖放区。', 'background-image: repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 8px);'],
     ['grid', '网格', '来自工程图纸。用于画布、拓扑图和数据结构的底纹。', 'background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 24px 24px;'],
-    ['lines', '横线', '来自记录纸和日志。用于时序、日志、长列表的背景。', 'background-image: repeating-linear-gradient(0deg, currentColor 0 1px, transparent 1px 12px);'],
   ];
   function vTexture() {
     return docHead('Texture', '纹理只用细线和点，颜色取 border 或品牌绿的低透明度，不抢内容。一个区块只用一种纹理。')
@@ -386,27 +388,53 @@
     ['r', 'M282.069 67.3038H343.414V14.7228H282.069V67.3038ZM359.188 14.7228V67.3038L347.445 79.0468L368.828 123.39H351.827L332.021 81.3254H282.069V123.39H266.295V0.701172H345.166L359.188 14.7228Z'],
     ['z', 'M411.795 109.369V14.7228L425.816 0.701172H490.666L504.688 14.7228V109.369L490.666 123.39H425.816L411.795 109.369ZM427.569 14.7228V109.369H488.914V14.7228H427.569Z'],
   ];
-  const logoSvg = cls => `<svg class="t0-logo ${cls || ''}" viewBox="-4 -4 513 133" role="img" aria-label="Tier0"><g class="lg-all">${LOGO_P.map(([k, d]) => `<path class="lg-${k}" d="${d}" pathLength="1"/>`).join('')}<circle class="lg-ring" cx="458" cy="62" r="10"/><circle class="lg-dot" cx="458" cy="62" r="10"/></g></svg>`;
-  // 一个数据点出现 → 发出一次信号 → 画出 0 → T 靠上组成 T0 → 展开成完整字标。全程约 2.4 秒，只用 motion token 的时长与曲线。
+  // 数据源方块（拆成三条，用于 glitch）位于 0 的中心
+  const SRC = [0, 1, 2].map(n => `<rect class="lg-s" x="438" y="${42 + n * 13.33}" width="40" height="13.34"/>`).join('');
+  const logoSvg = cls => `<svg class="t0-logo ${cls || ''}" viewBox="-4 -4 513 133" role="img" aria-label="Tier0"><g class="lg-all">${LOGO_P.map(([k, d]) => `<path class="lg-${k}" d="${d}" pathLength="1"/>`).join('')}<g class="lg-src">${SRC}</g></g></svg>`;
+  // 方块（数据源）出现 → 代码式 glitch → 收成一道竖杠 → 由杠向外描出 0 → glitch 拉开出现 T、I、E、R。约 4.4 秒。
   const EZ = { std: 'cubic-bezier(0.4,0,0.2,1)', enter: 'cubic-bezier(0,0,0.2,1)' };
   function playLogo(svg) {
-    if (!svg || matchMedia('(prefers-reduced-motion: reduce)').matches || !svg.animate) return;
-    const q = c => svg.querySelector(c);
+    if (!svg || !svg.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const q = c => svg.querySelector(c), qa = c => [...svg.querySelectorAll(c)];
     svg.getAnimations({ subtree: true }).forEach(a => a.cancel());
-    const T0X = 302, MID = -151;
     const A = (el, kf, o) => el.animate(kf, Object.assign({ fill: 'both' }, o));
-    A(q('.lg-all'), [{ transform: `translateX(${MID}px)` }, { transform: `translateX(${MID}px)`, offset: 1700 / 2200, easing: EZ.std }, { transform: 'none' }], { duration: 2200 });
-    A(q('.lg-dot'), [{ transform: 'scale(0)', opacity: 1, easing: EZ.enter }, { transform: 'scale(1)', opacity: 1, offset: 200 / 1100 }, { transform: 'scale(1)', opacity: 1, offset: 900 / 1100, easing: EZ.std }, { transform: 'scale(1)', opacity: 0 }], { duration: 1100 });
-    A(q('.lg-ring'), [{ transform: 'scale(1)', opacity: 0.6 }, { transform: 'scale(4.5)', opacity: 0 }], { duration: 500, delay: 200, easing: EZ.enter });
-    A(q('.lg-z'), [{ strokeDashoffset: 1, strokeWidth: 3, fillOpacity: 0 }, { strokeDashoffset: 0, strokeWidth: 3, fillOpacity: 0, offset: 0.75 }, { strokeDashoffset: 0, strokeWidth: 0, fillOpacity: 1 }], { duration: 800, delay: 500, easing: EZ.std });
-    A(q('.lg-t'), [{ transform: `translateX(${T0X + 24}px)`, opacity: 0 }, { transform: `translateX(${T0X}px)`, opacity: 1 }], { duration: 300, delay: 1100, easing: EZ.enter });
-    A(q('.lg-t'), [{ transform: `translateX(${T0X}px)` }, { transform: 'none' }], { duration: 500, delay: 1700, easing: EZ.std, fill: 'forwards' });
-    ['.lg-i', '.lg-e', '.lg-r'].forEach((c, n) => A(q(c), [{ transform: 'translateX(-16px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 300, delay: 2000 + n * 60, easing: EZ.enter }));
+    const MID = -206; // 让 0 居中
+    // 整体：0 居中，3000ms 后与字母一起展开到最终位置
+    A(q('.lg-all'), [{ transform: `translateX(${MID}px)` }, { transform: `translateX(${MID}px)`, offset: 3000 / 3900, easing: EZ.std }, { transform: 'none' }], { duration: 3900 });
+    // 1. 数据源方块出现，停顿
+    const src = q('.lg-src');
+    A(src, [
+      { transform: 'scale(0)', opacity: 1, easing: EZ.enter },
+      { transform: 'scale(1)', opacity: 1, offset: 300 / 2000 },
+      { transform: 'scale(1)', opacity: 1, offset: 1300 / 2000, easing: EZ.std },
+      { transform: 'scale(0.4, 3)', opacity: 1, offset: 1600 / 2000 },
+      { transform: 'scale(0.4, 3)', opacity: 1, offset: 1750 / 2000 },
+      { transform: 'scale(0.4, 3)', opacity: 0 },
+    ], { duration: 2000 });
+    // 2. glitch：三条切片错位、闪烁（700–1300ms）
+    const jit = [[-14, 9, -4, 0], [10, -12, 6, 0], [-6, 14, -10, 0]];
+    qa('.lg-s').forEach((r, n) => A(r, [
+      { transform: 'none', opacity: 1 },
+      { transform: `translateX(${jit[n][0]}px)`, opacity: 0.4, offset: 0.2 },
+      { transform: `translateX(${jit[n][1]}px)`, opacity: 1, offset: 0.45 },
+      { transform: `translateX(${jit[n][2]}px)`, opacity: 0.6, offset: 0.7 },
+      { transform: 'none', opacity: 1 },
+    ], { duration: 600, delay: 700, easing: 'steps(1, end)', fill: 'none' }));
+    // 3. 由竖杠向外描出 0，然后填色（1700–2700ms）
+    A(q('.lg-z'), [{ strokeDashoffset: 1, strokeWidth: 3, fillOpacity: 0 }, { strokeDashoffset: 0, strokeWidth: 3, fillOpacity: 0, offset: 0.8 }, { strokeDashoffset: 0, strokeWidth: 0, fillOpacity: 1 }], { duration: 1000, delay: 1700, easing: EZ.std });
+    // 4. glitch 拉开：T、I、E、R 依次闪入（3000ms 起，与整体展开同步）
+    ['.lg-t', '.lg-i', '.lg-e', '.lg-r'].forEach((c, n) => A(q(c), [
+      { opacity: 0, transform: 'translateX(-18px)' },
+      { opacity: 1, transform: 'translateX(8px)', offset: 0.25 },
+      { opacity: 0.2, transform: 'translateX(-4px)', offset: 0.5 },
+      { opacity: 1, transform: 'translateX(2px)', offset: 0.75 },
+      { opacity: 1, transform: 'none' },
+    ], { duration: 420, delay: 3050 + n * 110, easing: 'steps(1, end)' }));
   }
 
   function vLogo() {
     return docHead('Logo', '字标使用 Tektur，交付时为路径。只在下面四种底色上使用。')
-      + sec('motion', '动效', '从一个数据点出发：点亮、发出一次信号，画出 0，T 靠上组成 T0，再展开成完整的 Tier0。对应「数据只接一次，之后到处可用」。全程约 2.4 秒，打开网站时在顶栏播放一次，不循环；系统开启「减少动态效果」时直接显示静态字标。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><code>点 200ms · 信号 500ms · 0 描边与填色 800ms · T 300ms · 展开 500ms（standard / enter 曲线）</code><button type="button" class="ui-btn ghost" data-logo-replay>重播</button></div></div>`)
+      + sec('motion', '动效', '一个方块代表数据源，出现在中心；像代码一样闪动、错位，收成一道竖杠；从这道杠向外描出 0；最后错位拉开，出现 T、I、E、R。对应「数据只接一次，之后到处可用」。全程约 4.4 秒，用于开场、视频和演示，不在网站顶栏使用；系统开启「减少动态效果」时直接显示静态字标。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><code>方块 300ms · 停顿 · glitch 600ms · 收成竖杠 300ms · 描出 0 1000ms · 拉开 900ms</code><button type="button" class="ui-btn ghost" data-logo-replay>重播</button></div></div>`)
       + sec('variants', '版本', '', `<div class="logo-grid">${LOGOS.map(([f, n, bg]) => `<div class="logo-card"><div class="stage" style="background:${bg}"><img alt="Tier0 ${n}" src="${asset('03-brand/logo/assets/' + f)}"></div><div class="foot"><span>${n}<span class="muted"> · ${bg}</span></span><a class="ui-btn ghost" href="${asset('03-brand/logo/assets/' + f)}" target="_blank" rel="noopener">SVG ${I.arrow}</a></div></div>`).join('')}</div>`);
   }
 
@@ -446,9 +474,51 @@
   const why = o => (ext(o).rationale ? `<span class="why">${esc(ext(o).rationale)}</span>` : '');
   const feOf = o => { const f = ext(o).frontend; return f ? esc(f.tailwind || f.component || '') : ''; };
   const rulesOf = doc => (doc && ext(doc).rules) || [];
-  const rulesBox = list => `<details class="rules-box"><summary><span>共 ${list.length} 条，展开查看</span><button type="button" class="ui-btn ghost" data-copy="${esc(list.map((r, i) => `${i + 1}. ${r}`).join('\n'))}">${I.copy}复制全部</button></summary><ol class="rules">${list.map(r => `<li>${esc(r)}</li>`).join('')}</ol></details>`;
+  const rulesBox = list => `<details class="rules-box"><summary><span class="rb-h"><svg class="rb-chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg>注意事项</span><button type="button" class="ui-btn ghost" data-copy="${esc(list.map((r, i) => `${i + 1}. ${r}`).join('\n'))}">${I.copy}复制全部</button></summary><ol class="rules">${list.map(r => `<li>${esc(r)}</li>`).join('')}</ol></details>`;
   const ruleList = doc => rulesBox(rulesOf(doc));
   const tokTable = (doc, group, prefix, visual, sort) => `<div class="tk-table">${(sort ? entries(group).sort((x, y) => px(tokVal(doc, x[1].$value)) - px(tokVal(doc, y[1].$value))) : entries(group)).map(([k, o]) => { const v = tokVal(doc, o.$value); return `<button type="button" class="tk-row" data-copy="${esc(String(v))}"><span class="tk-vis">${visual(v, k, o)}</span><span class="tk-name"><code>${prefix}${k}</code><small>${esc(o.$description || '')}</small>${why(o)}</span><span class="tk-val">${esc(Array.isArray(v) ? 'cubic-bezier(' + v.join(', ') + ')' : String(v))}</span><span class="tk-fe">${feOf(o)}</span></button>`; }).join('')}</div>`;
+
+  // ---------- 场景预览：拖动宽度，观察布局与字号如何随场景变化 ----------
+  const SCENES = [[375, '手机'], [768, '车间手持 / 平板'], [1024, '工控屏 / 平板横屏'], [1280, '工位显示器'], [1600, '控制室大屏']];
+  function sceneOf(w) {
+    if (w < 640) return { bp: '< sm', notes: ['侧栏收进抽屉，顶部只留菜单和标题', '指标卡单列，图表在下', '页面内边距 16px', '正文 16px，避免手机浏览器自动放大', '可点区域至少 44px 高'] };
+    if (w < 1024) return { bp: w < 768 ? 'sm' : 'md', notes: ['侧栏仍在抽屉里，内容占满宽度', '指标卡两列', '页面内边距 16px → 24px', '正文 14px，数据数字 24px'] };
+    if (w < 1280) return { bp: 'lg', notes: ['侧栏常驻，可收起为 48px 图标列', '指标卡三列', '页面内边距 24px'] };
+    if (w < 1536) return { bp: 'xl · 主设计宽度', notes: ['侧栏 256px 常驻', '指标卡四列，图表与列表并排', '正文 14px，标题 20px'] };
+    return { bp: '2xl', notes: ['内容区最大 1440px，超出后居中', '站远处看：关键数字放大到 40px', '仍是四列，不为填满而拉宽表格'] };
+  }
+  const sceneFrame = (id, w) => `<div class="scene" data-scene="${id}">
+      <div class="scene-bar">${seg('scene-' + id, SCENES.map(([v, n]) => [String(v), n]), String(w))}<span class="spacer"></span><span class="scene-w"><b data-sw>${w}px</b><span data-sbp>${sceneOf(w).bp}</span></span></div>
+      <div class="scene-stage"><div class="scene-box" style="width:${w}px"><div class="scene-scale"><div class="sv">
+        <header class="sv-top"><span class="sv-menu">${I.menu}</span><b>Factory-A / Line-01</b><span class="sv-status"><i></i>运行中</span></header>
+        <aside class="sv-side"><b>Tier0</b><span class="on">产线总览</span><span>设备</span><span>告警</span><span>工单</span></aside>
+        <main class="sv-main"><h3>产线总览</h3><p>12 台设备在线，2 条告警待处理。</p>
+          <div class="sv-kpis">${[['OEE', '86.4', '%'], ['产量', '1,284', '件'], ['主轴温度', '72.4', '°C'], ['告警', '2', '条']].map(([k, v, u]) => `<div class="sv-kpi"><span>${k}</span><b>${v}<small>${u}</small></b></div>`).join('')}</div>
+          <div class="sv-row"><div class="sv-chart">${Array.from({ length: 24 }, (_, n) => `<i style="height:${30 + Math.round(Math.abs(Math.sin(n * 0.7)) * 60)}%"></i>`).join('')}</div><div class="sv-list">${['CNC-03 温度偏高', 'AGV-2 电量低', 'PLC-7 已恢复'].map(t => `<span>${t}</span>`).join('')}</div></div>
+        </main></div></div><span class="scene-handle" title="拖动调整宽度"></span></div></div>
+      <ul class="scene-notes" data-snotes>${sceneOf(w).notes.map(n => `<li>${n}</li>`).join('')}</ul></div>`;
+  function sceneSet(root, w) {
+    w = Math.round(Math.max(320, Math.min(1600, w)));
+    const box = root.querySelector('.scene-box'), stage = root.querySelector('.scene-stage'), sc0 = root.querySelector('.scene-scale');
+    const fit = Math.min(1, (stage.clientWidth - 32) / w);
+    root.dataset.w = w; sc0.style.width = w + 'px'; sc0.style.setProperty('--fit', fit);
+    box.style.width = (w * fit) + 'px'; box.style.height = (root.querySelector('.sv').offsetHeight * fit) + 'px'; box.dataset.fit = fit;
+    const sc = sceneOf(w); root.querySelector('[data-sw]').textContent = w + 'px' + (fit < 1 ? ` · ${Math.round(fit * 100)}%` : ''); root.querySelector('[data-sbp]').textContent = sc.bp;
+    root.querySelector('[data-snotes]').innerHTML = sc.notes.map(n => `<li>${n}</li>`).join('');
+    root.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.v === w)));
+  }
+  function mountScenes() {
+    document.querySelectorAll('[data-scene]').forEach(root => {
+      if (root.dataset.on) return; root.dataset.on = '1';
+      const box = root.querySelector('.scene-box'); sceneSet(root, +root.dataset.init || parseInt(box.style.width));
+      root.querySelector('.seg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { e.stopPropagation(); sceneSet(root, +b.dataset.v); } }, true);
+      const h = root.querySelector('.scene-handle');
+      h.addEventListener('pointerdown', e => { h.setPointerCapture(e.pointerId); const x0 = e.clientX, w0 = +root.dataset.w, fit = +box.dataset.fit || 1;
+        const mv = ev => sceneSet(root, w0 + (ev.clientX - x0) / fit); const up = () => { h.removeEventListener('pointermove', mv); h.removeEventListener('pointerup', up); };
+        h.addEventListener('pointermove', mv); h.addEventListener('pointerup', up); });
+    });
+  }
+  addEventListener('resize', () => document.querySelectorAll('[data-scene]').forEach(r => sceneSet(r, +r.dataset.w)));
 
   // ---------- 间距与布局 ----------
   function vSpacing() {
@@ -462,7 +532,7 @@
       + sec('levels', '层级与间距', '进入更高一层级时，间距至少升一档。', `<div class="lv-list">${levels.map(([n, v, eg, w]) => `<div class="lv-row"><b>${n}</b><span class="lv-demo"><i></i><em style="width:${w}px"></em><i></i></span><code>${v}</code><span class="muted">${eg}</span></div>`).join('')}</div>`)
       + sec('semantic', '按用途的间距', '组件与页面优先用这一层。', tokTable(S, S.semantic, '', v => `<i class="sp-bar" style="width:${Math.max(px(v), 1)}px"></i>`))
       + sec('size', '控件与行高', '产品界面默认紧凑密度：控件 32px、行高 40px。', tokTable(S, S.size, 'size.', (v, k) => k.startsWith('icon') ? `<i class="sz-icon" style="width:${px(v)}px;height:${px(v)}px"></i>` : `<i class="sz-ctl" style="height:${Math.min(px(v), 64)}px"></i>`))
-      + sec('breakpoints', '断点', '沿用 Tailwind 默认值。产品界面以 1280 为主设计宽度。', `<div class="bp-ruler">${bps.map(([k, w]) => `<span style="left:${(w / maxBp) * 100}%"><b>${k}</b>${w}</span>`).join('')}</div>` + tokTable(L, L.breakpoint, 'breakpoint.', () => ''))
+      + sec('breakpoints', '断点', '产品界面以 1280 为主设计宽度，同时照顾车间手持终端、工控屏和控制室大屏。选一个场景，或拖动右侧边缘，看布局怎么变。', sceneFrame('layout', 1280) + `<div class="bp-ruler">${bps.map(([k, w]) => `<span style="left:${(w / maxBp) * 100}%"><b>${k}</b>${w}</span>`).join('')}</div>` + tokTable(L, L.breakpoint, 'breakpoint.', () => ''))
       + sec('shell', '页面结构', '顶部栏 64px + 侧栏 256px + 内容区；12 栏栅格。', `<div class="shell-demo"><div class="sd-top">顶部栏 64</div><div class="sd-side">侧栏 256</div><div class="sd-main"><div class="sd-grid">${Array.from({ length: 12 }, () => '<i></i>').join('')}</div><span>内容区 · 内边距 24 · 12 栏 · 沟槽 24</span></div></div>` + tokTable(L, L.shell, 'shell.', () => ''))
       + sec('width', '内容宽度', '连续阅读的文字单行不超过 680px；表格与看板占满内容区。', tokTable(L, L.width, 'width.', v => `<i class="sp-bar" style="width:${Math.min(px(v) / 12, 140)}px"></i>`))
       + sec('rules', '使用规则', '', rulesBox(rulesOf(S).concat(rulesOf(L))));
@@ -502,8 +572,8 @@
   const VIEWS = { spacing: vSpacing, shape: vShape, motion: vMotion, home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, scaffold: vScaffold, logo: vLogo, texture: vTexture, skills: vSkills };
   let current = '';
   function route(keepScroll) {
-    if (!location.hash) history.replaceState(null, '', '#foundation');
-    const id = location.hash.slice(1).replace(/[^a-z0-9-]/gi, '') || 'foundation';
+    if (!location.hash) history.replaceState(null, '', '#home');
+    const id = location.hash.slice(1).replace(/[^a-z0-9-]/gi, '') || 'home';
     const page = id.startsWith('c-') ? 'components' : id;
     const scrollY = window.scrollY;
     const prev = current; current = page;
@@ -560,18 +630,31 @@
     }
     if (id === 'sk-brief') { sk.brief = e.target.value; document.getElementById('sk-out').innerHTML = codeBlock(skPrompt()); }
   });
+  // 首页工作台：跟随鼠标的「向下滚动」提示，外圈随滚动进度填满，滚到底后消失
+  const scrollCue = (() => {
+    if (!matchMedia('(pointer: fine)').matches) return { update() {} };
+    const el = document.createElement('div'); el.className = 'scroll-cue'; el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = '<svg viewBox="0 0 48 48"><circle class="sc-track" cx="24" cy="24" r="21"/><circle class="sc-prog" cx="24" cy="24" r="21" pathLength="1"/><circle class="sc-dot" cx="24" cy="24" r="3"/></svg><span></span>';
+    document.body.appendChild(el);
+    let inside = false, p = 0;
+    const show = () => el.classList.toggle('on', inside && p < 0.995);
+    addEventListener('pointermove', e => { const wb = document.querySelector('.wb'); inside = !!wb && document.body.classList.contains('hero-on') && !e.target.closest('a, button, .topbar'); el.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`; show(); }, { passive: true });
+    document.addEventListener('pointerleave', () => { inside = false; show(); });
+    return { update() { const wb = document.querySelector('.wb'); p = wb ? Math.min(1, Math.max(0, scrollY / Math.max(1, wb.offsetHeight - innerHeight * 1.2))) : 1; el.style.setProperty('--p', p); el.querySelector('span').textContent = lang === 'zh' ? '向下滚动' : 'Scroll to view'; show(); } };
+  })();
   function heroState() {
     const wb = document.querySelector('.wb');
     document.body.classList.toggle('hero-on', !!wb && scrollY < wb.offsetHeight - innerHeight * 1.2);
     document.body.classList.toggle('nav-short', !!wb && scrollY < 24);
+    scrollCue.update();
   }
   function playEz(card) { if (!card) return; const k = card.querySelector('.ez-track i'); k.style.transition = 'none'; k.style.left = '0px'; void k.offsetWidth; k.style.transition = `left ${card.dataset.ms}ms ${card.dataset.ez}`; k.style.left = 'calc(100% - 28px)'; }
   function ccPaint() { const o = document.getElementById('cc-o'); if (!o) return; const i = document.getElementById('cc-i'); const mode = (document.querySelector('[data-seg="ccmode"] [aria-pressed="true"]') || {}).dataset; const ov = +o.value, iv = +i.value; const inner = mode && mode.v === 'equal' ? ov : Math.max(0, ov - iv);
     const out = document.getElementById('cc-outer'), inn = document.getElementById('cc-inner'); out.style.borderRadius = ov + 'px'; out.style.padding = iv + 'px'; inn.style.borderRadius = inner + 'px';
     document.getElementById('cc-ov').textContent = ov + 'px'; document.getElementById('cc-iv').textContent = iv + 'px';
     document.getElementById('cc-f').textContent = mode && mode.v === 'equal' ? `inner ${inner} = outer ${ov}（等值，四角间隙不均）` : `inner ${inner} = outer ${ov} − inset ${iv}${ov - iv < 0 ? '（小于 0 取 0）' : ''}`; }
-  (() => { const bm = document.querySelector('.brandmark'); if (!bm) return; bm.innerHTML = logoSvg(); playLogo(bm.firstChild); })();
-  document.addEventListener('portal:render', () => { mountScaffold(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
+  (() => { const bm = document.querySelector('.brandmark'); if (!bm) return; bm.innerHTML = logoSvg(); })();
+  document.addEventListener('portal:render', () => { mountScaffold(); mountScenes(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
   window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); heroState(); }, { passive: true });
   window.addEventListener('hashchange', () => route('anchor'));
 
