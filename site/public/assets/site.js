@@ -530,9 +530,11 @@
     ['glow', '暗色发光', '品牌宣传活动使用的主题风格：深色底、品牌绿发光、半透明卡片。只用于活动海报、社媒和发布会，不用于产品界面和官网正文。', [['glow-builder', '活动海报：Tier0 Builder'], ['glow-reuse', '社媒长图：一次开发，多场景复用'], ['glow-compare', '对比图：Tier0 与传统项目']],
       ['底色固定为 #050B14，发光只用品牌绿，强度克制，一张图只有一个发光中心。', '半透明卡片只用于主信息，周围元素保持实色或线框。', '背景可用 T0 字符点阵，透明度低，不抢标题。', '标题用 Inter / 中文系统字体，强调词用品牌绿，不加描边和渐变文字。', '只在宣传场景使用：Foundation 里「玻璃拟态、霓虹渐变」的禁用规则对产品界面和官网依然有效。']],
   ];
+  // 有英文版的宣传图：英文界面下显示英文版
+  const IL_EN = ['glow-reuse', 'glow-compare'];
   function vIllustration() {
     return docHead('插画与图形', '三种图形风格，分别用于解释原理、说明架构和品牌宣传。')
-      + ILLUS.map(([id, n, d, imgs, rules]) => sec('il-' + id, n, d, `<div class="il-grid il-${id}">${imgs.map(([f, cap]) => `<figure class="il-fig"><a href="${asset('assets/brand/' + f + '.jpg')}" target="_blank" rel="noopener"><img src="${asset('assets/brand/' + f + '.jpg')}" alt="${esc(cap)}" loading="lazy"></a><figcaption>${esc(cap)}</figcaption></figure>`).join('')}</div>${rulesBox(rules)}`)).join('');
+      + ILLUS.map(([id, n, d, imgs, rules]) => sec('il-' + id, n, d, `<div class="il-grid il-${id}">${imgs.map(([f0, cap]) => { const f = lang === 'en' && IL_EN.includes(f0) ? f0 + '-en' : f0; return `<figure class="il-fig"><a href="${asset('assets/brand/' + f + '.jpg')}" target="_blank" rel="noopener"><img src="${asset('assets/brand/' + f + '.jpg')}" alt="${esc(cap)}" loading="lazy"></a><figcaption>${esc(cap)}</figcaption></figure>`; }).join('')}</div>${rulesBox(rules)}`)).join('');
   }
 
   // ---------- texture ----------
