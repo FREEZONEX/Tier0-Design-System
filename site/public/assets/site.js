@@ -100,7 +100,7 @@
   const NAV = [
     { zh: '', en: '', items: [['foundation', 'Foundation', 'Foundation']] },
     { zh: 'Tokens', en: 'Tokens', items: [['color', '颜色', 'Color'], ['typography', '字体', 'Typography'], ['spacing', '间距与布局', 'Spacing & layout'], ['shape', '圆角、线宽与阴影', 'Radius, border & shadow'], ['motion', '动效', 'Motion']] },
-    { zh: 'Components', en: 'Components', items: [['components', '全部组件', 'All components']] },
+    { zh: 'Components', en: 'Components', items: [['components', 'Tier0 平台组件', 'Tier0 platform'], ['scaffold', '应用脚手架', 'App scaffold']] },
     { zh: 'Brand', en: 'Brand', items: [['logo', 'Logo', 'Logo'], ['templates', '模版', 'Templates', 1]] },
     { zh: 'Skills', en: 'Skills', items: [['skills', 'AI 调用规则', 'AI guidelines'], ['designmd', 'DESIGN.md', 'DESIGN.md', 1]] },
   ];
@@ -301,9 +301,9 @@
   }
 
   // ---------- typography ----------
-  const ty = { fam: 'display', w: 600, s: 64, set: 'product' };
-  const FAMS = [['display', 'Inter'], ['sans', 'IBM Plex Sans'], ['mono', 'IBM Plex Mono']];
-  function tyCss() { return `font-family: var(--font-${ty.fam}); font-weight: ${ty.w}; font-size: ${ty.s}px;`; }
+  const ty = { fam: 'display', w: 600, s: 48, lh: 1.2, set: 'product' };
+  const FAMS = [['display', 'Inter'], ['sans', 'IBM Plex Sans'], ['mono', 'IBM Plex Mono'], ['sc', '中文系统字体']];
+  function tyCss() { return `font-family: var(--font-${ty.fam}); font-weight: ${ty.w}; font-size: ${ty.s}px; line-height: ${ty.lh};`; }
   function vTypo() {
     if (!D.typo) return '<p class="muted">没有读取到字体 token。</p>';
     const group = D.typo.typography[ty.set];
@@ -316,12 +316,16 @@
       const sample = tt ? 'Edge data / Independent sources' : lang === 'zh' ? (parseInt(t.fontSize) >= 20 ? '设备状态与实时数据' : 'Line-01 共 12 台设备在线，CNC-03 主轴温度 72.4 °C。') : (parseInt(t.fontSize) >= 20 ? 'Device status and live data' : '12 devices online on Line-01. CNC-03 spindle at 72.4 °C.');
       return `<div class="ty-row"><div class="meta"><b>${esc(k)}</b><span>${esc(famName)} ${t.fontWeight} · ${parseInt(t.fontSize)} / ${parseInt(t.lineHeight)}</span></div><div class="sample" style="${css}">${esc(sample)}</div></div>`;
     }).join('');
-    const fams = entries(D.typo.font.family).map(([k, v]) => `<div class="fam"><div class="aa" style="font-family:var(--font-${k === 'sc' ? 'sans' : k})">Aa 字</div><b>${esc(v.$value[0])}</b><span>${esc((v.$description || '').split('——')[0])}</span></div>`).join('');
-    return docHead('字体', '标题用 Inter，正文用 IBM Plex Sans，代码与数据用 IBM Plex Mono，中文使用系统字体（苹方 / 微软雅黑）。')
-      + sec('specimen', '试排', '选择字体，调整字重和字号，然后直接改写示例文字。', `<div class="spec"><div class="spec-bar">${seg('tyfam', FAMS, ty.fam)}<span class="spacer"></span>
+    const SC_OS = [['macOS / iOS', 'PingFang SC 苹方'], ['Windows', 'Microsoft YaHei 微软雅黑'], ['Android', 'Noto Sans CJK SC 思源黑体']];
+    const fams = entries(D.typo.font.family).map(([k, v]) => k === 'sc'
+      ? `<div class="fam"><div class="aa" style="font-family:var(--font-sc)">中文 字</div><b>中文系统字体</b><dl class="os-list">${SC_OS.map(([o, f]) => `<dt>${o}</dt><dd>${f}</dd>`).join('')}</dl><span>不加载中文 Web 字体，按设备自动使用。</span></div>`
+      : `<div class="fam"><div class="aa" style="font-family:var(--font-${k})">Aa 字</div><b>${esc(v.$value[0])}</b><span>${esc((v.$description || '').split('——')[0])}</span></div>`).join('');
+    return docHead('字体', '标题用 Inter，正文用 IBM Plex Sans，代码与数据用 IBM Plex Mono。中文不加载 Web 字体，使用系统字体：苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体（Noto Sans CJK）。')
+      + sec('specimen', '试排', '选择字体，调整字重、字号和行高，然后直接改写示例文字。产品界面的正文行高约 1.4–1.5，标题约 1.2，大号展示字约 1.1。', `<div class="spec"><div class="spec-bar">${seg('tyfam', FAMS, ty.fam)}<span class="spacer"></span>
           <label class="ctl"><span class="ctl-h">字重<b id="ty-wv">${ty.w}</b></span><input type="range" id="ty-w" min="400" max="700" step="100" value="${ty.w}"></label>
-          <label class="ctl"><span class="ctl-h">字号<b id="ty-sv">${ty.s}px</b></span><input type="range" id="ty-s" min="12" max="96" value="${ty.s}"></label></div>
-        <div class="spec-body"><div class="spec-sample" id="ty-sample" contenteditable="true" spellcheck="false" style="${tyCss()};line-height:1.08;letter-spacing:${ty.fam === 'display' ? '-0.03em' : '0'}">${lang === 'zh' ? 'Factory-A / Line-01 设备状态 72.4 °C' : 'Factory-A / Line-01 status 72.4 °C'}</div></div>${foot(tyCss())}</div>`)
+          <label class="ctl"><span class="ctl-h">字号<b id="ty-sv">${ty.s}px</b></span><input type="range" id="ty-s" min="12" max="96" value="${ty.s}"></label>
+          <label class="ctl"><span class="ctl-h">行高<b id="ty-lv">${ty.lh}</b></span><input type="range" id="ty-l" min="1" max="2" step="0.05" value="${ty.lh}"></label></div>
+        <div class="spec-body"><div class="spec-sample" id="ty-sample" contenteditable="true" spellcheck="false" style="${tyCss()};letter-spacing:${ty.fam === 'display' ? '-0.02em' : '0'}">${lang === 'zh' || ty.fam === 'sc' ? 'Factory-A / Line-01 设备状态 72.4 °C<br>CNC-03 主轴温度持续升高，已通知当班工程师。' : 'Factory-A / Line-01 status 72.4 °C<br>CNC-03 spindle temperature keeps rising; the shift engineer was notified.'}</div></div>${foot(tyCss())}</div>`)
       + sec('scale', '字阶', '每一级都按实际大小展示。产品字阶用于产品后台，官网字阶用于官网、Deck 和宣传物料。', `<div style="margin-bottom:16px">${seg('tyset', [['product', '产品字阶'], ['web', '官网字阶']], ty.set)}</div><div>${rows}</div>`)
       + sec('families', '字体家族', '', `<div class="fam-grid">${fams}</div>`)
       + sec('rules', '使用规则', '', `<ol class="rules">${(ext(D.typo.typography).rules || []).map(r => `<li>${esc(r)}</li>`).join('')}</ol>`);
@@ -331,7 +335,8 @@
   let compTheme = 'auto';
   function vComponents() {
     const scope = compTheme === 'dark' ? ' dark-scope' : compTheme === 'light' ? ' light-scope' : '';
-    return docHead('组件', `以 Tier0-Frontend 的 <code>packages/ui</code> 为准，按前端的尺寸、圆角、颜色和状态还原。代码请以前端仓库为准。`)
+    return docHead('Tier0 平台组件', `Tier0 平台自身使用的组件，以 Tier0-Frontend 的 <code>packages/ui</code> 为准，代码请以前端仓库为准。生成平台应用模版用的是另一套：<a href="#scaffold">应用脚手架</a>。`)
+      + `<div class="repo-row"><a class="ui-btn ghost" href="${FE_REPO}" target="_blank" rel="noopener">Tier0-Frontend ${I.arrow}</a></div>`
       + `<div style="margin:-24px 0 40px">${seg('ctheme', [['auto', '跟随页面'], ['light', '浅色'], ['dark', '深色']], compTheme)}</div>`
       + COMPONENTS.map(c => sec('c-' + c.id, c.zh, esc(c.desc), `<div class="spec" data-spec>
           <div class="spec-tabs"><div class="seg sm" role="tablist"><button type="button" data-view="preview" aria-pressed="true">预览</button><button type="button" data-view="code" aria-pressed="false">代码</button></div>
@@ -340,10 +345,44 @@
           <div class="spec-code" data-pane="code" hidden>${codeBlock(c.code)}</div></div>`)).join('');
   }
 
+  // ---------- scaffold ----------
+  function vScaffold() {
+    const src = asset('scaffold/index.html');
+    return docHead('应用脚手架', '用来生成平台应用模版。主题色之后可以更换，所以这里的颜色以脚手架为准，不一定与 Tier0 平台一致。')
+      + `<div class="repo-row"><a class="ui-btn ghost" href="${SCAFFOLD_REPO}" target="_blank" rel="noopener">Tier0-App-Scaffold ${I.arrow}</a><a class="ui-btn ghost" href="${src}" target="_blank" rel="noopener">新窗口打开组件门户 ${I.arrow}</a></div>`
+      + `<div class="sc-frame" id="sc-frame" data-src="${src}"><div class="sc-empty" hidden><p>组件门户还没有构建。在本地运行：</p>${codeBlock('cd site\nnpm run scaffold:gallery')}</div></div>`;
+  }
+  function mountScaffold() {
+    const box = document.getElementById('sc-frame'); if (!box) return;
+    const empty = box.querySelector('.sc-empty');
+    if (location.protocol === 'file:') { empty.hidden = false; return; }
+    fetch(box.dataset.src, { method: 'HEAD' }).then(r => {
+      if (!r.ok || !/html/.test(r.headers.get('content-type') || '')) throw 0;
+      box.insertAdjacentHTML('afterbegin', `<iframe title="Tier0-App-Scaffold 组件门户" src="${box.dataset.src}" loading="lazy"></iframe>`);
+    }).catch(() => { empty.hidden = false; });
+  }
+
   // ---------- logo ----------
   const LOGOS = [['tier0-logo-black.svg', '标准版', '#FFFFFF'], ['tier0-logo-black.svg', '浅灰底', '#FAFAFA'], ['tier0-logo-white.svg', '反白版', '#050B14'], ['tier0-logo-lime.svg', '品牌绿版', '#050B14']];
+  const SCAFFOLD_REPO = 'https://github.com/FREEZONEX/Tier0-App-Scaffold';
+  const FE_REPO = 'https://github.com/FREEZONEX/Tier0-Frontend';
+  // 字标路径（与 03-brand/logo 一致）；字母用 currentColor，0 用 --logo-zero
+  const LOGO_P = [
+    ['t', 'M37.683 123.39V14.7228H0V0.701172H91.1404V14.7228H53.4573V123.39H37.683Z'],
+    ['i', 'M97.1992 124.091V110.07L119.108 109.193V14.8979L97.1992 14.0216V0L126.995 1.40216L156.791 0V14.0216L134.882 14.8979V109.193L156.791 110.07V124.091L126.995 122.689L97.1992 124.091Z'],
+    ['e', 'M169.881 123.39V0.701172H254.01V14.7228H185.655V53.2822H245.247V67.3038H185.655V109.369H255.763V123.39H169.881Z'],
+    ['r', 'M282.069 67.3038H343.414V14.7228H282.069V67.3038ZM359.188 14.7228V67.3038L347.445 79.0468L368.828 123.39H351.827L332.021 81.3254H282.069V123.39H266.295V0.701172H345.166L359.188 14.7228Z'],
+    ['z', 'M411.795 109.369V14.7228L425.816 0.701172H490.666L504.688 14.7228V109.369L490.666 123.39H425.816L411.795 109.369ZM427.569 14.7228V109.369H488.914V14.7228H427.569Z'],
+  ];
+  const logoSvg = cls => `<svg class="t0-logo ${cls || ''}" viewBox="-4 -4 513 133" role="img" aria-label="Tier0">${LOGO_P.map(([k, d], i) => `<path class="lg-${k}" style="--i:${i}" d="${d}" pathLength="1"/>`).join('')}</svg>`;
+  function playLogo(el) {
+    if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    el.classList.remove('play'); void el.getBoundingClientRect(); el.classList.add('play');
+  }
+
   function vLogo() {
     return docHead('Logo', '字标使用 Tektur，交付时为路径。只在下面四种底色上使用。')
+      + sec('motion', '动效', '字母 T、I、E、R 依次落位，最后用一笔画出 0 的外框并点亮：数据只接一次，之后到处可用。全程约 1 秒，打开网站时在顶栏播放一次，切换页面不重播，不循环。系统开启「减少动态效果」时直接显示静态字标。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><code>T I E R：300ms enter，间隔 60ms　·　0 描边：600ms standard　·　填色：200ms</code><button type="button" class="ui-btn ghost" data-logo-replay>重播</button></div></div>`)
       + sec('variants', '版本', '', `<div class="logo-grid">${LOGOS.map(([f, n, bg]) => `<div class="logo-card"><div class="stage" style="background:${bg}"><img alt="Tier0 ${n}" src="${asset('03-brand/logo/assets/' + f)}"></div><div class="foot"><span>${n}<span class="muted"> · ${bg}</span></span><a class="ui-btn ghost" href="${asset('03-brand/logo/assets/' + f)}" target="_blank" rel="noopener">SVG ${I.arrow}</a></div></div>`).join('')}</div>`);
   }
 
@@ -434,7 +473,7 @@
       + sec('rules', '使用规则', '', ruleList(M));
   }
 
-  const VIEWS = { spacing: vSpacing, shape: vShape, motion: vMotion, home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, logo: vLogo, skills: vSkills };
+  const VIEWS = { spacing: vSpacing, shape: vShape, motion: vMotion, home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, scaffold: vScaffold, logo: vLogo, skills: vSkills };
   let current = '';
   function route(keepScroll) {
     if (!location.hash) history.replaceState(null, '', '#foundation');
@@ -469,6 +508,7 @@
     const jp = t.closest('[data-jump]'); if (jp) { e.preventDefault(); const el = document.getElementById(jp.dataset.jump); if (el) el.scrollIntoView({ behavior: 'smooth' }); return; }
     const vw = t.closest('[data-view]'); if (vw) { const sp = vw.closest('[data-spec]'); sp.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', b === vw)); sp.querySelectorAll('[data-pane]').forEach(p => { p.hidden = p.dataset.pane !== vw.dataset.view; }); return; }
     const ep = t.closest('[data-ez-play]'); if (ep) { playEz(ep.closest('.ez-card')); return; }
+    if (t.closest('[data-logo-replay]')) { playLogo(t.closest('.spec').querySelector('.t0-logo')); return; }
     const md = t.closest('[data-mo-demo]'); if (md) { const M = D.motion; const ms = k => parseFloat(M.duration[k].$value); const cb = k => `cubic-bezier(${M.easing[k].$value.join(',')})`;
       if (md.dataset.moDemo === 'menu') { const el = document.getElementById('mo-menu'); const open = !el.classList.contains('open'); el.style.transition = open ? `opacity ${ms('base')}ms ${cb('enter')}, transform ${ms('base')}ms ${cb('enter')}` : `opacity ${ms('fast')}ms ${cb('exit')}, transform ${ms('fast')}ms ${cb('exit')}`; el.classList.toggle('open', open); md.textContent = open ? '关闭下拉' : '打开下拉'; }
       if (md.dataset.moDemo === 'drawer') { const el = document.getElementById('mo-drawer'); el.style.transition = `transform ${ms('slow')}ms ${cb('standard')}`; const open = !el.classList.contains('open'); el.classList.toggle('open', open); md.textContent = open ? '收回侧滑面板' : '推入侧滑面板'; }
@@ -485,10 +525,10 @@
   document.addEventListener('input', e => {
     const id = e.target.id;
     if (id === 'cc-o' || id === 'cc-i') ccPaint();
-    if (id === 'ty-w' || id === 'ty-s') {
-      ty.w = +document.getElementById('ty-w').value; ty.s = +document.getElementById('ty-s').value;
-      document.getElementById('ty-wv').textContent = ty.w; document.getElementById('ty-sv').textContent = ty.s + 'px';
-      const smp = document.getElementById('ty-sample'); smp.style.fontWeight = ty.w; smp.style.fontSize = ty.s + 'px';
+    if (id === 'ty-w' || id === 'ty-s' || id === 'ty-l') {
+      ty.w = +document.getElementById('ty-w').value; ty.s = +document.getElementById('ty-s').value; ty.lh = +document.getElementById('ty-l').value;
+      document.getElementById('ty-wv').textContent = ty.w; document.getElementById('ty-sv').textContent = ty.s + 'px'; document.getElementById('ty-lv').textContent = ty.lh;
+      const smp = document.getElementById('ty-sample'); smp.style.fontWeight = ty.w; smp.style.fontSize = ty.s + 'px'; smp.style.lineHeight = ty.lh;
       const f = smp.closest('.spec').querySelector('.spec-foot'); f.querySelector('code').textContent = tyCss(); f.querySelector('[data-copy]').dataset.copy = tyCss();
     }
     if (id === 'sk-brief') { sk.brief = e.target.value; document.getElementById('sk-out').innerHTML = codeBlock(skPrompt()); }
@@ -503,7 +543,8 @@
     const out = document.getElementById('cc-outer'), inn = document.getElementById('cc-inner'); out.style.borderRadius = ov + 'px'; out.style.padding = iv + 'px'; inn.style.borderRadius = inner + 'px';
     document.getElementById('cc-ov').textContent = ov + 'px'; document.getElementById('cc-iv').textContent = iv + 'px';
     document.getElementById('cc-f').textContent = mode && mode.v === 'equal' ? `inner ${inner} = outer ${ov}（等值，四角间隙不均）` : `inner ${inner} = outer ${ov} − inset ${iv}${ov - iv < 0 ? '（小于 0 取 0）' : ''}`; }
-  document.addEventListener('portal:render', () => { ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
+  (() => { const bm = document.querySelector('.brandmark'); if (!bm) return; bm.innerHTML = logoSvg(); playLogo(bm.firstChild); })();
+  document.addEventListener('portal:render', () => { mountScaffold(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
   window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); heroState(); }, { passive: true });
   window.addEventListener('hashchange', () => route('anchor'));
 

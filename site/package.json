@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "scaffold:gallery": "cd ${SCAFFOLD_DIR:-../../Tier0-App-Scaffold} && npx vite build --config gallery/vite.config.ts --base ./ --outDir \"$OLDPWD/public/scaffold\" --emptyOutDir"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

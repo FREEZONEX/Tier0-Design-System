@@ -13,3 +13,4 @@ backup-pre-*/
 src/styles/globals.css
 src/components/
 src/local/
+public/scaffold/
