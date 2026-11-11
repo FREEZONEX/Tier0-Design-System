@@ -1091,3 +1091,17 @@ body.hero-on .wb { cursor: none; }
 .lab-tg input:checked + i { background: var(--foreground); }
 .lab-tg input:checked + i::after { transform: translateX(14px); background: var(--background); }
 @media (max-width: 1000px) { .lab { grid-template-columns: 1fr; } .lab-panel { border-left: 0; border-top: 1px solid var(--border); } .lab-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.lab-presets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-bottom: 4px; }
+.lab-presets button { display: grid; justify-items: center; gap: 6px; padding: 8px 4px; border: 1px solid transparent; border-radius: 4px; background: none; color: var(--muted-foreground); font: inherit; font-size: 12px; cursor: pointer; }
+.lab-presets button[aria-pressed="true"] { border-color: var(--foreground); color: var(--foreground); }
+.lab-presets i { width: 36px; height: 36px; border-radius: 4px; border: 1px solid var(--border); background-image: radial-gradient(currentColor 1.4px, transparent 1.8px) !important; background-size: 6px 6px !important; }
+.sec .spec + .rules-box, .sec .cc + .rules-box { margin-top: 16px; }
+.lab-view { background: transparent; }
+.t0-logo .lg-ring { fill: var(--logo-zero); stroke: none; }
+.logo-mo { transition: background-color 200ms; }
+.logo-mo.on-dark { background: #050B14; }
+.logo-mo.on-dark .t0-logo { color: #FFFFFF; --logo-zero: #B2ED1D; }
+.lg-exp { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; width: 100%; }
+.lg-exp .seg { margin-left: auto; }
+.lg-exp .ui-btn svg { width: 14px; height: 14px; }
+.lab-over .lab-up, .lab-over .lab-up:hover { background: rgba(5, 11, 20, 0.72); color: #FFFFFF; border: 1px solid rgba(255, 255, 255, 0.16); }

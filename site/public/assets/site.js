@@ -368,7 +368,13 @@
 
   // ---------- 材质实验：底图 + 半调 / 抖动 / ASCII，可换图片或视频，实时调参 ----------
   const LAB_MODES = [['halftone', '模糊点阵'], ['dither', '抖动'], ['ascii', '动态 ASCII']];
-  const LAB_DEF = { mode: 'halftone', cell: 8, blur: 2, contrast: 1.2, bright: 0, speed: 0.6, wave: 0.5, ink: '#B2ED1D', bg: '#050B14', chars: ' .:-=+*#%@', invert: false, paused: false, mouse: true };
+  const LAB_PRESETS = [
+    ['print', '墨点', { mode: 'halftone', cell: 7, blur: 1.5, contrast: 1.35, bright: 0.04, speed: 0.4, wave: 0.25, ink: '#050B14', bg: '#FAFAFA', invert: true }],
+    ['signal', '信号点阵', { mode: 'halftone', cell: 6, blur: 1, contrast: 1.5, bright: -0.06, speed: 0.5, wave: 0.3, ink: '#B2ED1D', bg: '#050B14', invert: false }],
+    ['dither', '工程抖动', { mode: 'dither', cell: 4, blur: 0.5, contrast: 1.3, bright: 0, speed: 0.3, wave: 0.2, ink: '#3A3E45', bg: '#F2F3F4', invert: true }],
+    ['term', '终端字符', { mode: 'ascii', cell: 9, blur: 1, contrast: 1.4, bright: -0.04, speed: 0.6, wave: 0.4, ink: '#B2ED1D', bg: '#050B14', invert: false, chars: ' .:-=+*#%@' }],
+  ];
+  const LAB_DEF = Object.assign({ chars: ' .:-=+*#%@', paused: false, mouse: true, preset: 'print' }, LAB_PRESETS[0][2]);
   const lab = Object.assign({}, LAB_DEF);
   const LAB_SL = [
     ['cell', '格子', 4, 24, 1, 'px'], ['blur', '模糊', 0, 12, 0.5, 'px'], ['contrast', '对比度', 0.4, 2.5, 0.05, ''],
@@ -377,7 +383,9 @@
   const labSlider = ([k, n, min, max, step, u]) => { const v = lab[k], pct = ((v - min) / (max - min)) * 100; return `<label class="lab-sl" style="--f:${pct}%"><span>${n}</span><input type="range" data-lab="${k}" min="${min}" max="${max}" step="${step}" value="${v}"><em>${(+v).toFixed(step < 1 ? (step < 0.1 ? 2 : 1) : 0)}${u}</em></label>`; };
   function vTextureLab() {
     return `<div class="lab"><div class="lab-view"><canvas id="lab-cv"></canvas><div class="lab-over">${seg('labmode', LAB_MODES, lab.mode)}<label class="ui-btn ghost lab-up">${I.open}换图片 / 视频<input type="file" id="lab-file" accept="image/*,video/*" hidden></label></div></div>
-      <div class="lab-panel"><div class="lab-h"><b>参数</b><button type="button" class="ui-btn ghost" data-lab-reset>重置</button></div>
+      <div class="lab-panel"><div class="lab-h"><b>预设</b><button type="button" class="ui-btn ghost" data-lab-reset>重置</button></div>
+        <div class="lab-presets">${LAB_PRESETS.map(([k, n, o]) => `<button type="button" data-lab-preset="${k}" aria-pressed="${lab.preset === k}"><i style="background:${o.bg};color:${o.ink}"></i>${n}</button>`).join('')}</div>
+        <div class="lab-h"><b>参数</b></div>
         <div class="lab-grid">${LAB_SL.map(labSlider).join('')}
           <label class="lab-sl lab-color"><span>墨色</span><em>${lab.ink}</em><input type="color" data-lab="ink" value="${lab.ink}"></label>
           <label class="lab-sl lab-color"><span>底色</span><em>${lab.bg}</em><input type="color" data-lab="bg" value="${lab.bg}"></label>
@@ -448,17 +456,25 @@
   }
 
   // ---------- texture ----------
+  // [key, 名称, 含义与用途, 亮色 CSS, 暗色 CSS（可省略，省略时用品牌绿低透明度）]
   const TEXTURES = [
-    ['dots', '点阵', '来自工作台的洞洞板。用于大面积品牌区块和空状态背景，表示「可以接入」。', 'background-image: radial-gradient(currentColor 1px, transparent 1.5px); background-size: 12px 12px;'],
-    ['hatch', '斜线', '表示不可用或保留的区域，如页面两侧留白、禁用的拖放区。', 'background-image: repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 8px);'],
-    ['grid', '网格', '来自工程图纸。用于画布、拓扑图和数据结构的底纹。', 'background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 24px 24px;'],
+    ['fine', '细点阵', '最小单位的规则排列，代表稳定和秩序。可以铺满整页做底，几乎不被察觉。', 'background-image: radial-gradient(currentColor 0.7px, transparent 1px); background-size: 6px 6px;'],
+    ['dots', '点阵', '工作台洞洞板的放大版，表示「可以接入」。用于品牌区块和空状态。', 'background-image: radial-gradient(currentColor 1px, transparent 1.5px); background-size: 12px 12px;'],
+    ['peg', '穿孔板', '工位上真实的洞洞板，孔更大、更稀。用于官网和物料里需要「工作台」感的大面积背景。', 'background-image: radial-gradient(circle, currentColor 2px, transparent 2.6px); background-size: 20px 20px;'],
+    ['grid', '网格', '工程图纸的格子，代表结构和对齐。用于画布、拓扑图、数据结构的底。', 'background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 24px 24px;'],
+    ['ruler', '刻度', '量具上的刻度，代表测量和精度。用于图表坐标、时间轴、数值区块的边缘。', 'background-image: linear-gradient(90deg, currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 40px 20px, 8px 8px; background-repeat: repeat-x; background-position: 0 0, 0 0;'],
+    ['hatch', '斜线', '表示保留、不可用或还没建好的区域。', 'background-image: repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 8px);'],
+    ['metal', '拉丝金属', '设备外壳和铝型材的表面，代表实物和硬件。只用于设备插图、硬件产品图，不用于界面。', 'background-color: #DADDE1; background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.35) 0 1px, rgba(0,0,0,0.04) 1px 2px, transparent 2px 3px), linear-gradient(90deg, #C7CBD0, #EEF0F2 35%, #BFC4CA 65%, #E4E7EA);', 'background-color: #1E2227; background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, rgba(0,0,0,0.25) 1px 2px, transparent 2px 3px), linear-gradient(90deg, #1A1D21, #33383F 35%, #202429 65%, #2C3137);'],
+    ['corrugated', '瓦楞', '集装箱和仓库外墙的瓦楞板，代表物流和仓储。用于官网、物料里与物流、仓储相关的区块。', 'background-color: #E3E6E9; background-image: repeating-linear-gradient(90deg, #D2D6DB 0, #F2F4F6 7px, #C5CAD0 14px);', 'background-color: #1A1D21; background-image: repeating-linear-gradient(90deg, #15181C 0, #2B3036 7px, #121418 14px);'],
   ];
   function vTexture() {
-    return docHead('Texture', '纹理只用细线和点，颜色取 border 或品牌绿的低透明度，不抢内容。一个区块只用一种纹理。')
-      + sec('lab', '材质实验', '用一张底图生成材质：模糊点阵、抖动和动态 ASCII。可以换成自己的图片或视频，右侧调参数，鼠标移到画面上会局部点亮。', vTextureLab())
-      + sec('list', '纹理', '点击卡片底部复制 CSS。', `<div class="tx-grid">${TEXTURES.map(([k, n, d, css]) => `<div class="tx-card"><div class="tx-stage"><div class="tx-fill" style="${css}"></div><div class="tx-fill tx-lime" style="${css}"></div></div><div class="tx-body"><b>${n}</b><span>${d}</span></div>${foot(css)}</div>`).join('')}</div>`)
-      + sec('rules', '使用规则', '', rulesBox(['纹理只放在背景层，上面的文字和数据必须清楚可读。', '默认用 border 颜色；品牌区块可用品牌绿，透明度不超过 30%。', '一个区块只用一种纹理，不叠加，不做动画。', '表格、表单、卡片内部不用纹理。']));
+    const card = ([k, n, d, css, dark]) => `<div class="tx-card"><div class="tx-stage"><div class="tx-fill" style="${css}"></div><div class="tx-fill${dark ? '' : ' tx-lime'}" style="${dark || css}"></div></div><div class="tx-body"><b>${n}</b><span>${d}</span></div>${foot(css)}</div>`;
+    return docHead('Texture', '纹理来自工厂里真实的表面：洞洞板、图纸、量具、金属、瓦楞板。它只做背景，让画面有质感，但不和内容抢位置。')
+      + sec('lab', '材质实验', '把图片或视频转成点阵、抖动或字符画，用于海报、开场视频和官网背景。', vTextureLab())
+      + sec('list', '纹理', '点击卡片底部复制 CSS。', `<div class="tx-grid">${TEXTURES.map(card).join('')}</div>`)
+      + sec('rules', '使用规则', '', rulesBox(['纹理只放在背景层，上面的文字和数据必须清楚可读。', '界面里默认用 border 颜色；品牌区块可用品牌绿，透明度不超过 30%。', '一个区块只用一种纹理，不叠加。', '表格、表单、卡片内部不用纹理。', '拉丝金属和瓦楞只用于插图和宣传物料，不用于产品界面。']));
   }
+
 
   // ---------- logo ----------
   const LOGOS = [['tier0-logo-black.svg', '标准版', '#FFFFFF'], ['tier0-logo-black.svg', '浅灰底', '#FAFAFA'], ['tier0-logo-white.svg', '反白版', '#050B14'], ['tier0-logo-lime.svg', '品牌绿版', '#050B14']];
@@ -472,45 +488,129 @@
     ['r', 'M282.069 67.3038H343.414V14.7228H282.069V67.3038ZM359.188 14.7228V67.3038L347.445 79.0468L368.828 123.39H351.827L332.021 81.3254H282.069V123.39H266.295V0.701172H345.166L359.188 14.7228Z'],
     ['z', 'M411.795 109.369V14.7228L425.816 0.701172H490.666L504.688 14.7228V109.369L490.666 123.39H425.816L411.795 109.369ZM427.569 14.7228V109.369H488.914V14.7228H427.569Z'],
   ];
+  const download = (blob, name) => { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); };
   const logoSvg = cls => `<svg class="t0-logo ${cls || ''}" viewBox="-4 -4 513 133" role="img" aria-label="Tier0"><g class="lg-all">${LOGO_P.map(([k, d]) => `<path class="lg-${k}" d="${d}" pathLength="1"/>`).join('')}<circle class="lg-ring" cx="458" cy="62" r="9"/><circle class="lg-ring" cx="458" cy="62" r="9"/><rect class="lg-dot" x="449" y="53" width="18" height="18"/></g></svg>`;
-  // 数据点出现并发出两次信号 → 描出 0 → T 闪动出现组成 T0 → 向两侧展开，I、E、R 依次闪动出现。约 4.5 秒。
-  const EZ = { std: 'cubic-bezier(0.4,0,0.2,1)', enter: 'cubic-bezier(0,0,0.2,1)' };
-  // 闪动：只改透明度，像信号接通时的两次明灭
-  const FLICK = [{ opacity: 0 }, { opacity: 1, offset: 0.2 }, { opacity: 0.15, offset: 0.4 }, { opacity: 1, offset: 0.6 }, { opacity: 0.5, offset: 0.75 }, { opacity: 1 }];
+  // 时间轴（毫秒），网页动画与 Lottie 导出共用
+  const LG = { MID: -206, T0X: 302, T0MID: -151, DOT_IN: 240, HALO: [200, 900], HALO_D: 1500, Z_AT: 1500, Z_D: 1000, T_AT: 2950, SHIFT: [2600, 3000], OPEN: 3500, OPEN_D: 800, IER_AT: 4250, IER_GAP: 110, FLICK_D: 420, END: 5000 };
+  const EZ = { std: [0.4, 0, 0.2, 1], enter: [0, 0, 0.2, 1] };
+  const cb = a => `cubic-bezier(${a.join(',')})`;
+  // 闪动：只改透明度，像信号接通时的明灭
+  const FLICK = [[0, 0], [0.2, 1], [0.4, 0.15], [0.6, 1], [0.75, 0.5], [1, 1]];
   function playLogo(svg) {
     if (!svg || !svg.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const q = c => svg.querySelector(c), qa = c => [...svg.querySelectorAll(c)];
     svg.getAnimations({ subtree: true }).forEach(a => a.cancel());
     const A = (el, kf, o) => el.animate(kf, Object.assign({ fill: 'both' }, o));
-    const MID = -206, T0X = 302, T0MID = -151, OPEN = 3500, TOTAL = 4300;
+    const fl = FLICK.map(([o, v]) => ({ offset: o, opacity: v }));
+    const total = LG.OPEN + LG.OPEN_D;
     A(q('.lg-all'), [
-      { transform: `translateX(${MID}px)` },
-      { transform: `translateX(${MID}px)`, offset: 2600 / TOTAL, easing: EZ.std },
-      { transform: `translateX(${T0MID}px)`, offset: 3000 / TOTAL },
-      { transform: `translateX(${T0MID}px)`, offset: OPEN / TOTAL, easing: EZ.std },
+      { transform: `translateX(${LG.MID}px)` },
+      { transform: `translateX(${LG.MID}px)`, offset: LG.SHIFT[0] / total, easing: cb(EZ.std) },
+      { transform: `translateX(${LG.T0MID}px)`, offset: LG.SHIFT[1] / total },
+      { transform: `translateX(${LG.T0MID}px)`, offset: LG.OPEN / total, easing: cb(EZ.std) },
       { transform: 'none' },
-    ], { duration: TOTAL });
-    // 1. 数据点
+    ], { duration: total });
+    // 1. 数据点：出现后轻轻呼吸两次，像在加载；描 0 时收起
     A(q('.lg-dot'), [
-      { transform: 'scale(0)', opacity: 1, easing: EZ.enter },
-      { transform: 'scale(1)', opacity: 1, offset: 0.1 },
-      { transform: 'scale(1)', opacity: 1, offset: 0.8, easing: EZ.std },
+      { transform: 'scale(0)', opacity: 1, easing: cb(EZ.enter) },
+      { transform: 'scale(1)', offset: 0.1, easing: 'ease-in-out' },
+      { transform: 'scale(0.78)', offset: 0.3, easing: 'ease-in-out' },
+      { transform: 'scale(1)', offset: 0.5, easing: 'ease-in-out' },
+      { transform: 'scale(0.78)', offset: 0.7, easing: 'ease-in-out' },
+      { transform: 'scale(1)', opacity: 1, offset: 0.82, easing: cb(EZ.std) },
       { transform: 'scale(0.4)', opacity: 0 },
     ], { duration: 2200 });
-    // 2. 信号两圈
-    qa('.lg-ring').forEach((r, n) => A(r, [{ transform: 'scale(1)', opacity: 0.7 }, { transform: 'scale(6)', opacity: 0 }], { duration: 900, delay: 400 + n * 500, easing: EZ.enter, fill: 'none' }));
+    // 2. 信号：柔和的光晕向外散开，不画硬边圆环
+    qa('.lg-ring').forEach((r, n) => A(r, [{ transform: 'scale(0.6)', opacity: 0.35 }, { transform: 'scale(5)', opacity: 0 }], { duration: LG.HALO_D, delay: LG.HALO[n], easing: cb(EZ.enter), fill: 'none' }));
     // 3. 描出 0
-    A(q('.lg-z'), [{ strokeDashoffset: 1, strokeWidth: 3, fillOpacity: 0 }, { strokeDashoffset: 0, strokeWidth: 3, fillOpacity: 0, offset: 0.75 }, { strokeDashoffset: 0, strokeWidth: 0, fillOpacity: 1 }], { duration: 1000, delay: 1500, easing: EZ.std });
-    // 4. T 闪动出现，组成 T0，展开时移回原位
-    A(q('.lg-t'), [{ transform: `translateX(${T0X}px)` }, { transform: `translateX(${T0X}px)`, offset: OPEN / TOTAL, easing: EZ.std }, { transform: 'none' }], { duration: TOTAL });
-    q('.lg-t').animate(FLICK, { duration: 400, delay: 3000, fill: 'both', easing: 'linear' });
-    // 5. I、E、R 依次闪动出现
-    ['.lg-i', '.lg-e', '.lg-r'].forEach((c, n) => A(q(c), FLICK, { duration: 400, delay: OPEN + 200 + n * 120, easing: 'linear' }));
+    A(q('.lg-z'), [{ strokeDashoffset: 1, strokeWidth: 3, fillOpacity: 0 }, { strokeDashoffset: 0, strokeWidth: 3, fillOpacity: 0, offset: 0.75 }, { strokeDashoffset: 0, strokeWidth: 0, fillOpacity: 1 }], { duration: LG.Z_D, delay: LG.Z_AT, easing: cb(EZ.std) });
+    // 4. T 闪动出现组成 T0；展开时回到原位
+    A(q('.lg-t'), [{ transform: `translateX(${LG.T0X}px)` }, { transform: `translateX(${LG.T0X}px)`, offset: LG.OPEN / total, easing: cb(EZ.std) }, { transform: 'none' }], { duration: total });
+    A(q('.lg-t'), fl, { duration: LG.FLICK_D, delay: LG.T_AT, easing: 'linear' });
+    // 5. T 回到原位后，I、E、R 依次闪动出现，不与 T 重叠
+    ['.lg-i', '.lg-e', '.lg-r'].forEach((c, n) => A(q(c), fl, { duration: LG.FLICK_D, delay: LG.IER_AT + n * LG.IER_GAP, easing: 'linear' }));
   }
 
+  // ---------- 导出：透明底 WebM 与 Lottie ----------
+  const LOGO_COLORS = { light: { ink: '#050B14', zero: '#73B200' }, dark: { ink: '#FFFFFF', zero: '#B2ED1D' } };
+  function exportLogoWebm(btn, theme) {
+    const C = LOGO_COLORS[theme], W = 1920, H = 1080, S = 3; // 字标宽约 1540px
+    const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    const ctx = cv.getContext('2d');
+    const stage = document.createElement('div'); stage.style.cssText = 'position:fixed;left:-10000px;top:0;width:513px'; stage.innerHTML = logoSvg(); document.body.appendChild(stage);
+    const svg = stage.firstChild; svg.style.cssText = `width:513px;height:133px;color:${C.ink};--logo-zero:${C.zero}`;
+    const mime = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'].find(m => MediaRecorder.isTypeSupported(m));
+    const rec = new MediaRecorder(cv.captureStream(60), { mimeType: mime, videoBitsPerSecond: 16e6 }); const chunks = [];
+    rec.ondataavailable = e => chunks.push(e.data);
+    rec.onstop = () => { stage.remove(); download(new Blob(chunks, { type: 'video/webm' }), `tier0-logo-${theme}.webm`); btn.disabled = false; btn.textContent = btn.dataset.label; };
+    const paths = new Map([...svg.querySelectorAll('path')].map(p => [p, new Path2D(p.getAttribute('d'))]));
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      const allX = new DOMMatrix(getComputedStyle(svg.querySelector('.lg-all')).transform).e;
+      ctx.save(); ctx.translate((W - 513 * S) / 2, (H - 133 * S) / 2); ctx.scale(S, S); ctx.translate(4 + allX, 4);
+      svg.querySelectorAll('circle, rect, path').forEach(el => {
+        const cs = getComputedStyle(el), op = +cs.opacity; if (op <= 0.001) return;
+        ctx.save(); ctx.globalAlpha = op;
+        const m = new DOMMatrix(cs.transform === 'none' ? undefined : cs.transform);
+        if (el.tagName === 'path') {
+          ctx.translate(m.e, 0); const zero = el.classList.contains('lg-z'), col = zero ? C.zero : C.ink;
+          const fo = zero ? +cs.fillOpacity : 1; if (fo > 0) { ctx.globalAlpha = op * fo; ctx.fillStyle = col; ctx.fill(paths.get(el), 'evenodd'); }
+          const sw = parseFloat(cs.strokeWidth) || 0;
+          if (zero && sw > 0) { const len = el.getTotalLength(); ctx.globalAlpha = op; ctx.strokeStyle = col; ctx.lineWidth = sw; ctx.setLineDash([len, len]); ctx.lineDashOffset = parseFloat(cs.strokeDashoffset) * len; ctx.stroke(paths.get(el)); }
+        } else {
+          const cx = 458, cy = 62, s = m.a || 1; ctx.translate(cx, cy); ctx.scale(s, s); ctx.translate(-cx, -cy); ctx.fillStyle = C.zero;
+          if (el.tagName === 'rect') ctx.fillRect(449, 53, 18, 18); else { ctx.beginPath(); ctx.arc(cx, cy, 9, 0, 6.2832); ctx.fill(); }
+        }
+        ctx.restore();
+      });
+      ctx.restore();
+    };
+    btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = '正在录制…';
+    rec.start(); playLogo(svg);
+    const t0 = performance.now();
+    const loop = () => { draw(); if (performance.now() - t0 < LG.END) requestAnimationFrame(loop); else rec.stop(); };
+    requestAnimationFrame(loop);
+  }
+  function exportLogoLottie(theme) {
+    const C = LOGO_COLORS[theme], FR = 60, f = ms => Math.round(ms / 1000 * FR);
+    const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255).concat(1);
+    const st = v => ({ a: 0, k: v });
+    // 关键帧：[ms, 值, 缓动(数组或 'hold'/'linear')]
+    const kf = list => ({ a: 1, k: list.map(([t, v, e], i) => { const k = { t: f(t), s: Array.isArray(v) ? v : [v] }; if (i < list.length - 1) { if (e === 'hold') k.h = 1; else { const b = e === 'linear' || !e ? [0, 0, 1, 1] : e; k.o = { x: [b[0]], y: [b[1]] }; k.i = { x: [b[2]], y: [b[3]] }; } } return k; }) });
+    const shape = d => { const subs = []; let cur = null, x = 0, y = 0; d.replace(/([MLHVZ])([^MLHVZ]*)/gi, (_, c, a) => { const n = a.trim().split(/[\s,]+/).filter(Boolean).map(Number); if (c === 'M') { cur = []; subs.push(cur); x = n[0]; y = n[1]; cur.push([x, y]); } else if (c === 'L') { for (let i = 0; i < n.length; i += 2) { x = n[i]; y = n[i + 1]; cur.push([x, y]); } } else if (c === 'H') { x = n[0]; cur.push([x, y]); } else if (c === 'V') { y = n[0]; cur.push([x, y]); } return ''; });
+      return subs.map(v => ({ ty: 'sh', ks: st({ c: true, v, i: v.map(() => [0, 0]), o: v.map(() => [0, 0]) }) })); };
+    const tr = (o = {}) => Object.assign({ ty: 'tr', p: st([0, 0]), a: st([0, 0]), s: st([100, 100]), r: st(0), o: st(100) }, o);
+    const flick = at => kf(FLICK.map(([o, v], i) => [at + o * LG.FLICK_D, v * 100, 'linear']).reduce((a, k) => a.concat([k]), [[0, 0, 'hold']]));
+    const total = LG.OPEN + LG.OPEN_D;
+    let ind = 1;
+    const layer = (nm, shapes, ks) => ({ ddd: 0, ind: ind++, ty: 4, nm, parent: 1, sr: 1, ks: Object.assign({ o: st(100), r: st(0), p: st([0, 0, 0]), a: st([0, 0, 0]), s: st([100, 100, 100]) }, ks), ao: 0, shapes, ip: 0, op: f(LG.END), st: 0, bm: 0 });
+    const P = Object.fromEntries(LOGO_P);
+    const nul = { ddd: 0, ind: ind++, ty: 3, nm: 'logo', sr: 1, ks: { o: st(100), r: st(0), a: st([0, 0, 0]), s: st([200, 200, 100]),
+      p: kf([[0, [95 + 2 * LG.MID, 76, 0], 'hold'], [LG.SHIFT[0], [95 + 2 * LG.MID, 76, 0], EZ.std], [LG.SHIFT[1], [95 + 2 * LG.T0MID, 76, 0], 'hold'], [LG.OPEN, [95 + 2 * LG.T0MID, 76, 0], EZ.std], [total, [95, 76, 0]]]) }, ao: 0, ip: 0, op: f(LG.END), st: 0 };
+    const fill = (c, o) => ({ ty: 'fl', c: st(rgb(c)), o: o || st(100), r: 2 });
+    const layers = [nul];
+    ['r', 'e', 'i'].forEach((k, n) => layers.push(layer(k.toUpperCase(), [{ ty: 'gr', it: [...shape(P[k]), fill(C.ink), tr()] }], { o: flick(LG.IER_AT + (2 - n) * LG.IER_GAP) })));
+    layers.push(layer('T', [{ ty: 'gr', it: [...shape(P.t), fill(C.ink), tr()] }], { o: flick(LG.T_AT), p: kf([[0, [LG.T0X, 0, 0], 'hold'], [LG.OPEN, [LG.T0X, 0, 0], EZ.std], [total, [0, 0, 0]]]) }));
+    const zAt = LG.Z_AT, zDraw = zAt + LG.Z_D * 0.75, zEnd = zAt + LG.Z_D;
+    layers.push(layer('0', [{ ty: 'gr', it: [...shape(P.z),
+      { ty: 'st', c: st(rgb(C.zero)), o: st(100), w: kf([[0, 3, 'hold'], [zDraw, 3, EZ.std], [zEnd, 0]]), lc: 1, lj: 1, ml: 4 },
+      { ty: 'tm', s: st(0), e: kf([[0, 0, 'hold'], [zAt, 0, EZ.std], [zDraw, 100]]), o: st(0), m: 1 },
+      fill(C.zero, kf([[0, 0, 'hold'], [zDraw, 0, EZ.std], [zEnd, 100]])), tr()] }]));
+    const dotA = [458, 62, 0];
+    layers.push(layer('dot', [{ ty: 'gr', it: [{ ty: 'rc', p: st([0, 0]), s: st([18, 18]), r: st(0) }, fill(C.zero), tr()] }], { p: st(dotA),
+      s: kf([[0, [0, 0, 100], EZ.enter], [220, [100, 100, 100], 'linear'], [660, [78, 78, 100], 'linear'], [1100, [100, 100, 100], 'linear'], [1540, [78, 78, 100], 'linear'], [1800, [100, 100, 100], EZ.std], [2200, [40, 40, 100]]]),
+      o: kf([[0, 100, 'hold'], [1800, 100, EZ.std], [2200, 0]]) }));
+    LG.HALO.forEach((at, n) => layers.push(layer('signal ' + (n + 1), [{ ty: 'gr', it: [{ ty: 'el', p: st([0, 0]), s: st([18, 18]) }, fill(C.zero), tr()] }], { p: st(dotA),
+      s: kf([[0, [60, 60, 100], 'hold'], [at, [60, 60, 100], EZ.enter], [at + LG.HALO_D, [500, 500, 100]]]),
+      o: kf([[0, 0, 'hold'], [at, 35, EZ.enter], [at + LG.HALO_D, 0]]) })));
+    const json = { v: '5.7.4', fr: FR, ip: 0, op: f(LG.END), w: 1200, h: 400, nm: 'Tier0 logo', ddd: 0, assets: [], layers };
+    download(new Blob([JSON.stringify(json)], { type: 'application/json' }), `tier0-logo-${theme}.json`);
+  }
+
+  let lgTheme = 'light';
   function vLogo() {
     return docHead('Logo', '字标使用 Tektur，交付时为路径。只在下面四种底色上使用。')
-      + sec('motion', '动效', '一个数据点出现，向外发出两次信号；从这个点描出 0；T 闪动着出现，和 0 组成 T0；最后向两侧展开，I、E、R 依次闪动着出现。对应「数据只接一次，之后到处可用」。全程约 4.5 秒，用于开场、视频和演示，不在网站顶栏使用；系统开启「减少动态效果」时直接显示静态字标。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><code>数据点与信号 1.4s · 描出 0 1.0s · T0 0.4s · 展开 0.8s</code><button type="button" class="ui-btn ghost" data-logo-replay>重播</button></div></div>`)
+      + sec('motion', '动效', '从一个数据点开始，长成完整的 Tier0：数据只接一次，之后到处可用。节奏克制，只有明灭和位移，没有回弹和炫光。用于开场、视频和演示。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><span class="lg-exp"><button type="button" class="ui-btn ghost" data-logo-replay>重播</button>${seg('lgtheme', [['light', '亮色'], ['dark', '暗色']], lgTheme)}<button type="button" class="ui-btn ghost" data-logo-webm>${I.download}透明视频 WebM</button><button type="button" class="ui-btn ghost" data-logo-lottie>${I.download}Lottie JSON</button></span></div></div>`)
       + sec('variants', '版本', '', `<div class="logo-grid">${LOGOS.map(([f, n, bg]) => `<div class="logo-card"><div class="stage" style="background:${bg}"><img alt="Tier0 ${n}" src="${asset('03-brand/logo/assets/' + f)}"></div><div class="foot"><span>${n}<span class="muted"> · ${bg}</span></span><a class="ui-btn ghost" href="${asset('03-brand/logo/assets/' + f)}" download="${f}">${I.download}下载 SVG</a></div></div>`).join('')}</div>`);
   }
 
@@ -694,7 +794,10 @@
     const bln = t.closest('.bl-nav span'); if (bln) { bln.parentElement.querySelectorAll('span').forEach(x => x.classList.toggle('on', x === bln)); return; }
     const bld = t.closest('.bl-drop'); if (bld) { bld.classList.toggle('on'); bld.textContent = bld.classList.contains('on') ? '已放入：line-01.csv' : '把文件拖到这里'; return; }
     const blc = t.closest('.bl-chart'); if (blc) { blc.classList.toggle('swap'); return; }
+    const lp = t.closest('[data-lab-preset]'); if (lp) { const pr = LAB_PRESETS.find(x => x[0] === lp.dataset.labPreset); Object.assign(lab, pr[2], { preset: pr[0] }); route(true); return; }
     if (t.closest('[data-lab-reset]')) { Object.assign(lab, LAB_DEF); route(true); return; }
+    const lw = t.closest('[data-logo-webm]'); if (lw) { exportLogoWebm(lw, lgTheme); return; }
+    if (t.closest('[data-logo-lottie]')) { exportLogoLottie(lgTheme); return; }
     if (t.closest('[data-logo-replay]')) { playLogo(t.closest('.spec').querySelector('.t0-logo')); return; }
     const md = t.closest('[data-mo-demo]'); if (md) { const M = D.motion; const ms = k => parseFloat(M.duration[k].$value); const cb = k => `cubic-bezier(${M.easing[k].$value.join(',')})`;
       if (md.dataset.moDemo === 'menu') { const el = document.getElementById('mo-menu'); const open = !el.classList.contains('open'); el.style.transition = open ? `opacity ${ms('base')}ms ${cb('enter')}, transform ${ms('base')}ms ${cb('enter')}` : `opacity ${ms('fast')}ms ${cb('exit')}, transform ${ms('fast')}ms ${cb('exit')}`; el.classList.toggle('open', open); md.textContent = open ? '关闭下拉' : '打开下拉'; }
@@ -706,6 +809,7 @@
     const sg = t.closest('[data-seg] button'); if (sg) {
       const k = sg.parentElement.dataset.seg, v = sg.dataset.v;
       if (k === 'labmode') { lab.mode = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
+      if (k === 'lgtheme') { lgTheme = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); const st = document.querySelector('.logo-mo'); if (st) st.classList.toggle('on-dark', v === 'dark'); return; }
       if (k === 'tyfam') ty.fam = v; if (k === 'tyset') ty.set = v; if (k === 'ctheme') compTheme = v; if (k === 'skill') sk.id = v;
       return route(true);
     }
