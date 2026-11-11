@@ -164,7 +164,35 @@
     catch (e) { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast(tr('copied')); } catch (e2) { toast(text); } ta.remove(); }
   }
   function lum(hex) { const m = /^#?([0-9a-f]{6})$/i.exec(hex || ''); if (!m) return 0; const n = parseInt(m[1], 16); const c = [n >> 16 & 255, n >> 8 & 255, n & 255].map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]; }
-  const md = s => window.marked ? window.marked.parse(s) : `<pre>${esc(s)}</pre>`;
+  // Markdown：优先用 marked；离线时用简易渲染（段落、标题、列表、引用、表格、粗体、行内代码）。
+  function mdInline(t) { return esc(t).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>'); }
+  function mdLite(src) {
+    const L = String(src || '').split('\n'); const out = []; let i = 0;
+    while (i < L.length) {
+      const l = L[i];
+      if (!l.trim()) { i++; continue; }
+      let m;
+      if ((m = l.match(/^(#{1,4})\s+(.*)/))) { out.push(`<h${m[1].length}>${mdInline(m[2])}</h${m[1].length}>`); i++; continue; }
+      if (/^---\s*$/.test(l)) { out.push('<hr>'); i++; continue; }
+      if (l.trim().startsWith('|')) {
+        const rows = []; while (i < L.length && L[i].trim().startsWith('|')) { rows.push(L[i]); i++; }
+        const cells = r => r.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+        const body = rows.filter(r => !/^\|\s*-/.test(r.trim()));
+        out.push(`<table><thead><tr>${cells(body[0]).map(c => `<th>${mdInline(c)}</th>`).join('')}</tr></thead><tbody>${body.slice(1).map(r => `<tr>${cells(r).map(c => `<td>${mdInline(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`);
+        continue;
+      }
+      if (l.startsWith('>')) { const q = []; while (i < L.length && L[i].startsWith('>')) { q.push(L[i].replace(/^>\s?/, '')); i++; } out.push(`<blockquote><p>${mdInline(q.join(' '))}</p></blockquote>`); continue; }
+      if (/^\s*([-*]|\d+\.)\s/.test(l)) {
+        const ordered = /^\s*\d+\./.test(l); const items = [];
+        while (i < L.length && /^\s*([-*]|\d+\.)\s/.test(L[i])) { items.push(L[i].replace(/^\s*([-*]|\d+\.)\s/, '')); i++; }
+        out.push(`<${ordered ? 'ol' : 'ul'}>${items.map(x => `<li>${mdInline(x)}</li>`).join('')}</${ordered ? 'ol' : 'ul'}>`); continue;
+      }
+      const para = []; while (i < L.length && L[i].trim() && !/^(#{1,4}\s|>|\||---\s*$|\s*([-*]|\d+\.)\s)/.test(L[i])) { para.push(L[i]); i++; }
+      out.push(`<p>${mdInline(para.join(' '))}</p>`);
+    }
+    return out.join('\n');
+  }
+  const md = s => window.marked ? window.marked.parse(s) : mdLite(s);
   function mdSection(heading) {
     const L = D.md.split('\n'), lvl = heading.match(/^#+/)[0].length, i = L.findIndex(l => l.trim().startsWith(heading)); if (i < 0) return '';
     const out = []; for (let j = i + 1; j < L.length; j++) { const m = L[j].match(/^(#+)\s/); if ((m && m[1].length <= lvl) || /^---\s*$/.test(L[j])) break; out.push(L[j]); }
