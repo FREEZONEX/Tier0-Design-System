@@ -1,0 +1,58 @@
+{
+  "$description": "阴影。界面层级主要靠 1px 细线和底色；阴影只在两种情况使用：内容浮在页面之上（浮层），以及需要提示「可以按下 / 已被拿起」的交互反馈。",
+  "$extensions": {
+    "tier0": {
+      "rules": [
+        "页面内的卡片、面板、表格不用阴影，用 1px 细线区分。",
+        "浮层按离页面的远近用 md / lg：下拉、气泡、提示、通知用 md；弹窗、侧滑面板用 lg。",
+        "可点击控件（按钮、输入框）可用 xs，提示它们可以被按下；按下或禁用时去掉。",
+        "拖拽中的卡片、行用 md，表示它被「拿起」。",
+        "深色模式下阴影不可见，浮层改用 1px border 区分。"
+      ],
+      "frontend": "前端 card 当前带 shadow-sm，按本规范页面内卡片去掉阴影。"
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "none": {
+      "$value": "none",
+      "$description": "默认。页面内所有容器。"
+    },
+    "xs": {
+      "$value": "0 1px 2px 0 rgba(5,11,20,0.05)",
+      "$description": "交互反馈：按钮、输入框的轻微立体感。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "shadow-xs"
+          },
+          "rationale": "让可点击的控件和静态内容有一点区别，强度低到不破坏扁平感。"
+        }
+      }
+    },
+    "md": {
+      "$value": "0 4px 12px -2px rgba(5,11,20,0.10)",
+      "$description": "浮层：下拉、气泡、提示、通知；拖拽中的元素。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "shadow-md"
+          },
+          "rationale": "浮层盖在内容之上，阴影说明它在上一层，和下面的内容不是同一平面。"
+        }
+      }
+    },
+    "lg": {
+      "$value": "0 12px 32px -8px rgba(5,11,20,0.16)",
+      "$description": "浮层：弹窗、侧滑面板。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "shadow-lg"
+          },
+          "rationale": "离页面最远的一层，用更大的阴影把注意力集中在弹窗上。"
+        }
+      }
+    }
+  }
+}

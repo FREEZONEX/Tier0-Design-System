@@ -1,0 +1,88 @@
+{
+  "$description": "圆角。以 4px 为主，接近直角；卡片 6px；最大 8px。圆形元素是唯一的例外。",
+  "$extensions": {
+    "tier0": {
+      "rules": [
+        "控件（按钮、输入框、选择器、标签、表格内元素）用 radius.md（4px）。",
+        "卡片、面板、侧滑面板、图片容器用 radius.lg（6px）。",
+        "弹窗、下拉、提示等浮层用 radius.md（4px），与控件一致。",
+        "radius.xl（8px）是上限，只用于大尺寸的媒体容器（截图、视频、插图框）。",
+        "例外：胶囊徽章、进度条、开关、滑块、头像、状态圆点用 radius.full；除此之外不使用全圆角。",
+        "嵌套时内层圆角不大于外层。"
+      ],
+      "frontend": "前端 --radius 为 0.5rem，派生 sm 2px / md 4px / lg 6px / xl 10px。card 组件当前为 rounded-xl（10px），按本规范应为 rounded-lg（6px）。"
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "none": {
+      "$value": "0px",
+      "$description": "表格单元格、相邻拼接的面板。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "rounded-none"
+          }
+        }
+      }
+    },
+    "sm": {
+      "$value": "2px",
+      "$description": "标签内的小元素、色块、复选框内勾选区。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "rounded-sm"
+          }
+        }
+      }
+    },
+    "md": {
+      "$value": "4px",
+      "$description": "默认：按钮、输入框、选择器、标签、弹窗、下拉。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "rounded-md"
+          },
+          "rationale": "接近直角的边缘显得利落、精确，与工业设备和工程工具的面板一致。"
+        }
+      }
+    },
+    "lg": {
+      "$value": "6px",
+      "$description": "卡片、面板、侧滑面板。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "rounded-lg"
+          },
+          "rationale": "大面积容器比控件略圆一档，用来和内部控件区分层级。"
+        }
+      }
+    },
+    "xl": {
+      "$value": "8px",
+      "$description": "上限：截图、视频、插图等大尺寸媒体容器。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "note": "前端 rounded-xl 为 10px，超出上限，不使用。"
+          }
+        }
+      }
+    },
+    "full": {
+      "$value": "9999px",
+      "$description": "例外：胶囊徽章、进度条、开关、滑块、头像、状态圆点。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "rounded-full"
+          },
+          "rationale": "这些元素本身就是圆形或胶囊形，圆角是形状的一部分，不是装饰。"
+        }
+      }
+    }
+  }
+}

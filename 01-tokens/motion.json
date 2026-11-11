@@ -1,0 +1,120 @@
+{
+  "$description": "动效：时长与曲线。动效用来说明状态变化和层级关系，不用来装饰。",
+  "$extensions": {
+    "tier0": {
+      "rules": [
+        "只对 opacity、transform、颜色做过渡；不对宽高、布局做动画（数据条的长度变化除外）。",
+        "悬停、按下用 fast；浮层出现和消失用 base；侧滑面板、页面区块用 slow。",
+        "进入用 enter 曲线，退出用 exit 曲线，其余用 standard。不用回弹、弹性、过冲。",
+        "实时数据更新不加数字滚动动画，直接替换；需要提示变化时只闪烁一次背景（base 时长）。",
+        "同一视图只允许一个持续循环的动效（如运行指示灯的 signal 呼吸）。",
+        "系统设置为减少动态效果时，所有过渡改为 0ms 或仅透明度变化，循环动效停止。"
+      ]
+    }
+  },
+  "duration": {
+    "$type": "duration",
+    "instant": {
+      "$value": "0ms",
+      "$description": "减少动态效果时、实时数据替换。"
+    },
+    "fast": {
+      "$value": "150ms",
+      "$description": "悬停、按下、颜色变化。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "duration-150（Tailwind 默认过渡时长）"
+          },
+          "rationale": "低于 200ms 的反馈让人感觉是「立刻」响应。"
+        }
+      }
+    },
+    "base": {
+      "$value": "200ms",
+      "$description": "浮层出现和消失：下拉、弹窗、提示。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "duration-200",
+            "component": "dialog duration-200"
+          }
+        }
+      }
+    },
+    "slow": {
+      "$value": "300ms",
+      "$description": "侧滑面板、抽屉、页面区块切换。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "duration-300"
+          },
+          "rationale": "移动距离越大，时长越长，眼睛才能跟上位置变化。"
+        }
+      }
+    },
+    "signal": {
+      "$value": "2000ms",
+      "$description": "运行指示灯的呼吸周期。",
+      "$extensions": {
+        "tier0": {
+          "rationale": "接近设备指示灯的慢闪频率，表示持续运行，不制造紧迫感。"
+        }
+      }
+    }
+  },
+  "easing": {
+    "$type": "cubicBezier",
+    "standard": {
+      "$value": [
+        0.4,
+        0,
+        0.2,
+        1
+      ],
+      "$description": "默认：位置和颜色变化。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "ease-in-out（Tailwind 默认）"
+          }
+        }
+      }
+    },
+    "enter": {
+      "$value": [
+        0,
+        0,
+        0.2,
+        1
+      ],
+      "$description": "进入：浮层出现、元素进场。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "ease-out"
+          },
+          "rationale": "开始快、结束慢，元素平稳地停在最终位置。"
+        }
+      }
+    },
+    "exit": {
+      "$value": [
+        0.4,
+        0,
+        1,
+        1
+      ],
+      "$description": "退出：浮层消失、元素离场。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "ease-in"
+          },
+          "rationale": "开始慢、结束快，离开时不拖泥带水。"
+        }
+      }
+    }
+  }
+}

@@ -307,7 +307,7 @@
       return `<div class="ty-row"><div class="meta"><b>${esc(k)}</b><span>${esc(famName)} ${t.fontWeight} · ${parseInt(t.fontSize)} / ${parseInt(t.lineHeight)}</span></div><div class="sample" style="${css}">${esc(sample)}</div></div>`;
     }).join('');
     const fams = entries(D.typo.font.family).map(([k, v]) => `<div class="fam"><div class="aa" style="font-family:var(--font-${k === 'sc' ? 'sans' : k})">Aa 字</div><b>${esc(v.$value[0])}</b><span>${esc((v.$description || '').split('——')[0])}</span></div>`).join('');
-    return docHead('字体', '标题用 Inter，正文用 IBM Plex Sans，代码与数据用 IBM Plex Mono，中文回落到 IBM Plex Sans SC。')
+    return docHead('字体', '标题用 Inter，正文用 IBM Plex Sans，代码与数据用 IBM Plex Mono，中文使用系统字体（苹方 / 微软雅黑）。')
       + sec('specimen', '试排', '选择字体，调整字重和字号，然后直接改写示例文字。', `<div class="spec"><div class="spec-bar">${seg('tyfam', FAMS, ty.fam)}<span class="spacer"></span>
           <label class="ctl"><span class="ctl-h">字重<b id="ty-wv">${ty.w}</b></span><input type="range" id="ty-w" min="400" max="700" step="100" value="${ty.w}"></label>
           <label class="ctl"><span class="ctl-h">字号<b id="ty-sv">${ty.s}px</b></span><input type="range" id="ty-s" min="12" max="96" value="${ty.s}"></label></div>

@@ -8,8 +8,9 @@
           "使用语义工具类：bg-background、text-muted-foreground、border-border。",
           "组件中不写物理颜色：不用 #fff、gray-500、bg-white。",
           "组件中不写 dark: 分支。深色模式由 .dark 类和 token 层负责。",
-          "页面不用彩色大面积背景；品牌绿不用于装饰；白底上的绿色文字和图标使用 highlight-ink。",
-          "不用渐变、玻璃质感、渐变文字、渐变描边或大面积色彩晕染。"
+          "页面不用彩色大面积背景；白底上需要阅读或辨认的绿色（文字、图标、表达状态的圆点）使用 highlight-ink，纯装饰的绿色圆点和色块可用 highlight。",
+          "不用渐变、玻璃质感、渐变文字、渐变描边或大面积色彩晕染。",
+          "次要文字（muted-foreground）不放在 muted 背景上；muted 背景上的文字用 foreground。"
         ]
       }
     },
@@ -49,7 +50,7 @@
       }
     },
     "brand": {
-      "$description": "品牌。主操作用近黑；品牌绿是品牌层面唯一的颜色，每个区域只有一个绿色焦点。",
+      "$description": "品牌。品牌绿是品牌层面唯一的颜色，每个区域只有一个绿色焦点。",
       "primary": {
         "$value": "{color.scale.black.900}",
         "$description": "唯一的主操作。"

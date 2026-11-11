@@ -1,0 +1,61 @@
+{
+  "$description": "线宽。层级以 1px 细线为主。",
+  "$extensions": {
+    "tier0": {
+      "rules": [
+        "分隔、卡片外框、表格行线、输入框边框统一 1px。",
+        "2px 只用于三种情况：键盘焦点环、选中状态的描边或指示条、图表中需要强调的线。",
+        "实线为默认；虚线只表示「尚未存在」的东西：新建占位、拖放区域、草稿连线。",
+        "线的颜色用 color token：分隔与外框用 border，交互控件边框用 input，焦点用 ring。"
+      ]
+    }
+  },
+  "border": {
+    "$type": "dimension",
+    "0": {
+      "$value": "0px",
+      "$description": "无边框：相邻已由底色区分时。"
+    },
+    "1": {
+      "$value": "1px",
+      "$description": "默认：分隔线、卡片外框、表格行线、输入框边框。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "border"
+          },
+          "rationale": "细线让每块信息的边界清楚，又不增加视觉重量，接近工程图纸的秩序感。"
+        }
+      }
+    },
+    "2": {
+      "$value": "2px",
+      "$description": "焦点环、选中指示、图表强调线。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "border-2 / ring-2"
+          },
+          "rationale": "比 1px 多一倍的线宽足以在不加颜色面积的情况下标出状态。"
+        }
+      }
+    }
+  },
+  "style": {
+    "solid": {
+      "$value": "solid",
+      "$description": "默认线型。"
+    },
+    "dashed": {
+      "$value": "dashed",
+      "$description": "尚未存在的对象：新建占位、拖放区、草稿连线。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "border-dashed"
+          }
+        }
+      }
+    }
+  }
+}
