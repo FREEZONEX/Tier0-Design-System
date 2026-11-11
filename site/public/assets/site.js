@@ -516,11 +516,14 @@
     ['metal', '拉丝金属', '设备外壳和铝型材的表面，代表实物和硬件。只用于设备插图、硬件产品图，不用于界面。', 'background-color: #DADDE1; background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.35) 0 1px, rgba(0,0,0,0.04) 1px 2px, transparent 2px 3px), linear-gradient(90deg, #C7CBD0, #EEF0F2 35%, #BFC4CA 65%, #E4E7EA);', 'background-color: #1E2227; background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, rgba(0,0,0,0.25) 1px 2px, transparent 2px 3px), linear-gradient(90deg, #1A1D21, #33383F 35%, #202429 65%, #2C3137);'],
     ['corrugated', '瓦楞', '集装箱和仓库外墙的瓦楞板，代表物流和仓储。用于官网、物料里与物流、仓储相关的区块。', 'background-color: #E3E6E9; background-image: repeating-linear-gradient(90deg, #D2D6DB 0, #F2F4F6 7px, #C5CAD0 14px);', 'background-color: #1A1D21; background-image: repeating-linear-gradient(90deg, #15181C 0, #2B3036 7px, #121418 14px);'],
   ];
+  const TX_GROUPS = [['dot', '点阵', ['fine', 'dots', 'peg']], ['line', '网格与刻度', ['grid', 'ruler']], ['hatch', '斜线', ['hatch']], ['real', '实物材质', ['metal', 'corrugated']]];
+  let txGroup = 'dot';
   function vTexture() {
     const card = ([k, n, d, css, dark]) => `<div class="tx-card"><div class="tx-stage"><div class="tx-fill" style="${css}"></div><div class="tx-fill${dark ? '' : ' tx-lime'}" style="${dark || css}"></div></div><div class="tx-body"><b>${n}</b><span>${d}</span></div>${foot(css)}</div>`;
+    const grp = TX_GROUPS.find(g => g[0] === txGroup) || TX_GROUPS[0];
     return docHead('Texture', '纹理来自工厂里真实的表面：洞洞板、图纸、量具、金属、瓦楞板。它只做背景，让画面有质感，但不和内容抢位置。')
       + sec('lab', '材质实验', '把图片、视频或标志转成冲孔点阵、瓦楞条纹、抖动或字符画，用于海报、开场视频和官网背景。', vTextureLab())
-      + sec('list', '纹理', '点击卡片底部复制 CSS。', `<div class="tx-grid">${TEXTURES.map(card).join('')}</div>`)
+      + sec('list', '纹理', '点击卡片底部复制 CSS。', `<div class="tx-tabs">${seg('txgroup', TX_GROUPS.map(g => [g[0], g[1]]), grp[0])}</div><div class="tx-grid">${TEXTURES.filter(t => grp[2].includes(t[0])).map(card).join('')}</div>`)
       + sec('rules', '使用规则', '', rulesBox(['纹理只放在背景层，上面的文字和数据必须清楚可读。', '界面里默认用 border 颜色；品牌区块可用品牌绿，透明度不超过 30%。', '一个区块只用一种纹理，不叠加。', '表格、表单、卡片内部不用纹理。', '拉丝金属和瓦楞只用于插图和宣传物料，不用于产品界面。']));
   }
 
@@ -858,6 +861,7 @@
     const sg = t.closest('[data-seg] button'); if (sg) {
       const k = sg.parentElement.dataset.seg, v = sg.dataset.v;
       if (k === 'labmode') { lab.mode = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
+      if (k === 'txgroup') { txGroup = v; return route(true); }
       if (k === 'labcolor') { lab.color = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
       if (k === 'labsrc') { labUseSrc(v); sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
       if (k === 'lgtheme') { lgTheme = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); const st = document.querySelector('.logo-mo'); if (st) st.classList.toggle('on-dark', v === 'dark'); return; }

@@ -1117,3 +1117,8 @@ body.hero-on .wb { cursor: none; }
 .sec > h2 .h2-tip svg { width: 16px; height: 16px; }
 .sec > h2 .why-tip::after { font-weight: 400; letter-spacing: 0; left: 0; transform: translate(0, 4px); }
 .sec > h2 .why-tip:hover::after { transform: translate(0, 0); }
+.doc-wrap:not(.p-home) { max-width: none; }
+.tx-tabs { margin-bottom: 16px; }
+.tx-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+.doc-wrap:not(.p-home) > .doc > * { max-width: 1440px; }
+.tx-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
