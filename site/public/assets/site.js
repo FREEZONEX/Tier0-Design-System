@@ -366,25 +366,29 @@
     fetch(src, { method: 'HEAD' }).then(r => { if (!r.ok || !/html/.test(r.headers.get('content-type') || '')) throw 0; show(); }).catch(() => { box.querySelector('.sc-empty').hidden = false; });
   }
 
-  // ---------- 材质实验：底图 + 半调 / 抖动 / ASCII，可换图片或视频，实时调参 ----------
-  const LAB_MODES = [['halftone', '模糊点阵'], ['dither', '抖动'], ['ascii', '动态 ASCII']];
+  // ---------- 材质实验：底图 → 点阵 / 条纹 / 抖动 / 字符，可换图片或视频，实时调参 ----------
+  // 点阵来自工厂的冲孔金属网板，条纹来自厂房的瓦楞外墙：都是规则、等距、稳定的排列。
+  const LAB_MODES = [['halftone', '冲孔点阵'], ['bars', '瓦楞条纹'], ['dither', '抖动'], ['ascii', '字符']];
+  const LAB_SRCS = [['bench', '工作台'], ['mark', 'T0 标志'], ['word', 'Tier0 字标']];
   const LAB_PRESETS = [
-    ['print', '墨点', { mode: 'halftone', cell: 7, blur: 1.5, contrast: 1.35, bright: 0.04, speed: 0.4, wave: 0.25, ink: '#050B14', bg: '#FAFAFA', invert: true }],
-    ['signal', '信号点阵', { mode: 'halftone', cell: 6, blur: 1, contrast: 1.5, bright: -0.06, speed: 0.5, wave: 0.3, ink: '#B2ED1D', bg: '#050B14', invert: false }],
-    ['dither', '工程抖动', { mode: 'dither', cell: 4, blur: 0.5, contrast: 1.3, bright: 0, speed: 0.3, wave: 0.2, ink: '#3A3E45', bg: '#F2F3F4', invert: true }],
-    ['term', '终端字符', { mode: 'ascii', cell: 9, blur: 1, contrast: 1.4, bright: -0.04, speed: 0.6, wave: 0.4, ink: '#B2ED1D', bg: '#050B14', invert: false, chars: ' .:-=+*#%@' }],
+    ['mesh', '冲孔点阵', { mode: 'halftone', cell: 9, blur: 2, contrast: 1.6, bright: 0, minDot: 0.18, speed: 0.3, wave: 0.15, ink: '#050B14', bg: '#D6F28C', invert: true }],
+    ['panel', '瓦楞条纹', { mode: 'bars', cell: 8, blur: 2.5, contrast: 1.6, bright: 0, minDot: 0.2, speed: 0.3, wave: 0.1, ink: '#F2F3F4', bg: '#5A5F66', invert: true }],
+    ['signal', '信号点阵', { mode: 'halftone', cell: 7, blur: 1.5, contrast: 1.5, bright: -0.04, minDot: 0.1, speed: 0.4, wave: 0.2, ink: '#B2ED1D', bg: '#050B14', invert: false }],
+    ['term', '终端字符', { mode: 'ascii', cell: 9, blur: 1, contrast: 1.4, bright: -0.04, minDot: 0, speed: 0.6, wave: 0.4, ink: '#B2ED1D', bg: '#050B14', invert: false }],
   ];
-  const LAB_DEF = Object.assign({ chars: ' .:-=+*#%@', paused: false, mouse: true, preset: 'print' }, LAB_PRESETS[0][2]);
+  const LAB_DEF = Object.assign({ chars: ' .:-=+*#%@', paused: false, mouse: true, preset: 'mesh', src: 'bench' }, LAB_PRESETS[0][2]);
   const lab = Object.assign({}, LAB_DEF);
   const LAB_SL = [
-    ['cell', '格子', 4, 24, 1, 'px'], ['blur', '模糊', 0, 12, 0.5, 'px'], ['contrast', '对比度', 0.4, 2.5, 0.05, ''],
-    ['bright', '亮度', -0.5, 0.5, 0.01, ''], ['speed', '速度', 0, 2, 0.05, ''], ['wave', '波动', 0, 1, 0.05, ''],
+    ['cell', '格子', 4, 24, 1, 'px'], ['minDot', '最小点', 0, 0.5, 0.01, ''], ['blur', '模糊', 0, 12, 0.5, 'px'],
+    ['contrast', '对比度', 0.4, 2.5, 0.05, ''], ['bright', '亮度', -0.5, 0.5, 0.01, ''], ['speed', '速度', 0, 2, 0.05, ''], ['wave', '波动', 0, 1, 0.05, ''],
   ];
-  const labSlider = ([k, n, min, max, step, u]) => { const v = lab[k], pct = ((v - min) / (max - min)) * 100; return `<label class="lab-sl" style="--f:${pct}%"><span>${n}</span><input type="range" data-lab="${k}" min="${min}" max="${max}" step="${step}" value="${v}"><em>${(+v).toFixed(step < 1 ? (step < 0.1 ? 2 : 1) : 0)}${u}</em></label>`; };
+  const labFmt = (v, sl) => (+v).toFixed(sl[4] < 1 ? (sl[4] < 0.1 ? 2 : 1) : 0) + sl[5];
+  const labSlider = sl => { const [k, n, min, max, step] = sl, v = lab[k]; return `<label class="lab-sl" style="--f:${((v - min) / (max - min)) * 100}%"><span>${n}</span><input type="range" data-lab="${k}" min="${min}" max="${max}" step="${step}" value="${v}"><em>${labFmt(v, sl)}</em></label>`; };
   function vTextureLab() {
     return `<div class="lab"><div class="lab-view"><canvas id="lab-cv"></canvas><div class="lab-over">${seg('labmode', LAB_MODES, lab.mode)}<label class="ui-btn ghost lab-up">${I.open}换图片 / 视频<input type="file" id="lab-file" accept="image/*,video/*" hidden></label></div></div>
       <div class="lab-panel"><div class="lab-h"><b>预设</b><button type="button" class="ui-btn ghost" data-lab-reset>重置</button></div>
         <div class="lab-presets">${LAB_PRESETS.map(([k, n, o]) => `<button type="button" data-lab-preset="${k}" aria-pressed="${lab.preset === k}"><i style="background:${o.bg};color:${o.ink}"></i>${n}</button>`).join('')}</div>
+        <div class="lab-h"><b>底图</b></div>${seg('labsrc', LAB_SRCS, lab.src)}
         <div class="lab-h"><b>参数</b></div>
         <div class="lab-grid">${LAB_SL.map(labSlider).join('')}
           <label class="lab-sl lab-color"><span>墨色</span><em>${lab.ink}</em><input type="color" data-lab="ink" value="${lab.ink}"></label>
@@ -395,17 +399,61 @@
           <label class="lab-sl lab-tg"><span>暂停</span><input type="checkbox" data-lab="paused" ${lab.paused ? 'checked' : ''}><i></i></label>
         </div></div></div>`;
   }
+  // 标志底图：浅底深色图形，加一点纵向明暗，让点阵和条纹在背景里也有起伏
+  function markCanvas(kind, W, H) {
+    const cw = 900, ch = Math.round(900 * (H || 3) / (W || 4));
+    const c = document.createElement('canvas'); c.width = cw; c.height = ch; const x = c.getContext('2d');
+    const g = x.createLinearGradient(0, 0, 0, ch); g.addColorStop(0, '#ECEEF0'); g.addColorStop(1, '#D3D6DA'); x.fillStyle = g; x.fillRect(0, 0, cw, ch);
+    const P = Object.fromEntries(LOGO_P); x.fillStyle = '#0A0D12';
+    const w = kind === 'word' ? 505 : 215, h = 124, k = Math.min(cw * (kind === 'word' ? 0.84 : 0.78) / w, ch * 0.55 / h);
+    x.translate((cw - w * k) / 2, (ch - h * k) / 2); x.scale(k, k);
+    if (kind === 'word') ['t', 'i', 'e', 'r', 'z'].forEach(n => x.fill(new Path2D(P[n]), 'evenodd'));
+    else { x.fill(new Path2D(P.t)); x.translate(-290, 0); x.fill(new Path2D(P.z), 'evenodd'); }
+    return c;
+  }
+  const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(v => (v + 0.5) / 16);
+  const matOff = document.createElement('canvas'), matOctx = matOff.getContext('2d', { willReadFrequently: true });
+  // 通用渲染：把 src 按参数 p 画到 ctx（W×H）
+  function drawMat(ctx, W, H, src, p, t, mouse) {
+    ctx.fillStyle = p.bg; ctx.fillRect(0, 0, W, H);
+    const sw = src && (src.videoWidth || src.naturalWidth || src.width), sh = src && (src.videoHeight || src.naturalHeight || src.height);
+    if (!sw) return;
+    const cell = p.cell, bars = p.mode === 'bars', rowH = bars ? cell * (p.rowK || 3) : cell;
+    const cols = Math.ceil(W / cell), rows = Math.ceil(H / rowH);
+    matOff.width = cols; matOff.height = rows;
+    const sc = Math.max(cols / sw, rows * (rowH / cell) / sh), dw = sw * sc, dh = sh * sc / (rowH / cell);
+    matOctx.filter = p.blur ? `blur(${p.blur / cell}px)` : 'none';
+    matOctx.drawImage(src, (cols - dw) / 2, (rows - dh) / 2, dw, dh);
+    const px = matOctx.getImageData(0, 0, cols, rows).data, wv = p.wave, min = p.minDot || 0;
+    ctx.fillStyle = p.ink;
+    if (p.mode === 'ascii') { ctx.font = `500 ${cell * 1.15}px ${getComputedStyle(document.body).getPropertyValue('--font-mono') || 'monospace'}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; }
+    const chars = p.chars || ' .#';
+    for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+      const ox = Math.round(Math.sin(y * 0.18 + t * 2.2) * wv * 1.5), oy = Math.round(Math.cos(x * 0.15 + t * 1.7) * wv);
+      const sx = Math.min(cols - 1, Math.max(0, x + ox)), sy = Math.min(rows - 1, Math.max(0, y + oy)), i = (sy * cols + sx) * 4;
+      let l = (0.2126 * px[i] + 0.7152 * px[i + 1] + 0.0722 * px[i + 2]) / 255;
+      l = (l - 0.5) * p.contrast + 0.5 + p.bright;
+      if (mouse && mouse.x >= 0) { const d = Math.hypot(x / cols - mouse.x, (y / rows - mouse.y) * H / W); if (d < 0.12) l += (0.12 - d) * 4 * (p.invert ? -1 : 1); }
+      if (p.invert) l = 1 - l;
+      l = Math.max(0, Math.min(1, l));
+      const cx = x * cell + cell / 2, cy = y * rowH + rowH / 2;
+      if (p.mode === 'halftone') { const r = (min + (1 - min) * Math.sqrt(l)) * cell * 0.5; if (r > 0.3) { ctx.beginPath(); ctx.arc(cx, cy, r, 0, 6.2832); ctx.fill(); } }
+      else if (bars) { const w = Math.max(0, (min + (1 - min) * l) * (cell - 1.5)); if (w > 0.4) ctx.fillRect(cx - w / 2, y * rowH + 1, w, rowH - 2); }
+      else if (p.mode === 'dither') { const th = BAYER[(y & 3) * 4 + (x & 3)], fl = wv * 0.08 * Math.sin(t * 6 + x * 0.7 + y * 1.3); if (l + fl > th) ctx.fillRect(x * cell, y * cell, cell - 1, cell - 1); }
+      else { const n = chars.length - 1, jit = wv * 0.15 * Math.sin(t * 5 + x * 0.9 + y * 0.6), k = Math.max(0, Math.min(n, Math.round((l + jit) * n))), ch = chars[k]; if (ch && ch !== ' ') ctx.fillText(ch, cx, cy); }
+    }
+  }
   const LabRT = { src: null, raf: 0, mx: -1, my: -1, t: 0, last: 0 };
   function labSource(url, isVideo) {
     if (LabRT.src && LabRT.src.pause) LabRT.src.pause();
     if (isVideo) { const v = document.createElement('video'); v.src = url; v.muted = true; v.loop = true; v.playsInline = true; v.play().catch(() => {}); LabRT.src = v; }
     else { const im = new Image(); im.src = url; LabRT.src = im; }
   }
-  const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(v => (v + 0.5) / 16);
+  function labUseSrc(k) { lab.src = k; if (k === 'bench') labSource(asset('assets/texture-base.jpg'), false); else { const cv = document.getElementById('lab-cv'); LabRT.src = markCanvas(k, cv ? cv.clientWidth : 4, cv ? cv.clientHeight : 3); } }
   function mountLab() {
     const cv = document.getElementById('lab-cv'); if (!cv) return;
-    if (!LabRT.src) labSource(asset('assets/texture-base.jpg'), false);
-    const ctx = cv.getContext('2d'), off = document.createElement('canvas'), octx = off.getContext('2d', { willReadFrequently: true });
+    if (!LabRT.src) labUseSrc(lab.src);
+    const ctx = cv.getContext('2d');
     cv.addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(); LabRT.mx = (e.clientX - r.left) / r.width; LabRT.my = (e.clientY - r.top) / r.height; });
     cv.addEventListener('pointerleave', () => { LabRT.mx = LabRT.my = -1; });
     cancelAnimationFrame(LabRT.raf);
@@ -416,43 +464,34 @@
       if (!lab.paused) LabRT.t += dt / 1000 * lab.speed;
       const W = cv.clientWidth, H = cv.clientHeight, dpr = Math.min(2, devicePixelRatio || 1);
       if (cv.width !== W * dpr || cv.height !== H * dpr) { cv.width = W * dpr; cv.height = H * dpr; }
-      const src = LabRT.src, sw = src && (src.videoWidth || src.naturalWidth), sh = src && (src.videoHeight || src.naturalHeight);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = lab.bg; ctx.fillRect(0, 0, W, H);
-      if (!sw) return;
-      const cell = lab.cell, cols = Math.ceil(W / cell), rows = Math.ceil(H / cell);
-      off.width = cols; off.height = rows;
-      const sc = Math.max(cols / sw, rows / sh), dw = sw * sc, dh = sh * sc;
-      octx.filter = lab.blur ? `blur(${lab.blur / cell}px)` : 'none';
-      octx.drawImage(src, (cols - dw) / 2, (rows - dh) / 2, dw, dh);
-      const px = octx.getImageData(0, 0, cols, rows).data, t = LabRT.t, wv = lab.wave;
-      ctx.fillStyle = lab.ink;
-      if (lab.mode === 'ascii') { ctx.font = `500 ${cell * 1.15}px ${getComputedStyle(document.body).getPropertyValue('--font-mono') || 'monospace'}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; }
-      const chars = lab.chars || ' .#';
-      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
-        // 让取样位置随时间轻微摆动，画面像在呼吸
-        const ox = Math.round(Math.sin(y * 0.18 + t * 2.2) * wv * 1.5), oy = Math.round(Math.cos(x * 0.15 + t * 1.7) * wv);
-        const sx = Math.min(cols - 1, Math.max(0, x + ox)), sy = Math.min(rows - 1, Math.max(0, y + oy));
-        const i = (sy * cols + sx) * 4;
-        let l = (0.2126 * px[i] + 0.7152 * px[i + 1] + 0.0722 * px[i + 2]) / 255;
-        l = (l - 0.5) * lab.contrast + 0.5 + lab.bright;
-        if (lab.mouse && LabRT.mx >= 0) { const dx = x / cols - LabRT.mx, dy = (y / rows - LabRT.my) * H / W, d = Math.hypot(dx, dy); if (d < 0.12) l += (0.12 - d) * 4; }
-        if (lab.invert) l = 1 - l;
-        l = Math.max(0, Math.min(1, l));
-        const cx = x * cell + cell / 2, cy = y * cell + cell / 2;
-        if (lab.mode === 'halftone') { const r = Math.sqrt(l) * cell * 0.5; if (r > 0.3) { ctx.beginPath(); ctx.arc(cx, cy, r, 0, 6.2832); ctx.fill(); } }
-        else if (lab.mode === 'dither') { const th = BAYER[(y & 3) * 4 + (x & 3)]; const flick = wv * 0.08 * Math.sin(t * 6 + x * 0.7 + y * 1.3); if (l + flick > th) ctx.fillRect(x * cell, y * cell, cell - 1, cell - 1); }
-        else { const n = chars.length - 1; const jit = wv * 0.15 * Math.sin(t * 5 + x * 0.9 + y * 0.6); const k = Math.max(0, Math.min(n, Math.round((l + jit) * n))); const ch = chars[k]; if (ch && ch !== ' ') ctx.fillText(ch, cx, cy); }
-      }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawMat(ctx, W, H, LabRT.src, lab, LabRT.t, lab.mouse ? { x: LabRT.mx, y: LabRT.my } : null);
     };
     LabRT.raf = requestAnimationFrame(frame);
   }
   function labInput(e) {
     const k = e.target.dataset.lab; if (!k) return false;
     const el = e.target; lab[k] = el.type === 'checkbox' ? el.checked : el.type === 'range' ? +el.value : el.value;
-    const row = el.closest('.lab-sl'); const sl = LAB_SL.find(x => x[0] === k);
-    if (sl) { row.style.setProperty('--f', ((lab[k] - sl[2]) / (sl[3] - sl[2])) * 100 + '%'); row.querySelector('em').textContent = (+lab[k]).toFixed(sl[4] < 1 ? (sl[4] < 0.1 ? 2 : 1) : 0) + sl[5]; }
+    const row = el.closest('.lab-sl'), sl = LAB_SL.find(x => x[0] === k);
+    if (sl) { row.style.setProperty('--f', ((lab[k] - sl[2]) / (sl[3] - sl[2])) * 100 + '%'); row.querySelector('em').textContent = labFmt(lab[k], sl); }
     if (el.type === 'color') row.querySelector('em').textContent = el.value.toUpperCase();
     return true;
+  }
+
+  // ---------- Logo 材质拓展：同一套渲染，套在 Tier0 标志上 ----------
+  const LOGO_MATS = [
+    ['panel', '瓦楞金属', '厂房外墙的瓦楞板。条纹等宽等距，标志只改变条纹的宽窄，像压在金属板上。', { mode: 'bars', rowK: 1.2, cell: 6, blur: 0.5, contrast: 1.8, bright: 0, minDot: 0.2, wave: 0, ink: '#E6E8EB', bg: '#62676E', invert: true }, 'mark'],
+    ['mesh', '冲孔网板', '设备外壳上的冲孔金属网。孔距固定，孔径随图形变化，远看是标志，近看是规则的孔。', { mode: 'halftone', cell: 9, blur: 2.5, contrast: 1.9, bright: 0, minDot: 0.28, wave: 0, ink: '#C9CED4', bg: '#22262B', invert: false }, 'mark'],
+    ['print', '印刷点阵', '品牌绿浅底上的黑色网点，用于海报和包装。点阵稳定、可复制，适合大面积铺陈。', { mode: 'halftone', cell: 8, blur: 2, contrast: 1.7, bright: 0, minDot: 0.12, wave: 0, ink: '#050B14', bg: '#D6F28C', invert: true }, 'mark'],
+    ['signal', '信号屏', '控制室屏幕上的低分辨率点阵，品牌绿在深色上发光，用于开场和数字屏幕。', { mode: 'dither', cell: 5, blur: 1, contrast: 1.6, bright: 0, minDot: 0, wave: 0, ink: '#B2ED1D', bg: '#050B14', invert: true }, 'mark'],
+  ];
+  const vLogoMats = () => `<div class="lm-grid">${LOGO_MATS.map(([k, n, d]) => `<figure class="lm-card"><canvas data-lm="${k}"></canvas><figcaption><b>${n}</b><span>${d}</span></figcaption></figure>`).join('')}</div>`;
+  function mountLogoMats() {
+    document.querySelectorAll('[data-lm]').forEach(cv => {
+      const m = LOGO_MATS.find(x => x[0] === cv.dataset.lm), W = cv.clientWidth, H = cv.clientHeight, dpr = Math.min(2, devicePixelRatio || 1);
+      cv.width = W * dpr; cv.height = H * dpr; const ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawMat(ctx, W, H, markCanvas(m[4], W, H), m[3], 0, null);
+    });
   }
 
   // ---------- texture ----------
@@ -470,7 +509,8 @@
   function vTexture() {
     const card = ([k, n, d, css, dark]) => `<div class="tx-card"><div class="tx-stage"><div class="tx-fill" style="${css}"></div><div class="tx-fill${dark ? '' : ' tx-lime'}" style="${dark || css}"></div></div><div class="tx-body"><b>${n}</b><span>${d}</span></div>${foot(css)}</div>`;
     return docHead('Texture', '纹理来自工厂里真实的表面：洞洞板、图纸、量具、金属、瓦楞板。它只做背景，让画面有质感，但不和内容抢位置。')
-      + sec('lab', '材质实验', '把图片或视频转成点阵、抖动或字符画，用于海报、开场视频和官网背景。', vTextureLab())
+      + sec('logo-mats', 'Logo 材质拓展', '把标志放到工厂里真实的材料上：瓦楞外墙、冲孔网板、印刷网点、控制室屏幕。图形不变，只换材料。', vLogoMats())
+      + sec('lab', '材质实验', '把图片、视频或标志转成冲孔点阵、瓦楞条纹、抖动或字符画，用于海报、开场视频和官网背景。', vTextureLab())
       + sec('list', '纹理', '点击卡片底部复制 CSS。', `<div class="tx-grid">${TEXTURES.map(card).join('')}</div>`)
       + sec('rules', '使用规则', '', rulesBox(['纹理只放在背景层，上面的文字和数据必须清楚可读。', '界面里默认用 border 颜色；品牌区块可用品牌绿，透明度不超过 30%。', '一个区块只用一种纹理，不叠加。', '表格、表单、卡片内部不用纹理。', '拉丝金属和瓦楞只用于插图和宣传物料，不用于产品界面。']));
   }
@@ -809,6 +849,7 @@
     const sg = t.closest('[data-seg] button'); if (sg) {
       const k = sg.parentElement.dataset.seg, v = sg.dataset.v;
       if (k === 'labmode') { lab.mode = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
+      if (k === 'labsrc') { labUseSrc(v); sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
       if (k === 'lgtheme') { lgTheme = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); const st = document.querySelector('.logo-mo'); if (st) st.classList.toggle('on-dark', v === 'dark'); return; }
       if (k === 'tyfam') ty.fam = v; if (k === 'tyset') ty.set = v; if (k === 'ctheme') compTheme = v; if (k === 'skill') sk.id = v;
       return route(true);
@@ -852,7 +893,7 @@
     document.getElementById('cc-f').textContent = mode && mode.v === 'equal' ? `inner ${inner} = outer ${ov}（等值，四角间隙不均）` : `inner ${inner} = outer ${ov} − inset ${iv}${ov - iv < 0 ? '（小于 0 取 0）' : ''}`; }
   (() => { const bm = document.querySelector('.brandmark'); if (!bm) return; bm.innerHTML = logoSvg(); })();
   document.addEventListener('change', e => { if (e.target.id === 'lab-file' && e.target.files[0]) { const f = e.target.files[0]; labSource(URL.createObjectURL(f), f.type.startsWith('video')); } });
-  document.addEventListener('portal:render', () => { mountScaffold(); mountScenes(); mountLab(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
+  document.addEventListener('portal:render', () => { mountScaffold(); mountScenes(); mountLab(); mountLogoMats(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
   window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); heroState(); }, { passive: true });
   window.addEventListener('hashchange', () => route('anchor'));
 
