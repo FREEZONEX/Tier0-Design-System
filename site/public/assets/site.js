@@ -18,6 +18,7 @@
     alert: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.5v4M8 11v.01"/></svg>',
     open: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2.5" width="12" height="11" rx="1.5"/><path d="M2 5.5h12"/></svg>',
     download: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2.5v8M4.5 7L8 10.5 11.5 7M3 13.5h10"/></svg>',
+    replay: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 8a5.5 5.5 0 1 0 1.6-3.9M2.5 2.5v2.6h2.6"/></svg>',
     x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   };
 
@@ -299,7 +300,7 @@
       + sec('brand', '品牌色', '五个品牌色构成 Tier0 的识别。', `<div class="brand-board">${brand.map((x, i) => `<button type="button" class="bsw${i === 0 ? ' lead' : ''}" data-copy="${x.hex}" style="background:${x.hex};color:${lum(x.hex) > 0.4 ? '#050B14' : '#FFFFFF'}" aria-label="复制 ${esc(x.name)} ${x.hex}"><span class="bsw-name">${esc(x.name)}</span><span class="bsw-hex">${x.hex.replace('#', '')}</span><span class="bsw-copy">${I.copy}复制</span></button>`).join('')}</div>`)
       + sec('scale', '色阶', '绿、黑、灰三组色阶。', `<div class="ramps">${scale.map(ramp).join('')}</div>`)
       + sec('aux', '辅助色', '只用于图表和分类标签，不带语义。', `<div class="ramps">${aux.map(ramp).join('')}</div>`)
-      + sec('tokens', '用途 token', '组件只使用这一层。左为亮色、右为暗色，点击一行复制变量。', `<div class="tok-groups">${sem.map(([t, list]) => `<div class="tok-group"><div class="tok-group-h"><h3>${esc(t)}</h3><span>${list.length}</span></div><div class="tok-list">${list.map(x => `<button type="button" class="tok-row" data-copy="var(--${x.k})" title="复制 var(--${x.k})"><span class="tok-sw"><i style="background:${x.l}"></i><i style="background:${x.d}"></i></span><span class="tok-name"><code>--${x.k}</code><small>${esc(x.desc)}</small></span><span class="tok-hex"><em>亮</em>${x.l}</span><span class="tok-hex"><em>暗</em>${x.d}</span></button>`).join('')}</div></div>`).join('')}</div>`)
+      + sec('tokens', '用途 token', '组件只使用这一层。左为亮色、右为暗色，点击一行复制变量。', `<div class="tok-groups">${sem.map(([t, list]) => `<div class="tok-group"><div class="tok-group-h"><h3>${esc(t)}</h3></div><div class="tok-list">${list.map(x => `<button type="button" class="tok-row" data-copy="var(--${x.k})" title="复制 var(--${x.k})"><span class="tok-sw"><i style="background:${x.l}"></i><i style="background:${x.d}"></i></span><span class="tok-name"><code>--${x.k}</code><small>${esc(x.desc)}</small></span><span class="tok-hex"><em>亮</em>${x.l}</span><span class="tok-hex"><em>暗</em>${x.d}</span></button>`).join('')}</div></div>`).join('')}</div>`)
       + sec('rules', '使用规则', '', rulesBox(rules));
   }
 
@@ -372,13 +373,16 @@
   const LAB_MODES = [['halftone', '冲孔点阵'], ['bars', '瓦楞条纹'], ['dither', '抖动'], ['ascii', '字符']];
   const LAB_SRCS = [['bench', '工作台'], ['mark', 'T0 标志'], ['word', 'Tier0 字标']];
   const LAB_PRESETS = [
+    ['factory', '厂房点阵', { mode: 'halftone', cell: 6, blur: 3, contrast: 1.5, bright: -0.31, minDot: 0.1, speed: 0.4, wave: 0.3, ink: '#B2ED1D', bg: '#050B14', invert: false, color: 'hue', hue: 0, under: 0.2 }],
     ['mesh', '冲孔点阵', { mode: 'halftone', cell: 9, blur: 2, contrast: 1.6, bright: 0, minDot: 0.18, speed: 0.3, wave: 0.15, ink: '#050B14', bg: '#D6F28C', invert: true , color: 'mono', hue: 0, under: 0}],
     ['panel', '瓦楞条纹', { mode: 'bars', cell: 8, blur: 2.5, contrast: 1.6, bright: 0, minDot: 0.2, speed: 0.3, wave: 0.1, ink: '#F2F3F4', bg: '#5A5F66', invert: true , color: 'mono', hue: 0, under: 0}],
     ['signal', '信号点阵', { mode: 'halftone', cell: 7, blur: 1.5, contrast: 1.5, bright: -0.04, minDot: 0.1, speed: 0.4, wave: 0.2, ink: '#B2ED1D', bg: '#050B14', invert: false , color: 'mono', hue: 0, under: 0}],
     ['term', '原色字符', { mode: 'ascii', cell: 10, blur: 1, contrast: 1.3, bright: 0, minDot: 0, speed: 0.5, wave: 0.3, ink: '#B2ED1D', bg: '#F7F8F4', invert: true, color: 'source', hue: 0, under: 0.25, chars: ' .:-=+*#%&@' }],
   ];
-  const LAB_DEF = Object.assign({ chars: ' .:-=+*#%@', paused: false, mouse: true, preset: 'mesh', src: 'bench', color: 'mono', hue: 0, under: 0 }, LAB_PRESETS[0][2]);
+  const LAB_DEF = Object.assign({ chars: ' .:-=+*#%@', paused: false, mouse: true, preset: 'factory', src: 'bench', color: 'mono', hue: 0, under: 0 }, LAB_PRESETS[0][2]);
   const LAB_COLORS = [['mono', '单色'], ['source', '原图色'], ['hue', '换色相']];
+  const LAB_RAMPS = [[' .:-=+*#%@', '标准'], [' ░▒▓█', '块'], [' 01', '二进制'], [' .·:+×#', '细'], [' ─│┼╋█', '线框']];
+  const LAB_SIZES = [['view', '当前画面'], ['1920x1080', '1920×1080'], ['3840x2160', '3840×2160'], ['1080x1350', '1080×1350'], ['1080x1080', '1080×1080']];
   const lab = Object.assign({}, LAB_DEF);
   const LAB_SL = [
     ['cell', '格子', 4, 24, 1, 'px'], ['minDot', '最小点', 0, 0.5, 0.01, ''], ['blur', '模糊', 0, 12, 0.5, 'px'],
@@ -396,11 +400,23 @@
         <div class="lab-grid">${LAB_SL.map(labSlider).join('')}
           <label class="lab-sl lab-color"><span>墨色</span><em>${lab.ink}</em><input type="color" data-lab="ink" value="${lab.ink}"></label>
           <label class="lab-sl lab-color"><span>底色</span><em>${lab.bg}</em><input type="color" data-lab="bg" value="${lab.bg}"></label>
-          <label class="lab-sl lab-text"><span>字符</span><input type="text" data-lab="chars" value="${esc(lab.chars)}" spellcheck="false"></label>
+          <label class="lab-sl lab-text"><span>字符</span><select data-lab-ramp aria-label="字符预设">${LAB_RAMPS.map(([v, n]) => `<option value="${esc(v)}" ${v === lab.chars ? 'selected' : ''}>${n}</option>`).join('')}</select><input type="text" data-lab="chars" value="${esc(lab.chars)}" spellcheck="false"></label>
           <label class="lab-sl lab-tg"><span>反相</span><input type="checkbox" data-lab="invert" ${lab.invert ? 'checked' : ''}><i></i></label>
           <label class="lab-sl lab-tg"><span>跟随鼠标</span><input type="checkbox" data-lab="mouse" ${lab.mouse ? 'checked' : ''}><i></i></label>
           <label class="lab-sl lab-tg"><span>暂停</span><input type="checkbox" data-lab="paused" ${lab.paused ? 'checked' : ''}><i></i></label>
-        </div></div></div>`;
+        </div>
+        <div class="lab-h"><b>导出</b></div>
+        <div class="lab-exp"><select id="lab-size" aria-label="导出尺寸">${LAB_SIZES.map(([v, n]) => `<option value="${v}">${n}</option>`).join('')}</select><button type="button" class="ui-btn outline" data-lab-png>${I.download}PNG</button><button type="button" class="ui-btn outline" data-lab-webm>${I.download}视频 5 秒</button></div>
+      </div></div>`;
+  }
+  function labSize() { const v = (document.getElementById('lab-size') || {}).value || 'view'; const cv = document.getElementById('lab-cv'); if (v === 'view') return [cv.clientWidth * 2, cv.clientHeight * 2, 2]; const [w, h] = v.split('x').map(Number); return [w, h, Math.max(1, w / 1200)]; }
+  function labExportPng() { const [w, h, k] = labSize(); const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d'); x.scale(k, k); drawMat(x, w / k, h / k, LabRT.src, lab, LabRT.t, null); c.toBlob(b => download(b, `tier0-texture-${w}x${h}.png`), 'image/png'); }
+  function labExportWebm(btn) {
+    const [w, h, k] = labSize(); const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d');
+    const mime = ['video/webm;codecs=vp9', 'video/webm'].find(m => MediaRecorder.isTypeSupported(m)); const rec = new MediaRecorder(c.captureStream(30), { mimeType: mime, videoBitsPerSecond: 20e6 }); const parts = [];
+    rec.ondataavailable = e => parts.push(e.data); rec.onstop = () => { download(new Blob(parts, { type: 'video/webm' }), `tier0-texture-${w}x${h}.webm`); btn.disabled = false; btn.innerHTML = btn.dataset.label; };
+    btn.disabled = true; btn.dataset.label = btn.innerHTML; btn.textContent = '正在录制…'; rec.start();
+    const t0 = performance.now(), base = LabRT.t; const loop = now => { const t = base + (now - t0) / 1000 * lab.speed; x.setTransform(k, 0, 0, k, 0, 0); drawMat(x, w / k, h / k, LabRT.src, lab, t, null); if (now - t0 < 5000) requestAnimationFrame(loop); else rec.stop(); }; requestAnimationFrame(loop);
   }
   // 标志底图：浅底深色图形，加一点纵向明暗，让点阵和条纹在背景里也有起伏
   function markCanvas(kind, W, H) {
@@ -480,6 +496,7 @@
     LabRT.raf = requestAnimationFrame(frame);
   }
   function labInput(e) {
+    if (e.target.matches('[data-lab-ramp]')) { lab.chars = e.target.value; const ti = e.target.parentElement.querySelector('input'); ti.value = lab.chars; return true; }
     const k = e.target.dataset.lab; if (!k) return false;
     const el = e.target; lab[k] = el.type === 'checkbox' ? el.checked : el.type === 'range' ? +el.value : el.value;
     const row = el.closest('.lab-sl'), sl = LAB_SL.find(x => x[0] === k);
@@ -573,7 +590,7 @@
       { transform: 'scale(0.4)', opacity: 0 },
     ], { duration: 2200 });
     // 2. 信号：柔和的光晕向外散开，不画硬边圆环
-    qa('.lg-ring').forEach((r, n) => A(r, [{ transform: 'scale(0.6)', opacity: 0.35 }, { transform: 'scale(5)', opacity: 0 }], { duration: LG.HALO_D, delay: LG.HALO[n], easing: cb(EZ.enter), fill: 'none' }));
+    qa('.lg-ring').forEach((r, n) => A(r, [{ transform: 'scale(1)', opacity: 0.8, strokeWidth: 3 }, { transform: 'scale(2.6)', opacity: 0.45, strokeWidth: 1.5, offset: 0.35 }, { transform: 'scale(5)', opacity: 0, strokeWidth: 0.5 }], { duration: LG.HALO_D, delay: LG.HALO[n], easing: cb(EZ.enter), fill: 'none' }));
     // 3. 描出 0
     A(q('.lg-z'), [{ strokeDashoffset: 1, strokeWidth: 3, fillOpacity: 0 }, { strokeDashoffset: 0, strokeWidth: 3, fillOpacity: 0, offset: 0.75 }, { strokeDashoffset: 0, strokeWidth: 0, fillOpacity: 1 }], { duration: LG.Z_D, delay: LG.Z_AT, easing: cb(EZ.std) });
     // 4. T 闪动出现组成 T0；展开时回到原位
@@ -594,7 +611,7 @@
     const mime = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'].find(m => MediaRecorder.isTypeSupported(m));
     const rec = new MediaRecorder(cv.captureStream(60), { mimeType: mime, videoBitsPerSecond: 16e6 }); const chunks = [];
     rec.ondataavailable = e => chunks.push(e.data);
-    rec.onstop = () => { stage.remove(); download(new Blob(chunks, { type: 'video/webm' }), `tier0-logo-${theme}.webm`); btn.disabled = false; btn.textContent = btn.dataset.label; };
+    rec.onstop = () => { stage.remove(); download(new Blob(chunks, { type: 'video/webm' }), `tier0-logo-${theme}.webm`); btn.disabled = false; btn.innerHTML = btn.dataset.label; };
     const paths = new Map([...svg.querySelectorAll('path')].map(p => [p, new Path2D(p.getAttribute('d'))]));
     const draw = () => {
       ctx.clearRect(0, 0, W, H);
@@ -611,13 +628,13 @@
           if (zero && sw > 0) { const len = el.getTotalLength(); ctx.globalAlpha = op; ctx.strokeStyle = col; ctx.lineWidth = sw; ctx.setLineDash([len, len]); ctx.lineDashOffset = parseFloat(cs.strokeDashoffset) * len; ctx.stroke(paths.get(el)); }
         } else {
           const cx = 458, cy = 62, s = m.a || 1; ctx.translate(cx, cy); ctx.scale(s, s); ctx.translate(-cx, -cy); ctx.fillStyle = C.zero;
-          if (el.tagName === 'rect') ctx.fillRect(449, 53, 18, 18); else { ctx.beginPath(); ctx.arc(cx, cy, 9, 0, 6.2832); ctx.fill(); }
+          if (el.tagName === 'rect') ctx.fillRect(449, 53, 18, 18); else { ctx.strokeStyle = C.zero; ctx.lineWidth = (parseFloat(cs.strokeWidth) || 1) / s / S; ctx.beginPath(); ctx.arc(cx, cy, 9, 0, 6.2832); ctx.stroke(); }
         }
         ctx.restore();
       });
       ctx.restore();
     };
-    btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = '正在录制…';
+    btn.disabled = true; btn.dataset.label = btn.innerHTML; btn.textContent = '正在录制…';
     rec.start(); playLogo(svg);
     const t0 = performance.now();
     const loop = () => { draw(); if (performance.now() - t0 < LG.END) requestAnimationFrame(loop); else rec.stop(); };
@@ -652,9 +669,9 @@
     layers.push(layer('dot', [{ ty: 'gr', it: [{ ty: 'rc', p: st([0, 0]), s: st([18, 18]), r: st(0) }, fill(C.zero), tr()] }], { p: st(dotA),
       s: kf([[0, [0, 0, 100], EZ.enter], [220, [100, 100, 100], 'linear'], [660, [78, 78, 100], 'linear'], [1100, [100, 100, 100], 'linear'], [1540, [78, 78, 100], 'linear'], [1800, [100, 100, 100], EZ.std], [2200, [40, 40, 100]]]),
       o: kf([[0, 100, 'hold'], [1800, 100, EZ.std], [2200, 0]]) }));
-    LG.HALO.forEach((at, n) => layers.push(layer('signal ' + (n + 1), [{ ty: 'gr', it: [{ ty: 'el', p: st([0, 0]), s: st([18, 18]) }, fill(C.zero), tr()] }], { p: st(dotA),
-      s: kf([[0, [60, 60, 100], 'hold'], [at, [60, 60, 100], EZ.enter], [at + LG.HALO_D, [500, 500, 100]]]),
-      o: kf([[0, 0, 'hold'], [at, 35, EZ.enter], [at + LG.HALO_D, 0]]) })));
+    LG.HALO.forEach((at, n) => layers.push(layer('signal ' + (n + 1), [{ ty: 'gr', it: [{ ty: 'el', p: st([0, 0]), s: st([18, 18]) }, { ty: 'st', c: st(rgb(C.zero)), o: st(100), w: kf([[0, 1.5, 'hold'], [at, 1.5, EZ.enter], [at + LG.HALO_D, 0.05]]), lc: 2, lj: 2 }, tr()] }], { p: st(dotA),
+      s: kf([[0, [100, 100, 100], 'hold'], [at, [100, 100, 100], EZ.enter], [at + LG.HALO_D, [500, 500, 100]]]),
+      o: kf([[0, 0, 'hold'], [at, 80, EZ.enter], [at + LG.HALO_D, 0]]) })));
     const json = { v: '5.7.4', fr: FR, ip: 0, op: f(LG.END), w: 1200, h: 400, nm: 'Tier0 logo', ddd: 0, assets: [], layers };
     download(new Blob([JSON.stringify(json)], { type: 'application/json' }), `tier0-logo-${theme}.json`);
   }
@@ -662,7 +679,7 @@
   let lgTheme = 'light';
   function vLogo() {
     return docHead('Logo', '字标使用 Tektur，交付时为路径。只在下面四种底色上使用。')
-      + sec('motion', '动效', '从一个数据点开始，长成完整的 Tier0：数据只接一次，之后到处可用。节奏克制，只有明灭和位移，没有回弹和炫光。用于开场、视频和演示。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><span class="lg-exp"><button type="button" class="ui-btn ghost" data-logo-replay>重播</button>${seg('lgtheme', [['light', '亮色'], ['dark', '暗色']], lgTheme)}<button type="button" class="ui-btn ghost" data-logo-webm>${I.download}透明视频 WebM</button><button type="button" class="ui-btn ghost" data-logo-lottie>${I.download}Lottie JSON</button></span></div></div>`)
+      + sec('motion', '动效', '从一个数据点开始，长成完整的 Tier0：数据只接一次，之后到处可用。节奏克制，只有明灭和位移，没有回弹和炫光。用于开场、视频和演示。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><span class="lg-exp"><button type="button" class="ui-btn outline" data-logo-replay>${I.replay}重播</button><span class="spacer"></span><details class="menu"><summary class="ui-btn outline">${I.download}导出<svg class="rb-chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg></summary><div class="menu-pop">${[['light', '亮色'], ['dark', '暗色']].map(([t, n]) => `<span class="menu-h">${n}</span><button type="button" data-logo-webm="${t}">透明视频 WebM<small>1920×1080</small></button><button type="button" data-logo-lottie="${t}">Lottie JSON<small>1200×400 · 60fps</small></button>`).join('')}</div></details></span></div></div>`)
       + sec('variants', '版本', '', `<div class="logo-grid">${LOGOS.map(([f, n, bg]) => `<div class="logo-card"><div class="stage" style="background:${bg}"><img alt="Tier0 ${n}" src="${asset('03-brand/logo/assets/' + f)}"></div><div class="foot"><span>${n}<span class="muted"> · ${bg}</span></span><a class="ui-btn ghost" href="${asset('03-brand/logo/assets/' + f)}" download="${f}">${I.download}下载 SVG</a></div></div>`).join('')}</div>`);
   }
 
@@ -767,23 +784,43 @@
   }
 
   // ---------- 圆角、线宽与阴影 ----------
-  const BL = [
-    ['card', '卡片与面板', 'border.default · 1px', '页面内的容器只用 1px 细线分隔，不加阴影。', '<div class="bl-card"><b>CNC-03</b><span>主轴温度</span><strong>72.4 °C</strong></div>'],
-    ['table', '表格分隔', 'border.default · 1px', '行与行之间只用 1px 横线；点一行看选中。', '<div class="bl-table"><span>PLC-7</span><span>在线</span><span class="on">CNC-03</span><span>告警</span><span>AGV-2</span><span>在线</span></div>'],
-    ['input', '输入框焦点', '1px → 2px focus', '获得焦点时线宽和颜色同时变化，告诉用户正在输入哪里。', '<input class="bl-input" value="Line-01" aria-label="示例输入框">'],
-    ['nav', '选中项', 'border.strong · 2px', '侧栏、标签页的当前项用 2px 竖线或底线标出。', '<div class="bl-nav"><span>设备</span><span class="on">告警</span><span>工单</span></div>'],
-    ['drop', '拖放区 / 待创建', 'dashed · 1px', '虚线表示「还不存在、可以放进来」的对象；拖入时变实线。', '<div class="bl-drop">把文件拖到这里</div>'],
-    ['chart', '图表强调', '1px / 2px', '对比线用 1px，被关注的那条用 2px。', '<svg class="bl-chart" viewBox="0 0 200 80"><path class="l1" d="M0 60 C40 50 60 62 100 44 S160 40 200 30"/><path class="l2" d="M0 50 C40 40 70 30 100 36 S160 20 200 12"/></svg>'],
+  // 线宽 playground：选场景、选线型、拖线宽，对照规范
+  const BW_SCENES = [
+    ['card', '卡片', { w: 1, style: 'solid', color: 'border' }, '<div class="bl-card"><b>CNC-03</b><span>主轴温度</span><strong>72.4 °C</strong></div>'],
+    ['table', '表格', { w: 1, style: 'solid', color: 'border' }, '<div class="bl-table"><span>PLC-7</span><span>在线</span><span class="on">CNC-03</span><span>告警</span><span>AGV-2</span><span>在线</span></div>'],
+    ['input', '输入框焦点', { w: 2, style: 'solid', color: 'strong' }, '<div class="bl-input">Line-01<i></i></div>'],
+    ['nav', '选中项', { w: 2, style: 'solid', color: 'strong' }, '<div class="bl-nav"><span>设备</span><span class="on">告警</span><span>工单</span></div>'],
+    ['drop', '拖放区', { w: 1, style: 'dashed', color: 'muted' }, '<div class="bl-drop">把文件拖到这里</div>'],
+    ['chart', '图表强调', { w: 2, style: 'solid', color: 'brand' }, '<svg class="bl-chart" viewBox="0 0 200 80" preserveAspectRatio="none"><path class="l1" d="M0 60 C40 50 60 62 100 44 S160 40 200 30"/><path class="l2" d="M0 50 C40 40 70 30 100 36 S160 20 200 12"/></svg>'],
   ];
-  const borderLab = () => `<div class="bl-grid">${BL.map(([k, n, tok, d, html]) => `<div class="bl-tile" data-bl="${k}"><div class="bl-stage">${html}</div><div class="bl-meta"><b>${n}</b><code>${tok}</code><span>${d}</span></div></div>`).join('')}</div>`;
+  const BW_STYLES = [['solid', '实线'], ['dashed', '虚线'], ['dotted', '点线']];
+  const BW_COLORS = [['border', '边框色'], ['strong', '前景色'], ['muted', '弱前景'], ['brand', '品牌绿']];
+  const BW_COLOR_CSS = { border: 'var(--border)', strong: 'var(--foreground)', muted: 'var(--muted-foreground)', brand: '#73B200' };
+  const bw = { scene: 'card', w: 1, style: 'solid', color: 'border' };
+  const bwCss = () => `border: ${bw.w}px ${bw.style} ${BW_COLOR_CSS[bw.color]};`;
+  function bwVerdict() {
+    const r = BW_SCENES.find(x => x[0] === bw.scene)[2], ok = r.w === bw.w && r.style === bw.style && r.color === bw.color;
+    const rec = `${r.w}px ${BW_STYLES.find(x => x[0] === r.style)[1]} · ${BW_COLORS.find(x => x[0] === r.color)[1]}`;
+    return `<span class="bw-verdict ${ok ? 'ok' : ''}">${ok ? '符合规范' : '规范建议'}</span><span class="muted">${rec}</span>`;
+  }
+  const borderLab = () => { const sc = BW_SCENES.find(x => x[0] === bw.scene);
+    return `<div class="spec bw"><div class="spec-bar bw-bar">${seg('bwscene', BW_SCENES.map(x => [x[0], x[1]]), bw.scene)}
+      <div class="bw-ctls">${seg('bwstyle', BW_STYLES, bw.style)}${seg('bwcolor', BW_COLORS, bw.color)}<label class="ctl"><span class="ctl-h">线宽<b id="bw-wv">${bw.w}px</b></span><input type="range" id="bw-w" min="1" max="4" step="1" value="${bw.w}"></label></div></div>
+      <div class="spec-body bw-stage" data-bw-scene="${bw.scene}" style="--bw:${bw.w}px;--bs:${bw.style};--bc:${BW_COLOR_CSS[bw.color]}">${sc[3]}</div>
+      <div class="spec-foot bw-foot"><span id="bw-ver">${bwVerdict()}</span><code id="bw-css">${bwCss()}</code>${copyBtn(bwCss())}</div></div>`; };
+  function bwPaint() {
+    const st = document.querySelector('.bw-stage'); if (!st) return;
+    st.style.setProperty('--bw', bw.w + 'px'); st.style.setProperty('--bs', bw.style); st.style.setProperty('--bc', BW_COLOR_CSS[bw.color]);
+    document.getElementById('bw-wv').textContent = bw.w + 'px'; document.getElementById('bw-ver').innerHTML = bwVerdict();
+    document.getElementById('bw-css').textContent = bwCss(); const cb = document.querySelector('.bw-foot [data-copy]'); if (cb) cb.dataset.copy = bwCss();
+  }
   function vShape() {
     const R = D.radius, B = D.border, H = D.shadow;
     if (!R || !B || !H) return '<p class="muted">没有读取到圆角、线宽与阴影 token。</p>';
     return docHead('圆角、线宽与阴影', '组件的外形：圆角以 4px 为主，层级以 1px 细线为主，阴影只用于浮层与交互反馈。')
       + sec('radius', '圆角', '控件 4px，卡片 6px，上限 8px；圆形元素是唯一的例外。', `<div class="shape-grid">${entries(R.radius).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo" style="border-radius:${k === 'full' ? '999px' : o.$value}${k === 'full' ? ';width:96px;height:32px' : ''}"></span><code>radius.${k}</code><b>${esc(o.$value === '9999px' ? '全圆' : o.$value)}</b><small>${esc(o.$description)}</small></button>`).join('')}</div>` + ruleList(R))
       + sec('concentric', '嵌套圆角', '内层圆角 = 外层圆角 − 内边距。拖动两个滑块，对比「同心」与「等值」。', `<div class="spec cc"><div class="spec-bar">${seg('ccmode', [['concentric', '同心'], ['equal', '等值']], 'concentric')}<span class="spacer"></span><label class="ctl"><span class="ctl-h">外层圆角<b id="cc-ov">6px</b></span><input type="range" id="cc-o" min="0" max="16" value="6"></label><label class="ctl"><span class="ctl-h">内边距<b id="cc-iv">8px</b></span><input type="range" id="cc-i" min="2" max="24" value="8"></label></div><div class="spec-body cc-stage"><div class="cc-outer" id="cc-outer"><div class="cc-inner" id="cc-inner"><i></i><i></i></div></div></div><div class="spec-foot"><code id="cc-f">inner 0 = outer 6 − inset 8</code></div></div>${rulesBox(['外层 6px（卡片）、内边距 8px 时内层为 0，内层元素用直角或 radius.sm。', '内边距小于外层圆角时，内层才需要圆角。', '等值嵌套会让四角的间隙宽窄不一，看起来不贴合。'])}`)
-      + sec('border', '线宽', '1px 为默认；2px 只用于焦点、选中与图表强调；虚线表示尚未存在的对象。', `<div class="shape-grid">${entries(B.border).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo line" style="border-width:${o.$value}"></span><code>border.${k}</code><b>${esc(o.$value)}</b><small>${esc(o.$description)}</small></button>`).join('')}${entries(B.style).map(([k, o]) => `<div class="shape-card"><span class="shape-demo line" style="border-style:${o.$value}"></span><code>style.${k}</code><b>${esc(o.$value)}</b><small>${esc(o.$description)}</small></div>`).join('')}</div>` + ruleList(B))
-      + sec('border-lab', '线宽怎么用', '点一下每个例子，看线宽在真实界面里的变化。', borderLab())
+      + sec('border', '线宽', '', borderLab())
       + sec('shadow', '阴影', '页面内的容器不用阴影。阴影只出现在浮层和交互反馈上。', `<div class="shape-grid sh">${entries(H.shadow).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo sh" style="box-shadow:${o.$value === 'none' ? 'none' : o.$value}"></span><code>shadow.${k}</code><small>${esc(o.$description)}${why(o)}</small></button>`).join('')}</div>` + ruleList(H));
   }
 
@@ -846,10 +883,13 @@
     const bln = t.closest('.bl-nav span'); if (bln) { bln.parentElement.querySelectorAll('span').forEach(x => x.classList.toggle('on', x === bln)); return; }
     const bld = t.closest('.bl-drop'); if (bld) { bld.classList.toggle('on'); bld.textContent = bld.classList.contains('on') ? '已放入：line-01.csv' : '把文件拖到这里'; return; }
     const blc = t.closest('.bl-chart'); if (blc) { blc.classList.toggle('swap'); return; }
+    if (t.closest('[data-lab-png]')) { labExportPng(); return; }
+    const lwb = t.closest('[data-lab-webm]'); if (lwb) { labExportWebm(lwb); return; }
     const lp = t.closest('[data-lab-preset]'); if (lp) { const pr = LAB_PRESETS.find(x => x[0] === lp.dataset.labPreset); Object.assign(lab, pr[2], { preset: pr[0] }); route(true); return; }
     if (t.closest('[data-lab-reset]')) { Object.assign(lab, LAB_DEF); route(true); return; }
-    const lw = t.closest('[data-logo-webm]'); if (lw) { exportLogoWebm(lw, lgTheme); return; }
-    if (t.closest('[data-logo-lottie]')) { exportLogoLottie(lgTheme); return; }
+    const lw = t.closest('[data-logo-webm]'); if (lw) { const sm = lw.closest('details').querySelector('summary'); lw.closest('details').open = false; exportLogoWebm(sm, lw.dataset.logoWebm); return; }
+    const ll = t.closest('[data-logo-lottie]'); if (ll) { ll.closest('details').open = false; exportLogoLottie(ll.dataset.logoLottie); return; }
+    document.querySelectorAll('details.menu[open]').forEach(d => { if (!d.contains(t)) d.open = false; });
     if (t.closest('[data-logo-replay]')) { playLogo(t.closest('.spec').querySelector('.t0-logo')); return; }
     const md = t.closest('[data-mo-demo]'); if (md) { const M = D.motion; const ms = k => parseFloat(M.duration[k].$value); const cb = k => `cubic-bezier(${M.easing[k].$value.join(',')})`;
       if (md.dataset.moDemo === 'menu') { const el = document.getElementById('mo-menu'); const open = !el.classList.contains('open'); el.style.transition = open ? `opacity ${ms('base')}ms ${cb('enter')}, transform ${ms('base')}ms ${cb('enter')}` : `opacity ${ms('fast')}ms ${cb('exit')}, transform ${ms('fast')}ms ${cb('exit')}`; el.classList.toggle('open', open); md.textContent = open ? '关闭下拉' : '打开下拉'; }
@@ -861,6 +901,8 @@
     const sg = t.closest('[data-seg] button'); if (sg) {
       const k = sg.parentElement.dataset.seg, v = sg.dataset.v;
       if (k === 'labmode') { lab.mode = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
+      if (k === 'bwscene') { const r = BW_SCENES.find(x => x[0] === v)[2]; Object.assign(bw, { scene: v }, r); return route(true); }
+      if (k === 'bwstyle' || k === 'bwcolor') { bw[k === 'bwstyle' ? 'style' : 'color'] = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); bwPaint(); return; }
       if (k === 'txgroup') { txGroup = v; return route(true); }
       if (k === 'labcolor') { lab.color = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
       if (k === 'labsrc') { labUseSrc(v); sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
@@ -871,6 +913,7 @@
   });
   document.addEventListener('input', e => {
     if (labInput(e)) return;
+    if (e.target.id === 'bw-w') { bw.w = +e.target.value; bwPaint(); return; }
     const id = e.target.id;
     if (id === 'cc-o' || id === 'cc-i') ccPaint();
     if (id === 'ty-w' || id === 'ty-s' || id === 'ty-l' || id === 'ty-t') {

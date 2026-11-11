@@ -1122,3 +1122,59 @@ body.hero-on .wb { cursor: none; }
 .tx-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
 .doc-wrap:not(.p-home) > .doc > * { max-width: 1440px; }
 .tx-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+/* ---------- 提示：放在图标右侧，不压住上方内容 ---------- */
+.why-tip::after { left: calc(100% + 8px) !important; top: 50%; bottom: auto !important; transform: translate(4px, -50%) !important; width: max-content; max-width: min(480px, 60vw); }
+.why-tip:hover::after { transform: translate(0, -50%) !important; }
+.sec > h2 .why-tip::after { font: 400 13px/20px var(--font-sans); }
+.tk-row .why-tip::after, .shape-card .why-tip::after { left: 50% !important; top: auto; bottom: calc(100% + 8px) !important; transform: translate(-50%, 4px) !important; }
+.tk-row .why-tip:hover::after, .shape-card .why-tip:hover::after { transform: translate(-50%, 0) !important; }
+
+/* ---------- 线宽 playground ---------- */
+.bw-bar { display: grid; gap: 12px; }
+.bw-bar > .seg { justify-self: start; }
+.bw-ctls { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+.bw-ctls .ctl { min-width: 200px; }
+.bw-stage { min-height: 280px; display: grid; place-items: center; padding: 40px; user-select: none; }
+.bw-stage .bl-card { width: 240px; padding: 16px; border: var(--bw) var(--bs) var(--bc); font-size: 13px; }
+.bw-stage .bl-card strong { font-size: 24px; line-height: 32px; }
+.bw-stage .bl-table { width: 320px; font-size: 13px; border-top: var(--bw) var(--bs) var(--bc); }
+.bw-stage .bl-table span { padding: 10px 6px; border-bottom: var(--bw) var(--bs) var(--bc); }
+.bw-stage .bl-input { width: 280px; height: 36px; display: flex; align-items: center; padding: 0 12px; border: var(--bw) var(--bs) var(--bc); border-radius: 4px; font-size: 14px; }
+.bw-stage .bl-input i { width: 1px; height: 16px; margin-left: 1px; background: var(--foreground); animation: caret 1s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+.bw-stage .bl-nav { width: 200px; font-size: 14px; }
+.bw-stage .bl-nav span { padding: 8px 14px; border-left: 1px solid var(--border); }
+.bw-stage .bl-nav span.on { border-left: var(--bw) var(--bs) var(--bc); padding-left: calc(14px - var(--bw) + 1px); color: var(--foreground); font-weight: 500; }
+.bw-stage .bl-drop { width: 320px; height: 120px; border: var(--bw) var(--bs) var(--bc); font-size: 13px; }
+.bw-stage .bl-drop:hover { border-style: var(--bs); border-color: var(--bc); }
+.bw-stage .bl-chart { width: 420px; height: 160px; }
+.bw-stage .bl-chart .l2 { stroke: var(--bc); stroke-width: var(--bw); }
+.bw-stage .bl-chart .l1 { stroke: var(--muted-foreground); stroke-width: 1; }
+.bw-foot { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.bw-foot #bw-ver { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; }
+.bw-foot code { margin-left: auto; }
+.bw-verdict { padding: 2px 8px; border-radius: 999px; background: var(--muted); font-size: 12px; }
+.bw-verdict.ok { background: color-mix(in srgb, #73B200 18%, transparent); color: var(--foreground); }
+.bl-stage, .bw-stage, .lab-presets, .seg { user-select: none; }
+
+/* ---------- 下拉操作菜单 ---------- */
+.lg-exp .spacer { flex: 1; }
+.lg-exp .ui-btn svg, .menu summary svg { width: 14px; height: 14px; }
+.menu { position: relative; }
+.menu > summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.menu > summary::-webkit-details-marker { display: none; }
+.menu[open] > summary .rb-chev { transform: rotate(180deg); }
+.menu-pop { position: absolute; right: 0; bottom: calc(100% + 6px); z-index: 30; min-width: 240px; padding: 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--popover, var(--background)); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); display: grid; animation: fadein 150ms ease-out; }
+.menu-h { padding: 6px 10px 2px; font-size: 12px; color: var(--muted-foreground); }
+.menu-pop button { display: flex; justify-content: space-between; gap: 12px; padding: 8px 10px; border: 0; border-radius: 4px; background: none; color: var(--foreground); font: inherit; font-size: 13px; text-align: left; cursor: pointer; }
+.menu-pop button:hover { background: var(--muted); }
+.menu-pop small { color: var(--muted-foreground); font: 12px var(--font-mono); }
+
+/* ---------- 材质实验 ---------- */
+.lab-presets { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.lab-text select { height: 26px; border: 1px solid var(--border); border-radius: 4px; background: var(--background); color: var(--foreground); font: inherit; font-size: 12px; }
+.lab-exp { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 6px; }
+.lab-exp select { height: 32px; border: 1px solid var(--border); border-radius: 4px; background: var(--background); color: var(--foreground); font: inherit; font-size: 13px; padding: 0 8px; }
+.lab-exp .ui-btn svg { width: 14px; height: 14px; }
+.t0-logo .lg-ring { fill: none; stroke: var(--logo-zero); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
