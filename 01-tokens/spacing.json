@@ -1,0 +1,331 @@
+{
+  "$description": "间距：4px 基准网格。数值与前端 Tailwind 默认间距刻度一致（1 单位 = 4px），只用下列档位。",
+  "$extensions": {
+    "tier0": {
+      "rules": [
+        "所有间距、内边距、组件尺寸取 4 的倍数；只有 space.0-5（2px）允许用于图标与文字的微调和细线偏移。",
+        "同一层级的元素之间用同一档间距；进入更高一层级时，间距至少升一档（例如组内 8px → 组间 16px → 区块间 32px）。",
+        "层级优先用间距和 1px 细线区分，不用阴影、不用额外底色。",
+        "不使用 space 刻度以外的数值（如 10px、14px、18px）；前端出现的 gap-2.5、p-2.5 等需改为相邻档位。",
+        "产品界面默认密度为「紧凑」：控件高 32px、表格行高 40px、卡片内边距 24px；不在同一页面混用两种密度。"
+      ],
+      "basis": "前端使用频次（packages/ui + apps/saas-dashboard）：gap-2 574、gap-4 236、gap-1 207、gap-3 188、px-4 172、px-3 122、py-2 180、h-8 139、h-9 75、h-10 40。"
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "0": {
+      "$value": "0px",
+      "$description": "无间距：相邻边框合并、表格单元格之间。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "0"
+          }
+        }
+      }
+    },
+    "0-5": {
+      "$value": "2px",
+      "$description": "微调：图标与文字的基线对齐、选中描边与内容的间隙。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "0.5"
+          }
+        }
+      }
+    },
+    "1": {
+      "$value": "4px",
+      "$description": "最小间距：图标与紧贴的文字、徽标内边距、标签行之间。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "1"
+          },
+          "rationale": "小于 4px 的间距在 1x 屏幕上无法稳定呈现。"
+        }
+      }
+    },
+    "1-5": {
+      "$value": "6px",
+      "$description": "按钮内图标与文字、Tab 内图标与文字。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "1.5"
+          },
+          "rationale": "与前端 button/tabs 组件内的 gap-1.5 保持一致，仅用于控件内部。"
+        }
+      }
+    },
+    "2": {
+      "$value": "8px",
+      "$description": "组内间距：同一组控件、表单项的标签与输入框、列表项之间。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "2"
+          },
+          "rationale": "前端使用最多的间距（gap-2 574 次），作为组内默认值。"
+        }
+      }
+    },
+    "3": {
+      "$value": "12px",
+      "$description": "控件水平内边距（输入框、选择器）、表单项之间。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "3"
+          },
+          "rationale": "与 input / select 的 px-3 一致。"
+        }
+      }
+    },
+    "4": {
+      "$value": "16px",
+      "$description": "组间间距：卡片之间、按钮水平内边距、移动端页面边距。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "4"
+          },
+          "rationale": "与 button 的 px-4、栅格移动端沟槽一致。"
+        }
+      }
+    },
+    "6": {
+      "$value": "24px",
+      "$description": "区块内边距：卡片、面板的内边距；桌面端栅格沟槽与页面边距。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "6"
+          },
+          "rationale": "与 card 的 px-6 / py-6 / gap-6 一致。"
+        }
+      }
+    },
+    "8": {
+      "$value": "32px",
+      "$description": "大区块：弹窗内边距与内部间距、页面内分区之间。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "8"
+          },
+          "rationale": "与 dialog 的 p-8 / gap-8 一致。"
+        }
+      }
+    },
+    "12": {
+      "$value": "48px",
+      "$description": "页面分区之间（产品页面内的大分区、文档页的节）。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "12"
+          }
+        }
+      }
+    },
+    "16": {
+      "$value": "64px",
+      "$description": "官网与文档：分区之间。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "16"
+          }
+        }
+      }
+    },
+    "24": {
+      "$value": "96px",
+      "$description": "官网：首屏与正文、主要章节之间。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "24"
+          },
+          "rationale": "官网信息密度低，用更大的留白区分章节。"
+        }
+      }
+    }
+  },
+  "semantic": {
+    "$description": "按用途命名的间距。组件与页面优先用这一层。",
+    "inline-tight": {
+      "$value": "{space.1}",
+      "$description": "图标与紧贴文字、徽标内部。"
+    },
+    "inline": {
+      "$value": "{space.2}",
+      "$description": "同一行内相关元素：按钮组、筛选项、面包屑。"
+    },
+    "control-x": {
+      "$value": "{space.3}",
+      "$description": "输入类控件（输入框、选择器、文本域）的水平内边距。"
+    },
+    "button-x": {
+      "$value": "{space.4}",
+      "$description": "按钮水平内边距（三种尺寸统一）。"
+    },
+    "stack-tight": {
+      "$value": "{space.2}",
+      "$description": "表单标签与输入框、标题与说明。"
+    },
+    "stack": {
+      "$value": "{space.4}",
+      "$description": "同一区块内的段落、表单项之间。"
+    },
+    "card-padding": {
+      "$value": "{space.6}",
+      "$description": "卡片、面板、侧滑面板内边距。"
+    },
+    "dialog-padding": {
+      "$value": "{space.8}",
+      "$description": "弹窗内边距与内容之间的间距。"
+    },
+    "section": {
+      "$value": "{space.12}",
+      "$description": "产品页面内的分区之间。"
+    },
+    "section-web": {
+      "$value": "{space.24}",
+      "$description": "官网章节之间。"
+    }
+  },
+  "size": {
+    "$description": "控件与行高。与前端组件一致。",
+    "$type": "dimension",
+    "control-xs": {
+      "$value": "24px",
+      "$description": "表格内的紧凑选择器、标签内操作。只用于表格或工具栏内部。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "h-6",
+            "component": "select size=xs"
+          }
+        }
+      }
+    },
+    "control-sm": {
+      "$value": "32px",
+      "$description": "按钮默认尺寸、工具栏控件。产品界面默认控件高度。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "h-8",
+            "component": "button size=sm（默认）、select size=sm"
+          }
+        }
+      }
+    },
+    "control-md": {
+      "$value": "36px",
+      "$description": "输入框、选择器、标签页默认高度；表单中的按钮。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "h-9",
+            "component": "input、select（默认）、tabs-list、button size=md"
+          }
+        }
+      }
+    },
+    "control-lg": {
+      "$value": "40px",
+      "$description": "页面主操作、登录与引导页按钮。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "h-10",
+            "component": "button size=lg"
+          }
+        }
+      }
+    },
+    "touch": {
+      "$value": "44px",
+      "$description": "车间平板、触屏 HMI 上的最小点击尺寸。",
+      "$extensions": {
+        "tier0": {
+          "rationale": "一线操作员可能戴手套或单手操作，44px 是 Apple HIG 与 WCAG 2.5.5 推荐的触控目标下限。"
+        }
+      }
+    },
+    "table-header": {
+      "$value": "40px",
+      "$description": "表格表头行高。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "h-10",
+            "component": "table-head"
+          }
+        }
+      }
+    },
+    "table-row": {
+      "$value": "40px",
+      "$description": "表格数据行最小高度（单元格上下内边距 8px + 一行 14/20 文字 + 边框）。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "component": "table-cell p-2"
+          },
+          "rationale": "监控类表格需要一屏看到尽量多的设备；40px 是 14px 文字在可点击前提下的最小行高。"
+        }
+      }
+    },
+    "app-header": {
+      "$value": "64px",
+      "$description": "产品顶部栏高度。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "h-16",
+            "component": "app-header"
+          }
+        }
+      }
+    },
+    "icon-sm": {
+      "$value": "16px",
+      "$description": "按钮、输入框、表格内图标。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "size-4"
+          }
+        }
+      }
+    },
+    "icon-md": {
+      "$value": "20px",
+      "$description": "导航与中尺寸按钮内图标。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "size-5"
+          }
+        }
+      }
+    },
+    "icon-lg": {
+      "$value": "24px",
+      "$description": "弹窗关闭、空状态图标。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "size-6"
+          }
+        }
+      }
+    }
+  }
+}

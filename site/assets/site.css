@@ -695,3 +695,8 @@ main { position: relative; }
 .sidebar > a:first-child { height: 34px; }
 .doc .sec > h2 + p.lead { margin-top: 8px; }
 .doc-head::after { content: none; }
+
+/* 首页：工作台之后接的是与 Foundation 页同一套结构；随场景淡出同步淡入上移 */
+.doc-wrap.p-home + .doc-wrap.p-after-hero { position: relative; z-index: 1; margin-top: -60vh;
+  --k: clamp(0, calc((var(--wb-p, 1) - 0.6) * 3), 1); opacity: var(--k); transform: translateY(calc((1 - var(--k)) * 64px)); }
+.doc-wrap.p-home { padding: 0 !important; background: none !important; }

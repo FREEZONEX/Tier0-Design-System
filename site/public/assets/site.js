@@ -237,8 +237,7 @@
     const tags = [['PLC / MODBUS', '-0.7,1.17,-0.2'], ['UNS / Factory-A / Line-01', '0.05,1.72,-0.3'], ['EDGE_BOX / 192.168.1.50', '0.95,1.02,-0.05']];
     return `<section class="wb" data-workbench><div class="wb-stage"><canvas aria-hidden="true"></canvas>
         ${tags.map(([t, a]) => `<span class="wb-tag" data-anchor="${a}"><i></i>${t}</span>`).join('')}
-</div></section>
-      <div class="home-body">${vFoundation()}</div>`;
+</div></section>`;
   }
   function initHome() {
     const t = document.getElementById('ro-t'), b = document.getElementById('ro-b'), l = document.getElementById('ro-l');
@@ -377,12 +376,17 @@
     const scrollY = window.scrollY;
     const prev = current; current = page;
     if (page !== prev || keepScroll !== 'anchor') {
-      document.getElementById('main').innerHTML = `<div class="doc-wrap p-${page}${page === 'home' ? ' p-foundation' : ''}"><div class="doc">${(VIEWS[page] || (() => vSoon(page)))()}</div><nav class="toc" id="toc" aria-label="本页"></nav></div>`;
+      // 首页 = 工作台首屏 + 与 Foundation 页完全相同的页面结构（同一个 doc-wrap、侧栏、目录）
+      const body = page === 'home'
+        ? `<div class="doc-wrap p-home"><div class="doc">${vHome()}</div></div><div class="doc-wrap p-foundation p-after-hero"><div class="doc">${(current = 'foundation', vFoundation())}</div><nav class="toc" id="toc" aria-label="本页"></nav></div>`
+        : `<div class="doc-wrap p-${page}"><div class="doc">${(VIEWS[page] || (() => vSoon(page)))()}</div><nav class="toc" id="toc" aria-label="本页"></nav></div>`;
+      current = page;
+      document.getElementById('main').innerHTML = body;
       buildToc();
       document.dispatchEvent(new CustomEvent('portal:render'));
     }
     heroState();
-    document.querySelectorAll('[data-r]').forEach(a => { if (a.dataset.r === id) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    document.querySelectorAll('[data-r]').forEach(a => { if (a.dataset.r === (id === 'home' ? 'foundation' : id)) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
     document.getElementById('sidebar').classList.remove('open');
     const item = NAV.flatMap(g => g.items).find(i => i[0] === page);
     document.title = page === 'home' ? 'Tier0 Design System' : `${item ? item[1] : page} · Tier0`;
