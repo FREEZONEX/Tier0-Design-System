@@ -1113,3 +1113,7 @@ body.hero-on .wb { cursor: none; }
 .lm-card span { font-size: 13px; line-height: 20px; color: var(--muted-foreground); }
 @media (max-width: 1000px) { .lm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .lab-panel > .seg { justify-self: start; }
+.sec > h2 .h2-tip { vertical-align: 2px; margin-left: 8px; }
+.sec > h2 .h2-tip svg { width: 16px; height: 16px; }
+.sec > h2 .why-tip::after { font-weight: 400; letter-spacing: 0; left: 0; transform: translate(0, 4px); }
+.sec > h2 .why-tip:hover::after { transform: translate(0, 0); }
