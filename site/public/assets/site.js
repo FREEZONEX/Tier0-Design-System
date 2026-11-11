@@ -99,7 +99,7 @@
   ];
   const NAV = [
     { zh: '', en: '', items: [['foundation', 'Foundation', 'Foundation']] },
-    { zh: 'Tokens', en: 'Tokens', items: [['color', '颜色', 'Color'], ['typography', '字体', 'Typography'], ['spacing', '间距与圆角', 'Spacing & radius', 1], ['motion', '动效', 'Motion', 1]] },
+    { zh: 'Tokens', en: 'Tokens', items: [['color', '颜色', 'Color'], ['typography', '字体', 'Typography'], ['spacing', '间距与布局', 'Spacing & layout'], ['shape', '圆角、线宽与阴影', 'Radius, border & shadow'], ['motion', '动效', 'Motion']] },
     { zh: 'Components', en: 'Components', items: [['components', '全部组件', 'All components']] },
     { zh: 'Brand', en: 'Brand', items: [['logo', 'Logo', 'Logo'], ['templates', '模版', 'Templates', 1]] },
     { zh: 'Skills', en: 'Skills', items: [['skills', 'AI 调用规则', 'AI guidelines'], ['designmd', 'DESIGN.md', 'DESIGN.md', 1]] },
@@ -127,8 +127,10 @@
   async function load() {
     const r = await Promise.all([
       tryFetch('01-tokens/color/base.json'), tryFetch('01-tokens/color/light.json'), tryFetch('01-tokens/color/dark.json'),
-      tryFetch('01-tokens/typography.json'), tryFetch('00-foundation/foundation.md', 'text')]);
-    Object.assign(D, { base: r[0], light: r[1], dark: r[2], typo: r[3], md: r[4] || '' });
+      tryFetch('01-tokens/typography.json'), tryFetch('00-foundation/foundation.md', 'text'),
+      tryFetch('01-tokens/spacing.json'), tryFetch('01-tokens/layout.json'), tryFetch('01-tokens/radius.json'),
+      tryFetch('01-tokens/border.json'), tryFetch('01-tokens/shadow.json'), tryFetch('01-tokens/motion.json')]);
+    Object.assign(D, { base: r[0], light: r[1], dark: r[2], typo: r[3], md: r[4] || '', spacing: r[5], layout: r[6], radius: r[7], border: r[8], shadow: r[9], motion: r[10] });
   }
   const asset = p => (window.__T0_ASSETS && window.__T0_ASSETS[p]) || (D.root || '../') + p;
   const entries = o => Object.entries(o || {}).filter(([k]) => k[0] !== '$');
@@ -367,7 +369,54 @@
     buildToc.spy = () => { let on = links[0]; hs.forEach((h, i) => { if (h.getBoundingClientRect().top < 160) on = links[i]; }); links.forEach(a => a.classList.toggle('on', a === on)); };
     buildToc.spy();
   }
-  const VIEWS = { home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, logo: vLogo, skills: vSkills };
+  // ---------- token 页面公用 ----------
+  const px = v => parseFloat(v) || 0;
+  const tokVal = (doc, v) => { let x = v; for (let i = 0; i < 4 && typeof x === 'string' && x[0] === '{'; i++) { const n = walk(doc, x); x = n ? n.$value : x; } return x; };
+  const why = o => (ext(o).rationale ? `<span class="why">${esc(ext(o).rationale)}</span>` : '');
+  const feOf = o => { const f = ext(o).frontend; return f ? esc(f.tailwind || f.component || f.note || '') : ''; };
+  const ruleList = doc => `<ol class="rules">${((doc && ext(doc).rules) || []).map(r => `<li>${esc(r)}</li>`).join('')}</ol>`;
+  const tokTable = (doc, group, prefix, visual, sort) => `<div class="tk-table">${(sort ? entries(group).sort((x, y) => px(tokVal(doc, x[1].$value)) - px(tokVal(doc, y[1].$value))) : entries(group)).map(([k, o]) => { const v = tokVal(doc, o.$value); return `<button type="button" class="tk-row" data-copy="${esc(String(v))}"><span class="tk-vis">${visual(v, k, o)}</span><span class="tk-name"><code>${prefix}${k}</code><small>${esc(o.$description || '')}</small>${why(o)}</span><span class="tk-val">${esc(Array.isArray(v) ? 'cubic-bezier(' + v.join(', ') + ')' : String(v))}</span><span class="tk-fe">${feOf(o)}</span></button>`; }).join('')}</div>`;
+
+  // ---------- 间距与布局 ----------
+  function vSpacing() {
+    const S = D.spacing, L = D.layout;
+    if (!S || !L) return '<p class="muted">没有读取到间距与布局 token。</p>';
+    const levels = [['元素内', '4–6px', '图标 + 文字', 6], ['组内', '8px', '标签 + 输入框；按钮组', 8], ['组与组', '16px', '表单的两组字段；并排的卡片', 16], ['区块内边距', '24px', '卡片、面板', 24], ['区块与区块', '32–48px', '页面里的两个分区', 40]];
+    const bps = entries(L.breakpoint).map(([k, o]) => [k, px(o.$value), o]);
+    const maxBp = 1600;
+    return docHead('间距与布局', '间距和布局决定信息层级：同一层级用同一档间距，层级越高间距越大。所有数值对齐前端组件与 Tailwind 刻度，每一项写明用途与依据。')
+      + sec('scale', '间距刻度', '4px 基准。只用下列档位，点击一行复制数值。', tokTable(S, S.space, 'space.', v => `<i class="sp-bar" style="width:${Math.max(px(v), 1)}px"></i>`, true))
+      + sec('levels', '层级与间距', '进入更高一层级时，间距至少升一档。', `<div class="lv-list">${levels.map(([n, v, eg, w]) => `<div class="lv-row"><b>${n}</b><span class="lv-demo"><i></i><em style="width:${w}px"></em><i></i></span><code>${v}</code><span class="muted">${eg}</span></div>`).join('')}</div>`)
+      + sec('semantic', '按用途的间距', '组件与页面优先用这一层。', tokTable(S, S.semantic, '', v => `<i class="sp-bar" style="width:${Math.max(px(v), 1)}px"></i>`))
+      + sec('size', '控件与行高', '产品界面默认紧凑密度：控件 32px、行高 40px。', tokTable(S, S.size, 'size.', (v, k) => k.startsWith('icon') ? `<i class="sz-icon" style="width:${px(v)}px;height:${px(v)}px"></i>` : `<i class="sz-ctl" style="height:${Math.min(px(v), 64)}px"></i>`))
+      + sec('breakpoints', '断点', '沿用 Tailwind 默认值。产品界面以 1280 为主设计宽度。', `<div class="bp-ruler">${bps.map(([k, w]) => `<span style="left:${(w / maxBp) * 100}%"><b>${k}</b>${w}</span>`).join('')}</div>` + tokTable(L, L.breakpoint, 'breakpoint.', () => ''))
+      + sec('shell', '页面结构', '顶部栏 64px + 侧栏 256px + 内容区；12 栏栅格。', `<div class="shell-demo"><div class="sd-top">顶部栏 64</div><div class="sd-side">侧栏 256</div><div class="sd-main"><div class="sd-grid">${Array.from({ length: 12 }, () => '<i></i>').join('')}</div><span>内容区 · 内边距 24 · 12 栏 · 沟槽 24</span></div></div>` + tokTable(L, L.shell, 'shell.', () => ''))
+      + sec('width', '内容宽度', '连续阅读的文字单行不超过 680px；表格与看板占满内容区。', tokTable(L, L.width, 'width.', v => `<i class="sp-bar" style="width:${Math.min(px(v) / 12, 140)}px"></i>`))
+      + sec('rules', '使用规则', '', ruleList(S) + ruleList(L));
+  }
+
+  // ---------- 圆角、线宽与阴影 ----------
+  function vShape() {
+    const R = D.radius, B = D.border, H = D.shadow;
+    if (!R || !B || !H) return '<p class="muted">没有读取到圆角、线宽与阴影 token。</p>';
+    return docHead('圆角、线宽与阴影', '组件的外形：圆角以 4px 为主，层级以 1px 细线为主，阴影只用于浮层与交互反馈。')
+      + sec('radius', '圆角', '控件 4px，卡片 6px，上限 8px；圆形元素是唯一的例外。', `<div class="shape-grid">${entries(R.radius).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo" style="border-radius:${k === 'full' ? '999px' : o.$value}${k === 'full' ? ';width:96px;height:32px' : ''}"></span><code>radius.${k}</code><b>${esc(o.$value === '9999px' ? '全圆' : o.$value)}</b><small>${esc(o.$description)}</small></button>`).join('')}</div>` + ruleList(R))
+      + sec('border', '线宽', '1px 为默认；2px 只用于焦点、选中与图表强调；虚线表示尚未存在的对象。', `<div class="shape-grid">${entries(B.border).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo line" style="border-width:${o.$value}"></span><code>border.${k}</code><b>${esc(o.$value)}</b><small>${esc(o.$description)}</small></button>`).join('')}${entries(B.style).map(([k, o]) => `<div class="shape-card"><span class="shape-demo line" style="border-style:${o.$value}"></span><code>style.${k}</code><b>${esc(o.$value)}</b><small>${esc(o.$description)}</small></div>`).join('')}</div>` + ruleList(B))
+      + sec('shadow', '阴影', '页面内的容器不用阴影。阴影只出现在浮层和交互反馈上，每一档写明原因。', `<div class="shape-grid sh">${entries(H.shadow).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo sh" style="box-shadow:${o.$value === 'none' ? 'none' : o.$value}"></span><code>shadow.${k}</code><small>${esc(o.$description)}</small>${why(o)}</button>`).join('')}</div>` + ruleList(H));
+  }
+
+  // ---------- 动效 ----------
+  function vMotion() {
+    const M = D.motion;
+    if (!M) return '<p class="muted">没有读取到动效 token。</p>';
+    const curve = v => { const [a, b, c, d] = v; return `<svg viewBox="0 0 100 100" class="ez"><path d="M0 100 C ${a * 100} ${100 - b * 100}, ${c * 100} ${100 - d * 100}, 100 0" /></svg>`; };
+    return docHead('动效', '动效用来说明状态变化和层级关系，不用来装饰。点击「播放」查看每一档的实际速度。')
+      + sec('duration', '时长', '移动距离越大，时长越长。', `<div class="mo-list">${entries(M.duration).filter(([k]) => k !== 'signal').map(([k, o]) => `<div class="mo-row"><div class="mo-meta"><code>duration.${k}</code><b>${esc(o.$value)}</b><small>${esc(o.$description)}</small></div><div class="mo-track"><i data-mo-dur="${px(o.$value)}"></i></div><button type="button" class="ui-btn outline" data-mo-play>播放</button></div>`).join('')}<div class="mo-row"><div class="mo-meta"><code>duration.signal</code><b>${esc(M.duration.signal.$value)}</b><small>${esc(M.duration.signal.$description)}</small></div><div class="mo-track sig-track"><i class="sig" style="animation-duration:${M.duration.signal.$value}"></i></div><span></span></div></div>`)
+      + sec('easing', '曲线', '进入用 enter，退出用 exit，其余用 standard。不用回弹和弹性。', `<div class="mo-list">${entries(M.easing).map(([k, o]) => `<div class="mo-row"><div class="mo-meta"><code>easing.${k}</code><b>cubic-bezier(${o.$value.join(', ')})</b><small>${esc(o.$description)}</small></div><div class="mo-curve">${curve(o.$value)}<div class="mo-track"><i data-mo-dur="600" data-mo-ease="cubic-bezier(${o.$value.join(',')})"></i></div></div><button type="button" class="ui-btn outline" data-mo-play>播放</button></div>`).join('')}</div>`)
+      + sec('rules', '使用规则', '', ruleList(M));
+  }
+
+  const VIEWS = { spacing: vSpacing, shape: vShape, motion: vMotion, home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, logo: vLogo, skills: vSkills };
   let current = '';
   function route(keepScroll) {
     if (!location.hash) history.replaceState(null, '', '#foundation');
@@ -401,6 +450,7 @@
     const cp = t.closest('[data-copy]'); if (cp) { e.preventDefault(); copy(cp.dataset.copy); return; }
     const jp = t.closest('[data-jump]'); if (jp) { e.preventDefault(); const el = document.getElementById(jp.dataset.jump); if (el) el.scrollIntoView({ behavior: 'smooth' }); return; }
     const vw = t.closest('[data-view]'); if (vw) { const sp = vw.closest('[data-spec]'); sp.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', b === vw)); sp.querySelectorAll('[data-pane]').forEach(p => { p.hidden = p.dataset.pane !== vw.dataset.view; }); return; }
+    const mp = t.closest('[data-mo-play]'); if (mp) { mp.closest('.mo-row').querySelectorAll('[data-mo-dur]').forEach(b => { b.style.transition = 'none'; b.style.transform = 'translateX(0)'; void b.offsetWidth; b.style.transition = `transform ${b.dataset.moDur}ms ${b.dataset.moEase || 'cubic-bezier(0.4,0,0.2,1)'}`; b.style.transform = 'translateX(calc(var(--mo-w) - 16px))'; }); return; }
     const tab = t.closest('[data-tab]'); if (tab) { const w = tab.closest('[data-tabs]'); w.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b === tab)); w.querySelector('.ui-tabs-panel').textContent = tab.dataset.tab; return; }
     const sg = t.closest('[data-seg] button'); if (sg) {
       const k = sg.parentElement.dataset.seg, v = sg.dataset.v;
