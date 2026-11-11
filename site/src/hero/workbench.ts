@@ -12,7 +12,7 @@ const T = {
   green: '#B2ED1D', green300: '#CBF368', green200: '#DCF797', green700: '#7EA815',
 }
 
-type MatKey = 'ink' | 'peg' | 'alu' | 'laminate' | 'paint' | 'housing' | 'plastic' | 'rubber' | 'bin' | 'led' | 'light' | 'glass' | 'hall' | 'hallDark'
+type MatKey = 'ink' | 'peg' | 'alu' | 'laminate' | 'paint' | 'housing' | 'plastic' | 'rubber' | 'bin' | 'led' | 'light' | 'glass' | 'hall' | 'hallDark' | 'scenery' | 'sceneryMetal'
 type Edge = 'near' | 'far' | 'none'
 
 function brushedTexture(base: string) {
@@ -198,6 +198,8 @@ export class Workbench {
       light: new THREE.MeshBasicMaterial({ color: '#ffffff', toneMapped: false }),
       glass: new THREE.MeshStandardMaterial({ color: '#ffffff', transparent: true, opacity: 0.25, roughness: 0.1, metalness: 0 }),
       hall: new THREE.MeshStandardMaterial({ color: T.g25, roughness: 1 }),
+      scenery: new THREE.MeshStandardMaterial({ color: T.g50, roughness: 0.85 }),
+      sceneryMetal: new THREE.MeshStandardMaterial({ color: T.g200, metalness: 0.3, roughness: 0.6 }),
       hallDark: new THREE.MeshStandardMaterial({ color: T.g200, roughness: 1 }),
     }
 
@@ -311,8 +313,10 @@ export class Workbench {
     g.position.set(ox, 0, oz)
     this.root.add(g)
     const e: Edge = hero ? 'near' : 'far'
-    const B = (w: number, h: number, d: number, k: MatKey, x: number, y: number, z: number, edge: Edge = e) => this.box(w, h, d, k, x, y, z, edge, g)
-    const C = (r: number, l: number, k: MatKey, x: number, y: number, z: number, a: 'x' | 'y' | 'z' = 'y', edge: Edge = e) => this.cyl(r, l, k, x, y, z, a, edge, g)
+    // 背景工作台用场景材质，深色模式下统一压暗，不抢主工作台
+    const bg = (k: MatKey): MatKey => hero ? k : k === 'alu' || k === 'housing' ? 'sceneryMetal' : k === 'paint' || k === 'laminate' ? 'scenery' : k
+    const B = (w: number, h: number, d: number, k: MatKey, x: number, y: number, z: number, edge: Edge = e) => this.box(w, h, d, bg(k), x, y, z, edge, g)
+    const C = (r: number, l: number, k: MatKey, x: number, y: number, z: number, a: 'x' | 'y' | 'z' = 'y', edge: Edge = e) => this.cyl(r, l, k ? bg(k) : k, x, y, z, a, edge, g)
 
     // 框架
     B(3.0, 0.045, 0.85, hero ? 'ink' : 'laminate', 0, F - 0.0225, 0)
@@ -487,7 +491,7 @@ export class Workbench {
     B(0.36, 0.42, 0.34, 'housing', 0.1, 0.32, -0.05)
     for (let i = 0; i < 8; i++) B(0.26, 0.006, 0.004, 'plastic', 0.1, 0.18 + i * 0.03, 0.122, 'none')
     this.led(0.22, 0.48, 0.123, 0.016, g)
-    C(0.1, 0.3, 'paint', -1.75, 0.15, 0.25)
+    C(0.1, 0.3, 'scenery', -1.75, 0.15, 0.25)
 
     // ---- 数据流 ----
     this.flow([[-0.7, F + 0.19, -0.15], [-0.45, F + 0.2, -0.08], [-0.2, F + 0.02, -0.02], [-0.02, F + 0.04, -0.26], [0.03, F + 0.22, -0.31]], 3, 0.08)
@@ -525,13 +529,13 @@ export class Workbench {
     wall(Z1 - Z0, H, W, H / 2, (Z0 + Z1) / 2, -Math.PI / 2)
     for (let i = -3; i <= 3; i++) {
       if (i === 0) continue
-      this.box(1.8, 1.4, 0.05, 'paint', i * 2.4, 4.6, Z0 + 0.03, 'far')
-      this.box(0.03, 1.4, 0.06, 'paint', i * 2.4, 4.6, Z0 + 0.04, 'far')
+      this.box(1.8, 1.4, 0.05, 'scenery', i * 2.4, 4.6, Z0 + 0.03, 'far')
+      this.box(0.03, 1.4, 0.06, 'scenery', i * 2.4, 4.6, Z0 + 0.04, 'far')
     }
     this.box(3.2, 3.6, 0.06, 'hallDark', 0, 1.8, Z0 + 0.03, 'far')
-    for (let i = 0; i < 9; i++) this.box(3.2, 0.01, 0.07, 'paint', 0, 0.4 + i * 0.4, Z0 + 0.04, 'none')
+    for (let i = 0; i < 9; i++) this.box(3.2, 0.01, 0.07, 'scenery', 0, 0.4 + i * 0.4, Z0 + 0.04, 'none')
     for (let z = Z0 + 2; z <= Z1; z += 4) {
-      for (const x of [-W + 0.3, W - 0.3]) this.box(0.3, H, 0.3, 'paint', x, H / 2, z, 'far')
+      for (const x of [-W + 0.3, W - 0.3]) this.box(0.3, H, 0.3, 'scenery', x, H / 2, z, 'far')
       const tp: number[] = []
       const n = 12
       for (let i = 0; i < n; i++) {
@@ -549,31 +553,31 @@ export class Workbench {
         this.box(1.2, 0.06, 0.2, 'light', x, H - 1.63, z, 'far')
       }
     }
-    this.box(W * 2 - 0.6, 0.3, 0.25, 'paint', 0, 5.2, -6, 'far')
+    this.box(W * 2 - 0.6, 0.3, 0.25, 'scenery', 0, 5.2, -6, 'far')
 
     // 输送线
     const CZ = -7.5
-    this.box(12, 0.08, 0.7, 'paint', 0, 0.8, CZ, 'far')
-    for (let x = -6; x <= 6; x += 1.5) this.box(0.08, 0.8, 0.6, 'paint', x, 0.4, CZ, 'far')
-    for (let x = -5.9; x <= 5.9; x += 0.25) this.cyl(0.03, 0.66, 'laminate', x, 0.86, CZ, 'z', 'none')
+    this.box(12, 0.08, 0.7, 'scenery', 0, 0.8, CZ, 'far')
+    for (let x = -6; x <= 6; x += 1.5) this.box(0.08, 0.8, 0.6, 'scenery', x, 0.4, CZ, 'far')
+    for (let x = -5.9; x <= 5.9; x += 0.25) this.cyl(0.03, 0.66, 'scenery', x, 0.86, CZ, 'z', 'none')
     const crates: THREE.Mesh[] = []
-    for (let i = 0; i < 6; i++) crates.push(this.box(0.45, 0.32, 0.45, i % 3 === 1 ? 'paint' : 'paint', 0, 1.06, CZ, 'far'))
+    for (let i = 0; i < 6; i++) crates.push(this.box(0.45, 0.32, 0.45, i % 3 === 1 ? 'scenery' : 'scenery', 0, 1.06, CZ, 'far'))
     this.movers.push(t => crates.forEach((c, i) => { c.position.x = -6 + ((t * 0.00008 + i / crates.length) % 1) * 12 }))
     // 机械臂
-    this.cyl(0.3, 0.3, 'paint', 3.2, 0.15, CZ - 1.2, 'y', 'far')
+    this.cyl(0.3, 0.3, 'scenery', 3.2, 0.15, CZ - 1.2, 'y', 'far')
     const turret = new THREE.Group()
     turret.position.set(3.2, 0.3, CZ - 1.2)
     this.root.add(turret)
-    this.cyl(0.22, 0.4, 'paint', 0, 0.2, 0, 'y', 'far', turret)
+    this.cyl(0.22, 0.4, 'scenery', 0, 0.2, 0, 'y', 'far', turret)
     const shoulder = new THREE.Group()
     shoulder.position.set(0, 0.45, 0)
     turret.add(shoulder)
-    this.box(0.18, 1.1, 0.18, 'paint', 0, 0.55, 0, 'far', shoulder)
+    this.box(0.18, 1.1, 0.18, 'scenery', 0, 0.55, 0, 'far', shoulder)
     const elbow = new THREE.Group()
     elbow.position.set(0, 1.1, 0)
     shoulder.add(elbow)
-    this.cyl(0.13, 0.26, 'paint', 0, 0, 0, 'z', 'far', elbow)
-    this.box(0.9, 0.14, 0.14, 'paint', 0.45, 0, 0, 'far', elbow)
+    this.cyl(0.13, 0.26, 'scenery', 0, 0, 0, 'z', 'far', elbow)
+    this.box(0.9, 0.14, 0.14, 'scenery', 0.45, 0, 0, 'far', elbow)
     this.box(0.1, 0.18, 0.16, 'housing', 0.92, -0.08, 0, 'far', elbow)
     this.movers.push(t => {
       turret.rotation.y = Math.sin(t * 0.0005) * 0.9
@@ -582,18 +586,18 @@ export class Workbench {
     })
     // 货架
     for (const rz of [-11, -14]) {
-      for (let x = -8.5; x <= -4.5; x += 1) this.box(0.08, 4, 0.08, 'alu', x, 2, rz, 'far')
+      for (let x = -8.5; x <= -4.5; x += 1) this.box(0.08, 4, 0.08, 'sceneryMetal', x, 2, rz, 'far')
       for (let y = 0.2; y < 4; y += 1.25) {
-        this.box(4.1, 0.06, 1.0, 'alu', -6.5, y, rz + 0.45, 'far')
-        for (let x = -8.25; x <= -5.3; x += 1) this.box(0.85, 0.8, 0.9, Math.round(x + y * 3) % 3 === 0 ? 'paint' : 'paint', x + 0.25, y + 0.43, rz + 0.45, 'far')
+        this.box(4.1, 0.06, 1.0, 'sceneryMetal', -6.5, y, rz + 0.45, 'far')
+        for (let x = -8.25; x <= -5.3; x += 1) this.box(0.85, 0.8, 0.9, Math.round(x + y * 3) % 3 === 0 ? 'scenery' : 'scenery', x + 0.25, y + 0.43, rz + 0.45, 'far')
       }
     }
     for (const [x, z] of [[4.2, -9.5], [4.2, -13], [-0.2, -9.5], [-0.2, -13]] as [number, number][]) this.buildBench(x, z, false)
     // AGV
     const agv = new THREE.Group()
     this.root.add(agv)
-    this.box(0.9, 0.22, 0.6, 'paint', 0, 0.13, 0, 'far', agv)
-    this.box(0.7, 0.4, 0.45, 'paint', 0, 0.45, 0, 'far', agv)
+    this.box(0.9, 0.22, 0.6, 'scenery', 0, 0.13, 0, 'far', agv)
+    this.box(0.7, 0.4, 0.45, 'scenery', 0, 0.45, 0, 'far', agv)
         agv.rotation.y = Math.PI / 2
     this.movers.push(t => { agv.position.set(-1.8, 0, 6 - ((t * 0.00006) % 1) * 20) })
   }
@@ -608,6 +612,8 @@ export class Workbench {
     ;(this.mats.hallDark as THREE.MeshStandardMaterial).color.set(dark ? '#16181C' : T.g200)
     this.gridMat.color.set(dark ? '#2A2D33' : T.g300)
     this.edgeFar.color.set(dark ? '#3A3E45' : T.g400)
+    ;(this.mats.scenery as THREE.MeshStandardMaterial).color.set(dark ? '#23262B' : T.g50)
+    ;(this.mats.sceneryMetal as THREE.MeshStandardMaterial).color.set(dark ? '#2C3036' : T.g200)
   }
   setProgress(p: number) { this.progress = p }
   setMouse(x: number, y: number) { this.mouse.set(x, y) }

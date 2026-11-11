@@ -9,7 +9,7 @@
         "拖拽中的卡片、行用 md，表示它被「拿起」。",
         "深色模式下阴影不可见，浮层改用 1px border 区分。"
       ],
-      "frontend": "前端 card 当前带 shadow-sm，按本规范页面内卡片去掉阴影。"
+      "frontend": "xs/md/lg 取值与前端 Tailwind 默认值一致（之前文档值与前端不同，已对齐）。焦点外圈对应前端 --shadow-input。前端另有 --shadow（0 4px 6px 9%）未被组件使用，建议删除。dropdown 子菜单当前用 shadow-lg，按本规范应为 shadow-md。"
     }
   },
   "shadow": {
@@ -19,7 +19,7 @@
       "$description": "默认。页面内所有容器。"
     },
     "xs": {
-      "$value": "0 1px 2px 0 rgba(5,11,20,0.05)",
+      "$value": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
       "$description": "交互反馈：按钮、输入框的轻微立体感。",
       "$extensions": {
         "tier0": {
@@ -31,7 +31,7 @@
       }
     },
     "md": {
-      "$value": "0 4px 12px -2px rgba(5,11,20,0.10)",
+      "$value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
       "$description": "浮层：下拉、气泡、提示、通知；拖拽中的元素。",
       "$extensions": {
         "tier0": {
@@ -43,7 +43,7 @@
       }
     },
     "lg": {
-      "$value": "0 12px 32px -8px rgba(5,11,20,0.16)",
+      "$value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
       "$description": "浮层：弹窗、侧滑面板。",
       "$extensions": {
         "tier0": {
@@ -51,6 +51,17 @@
             "tailwind": "shadow-lg"
           },
           "rationale": "离页面最远的一层，用更大的阴影把注意力集中在弹窗上。"
+        }
+      }
+    },
+    "focus": {
+      "$value": "0 0 0 2px rgb(162 216 26 / 0.2)",
+      "$description": "输入框、选择器获得焦点时的外圈；校验失败时同形制，颜色换成 destructive 的 20%。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "shadow-input / shadow-input-invalid"
+          }
         }
       }
     }

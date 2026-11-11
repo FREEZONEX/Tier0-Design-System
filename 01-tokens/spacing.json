@@ -9,7 +9,8 @@
         "不使用 space 刻度以外的数值（如 10px、14px、18px）；前端出现的 gap-2.5、p-2.5 等需改为相邻档位。",
         "产品界面默认密度为「紧凑」：控件高 32px、表格行高 40px、卡片内边距 24px；不在同一页面混用两种密度。"
       ],
-      "basis": "前端使用频次（packages/ui + apps/saas-dashboard）：gap-2 574、gap-4 236、gap-1 207、gap-3 188、px-4 172、px-3 122、py-2 180、h-8 139、h-9 75、h-10 40。"
+      "basis": "前端使用频次（packages/ui + apps/saas-dashboard）：gap-2 574、gap-4 236、gap-1 207、gap-3 188、px-4 172、px-3 122、py-2 180、h-8 139、h-9 75、h-10 40。",
+      "frontend": "前端 gap-2.5 26 处、py-2.5 16 处、px-2.5 15 处（10px）不在档位内，改为 2 或 3；gap-1.5（6px，194 处）在档位内。"
     }
   },
   "space": {

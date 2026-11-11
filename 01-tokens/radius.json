@@ -10,7 +10,7 @@
         "例外：胶囊徽章、进度条、开关、滑块、头像、状态圆点用 radius.full；除此之外不使用全圆角。",
         "嵌套时内层圆角不大于外层。"
       ],
-      "frontend": "前端 --radius 为 0.5rem，派生 sm 2px / md 4px / lg 6px / xl 10px。card 组件当前为 rounded-xl（10px），按本规范应为 rounded-lg（6px）。"
+      "frontend": "前端 --radius 为 0.5rem，派生 sm 2px / md 4px / lg 6px / xl 10px。card 组件当前为 rounded-xl（10px），按本规范应为 rounded-lg（6px）。 前端还有 rounded-[4px] 145 处、rounded-[3px] 40 处、rounded-[2px] 18 处、rounded-[6px] 10 处：[4px]/[2px]/[6px] 改成 rounded-md/sm/lg，[3px] 改成 rounded-sm 或 rounded-md；rounded-xl（10px）和 rounded-2xl 共 16 处超过 8px 上限。"
     }
   },
   "radius": {
