@@ -772,3 +772,42 @@ main { position: relative; }
 .doc-wrap:not(.p-home) > .doc > * { max-width: 1120px; margin-left: 0; margin-right: 0; }
 .doc-wrap:not(.p-home) { grid-template-columns: minmax(0, 1fr) 208px; }
 .tk-row { grid-template-columns: 104px minmax(0, 1fr) 96px 120px; }
+
+/* 去掉右侧「本页」目录与页眉小标 */
+.doc-wrap:not(.p-home) { grid-template-columns: minmax(0, 1fr) !important; }
+.doc-wrap:not(.p-home) > .toc { display: none !important; }
+.doc-wrap:not(.p-home) > .doc { border-right: 1px solid var(--border); }
+.eyebrow { display: none; }
+/* 侧栏选中：灰底，无描边、无竖条 */
+.sidebar h6 ~ a, .sidebar h6 ~ a:hover { border-left: 0; padding-left: 12px; border-radius: var(--radius); }
+.sidebar h6 ~ a[aria-current="page"] { border-left: 0; padding-left: 12px; background: var(--muted); font-weight: 500; }
+.sidebar > a:first-child, .sidebar > a:first-child[aria-current="page"] { border: 0; padding-left: 12px; }
+.sidebar > a:first-child[aria-current="page"] { background: var(--muted); font-weight: 500; }
+.sidebar h6 { padding-left: 12px; }
+/* 深色模式：中性灰的表面（token 中 black-700/800 略偏绿，门户先用中性值） */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body { --card: #141619; --subtle: #0D1014; --muted: #1E2125; --border: #24272C; } }
+:root[data-theme="dark"] body { --card: #141619; --subtle: #0D1014; --muted: #1E2125; --border: #24272C; }
+/* 品牌特征配图 */
+.trait-art { background: var(--subtle); }
+.trait-art svg { width: 100%; max-width: 220px; height: auto; overflow: visible; }
+.trait-art .ln { fill: none; stroke: var(--foreground); stroke-width: 1; opacity: .55; vector-effect: non-scaling-stroke; }
+.trait-art .ln.faint { opacity: .25; }
+.trait-art .sig-off { fill: var(--input); }
+.trait-art .sig-on { fill: var(--highlight); }
+.trait-art .fill-sub { fill: var(--muted); }
+.trait-art .fill-card { fill: var(--card); stroke: var(--border); }
+.trait-art .cell { fill: transparent; }
+.trait-art .lbl { font: 500 11px var(--font-mono); fill: var(--muted-foreground); }
+.trait-art .bars rect { fill: var(--input); }
+.trait-art .bars .b-on { fill: var(--highlight); }
+.trait-art .node-on { fill: var(--highlight); opacity: .5; }
+.trait-art * { transition: transform 240ms var(--ease), opacity 240ms var(--ease), fill 240ms var(--ease); transform-box: fill-box; }
+.trait-card:hover .art-0 .sig-on { animation: blink 1.2s var(--ease) 2; }
+@keyframes blink { 50% { opacity: .3; } }
+.trait-card:hover .art-1 .lift { transform: translate(-4px, -4px); }
+.trait-card:hover .art-2 .cell { fill: color-mix(in srgb, var(--highlight) 35%, transparent); }
+.trait-card:hover .art-3 .dim { opacity: .7; }
+.art-4 .bars rect { transform-origin: bottom; }
+.trait-card:hover .art-4 .bars rect { transform: scaleY(1.15); }
+.trait-card:hover .art-5 .node-on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .trait-card:hover .art-0 .sig-on { animation: none; } }

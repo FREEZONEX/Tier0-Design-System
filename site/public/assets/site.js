@@ -207,7 +207,7 @@
   const seg = (id, opts, cur) => `<div class="seg" data-seg="${id}">${opts.map(([v, l]) => `<button type="button" data-v="${v}" aria-pressed="${v === cur}">${l}</button>`).join('')}</div>`;
   const sec = (id, title, lead, body) => `<section class="sec" id="${id}"><h2>${esc(title)}</h2>${lead ? `<p class="lead">${lead}</p>` : ''}${body}</section>`;
   const eyebrow = () => { const g = NAV.find(x => x.items.some(i => i[0] === current)); const it = g && g.items.find(i => i[0] === current); return [g && g.zh, it && it[1]].filter(Boolean).join(' / '); };
-  const docHead = (title, desc) => `<header class="doc-head"><span class="eyebrow">${esc(eyebrow())}</span><h1>${esc(title)}</h1>${desc ? `<p>${desc}</p>` : ''}</header>`;
+  const docHead = (title, desc) => `<header class="doc-head"><h1>${esc(title)}</h1>${desc ? `<p>${desc}</p>` : ''}</header>`;
   const foot = code => `<div class="spec-foot"><code>${esc(code)}</code>${copyBtn(code)}</div>`;
 
   // ---------- shell ----------
@@ -249,14 +249,21 @@
   }
 
   // ---------- foundation ----------
+  // 品牌特征配图：统一为 1px 线稿，只有需要强调的那一处用品牌绿；悬停时演示该特征
   function traitArt(i) {
     const art = [
-      '<div class="mini-panel"><span class="signal-dot"></span><code>已连接</code><div class="mini-bars"><i></i><i></i><i></i></div><strong>72.4 <small>°C</small></strong></div>',
-      '<div class="surface-stack"><div></div><div></div><div><span></span><span></span></div></div>',
-      '<div class="line-grid"><i></i><i></i><i></i><i></i><i></i><i></i></div>',
-      '<div class="corner-frame"><div></div><code>R 4</code></div>',
-      '<div class="mini-panel"><code>产线设备</code><div class="mini-bars"><i></i><i></i><i></i></div><div class="mini-action">查看数据 ↗</div></div>',
-      '<div class="mini-tree"><span>工厂</span><span>└ 产线</span><span>　└ 设备 <i></i></span></div>'
+      // 信号灯：一排设备，只有运行中的那个亮起
+      '<svg viewBox="0 0 200 120"><g class="ln">' + [0,1,2,3,4].map(k => `<rect x="${18 + k * 34}" y="38" width="26" height="44" rx="2"/>`).join('') + '</g><g>' + [0,1,2,3,4].map(k => `<rect class="${k === 2 ? 'sig-on' : 'sig-off'}" x="${27 + k * 34}" y="48" width="8" height="8"/>`).join('') + '</g><path class="ln" d="M18 96 H182"/></svg>',
+      // 白底浅灰：白色卡片放在浅灰区块上
+      '<svg viewBox="0 0 200 120"><rect class="fill-sub" x="20" y="18" width="160" height="84" rx="2"/><rect class="fill-card lift" x="40" y="34" width="120" height="52" rx="2"/><path class="ln faint" d="M54 52 H130 M54 64 H112"/></svg>',
+      // 细线为主：表格网格，悬停选中一格
+      '<svg viewBox="0 0 200 120"><rect class="cell" x="80" y="44" width="40" height="32"/><g class="ln"><rect x="40" y="12" width="120" height="96"/><path d="M80 12 V108 M120 12 V108 M40 44 H160 M40 76 H160"/></g></svg>',
+      // 近直角：4px 圆角的放大标注
+      '<svg viewBox="0 0 200 120"><rect class="ln" x="44" y="22" width="112" height="76" rx="4"/><path class="ln faint dim" d="M44 34 H30 M56 22 V8"/><text class="lbl" x="22" y="18">R4</text></svg>',
+      // 产品即展示：界面窗口，数据条在悬停时推进
+      '<svg viewBox="0 0 200 120"><g class="ln"><rect x="30" y="16" width="140" height="88" rx="2"/><path d="M30 30 H170"/></g><g class="bars"><rect x="46" y="72" width="12" height="20"/><rect x="66" y="60" width="12" height="32"/><rect x="86" y="66" width="12" height="26"/><rect class="b-on" x="106" y="48" width="12" height="44"/><rect x="126" y="56" width="12" height="36"/></g></svg>',
+      // 工程气质：UNS 层级树，末端节点亮起
+      '<svg viewBox="0 0 200 120"><g class="ln"><path d="M52 26 V58 H86 M52 58 V90 H86 M98 58 H128 V74 H150"/><rect x="40" y="16" width="24" height="20" rx="2"/><rect x="86" y="48" width="24" height="20" rx="2"/><rect x="86" y="80" width="24" height="20" rx="2"/></g><rect class="node-on" x="150" y="68" width="12" height="12"/></svg>'
     ];
     return `<div class="trait-art art-${i}" aria-hidden="true">${art[i]}</div>`;
   }

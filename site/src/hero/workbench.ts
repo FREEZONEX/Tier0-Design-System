@@ -602,6 +602,12 @@ export class Workbench {
   applyTheme() {
     const bg = getComputedStyle(document.documentElement).getPropertyValue('--background').trim() || T.g25
     ;(this.scene.fog as THREE.Fog).color.set(bg)
+    const dark = new THREE.Color(bg).getHSL({ h: 0, s: 0, l: 0 }).l < 0.5
+    // 深色模式：车间地面、墙面与网格转为深色中性灰，工作台本身不变
+    ;(this.mats.hall as THREE.MeshStandardMaterial).color.set(dark ? '#0E1013' : T.g25)
+    ;(this.mats.hallDark as THREE.MeshStandardMaterial).color.set(dark ? '#16181C' : T.g200)
+    this.gridMat.color.set(dark ? '#2A2D33' : T.g300)
+    this.edgeFar.color.set(dark ? '#3A3E45' : T.g400)
   }
   setProgress(p: number) { this.progress = p }
   setMouse(x: number, y: number) { this.mouse.set(x, y) }
