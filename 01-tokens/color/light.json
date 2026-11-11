@@ -104,7 +104,7 @@
       }
     },
     "extended": {
-      "$description": "产品扩展：前端 packages/theme 现有的细分 token，保留用于兼容，新组件优先使用上面的主层。",
+      "$description": "产品扩展：平台现有的细分 token，保留用于兼容，新组件优先使用上面的主层。",
       "bg-color": {
         "$value": "{color.scale.primary-white}",
         "$description": "用于页面主背景。不用于卡片内再套一层背景。"

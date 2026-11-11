@@ -1,5 +1,5 @@
 {
-  "$description": "布局：断点、页面结构、栅格与内容宽度。断点与前端 Tailwind 默认值一致，不另设。",
+  "$description": "布局：断点、页面结构、栅格与内容宽度。",
   "$extensions": {
     "tier0": {
       "rules": [

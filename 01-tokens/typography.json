@@ -111,7 +111,7 @@
   "typography": {
     "$description": "字阶分两套：product 用于产品后台，web 用于官网和宣传物料。",
     "product": {
-      "$description": "产品字阶：产品后台界面使用，与前端 packages/theme 一致。",
+      "$description": "产品字阶：Tier0 平台界面使用。",
       "typo-h1": {
         "$type": "typography",
         "$value": {
@@ -417,7 +417,7 @@
           "建议最小字号 12px；更小的字号只用于图表刻度等不需要阅读的文字。",
           "字重只用 400 / 500 / 600 / 700。",
           "实时读数、数据路径、代码用 code 字阶（IBM Plex Mono）；表格里的数字用正文字体并开启等宽数字（tabular-nums）。",
-          "只用字阶里的字号，不写任意值（如 text-[17px]）。前端现有写法对应：text-lg → body-lg，text-xl → typo-h4，text-2xl → typo-h3，text-[13px] → code，text-[17px] → body-lg。",
+          "只用字阶里的字号，不写任意值（如 text-[17px]）。",
           "段落之间：body-sm 正文间隔 12px，body 正文间隔 16px（见 spacing.json）。",
           "连续的中文长文（文档、帮助）使用 body，行高放宽到 28px。",
           "截断：表格单元格、标签、导航单行截断加省略号，并能查看完整内容；卡片说明最多 2 行。",

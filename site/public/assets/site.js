@@ -101,7 +101,7 @@
     { zh: '', en: '', items: [['foundation', 'Foundation', 'Foundation']] },
     { zh: 'Tokens', en: 'Tokens', items: [['color', '颜色', 'Color'], ['typography', '字体', 'Typography'], ['spacing', '间距与布局', 'Spacing & layout'], ['shape', '圆角、线宽与阴影', 'Radius, border & shadow'], ['motion', '动效', 'Motion']] },
     { zh: 'Components', en: 'Components', items: [['components', 'Tier0 平台组件', 'Tier0 platform'], ['scaffold', '应用脚手架', 'App scaffold']] },
-    { zh: 'Brand', en: 'Brand', items: [['logo', 'Logo', 'Logo'], ['templates', '模版', 'Templates', 1]] },
+    { zh: 'Brand', en: 'Brand', items: [['logo', 'Logo', 'Logo'], ['texture', 'Texture', 'Texture'], ['templates', '模版', 'Templates', 1]] },
     { zh: 'Skills', en: 'Skills', items: [['skills', 'AI 调用规则', 'AI guidelines'], ['designmd', 'DESIGN.md', 'DESIGN.md', 1]] },
   ];
   const I18N = { tbd: { zh: '待定', en: 'TBD' }, copy: { zh: '复制', en: 'Copy' }, copied: { zh: '已复制', en: 'Copied' } };
@@ -294,16 +294,16 @@
     const rules = ext(D.light.color).rules || [];
     return docHead('颜色', '近单色的界面，品牌绿只出现在信号、实时数据、选中和重点区块上。点击任一色块复制色值。')
       + sec('brand', '品牌色', '五个品牌色构成 Tier0 的识别。', `<div class="brand-board">${brand.map((x, i) => `<button type="button" class="bsw${i === 0 ? ' lead' : ''}" data-copy="${x.hex}" style="background:${x.hex};color:${lum(x.hex) > 0.4 ? '#050B14' : '#FFFFFF'}" aria-label="复制 ${esc(x.name)} ${x.hex}"><span class="bsw-name">${esc(x.name)}</span><span class="bsw-hex">${x.hex.replace('#', '')}</span><span class="bsw-copy">${I.copy}复制</span></button>`).join('')}</div>`)
-      + sec('scale', '色阶', '绿、黑、灰三组色阶，与前端 <code>packages/theme</code> 同名。', `<div class="ramps">${scale.map(ramp).join('')}</div>`)
+      + sec('scale', '色阶', '绿、黑、灰三组色阶。', `<div class="ramps">${scale.map(ramp).join('')}</div>`)
       + sec('aux', '辅助色', '只用于图表和分类标签，不带语义。', `<div class="ramps">${aux.map(ramp).join('')}</div>`)
       + sec('tokens', '用途 token', '组件只使用这一层。左为浅色、右为深色，点击一行复制变量。', `<div class="tok-groups">${sem.map(([t, list]) => `<div class="tok-group"><div class="tok-group-h"><h3>${esc(t)}</h3><span>${list.length}</span></div><div class="tok-list">${list.map(x => `<button type="button" class="tok-row" data-copy="var(--${x.k})" title="复制 var(--${x.k})"><span class="tok-sw"><i style="background:${x.l}"></i><i style="background:${x.d}"></i></span><span class="tok-name"><code>--${x.k}</code><small>${esc(x.desc)}</small></span><span class="tok-hex"><em>浅</em>${x.l}</span><span class="tok-hex"><em>深</em>${x.d}</span></button>`).join('')}</div></div>`).join('')}</div>`)
-      + sec('rules', '使用规则', '', `<ol class="rules">${rules.map(r => `<li>${esc(r)}</li>`).join('')}</ol>`);
+      + sec('rules', '使用规则', '', rulesBox(rules));
   }
 
   // ---------- typography ----------
-  const ty = { fam: 'display', w: 600, s: 48, lh: 1.2, set: 'product' };
+  const ty = { fam: 'display', w: 600, s: 48, lh: 1.2, ls: 0, set: 'product' };
   const FAMS = [['display', 'Inter'], ['sans', 'IBM Plex Sans'], ['mono', 'IBM Plex Mono'], ['sc', '中文系统字体']];
-  function tyCss() { return `font-family: var(--font-${ty.fam}); font-weight: ${ty.w}; font-size: ${ty.s}px; line-height: ${ty.lh};`; }
+  function tyCss() { return `font-family: var(--font-${ty.fam}); font-weight: ${ty.w}; font-size: ${ty.s}px; line-height: ${ty.lh}; letter-spacing: ${ty.ls}em;`; }
   function vTypo() {
     if (!D.typo) return '<p class="muted">没有读取到字体 token。</p>';
     const group = D.typo.typography[ty.set];
@@ -321,22 +321,23 @@
       ? `<div class="fam"><div class="aa" style="font-family:var(--font-sc)">中文 字</div><b>中文系统字体</b><dl class="os-list">${SC_OS.map(([o, f]) => `<dt>${o}</dt><dd>${f}</dd>`).join('')}</dl><span>不加载中文 Web 字体，按设备自动使用。</span></div>`
       : `<div class="fam"><div class="aa" style="font-family:var(--font-${k})">Aa 字</div><b>${esc(v.$value[0])}</b><span>${esc((v.$description || '').split('——')[0])}</span></div>`).join('');
     return docHead('字体', '标题用 Inter，正文用 IBM Plex Sans，代码与数据用 IBM Plex Mono。中文不加载 Web 字体，使用系统字体：苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体（Noto Sans CJK）。')
-      + sec('specimen', '试排', '选择字体，调整字重、字号和行高，然后直接改写示例文字。产品界面的正文行高约 1.4–1.5，标题约 1.2，大号展示字约 1.1。', `<div class="spec"><div class="spec-bar">${seg('tyfam', FAMS, ty.fam)}<span class="spacer"></span>
+      + sec('specimen', '试排', '选择字体，调整字重、字号、行高和字间距，然后直接改写示例文字。正文行高约 1.4–1.5，标题约 1.2；字间距一般为 0，大号标题可收紧到 -0.02em。', `<div class="spec"><div class="spec-bar">${seg('tyfam', FAMS, ty.fam)}<span class="spacer"></span>
           <label class="ctl"><span class="ctl-h">字重<b id="ty-wv">${ty.w}</b></span><input type="range" id="ty-w" min="400" max="700" step="100" value="${ty.w}"></label>
           <label class="ctl"><span class="ctl-h">字号<b id="ty-sv">${ty.s}px</b></span><input type="range" id="ty-s" min="12" max="96" value="${ty.s}"></label>
-          <label class="ctl"><span class="ctl-h">行高<b id="ty-lv">${ty.lh}</b></span><input type="range" id="ty-l" min="1" max="2" step="0.05" value="${ty.lh}"></label></div>
-        <div class="spec-body"><div class="spec-sample" id="ty-sample" contenteditable="true" spellcheck="false" style="${tyCss()};letter-spacing:${ty.fam === 'display' ? '-0.02em' : '0'}">${lang === 'zh' || ty.fam === 'sc' ? 'Factory-A / Line-01 设备状态 72.4 °C<br>CNC-03 主轴温度持续升高，已通知当班工程师。' : 'Factory-A / Line-01 status 72.4 °C<br>CNC-03 spindle temperature keeps rising; the shift engineer was notified.'}</div></div>${foot(tyCss())}</div>`)
+          <label class="ctl"><span class="ctl-h">行高<b id="ty-lv">${ty.lh}</b></span><input type="range" id="ty-l" min="1" max="2" step="0.05" value="${ty.lh}"></label>
+          <label class="ctl"><span class="ctl-h">字间距<b id="ty-tv">${ty.ls}em</b></span><input type="range" id="ty-t" min="-0.05" max="0.1" step="0.005" value="${ty.ls}"></label></div>
+        <div class="spec-body"><div class="spec-sample" id="ty-sample" contenteditable="true" spellcheck="false" style="${tyCss()}">${lang === 'zh' || ty.fam === 'sc' ? 'Factory-A / Line-01 设备状态 72.4 °C<br>CNC-03 主轴温度持续升高，已通知当班工程师。' : 'Factory-A / Line-01 status 72.4 °C<br>CNC-03 spindle temperature keeps rising; the shift engineer was notified.'}</div></div>${foot(tyCss())}</div>`)
       + sec('scale', '字阶', '每一级都按实际大小展示。产品字阶用于产品后台，官网字阶用于官网、Deck 和宣传物料。', `<div style="margin-bottom:16px">${seg('tyset', [['product', '产品字阶'], ['web', '官网字阶']], ty.set)}</div><div>${rows}</div>`)
       + sec('families', '字体家族', '', `<div class="fam-grid">${fams}</div>`)
-      + sec('rules', '使用规则', '', `<ol class="rules">${(ext(D.typo.typography).rules || []).map(r => `<li>${esc(r)}</li>`).join('')}</ol>`);
+      + sec('rules', '使用规则', '', rulesBox(rulesOf(D.typo.typography)));
   }
 
   // ---------- components (one page) ----------
   let compTheme = 'auto';
   function vComponents() {
     const scope = compTheme === 'dark' ? ' dark-scope' : compTheme === 'light' ? ' light-scope' : '';
-    return docHead('Tier0 平台组件', `Tier0 平台自身使用的组件，以 Tier0-Frontend 的 <code>packages/ui</code> 为准，代码请以前端仓库为准。生成平台应用模版用的是另一套：<a href="#scaffold">应用脚手架</a>。`)
-      + `<div class="repo-row"><a class="ui-btn ghost" href="${FE_REPO}" target="_blank" rel="noopener">Tier0-Frontend ${I.arrow}</a></div>`
+    return docHead('Tier0 平台组件', `Tier0 平台自身使用的组件。生成平台应用模版用的是另一套：<a href="#scaffold">应用脚手架</a>。`)
+      + `<div class="repo-row"><a class="ui-btn ghost" href="${FE_REPO}" target="_blank" rel="noopener">代码仓库 ${I.arrow}</a></div>`
       + `<div style="margin:-24px 0 40px">${seg('ctheme', [['auto', '跟随页面'], ['light', '浅色'], ['dark', '深色']], compTheme)}</div>`
       + COMPONENTS.map(c => sec('c-' + c.id, c.zh, esc(c.desc), `<div class="spec" data-spec>
           <div class="spec-tabs"><div class="seg sm" role="tablist"><button type="button" data-view="preview" aria-pressed="true">预览</button><button type="button" data-view="code" aria-pressed="false">代码</button></div>
@@ -347,19 +348,30 @@
 
   // ---------- scaffold ----------
   function vScaffold() {
-    const src = asset('scaffold/index.html');
-    return docHead('应用脚手架', '用来生成平台应用模版。主题色之后可以更换，所以这里的颜色以脚手架为准，不一定与 Tier0 平台一致。')
-      + `<div class="repo-row"><a class="ui-btn ghost" href="${SCAFFOLD_REPO}" target="_blank" rel="noopener">Tier0-App-Scaffold ${I.arrow}</a><a class="ui-btn ghost" href="${src}" target="_blank" rel="noopener">新窗口打开组件门户 ${I.arrow}</a></div>`
-      + `<div class="sc-frame" id="sc-frame" data-src="${src}"><div class="sc-empty" hidden><p>组件门户还没有构建。在本地运行：</p>${codeBlock('cd site\nnpm run scaffold:gallery')}</div></div>`;
+    return docHead('应用脚手架', '用来生成平台应用模版的组件。主题色之后可以更换，所以这里的颜色以脚手架为准。')
+      + `<div class="repo-row"><a class="ui-btn ghost" href="${SCAFFOLD_REPO}" target="_blank" rel="noopener">代码仓库 ${I.arrow}</a><a class="ui-btn ghost" href="${asset('scaffold/index.html')}" target="_blank" rel="noopener">新窗口打开 ${I.arrow}</a></div>`
+      + `<div class="sc-frame" id="sc-frame"><div class="sc-empty" hidden><p>组件预览暂时无法加载，请在代码仓库中查看。</p></div></div>`;
   }
   function mountScaffold() {
     const box = document.getElementById('sc-frame'); if (!box) return;
-    const empty = box.querySelector('.sc-empty');
-    if (location.protocol === 'file:') { empty.hidden = false; return; }
-    fetch(box.dataset.src, { method: 'HEAD' }).then(r => {
-      if (!r.ok || !/html/.test(r.headers.get('content-type') || '')) throw 0;
-      box.insertAdjacentHTML('afterbegin', `<iframe title="Tier0-App-Scaffold 组件门户" src="${box.dataset.src}" loading="lazy"></iframe>`);
-    }).catch(() => { empty.hidden = false; });
+    const src = asset('scaffold/index.html');
+    const show = () => box.insertAdjacentHTML('afterbegin', `<iframe title="应用脚手架组件预览" src="${src}" loading="lazy"></iframe>`);
+    if (src.startsWith('data:')) return show();
+    if (location.protocol === 'file:') { box.querySelector('.sc-empty').hidden = false; return; }
+    fetch(src, { method: 'HEAD' }).then(r => { if (!r.ok || !/html/.test(r.headers.get('content-type') || '')) throw 0; show(); }).catch(() => { box.querySelector('.sc-empty').hidden = false; });
+  }
+
+  // ---------- texture ----------
+  const TEXTURES = [
+    ['dots', '点阵', '来自工作台的洞洞板。用于大面积品牌区块和空状态背景，表示「可以接入」。', 'background-image: radial-gradient(currentColor 1px, transparent 1.5px); background-size: 12px 12px;'],
+    ['hatch', '斜线', '表示不可用或保留的区域，如页面两侧留白、禁用的拖放区。', 'background-image: repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 8px);'],
+    ['grid', '网格', '来自工程图纸。用于画布、拓扑图和数据结构的底纹。', 'background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 24px 24px;'],
+    ['lines', '横线', '来自记录纸和日志。用于时序、日志、长列表的背景。', 'background-image: repeating-linear-gradient(0deg, currentColor 0 1px, transparent 1px 12px);'],
+  ];
+  function vTexture() {
+    return docHead('Texture', '纹理只用细线和点，颜色取 border 或品牌绿的低透明度，不抢内容。一个区块只用一种纹理。')
+      + sec('list', '纹理', '点击卡片底部复制 CSS。', `<div class="tx-grid">${TEXTURES.map(([k, n, d, css]) => `<div class="tx-card"><div class="tx-stage"><div class="tx-fill" style="${css}"></div><div class="tx-fill tx-lime" style="${css}"></div></div><div class="tx-body"><b>${n}</b><span>${d}</span></div>${foot(css)}</div>`).join('')}</div>`)
+      + sec('rules', '使用规则', '', rulesBox(['纹理只放在背景层，上面的文字和数据必须清楚可读。', '默认用 border 颜色；品牌区块可用品牌绿，透明度不超过 30%。', '一个区块只用一种纹理，不叠加，不做动画。', '表格、表单、卡片内部不用纹理。']));
   }
 
   // ---------- logo ----------
@@ -374,15 +386,27 @@
     ['r', 'M282.069 67.3038H343.414V14.7228H282.069V67.3038ZM359.188 14.7228V67.3038L347.445 79.0468L368.828 123.39H351.827L332.021 81.3254H282.069V123.39H266.295V0.701172H345.166L359.188 14.7228Z'],
     ['z', 'M411.795 109.369V14.7228L425.816 0.701172H490.666L504.688 14.7228V109.369L490.666 123.39H425.816L411.795 109.369ZM427.569 14.7228V109.369H488.914V14.7228H427.569Z'],
   ];
-  const logoSvg = cls => `<svg class="t0-logo ${cls || ''}" viewBox="-4 -4 513 133" role="img" aria-label="Tier0">${LOGO_P.map(([k, d], i) => `<path class="lg-${k}" style="--i:${i}" d="${d}" pathLength="1"/>`).join('')}</svg>`;
-  function playLogo(el) {
-    if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    el.classList.remove('play'); void el.getBoundingClientRect(); el.classList.add('play');
+  const logoSvg = cls => `<svg class="t0-logo ${cls || ''}" viewBox="-4 -4 513 133" role="img" aria-label="Tier0"><g class="lg-all">${LOGO_P.map(([k, d]) => `<path class="lg-${k}" d="${d}" pathLength="1"/>`).join('')}<circle class="lg-ring" cx="458" cy="62" r="10"/><circle class="lg-dot" cx="458" cy="62" r="10"/></g></svg>`;
+  // 一个数据点出现 → 发出一次信号 → 画出 0 → T 靠上组成 T0 → 展开成完整字标。全程约 2.4 秒，只用 motion token 的时长与曲线。
+  const EZ = { std: 'cubic-bezier(0.4,0,0.2,1)', enter: 'cubic-bezier(0,0,0.2,1)' };
+  function playLogo(svg) {
+    if (!svg || matchMedia('(prefers-reduced-motion: reduce)').matches || !svg.animate) return;
+    const q = c => svg.querySelector(c);
+    svg.getAnimations({ subtree: true }).forEach(a => a.cancel());
+    const T0X = 302, MID = -151;
+    const A = (el, kf, o) => el.animate(kf, Object.assign({ fill: 'both' }, o));
+    A(q('.lg-all'), [{ transform: `translateX(${MID}px)` }, { transform: `translateX(${MID}px)`, offset: 1700 / 2200, easing: EZ.std }, { transform: 'none' }], { duration: 2200 });
+    A(q('.lg-dot'), [{ transform: 'scale(0)', opacity: 1, easing: EZ.enter }, { transform: 'scale(1)', opacity: 1, offset: 200 / 1100 }, { transform: 'scale(1)', opacity: 1, offset: 900 / 1100, easing: EZ.std }, { transform: 'scale(1)', opacity: 0 }], { duration: 1100 });
+    A(q('.lg-ring'), [{ transform: 'scale(1)', opacity: 0.6 }, { transform: 'scale(4.5)', opacity: 0 }], { duration: 500, delay: 200, easing: EZ.enter });
+    A(q('.lg-z'), [{ strokeDashoffset: 1, strokeWidth: 3, fillOpacity: 0 }, { strokeDashoffset: 0, strokeWidth: 3, fillOpacity: 0, offset: 0.75 }, { strokeDashoffset: 0, strokeWidth: 0, fillOpacity: 1 }], { duration: 800, delay: 500, easing: EZ.std });
+    A(q('.lg-t'), [{ transform: `translateX(${T0X + 24}px)`, opacity: 0 }, { transform: `translateX(${T0X}px)`, opacity: 1 }], { duration: 300, delay: 1100, easing: EZ.enter });
+    A(q('.lg-t'), [{ transform: `translateX(${T0X}px)` }, { transform: 'none' }], { duration: 500, delay: 1700, easing: EZ.std, fill: 'forwards' });
+    ['.lg-i', '.lg-e', '.lg-r'].forEach((c, n) => A(q(c), [{ transform: 'translateX(-16px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 300, delay: 2000 + n * 60, easing: EZ.enter }));
   }
 
   function vLogo() {
     return docHead('Logo', '字标使用 Tektur，交付时为路径。只在下面四种底色上使用。')
-      + sec('motion', '动效', '字母 T、I、E、R 依次落位，最后用一笔画出 0 的外框并点亮：数据只接一次，之后到处可用。全程约 1 秒，打开网站时在顶栏播放一次，切换页面不重播，不循环。系统开启「减少动态效果」时直接显示静态字标。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><code>T I E R：300ms enter，间隔 60ms　·　0 描边：600ms standard　·　填色：200ms</code><button type="button" class="ui-btn ghost" data-logo-replay>重播</button></div></div>`)
+      + sec('motion', '动效', '从一个数据点出发：点亮、发出一次信号，画出 0，T 靠上组成 T0，再展开成完整的 Tier0。对应「数据只接一次，之后到处可用」。全程约 2.4 秒，打开网站时在顶栏播放一次，不循环；系统开启「减少动态效果」时直接显示静态字标。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><code>点 200ms · 信号 500ms · 0 描边与填色 800ms · T 300ms · 展开 500ms（standard / enter 曲线）</code><button type="button" class="ui-btn ghost" data-logo-replay>重播</button></div></div>`)
       + sec('variants', '版本', '', `<div class="logo-grid">${LOGOS.map(([f, n, bg]) => `<div class="logo-card"><div class="stage" style="background:${bg}"><img alt="Tier0 ${n}" src="${asset('03-brand/logo/assets/' + f)}"></div><div class="foot"><span>${n}<span class="muted"> · ${bg}</span></span><a class="ui-btn ghost" href="${asset('03-brand/logo/assets/' + f)}" target="_blank" rel="noopener">SVG ${I.arrow}</a></div></div>`).join('')}</div>`);
   }
 
@@ -420,8 +444,10 @@
   const px = v => parseFloat(v) || 0;
   const tokVal = (doc, v) => { let x = v; for (let i = 0; i < 4 && typeof x === 'string' && x[0] === '{'; i++) { const n = walk(doc, x); x = n ? n.$value : x; } return x; };
   const why = o => (ext(o).rationale ? `<span class="why">${esc(ext(o).rationale)}</span>` : '');
-  const feOf = o => { const f = ext(o).frontend; return f ? esc(f.tailwind || f.component || f.note || '') : ''; };
-  const ruleList = doc => `<ol class="rules">${((doc && ext(doc).rules) || []).map(r => `<li>${esc(r)}</li>`).join('')}</ol>`;
+  const feOf = o => { const f = ext(o).frontend; return f ? esc(f.tailwind || f.component || '') : ''; };
+  const rulesOf = doc => (doc && ext(doc).rules) || [];
+  const rulesBox = list => `<details class="rules-box"><summary><span>共 ${list.length} 条，展开查看</span><button type="button" class="ui-btn ghost" data-copy="${esc(list.map((r, i) => `${i + 1}. ${r}`).join('\n'))}">${I.copy}复制全部</button></summary><ol class="rules">${list.map(r => `<li>${esc(r)}</li>`).join('')}</ol></details>`;
+  const ruleList = doc => rulesBox(rulesOf(doc));
   const tokTable = (doc, group, prefix, visual, sort) => `<div class="tk-table">${(sort ? entries(group).sort((x, y) => px(tokVal(doc, x[1].$value)) - px(tokVal(doc, y[1].$value))) : entries(group)).map(([k, o]) => { const v = tokVal(doc, o.$value); return `<button type="button" class="tk-row" data-copy="${esc(String(v))}"><span class="tk-vis">${visual(v, k, o)}</span><span class="tk-name"><code>${prefix}${k}</code><small>${esc(o.$description || '')}</small>${why(o)}</span><span class="tk-val">${esc(Array.isArray(v) ? 'cubic-bezier(' + v.join(', ') + ')' : String(v))}</span><span class="tk-fe">${feOf(o)}</span></button>`; }).join('')}</div>`;
 
   // ---------- 间距与布局 ----------
@@ -431,7 +457,7 @@
     const levels = [['元素内', '4–6px', '图标 + 文字', 6], ['组内', '8px', '标签 + 输入框；按钮组', 8], ['组与组', '16px', '表单的两组字段；并排的卡片', 16], ['区块内边距', '24px', '卡片、面板', 24], ['区块与区块', '32–48px', '页面里的两个分区', 40]];
     const bps = entries(L.breakpoint).map(([k, o]) => [k, px(o.$value), o]);
     const maxBp = 1600;
-    return docHead('间距与布局', '间距和布局决定信息层级：同一层级用同一档间距，层级越高间距越大。所有数值对齐前端组件与 Tailwind 刻度，每一项写明用途与依据。')
+    return docHead('间距与布局', '间距和布局决定信息层级：同一层级用同一档间距，层级越高间距越大。每一项写明用途与依据。')
       + sec('scale', '间距刻度', '4px 基准。只用下列档位，点击一行复制数值。', tokTable(S, S.space, 'space.', v => `<i class="sp-bar" style="width:${Math.max(px(v), 1)}px"></i>`, true))
       + sec('levels', '层级与间距', '进入更高一层级时，间距至少升一档。', `<div class="lv-list">${levels.map(([n, v, eg, w]) => `<div class="lv-row"><b>${n}</b><span class="lv-demo"><i></i><em style="width:${w}px"></em><i></i></span><code>${v}</code><span class="muted">${eg}</span></div>`).join('')}</div>`)
       + sec('semantic', '按用途的间距', '组件与页面优先用这一层。', tokTable(S, S.semantic, '', v => `<i class="sp-bar" style="width:${Math.max(px(v), 1)}px"></i>`))
@@ -439,7 +465,7 @@
       + sec('breakpoints', '断点', '沿用 Tailwind 默认值。产品界面以 1280 为主设计宽度。', `<div class="bp-ruler">${bps.map(([k, w]) => `<span style="left:${(w / maxBp) * 100}%"><b>${k}</b>${w}</span>`).join('')}</div>` + tokTable(L, L.breakpoint, 'breakpoint.', () => ''))
       + sec('shell', '页面结构', '顶部栏 64px + 侧栏 256px + 内容区；12 栏栅格。', `<div class="shell-demo"><div class="sd-top">顶部栏 64</div><div class="sd-side">侧栏 256</div><div class="sd-main"><div class="sd-grid">${Array.from({ length: 12 }, () => '<i></i>').join('')}</div><span>内容区 · 内边距 24 · 12 栏 · 沟槽 24</span></div></div>` + tokTable(L, L.shell, 'shell.', () => ''))
       + sec('width', '内容宽度', '连续阅读的文字单行不超过 680px；表格与看板占满内容区。', tokTable(L, L.width, 'width.', v => `<i class="sp-bar" style="width:${Math.min(px(v) / 12, 140)}px"></i>`))
-      + sec('rules', '使用规则', '', ruleList(S) + ruleList(L));
+      + sec('rules', '使用规则', '', rulesBox(rulesOf(S).concat(rulesOf(L))));
   }
 
   // ---------- 圆角、线宽与阴影 ----------
@@ -473,7 +499,7 @@
       + sec('rules', '使用规则', '', ruleList(M));
   }
 
-  const VIEWS = { spacing: vSpacing, shape: vShape, motion: vMotion, home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, scaffold: vScaffold, logo: vLogo, skills: vSkills };
+  const VIEWS = { spacing: vSpacing, shape: vShape, motion: vMotion, home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, scaffold: vScaffold, logo: vLogo, texture: vTexture, skills: vSkills };
   let current = '';
   function route(keepScroll) {
     if (!location.hash) history.replaceState(null, '', '#foundation');
@@ -525,10 +551,11 @@
   document.addEventListener('input', e => {
     const id = e.target.id;
     if (id === 'cc-o' || id === 'cc-i') ccPaint();
-    if (id === 'ty-w' || id === 'ty-s' || id === 'ty-l') {
+    if (id === 'ty-w' || id === 'ty-s' || id === 'ty-l' || id === 'ty-t') {
+      ty.ls = +document.getElementById('ty-t').value; document.getElementById('ty-tv').textContent = ty.ls + 'em';
       ty.w = +document.getElementById('ty-w').value; ty.s = +document.getElementById('ty-s').value; ty.lh = +document.getElementById('ty-l').value;
       document.getElementById('ty-wv').textContent = ty.w; document.getElementById('ty-sv').textContent = ty.s + 'px'; document.getElementById('ty-lv').textContent = ty.lh;
-      const smp = document.getElementById('ty-sample'); smp.style.fontWeight = ty.w; smp.style.fontSize = ty.s + 'px'; smp.style.lineHeight = ty.lh;
+      const smp = document.getElementById('ty-sample'); smp.style.fontWeight = ty.w; smp.style.fontSize = ty.s + 'px'; smp.style.lineHeight = ty.lh; smp.style.letterSpacing = ty.ls + 'em';
       const f = smp.closest('.spec').querySelector('.spec-foot'); f.querySelector('code').textContent = tyCss(); f.querySelector('[data-copy]').dataset.copy = tyCss();
     }
     if (id === 'sk-brief') { sk.brief = e.target.value; document.getElementById('sk-out').innerHTML = codeBlock(skPrompt()); }
