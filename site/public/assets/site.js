@@ -527,37 +527,36 @@
       ['30° 等距视角，所有物体用同一套角度，不混用透视。', '描边 1px 深色线，面用米白与浅灰，品牌绿只给「数据、连接、正在发生」的部分。', '连接用品牌绿实线或虚线，标签用浅绿底的小方牌，文字用等宽字体。', '背景留白或浅灰点阵，不加渐变和投影。', '人物、车辆只做比例参照，不做主角。']],
     ['arch', '架构图', '用于解释平台架构：左边是接入的数据源，中间是 Tier0 平台，右边是输出的应用和能力。', [['arch-platform', 'Tier0 平台架构：数据接入 → 统一命名空间 → 应用与 AI']],
       ['从左到右读：输入 → 平台 → 输出，箭头只朝一个方向。', '平台范围用品牌绿虚线框出，内部模块用 1px 细线卡片。', '模块名用正文字体，分组标题用等宽小字。', '同一张图里图标风格一致，只用线性图标。', '品牌绿只用于连接线和平台边界，不给每个模块上色。']],
-    ['glow', '暗色发光', '品牌宣传活动使用的主题风格：深色底、品牌绿发光、半透明卡片。只用于活动海报、社媒和发布会，不用于产品界面和官网正文。', [['glow-builder', '活动海报：Tier0 Builder'], ['glow-reuse', '社媒长图：一次开发，多场景复用'], ['glow-compare', '对比图：Tier0 与传统项目']],
+    ['glow', '暗色发光', '品牌宣传活动用过的主题风格：深色底、品牌绿发光、半透明卡片。', [['glow-builder', '活动海报：Tier0 Builder'], ['glow-reuse', '社媒长图：一次开发，多场景复用'], ['glow-compare', '对比图：Tier0 与传统项目']],
       ['底色固定为 #050B14，发光只用品牌绿，强度克制，一张图只有一个发光中心。', '半透明卡片只用于主信息，周围元素保持实色或线框。', '背景可用 T0 字符点阵，透明度低，不抢标题。', '标题用 Inter / 中文系统字体，强调词用品牌绿，不加描边和渐变文字。', '只在宣传场景使用：Foundation 里「玻璃拟态、霓虹渐变」的禁用规则对产品界面和官网依然有效。']],
   ];
   // 有英文版的宣传图：英文界面下显示英文版
   const IL_EN = ['glow-reuse', 'glow-compare'];
   function vIllustration() {
     return docHead('插画与图形', '三种图形风格，分别用于解释原理、说明架构和品牌宣传。')
-      + ILLUS.map(([id, n, d, imgs, rules]) => sec('il-' + id, n, d, `<div class="il-grid il-${id}">${imgs.map(([f0, cap]) => { const f = lang === 'en' && IL_EN.includes(f0) ? f0 + '-en' : f0; return `<figure class="il-fig"><a href="${asset('assets/brand/' + f + '.jpg')}" target="_blank" rel="noopener"><img src="${asset('assets/brand/' + f + '.jpg')}" alt="${esc(cap)}" loading="lazy"></a><figcaption>${esc(cap)}</figcaption></figure>`; }).join('')}</div>${rulesBox(rules)}`)).join('');
+      + ILLUS.map(([id, n, d, imgs, rules]) => sec('il-' + id, n, d, `<div class="il-grid il-${id}">${imgs.map(([f0, cap]) => { const f = lang === 'en' && IL_EN.includes(f0) ? f0 + '-en' : f0; return `<figure class="il-fig"><a href="${asset('assets/brand/' + f + '.jpg')}" target="_blank" rel="noopener"><img src="${asset('assets/brand/' + f + '.jpg')}" alt="${esc(cap)}" loading="lazy"></a><figcaption>${esc(cap)}</figcaption></figure>`; }).join('')}</div>`)).join('');
   }
 
   // ---------- texture ----------
   // [key, 名称, 含义与用途, 亮色 CSS, 暗色 CSS（可省略，省略时用品牌绿低透明度）]
   const TEXTURES = [
-    ['fine', '细点阵', '最小单位的规则排列，代表稳定和秩序。可以铺满整页做底，几乎不被察觉。', 'background-image: radial-gradient(currentColor 0.7px, transparent 1px); background-size: 6px 6px;'],
-    ['dots', '点阵', '工作台洞洞板的放大版，表示「可以接入」。用于品牌区块和空状态。', 'background-image: radial-gradient(currentColor 1px, transparent 1.5px); background-size: 12px 12px;'],
-    ['peg', '穿孔板', '工位上真实的洞洞板，孔更大、更稀。用于官网和物料里需要「工作台」感的大面积背景。', 'background-image: radial-gradient(circle, currentColor 2px, transparent 2.6px); background-size: 20px 20px;'],
-    ['grid', '网格', '工程图纸的格子，代表结构和对齐。用于画布、拓扑图、数据结构的底。', 'background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 24px 24px;'],
-    ['ruler', '刻度', '量具上的刻度，代表测量和精度。用于图表坐标、时间轴、数值区块的边缘。', 'background-image: linear-gradient(90deg, currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 40px 20px, 8px 8px; background-repeat: repeat-x; background-position: 0 0, 0 0;'],
+    ['fine', '细点阵', '最小单位的规则排列，代表稳定和秩序。', 'background-image: radial-gradient(currentColor 0.7px, transparent 1px); background-size: 6px 6px;'],
+    ['dots', '点阵', '工作台洞洞板的放大版，表示「可以接入」。', 'background-image: radial-gradient(currentColor 1px, transparent 1.5px); background-size: 12px 12px;'],
+    ['peg', '穿孔板', '工位上真实的洞洞板，孔更大、更稀。', 'background-image: radial-gradient(circle, currentColor 2px, transparent 2.6px); background-size: 20px 20px;'],
+    ['grid', '网格', '工程图纸的格子，代表结构和对齐。', 'background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 24px 24px;'],
+    ['ruler', '刻度', '量具上的刻度，代表测量和精度。', 'background-image: linear-gradient(90deg, currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 40px 20px, 8px 8px; background-repeat: repeat-x; background-position: 0 0, 0 0;'],
     ['hatch', '斜线', '表示保留、不可用或还没建好的区域。', 'background-image: repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 8px);'],
-    ['metal', '拉丝金属', '设备外壳和铝型材的表面，代表实物和硬件。只用于设备插图、硬件产品图，不用于界面。', 'background-color: #DADDE1; background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.35) 0 1px, rgba(0,0,0,0.04) 1px 2px, transparent 2px 3px), linear-gradient(90deg, #C7CBD0, #EEF0F2 35%, #BFC4CA 65%, #E4E7EA);', 'background-color: #1E2227; background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, rgba(0,0,0,0.25) 1px 2px, transparent 2px 3px), linear-gradient(90deg, #1A1D21, #33383F 35%, #202429 65%, #2C3137);'],
-    ['corrugated', '瓦楞', '集装箱和仓库外墙的瓦楞板，代表物流和仓储。用于官网、物料里与物流、仓储相关的区块。', 'background-color: #E3E6E9; background-image: repeating-linear-gradient(90deg, #D2D6DB 0, #F2F4F6 7px, #C5CAD0 14px);', 'background-color: #1A1D21; background-image: repeating-linear-gradient(90deg, #15181C 0, #2B3036 7px, #121418 14px);'],
+    ['metal', '拉丝金属', '设备外壳和铝型材的表面，代表实物和硬件。', 'background-color: #DADDE1; background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.35) 0 1px, rgba(0,0,0,0.04) 1px 2px, transparent 2px 3px), linear-gradient(90deg, #C7CBD0, #EEF0F2 35%, #BFC4CA 65%, #E4E7EA);', 'background-color: #1E2227; background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, rgba(0,0,0,0.25) 1px 2px, transparent 2px 3px), linear-gradient(90deg, #1A1D21, #33383F 35%, #202429 65%, #2C3137);'],
+    ['corrugated', '瓦楞', '集装箱和仓库外墙的瓦楞板，代表物流和仓储。', 'background-color: #E3E6E9; background-image: repeating-linear-gradient(90deg, #D2D6DB 0, #F2F4F6 7px, #C5CAD0 14px);', 'background-color: #1A1D21; background-image: repeating-linear-gradient(90deg, #15181C 0, #2B3036 7px, #121418 14px);'],
   ];
   const TX_GROUPS = [['dot', '点阵', ['fine', 'dots', 'peg']], ['line', '网格与刻度', ['grid', 'ruler']], ['hatch', '斜线', ['hatch']], ['real', '实物材质', ['metal', 'corrugated']]];
   let txGroup = 'dot';
   function vTexture() {
     const card = ([k, n, d, css, dark]) => `<div class="tx-card"><div class="tx-stage"><div class="tx-fill" style="${css}"></div><div class="tx-fill${dark ? '' : ' tx-lime'}" style="${dark || css}"></div></div><div class="tx-body"><b>${n}</b><span>${d}</span></div>${foot(css)}</div>`;
     const grp = TX_GROUPS.find(g => g[0] === txGroup) || TX_GROUPS[0];
-    return docHead('Texture', '纹理来自工厂里真实的表面：洞洞板、图纸、量具、金属、瓦楞板。它只做背景，让画面有质感，但不和内容抢位置。')
+    return docHead('Texture', '纹理来自工厂里真实的表面：洞洞板、图纸、量具、金属、瓦楞板。')
       + sec('lab', '材质实验', '把图片、视频或标志转成冲孔点阵、瓦楞条纹、抖动或字符画，用于海报、开场视频和官网背景。', vTextureLab())
       + sec('list', '纹理', '点击卡片底部复制 CSS。', `<div class="tx-tabs">${seg('txgroup', TX_GROUPS.map(g => [g[0], g[1]]), grp[0])}</div><div class="tx-grid">${TEXTURES.filter(t => grp[2].includes(t[0])).map(card).join('')}</div>`)
-      + sec('rules', '使用规则', '', rulesBox(['纹理只放在背景层，上面的文字和数据必须清楚可读。', '界面里默认用 border 颜色；品牌区块可用品牌绿，透明度不超过 30%。', '一个区块只用一种纹理，不叠加。', '表格、表单、卡片内部不用纹理。', '拉丝金属和瓦楞只用于插图和宣传物料，不用于产品界面。']));
   }
 
 
@@ -757,7 +756,7 @@
           <div class="sv-kpis">${[['OEE', '86.4', '%'], ['产量', '1,284', '件'], ['主轴温度', '72.4', '°C'], ['告警', '2', '条']].map(([k, v, u]) => `<div class="sv-kpi"><span>${k}</span><b>${v}<small>${u}</small></b></div>`).join('')}</div>
           <div class="sv-row"><div class="sv-chart">${Array.from({ length: 24 }, (_, n) => `<i style="height:${30 + Math.round(Math.abs(Math.sin(n * 0.7)) * 60)}%"></i>`).join('')}</div><div class="sv-list">${['CNC-03 温度偏高', 'AGV-2 电量低', 'PLC-7 已恢复'].map(t => `<span>${t}</span>`).join('')}</div></div>
         </main></div></div><span class="scene-handle" title="拖动调整宽度"></span></div></div>
-      <div class="scene-notes"><span class="sn-h">这个宽度下</span><ul data-snotes>${sceneOf(w).notes.map(n => `<li>${n}</li>`).join('')}</ul></div></div>`;
+      </div>`;
   function sceneSet(root, w) {
     w = Math.round(Math.max(320, Math.min(1600, w)));
     const box = root.querySelector('.scene-box'), stage = root.querySelector('.scene-stage'), sc0 = root.querySelector('.scene-scale');
@@ -765,7 +764,7 @@
     root.dataset.w = w; sc0.style.width = w + 'px'; sc0.style.setProperty('--fit', fit);
     box.style.width = (w * fit) + 'px'; box.style.height = (root.querySelector('.sv').offsetHeight * fit) + 'px'; box.dataset.fit = fit;
     const sc = sceneOf(w); root.querySelector('[data-sw]').textContent = w + 'px' + (fit < 1 ? ` · ${Math.round(fit * 100)}%` : ''); root.querySelector('[data-sbp]').textContent = sc.bp;
-    root.querySelector('[data-snotes]').innerHTML = sc.notes.map(n => `<li>${n}</li>`).join('');
+    
     root.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.v === w)));
   }
   function mountScenes() {
@@ -815,13 +814,16 @@
   const bw = { scene: 'card', w: 1, style: 'solid', color: 'border' };
   const bwCss = () => `border: ${bw.w}px ${bw.style} ${BW_COLOR_CSS[bw.color]};`;
   function bwVerdict() {
-    const r = BW_SCENES.find(x => x[0] === bw.scene)[2], ok = r.w === bw.w && r.style === bw.style && r.color === bw.color;
-    const rec = `${r.w}px ${BW_STYLES.find(x => x[0] === r.style)[1]} · ${BW_COLORS.find(x => x[0] === r.color)[1]}`;
+    const r = BW_SCENES.find(x => x[0] === bw.scene)[2], ok = r.w === bw.w && r.style === bw.style;
+    const rec = `${r.w}px ${BW_STYLES.find(x => x[0] === r.style)[1]}`;
     return `<span class="bw-verdict ${ok ? 'ok' : ''}">${ok ? '符合规范' : '规范建议'}</span><span class="muted">${rec}</span>`;
   }
   const borderLab = () => { const sc = BW_SCENES.find(x => x[0] === bw.scene);
-    return `<div class="spec bw"><div class="spec-bar bw-bar">${seg('bwscene', BW_SCENES.map(x => [x[0], x[1]]), bw.scene)}
-      <div class="bw-ctls">${seg('bwstyle', BW_STYLES, bw.style)}${seg('bwcolor', BW_COLORS, bw.color)}<label class="ctl"><span class="ctl-h">线宽<b id="bw-wv">${bw.w}px</b></span><input type="range" id="bw-w" min="1" max="4" step="1" value="${bw.w}"></label></div></div>
+    return `<div class="spec bw"><div class="bw-form">
+      <span class="bw-l">场景</span><div>${seg('bwscene', BW_SCENES.map(x => [x[0], x[1]]), bw.scene)}</div>
+      <span class="bw-l">线型</span><div>${seg('bwstyle', BW_STYLES, bw.style)}</div>
+      <span class="bw-l">颜色</span><div>${seg('bwcolor', BW_COLORS, bw.color)}</div>
+      <span class="bw-l">线宽</span><div class="bw-w"><input type="range" id="bw-w" min="1" max="4" step="1" value="${bw.w}" aria-label="线宽"><b id="bw-wv">${bw.w}px</b></div></div>
       <div class="spec-body bw-stage" data-bw-scene="${bw.scene}" style="--bw:${bw.w}px;--bs:${bw.style};--bc:${BW_COLOR_CSS[bw.color]}">${sc[3]}</div>
       <div class="spec-foot bw-foot"><span id="bw-ver">${bwVerdict()}</span><code id="bw-css">${bwCss()}</code>${copyBtn(bwCss())}</div></div>`; };
   function bwPaint() {
@@ -835,7 +837,7 @@
     if (!R || !B || !H) return '<p class="muted">没有读取到圆角、线宽与阴影 token。</p>';
     return docHead('圆角、线宽与阴影', '组件的外形：圆角以 4px 为主，层级以 1px 细线为主，阴影只用于浮层与交互反馈。')
       + sec('radius', '圆角', '控件 4px，卡片 6px，上限 8px；圆形元素是唯一的例外。', `<div class="shape-grid">${entries(R.radius).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo" style="border-radius:${k === 'full' ? '999px' : o.$value}${k === 'full' ? ';width:96px;height:32px' : ''}"></span><code>radius.${k}</code><b>${esc(o.$value === '9999px' ? '全圆' : o.$value)}</b><small>${esc(o.$description)}</small></button>`).join('')}</div>` + ruleList(R))
-      + sec('concentric', '嵌套圆角', '内层圆角 = 外层圆角 − 内边距。拖动两个滑块，对比「同心」与「等值」。', `<div class="spec cc"><div class="spec-bar">${seg('ccmode', [['concentric', '同心'], ['equal', '等值']], 'concentric')}<span class="spacer"></span><label class="ctl"><span class="ctl-h">外层圆角<b id="cc-ov">6px</b></span><input type="range" id="cc-o" min="0" max="16" value="6"></label><label class="ctl"><span class="ctl-h">内边距<b id="cc-iv">8px</b></span><input type="range" id="cc-i" min="2" max="24" value="8"></label></div><div class="spec-body cc-stage"><div class="cc-outer" id="cc-outer"><div class="cc-inner" id="cc-inner"><i></i><i></i></div></div></div><div class="spec-foot"><code id="cc-f">inner 0 = outer 6 − inset 8</code></div></div>${rulesBox(['外层 6px（卡片）、内边距 8px 时内层为 0，内层元素用直角或 radius.sm。', '内边距小于外层圆角时，内层才需要圆角。', '等值嵌套会让四角的间隙宽窄不一，看起来不贴合。'])}`)
+      + sec('concentric', '嵌套圆角', '内层圆角 = 外层圆角 − 内边距。拖动两个滑块，对比「同心」与「等值」。', `<div class="spec cc"><div class="spec-bar">${seg('ccmode', [['concentric', '同心'], ['equal', '等值']], 'concentric')}<span class="spacer"></span><label class="ctl"><span class="ctl-h">外层圆角<b id="cc-ov">6px</b></span><input type="range" id="cc-o" min="0" max="16" value="6"></label><label class="ctl"><span class="ctl-h">内边距<b id="cc-iv">8px</b></span><input type="range" id="cc-i" min="2" max="24" value="8"></label></div><div class="spec-body cc-stage"><div class="cc-outer" id="cc-outer"><div class="cc-inner" id="cc-inner"><i></i><i></i></div></div></div><div class="spec-foot"><code id="cc-f">inner 0 = outer 6 − inset 8</code></div></div>`)
       + sec('border', '线宽', '', borderLab())
       + sec('shadow', '阴影', '页面内的容器不用阴影。阴影只出现在浮层和交互反馈上。', `<div class="shape-grid sh">${entries(H.shadow).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo sh" style="box-shadow:${o.$value === 'none' ? 'none' : o.$value}"></span><code>shadow.${k}</code><small>${esc(o.$description)}${why(o)}</small></button>`).join('')}</div>` + ruleList(H));
   }
