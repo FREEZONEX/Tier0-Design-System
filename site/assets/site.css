@@ -773,10 +773,7 @@ main { position: relative; }
 .doc-wrap:not(.p-home) { grid-template-columns: minmax(0, 1fr) 208px; }
 .tk-row { grid-template-columns: 104px minmax(0, 1fr) 96px 120px; }
 
-/* 去掉右侧「本页」目录与页眉小标 */
-.doc-wrap:not(.p-home) { grid-template-columns: minmax(0, 1fr) !important; }
-.doc-wrap:not(.p-home) > .toc { display: none !important; }
-.doc-wrap:not(.p-home) > .doc { border-right: 1px solid var(--border); }
+/* 去掉页眉小标 */
 .eyebrow { display: none; }
 /* 侧栏选中：灰底，无描边、无竖条 */
 .sidebar h6 ~ a, .sidebar h6 ~ a:hover { border-left: 0; padding-left: 12px; border-radius: var(--radius); }

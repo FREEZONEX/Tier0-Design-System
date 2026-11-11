@@ -371,7 +371,7 @@
     hs.forEach((h, i) => { if (!h.id && !h.parentElement.id) h.id = 'sec-' + i; });
     const toc = document.getElementById('toc');
     if (hs.length < 2) { toc.innerHTML = ''; buildToc.spy = null; return; }
-    toc.innerHTML = '<div class="toc-in"><h6>本页</h6>' + hs.map(h => { const id = h.parentElement.id && h.parentElement.classList.contains('sec') ? h.parentElement.id : h.id; return `<a href="#${current}" data-jump="${id}">${esc(h.textContent)}</a>`; }).join('') + '</div>';
+    toc.innerHTML = '<div class="toc-in">' + hs.map(h => { const id = h.parentElement.id && h.parentElement.classList.contains('sec') ? h.parentElement.id : h.id; return `<a href="#${current}" data-jump="${id}">${esc(h.textContent)}</a>`; }).join('') + '</div>';
     const links = [...toc.querySelectorAll('a')];
     buildToc.spy = () => { let on = links[0]; hs.forEach((h, i) => { if (h.getBoundingClientRect().top < 160) on = links[i]; }); links.forEach(a => a.classList.toggle('on', a === on)); };
     buildToc.spy();
