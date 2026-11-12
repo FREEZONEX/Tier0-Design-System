@@ -72,8 +72,8 @@
       desc: '用于把一组相关信息放在一起，如一台设备或一个指标。同组卡片之间用 group-item 间距；卡片里不再套卡片。',
       html: () => `<div class="grid2">
         <div class="ui-card"><div><div class="ui-card-title">Line-01</div><div class="ui-card-desc">3 台设备在线，1 台告警</div></div><div class="ui-card-foot"><button class="ui-btn outline">查看</button><button class="ui-btn default">运行 Agent</button></div></div>
-        <div class="ui-card ui-stat"><div><div class="ui-card-desc" style="margin:0">今日接入数据点</div><div class="v">128,406</div><div class="ui-card-desc">较昨日 +4.2%</div></div></div></div>`,
-      code: `<Card>\n  <CardHeader><CardTitle>Line-01</CardTitle></CardHeader>\n  <CardFooter>…</CardFooter>\n</Card>` },
+        <div class="com-stats-card"><div class="l">今日接入数据点</div><div class="v">128,406</div></div></div>`,
+      code: `import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@tier0/ui/components/ui/card';\nimport ComStatsCard from '@tier0/ui/components/com-stats-card';\n\n<Card>\n  <CardHeader><CardTitle>Line-01</CardTitle><CardDescription>3 台设备在线，1 台告警</CardDescription></CardHeader>\n  <CardFooter>…</CardFooter>\n</Card>\n\n<ComStatsCard label="今日接入数据点" value="128,406" />` },
     { id: 'alert', zh: '提示', en: 'Alert', src: 'ui/alert.tsx',
       desc: '用于影响整个页面或区块、需要一直看到的提示，问题解决前不消失；一次性的操作结果用轻提示。',
       html: () => `<div class="stack"><div class="ui-alert">${I.info}<b>数据源已更新</b><span>新配置将在下一次采样时生效。</span></div><div class="ui-alert destructive">${I.alert}<b>连接失败</b><span>无法访问 opc.tcp://10.0.0.12。</span></div><div class="ui-alert error">${I.alert}<b>配额已用完</b><span>升级套餐以继续接入数据点。</span></div></div>`,
@@ -681,9 +681,10 @@
       <div class="dl-panel"><div class="lab-grid">${DL_SL.map(sl).join('')}
         <label class="lab-sl lab-color"><span>光束</span><em>${dl.beamColor}</em><input type="color" data-dl="beamColor" value="${dl.beamColor}"></label>
         <label class="lab-sl lab-color"><span>网格</span><em>${dl.gridColor}</em><input type="color" data-dl="gridColor" value="${dl.gridColor}"></label></div>
-        <div class="dl-act"><button type="button" class="ui-btn outline" data-dl-copy>${I.copy}复制 Framer 组件</button><button type="button" class="ui-btn ghost" data-dl-dl>${I.download}下载 .tsx</button></div></div></div>`;
+        <div class="dl-act"><button type="button" class="ui-btn outline" data-dl-copy>${I.copy}复制代码</button><button type="button" class="ui-btn ghost" data-dl-dl>${I.download}下载 .js</button><p class="dl-use">不依赖框架：<code>mountDatalinesGrid(容器, 参数)</code>，参数和左边的控件一一对应。</p></div></div></div>`;
   }
-  const DLRT = { raf: 0 };
+  const DLRT = { raf: 0, open: false };
+  document.addEventListener('toggle', e => { if (e.target.classList && e.target.classList.contains('dl-fold')) DLRT.open = e.target.open; }, true);
   function mountDatalines() {
     const panes = [...document.querySelectorAll('[data-dl-pane]')]; if (!panes.length) return;
     cancelAnimationFrame(DLRT.raf);
@@ -718,7 +719,7 @@
     };
     DLRT.raf = requestAnimationFrame(frame);
   }
-  async function dlSource() { if (!DLRT.src) DLRT.src = await tryFetch('03-brand/texture/datalines-grid.tsx', 'text'); return DLRT.src || ''; }
+  async function dlSource() { if (!DLRT.src) DLRT.src = await tryFetch('03-brand/texture/datalines-grid.js', 'text'); return DLRT.src || ''; }
 
   // ---------- texture ----------
   // [key, 名称, 含义与用途, 亮色 CSS, 暗色 CSS（可省略，省略时用品牌绿低透明度）]
@@ -739,7 +740,7 @@
     const grp = TX_GROUPS.find(g => g[0] === txGroup) || TX_GROUPS[0];
     return docHead('Texture', '纹理来自工厂里真实的表面：洞洞板、图纸、量具、金属、瓦楞板。')
       + sec('lab', '材质实验', '把图片、视频或标志转成冲孔点阵、瓦楞条纹、抖动或字符画，用于海报、开场视频和官网背景。', vTextureLab())
-      + sec('list', '纹理', '点击卡片底部复制 CSS。', `<div class="tx-tabs">${seg('txgroup', TX_GROUPS.map(g => [g[0], g[1]]), grp[0])}</div>${grp[0] === 'line' ? `<div class="dl-head"><b>数据光束网格</b><span>品牌绿光束沿网格线流动，代表数据在系统之间流转。用于官网首屏、活动页和开场背景；产品界面不用。</span></div>${vDatalines()}` : ''}<div class="tx-grid">${TEXTURES.filter(t => grp[2].includes(t[0])).map(card).join('')}</div>`)
+      + sec('list', '纹理', '点击卡片底部复制 CSS。', `<div class="tx-tabs">${seg('txgroup', TX_GROUPS.map(g => [g[0], g[1]]), grp[0])}</div><div class="tx-grid">${TEXTURES.filter(t => grp[2].includes(t[0])).map(card).join('')}</div>${grp[0] === 'line' ? `<details class="dl-fold"${DLRT.open ? ' open' : ''}><summary><span><b>网格拓展 · 数据光束</b><small>品牌绿光束沿网格线流动，代表数据在系统之间流转。用于官网首屏、活动页和开场背景；产品界面不用。</small></span><svg class="rb-chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg></summary>${vDatalines()}</details>` : ''}`)
   }
 
 
@@ -1007,28 +1008,19 @@
   addEventListener('resize', () => document.querySelectorAll('[data-scene]').forEach(r => sceneSet(r, +r.dataset.w)));
 
   // ---------- 间距与布局 ----------
+  // 页面结构：按 02-components/guidelines/app-shell.md 画出四种常见外壳，按真实比例缩小
   function shellLab() {
-    const bars = Array.from({ length: 12 }, () => '<i></i>').join('');
-    return `<div class="shell-lab" data-shell-lab><div class="spec-bar"><span>顶栏</span>${seg('sheader', [['0', '不要'], ['48', '窄顶栏']], '0')}<span>侧栏</span>${seg('sside', [['256', '展开'], ['48', '收起'], ['288', '抽屉'], ['0', '不要']], '256')}<span>设备</span>${seg('sdevice', [['desk', '桌面'], ['phone', '手机']], 'desk')}</div><div class="shell-stage"><div class="shell-demo shell-live no-top" data-shell-demo style="--sd-side:256px;--sd-top:0px;--sd-pad:24px"><div class="sd-top">窄顶栏：面包屑、搜索、当前对象</div><div class="sd-side" data-shell-side>侧栏</div><div class="sd-main"><div class="sd-grid">${bars}</div><span>工作区 · 白底 · 12 栏</span></div></div><p class="shell-read" data-shell-read>桌面 · 无顶栏 · 侧栏展开 256px · 内边距 24px</p></div></div>`;
+    const nav = (n, icons) => `<div class="sx-nav${icons ? ' icons' : ''}"><div class="sx-ws"><i></i>${icons ? '' : '<b></b>'}</div>${[3, 2, 4, 2].map((k, g) => `${g && !icons ? '<em></em>' : ''}${Array.from({ length: k }, (_, i) => `<span${g === 1 && i === 0 ? ' class="on"' : ''}></span>`).join('')}`).join('')}${icons ? '' : '<div class="sx-up"></div>'}</div>`;
+    const work = (phone) => `<div class="sx-work">${phone ? '<div class="sx-bar"><i></i></div>' : ''}<div class="sx-title"><b></b>${phone ? '' : '<u></u>'}</div><div class="sx-desc"></div><div class="sx-tabs"><i class="on"></i><i></i><i></i></div><div class="sx-cards">${'<div></div>'.repeat(phone ? 2 : 4)}</div><div class="sx-panel"></div></div>`;
+    const figs = [
+      ['desk', '桌面 · 侧栏展开', '侧栏 234–240px（grey-50 底，右侧 1px 线）+ 工作区（左右 40px）。默认没有顶栏。', `${nav()}${work()}`],
+      ['desk', '桌面 · 侧栏收起', '侧栏收成 48px 图标栏，悬停显示名称；工作区跟着变宽。', `${nav(0, 1)}${work()}`],
+      ['desk', '设置类页面', '侧栏 + 二级导航 248px（白底，右侧 1px 线）+ 工作区。', `${nav()}<div class="sx-sub">${'<span></span>'.repeat(6)}</div>${work()}`],
+      ['phone', '手机 · 抽屉', '小于 1024px 时侧栏变成抽屉，标题前放打开按钮；工作区左右 16px。', `${work(1)}<div class="sx-drawer">${nav()}</div>`],
+    ];
+    return `<div class="sx-grid">${figs.map(([k, t, d, inner]) => `<figure class="sx-fig"><div class="sx-frame ${k}"><div class="sx-in">${inner}</div></div><figcaption><b>${t}</b><span>${d}</span></figcaption></figure>`).join('')}</div>`;
   }
-  function paintShell(lab) {
-    if (!lab) return;
-    const on = name => { const el = lab.querySelector(`[data-seg="${name}"] [aria-pressed="true"]`); return el ? el.dataset.v : ''; };
-    const top = on('sheader') || '0', side = on('sside') || '256', device = on('sdevice') || 'desk';
-    const pad = device === 'phone' ? '16' : '24';
-    const demo = lab.querySelector('[data-shell-demo]');
-    const drawer = side === '288';
-    demo.style.setProperty('--sd-top', top + 'px');
-    demo.style.setProperty('--sd-side', (drawer ? '288' : side) + 'px');
-    demo.style.setProperty('--sd-pad', pad + 'px');
-    demo.classList.toggle('no-top', top === '0');
-    demo.classList.toggle('no-side', side === '0');
-    demo.classList.toggle('is-drawer', drawer);
-    demo.classList.toggle('is-phone', device === 'phone');
-    const sideName = { 0: '无侧栏', 48: '侧栏收起 48px', 256: '侧栏展开 256px', 288: '侧栏抽屉 288px，盖在工作区上' }[side] || `侧栏 ${side}px`;
-    lab.querySelector('[data-shell-side]').textContent = side === '48' ? '' : (drawer ? '抽屉' : '侧栏');
-    lab.querySelector('[data-shell-read]').textContent = `${device === 'phone' ? '手机 375px' : '桌面'} · ${top === '0' ? '无顶栏' : '窄顶栏 48px'} · ${sideName} · 内边距 ${pad}px`;
-  }
+  function paintShell() {}
   function vSpacing() {
     const S = D.spacing, L = D.layout;
     if (!S || !L) return '<p class="muted">没有读取到间距与布局 token。</p>';
@@ -1042,7 +1034,7 @@
       + sec('semantic', '按用途的间距', '组件与页面优先用这一层。', tokTable(S, S.semantic, '', v => `<i class="sp-bar" style="width:${Math.max(px(v), 1)}px"></i>`))
       + sec('size', '控件与行高', '产品界面默认紧凑密度：控件 control-sm、表格行 table-row。', tokTable(S, S.size, 'size.', (v, k) => k.startsWith('icon') ? `<i class="sz-icon" style="width:${px(v)}px;height:${px(v)}px"></i>` : `<i class="sz-ctl" style="height:${Math.min(px(v), 64)}px"></i>`))
       + sec('breakpoints', '断点', '产品界面以 1280 为主设计宽度，同时照顾车间手持终端、工控屏和控制室大屏。选一个场景，或拖动右侧边缘，看布局怎么变。', sceneFrame('layout', 1280) + `<div class="bp-ruler">${bps.map(([k, w]) => `<span style="left:${(w / maxBp) * 100}%"><b>${k}</b>${w}</span>`).join('')}</div>` + tokTable(L, L.breakpoint, 'breakpoint.', () => ''))
-      + sec('shell', '页面结构', '从任务出发决定要不要顶栏和侧栏。常见是左侧导航 + 右侧工作区，不要顶栏；需要顶栏时保持窄，只放有用的内容。', shellLab() + tokTable(L, L.shell, 'shell.', () => ''))
+      + sec('shell', '页面结构', '产品页面是左侧导航 + 右侧工作区，不放顶栏。下面是四种常见外壳，具体数值见 02-components/guidelines/app-shell.md。', shellLab() + tokTable(L, L.shell, 'shell.', () => ''))
       + sec('rules', '使用规则', '', rulesBox(rulesOf(S).concat(rulesOf(L))));
   }
 
@@ -1130,11 +1122,10 @@
 
     const ezMode = MO.ez;
     const cardsF = entries(M.easing).filter(([k]) => (ezMode === 'expressive') === k.startsWith('expressive')).map(([k, o]) => cardOf(k, o)).join('');
-    return docHead('动效', '动效帮助用户理解变化：东西从哪里来、到哪里去、现在处于什么状态。产品界面用高效动效，品牌场合用表现动效；不用来装饰。')
-      + sec('principles', '原则', '', `<div class="mp-grid">${[['说明变化', '每个动效都回答一个问题：这个元素从哪里来、去了哪里、状态变成了什么。回答不了，就不加。'], ['快，不打扰', '产品界面的过渡在 300ms 以内，用户感到界面跟手，而不是在等动画。'], ['尊重用户设置', '系统开启「减少动态效果」时，过渡改为瞬时或只变透明度，循环动效停止。']].map(([t, d], i) => `<div class="mp-card"><span>0${i + 1}</span><b>${t}</b><p>${d}</p></div>`).join('')}</div>`)
-      + sec('modes', '两种模式', '', moModes(M))
-      + sec('surfaces', '动效场景', '', moSurfaces(M))
-      + sec('easing', '曲线', '', `<div class="ez-mode">${seg('ezmode', [['productive', '高效'], ['expressive', '表现']], ezMode)}</div><div class="ez-grid">${cardsF}</div>`)
+    return docHead('动效', '动效只用来说明变化：东西从哪里来、到哪里去、状态变成了什么。产品界面的过渡在 300ms 以内；系统开启「减少动态效果」时改为瞬时或只变透明度。')
+      + sec('surfaces', '动效场景', '每个场景的进入、退出时长和曲线已经定好，点播放看效果；写代码时按场景取值，不临时拼。', moSurfaces(M))
+      + sec('modes', '两种模式', '产品界面用高效动效，官网、品牌内容和 Logo 动画用表现动效，同一界面不混用。', moModes(M))
+      + sec('easing', '曲线', '按模式筛选；每条曲线配一个推荐时长，点播放对比。', `<div class="ez-mode">${seg('ezmode', [['productive', '高效'], ['expressive', '表现']], ezMode)}</div><div class="ez-grid">${cardsF}</div>`)
       + sec('duration', '时长', '', tokTable(M, M.duration, 'duration.', v => `<i class="sp-bar" style="width:${Math.min(px(v) / 4, 120)}px"></i>`))
       + sec('rules', '使用规则', '', ruleList(M));
   }
@@ -1186,7 +1177,7 @@
     const csvg = t.closest('[data-card-svg]'); if (csvg) { exportCardSvg(csvg.dataset.cardSvg); return; }
     if (t.closest('[data-card-reset]')) { cardData(); CARD.data[CARD.lang] = JSON.parse(JSON.stringify(CARD_DEF[CARD.lang])); CARD.qrImg = null; cardStore.set(CARD.data); return route(true); }
     if (t.closest('[data-dl-copy]')) { dlSource().then(copy); return; }
-    if (t.closest('[data-dl-dl]')) { dlSource().then(x => download(new Blob([x], { type: 'text/plain' }), 'datalines-grid.tsx')); return; }
+    if (t.closest('[data-dl-dl]')) { dlSource().then(x => download(new Blob([x], { type: 'text/javascript' }), 'datalines-grid.js')); return; }
     if (t.closest('[data-lab-png]')) { labExportPng(); return; }
     const lwb = t.closest('[data-lab-webm]'); if (lwb) { labExportWebm(lwb); return; }
     const lp = t.closest('[data-lab-preset]'); if (lp) { const pr = LAB_PRESETS.find(x => x[0] === lp.dataset.labPreset); Object.assign(lab, pr[2], { preset: pr[0] }); route(true); return; }

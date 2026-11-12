@@ -1473,3 +1473,68 @@ button.repo-card { font: inherit; text-align: left; cursor: pointer; }
 .ba-sizes code { font: 13px var(--font-mono); color: var(--muted-foreground); }
 @media (max-width: 1000px) { .bc { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .ba-links, .ba-tpls { grid-template-columns: 1fr; } .ba-tpl { grid-template-rows: 220px auto; } }
+
+/* 页面结构示意 */
+.sx-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.sx-fig { margin: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.sx-frame { background: var(--subtle); padding: 20px; display: grid; place-items: center; border-bottom: 1px solid var(--border); }
+.sx-in { position: relative; display: flex; width: 100%; aspect-ratio: 16 / 10; background: var(--background); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.sx-frame.phone .sx-in { width: 38%; aspect-ratio: 9 / 18; }
+.sx-nav { flex: 0 0 17%; background: color-mix(in srgb, var(--foreground) 3%, var(--background)); border-right: 1px solid var(--border); padding: 6px 5px; display: flex; flex-direction: column; gap: 3px; }
+.sx-nav.icons { flex-basis: 4.5%; align-items: center; padding: 6px 2px; }
+.sx-nav span { height: 5px; border-radius: 1px; background: color-mix(in srgb, var(--foreground) 14%, transparent); width: 80%; }
+.sx-nav.icons span { width: 6px; height: 6px; }
+.sx-nav span.on { background: color-mix(in srgb, var(--foreground) 30%, transparent); }
+.sx-nav em { height: 3px; width: 30%; margin-top: 4px; background: color-mix(in srgb, var(--foreground) 9%, transparent); }
+.sx-ws { display: flex; gap: 3px; align-items: center; margin-bottom: 6px; }
+.sx-ws i { width: 7px; height: 7px; border-radius: 1px; background: color-mix(in srgb, #3B82F6 35%, transparent); }
+.sx-ws b { height: 5px; width: 50%; background: color-mix(in srgb, var(--foreground) 45%, transparent); }
+.sx-up { margin-top: auto; height: 14px; border: 1px solid #CEF368; border-radius: 2px; }
+.sx-sub { flex: 0 0 17%; border-right: 1px solid var(--border); padding: 10px 6px; display: flex; flex-direction: column; gap: 4px; }
+.sx-sub span { height: 5px; width: 70%; background: color-mix(in srgb, var(--foreground) 12%, transparent); }
+.sx-sub span:nth-child(3) { background: color-mix(in srgb, var(--foreground) 25%, transparent); }
+.sx-work { flex: 1; min-width: 0; padding: 7% 5% 0; display: flex; flex-direction: column; gap: 5px; }
+.sx-frame.phone .sx-work { padding: 10% 7% 0; }
+.sx-bar { height: 8px; } .sx-bar i { display: block; width: 8px; height: 8px; border: 1px solid color-mix(in srgb, var(--foreground) 30%, transparent); border-radius: 1px; }
+.sx-title { display: flex; justify-content: space-between; align-items: center; }
+.sx-title b { height: 9px; width: 34%; background: color-mix(in srgb, var(--foreground) 70%, transparent); border-radius: 1px; }
+.sx-title u { height: 8px; width: 14%; background: #CEF368; border-radius: 1px; }
+.sx-desc { height: 4px; width: 46%; background: color-mix(in srgb, var(--foreground) 25%, transparent); }
+.sx-tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border); padding-top: 4px; }
+.sx-tabs i { width: 9%; height: 4px; margin-bottom: 3px; background: color-mix(in srgb, var(--foreground) 15%, transparent); }
+.sx-tabs i.on { background: color-mix(in srgb, var(--foreground) 50%, transparent); box-shadow: 0 4px 0 -1px #B2ED1D; }
+.sx-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 4px; }
+.sx-frame.phone .sx-cards { grid-template-columns: 1fr 1fr; }
+.sx-cards div, .sx-panel { border: 1px solid var(--border); border-radius: 2px; height: 22px; }
+.sx-panel { height: auto; flex: 1; border-bottom: 0; border-radius: 2px 2px 0 0; }
+.sx-drawer { position: absolute; inset: 0; background: rgb(0 0 0 / 0.35); display: flex; }
+.sx-drawer .sx-nav { flex-basis: 75%; background: var(--background); }
+.sx-fig figcaption { padding: 12px 16px 14px; display: grid; gap: 2px; font-size: 13px; line-height: 20px; }
+.sx-fig figcaption b { font-weight: 500; font-size: 14px; }
+.sx-fig figcaption span { color: var(--muted-foreground); }
+@media (max-width: 760px) { .sx-grid { grid-template-columns: 1fr; } }
+
+/* 数值、读数、标签不用等宽字体（只有代码用 mono）；数字用等宽数字对齐 */
+.mod-no, .home-dashboard-top, .home-dashboard-bottom, .home-dashboard-grid nav, .home-dashboard-readout > small, .home-dashboard-value,
+.wb-story-label, .wb-story-end, .tok-group-h span, .tok-hex, .tk-val, .bp-ruler span, .shape-card b, .mo-meta b, .trait-art .lbl,
+.mo-demo small, .ez-foot, .rc-tx small, .scroll-cue span, .scene-w, .sv-kpi b, .os-list dd span, .bl-card strong, .lab-sl em,
+.menu-pop small, .bw-w b, .ms-t, .mp-card span, .ba-sizes code, .wb-dim, .doc .sec > h2::before, .mm-body code {
+  font-family: var(--font-sans); font-variant-numeric: tabular-nums; letter-spacing: 0;
+}
+.home-dashboard-value { letter-spacing: -0.03em; }
+.bl-card strong { font-family: var(--font-display); }
+
+/* 与 Tier0-Frontend 一致：Card = rounded-xl（10px）+ shadow-sm；ComStatsCard = rounded-md（4px）+ border + p-4，高 114px */
+.ui-card { border-radius: 10px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); gap: 24px; }
+.com-stats-card { width: 340px; max-width: 100%; height: 114px; display: flex; flex-direction: column; justify-content: space-between; padding: 16px; border: 1px solid var(--border); border-radius: 4px; background: var(--card); }
+.com-stats-card .l { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--muted-foreground); }
+.com-stats-card .v { font-size: 20px; line-height: 28px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.dl-fold { margin-top: 16px; border: 1px solid var(--border); border-radius: 6px; }
+.dl-fold > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; }
+.dl-fold > summary::-webkit-details-marker { display: none; }
+.dl-fold > summary span { display: grid; gap: 2px; }
+.dl-fold > summary b { font-weight: 500; font-size: 14px; }
+.dl-fold > summary small { font-size: 13px; color: var(--muted-foreground); }
+.dl-fold[open] > summary .rb-chev { transform: rotate(180deg); }
+.dl-fold > .dl { padding: 0 16px 16px; margin: 0; }
+.dl-use { margin: 0; font-size: 12px; color: var(--muted-foreground); line-height: 18px; }
