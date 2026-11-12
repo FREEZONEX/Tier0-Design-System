@@ -25,14 +25,14 @@
   // ---------- components: mirror Tier0-Frontend packages/ui ----------
   const COMPONENTS = [
     { id: 'button', zh: '按钮', en: 'Button', src: 'ui/button.tsx',
-      desc: '默认变体是品牌绿按钮，用于页面主操作；primary 为近黑。尺寸 sm 32 / md 36 / lg 40，默认 sm，左右内边距统一 16px。',
+      desc: '用于触发一个操作。一个视图只放一个 primary（黑底）作为主操作；品牌绿 default 只给需要强调的工作流操作。尺寸 sm 32（默认）、md 36、lg 40。跳转到别的页面用链接，不用按钮。',
       html: () => `<div class="stack">
         <div class="hstack"><span class="col-label">变体</span><button class="ui-btn default">default</button><button class="ui-btn primary">primary</button><button class="ui-btn secondary">secondary</button><button class="ui-btn outline">outline</button><button class="ui-btn ghost">ghost</button><button class="ui-btn destructive">destructive</button><button class="ui-btn link">link</button></div>
         <div class="hstack"><span class="col-label">尺寸</span><button class="ui-btn default">sm 32</button><button class="ui-btn default md">md 36</button><button class="ui-btn default lg">lg 40</button><button class="ui-btn outline icon" aria-label="新建">${I.plus}</button></div>
         <div class="hstack"><span class="col-label">状态</span><button class="ui-btn primary">${I.plus}新建数据源</button><button class="ui-btn default is-loading"><span class="ui-spin"></span>运行中</button><button class="ui-btn outline" disabled>不可用</button></div></div>`,
       code: `import { Button } from '@tier0/ui/components/ui/button';\n\n<Button>运行 Agent</Button>\n<Button variant="primary" size="md">保存</Button>\n<Button variant="outline">取消</Button>\n<Button loading>运行中</Button>` },
     { id: 'input', zh: '输入框', en: 'Input', src: 'ui/input.tsx · ui/textarea.tsx',
-      desc: '高 36px，边框用 input 色。聚焦时边框变为品牌绿并带 2px 浅绿外圈；校验失败时改为红色。',
+      desc: '用于输入一行文字。聚焦时出现品牌绿外圈；校验失败时边框变红，并在下方说明怎么改。',
       html: () => `<div class="grid2">
         <div class="ui-field"><label class="ui-label" for="d-in">数据源名称</label><input class="ui-input" id="d-in" placeholder="例如 PLC-S7-01"><span class="ui-hint">点击输入框查看聚焦样式</span></div>
         <div class="ui-field"><label class="ui-label" for="d-in2">端点地址</label><input class="ui-input" id="d-in2" aria-invalid="true" value="opc.tcp://"><span class="ui-hint err">地址格式不正确</span></div>
@@ -40,11 +40,11 @@
         <div class="ui-field"><label class="ui-label" for="d-dis">只读</label><input class="ui-input" id="d-dis" value="Factory-A / Line-01" disabled></div></div>`,
       code: `import { Input } from '@tier0/ui/components/ui/input';\n\n<Input placeholder="例如 PLC-S7-01" />\n<Input aria-invalid icon={<SearchIcon />} />` },
     { id: 'select', zh: '选择器', en: 'Select', src: 'ui/select.tsx · cn-select.tsx',
-      desc: '与输入框同一形制：高 36px（sm 32），展开和聚焦时同样使用品牌绿边框。',
+      desc: '用于从较多选项里选一个；只有 2 到 5 个选项时用单选或分段控件更直接。与输入框同一形制。',
       html: () => `<div class="ui-field"><label class="ui-label" for="d-sel">协议</label><select class="ui-select" id="d-sel"><option>OPC UA</option><option>Modbus TCP</option><option>MQTT</option></select></div>`,
       code: `import { CnSelect } from '@tier0/ui/components/cn-select';\n\n<CnSelect options={[{ label: 'OPC UA', value: 'opcua' }]} />` },
     { id: 'choice', zh: '复选 · 单选 · 开关', en: 'Checkbox · Radio · Switch', src: 'ui/checkbox.tsx · ui/radio-group.tsx · ui/switch.tsx',
-      desc: '选中态统一使用 primary（近黑）。复选框 16px、圆角 4px；开关 32 × 18。',
+      desc: '复选用于多选；单选用于 2 到 5 个互斥选项；开关用于立即生效的开和关。选中态统一用 primary。',
       html: () => `<div class="grid2">
         <div class="stack"><label class="ui-check"><input type="checkbox" checked>订阅实时数据</label><label class="ui-check"><input type="checkbox">保留历史</label></div>
         <div class="stack"><label class="ui-check"><input type="radio" name="d-r" checked>按设备</label><label class="ui-check"><input type="radio" name="d-r">按工序</label></div>
@@ -52,44 +52,44 @@
         <div class="stack"><span class="ui-label">采样频率</span><input type="range" class="ui-slider" value="60" aria-label="采样频率"></div></div>`,
       code: `<Checkbox defaultChecked />\n<RadioGroup defaultValue="device">…</RadioGroup>\n<Switch defaultChecked />` },
     { id: 'badge', zh: '徽标 · 状态标签', en: 'Badge · Status', src: 'ui/badge.tsx · com-icon-tag.tsx',
-      desc: '徽标为全圆角 12px 字。状态标签用于真实结果，颜色总是配合文字；品牌绿实底只用于"实时"一类信号。',
+      desc: '状态标签（AntTag 浅底）表达真实的结果，颜色总配合文字；徽标（Badge 实底）只用于计数。同一个状态不再配图标重复表达。',
       html: () => `<div class="stack">
         <div class="hstack"><span class="col-label">Badge</span><span class="ui-badge default">default</span><span class="ui-badge secondary">secondary</span><span class="ui-badge outline">outline</span><span class="ui-badge destructive">destructive</span></div>
         <div class="hstack"><span class="col-label">状态</span><span class="ui-tag ok"><i></i>已连接</span><span class="ui-tag warn"><i></i>接近上限</span><span class="ui-tag err"><i></i>离线</span><span class="ui-tag info"><i></i>同步中</span><span class="ui-tag hl">实时</span></div></div>`,
       code: `import { Badge } from '@tier0/ui/components/ui/badge';\n\n<Badge variant="secondary">OPC UA</Badge>` },
     { id: 'tabs', zh: '标签页', en: 'Tabs', src: 'ui/tabs.tsx · cn-tabs.tsx',
-      desc: '浅灰轨道（高 36、内边距 3px），选中项为白底加轻阴影。',
+      desc: '用于在同一对象的几个视图之间切换；表示先后顺序的流程用步骤条，不用标签页。',
       html: () => `<div class="ui-tabs" data-tabs><div class="ui-tabs-list" role="tablist"><button role="tab" aria-selected="true" data-tab="指标：温度、压力、转速">指标</button><button role="tab" aria-selected="false" data-tab="状态：运行、空闲、停机">状态</button><button role="tab" aria-selected="false" data-tab="动作：启动、停止、复位">动作</button></div><div class="ui-tabs-panel">指标：温度、压力、转速</div></div>`,
       code: `<Tabs defaultValue="metrics">\n  <TabsList>\n    <TabsTrigger value="metrics">指标</TabsTrigger>\n    <TabsTrigger value="state">状态</TabsTrigger>\n  </TabsList>\n</Tabs>` },
     { id: 'table', zh: '表格', en: 'Table', src: 'ui/table.tsx · cn-table.tsx · ant-table',
-      desc: '表头高 40px、字重 500；单元格内边距 8px，行间 1px 细线，悬停为半透明浅灰，选中行为浅灰底。数字等宽右对齐。',
+      desc: '用于需要比较、排序、筛选的结构化数据。行间细线，悬停浅灰；数字右对齐并用等宽数字。',
       html: () => `<table class="ui-table"><thead><tr><th>设备</th><th>产线</th><th>状态</th><th class="r">温度 °C</th></tr></thead><tbody>
         <tr><td>CNC-01</td><td>Line-01</td><td><span class="ui-tag ok"><i></i>运行</span></td><td class="r">61.2</td></tr>
         <tr data-state="selected"><td>CNC-03</td><td>Line-01</td><td><span class="ui-tag warn"><i></i>过热</span></td><td class="r">72.4</td></tr>
         <tr><td>CNC-04</td><td>Line-02</td><td><span class="ui-tag err"><i></i>离线</span></td><td class="r">—</td></tr></tbody></table>`,
       code: `import { CnTable } from '@tier0/ui/components/cn-table';\n\n<CnTable columns={columns} dataSource={rows} rowKey="id" />` },
     { id: 'card', zh: '卡片 · 统计卡', en: 'Card · Stats', src: 'ui/card.tsx · com-stats-card.tsx',
-      desc: '圆角 10px、1px 边框加轻阴影，内边距 24px。',
+      desc: '用于把一组相关信息放在一起，如一台设备或一个指标。同组卡片之间用 group-item 间距；卡片里不再套卡片。',
       html: () => `<div class="grid2">
         <div class="ui-card"><div><div class="ui-card-title">Line-01</div><div class="ui-card-desc">3 台设备在线，1 台告警</div></div><div class="ui-card-foot"><button class="ui-btn outline">查看</button><button class="ui-btn default">运行 Agent</button></div></div>
         <div class="ui-card ui-stat"><div><div class="ui-card-desc" style="margin:0">今日接入数据点</div><div class="v">128,406</div><div class="ui-card-desc">较昨日 +4.2%</div></div></div></div>`,
       code: `<Card>\n  <CardHeader><CardTitle>Line-01</CardTitle></CardHeader>\n  <CardFooter>…</CardFooter>\n</Card>` },
     { id: 'alert', zh: '提示', en: 'Alert', src: 'ui/alert.tsx',
-      desc: '圆角 6px，图标 16px。错误提示使用浅红底与浅红边框。',
+      desc: '用于影响整个页面或区块、需要一直看到的提示，问题解决前不消失；一次性的操作结果用轻提示。',
       html: () => `<div class="stack"><div class="ui-alert">${I.info}<b>数据源已更新</b><span>新配置将在下一次采样时生效。</span></div><div class="ui-alert destructive">${I.alert}<b>连接失败</b><span>无法访问 opc.tcp://10.0.0.12。</span></div><div class="ui-alert error">${I.alert}<b>配额已用完</b><span>升级套餐以继续接入数据点。</span></div></div>`,
       code: `<Alert variant="destructive">\n  <AlertTitle>连接失败</AlertTitle>\n  <AlertDescription>…</AlertDescription>\n</Alert>` },
     { id: 'feedback', zh: '进度 · 骨架 · 头像 · 气泡', en: 'Progress · Skeleton · Avatar · Tooltip', src: 'ui/progress.tsx · ui/skeleton.tsx · com-avatar.tsx · ui/tooltip.tsx',
-      desc: '进度条高 8px 全圆角；工具提示为近黑底 12px 字。',
+      desc: '进度条用于能预估的等待；骨架用于首次加载；工具提示只放补充说明，必须看到的信息不放进提示。',
       html: () => `<div class="grid2">
         <div class="stack"><div class="ui-progress"><span style="width:68%"></span></div><div class="stack" style="gap:8px;width:240px"><div class="ui-skel" style="height:14px;width:100%"></div><div class="ui-skel" style="height:14px;width:70%"></div></div></div>
         <div class="stack"><div class="ui-avatars"><span class="ui-avatar">AL</span><span class="ui-avatar">MK</span><span class="ui-avatar">YX</span><span class="ui-avatar">+4</span></div><span class="ui-tooltip">复制数据路径</span></div></div>`,
       code: `<Progress value={68} />\n<Skeleton className="h-4 w-full" />\n<Tooltip><TooltipContent>复制数据路径</TooltipContent></Tooltip>` },
     { id: 'menu', zh: '下拉菜单', en: 'Dropdown menu', src: 'ui/dropdown-menu.tsx · cn-dropdown-menu.tsx',
-      desc: '浮层使用阴影；菜单项高 32px，危险操作用红色文字。',
+      desc: '用于收起次要操作和更多选项；危险操作放在最后，用红色文字。',
       html: () => `<div class="ui-menu"><div>重命名<small>⌘R</small></div><div>复制路径</div><div>导出</div><hr><div class="danger">删除</div></div>`,
       code: `<DropdownMenu>\n  <DropdownMenuTrigger asChild><Button variant="ghost">…</Button></DropdownMenuTrigger>\n  <DropdownMenuContent>…</DropdownMenuContent>\n</DropdownMenu>` },
     { id: 'dialog', zh: '弹窗', en: 'Dialog', src: 'cn-dialog.tsx · com-confirm-dialog.tsx',
-      desc: '业务弹窗优先用 CnDialog / ComConfirmDialog。内边距 32px，遮罩为 50% 黑。',
+      desc: '用于需要确认或集中填写、值得打断当前流程的任务；能就地完成的操作不用弹窗。危险操作的确认按钮用 destructive。',
       html: () => `<div class="ui-overlay"><div class="ui-dialog light-scope"><span class="x">${I.x}</span><div><h3>断开数据源？</h3><p>PLC-S7-01 的数据将停止同步，已接入的历史数据保留。</p></div><div class="ui-dialog-foot"><button class="ui-btn outline">取消</button><button class="ui-btn destructive">断开</button></div></div></div>`,
       code: `import { ComConfirmDialog } from '@tier0/ui/components/com-confirm-dialog';\n\n<ComConfirmDialog title="断开数据源？" onSubmit={() => disconnect()} />` },
   ];
@@ -298,7 +298,7 @@
     const aux = entries(c.auxiliary).map(([g, o]) => [g, entries(o).map(([s, v]) => [`${g}-${s}`, colorOf(v.$value)])]);
     const sem = CORE.map(g => [(D.light.color[g].$description || g).split('。')[0], entries(D.light.color[g]).map(([k, v]) => ({ k, l: colorOf(v.$value), d: colorOf(D.dark.color[g][k].$value), desc: (v.$description || '').split('——')[0] }))]);
     const rules = ext(D.light.color).rules || [];
-    return docHead('颜色', '近单色的界面，品牌绿只出现在信号、实时数据、选中和重点区块上。点击任一色块复制色值。')
+    return docHead('颜色', '界面以中性色为主。品牌绿是唯一的强调色，只用于信号、实时数据、选中和重点区块；状态色只表达真实结果。点击色块复制色值。')
       + sec('brand', '品牌色', '五个品牌色构成 Tier0 的识别。', `<div class="brand-board">${brand.map((x, i) => `<button type="button" class="bsw${i === 0 ? ' lead' : ''}" data-copy="${x.hex}" style="background:${x.hex};color:${lum(x.hex) > 0.4 ? '#050B14' : '#FFFFFF'}" aria-label="复制 ${esc(x.name)} ${x.hex}"><span class="bsw-name">${esc(x.name)}</span><span class="bsw-hex">${x.hex.replace('#', '')}</span><span class="bsw-copy">${I.copy}复制</span></button>`).join('')}</div>`)
       + sec('scale', '色阶', '绿、黑、灰三组色阶。', `<div class="ramps">${scale.map(ramp).join('')}</div>`)
       + sec('aux', '辅助色', '只用于图表和分类标签，不带语义。', `<div class="ramps">${aux.map(ramp).join('')}</div>`)
@@ -696,7 +696,7 @@
 
   let lgTheme = 'light';
   function vLogo() {
-    return docHead('Logo', '字标使用 Tektur，交付时为路径。只在下面四种底色上使用。')
+    return docHead('Logo', '字标用 Tektur 绘制，交付时为路径。只放在下面四种底色上；页面上出现时一律用 SVG。')
       + sec('motion', '动效', '从一个数据点开始，长成完整的 Tier0：数据只接一次，之后到处可用。节奏克制，只有明灭和位移，没有回弹和炫光。用于开场、视频和演示。', `<div class="spec"><div class="spec-body logo-mo">${logoSvg('play')}</div><div class="spec-foot"><span class="lg-exp"><button type="button" class="ui-btn outline" data-logo-replay>${I.replay}重播</button><span class="spacer"></span><details class="menu"><summary class="ui-btn outline">${I.download}导出<svg class="rb-chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg></summary><div class="menu-pop">${[['light', '亮色'], ['dark', '暗色']].map(([t, n]) => `<span class="menu-h">${n}</span><button type="button" data-logo-webm="${t}">透明视频 WebM<small>1920×1080</small></button><button type="button" data-logo-lottie="${t}">Lottie JSON<small>1200×400 · 60fps</small></button>`).join('')}</div></details></span></div></div>`)
       + sec('variants', '版本', '', `<div class="logo-grid">${LOGOS.map(([f, n, bg]) => `<div class="logo-card"><div class="stage" style="background:${bg}"><img alt="Tier0 ${n}" src="${asset('03-brand/logo/assets/' + f)}"></div><div class="foot"><span>${n}<span class="muted"> · ${bg}</span></span><a class="ui-btn ghost" href="${asset('03-brand/logo/assets/' + f)}" download="${f}">${I.download}下载 SVG</a></div></div>`).join('')}</div>`);
   }
@@ -709,7 +709,7 @@
   }
   function vSkills() {
     const s = SKILLS.find(x => x.id === sk.id);
-    return docHead('Skills', '把设计系统交给 AI：选一个出口，写下需求，复制指令发给 Agent。')
+    return docHead('Skills', '把设计系统交给 AI：写下需求，复制指令发给 Agent。Agent 会先读 tier0-design，再按任务读 DESIGN.md 的对应章节。')
       + sec('try', '试用', esc(s.desc), `<div class="spec"><div class="spec-bar">${seg('skill', SKILLS.map(x => [x.id, x.zh]), sk.id)}</div>
           <div class="spec-body" style="display:grid;gap:16px"><div class="ui-field" style="width:100%;max-width:640px"><label class="ui-label" for="sk-brief">需求</label><input class="ui-input" id="sk-brief" value="${esc(sk.brief)}"></div><div id="sk-out">${codeBlock(skPrompt())}</div></div></div>`)
       + sec('files', '文件结构', '', codeBlock(`04-skills/${s.id}/\n├── SKILL.md\n├── references/\n├── assets/\n├── examples/\n└── gotchas.md`));
@@ -803,7 +803,7 @@
     const levels = [['元素内', 'inline', '图标 + 文字；标签 + 输入框', sv('inline')], ['组内', 'group-item', '一组指标卡之间；按钮组', sv('group-item')], ['组与组', 'group', '指标卡组和旁边的列表之间', sv('group')], ['区块与区块', 'section', '页面里的两个分区', sv('section')]];
     const bps = entries(L.breakpoint).map(([k, o]) => [k, px(o.$value), o]);
     const maxBp = 1600;
-    return docHead('间距与布局', '间距和布局决定信息层级：同一层级用同一档间距，层级越高间距越大。')
+    return docHead('间距与布局', '用间距表达层级：同一组里间距小，组与组之间间距大。页面结构从任务出发，先放最重要的信息和操作。')
       + sec('scale', '间距刻度', '4px 基准。只用下列档位，点击一行复制数值。', tokTable(S, S.space, 'space.', v => `<i class="sp-bar" style="width:${Math.max(px(v), 1)}px"></i>`, true))
       + sec('levels', '层级与间距', '进入更高一层级时，间距至少升一档；所有区块等间距会让分组消失。', `<div class="lv-list">${levels.map(([n, v, eg, w]) => `<div class="lv-row"><b>${n}</b><span class="lv-demo"><i></i><em style="width:${w}px"></em><i></i></span><code>${v} · ${w}px</code><span class="muted">${eg}</span></div>`).join('')}</div>`)
       + sec('semantic', '按用途的间距', '组件与页面优先用这一层。', tokTable(S, S.semantic, '', v => `<i class="sp-bar" style="width:${Math.max(px(v), 1)}px"></i>`))
@@ -851,11 +851,32 @@
   function vShape() {
     const R = D.radius, B = D.border, H = D.shadow;
     if (!R || !B || !H) return '<p class="muted">没有读取到圆角、线宽与阴影 token。</p>';
-    return docHead('圆角、线宽与阴影', '组件的外形：圆角以 4px 为主，层级以 1px 细线为主，阴影只用于浮层与交互反馈。')
+    return docHead('圆角、线宽与阴影', '近直角、细线为主：控件 4px、卡片 6px；层级先靠细线和间距，阴影克制使用。')
       + sec('radius', '圆角', '控件 4px，卡片 6px，上限 8px；圆形元素是唯一的例外。', `<div class="shape-grid">${entries(R.radius).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo" style="border-radius:${k === 'full' ? '999px' : o.$value}${k === 'full' ? ';width:96px;height:32px' : ''}"></span><code>radius.${k}</code><b>${esc(o.$value === '9999px' ? '全圆' : o.$value)}</b><small>${esc(o.$description)}</small></button>`).join('')}</div>` + ruleList(R))
       + sec('concentric', '嵌套圆角', '内层圆角 = 外层圆角 − 内边距。拖动两个滑块，对比「同心」与「等值」。', `<div class="spec cc"><div class="spec-bar">${seg('ccmode', [['concentric', '同心'], ['equal', '等值']], 'concentric')}<span class="spacer"></span><label class="ctl"><span class="ctl-h">外层圆角<b id="cc-ov">6px</b></span><input type="range" id="cc-o" min="0" max="16" value="6"></label><label class="ctl"><span class="ctl-h">内边距<b id="cc-iv">8px</b></span><input type="range" id="cc-i" min="2" max="24" value="8"></label></div><div class="spec-body cc-stage"><div class="cc-outer" id="cc-outer"><div class="cc-inner" id="cc-inner"><i></i><i></i></div></div></div><div class="spec-foot"><code id="cc-f">inner 0 = outer 6 − inset 8</code></div></div>`)
       + sec('border', '线宽', '', borderLab())
       + sec('shadow', '阴影', '页面内的容器不用阴影。阴影只出现在浮层和交互反馈上。', `<div class="shape-grid sh">${entries(H.shadow).map(([k, o]) => `<button type="button" class="shape-card" data-copy="${esc(o.$value)}"><span class="shape-demo sh" style="box-shadow:${o.$value === 'none' ? 'none' : o.$value}"></span><code>shadow.${k}</code><small>${esc(o.$description)}${why(o)}</small></button>`).join('')}</div>` + ruleList(H));
+  }
+
+
+  // ---------- 动效：两种模式与场景 ----------
+  const moVal = (M, ref) => { const n = walk(M, ref); return n ? n.$value : null; };
+  const moCb = v => Array.isArray(v) ? `cubic-bezier(${v.join(',')})` : v;
+  function moModes(M) {
+    const card = (k, n, d, dur, ez) => `<div class="mm-card" data-mm-dur="${parseFloat(dur)}" data-mm-ez="${moCb(ez)}"><div class="mm-track"><i></i></div><div class="mm-body"><b>${n}</b><span>${d}</span><code>${dur} · ${k}</code></div><button type="button" class="ui-btn outline" data-mm-play>${I.replay}播放</button></div>`;
+    return `<div class="mm-grid">${card('standard', '高效动效', '产品界面。快、不打扰，用户几乎注意不到它，只感到界面跟手。', M.duration.slow.$value, M.easing.standard.$value)}${card('expressive-standard', '表现动效', '官网、品牌内容、Logo 动画。更舒展，用来强调重要时刻。', M.duration.emphasis.$value, M.easing['expressive-standard'].$value)}</div>`;
+  }
+  function moSurfaces(M) {
+    const rows = entries(M.surface).map(([k, o]) => { const v = o.$value, d = moVal(M, v.duration), x = moVal(M, v.exitDuration || v.duration);
+      return `<div class="ms-row" data-ms-in="${parseFloat(d)}" data-ms-out="${parseFloat(x)}" data-ms-ein="${moCb(moVal(M, v.enter))}" data-ms-eout="${moCb(moVal(M, v.exit))}" data-ms-kind="${k}"><code>surface.${k}</code><span>${esc(o.$description)}</span><span class="ms-t">进入 ${d}<br>退出 ${x}</span><span class="ms-demo"><i></i></span><button type="button" class="icon-btn" data-ms-play aria-label="播放">${I.replay}</button></div>`; }).join('');
+    return `<div class="ms-list">${rows}</div>`;
+  }
+  function playMm(card) { const i = card.querySelector('.mm-track i'); i.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${card.querySelector('.mm-track').clientWidth - 24}px)` }], { duration: +card.dataset.mmDur, easing: card.dataset.mmEz, fill: 'forwards' }); }
+  function playMs(row) {
+    const i = row.querySelector('.ms-demo i'), d = row.dataset, k = d.msKind;
+    const from = k === 'contextual' ? { opacity: 0, transform: 'scale(0.96)' } : k === 'panel' ? { transform: 'translateX(-100%)' } : k === 'disclosure' ? { transform: 'scaleY(0)' } : k === 'notify' ? { opacity: 0, transform: 'translateY(8px)' } : k === 'hover' || k === 'data' ? { backgroundColor: 'var(--muted)' } : { opacity: 0, transform: 'scale(0.98)' };
+    const to = { opacity: 1, transform: 'none', backgroundColor: 'var(--foreground)' };
+    i.animate([from, to], { duration: +d.msIn, easing: d.msEin, fill: 'forwards' }).finished.then(() => setTimeout(() => i.animate([to, from], { duration: +d.msOut, easing: d.msEout, fill: 'forwards' }), 500));
   }
 
   // ---------- 动效 ----------
@@ -871,10 +892,12 @@
       <div class="mo-demo"><button type="button" class="ui-btn primary mo-hover">悬停 / 按下</button><small>颜色变化 · ${dur('fast')}ms</small></div>
       <div class="mo-demo"><span class="mo-led"><i class="sig" style="animation-duration:${M.duration.signal.$value}"></i>运行中</span><small>循环 signal · ${M.duration.signal.$value}，同一视图只有一个</small></div>
     </div></div>`;
-    return docHead('动效', '动效用来说明状态变化和层级关系：元素从哪里来、到哪里去、现在处于什么状态。不用来装饰。')
+    return docHead('动效', '动效帮助用户理解变化：东西从哪里来、到哪里去、现在处于什么状态。产品界面用高效动效，品牌场合用表现动效；不用来装饰。')
       + sec('scene', '场景演示', '每种界面变化对应一组固定的时长和曲线。', scene)
       + sec('easing', '曲线', '每条曲线进入视野时播放一次，点击右上角可再次播放。不用回弹和弹性曲线：工业界面里回弹会被读成「数值在抖动」。', `<div class="ez-grid">${cards}</div>`)
       + sec('duration', '时长', '移动距离越大，时长越长；退出比进入短。', tokTable(M, M.duration, 'duration.', v => `<i class="sp-bar" style="width:${Math.min(px(v) / 4, 120)}px"></i>`))
+      + sec('modes', '两种模式', '', moModes(M))
+      + sec('surfaces', '动效场景', '', moSurfaces(M))
       + sec('rules', '使用规则', '', ruleList(M));
   }
 
@@ -917,6 +940,8 @@
     const bln = t.closest('.bl-nav span'); if (bln) { bln.parentElement.querySelectorAll('span').forEach(x => x.classList.toggle('on', x === bln)); return; }
     const bld = t.closest('.bl-drop'); if (bld) { bld.classList.toggle('on'); bld.textContent = bld.classList.contains('on') ? '已放入：line-01.csv' : '把文件拖到这里'; return; }
     const blc = t.closest('.bl-chart'); if (blc) { blc.classList.toggle('swap'); return; }
+    const mmp = t.closest('[data-mm-play]'); if (mmp) { playMm(mmp.closest('.mm-card')); return; }
+    const msp = t.closest('[data-ms-play]'); if (msp) { playMs(msp.closest('.ms-row')); return; }
     if (t.closest('[data-dm-dl]')) { download(new Blob([D.designmd], { type: 'text/markdown' }), 'DESIGN.md'); return; }
     if (t.closest('[data-lab-png]')) { labExportPng(); return; }
     const lwb = t.closest('[data-lab-webm]'); if (lwb) { labExportWebm(lwb); return; }

@@ -16,7 +16,7 @@ BASE, LIGHT, DARK = load('color/base.json'), load('color/light.json'), load('col
 TYPO, SPACE, LAYOUT = load('typography.json'), load('spacing.json'), load('layout.json')
 RADIUS, BORDER, SHADOW, MOTION = load('radius.json'), load('border.json'), load('shadow.json'), load('motion.json')
 FOUND = (ROOT / '00-foundation/foundation.md').read_text(encoding='utf-8')
-DOCS = {'color': BASE, 'font': TYPO, 'space': SPACE, 'radius': RADIUS, 'typography': TYPO}
+DOCS = {'color': BASE, 'font': TYPO, 'space': SPACE, 'radius': RADIUS, 'typography': TYPO, 'duration': MOTION, 'easing': MOTION}
 
 def walk(ref):
     parts = ref.strip('{}').split('.')
@@ -86,6 +86,11 @@ fm += [f'  {k}: {q(val(o["$value"]))}' for k, o in entries(SHADOW['shadow'])]
 fm.append('motion:')
 fm += [f'  duration-{k}: {q(val(o["$value"]))}' for k, o in entries(MOTION['duration'])]
 fm += [f'  easing-{k}: {q("cubic-bezier(" + ", ".join(str(x) for x in val(o["$value"])) + ")")}' for k, o in entries(MOTION['easing'])]
+for k, o in MOTION.get('surface', {}).items():
+    if k.startswith('$'): continue
+    v = o['$value']
+    ex = val(v.get('exitDuration', v['duration']))
+    fm.append(f'  surface-{k}: {q("进入 " + val(v["duration"]) + " " + v["enter"].strip("{}").split(".")[1] + "，退出 " + ex + " " + v["exit"].strip("{}").split(".")[1])}')
 fm.append('layout:')
 fm.append(f'  grid.columns: {q(LAYOUT["grid"]["columns"]["$value"])}')
 for k in ['gutter', 'gutter-mobile']:

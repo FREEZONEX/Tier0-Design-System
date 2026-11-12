@@ -453,7 +453,7 @@
           "段落之间：body-sm 用 paragraph，body 和 body-long 用 paragraph-lg。",
           "连续的中文长文（文档、帮助）使用 body-long（16/28）。",
           "截断：表格单元格、标签、导航单行截断加省略号，并能查看完整内容；卡片说明最多 2 行。",
-          "文字颜色：标题与正文用 foreground；说明、时间戳用 muted-foreground；绿色文字用 highlight-ink。次要文字不放在 muted 背景上（对比度 4.27:1，低于 4.5:1）。",
+          "文字颜色：标题与正文用 foreground；说明、时间戳用 muted-foreground；绿色文字用 highlight-ink。次要文字不放在 muted 背景上，避免对比度不足。",
           "不用斜体做强调。"
         ]
       }

@@ -7,10 +7,10 @@ colors:
   foreground: "#050B14"
   card: "#FFFFFF"
   subtle: "#FAFAFA"
-  muted: "#F3F3F3"
-  muted-foreground: "#737373"
+  muted: "#F5F5F5"
+  muted-foreground: "#878787"
   border: "#EBEBEB"
-  input: "#878787"
+  input: "#E5E5E5"
   primary: "#050B14"
   primary-foreground: "#FFFFFF"
   highlight: "#B2ED1D"
@@ -18,7 +18,7 @@ colors:
   highlight-deep: "#73B200"
   highlight-ink: "#48640C"
   accent: "#F3F3F3"
-  ring: "#628210"
+  ring: "#A1A1A1"
   highlight-subtle: "#F7FDE8"
   button-highlight: "#CEF368"
   button-highlight-hover: "#DCF797"
@@ -186,9 +186,21 @@ motion:
   duration-base: "200ms"
   duration-slow: "300ms"
   duration-signal: "2000ms"
+  duration-emphasis: "400ms"
+  duration-hero: "700ms"
   easing-standard: "cubic-bezier(0.4, 0, 0.2, 1)"
   easing-enter: "cubic-bezier(0, 0, 0.2, 1)"
   easing-exit: "cubic-bezier(0.4, 0, 1, 1)"
+  easing-expressive-standard: "cubic-bezier(0.4, 0.14, 0.3, 1)"
+  easing-expressive-enter: "cubic-bezier(0, 0, 0.3, 1)"
+  easing-expressive-exit: "cubic-bezier(0.4, 0.14, 1, 1)"
+  surface-hover: "进入 150ms standard，退出 150ms standard"
+  surface-disclosure: "进入 200ms enter，退出 150ms exit"
+  surface-contextual: "进入 150ms enter，退出 150ms exit"
+  surface-invoke: "进入 200ms enter，退出 150ms exit"
+  surface-panel: "进入 300ms standard，退出 300ms standard"
+  surface-notify: "进入 200ms enter，退出 150ms exit"
+  surface-data: "进入 200ms standard，退出 200ms standard"
 layout:
   grid.columns: "12"
   grid.gutter: "24px"
@@ -285,13 +297,13 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 | Token | 亮色 | 暗色 |
 |---|---|---|
 | `background` | #FFFFFF | #050B14 |
-| `foreground` | #050B14 | #FFFFFF |
+| `foreground` | #050B14 | #FAFAFA |
 | `card` | #FFFFFF | #050B14 |
 | `subtle` | #FAFAFA | #151A19 |
-| `muted` | #F3F3F3 | #1C1F1E |
-| `muted-foreground` | #737373 | #878787 |
+| `muted` | #F5F5F5 | #262626 |
+| `muted-foreground` | #878787 | #878787 |
 | `border` | #EBEBEB | #343434 |
-| `input` | #878787 | #878787 |
+| `input` | #E5E5E5 | rgb(255 255 255 / 0.15) |
 | `primary` | #050B14 | #FFFFFF |
 | `primary-foreground` | #FFFFFF | #050B14 |
 | `highlight` | #B2ED1D | #B2ED1D |
@@ -299,13 +311,13 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 | `highlight-deep` | #73B200 | #73B200 |
 | `highlight-ink` | #48640C | #B2ED1D |
 | `accent` | #F3F3F3 | #1C1F1E |
-| `ring` | #628210 | #B2ED1D |
+| `ring` | #A1A1A1 | #737373 |
 | `highlight-subtle` | #F7FDE8 | #48640C |
 | `button-highlight` | #CEF368 | #CEF368 |
 | `button-highlight-hover` | #DCF797 | #DCF797 |
 | `success` | #2F7657 | #6AD09D |
 | `warning` | #A35C00 | #FBBC55 |
-| `destructive` | #DC2626 | #EF4444 |
+| `destructive` | #DC2626 | #DC2626 |
 | `info` | #2563EB | #60A5FA |
 
 ## Typography
@@ -320,7 +332,7 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 - 段落之间：body-sm 用 paragraph，body 和 body-long 用 paragraph-lg。
 - 连续的中文长文（文档、帮助）使用 body-long（16/28）。
 - 截断：表格单元格、标签、导航单行截断加省略号，并能查看完整内容；卡片说明最多 2 行。
-- 文字颜色：标题与正文用 foreground；说明、时间戳用 muted-foreground；绿色文字用 highlight-ink。次要文字不放在 muted 背景上（对比度 4.27:1，低于 4.5:1）。
+- 文字颜色：标题与正文用 foreground；说明、时间戳用 muted-foreground；绿色文字用 highlight-ink。次要文字不放在 muted 背景上，避免对比度不足。
 - 不用斜体做强调。
 
 - 字体加载：Tier0-Frontend 用 `next/font/google` 加载 Inter 和 IBM Plex Sans；独立页面用 Google Fonts 加载 Inter、IBM Plex Sans 和 IBM Plex Mono。中文不加载 Web 字体。
@@ -483,7 +495,9 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 
 ## Motion
 
+- 动效分两种模式：产品界面用高效动效（standard / enter / exit，时长 fast 到 slow），快、不打扰；官网、品牌内容、Logo 动画用表现动效（expressive 曲线，可用 emphasis、hero 时长），更舒展。两种不混用。
 - 过渡沿用组件自带的写法（前端按钮用 transition-all）；自己写的过渡优先只动 opacity、transform 和颜色，不对宽高、布局做动画（数据条的长度变化除外）。
+- 元素越大、移动距离越远，时长越长；同一场景按 surface 取值，不临时拼时长和曲线。
 - 悬停、按下：fast + standard。浮层出现：base + enter；浮层消失：fast + exit。侧滑面板、页面区块移动：slow + standard。
 - 不用回弹、弹性、过冲。
 - 实时数据更新不加数字滚动动画，直接替换；需要提示变化时只闪烁一次背景（base 时长）。

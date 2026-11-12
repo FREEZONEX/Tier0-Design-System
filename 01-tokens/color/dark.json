@@ -21,7 +21,7 @@
         "$description": "页面底色。"
       },
       "foreground": {
-        "$value": "{color.scale.primary-white}",
+        "$value": "#FAFAFA",
         "$description": "正文与标题。"
       },
       "card": {
@@ -33,20 +33,20 @@
         "$description": "大面积分区底色：卡片区、表格区。"
       },
       "muted": {
-        "$value": "{color.scale.black.700}",
+        "$value": "#262626",
         "$description": "悬停填充、行内代码、输入框底。"
       },
       "muted-foreground": {
         "$value": "{color.scale.grey.400}",
-        "$description": "说明、次要标签、时间戳。"
+        "$description": "说明、次要标签、时间戳，与前端一致。"
       },
       "border": {
         "$value": "{color.scale.black.500}",
         "$description": "单元格之间、卡片周围的细线。"
       },
       "input": {
-        "$value": "{color.scale.grey.400}",
-        "$description": "输入框、选择器等交互控件的边框，需与背景达到 3:1。"
+        "$value": "rgb(255 255 255 / 0.15)",
+        "$description": "输入框、选择器等交互控件的边框，与前端一致。"
       }
     },
     "brand": {
@@ -80,7 +80,7 @@
         "$description": "与前端 --accent 一致的浅灰：选中项、悬停项、骨架的底色。"
       },
       "ring": {
-        "$value": "{color.scale.fx-green.500}",
+        "$value": "#737373",
         "$description": "键盘焦点：按钮等控件用此色 50% 透明度的 3px 外圈；输入框、选择器用 shadow.focus。"
       },
       "highlight-subtle": {
@@ -107,7 +107,7 @@
         "$description": "需要注意、接近上限。"
       },
       "destructive": {
-        "$value": "{color.auxiliary.red.500}",
+        "$value": "#DC2626",
         "$description": "破坏性操作和错误。"
       },
       "info": {
