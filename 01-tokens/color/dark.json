@@ -25,7 +25,7 @@
         "$description": "正文与标题。"
       },
       "card": {
-        "$value": "{color.scale.black.800}",
+        "$value": "{color.scale.black.900}",
         "$description": "实色表面：面板、弹窗、产品界面截图的容器。"
       },
       "subtle": {
@@ -41,7 +41,7 @@
         "$description": "说明、次要标签、时间戳。"
       },
       "border": {
-        "$value": "{color.scale.black.700}",
+        "$value": "{color.scale.black.500}",
         "$description": "单元格之间、卡片周围的细线。"
       },
       "input": {

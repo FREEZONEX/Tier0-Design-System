@@ -1,6 +1,17 @@
 # 02-components
 
-产品组件以前端组件库为准：`Tier0-Frontend/packages/ui`。本目录不再另写一套组件。
+产品组件复刻自 Tier0-Frontend，代码在 `packages/` 下，可以直接引用。来源版本记录在 `packages/SOURCE`。
+
+| 包 | 内容 |
+|---|---|
+| `packages/ui` | 组件库（`@tier0/ui`）：shadcn/ui 基础组件和 Tier0 封装 |
+| `packages/theme` | 主题与 token 的 CSS 变量（`@tier0/theme`），亮色与暗色 |
+| `packages/utils` | `cn()`、日期、下载等工具（`@tier0/utils`），`ui` 依赖它 |
+| `packages/hooks` | 通用 hooks（`@tier0/hooks`），`ui` 依赖它 |
+
+只复制了这四个纯前端包，业务、gRPC、观测和 UNS 相关的包没有复制。
+
+## 组件命名
 
 | 来源 | 目录 | 命名 |
 |---|---|---|
@@ -9,6 +20,15 @@
 | 通用业务组件 | `packages/ui/components/` | `com-` 前缀，如 `com-avatar.tsx` |
 | Ant Design 封装 | `packages/ui/components/` | `ant-` 前缀，如 `ant-table` |
 
-门户网站的「组件」页按前端组件的尺寸、圆角、颜色和状态还原展示，用于查阅和对齐；代码以前端仓库为准。
+## 怎么用
 
-此前在本仓库定义的组件（按钮、面板、取景框、读数等）已移到 `_legacy/02-components-v1/`，暂不使用。
+- 在 pnpm / npm workspace 里把 `02-components/packages/*` 加进 workspace，然后按包名引用：`import { Button } from '@tier0/ui'`。
+- 样式：引入 `@tier0/theme` 的 `src/tailwind.css`（Tailwind v4）。
+
+## 更新
+
+不在这里手改组件代码。前端更新后，在仓库根目录运行：
+
+```bash
+scripts/sync-frontend-ui.sh ../Tier0-Frontend release
+```

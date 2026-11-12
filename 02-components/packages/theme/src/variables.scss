@@ -1,0 +1,165 @@
+// 变量定义集合
+
+:root {
+  // 主色
+  --tier0-v-primary-white: #fff;
+  --tier0-v-bg-white: #fcfcfc;
+
+  // --tier0-v-text-accent: #585c62;
+
+  /* FX Green 色阶 */
+  --tier0-v-fx-green-50: #f7fde8;
+  --tier0-v-fx-green-100: #e7f9b9;
+  --tier0-v-fx-green-200: #dcf797;
+  --tier0-v-fx-green-300: #cef368;
+  --tier0-v-fx-green-400: #c1f14a;
+  --tier0-v-fx-green-500: #b2ed1d;
+  --tier0-v-fx-green-600: #a2db1a;
+  --tier0-v-fx-green-700: #7ea815;
+  --tier0-v-fx-green-800: #628210;
+  --tier0-v-fx-green-900: #48640c;
+  --tier0-v-fx-green-deep: #73b200;
+
+  /* Grey 色阶 */
+  --tier0-v-grey-50: #f9f9f9;
+  --tier0-v-grey-100: #f3f3f3;
+  --tier0-v-grey-200: #ebebeb;
+  --tier0-v-grey-300: #d9d9d9;
+  --tier0-v-grey-400: #878787;
+
+  /* Black 色阶 */
+  --tier0-v-black-500: #343434;
+  --tier0-v-black-600: #242424;
+  --tier0-v-black-700: #1c1f1e;
+  --tier0-v-black-800: #151a19;
+  --tier0-v-black-900: #050b14;
+
+  /* Slate 色阶 暂时不用了 */
+  // --tier0-v-slate-50: #f8fafc;
+  // --tier0-v-slate-100: #f1f5f9;
+  // --tier0-v-slate-200: #e2e8f0;
+  // --tier0-v-slate-300: #cbd5e1;
+  // --tier0-v-slate-400: #94a3b8;
+  // --tier0-v-slate-500: #64748b;
+  // --tier0-v-slate-600: #475569;
+  // --tier0-v-slate-700: #334155;
+  // --tier0-v-slate-800: #1e293b;
+  // --tier0-v-slate-900: #0f172a;
+
+  /* Gray 色阶 */
+  --tier0-v-gray-50: #f9fafb;
+  --tier0-v-gray-100: #f3f4f6;
+  --tier0-v-gray-200: #e5e7eb;
+  --tier0-v-gray-300: #d1d5db;
+  --tier0-v-gray-400: #9ca3af;
+  --tier0-v-gray-500: #6b7280;
+  --tier0-v-gray-600: #4b5563;
+  --tier0-v-gray-700: #374151;
+  --tier0-v-gray-800: #1f2937;
+  --tier0-v-gray-900: #111827;
+
+  /* Error 色阶 */
+  --tier0-v-error-50: #fef2f2;
+  --tier0-v-error-100: #fee2e2;
+  --tier0-v-error-200: #fecaca;
+  --tier0-v-error-300: #fca5a5;
+  --tier0-v-error-400: #f87171;
+  --tier0-v-error-500: #ef4444;
+  --tier0-v-error-600: #dc2626;
+  --tier0-v-error-700: #b91c1c;
+  --tier0-v-error-800: #991b1b;
+  --tier0-v-error-900: #7f1d1d;
+
+  /* Warning 色阶 */
+  --tier0-v-warning-50: #fffcf5;
+  --tier0-v-warning-100: #fefaf5;
+  --tier0-v-warning-200: #fbf2cb;
+  --tier0-v-warning-300: #fde57e;
+  --tier0-v-warning-400: #ffd16a;
+  --tier0-v-warning-500: #fbbc55;
+  --tier0-v-warning-600: #e9a23b;
+  --tier0-v-warning-700: #c8911a;
+  --tier0-v-warning-800: #a35c00;
+  --tier0-v-warning-900: #884a00;
+
+  /* Success 色阶 */
+  --tier0-v-success-50: #f6fef9;
+  --tier0-v-success-100: #effdf6;
+  --tier0-v-success-200: #d9f9e6;
+  --tier0-v-success-300: #b8f1d2;
+  --tier0-v-success-400: #8ee4ba;
+  --tier0-v-success-500: #6ad09d;
+  --tier0-v-success-600: #53b483;
+  --tier0-v-success-700: #2f9461;
+  --tier0-v-success-800: #2f7657;
+  --tier0-v-success-900: #255e46;
+
+  /* Blue(Updating) 色阶 */
+  --tier0-v-blue-50: #eff6ff;
+  --tier0-v-blue-100: #dbeafe;
+  --tier0-v-blue-200: #bfdbfe;
+  --tier0-v-blue-300: #93c5fd;
+  --tier0-v-blue-400: #60a5fa;
+  --tier0-v-blue-500: #3b82f6;
+  --tier0-v-blue-600: #2563eb;
+  --tier0-v-blue-700: #1d4ed8;
+  --tier0-v-blue-800: #1e40af;
+  --tier0-v-blue-900: #1e3a8a;
+
+  /* Yellow 色阶 */
+  --tier0-v-yellow-50: #fefce8;
+  --tier0-v-yellow-300: #fde047;
+  --tier0-v-yellow-600: #ca8a04;
+  --tier0-v-yellow-800: #854d0e;
+
+  /* Lime 色阶 */
+  --tier0-v-lime-50: #f7fee7;
+  --tier0-v-lime-300: #bef264;
+  --tier0-v-lime-600: #65a30d;
+  --tier0-v-lime-800: #3f6212;
+
+  /* Green 色阶 */
+  --tier0-v-green-50: #f0fdf4;
+  --tier0-v-green-300: #86efac;
+  --tier0-v-green-600: #16a34a;
+
+  /* Orange 色阶 */
+  --tier0-v-orange-50: #fff7ed;
+  --tier0-v-orange-300: #fdba74;
+  --tier0-v-orange-600: #ea580c;
+
+  /* Sky 色阶 */
+  --tier0-v-sky-50: #f0f9ff;
+  --tier0-v-sky-300: #7dd3fc;
+  --tier0-v-sky-600: #0284c7;
+
+  /* Emerald 色阶 */
+  --tier0-v-emerald-50: #ecfdf5;
+  --tier0-v-emerald-300: #6ee7b7;
+  --tier0-v-emerald-600: #059669;
+
+  /* Teal 色阶 */
+  --tier0-v-teal-50: #f0fdfa;
+  --tier0-v-teal-300: #5eead4;
+  --tier0-v-teal-600: #0d9488;
+
+  /* Cyan 色阶 */
+  --tier0-v-cyan-50: #ecfeff;
+  --tier0-v-cyan-300: #67e8f9;
+  --tier0-v-cyan-600: #0891b2;
+
+  /* Amber 色阶 */
+  --tier0-v-amber-50: #fffbeb;
+  --tier0-v-amber-300: #fcd34d;
+  --tier0-v-amber-600: #d97706;
+
+  /* Violet 色阶 */
+  --tier0-v-violet-50: #f5f3ff;
+  --tier0-v-violet-300: #c4b5fd;
+  --tier0-v-violet-600: #7c3aed;
+
+  /* Fuchsia 色阶 */
+  --tier0-v-fuchsia-50: #fdf4ff;
+  --tier0-v-fuchsia-300: #f0abfc;
+  --tier0-v-fuchsia-600: #c026d3;
+}

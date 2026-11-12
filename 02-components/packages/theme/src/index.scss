@@ -1,0 +1,246 @@
+// 样式入口
+@use './variables'; // 变量集合
+@use './themes'; // 主题风格定义
+@use './override-antd'; // antd 样式覆盖
+
+html,
+body {
+  height: 100%;
+  font-family: var(--font-app-sans), Arial, sans-serif;
+
+  // CnDialog弹窗后设置pointer-events:none;导致里面的下拉菜单或者选项点击失效
+  pointer-events: auto !important;
+}
+
+.font-app-sans-variable {
+  --font-app-sans: -apple-system, blinkmacsystemfont, 'Segoe UI', arial, sans-serif;
+}
+
+.font-display-sans-variable {
+  --font-display-sans: inter, -apple-system, blinkmacsystemfont, 'Segoe UI', arial, sans-serif;
+}
+
+.font-geist-sans-variable {
+  --font-geist-sans: -apple-system, blinkmacsystemfont, 'Segoe UI', arial, sans-serif;
+}
+
+.font-geist-mono-variable {
+  --font-geist-mono: 'SFMono-Regular', consolas, 'Liberation Mono', menlo, monospace;
+}
+
+.font-app-sans-local {
+  font-family: var(--font-app-sans), Arial, sans-serif;
+}
+
+.font-display-sans-local {
+  font-family: var(--font-display-sans), Arial, sans-serif;
+}
+
+.font-geist-sans-local {
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+}
+
+.font-geist-mono-local {
+  font-family: var(--font-geist-mono), monospace;
+}
+
+* {
+  outline: none;
+  outline-color: transparent;
+}
+
+a,
+a:hover {
+  color: var(--tier0-text-color);
+}
+
+#root {
+  font-family: var(--font-app-sans), Arial, sans-serif;
+  height: 100%;
+
+  // todo: 取消全局 a 标签颜色覆盖
+}
+
+// toast custom
+// [data-sonner-toast] {
+//   width: 400px !important; /* 自定义宽度 */
+//   // max-width: 90vw; /* 小屏下自适应 */
+// }
+
+/* SUCCESS */
+[data-sonner-toast][data-type='success'] {
+  --success-bg: var(--tier0-v-success-100);
+  --success-text: var(--tier0-v-success-600);
+  --success-border: var(--tier0-v-success-200);
+}
+
+/* ERROR */
+[data-sonner-toast][data-type='error'] {
+  --error-bg: var(--tier0-v-error-100);
+  --error-text: var(--tier0-v-error-600);
+  --error-border: var(--tier0-v-error-200);
+}
+
+/* WARNING */
+[data-sonner-toast][data-type='warning'] {
+  --warning-bg: var(--tier0-v-warning-100);
+  --warning-text: var(--tier0-v-warning-600);
+  --warning-border: var(--tier0-v-warning-200);
+}
+
+/* INFO */
+[data-sonner-toast][data-type='info'] {
+  --info-bg: var(--tier0-v-blue-100);
+  --info-text: var(--tier0-v-blue-600);
+  --info-border: var(--tier0-v-blue-200);
+}
+
+// com-global-spinner
+.global-spinner {
+  --size: 20px;
+  --color: var(--tier0-theme-highlight);
+
+  width: 100px;
+  height: 100px;
+  position: relative;
+}
+
+.global-spinner--section {
+  --size: 14px;
+
+  width: 72px;
+  height: 72px;
+}
+
+.global-spinner--inline {
+  --size: 8px;
+
+  width: 40px;
+  height: 40px;
+}
+
+.global-spinner::after,
+.global-spinner::before {
+  box-sizing: border-box;
+  position: absolute;
+  content: '';
+  width: var(--size);
+  height: var(--size);
+  top: 50%;
+  animation: global-spinner-up 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+  left: 50%;
+  background: var(--color);
+
+  // box-shadow: 0 0 calc(var(--size) / 3) rgba(0, 0, 0, 0.25);
+}
+
+.global-spinner::after {
+  background: var(--color);
+  top: calc(50% - var(--size));
+  left: calc(50% - var(--size));
+  animation: global-spinner-down 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+}
+
+@keyframes global-spinner-down {
+  0%,
+  100% {
+    transform: none;
+  }
+
+  25% {
+    transform: translateX(100%);
+  }
+
+  50% {
+    transform: translateX(100%) translateY(100%);
+  }
+
+  75% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes global-spinner-up {
+  0%,
+  100% {
+    transform: none;
+  }
+
+  25% {
+    transform: translateX(-100%);
+  }
+
+  50% {
+    transform: translateX(-100%) translateY(-100%);
+  }
+
+  75% {
+    transform: translateY(-100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .global-spinner::after,
+  .global-spinner::before {
+    animation: none;
+  }
+}
+
+// 滚动条样式
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  z-index: 99;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: var(--tier0-scrollbar);
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-track {
+  margin: 4px 0;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--tier0-scrollbar-hover);
+}
+
+// Radix Select 的 viewport 会注入 scrollbar-width:none + ::-webkit-scrollbar{display:none}，
+// 只留上下箭头按钮，与本项目全局滚动条约定不一致：长列表下用户看不出还能往下滚。
+// Radix 的 style 注入在应用样式表之后、选择器特异性相同，必须用 !important 才能盖过。
+// 不写具体宽度/颜色：交还给上面的全局 ::-webkit-scrollbar 规则，保持与全站一致。
+// scrollbar-width 必须回到初始值 auto —— Chromium 下一旦它是非初始值，
+// ::-webkit-scrollbar 的自定义样式会被整体忽略，等于把全局那套 8px 圆角滑块也废掉。
+[data-radix-select-viewport] {
+  scrollbar-width: auto !important;
+
+  &::-webkit-scrollbar {
+    display: block !important;
+  }
+}
+
+// 隐藏滚动条但保持滚��功能
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+// Chatbox input 样式覆盖
+
+// Chatbox 按钮无 hover 背景样式
+.chat-btn-no-hover {
+  &:hover,
+  &:focus-visible {
+    background-color: transparent !important;
+
+    // background: transparent !important;
+  }
+}

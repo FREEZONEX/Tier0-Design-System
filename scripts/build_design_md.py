@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""生成仓库根目录的 DESIGN.md（遵循 .cursor/skills/create-design-md 里的 DESIGN.md 格式约定）。
+"""生成仓库根目录的 DESIGN.md（遵循 DESIGN.md 格式：version / name / description 加 colors、typography、rounded、spacing、components 等 token；正文只写用法）。
 
 - 精确数值只放在 YAML front matter；暗色主题的取值放在 `## Themes` 表格（格式允许的例外）。
 - 正文只写用法与原则，章节顺序固定：Overview, Colors, Themes, Typography, Layout,
@@ -118,7 +118,15 @@ body = ['', '## Overview', '', what, '', '\n'.join(f'- **{t}**：{d}' for t, d i
         '## Motion', '', rules(MOTION), '',
         "## Do's and Don'ts", '', '**Do**', ''] + [f'- **{t}**：{d.strip()}' for t, d in principles] + ['', "**Don't**", ''] + [f'- {c}：{d}' for c, d in anti] + [
         '- 英文全大写、加宽字距的小标签和眉题（如 `TOKENS`、`OVERVIEW`）。',
-        '- 等宽字体用在代码和命令行以外的地方：读数、标签、导航、路径说明都用常规字体。', '']
+        '- 等宽字体用在代码和命令行以外的地方：读数、标签、导航、路径说明都用常规字体。',
+        '- 不承载内容、只用来划分空间的宽顶栏。',
+        '- 导航、菜单、列表的悬停和选中用品牌绿。',
+        '- 产品界面里整块填灰的卡片；为了和旁边对齐而拉高、留出大片空白的区块。',
+        '- 所有区块用同一个间距，分不出哪些是一组。',
+        '- 一个面板里标题、操作、筛选、列表之间层层加分割线。',
+        '- 同一个信息同时用图标、颜色和文字重复表达。',
+        '- 原型的状态切换、方案切换混进产品界面里。',
+        '- 页面上单独出现的 Tier0 标志用文字代替 SVG。', '']
 out = re.sub(r'\n{3,}', '\n\n', '\n'.join(fm + body))
 (ROOT / 'DESIGN.md').write_text(out, encoding='utf-8')
 print('DESIGN.md', len(out.splitlines()), 'lines', len(out), 'chars')

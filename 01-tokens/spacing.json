@@ -3,11 +3,11 @@
   "$extensions": {
     "tier0": {
       "rules": [
-        "间距、内边距和组件尺寸以 4 的倍数为主；2px、6px 等用于图标与文字的微调和控件内部。",
-        "同一层级的元素之间用同一档间距；进入更高一层级时，间距至少升一档（例如组内 8px → 组间 16px → 区块间 32px）。",
-        "层级以 1px 细线为主；表头、悬停、分区可以用浅灰填充，浮层和需要和背景区分的面板可以用阴影。",
-        "尽量使用 space 刻度里的档位，少用刻度外的数值（如 10px、14px、18px）。",
-        "产品界面默认密度为「紧凑」：控件高 32px、表格行高 40px、卡片内边距 24px；不在同一页面混用两种密度。"
+        "间距、内边距和组件尺寸以 4 的倍数为主；space.0-5、space.1-5 用于图标与文字的微调和控件内部。",
+        "同一层级的元素之间用同一档间距；进入更高一层级时，间距至少升一档：组内 group-item → 组间 group → 区块间 section。",
+        "层级以 border.1 细线为主；表头、悬停、分区可以用浅灰填充，浮层和需要和背景区分的面板可以用阴影。",
+        "尽量使用 space 刻度里的档位，少用刻度外的数值。",
+        "产品界面默认密度为「紧凑」：控件高 control-sm、表格行高 table-row、卡片内边距 card-padding；不在同一页面混用两种密度。"
       ],
       "basis": "前端使用频次（packages/ui + apps/saas-dashboard）：gap-2 574、gap-4 236、gap-1 207、gap-3 188、px-4 172、px-3 122、py-2 180、h-8 139、h-9 75、h-10 40。",
       "frontend": "前端 gap-2.5 26 处、py-2.5 16 处、px-2.5 15 处（10px）不在档位内，改为 2 或 3；gap-1.5（6px，194 处）在档位内。"
@@ -197,6 +197,26 @@
     "section-web": {
       "$value": "{space.24}",
       "$description": "官网章节之间。"
+    },
+    "title-gap": {
+      "$value": "{space.1}",
+      "$description": "标题和下方元信息（状态、时间）之间。"
+    },
+    "paragraph": {
+      "$value": "{space.3}",
+      "$description": "body-sm 段落之间。"
+    },
+    "paragraph-lg": {
+      "$value": "{space.4}",
+      "$description": "body / body-long 段落之间。"
+    },
+    "group-item": {
+      "$value": "{space.3}",
+      "$description": "同一组内并列元素之间，如一组指标卡。"
+    },
+    "group": {
+      "$value": "{space.6}",
+      "$description": "组与组之间，如指标卡组和告警列表之间。比组内间距大，层级才能分开。"
     }
   },
   "size": {
@@ -327,6 +347,18 @@
           }
         }
       }
+    },
+    "nav-item": {
+      "$value": "32px",
+      "$description": "侧栏导航项高度。"
+    },
+    "logo-ui": {
+      "$value": "20px",
+      "$description": "产品界面里 Logo 的高度上限。"
+    },
+    "empty-media": {
+      "$value": "40px",
+      "$description": "空状态里放图标的浅灰方块。"
     }
   }
 }
