@@ -411,7 +411,7 @@
     "$extensions": {
       "tier0": {
         "rules": [
-          "标题用 Inter，正文用 IBM Plex Sans，代码、数据路径与实时读数用 IBM Plex Mono；中文使用系统字体（苹方 / 微软雅黑）；Tektur 只用于 Logo。",
+          "标题用 Inter，正文用 IBM Plex Sans，代码、数据路径与实时读数用 IBM Plex Mono；中文使用系统字体（苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体）；Tektur 只用于 Logo。",
           "不引入以上之外的字体。",
           "中文标题和中英混排标题字距为 0；只有纯英文标题使用字阶里的负字距。",
           "建议最小字号 12px；更小的字号只用于图表刻度等不需要阅读的文字。",
