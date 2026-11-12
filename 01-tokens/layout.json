@@ -8,7 +8,7 @@
         "连续阅读的文字（说明、文档正文）单行最大宽度 width.measure；表格、看板、拓扑图不受此限，占满内容区。",
         "监控看板按「概览 → 列表 → 详情」从上到下、从左到右排列：关键读数在首屏左上，告警与异常在读数旁，明细在下方。",
         "同一页面内对齐线不超过 3 条：内容区左边缘、栅格栏边缘、右侧操作区边缘。",
-        "breakpoint.lg 以下侧栏改为抽屉；breakpoint.md 以下表格改为卡片列表或横向滚动，不压缩列宽到无法阅读。"
+        "breakpoint.md（768px）以下侧栏使用组件自带抽屉，宽 shell.sidebar-mobile 且不超过视口；工作区占满可用宽度。桌面侧栏与工作区参与同一布局，收起时同步释放宽度。表格在自身容器内横向滚动或改为卡片列表，不压缩列宽到无法阅读，不让整个页面横向溢出。"
       ]
     }
   },
@@ -27,7 +27,7 @@
     },
     "md": {
       "$value": "768px",
-      "$description": "平板竖屏、车间手持终端。",
+      "$description": "平板竖屏、车间手持终端；侧栏从移动端抽屉变为桌面常驻。",
       "$extensions": {
         "tier0": {
           "frontend": {
@@ -38,7 +38,7 @@
     },
     "lg": {
       "$value": "1024px",
-      "$description": "平板横屏、小尺寸工控屏；侧栏从抽屉变为常驻。",
+      "$description": "平板横屏、小尺寸工控屏。",
       "$extensions": {
         "tier0": {
           "frontend": {
@@ -78,23 +78,23 @@
       "$description": "需要顶栏时的参考高度；多数产品页不需要顶栏。"
     },
     "sidebar": {
-      "$value": "256px",
-      "$description": "侧栏展开宽度。",
+      "$value": "240px",
+      "$description": "产品应用侧栏展开宽度；应用层覆盖基础组件默认值。",
       "$extensions": {
         "tier0": {
           "frontend": {
-            "component": "sidebar SIDEBAR_WIDTH 16rem"
+            "component": "apps/saas-dashboard 与 apps/platform-admin 的 SidebarProvider：--sidebar-width: 15rem"
           }
         }
       }
     },
     "sidebar-collapsed": {
-      "$value": "48px",
+      "$value": "64px",
       "$description": "侧栏收起为图标列。",
       "$extensions": {
         "tier0": {
           "frontend": {
-            "component": "SIDEBAR_WIDTH_ICON 3rem"
+            "component": "apps/saas-dashboard 与 apps/platform-admin 的 SidebarProvider：--sidebar-width-icon: 4rem"
           }
         }
       }

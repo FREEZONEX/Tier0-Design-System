@@ -103,12 +103,12 @@
   ];
   const NAV = [
     { zh: '', en: '', items: [['foundation', 'Foundation', 'Foundation']] },
-    { zh: 'Tokens', en: 'Tokens', items: [['color', '颜色', 'Color'], ['typography', '字体', 'Typography'], ['spacing', '间距与布局', 'Spacing & layout'], ['shape', '圆角、线宽与阴影', 'Radius, border & shadow'], ['motion', '动效', 'Motion']] },
+    { zh: 'Tokens', en: 'Tokens', items: [['color', '颜色', 'Color'], ['typography', '字体', 'Typography'], ['spacing', '间距与布局', 'Spacing & layout'], ['shape', '圆角、线宽与阴影', 'Radius, border & shadow'], ['motion', '动效', 'Motion', true]] },
     { zh: 'Components', en: 'Components', items: [['components', 'Tier0 平台组件', 'Tier0 platform'], ['scaffold', '应用脚手架', 'App scaffold']] },
-    { zh: 'Brand', en: 'Brand', items: [['logo', 'Logo', 'Logo'], ['texture', 'Texture', 'Texture'], ['illustration', '插画与图形', 'Illustration'], ['templates', '品牌资产', 'Assets']] },
-    { zh: 'Skills', en: 'Skills', items: [['skills', 'AI 调用规则', 'AI guidelines'], ['designmd', 'DESIGN.md', 'DESIGN.md']] },
+    { zh: 'Brand', en: 'Brand', items: [['logo', 'Logo', 'Logo', true], ['texture', 'Texture', 'Texture', true], ['illustration', '插画与图形', 'Illustration'], ['templates', '品牌资产', 'Assets']] },
+    { zh: 'Skills', en: 'Skills', items: [['skills', 'AI 调用规则', 'AI guidelines', true], ['designmd', 'DESIGN.md', 'DESIGN.md', true]] },
   ];
-  const I18N = { tbd: { zh: '待定', en: 'TBD' }, copy: { zh: '复制', en: 'Copy' }, copied: { zh: '已复制', en: 'Copied' } };
+  const I18N = { tbd: { zh: 'TBD', en: 'TBD' }, copy: { zh: '复制', en: 'Copy' }, copied: { zh: '已复制', en: 'Copied' } };
 
   // ---------- data ----------
   const D = { base: null, light: null, dark: null, typo: null, md: '', root: '' };

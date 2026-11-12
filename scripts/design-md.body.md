@@ -20,7 +20,7 @@ Tier0 为制造业构建 Agentic 工业数据平台：工厂设备和业务系�
 - **Muted-foreground `{{colors.muted-foreground}}`**：说明、时间戳、单位。不放在 `muted` 底上。
 - **Border `{{colors.border}}` / Input `{{colors.input}}`**：分隔和外框用 `border`，表单控件的边框用 `input`。
 - **Highlight `{{colors.highlight}}`（品牌绿）**：运行状态圆点、实时数据、官网的重点区块。白底上要阅读的绿色文字和图标用 `highlight-ink` `{{colors.highlight-ink}}`；强调按钮用 `button-highlight` `{{colors.button-highlight}}`，悬停 `{{colors.button-highlight-hover}}`。
-- **状态色**：success `{{colors.success}}`、warning `{{colors.warning}}`、destructive `{{colors.destructive}}`、info `{{colors.info}}`，只表达真实的结果。浅底写法是状态色 10% 透明度底（暗色 15%），文字用状态色本身；整页横幅用 4% 底加 30% 描边。
+- **状态色**：success `{{colors.success}}`、warning `{{colors.warning}}`、destructive `{{colors.destructive}}`、info `{{colors.info}}`，只表达真实的结果。状态标签直接沿用 `AntTag` 的主题色阶与样式，不另写透明度底色；整页横幅用 4% 底加 30% 描边。
 - **辅助色**（`red-500`、`blue-500` 等）只用于图表系列和分类标签。
 
 组件里只写语义类（`bg-background`、`text-muted-foreground`、`border-border`），不写 `bg-white`、`gray-500` 这类物理颜色，也不写 `dark:` 分支。暗色模式由 `.dark` 类切换同名 token：
@@ -41,9 +41,9 @@ Tier0 为制造业构建 Agentic 工业数据平台：工厂设备和业务系�
 - **4px 基准**：间距只取 front matter `spacing` 里的档位（4、8、12、16、24、32、48、64、96）；2px、6px 只用于图标与文字之间的微调。
 - **用间距表达分组**：组内并列元素间隔 12px（`group-item`），组与组之间 24px（`group`），区块之间 48px（`section`，官网 96px）。每进入更高一层，间距至少升一档。
 - **紧凑密度**：按钮高 32px（`control-sm`），表单控件 36px（`control-md`），表格行 40px，卡片内边距 24px。同一页面不混用两种密度。
-- **应用骨架**：左侧导航 256px（收起 48px）加右侧工作区，工作区内边距 24px（移动端 16px）。默认不放顶栏；需要时不高于 48px，只放面包屑、搜索、当前对象和全局操作。
+- **应用骨架**：左侧导航 240px（收起 64px；在 `SidebarProvider` 覆盖基础组件默认值）加右侧工作区，工作区内边距 24px（移动端 16px）。默认不放顶栏；需要时不高于 48px，只放面包屑、搜索、当前对象和全局操作。
 - **栅格与容器**：12 栏，沟槽 24px（移动端 16px）；产品内容区最宽 1440px，官网 1200px；连续阅读的文字单行最宽 680px。
-- **响应式**：宽度小于 1024px 时侧栏改为抽屉；小于 768px 时表格改为卡片列表或横向滚动，不把列宽压到无法阅读。
+- **响应式**：宽度小于 768px 时侧栏使用组件自带的抽屉（288px，不超过视口），关闭后不占工作区。桌面工作区与侧栏共享布局并设 `min-width: 0`，不用 `100vw` 或重复左偏移。标题、筛选允许换行，指标卡减列；表格仅在自身容器内横向滚动或改为卡片列表，页面不横向溢出。
 - 并排的区块按各自内容定高、顶部对齐，不为对齐拉高、留出空白。
 
 ## Elevation & Depth
@@ -75,7 +75,9 @@ Tier0 为制造业构建 Agentic 工业数据平台：工厂设备和业务系�
 - **Buttons**：高 32px，左右内边距 16px，圆角 4px。页面主操作用品牌绿 `default`（`{{colors.button-highlight}}`，带前导图标，放在标题行右侧）；弹窗和引导流程的确认用黑底 `primary`；并排的次要操作用灰底 `secondary`，工具栏用 `outline`。危险操作用 `destructive`，并先弹确认框。→ `button.md`
 - **Cards & panels**：白底、1px `border`、6px 圆角、24px 内边距；不整块填灰，不加阴影，不卡片套卡片。面板只有「标题行 → 内容」两层，中间不画线；筛选和视图切换放在标题行右侧。→ `card.md`
 - **Forms**：标签放在输入框上方并保持可见（`label` 14/20 500），不只用占位符；输入框高 36px，边框用 `input`。出错时边框变 `destructive`，错误文字写在输入框下方并说明怎么改。→ `focus.md`、`states.md`
-- **App shell**：左侧导航 234–240px，grey-50 底 + 右侧 1px 线，顶部是工作区切换（不放 Logo），分组标题 12px muted；导航项高 32px、14px 文字、16px 图标，当前项 grey-100 灰底 + 500 字重，不用品牌绿。页面标题下方用下划线页签（选中项 2px 品牌绿下划线）。→ `app-shell.md`
+- **App shell**：左侧导航展开 240px、收起 64px，grey-50 底 + 右侧 1px 线，顶部是工作区切换，右上角用 `SidebarTrigger` 收起；底部用 `SidebarFooter` 放 `ComAvatar`、可省略的用户名和右侧通知入口，未读数只在真实存在时显示；升级卡片在账户行上方，用品牌绿浅底。收起后账户与通知仍可操作。分组标题 12px muted；导航项高 32px、14px 文字、16px 图标，当前项 grey-100 灰底 + 500 字重，不用品牌绿。页面标题下方用下划线页签（选中项 2px 品牌绿下划线）。→ `app-shell.md`
+- **分割线**：侧栏边界、表格外框与行线、页签底线各保留一次；标题与内容、筛选栏与表格用间距分组；升级卡片与底部账户之间保留一条职责分隔线，其余位置不叠加横线。
+- **状态标签**：业务流程状态直接用 `AntTag`（默认无描边、4px 圆角），待处理 `default`、进行中 `blue`、已完成 `success`、警告 `warning`、失败 `error`。沿用组件样式与主题，不用胶囊 `Badge` 仿制、不重配颜色、不叠加同义绿点；`Badge` 仅用于计数。窄屏保留短状态完整宽度，长标签沿用省略并提供完整内容入口。→ `status.md`
 - **Tables & lists**：行高 40px，行间 1px `border`，悬停用 `subtle` 底，点击行进入详情。
 - **Run status**（标志性组件）：设备和产线的运行状态写成「圆点 + 文字」，运行中用品牌绿圆点；告警严重度用 `AntTag` 浅底标签，严重度只表达一次。→ `status.md`、`alert-list.md`
 - **Metric**（标志性组件）：说明（`body-sm`、`muted-foreground`）→ 数值（`metric`）→ 单位。数值默认用 `foreground`，只有超过已知阈值时才变 `destructive`，并写明阈值。→ `metric.md`
