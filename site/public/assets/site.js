@@ -212,7 +212,7 @@
   // 段落说明不再单独成段；确有必要的收进标题旁的提示
   const sec = (id, title, lead, body) => { const tip = lead ? lead.replace(/<[^>]+>/g, '') : ''; return `<section class="sec" id="${id}"><h2>${esc(title)}${tip ? `<span class="why-tip h2-tip" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${I.info}</span>` : ''}</h2>${body}</section>`; };
   const eyebrow = () => { const g = NAV.find(x => x.items.some(i => i[0] === current)); const it = g && g.items.find(i => i[0] === current); return [g && g.zh, it && it[1]].filter(Boolean).join(' / '); };
-  const docHead = (title, desc) => `<header class="doc-head"><h1>${esc(title)}</h1>${desc ? `<p>${desc}</p>` : ''}</header>`;
+  const docHead = (title, desc, actions = '') => `<header class="doc-head">${actions ? `<div class="doc-head-bar"><h1>${esc(title)}</h1><div class="doc-head-actions">${actions}</div></div>` : `<h1>${esc(title)}</h1>`}${desc ? `<p>${desc}</p>` : ''}</header>`;
   const foot = code => `<div class="spec-foot"><code>${esc(code)}</code>${copyBtn(code)}</div>`;
 
   // ---------- shell ----------
@@ -726,8 +726,8 @@
     if (!t) return docHead('DESIGN.md', '没有读取到 DESIGN.md。');
     const fm = (t.match(/^---\n([\s\S]*?)\n---/) || [, ''])[1];
     const body = t.replace(/^---\n[\s\S]*?\n---\n?/, '').replace(/^# .*\n/m, '').replace(/^> 本文件由.*\n/m, '');
-    return docHead('DESIGN.md', '给 AI 和设计工具读的设计说明：开头是机器可读的 token，后面是用途和原则。内容由 token 与 Foundation 自动生成，跟着它们一起更新。')
-      + `<div class="repo-row"><button type="button" class="repo-card" data-copy="${esc(t)}"><span class="rc-ic">${I.copy}</span><span class="rc-tx"><b>复制全文</b><small>${t.split('\n').length} 行</small></span></button><button type="button" class="repo-card" data-dm-dl><span class="rc-ic">${I.download}</span><span class="rc-tx"><b>下载 DESIGN.md</b><small>放到项目根目录</small></span><span class="rc-go">${I.arrow}</span></button></div>`
+    const actions = `<button type="button" class="ui-btn outline" data-dm-copy>${I.copy}复制全文</button><button type="button" class="ui-btn outline" data-dm-ai>${I.copy}发给 AI</button>`;
+    return docHead('DESIGN.md', '给 AI 和设计工具读的设计说明：开头是机器可读的 token，后面是用途和原则。内容由 token 与 Foundation 自动生成，跟着它们一起更新。', actions)
       + sec('tokens', 'Token', '', codeBlock(fm))
       + sec('guide', '说明', '', `<div class="prose dm-prose">${md(body)}</div>`);
   }
@@ -796,6 +796,24 @@
   addEventListener('resize', () => document.querySelectorAll('[data-scene]').forEach(r => sceneSet(r, +r.dataset.w)));
 
   // ---------- 间距与布局 ----------
+  function shellLab() {
+    const bars = Array.from({ length: 12 }, () => '<i></i>').join('');
+    return `<div class="shell-lab" data-shell-lab><div class="spec-bar"><span>顶栏</span>${seg('sheader', [['0', '不要'], ['48', '窄顶栏']], '0')}<span>侧栏</span>${seg('sside', [['256', '展开'], ['48', '收起'], ['288', '抽屉'], ['0', '不要']], '256')}<span>内边距</span>${seg('spad', [['24', '桌面'], ['16', '手持']], '24')}</div><div class="shell-stage"><div class="shell-demo shell-live no-top" data-shell-demo style="--sd-side:256px;--sd-top:0px;--sd-pad:24px"><div class="sd-top">窄顶栏：面包屑、搜索、当前对象</div><div class="sd-side" data-shell-side>侧栏</div><div class="sd-main"><div class="sd-grid">${bars}</div><span>工作区 · 白底 · 12 栏</span></div></div><p class="shell-read" data-shell-read>无顶栏 · 侧栏展开 256px · 内边距 24px</p></div></div>`;
+  }
+  function paintShell(lab) {
+    if (!lab) return;
+    const on = name => { const el = lab.querySelector(`[data-seg="${name}"] [aria-pressed="true"]`); return el ? el.dataset.v : ''; };
+    const top = on('sheader') || '0', side = on('sside') || '256', pad = on('spad') || '24';
+    const demo = lab.querySelector('[data-shell-demo]');
+    demo.style.setProperty('--sd-top', top + 'px');
+    demo.style.setProperty('--sd-side', side + 'px');
+    demo.style.setProperty('--sd-pad', pad + 'px');
+    demo.classList.toggle('no-top', top === '0');
+    demo.classList.toggle('no-side', side === '0');
+    const sideName = { 0: '无侧栏', 48: '侧栏收起 48px', 256: '侧栏展开 256px', 288: '侧栏抽屉 288px' }[side] || `侧栏 ${side}px`;
+    lab.querySelector('[data-shell-side]').textContent = side === '48' ? '' : '侧栏';
+    lab.querySelector('[data-shell-read]').textContent = `${top === '0' ? '无顶栏' : '窄顶栏 48px'} · ${sideName} · 内边距 ${pad}px`;
+  }
   function vSpacing() {
     const S = D.spacing, L = D.layout;
     if (!S || !L) return '<p class="muted">没有读取到间距与布局 token。</p>';
@@ -809,8 +827,7 @@
       + sec('semantic', '按用途的间距', '组件与页面优先用这一层。', tokTable(S, S.semantic, '', v => `<i class="sp-bar" style="width:${Math.max(px(v), 1)}px"></i>`))
       + sec('size', '控件与行高', '产品界面默认紧凑密度：控件 control-sm、表格行 table-row。', tokTable(S, S.size, 'size.', (v, k) => k.startsWith('icon') ? `<i class="sz-icon" style="width:${px(v)}px;height:${px(v)}px"></i>` : `<i class="sz-ctl" style="height:${Math.min(px(v), 64)}px"></i>`))
       + sec('breakpoints', '断点', '产品界面以 1280 为主设计宽度，同时照顾车间手持终端、工控屏和控制室大屏。选一个场景，或拖动右侧边缘，看布局怎么变。', sceneFrame('layout', 1280) + `<div class="bp-ruler">${bps.map(([k, w]) => `<span style="left:${(w / maxBp) * 100}%"><b>${k}</b>${w}</span>`).join('')}</div>` + tokTable(L, L.breakpoint, 'breakpoint.', () => ''))
-      + sec('shell', '页面结构', '从任务出发决定要不要顶栏和侧栏。常见是左侧导航 + 右侧工作区，不要顶栏；需要顶栏时保持窄，只放有用的内容。', `<div class="shell-pair"><figure><div class="shell-demo no-top"><div class="sd-side">侧栏 · 浅灰</div><div class="sd-main"><div class="sd-grid">${Array.from({ length: 12 }, () => '<i></i>').join('')}</div><span>工作区 · 白底 · 12 栏</span></div></div><figcaption>左侧导航 + 工作区（常见）</figcaption></figure><figure><div class="shell-demo"><div class="sd-top">窄顶栏：面包屑、搜索、当前对象</div><div class="sd-side">侧栏</div><div class="sd-main"><div class="sd-grid">${Array.from({ length: 12 }, () => '<i></i>').join('')}</div><span>工作区</span></div></div><figcaption>顶栏承载内容时才加</figcaption></figure></div>` + tokTable(L, L.shell, 'shell.', () => ''))
-      + sec('width', '内容宽度', '连续阅读的文字单行不超过 680px；表格与看板占满内容区。', tokTable(L, L.width, 'width.', v => `<i class="sp-bar" style="width:${Math.min(px(v) / 12, 140)}px"></i>`))
+      + sec('shell', '页面结构', '从任务出发决定要不要顶栏和侧栏。常见是左侧导航 + 右侧工作区，不要顶栏；需要顶栏时保持窄，只放有用的内容。', shellLab() + tokTable(L, L.shell, 'shell.', () => ''))
       + sec('rules', '使用规则', '', rulesBox(rulesOf(S).concat(rulesOf(L))));
   }
 
@@ -942,7 +959,8 @@
     const blc = t.closest('.bl-chart'); if (blc) { blc.classList.toggle('swap'); return; }
     const mmp = t.closest('[data-mm-play]'); if (mmp) { playMm(mmp.closest('.mm-card')); return; }
     const msp = t.closest('[data-ms-play]'); if (msp) { playMs(msp.closest('.ms-row')); return; }
-    if (t.closest('[data-dm-dl]')) { download(new Blob([D.designmd], { type: 'text/markdown' }), 'DESIGN.md'); return; }
+    if (t.closest('[data-dm-copy]')) { copy(D.designmd); return; }
+    if (t.closest('[data-dm-ai]')) { copy(`请按下面的 DESIGN.md 做界面。开头的 token 是唯一数值来源，后面的原则用来判断取舍。不要另造颜色、字号、间距或圆角。\n\n${D.designmd}`); return; }
     if (t.closest('[data-lab-png]')) { labExportPng(); return; }
     const lwb = t.closest('[data-lab-webm]'); if (lwb) { labExportWebm(lwb); return; }
     const lp = t.closest('[data-lab-preset]'); if (lp) { const pr = LAB_PRESETS.find(x => x[0] === lp.dataset.labPreset); Object.assign(lab, pr[2], { preset: pr[0] }); route(true); return; }
@@ -960,6 +978,7 @@
     const tab = t.closest('[data-tab]'); if (tab) { const w = tab.closest('[data-tabs]'); w.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b === tab)); w.querySelector('.ui-tabs-panel').textContent = tab.dataset.tab; return; }
     const sg = t.closest('[data-seg] button'); if (sg) {
       const k = sg.parentElement.dataset.seg, v = sg.dataset.v;
+      if (k === 'sheader' || k === 'sside' || k === 'spad') { sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); paintShell(sg.closest('[data-shell-lab]')); return; }
       if (k === 'labmode') { lab.mode = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
       if (k === 'bwscene') { const r = BW_SCENES.find(x => x[0] === v)[2]; Object.assign(bw, { scene: v }, r); return route(true); }
       if (k === 'bwstyle' || k === 'bwcolor') { bw[k === 'bwstyle' ? 'style' : 'color'] = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); bwPaint(); return; }
