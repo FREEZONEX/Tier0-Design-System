@@ -4,6 +4,7 @@
 
 | 文件 | 内容 |
 |---|---|
+| [`app-shell.md`](app-shell.md) | 应用外壳：侧栏、页面标题、页签、区块、原型控制（数值量自现有原型） |
 | [`page-layout.md`](page-layout.md) | 页面布局 |
 | [`page-header.md`](page-header.md) | 页面标题 |
 | [`sidebar.md`](sidebar.md) | 侧边栏 |

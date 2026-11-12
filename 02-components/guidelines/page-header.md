@@ -1,5 +1,6 @@
 # 页面标题
 
-- 产品页面标题用 `typo-h3`，紧凑页面用 `typo-h4`；`typo-h1` 只用于官网和文档。
-- 标题下方的状态和元信息用 `body-sm`、`muted-foreground`，和标题间隔 `title-gap`；状态写成「圆点 + 文字」放在同一行，时间等信息用 `·` 分隔。
-- 页面级操作放在标题行右侧，与标题垂直居中。
+- 按前端 `SettingComHeader`：标题 `text-3xl font-semibold`（30–32px，Inter 600）；说明 `text-sm font-medium text-text-secondary`（14/20，`#242424`），在标题下 8px。不要写裸 `<h1 className="text-3xl">`：前端主题给 `h1` 设了全局 `text-5xl`，会变成 48px；用 `typo-h2` 类或 `<span>`。
+- 计数和状态写进说明行，用 `·` 分隔；失败或超限的数字用 destructive 文字。
+- 页面主操作放在标题行右侧，用品牌绿 `default` 按钮并带前导图标。
+- 下方需要分视图时用下划线页签，见 `app-shell.md`。

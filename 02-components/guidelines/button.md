@@ -1,5 +1,16 @@
 # 按钮
 
-- 用 Tier0-Frontend 的按钮变体：`primary`（黑底）、`default`（品牌绿底 `button-highlight`，即 fx-green 300，前端的默认值）、`outline`（白底细线）、`secondary`（浅灰底）、`ghost`（无底，悬停变灰）、`destructive`、`link`。尺寸默认 `sm`（`control-sm`），表单里用 `md`（`control-md`），页面主操作可用 `lg`（`control-lg`）。
-- 一个视图只有一个主操作，用 `primary`；品牌绿的 `default` 只给需要特别强调的工作流操作，使用时显式写出 variant，不依赖默认值。
-- 正例：表单底部「取消」（outline）+「保存」（primary）；列表右上角「导出」用 outline，「运行」用 default。
+用 Tier0-Frontend 的按钮变体，默认尺寸 `sm`（高 32px，左右 16px，圆角 4px，14px 500）：
+
+| 变体 | 样子 | 什么时候用 |
+|---|---|---|
+| `default` | 品牌绿底 `#CEF368`，黑字 | 页面主操作：标题行右侧的「新建」「升级」，卡片里的「Add Seats」「Buy Credits」 |
+| `primary` | 黑底白字 | 弹窗、引导流程里的确认（「继续」「Upgrade to Base」），表单提交 |
+| `secondary` | 灰底 `#F3F3F3` | 和主操作并排的次要操作（「Remove Seats」） |
+| `outline` | 白底细线 | 工具栏、导出、筛选 |
+| `ghost` | 无底，悬停变灰 | 行内操作、图标按钮 |
+| `destructive` | 红底 | 删除、停机，且先确认 |
+| `link` | 文字链接 | 「查看全部」「View usage」 |
+
+- 一个区域只有一个主操作；页面级用 `default`，弹窗和引导流程的确认用 `primary`。
+- 带图标的按钮把图标放在 `icon` 属性里（loading 时会被转圈替换）。

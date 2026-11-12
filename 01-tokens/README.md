@@ -106,8 +106,8 @@ CSS、Tailwind、Figma 变量等成品文件不放在仓库里，需要时由脚
 | Token | 字体 | 字号 / 行高 | 字重 | 用途 |
 |---|---|---|---|---|
 | `typo-h1` | Inter | 38 / 46 | 700 | 页面大标题 |
-| `typo-h2` | Inter | 30 / 36 | 600 | 分区标题 |
-| `typo-h3` | Inter | 24 / 32 | 600 | 子标题、弹窗标题 |
+| `typo-h2` | Inter | 30 / 36 | 600 | 产品页面标题（text-3xl font-semibold）、官网分区标题 |
+| `typo-h3` | Inter | 24 / 32 | 600 | 弹窗标题、子标题 |
 | `typo-h4` | Inter | 20 / 28 | 500 | 面板、卡片标题 |
 | `body-lg` | IBM Plex Sans | 18 / 28 | 400 | 引导语、空状态说明 |
 | `body` | IBM Plex Sans | 16 / 24 | 400 | 长段落；中文长文行高放宽到 28 |

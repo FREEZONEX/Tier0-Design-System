@@ -1,6 +1,6 @@
 # 读数与指标
 
-- 结构：上方说明文字（`body-sm`，`muted-foreground`）→ 数值（`metric` 或 `metric-lg`，Inter 500，等宽数字）→ 单位紧跟数值（`body-sm`，`muted-foreground`）。
-- 字号按画面层级选：一排同级指标都用 `metric`；只有画面里单独突出的那一个关键数字用 `metric-lg`。不因数值长短改字号。
-- 数值本身用 `foreground`；只有表达真实状态时才上色（如超限的温度用 destructive），不因为「好」就变绿。
-- 正例：`主轴温度` / `72.4` `°C`；有阈值且超出时数值变 destructive，并在旁边写明阈值。不知道阈值时不上色，也不编造阈值。
+- 卡片里的主读数：32px Inter 500（`metric-lg`），分母或单位紧跟（14px muted），如「6 / 10」「806 / 1,500」；旁边可写占比（14px muted）。
+- 一排紧凑的小读数用 `metric`（22/28）。
+- 数值用 `foreground`；只有表达真实状态时才上色（超限用 destructive），不因为「好」就变绿。
+- 有用量时，读数下方放分段进度条，再下一行写来源拆分（「Plan 1 / 1」「Purchased 5 / 9」，12px muted 标签 + 14px 数值）。

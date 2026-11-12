@@ -756,7 +756,7 @@
   const sk = { id: 'tier0-design', brief: '做一页展示 Line-01 实时状态的看板' };
   function skPrompt() {
     const s = SKILLS.find(x => x.id === sk.id);
-    return `/${s.id}\n\n需求：${sk.brief}\n\n要求：\n- 先读 04-skills/tier0-design/SKILL.md，再读 DESIGN.md\n- 产品界面用 02-components 里的 @tier0/ui 组件，用法见 02-components/guidelines\n- 颜色、字体、间距只用 DESIGN.md 里的 token\n- 原型的状态切换放进左下角「原型控制」\n- 完成后对照 DESIGN.md 的 Do's and Don'ts 和 skill 的自查清单检查`;
+    return `/${s.id}\n\n需求：${sk.brief}\n\n要求：\n- 先读 04-skills/tier0-design/SKILL.md，再读 DESIGN.md\n- 产品界面用 02-components 里的 @tier0/ui 组件，用法见 02-components/guidelines\n- 颜色、字体、间距只用 DESIGN.md 里的 token\n- 原型的状态切换放进右下角「原型控制」\n- 完成后对照 DESIGN.md 的 Do's and Don'ts 和 skill 的自查清单检查`;
   }
   function vSkills() {
     const s = SKILLS.find(x => x.id === sk.id);

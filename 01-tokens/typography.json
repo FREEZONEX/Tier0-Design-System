@@ -139,7 +139,7 @@
           "fontWeight": "{font.weight.semibold}",
           "letterSpacing": "-0.225px"
         },
-        "$description": "分区标题——划分页面的主要段落。",
+        "$description": "产品页面标题（前端 text-3xl font-semibold，SettingComHeader）；官网的分区标题。",
         "$extensions": {
           "tier0": {
             "frontend": {
@@ -157,7 +157,7 @@
           "fontWeight": "{font.weight.semibold}",
           "letterSpacing": "-0.144px"
         },
-        "$description": "产品页面标题、弹窗标题。",
+        "$description": "弹窗标题、子标题。",
         "$extensions": {
           "tier0": {
             "frontend": {
