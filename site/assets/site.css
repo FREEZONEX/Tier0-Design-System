@@ -1366,11 +1366,11 @@ button.repo-card { font: inherit; text-align: left; cursor: pointer; }
 .shell-demo.no-top .sd-side { grid-row: 1; }
 .sd-top { font-size: 12px; color: var(--muted-foreground); }
 .mm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
-.mm-card { border: 1px solid var(--border); border-radius: 6px; padding: 16px; display: grid; gap: 12px; }
+.mm-card { border: 1px solid var(--border); border-radius: 6px; padding: 16px; display: grid; gap: 12px; grid-template-rows: auto 1fr auto; }
 .mm-card .ui-btn { justify-self: start; }
 .mm-track { position: relative; height: 32px; border-radius: 4px; background: var(--subtle); overflow: hidden; }
 .mm-track i { position: absolute; left: 4px; top: 4px; width: 24px; height: 24px; border-radius: 4px; background: var(--foreground); }
-.mm-body { display: grid; gap: 4px; }
+.mm-body { display: grid; gap: 4px; align-content: start; }
 .mm-body b { font-weight: 500; }
 .mm-body span { font-size: 13px; color: var(--muted-foreground); }
 .mm-body code { font: 12px var(--font-mono); color: var(--muted-foreground); }
@@ -1383,3 +1383,43 @@ button.repo-card { font: inherit; text-align: left; cursor: pointer; }
 .ms-demo { height: 28px; border-radius: 4px; background: var(--subtle); overflow: hidden; display: grid; }
 .ms-demo i { display: block; margin: 6px; border-radius: 3px; background: var(--muted); transform-origin: top; }
 @media (max-width: 800px) { .ms-row { grid-template-columns: minmax(0, 1fr) 32px; } .ms-row > span:nth-child(2), .ms-t, .ms-demo { grid-column: 1 / -1; } }
+/* ---------- 动效页 v2 ---------- */
+.mp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.mp-card { border: 1px solid var(--border); border-radius: 6px; padding: 16px; display: grid; gap: 6px; align-content: start; }
+.mp-card span { font: 12px var(--font-mono); color: var(--muted-foreground); }
+.mp-card b { font-weight: 500; }
+.mp-card p { margin: 0; font-size: 13px; line-height: 20px; color: var(--muted-foreground); }
+.ez-mode { margin-bottom: 12px; }
+.ms-row { grid-template-columns: 140px minmax(0, 1fr) 96px 200px 32px; }
+.ms-demo { position: relative; height: 64px; display: block; background: var(--subtle); border-radius: 4px; overflow: hidden; font-size: 12px; }
+.ms-btn { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); height: 28px; padding: 0 14px; border: 1px solid var(--border); border-radius: 4px; background: var(--background); color: var(--foreground); font: inherit; }
+.ms-acc { position: absolute; inset: 8px 12px; }
+.ms-acc-h { display: flex; justify-content: space-between; font-weight: 500; }
+.ms-acc-h span { display: inline-block; transition: none; }
+.ms-acc-b { margin-top: 6px; color: var(--muted-foreground); transform-origin: top; opacity: 0; transform: scaleY(0); }
+.ms-tip-wrap { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); }
+.ms-ic { display: grid; place-items: center; width: 18px; height: 18px; border: 1px solid var(--muted-foreground); border-radius: 50%; color: var(--muted-foreground); font-size: 11px; }
+.ms-tip { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%) scale(0.96); opacity: 0; white-space: nowrap; padding: 3px 8px; border-radius: 4px; background: var(--foreground); color: var(--background); transform-origin: bottom center; }
+.ms-mask { position: absolute; inset: 0; background: rgb(0 0 0 / 0.5); opacity: 0; }
+.ms-dlg { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(0.98); opacity: 0; width: 110px; padding: 6px 8px; border-radius: 4px; background: var(--background); display: grid; gap: 2px; }
+.ms-dlg span { color: var(--muted-foreground); font-size: 11px; }
+.ms-pan { position: absolute; right: 0; top: 0; bottom: 0; width: 45%; padding: 8px; background: var(--background); border-left: 1px solid var(--border); transform: translateX(100%); }
+.ms-toast { position: absolute; left: 50%; bottom: 8px; transform: translate(-50%, 8px); opacity: 0; padding: 4px 10px; border-radius: 4px; background: var(--foreground); color: var(--background); white-space: nowrap; }
+.ms-data { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 4px 10px; border-radius: 4px; color: var(--muted-foreground); }
+.ms-data b { font: 500 18px var(--font-display); color: var(--foreground); font-variant-numeric: tabular-nums; }
+@media (max-width: 800px) { .ms-row { grid-template-columns: minmax(0, 1fr) 32px; } }
+
+/* 数据光束网格 */
+.dl-head { display: flex; flex-direction: column; gap: 4px; margin: 16px 0 12px; }
+.dl-head b { font-size: 15px; font-weight: 600; }
+.dl-head span { font-size: 13px; color: var(--muted-foreground); max-width: 640px; }
+.dl { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; margin-bottom: 24px; }
+.dl-stage { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.dl-pane { position: relative; height: 320px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background-color: #FFFFFF; }
+.dl-pane.dark { background-color: #0A0A0A; border-color: #262626; }
+.dl-pane canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.dl-panel { display: flex; flex-direction: column; gap: 12px; }
+.dl-panel .lab-grid { grid-template-columns: 1fr; }
+.dl-act { display: flex; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 1100px) { .dl { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .dl-stage { grid-template-columns: 1fr; } .dl-pane { height: 220px; } }

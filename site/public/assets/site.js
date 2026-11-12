@@ -499,6 +499,8 @@
     LabRT.raf = requestAnimationFrame(frame);
   }
   function labInput(e) {
+    const dk = e.target.dataset.dl;
+    if (dk) { const el = e.target; dl[dk] = el.type === 'color' ? el.value.toUpperCase() : +el.value; const row = el.closest('.lab-sl'), sl = DL_SL.find(x => x[0] === dk); if (sl) { row.style.setProperty('--f', ((dl[dk] - sl[2]) / (sl[3] - sl[2])) * 100 + '%'); row.querySelector('em').textContent = dl[dk] + sl[5]; } else row.querySelector('em').textContent = dl[dk]; return true; }
     if (e.target.matches('[data-lab-ramp]')) { lab.chars = e.target.value; const ti = e.target.parentElement.querySelector('input'); ti.value = lab.chars; return true; }
     const k = e.target.dataset.lab; if (!k) return false;
     const el = e.target; lab[k] = el.type === 'checkbox' ? el.checked : el.type === 'range' ? +el.value : el.value;
@@ -540,6 +542,57 @@
       + ILLUS.map(([id, n, d, imgs, rules]) => sec('il-' + id, n, d, `<div class="il-grid il-${id}">${imgs.map(([f0, cap]) => { const f = lang === 'en' && IL_EN.includes(f0) ? f0 + '-en' : f0; return `<figure class="il-fig"><a href="${asset('assets/brand/' + f + '.jpg')}" target="_blank" rel="noopener"><img src="${asset('assets/brand/' + f + '.jpg')}" alt="${esc(cap)}" loading="lazy"></a><figcaption>${esc(cap)}</figcaption></figure>`; }).join('')}</div>`)).join('');
   }
 
+
+  // ---------- 数据光束网格（来自 Framer 组件 03-brand/texture/datalines-grid.tsx） ----------
+  const DL_DEF = { beamColor: '#B2ED1D', gridColor: '#A3A3A3', cellSize: 50, maxLines: 12, baseSpeed: 2, lineLength: 150, spawnProbability: 0.1 };
+  const dl = Object.assign({}, DL_DEF);
+  const DL_SL = [['cellSize', '格子', 24, 120, 2, 'px'], ['maxLines', '光束数量', 1, 40, 1, ''], ['baseSpeed', '速度', 1, 8, 1, ''], ['lineLength', '拖尾', 40, 400, 10, 'px'], ['spawnProbability', '出现频率', 0.02, 0.5, 0.02, '']];
+  const dlAlpha = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; };
+  function vDatalines() {
+    const sl = ([k, n, min, max, step, u]) => `<label class="lab-sl" style="--f:${((dl[k] - min) / (max - min)) * 100}%"><span>${n}</span><input type="range" data-dl="${k}" min="${min}" max="${max}" step="${step}" value="${dl[k]}"><em>${dl[k]}${u}</em></label>`;
+    return `<div class="dl"><div class="dl-stage"><div class="dl-pane" data-dl-pane="light"><canvas></canvas></div><div class="dl-pane dark" data-dl-pane="dark"><canvas></canvas></div></div>
+      <div class="dl-panel"><div class="lab-grid">${DL_SL.map(sl).join('')}
+        <label class="lab-sl lab-color"><span>光束</span><em>${dl.beamColor}</em><input type="color" data-dl="beamColor" value="${dl.beamColor}"></label>
+        <label class="lab-sl lab-color"><span>网格</span><em>${dl.gridColor}</em><input type="color" data-dl="gridColor" value="${dl.gridColor}"></label></div>
+        <div class="dl-act"><button type="button" class="ui-btn outline" data-dl-copy>${I.copy}复制 Framer 组件</button><button type="button" class="ui-btn ghost" data-dl-dl>${I.download}下载 .tsx</button></div></div></div>`;
+  }
+  const DLRT = { raf: 0 };
+  function mountDatalines() {
+    const panes = [...document.querySelectorAll('[data-dl-pane]')]; if (!panes.length) return;
+    cancelAnimationFrame(DLRT.raf);
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const st = panes.map(el => ({ el, cv: el.querySelector('canvas'), lines: [] }));
+    const frame = () => {
+      if (!panes[0].isConnected) return;
+      for (const p of st) {
+        const W = p.el.clientWidth, H = p.el.clientHeight, dpr = Math.min(2, devicePixelRatio || 1), cs = dl.cellSize;
+        p.el.style.backgroundImage = `linear-gradient(to right, ${dlAlpha(dl.gridColor, p.el.classList.contains('dark') ? 0.25 : 0.45)} 1px, transparent 1px), linear-gradient(to bottom, ${dlAlpha(dl.gridColor, p.el.classList.contains('dark') ? 0.25 : 0.45)} 1px, transparent 1px)`;
+        p.el.style.backgroundSize = `${cs}px ${cs}px`;
+        if (p.cv.width !== Math.floor(W * dpr) || p.cv.height !== Math.floor(H * dpr)) { p.cv.width = Math.floor(W * dpr); p.cv.height = Math.floor(H * dpr); }
+        const c = p.cv.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, W, H);
+        if (reduced) continue;
+        if (Math.random() < dl.spawnProbability && p.lines.length < dl.maxLines) p.lines.push({ x: Math.floor(Math.random() * (W / cs)) * cs, y: -cs, h: [], dx: 0, dy: 1, sp: dl.baseSpeed, len: Math.floor(Math.random() * dl.lineLength * 0.5 + dl.lineLength * 0.75) });
+        for (const l of p.lines) {
+          l.h.push({ x: l.x, y: l.y }); if (l.h.length > Math.max(2, Math.ceil(l.len / l.sp))) l.h.shift();
+          l.x += l.dx * l.sp; l.y += l.dy * l.sp;
+          if (l.x % cs === 0 && l.y % cs === 0) { const maxX = Math.floor(W / cs) * cs;
+            if (l.x <= 0 && l.dx === -1) { l.dx = 0; l.dy = 1; } else if (l.x >= maxX && l.dx === 1) { l.dx = 0; l.dy = 1; } else if (l.dy === 1) { if (Math.random() < 0.3) { l.dy = 0; l.dx = Math.random() < 0.5 ? 1 : -1; } } else if (Math.random() < 0.6) { l.dy = 1; l.dx = 0; } }
+          if (l.h.length < 2) continue;
+          const t = l.h, a = t[0], b = t[t.length - 1];
+          c.lineCap = 'round'; c.lineJoin = 'round'; c.lineWidth = 1.5;
+          const g = c.createLinearGradient(a.x, a.y, b.x, b.y); g.addColorStop(0, dlAlpha(dl.beamColor, 0)); g.addColorStop(0.6, dlAlpha(dl.beamColor, 0.35)); g.addColorStop(1, dlAlpha(dl.beamColor, 0.9));
+          c.beginPath(); c.moveTo(t[0].x, t[0].y); for (let i = 1; i < t.length; i++) c.lineTo(t[i].x, t[i].y); c.strokeStyle = g; c.shadowBlur = 0; c.stroke();
+          const hi = Math.max(0, t.length - 1 - Math.max(2, Math.ceil(20 / Math.max(1, l.sp))));
+          c.beginPath(); c.moveTo(t[hi].x, t[hi].y); for (let i = hi + 1; i < t.length; i++) c.lineTo(t[i].x, t[i].y); c.strokeStyle = dlAlpha(dl.beamColor, 0.95); c.shadowColor = dl.beamColor; c.shadowBlur = 12; c.stroke(); c.shadowBlur = 0;
+        }
+        p.lines = p.lines.filter(l => !(l.h[0] && l.h[0].y >= H + cs * 2));
+      }
+      DLRT.raf = requestAnimationFrame(frame);
+    };
+    DLRT.raf = requestAnimationFrame(frame);
+  }
+  async function dlSource() { if (!DLRT.src) DLRT.src = await tryFetch('03-brand/texture/datalines-grid.tsx', 'text'); return DLRT.src || ''; }
+
   // ---------- texture ----------
   // [key, 名称, 含义与用途, 亮色 CSS, 暗色 CSS（可省略，省略时用品牌绿低透明度）]
   const TEXTURES = [
@@ -559,7 +612,7 @@
     const grp = TX_GROUPS.find(g => g[0] === txGroup) || TX_GROUPS[0];
     return docHead('Texture', '纹理来自工厂里真实的表面：洞洞板、图纸、量具、金属、瓦楞板。')
       + sec('lab', '材质实验', '把图片、视频或标志转成冲孔点阵、瓦楞条纹、抖动或字符画，用于海报、开场视频和官网背景。', vTextureLab())
-      + sec('list', '纹理', '点击卡片底部复制 CSS。', `<div class="tx-tabs">${seg('txgroup', TX_GROUPS.map(g => [g[0], g[1]]), grp[0])}</div><div class="tx-grid">${TEXTURES.filter(t => grp[2].includes(t[0])).map(card).join('')}</div>`)
+      + sec('list', '纹理', '点击卡片底部复制 CSS。', `<div class="tx-tabs">${seg('txgroup', TX_GROUPS.map(g => [g[0], g[1]]), grp[0])}</div>${grp[0] === 'line' ? `<div class="dl-head"><b>数据光束网格</b><span>品牌绿光束沿网格线流动，代表数据在系统之间流转。用于官网首屏、活动页和开场背景；产品界面不用。</span></div>${vDatalines()}` : ''}<div class="tx-grid">${TEXTURES.filter(t => grp[2].includes(t[0])).map(card).join('')}</div>`)
   }
 
 
@@ -885,36 +938,42 @@
   }
   function moSurfaces(M) {
     const rows = entries(M.surface).map(([k, o]) => { const v = o.$value, d = moVal(M, v.duration), x = moVal(M, v.exitDuration || v.duration);
-      return `<div class="ms-row" data-ms-in="${parseFloat(d)}" data-ms-out="${parseFloat(x)}" data-ms-ein="${moCb(moVal(M, v.enter))}" data-ms-eout="${moCb(moVal(M, v.exit))}" data-ms-kind="${k}"><code>surface.${k}</code><span>${esc(o.$description)}</span><span class="ms-t">进入 ${d}<br>退出 ${x}</span><span class="ms-demo"><i></i></span><button type="button" class="icon-btn" data-ms-play aria-label="播放">${I.replay}</button></div>`; }).join('');
+      return `<div class="ms-row" data-ms-in="${parseFloat(d)}" data-ms-out="${parseFloat(x)}" data-ms-ein="${moCb(moVal(M, v.enter))}" data-ms-eout="${moCb(moVal(M, v.exit))}" data-ms-kind="${k}"><code>surface.${k}</code><span>${esc(o.$description)}</span><span class="ms-t">进入 ${d}<br>退出 ${x}</span><span class="ms-demo" data-k="${k}">${({ hover: '<button type="button" class="ms-btn">保存</button>', disclosure: '<div class="ms-acc"><div class="ms-acc-h">CNC-03 <span>›</span></div><div class="ms-acc-b">主轴温度 72.4 °C</div></div>', contextual: '<div class="ms-tip-wrap"><span class="ms-tip">阈值 80 °C</span><span class="ms-ic">i</span></div>', invoke: '<div class="ms-dlg-wrap"><div class="ms-mask"></div><div class="ms-dlg"><b>停机？</b><span>确认 取消</span></div></div>', panel: '<div class="ms-pan-wrap"><div class="ms-pan">详情</div></div>', notify: '<div class="ms-toast-wrap"><div class="ms-toast">已导出</div></div>', data: '<div class="ms-data"><b>72.4</b> °C</div>' })[k] || '<i></i>'}</span><button type="button" class="icon-btn" data-ms-play aria-label="播放">${I.replay}</button></div>`; }).join('');
     return `<div class="ms-list">${rows}</div>`;
   }
   function playMm(card) { const i = card.querySelector('.mm-track i'); i.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${card.querySelector('.mm-track').clientWidth - 24}px)` }], { duration: +card.dataset.mmDur, easing: card.dataset.mmEz, fill: 'forwards' }); }
   function playMs(row) {
-    const i = row.querySelector('.ms-demo i'), d = row.dataset, k = d.msKind;
-    const from = k === 'contextual' ? { opacity: 0, transform: 'scale(0.96)' } : k === 'panel' ? { transform: 'translateX(-100%)' } : k === 'disclosure' ? { transform: 'scaleY(0)' } : k === 'notify' ? { opacity: 0, transform: 'translateY(8px)' } : k === 'hover' || k === 'data' ? { backgroundColor: 'var(--muted)' } : { opacity: 0, transform: 'scale(0.98)' };
-    const to = { opacity: 1, transform: 'none', backgroundColor: 'var(--foreground)' };
-    i.animate([from, to], { duration: +d.msIn, easing: d.msEin, fill: 'forwards' }).finished.then(() => setTimeout(() => i.animate([to, from], { duration: +d.msOut, easing: d.msEout, fill: 'forwards' }), 500));
+    const d = row.dataset, k = d.msKind, box = row.querySelector('.ms-demo');
+    const IN = { duration: +d.msIn, easing: d.msEin, fill: 'forwards' }, OUT = { duration: +d.msOut, easing: d.msEout, fill: 'forwards' };
+    const pair = (el, from, to) => el.animate([from, to], IN).finished.then(() => new Promise(r => setTimeout(r, 900))).then(() => el.animate([to, from], OUT));
+    const q = c => box.querySelector(c);
+    if (k === 'hover') return pair(q('.ms-btn'), { backgroundColor: 'var(--background)' }, { backgroundColor: 'var(--muted)' });
+    if (k === 'disclosure') { q('.ms-acc-h span').animate([{ transform: 'rotate(0)' }, { transform: 'rotate(90deg)' }], IN); return pair(q('.ms-acc-b'), { opacity: 0, transform: 'scaleY(0)' }, { opacity: 1, transform: 'scaleY(1)' }); }
+    if (k === 'contextual') return pair(q('.ms-tip'), { opacity: 0, transform: 'translateX(-50%) scale(0.96)' }, { opacity: 1, transform: 'translateX(-50%) scale(1)' });
+    if (k === 'invoke') { pair(q('.ms-mask'), { opacity: 0 }, { opacity: 1 }); return pair(q('.ms-dlg'), { opacity: 0, transform: 'translate(-50%, -50%) scale(0.98)' }, { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' }); }
+    if (k === 'panel') return pair(q('.ms-pan'), { transform: 'translateX(100%)' }, { transform: 'translateX(0)' });
+    if (k === 'notify') return pair(q('.ms-toast'), { opacity: 0, transform: 'translate(-50%, 8px)' }, { opacity: 1, transform: 'translate(-50%, 0)' });
+    if (k === 'data') { const b = q('b'); b.textContent = b.textContent === '72.4' ? '72.6' : '72.4'; return q('.ms-data').animate([{ backgroundColor: 'var(--accent)' }, { backgroundColor: 'transparent' }], { duration: +d.msIn * 3, easing: d.msEin }); }
   }
 
+
   // ---------- 动效 ----------
+  const MO = { ez: 'productive' };
   function vMotion() {
     const M = D.motion;
     if (!M) return '<p class="muted">没有读取到动效 token。</p>';
     const dur = k => px((M.duration[k] || {}).$value);
     const curve = v => { const [a, b, c, d] = v; const X = x => 10 + x * 180, Y = y => 90 - y * 70; return `<svg viewBox="0 0 200 100" class="ez"><path class="ez-guide" d="M10 90 H190 M10 20 H190"/><path class="ez-handle" d="M${X(0)} ${Y(0)} L${X(a)} ${Y(b)} M${X(1)} ${Y(1)} L${X(c)} ${Y(d)}"/><circle class="ez-pt" cx="${X(a)}" cy="${Y(b)}" r="3"/><circle class="ez-pt" cx="${X(c)}" cy="${Y(d)}" r="3"/><path class="ez-curve" d="M${X(0)} ${Y(0)} C ${X(a)} ${Y(b)}, ${X(c)} ${Y(d)}, ${X(1)} ${Y(1)}"/></svg>`; };
-    const cards = entries(M.easing).map(([k, o]) => { const pair = ext(o).pair || 'duration.base'; const ms = dur(pair.split('.')[1]); const cb = `cubic-bezier(${o.$value.join(', ')})`; return `<div class="ez-card" data-ez="${cb}" data-ms="${ms}"><div class="ez-head"><div><code>easing.${k}</code><p>${esc(o.$description)}</p></div><button type="button" class="ez-play" data-ez-play aria-label="播放">${'<svg viewBox="0 0 16 16"><path d="M5 3.5v9l7-4.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>'}</button></div>${curve(o.$value)}<div class="ez-track"><i></i></div><p class="ez-why">${esc(ext(o).rationale || '')}</p><code class="ez-foot">${cb} · ${ms}ms</code></div>`; }).join('');
-    const scene = `<div class="spec mo-lab"><div class="spec-bar"><span class="muted">点击按钮，在真实组件上看每一档动效</span></div><div class="spec-body mo-stage">
-      <div class="mo-demo"><button type="button" class="ui-btn outline" data-mo-demo="menu">打开下拉</button><div class="mo-menu" id="mo-menu"><div>重命名</div><div>复制路径</div><div>导出</div></div><small>进入 enter · ${dur('base')}ms，关闭 exit · ${dur('fast')}ms</small></div>
-      <div class="mo-demo"><button type="button" class="ui-btn outline" data-mo-demo="drawer">推入侧滑面板</button><div class="mo-drawer-wrap"><div class="mo-drawer" id="mo-drawer"><b>CNC-03</b><span>主轴温度 72.4 °C</span></div></div><small>移动 standard · ${dur('slow')}ms</small></div>
-      <div class="mo-demo"><button type="button" class="ui-btn primary mo-hover">悬停 / 按下</button><small>颜色变化 · ${dur('fast')}ms</small></div>
-      <div class="mo-demo"><span class="mo-led"><i class="sig" style="animation-duration:${M.duration.signal.$value}"></i>运行中</span><small>循环 signal · ${M.duration.signal.$value}，同一视图只有一个</small></div>
-    </div></div>`;
+    const cardOf = (k, o) => { const pair = ext(o).pair || 'duration.base'; const ms = dur(pair.split('.')[1]); const cb = `cubic-bezier(${o.$value.join(', ')})`; return `<div class="ez-card" data-ez="${cb}" data-ms="${ms}"><div class="ez-head"><div><code>easing.${k}</code><p>${esc(o.$description)}</p></div><button type="button" class="ez-play" data-ez-play aria-label="播放">${'<svg viewBox="0 0 16 16"><path d="M5 3.5v9l7-4.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>'}</button></div>${curve(o.$value)}<div class="ez-track"><i></i></div><p class="ez-why">${esc(ext(o).rationale || '')}</p><code class="ez-foot">${cb} · ${ms}ms</code></div>`; };
+
+    const ezMode = MO.ez;
+    const cardsF = entries(M.easing).filter(([k]) => (ezMode === 'expressive') === k.startsWith('expressive')).map(([k, o]) => cardOf(k, o)).join('');
     return docHead('动效', '动效帮助用户理解变化：东西从哪里来、到哪里去、现在处于什么状态。产品界面用高效动效，品牌场合用表现动效；不用来装饰。')
-      + sec('scene', '场景演示', '每种界面变化对应一组固定的时长和曲线。', scene)
-      + sec('easing', '曲线', '每条曲线进入视野时播放一次，点击右上角可再次播放。不用回弹和弹性曲线：工业界面里回弹会被读成「数值在抖动」。', `<div class="ez-grid">${cards}</div>`)
-      + sec('duration', '时长', '移动距离越大，时长越长；退出比进入短。', tokTable(M, M.duration, 'duration.', v => `<i class="sp-bar" style="width:${Math.min(px(v) / 4, 120)}px"></i>`))
+      + sec('principles', '原则', '', `<div class="mp-grid">${[['说明变化', '每个动效都回答一个问题：这个元素从哪里来、去了哪里、状态变成了什么。回答不了，就不加。'], ['快，不打扰', '产品界面的过渡在 300ms 以内，用户感到界面跟手，而不是在等动画。'], ['尊重用户设置', '系统开启「减少动态效果」时，过渡改为瞬时或只变透明度，循环动效停止。']].map(([t, d], i) => `<div class="mp-card"><span>0${i + 1}</span><b>${t}</b><p>${d}</p></div>`).join('')}</div>`)
       + sec('modes', '两种模式', '', moModes(M))
       + sec('surfaces', '动效场景', '', moSurfaces(M))
+      + sec('easing', '曲线', '', `<div class="ez-mode">${seg('ezmode', [['productive', '高效'], ['expressive', '表现']], ezMode)}</div><div class="ez-grid">${cardsF}</div>`)
+      + sec('duration', '时长', '', tokTable(M, M.duration, 'duration.', v => `<i class="sp-bar" style="width:${Math.min(px(v) / 4, 120)}px"></i>`))
       + sec('rules', '使用规则', '', ruleList(M));
   }
 
@@ -961,6 +1020,8 @@
     const msp = t.closest('[data-ms-play]'); if (msp) { playMs(msp.closest('.ms-row')); return; }
     if (t.closest('[data-dm-copy]')) { copy(D.designmd); return; }
     if (t.closest('[data-dm-ai]')) { copy(`请按下面的 DESIGN.md 做界面。开头的 token 是唯一数值来源，后面的原则用来判断取舍。不要另造颜色、字号、间距或圆角。\n\n${D.designmd}`); return; }
+    if (t.closest('[data-dl-copy]')) { dlSource().then(copy); return; }
+    if (t.closest('[data-dl-dl]')) { dlSource().then(x => download(new Blob([x], { type: 'text/plain' }), 'datalines-grid.tsx')); return; }
     if (t.closest('[data-lab-png]')) { labExportPng(); return; }
     const lwb = t.closest('[data-lab-webm]'); if (lwb) { labExportWebm(lwb); return; }
     const lp = t.closest('[data-lab-preset]'); if (lp) { const pr = LAB_PRESETS.find(x => x[0] === lp.dataset.labPreset); Object.assign(lab, pr[2], { preset: pr[0] }); route(true); return; }
@@ -982,6 +1043,7 @@
       if (k === 'labmode') { lab.mode = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
       if (k === 'bwscene') { const r = BW_SCENES.find(x => x[0] === v)[2]; Object.assign(bw, { scene: v }, r); return route(true); }
       if (k === 'bwstyle' || k === 'bwcolor') { bw[k === 'bwstyle' ? 'style' : 'color'] = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); bwPaint(); return; }
+      if (k === 'ezmode') { MO.ez = v; return route(true); }
       if (k === 'txgroup') { txGroup = v; return route(true); }
       if (k === 'labcolor') { lab.color = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
       if (k === 'labsrc') { labUseSrc(v); sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
@@ -1029,7 +1091,7 @@
     document.getElementById('cc-f').textContent = mode && mode.v === 'equal' ? `inner ${inner} = outer ${ov}（等值，四角间隙不均）` : `inner ${inner} = outer ${ov} − inset ${iv}${ov - iv < 0 ? '（小于 0 取 0）' : ''}`; }
   (() => { const bm = document.querySelector('.brandmark'); if (!bm) return; bm.innerHTML = logoSvg(); })();
   document.addEventListener('change', e => { if (e.target.id === 'lab-file' && e.target.files[0]) { const f = e.target.files[0]; labSource(URL.createObjectURL(f), f.type.startsWith('video')); } });
-  document.addEventListener('portal:render', () => { mountScaffold(); mountScenes(); mountLab(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
+  document.addEventListener('portal:render', () => { mountScaffold(); mountScenes(); mountLab(); mountDatalines(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
   window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); heroState(); }, { passive: true });
   window.addEventListener('hashchange', () => route('anchor'));
 
