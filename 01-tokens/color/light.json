@@ -81,7 +81,7 @@
       },
       "ring": {
         "$value": "{color.scale.fx-green.800}",
-        "$description": "键盘焦点环，宽 2px。"
+        "$description": "键盘焦点：按钮等控件用此色 50% 透明度的 3px 外圈；输入框、选择器用 shadow.focus。"
       }
     },
     "status": {

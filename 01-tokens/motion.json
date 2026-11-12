@@ -4,8 +4,8 @@
     "tier0": {
       "rules": [
         "只对 opacity、transform、颜色做过渡；不对宽高、布局做动画（数据条的长度变化除外）。",
-        "悬停、按下用 fast；浮层出现和消失用 base；侧滑面板、页面区块用 slow。",
-        "进入用 enter 曲线，退出用 exit 曲线，其余用 standard。不用回弹、弹性、过冲。",
+        "悬停、按下：fast + standard。浮层出现：base + enter；浮层消失：fast + exit。侧滑面板、页面区块移动：slow + standard。",
+        "不用回弹、弹性、过冲。",
         "实时数据更新不加数字滚动动画，直接替换；需要提示变化时只闪烁一次背景（base 时长）。",
         "同一视图只允许一个持续循环的动效（如运行指示灯的 signal 呼吸）。",
         "系统设置为减少动态效果时，所有过渡改为 0ms 或仅透明度变化，循环动效停止。"
@@ -74,14 +74,14 @@
         0.2,
         1
       ],
-      "$description": "移动与变形：已经在屏幕上的元素改变位置或大小，如侧滑面板推入、面板展开收起、列表重排。搭配 duration.slow（300ms）。",
+      "$description": "标准：已经在屏幕上的元素改变颜色、位置或大小。悬停、按下、颜色变化搭配 duration.fast（150ms）；侧滑面板推入、面板展开收起搭配 duration.slow（300ms）。",
       "$extensions": {
         "tier0": {
           "frontend": {
             "tailwind": "ease-in-out（Tailwind 默认）"
           },
           "rationale": "两端都减速：元素从静止出发、在新位置停稳，用户能看清它从哪里来、到哪里去；移动距离大，所以用最长的一档时长。",
-          "pair": "duration.slow"
+          "pair": "duration.fast / duration.slow"
         }
       }
     },
@@ -110,7 +110,7 @@
         1,
         1
       ],
-      "$description": "退出：下拉、弹窗、通知关闭；元素被移除。搭配 duration.fast（150ms）。",
+      "$description": "退出：下拉、弹窗、通知关闭，元素被移除。搭配 duration.fast（150ms），退出比进入快，让界面尽快回到可操作状态。",
       "$extensions": {
         "tier0": {
           "frontend": {

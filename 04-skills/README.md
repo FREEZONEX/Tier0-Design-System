@@ -4,6 +4,7 @@ AI 调用规则。把 `00-foundation`、`01-tokens`、`02-components`、`03-bran
 
 | Skill | 出口 | 用途 |
 |---|---|---|
+| [`tier0-design`](tier0-design/SKILL.md) | 全部 | 总入口：品牌语境、取舍顺序、场景判断、分阶段工作、品牌图形和海报做法；规范数值在根目录 `DESIGN.md` |
 | [`tier0-ui`](tier0-ui/) | UI 界面 | 生成产品界面和页面 |
 | [`tier0-web`](tier0-web/) | 官网 | 生成官网页面与区块 |
 | [`tier0-slides`](tier0-slides/) | Slides | 生成 PPT / Slides |

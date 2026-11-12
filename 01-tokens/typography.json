@@ -47,7 +47,7 @@
           "ui-monospace",
           "monospace"
         ],
-        "$description": "代码、命令行、数据路径、数值与读数——等宽对齐，数字像仪表读数一样整齐，是界面里技术感的主要来源。",
+        "$description": "只用于代码和命令行。数值、读数、标签、导航一律不用等宽字体。",
         "$extensions": {
           "tier0": {
             "frontend": {
@@ -282,16 +282,15 @@
           "fontSize": "12px",
           "lineHeight": "16px",
           "fontWeight": "{font.weight.medium}",
-          "letterSpacing": "0.6px"
+          "letterSpacing": "0px"
         },
-        "$description": "分组小标题——全大写、加字距，仅用于英文，如 EDGE_DATA / SOURCES。",
+        "$description": "分组小标题：正常大小写，不加字距。",
         "$extensions": {
           "tier0": {
             "frontend": {
               "tailwind": "text-xs font-medium tracking-wider uppercase",
               "note": "前端 .title 为 11px，本规范建议 12px。"
-            },
-            "textTransform": "uppercase"
+            }
           }
         }
       },
@@ -304,7 +303,7 @@
           "fontWeight": "{font.weight.regular}",
           "letterSpacing": "0px"
         },
-        "$description": "代码、命令行、数据路径、实时读数——13px，比产品正文 14px 小 1px；等宽字形偏宽，小 1px 后与正文并排时视觉大小一致。",
+        "$description": "代码、命令行：13px，比产品正文 14px 小 1px，等宽字形偏宽，并排时视觉大小一致。",
         "$extensions": {
           "tier0": {
             "frontend": {
@@ -312,6 +311,39 @@
             }
           }
         }
+      },
+      "body-long": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "16px",
+          "lineHeight": "28px",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "0px"
+        },
+        "$description": "连续的中文长文：文档、帮助、说明页。"
+      },
+      "metric-lg": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "32px",
+          "lineHeight": "40px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "0px"
+        },
+        "$description": "关键读数：看板上最需要被看到的数字。"
+      },
+      "metric": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "22px",
+          "lineHeight": "28px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "0px"
+        },
+        "$description": "一般读数：指标卡、统计条里的数字。"
       }
     },
     "web": {
@@ -373,29 +405,24 @@
       "label": {
         "$type": "typography",
         "$value": {
-          "fontFamily": "{font.family.mono}",
+          "fontFamily": "{font.family.sans}",
           "fontSize": "14px",
           "lineHeight": "20px",
           "fontWeight": "{font.weight.medium}",
           "letterSpacing": "0px"
         },
-        "$description": "导航、按钮、链接——等宽字体，带出代码和工程气质；按钮文字可全大写，如 FREE TRIAL、LOG IN。"
+        "$description": "导航、按钮、链接：与正文同字号，用 500 字重区分可操作的文字。"
       },
       "title": {
         "$type": "typography",
         "$value": {
-          "fontFamily": "{font.family.mono}",
+          "fontFamily": "{font.family.sans}",
           "fontSize": "12px",
           "lineHeight": "16px",
-          "fontWeight": "{font.weight.regular}",
-          "letterSpacing": "0.6px"
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "0px"
         },
-        "$description": "分组小标签——等宽、全大写，用斜杠分隔层级，如 EDGE_DATA / INDEPENDENT SOURCES。",
-        "$extensions": {
-          "tier0": {
-            "textTransform": "uppercase"
-          }
-        }
+        "$description": "分组小标签：正常大小写，不加字距。"
       },
       "caption": {
         "$type": "typography",
@@ -406,20 +433,25 @@
         "$type": "typography",
         "$value": "{typography.product.code}",
         "$description": "同产品字阶。"
+      },
+      "body-long": {
+        "$type": "typography",
+        "$value": "{typography.product.body-long}",
+        "$description": "同产品字阶。"
       }
     },
     "$extensions": {
       "tier0": {
         "rules": [
-          "标题用 Inter，正文用 IBM Plex Sans，代码、数据路径与实时读数用 IBM Plex Mono；中文使用系统字体（苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体）；Tektur 只用于 Logo。",
+          "标题和读数用 Inter，正文用 IBM Plex Sans，代码和命令行用 IBM Plex Mono；中文使用系统字体（苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体）；Tektur 只用于 Logo。",
           "不引入以上之外的字体。",
           "中文标题和中英混排标题字距为 0；只有纯英文标题使用字阶里的负字距。",
           "建议最小字号 12px；更小的字号只用于图表刻度等不需要阅读的文字。",
           "字重只用 400 / 500 / 600 / 700。",
-          "实时读数、数据路径、代码用 code 字阶（IBM Plex Mono）；表格里的数字用正文字体并开启等宽数字（tabular-nums）。",
+          "读数和统计数字用 metric 字阶（Inter，500 字重），按画面层级在 metric-lg 和 metric 之间选，必要时可按场景放大；数字开启等宽数字（tabular-nums）。等宽字体只用于代码。",
           "只用字阶里的字号，不写任意值（如 text-[17px]）。",
           "段落之间：body-sm 正文间隔 12px，body 正文间隔 16px（见 spacing.json）。",
-          "连续的中文长文（文档、帮助）使用 body，行高放宽到 28px。",
+          "连续的中文长文（文档、帮助）使用 body-long（16/28）。",
           "截断：表格单元格、标签、导航单行截断加省略号，并能查看完整内容；卡片说明最多 2 行。",
           "文字颜色：标题与正文用 foreground；说明、时间戳用 muted-foreground；绿色文字用 highlight-ink。次要文字不放在 muted 背景上（对比度 4.27:1，低于 4.5:1）。",
           "不用斜体做强调。"
