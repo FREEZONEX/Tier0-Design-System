@@ -14,7 +14,7 @@ description: 设计、搭建、评审 Tier0 出品的任何东西时使用：产
 | 任务 | 读 |
 |---|---|
 | 任何任务 | 本文件 + `DESIGN.md` 的 front matter 和 Overview |
-| 产品界面、应用模版 | `DESIGN.md` 的 Colors、Typography、Layout、Components |
+| 产品界面、应用模版 | `DESIGN.md` 的 Colors、Typography、Layout、Components + `02-components/guidelines/` 里用到的组件 |
 | 官网、海报、Slides | `DESIGN.md` 的 Overview、Colors、Typography + 本文件「品牌图形」「海报」 |
 | 评审 | `DESIGN.md` 的 Do's and Don'ts + 本文件「分阶段工作」第 5 步 |
 
@@ -157,7 +157,8 @@ Tier0 为制造业构建 Agentic 工业数据平台：工厂设备和业务系�
 ## 交付前自查
 
 - 能删掉的颜色、边框、阴影、图标、段落，删掉后不影响理解，就删掉。
-- 对照 `DESIGN.md` 的 Do's and Don'ts 逐条检查。
+- 对照 `DESIGN.md` 的 Do's and Don'ts 逐条检查；用到的组件再对照 `02-components/guidelines/` 里对应的文件。
+- 对照渲染结果查一遍：页面里出现的颜色、字号、圆角，都能在 `DESIGN.md` 的 front matter 里找到；找不到的就是自己加的，删掉或换成 token。
 - 亮色和暗色都看一遍；手机和桌面都看一遍，不能出现横向滚动。
 - 分组：组内间距是否明显小于组间间距，看一眼就能分出哪些是一组。
 - 线条：一个面板里的分割线是否只有一种用途，标题和操作区之间有没有多余的线。

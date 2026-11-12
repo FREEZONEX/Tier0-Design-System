@@ -9,6 +9,8 @@
 | `packages/utils` | `cn()`、日期、下载等工具（`@tier0/utils`），`ui` 依赖它 |
 | `packages/hooks` | 通用 hooks（`@tier0/hooks`），`ui` 依赖它 |
 
+每个组件在 Tier0 里怎么用，见 [`guidelines/`](guidelines/README.md)。
+
 只复制了这四个纯前端包，业务、gRPC、观测和 UNS 相关的包没有复制。
 
 ## 组件命名

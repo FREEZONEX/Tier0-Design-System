@@ -1,5 +1,8 @@
 # 给 AI 的入口
 
-- 做任何 Tier0 的设计、开发或评审：先读 `04-skills/tier0-design/SKILL.md`，它会告诉你按任务读 `DESIGN.md` 的哪几节。
-- 精确的颜色、字体、间距、组件规范在 `DESIGN.md`；它由 `scripts/build_design_md.py` 从 `01-tokens/` 和 `00-foundation/` 生成，不要手改，改源文件后重新运行脚本。
+Read DESIGN.md before any UI work.
+
+- 做任何 Tier0 的设计、开发或评审：先读 `04-skills/tier0-design/SKILL.md`（取舍顺序、分阶段工作法、品牌图形），再读根目录 `DESIGN.md`（视觉取值，8 段）。
+- 用到具体组件时，读 `02-components/guidelines/` 里对应的文件。
+- `DESIGN.md` 由 `scripts/build_design_md.py` 生成：front matter 来自 `01-tokens/`，正文来自 `scripts/design-md.body.md`。不要手改 `DESIGN.md`，改源文件后重新运行脚本。
 - 文字类内容一律使用中文。

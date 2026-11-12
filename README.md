@@ -13,7 +13,7 @@ Tier0 的品牌与设计系统，同时服务对外的品牌宣传和对内的�
 | [`03-brand/`](03-brand/) | 对外：品牌资产：Logo、纹理、动画、音效、图片、图标、模版 |
 | [`04-skills/`](04-skills/) | AI 调用规则：UI 界面、官网、Slides、宣传物料 |
 | [`site/`](site/) | 设计系统门户网站：读取以上目录实时展示，本地用 `python3 -m http.server` 在仓库根目录启动后访问 `/site/` |
-| [`DESIGN.md`](DESIGN.md) | 给 AI 和设计工具读的设计说明，由 `scripts/build_design_md.py` 从 `01-tokens/` 与 `00-foundation/` 生成，不要手改 |
+| [`DESIGN.md`](DESIGN.md) | 给 AI 和设计工具读的设计说明，按 Stitch 的 8 段格式写，由 `scripts/build_design_md.py` 从 `01-tokens/` 与 `scripts/design-md.body.md` 生成，不要手改 |
 | [`changelog.md`](changelog.md) | 变更记录 |
 
 ## 依赖方向

@@ -15,7 +15,6 @@ load = lambda p: json.loads((T / p).read_text(encoding='utf-8'))
 BASE, LIGHT, DARK = load('color/base.json'), load('color/light.json'), load('color/dark.json')
 TYPO, SPACE, LAYOUT = load('typography.json'), load('spacing.json'), load('layout.json')
 RADIUS, BORDER, SHADOW, MOTION = load('radius.json'), load('border.json'), load('shadow.json'), load('motion.json')
-FOUND = (ROOT / '00-foundation/foundation.md').read_text(encoding='utf-8')
 DOCS = {'color': BASE, 'font': TYPO, 'space': SPACE, 'radius': RADIUS, 'typography': TYPO, 'duration': MOTION, 'easing': MOTION}
 
 def walk(ref):
@@ -81,68 +80,29 @@ COMP = {
     'table-row': {'height': '{spacing.table-row}', 'typography': '{typography.body-sm}'},
     'metric': {'textColor': '{colors.foreground}', 'typography': '{typography.metric}'},
 }
-fm.append('shadow:')
-fm += [f'  {k}: {q(val(o["$value"]))}' for k, o in entries(SHADOW['shadow'])]
-fm.append('motion:')
-fm += [f'  duration-{k}: {q(val(o["$value"]))}' for k, o in entries(MOTION['duration'])]
-fm += [f'  easing-{k}: {q("cubic-bezier(" + ", ".join(str(x) for x in val(o["$value"])) + ")")}' for k, o in entries(MOTION['easing'])]
-for k, o in MOTION.get('surface', {}).items():
-    if k.startswith('$'): continue
-    v = o['$value']
-    ex = val(v.get('exitDuration', v['duration']))
-    fm.append(f'  surface-{k}: {q("进入 " + val(v["duration"]) + " " + v["enter"].strip("{}").split(".")[1] + "，退出 " + ex + " " + v["exit"].strip("{}").split(".")[1])}')
-fm.append('layout:')
-fm.append(f'  grid.columns: {q(LAYOUT["grid"]["columns"]["$value"])}')
-for k in ['gutter', 'gutter-mobile']:
-    fm.append(f'  grid.{k}: {q(val(LAYOUT["grid"][k]["$value"]))}')
+for k in ['columns', 'gutter', 'gutter-mobile']:
+    v = LAYOUT['grid'][k]['$value']
+    v = val(v) if isinstance(v, str) else v
+    fm.append(f'  grid-{k}: {v if isinstance(v, (int, float)) or str(v).isdigit() else q(v)}')
 for g in ['shell', 'width', 'breakpoint']:
     for k, o in entries(LAYOUT[g]):
         v = o['$value']
         v = val(v) if not (isinstance(v, str) and v.startswith('{size')) else val(SPACE['size'][v.strip('{}').split('.')[1]]['$value'])
-        fm.append(f'  {g}.{k}: {q(v)}')
-fm.append('border:')
-fm += [f'  "{k}": {q(val(o["$value"]))}' for k, o in entries(BORDER['border'])]
+        fm.append(f'  {g}-{k}: {q(v)}')
 fm.append('components:')
 for name, props in COMP.items():
     fm.append(f'  {name}:'); fm += [f'    {k}: {q(v)}' for k, v in props.items()]
 fm.append('---')
 
 # ---------- markdown ----------
-what = section(FOUND, '### Tier0 是什么')
-traits = re.findall(r'^\| \*\*(.+?)\*\* \| (.+?) \|$', section(FOUND, '### 特征'), re.M)
-principles = re.findall(r'\*\*(.+?)\*\*\n(.+)', section(FOUND, '## 2. 设计原则'))
-anti = re.findall(r'^\| (?!类别|---)(.+?) \| (.+?) \|$', section(FOUND, '### 禁止（Anti）'), re.M)
-
 themes = ['| Token | 亮色 | 暗色 |', '|---|---|---|']
 for g in ['surface', 'brand', 'status']:
     for k, o in entries(LIGHT['color'][g]):
         themes.append(f'| `{k}` | {val(o["$value"])} | {val(DARK["color"][g][k]["$value"])} |')
-
-COMPONENTS_MD = (ROOT / 'scripts/design-md.components.md').read_text(encoding='utf-8').strip()
-
-body = ['', '## Overview', '', what, '', '\n'.join(f'- **{t}**：{d}' for t, d in traits), '',
-        '## Colors', '', rules(LIGHT['color']), '',
-        '- 状态色的浅底（组件没有覆盖时）：背景用状态色 10% 透明度（暗色 15%），描边 10%（暗色 25%），文字和图标用状态色本身。整块横幅提示用 4% 底色加 30% 描边。',
-        '- 辅助色（`red-500` 等）只用于图表系列和分类标签；完整色阶见 `01-tokens/color/base.json`。', '',
-        '## Themes', '', '亮色和暗色共用同一套 token 名称，深色模式由 `.dark` 类切换。', '', '\n'.join(themes), '',
-        '## Typography', '', rules(TYPO['typography']), '',
-        '- 字体加载：Tier0-Frontend 用 `next/font/google` 加载 Inter 和 IBM Plex Sans；独立页面用 Google Fonts 加载 Inter、IBM Plex Sans 和 IBM Plex Mono。中文不加载 Web 字体。', '',
-        '## Layout', '', rules(SPACE), rules(LAYOUT), '',
-        '## Elevation & Depth', '', SHADOW.get('$description', ''), '', rules(SHADOW), '',
-        '## Shapes', '', rules(RADIUS), rules(BORDER), '',
-        '## Components', '', COMPONENTS_MD, '',
-        '## Motion', '', rules(MOTION), '',
-        "## Do's and Don'ts", '', '**Do**', ''] + [f'- **{t}**：{d.strip()}' for t, d in principles] + ['', "**Don't**", ''] + [f'- {c}：{d}' for c, d in anti] + [
-        '- 英文全大写、加宽字距的小标签和眉题（如 `TOKENS`、`OVERVIEW`）。',
-        '- 等宽字体用在代码和命令行以外的地方：读数、标签、导航、路径说明都用常规字体。',
-        '- 不承载内容、只用来划分空间的宽顶栏。',
-        '- 导航、菜单、列表的悬停和选中用品牌绿。',
-        '- 产品界面里整块填灰的卡片；为了和旁边对齐而拉高、留出大片空白的区块。',
-        '- 所有区块用同一个间距，分不出哪些是一组。',
-        '- 一个面板里标题、操作、筛选、列表之间层层加分割线。',
-        '- 同一个信息同时用图标、颜色和文字重复表达。',
-        '- 原型的状态切换、方案切换混进产品界面里。',
-        '- 页面上单独出现的 Tier0 标志用文字代替 SVG。', '']
-out = re.sub(r'\n{3,}', '\n\n', '\n'.join(fm + body))
+body = (ROOT / 'scripts/design-md.body.md').read_text(encoding='utf-8').replace('{{themes}}', '\n'.join(themes))
+VALS = {f'colors.{k}': val(o['$value']) for grp in ['surface', 'brand', 'status'] for k, o in entries(LIGHT['color'][grp])}
+VALS.update({f'shadow.{k}': val(o['$value']) for k, o in entries(SHADOW['shadow'])})
+body = re.sub(r'\{\{([\w.-]+)\}\}', lambda m: VALS[m.group(1)], body)
+out = re.sub(r'\n{3,}', '\n\n', '\n'.join(fm) + '\n\n' + body.strip() + '\n')
 (ROOT / 'DESIGN.md').write_text(out, encoding='utf-8')
 print('DESIGN.md', len(out.splitlines()), 'lines', len(out), 'chars')

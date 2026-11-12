@@ -618,6 +618,8 @@ export class Workbench {
     ;(this.mats.sceneryMetal as THREE.MeshStandardMaterial).color.set(dark ? '#2C3036' : T.g200)
   }
   setProgress(p: number) { this.progress = p }
+  /** 每帧渲染前调用：外层在这里同步滚动进度和舞台变换，保证镜头和外框在同一帧更新。 */
+  beforeFrame: ((t: number) => void) | null = null
   addAnchor(el: HTMLElement, x: number, y: number, z: number) { this.anchors.push({ el, pos: new THREE.Vector3(x, y, z) }) }
 
   private resize() {
@@ -629,6 +631,9 @@ export class Workbench {
     this.aspect = w / h
     this.camera.aspect = this.aspect
     this.camera.updateProjectionMatrix()
+    // 改尺寸会清空画布；立即重绘一帧，避免出现空白帧（闪烁）
+    this.updateCamera()
+    this.renderer.render(this.scene, this.camera)
   }
 
   /** 镜头后退，保留完整工作台供首页主视觉使用。 */
@@ -649,6 +654,7 @@ export class Workbench {
   private loop = (t: number) => {
     if (!this.host.isConnected) return this.dispose()
     this.raf = requestAnimationFrame(this.loop)
+    this.beforeFrame?.(t)
     if (!this.visible) return
     const time = this.reduced ? 0 : t
     this.pan.lerp(this.mouse, 0.05)
@@ -698,14 +704,30 @@ function mount(host: HTMLElement) {
     const [x, y, z] = (el.dataset.anchor || '0,0,0').split(',').map(Number)
     wb.addAnchor(el, x, y, z)
   })
-  const onScroll = () => {
-    if (!host.isConnected) return removeEventListener('scroll', onScroll)
+  // 滚动只记录目标进度；所有读写放进渲染循环的同一帧里，并对进度做指数阻尼，过渡更顺。
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
+  const stage = host.querySelector<HTMLElement>('.wb-stage')!
+  const root = document.documentElement
+  let cur = -1, lastT = 0, lastKey = '', copyOn = false, overlap = ''
+  wb.beforeFrame = (t: number) => {
     const r = host.getBoundingClientRect()
     const span = r.height - innerHeight
-    const p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0
-    const settle = Math.min(1, Math.max(0, (p - 0.18) / 0.52))
-    const stage = host.querySelector<HTMLElement>('.wb-stage')!
+    const target = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0
+    const dt = lastT ? Math.min(64, t - lastT) : 16
+    lastT = t
+    if (cur < 0 || reduced || Math.abs(target - cur) > 0.5) cur = target
+    else {
+      cur += (target - cur) * (1 - Math.exp(-dt / 110))
+      if (Math.abs(target - cur) < 0.0005) cur = target
+    }
     const fullWidth = host.clientWidth
+    const key = cur.toFixed(4) + '|' + fullWidth + '|' + innerHeight
+    if (key === lastKey) return
+    lastKey = key
+    const p = cur
+    // 收拢段用 smoothstep，起止都没有速度突变
+    const lin = Math.min(1, Math.max(0, (p - 0.18) / 0.52))
+    const settle = lin * lin * (3 - 2 * lin)
     const finalWidth = Math.min(1084, Math.max(0, fullWidth - 96))
     const fullHeight = innerHeight - 56
     const finalScale = finalWidth / fullWidth
@@ -715,17 +737,19 @@ function mount(host: HTMLElement) {
     const frameTop = 96
     const visibleTop = 56 + (fullHeight * (1 - scale)) / 2 + crop * scale
     const rise = (frameTop - visibleTop) * settle
-    stage.style.transform = `translateY(${rise}px) scale(${scale})`
-    stage.style.clipPath = `inset(${crop}px 0 round ${12 * settle}px)`
-    stage.style.setProperty('--frame-crop', `${crop}px`)
-    document.documentElement.style.setProperty('--wb-body-overlap', `${Math.max(0, innerHeight - frameTop - finalWidth * 9 / 16 - 72 + 48)}px`)
+    stage.style.transform = `translate3d(0, ${rise.toFixed(2)}px, 0) scale(${scale.toFixed(5)})`
+    stage.style.clipPath = `inset(${crop.toFixed(2)}px 0 round ${(12 * settle).toFixed(2)}px)`
+    stage.style.setProperty('--frame-crop', `${crop.toFixed(2)}px`)
+    const ov = `${Math.max(0, innerHeight - frameTop - finalWidth * 9 / 16 - 72 + 48)}px`
+    if (ov !== overlap) { overlap = ov; root.style.setProperty('--wb-body-overlap', ov) }
     wb.setProgress(p)
-    host.style.setProperty('--wb-p', p.toFixed(3))
-    document.documentElement.style.setProperty('--wb-p', p.toFixed(3))
-    host.classList.toggle('wb-copy-visible', p >= 0.66)
+    const ps = p.toFixed(3)
+    host.style.setProperty('--wb-p', ps)
+    root.style.setProperty('--wb-p', ps)
+    // 文案出现和消失用不同阈值，停在临界点附近时不会来回闪
+    const nextCopy = copyOn ? p >= 0.6 : p >= 0.66
+    if (nextCopy !== copyOn) { copyOn = nextCopy; host.classList.toggle('wb-copy-visible', copyOn) }
   }
-  addEventListener('scroll', onScroll, { passive: true })
-  onScroll()
   const mo = new MutationObserver(() => wb.applyTheme())
   mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => wb.applyTheme())

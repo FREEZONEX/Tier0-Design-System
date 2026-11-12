@@ -758,7 +758,7 @@
   const sk = { id: 'tier0-design', brief: '做一页展示 Line-01 实时状态的看板' };
   function skPrompt() {
     const s = SKILLS.find(x => x.id === sk.id);
-    return `/${s.id}\n\n需求：${sk.brief}\n\n要求：\n- 先读 04-skills/tier0-design/SKILL.md，再按它的指引读 DESIGN.md 对应章节\n- 产品界面用 02-components 里的 @tier0/ui 组件\n- 颜色、字体、间距只用 DESIGN.md 里的 token\n- 原型的状态切换放进左下角「原型控制」\n- 完成后对照 DESIGN.md 的 Do's and Don'ts 和 skill 的自查清单检查`;
+    return `/${s.id}\n\n需求：${sk.brief}\n\n要求：\n- 先读 04-skills/tier0-design/SKILL.md，再读 DESIGN.md\n- 产品界面用 02-components 里的 @tier0/ui 组件，用法见 02-components/guidelines\n- 颜色、字体、间距只用 DESIGN.md 里的 token\n- 原型的状态切换放进左下角「原型控制」\n- 完成后对照 DESIGN.md 的 Do's and Don'ts 和 skill 的自查清单检查`;
   }
   function vSkills() {
     const s = SKILLS.find(x => x.id === sk.id);
@@ -780,7 +780,7 @@
     const fm = (t.match(/^---\n([\s\S]*?)\n---/) || [, ''])[1];
     const body = t.replace(/^---\n[\s\S]*?\n---\n?/, '').replace(/^# .*\n/m, '').replace(/^> 本文件由.*\n/m, '');
     const actions = `<button type="button" class="ui-btn outline" data-dm-copy>${I.copy}复制全文</button><button type="button" class="ui-btn outline" data-dm-ai>${I.copy}发给 AI</button>`;
-    return docHead('DESIGN.md', '给 AI 和设计工具读的设计说明：开头是机器可读的 token，后面是用途和原则。内容由 token 与 Foundation 自动生成，跟着它们一起更新。', actions)
+    return docHead('DESIGN.md', '给 AI 和设计工具读的设计说明：开头是机器可读的 token，后面按 Overview、Colors、Typography、Layout、Elevation & Depth、Shapes、Components、Do\'s and Don\'ts 八段写取值和规则。组件的逐条用法在 02-components/guidelines。', actions)
       + sec('tokens', 'Token', '', codeBlock(fm))
       + sec('guide', '说明', '', `<div class="prose dm-prose">${md(body)}</div>`);
   }
@@ -1080,8 +1080,10 @@
   })();
   function heroState() {
     const wb = document.querySelector('.wb');
-    document.body.classList.toggle('hero-on', !!wb && scrollY < wb.offsetHeight * 0.1);
-    document.body.classList.toggle('nav-short', !!wb && scrollY < 24);
+    // 进入和离开用不同阈值（滞回），停在临界点附近时侧栏和顶栏不会来回切换
+    const b = document.body.classList, h = wb ? wb.offsetHeight : 0;
+    b.toggle('hero-on', !!wb && scrollY < h * (b.contains('hero-on') ? 0.12 : 0.08));
+    b.toggle('nav-short', !!wb && scrollY < (b.contains('nav-short') ? 32 : 16));
     scrollCue.update();
   }
   function playEz(card) { if (!card) return; const k = card.querySelector('.ez-track i'); k.style.transition = 'none'; k.style.left = '0px'; void k.offsetWidth; k.style.transition = `left ${card.dataset.ms}ms ${card.dataset.ez}`; k.style.left = 'calc(100% - 28px)'; }
