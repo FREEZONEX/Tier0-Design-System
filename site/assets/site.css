@@ -1058,7 +1058,13 @@ body.hero-on .wb { cursor: none; }
 
 /* Keep the Foundation section aligned with the framed workbench. */
 .doc-wrap.p-home + .doc-wrap.p-after-hero { margin-top: 0; top: calc(-1 * var(--wb-body-overlap, 0px)); margin-bottom: calc(-1 * var(--wb-body-overlap, 0px)); opacity: 1; transform: none; }
-body.hero-on, body.hero-on .doc-wrap.p-home, body.hero-on::before { background: #BFC1BD; }
+body.hero-on, body.hero-on .doc-wrap.p-home, body.hero-on::before { background: var(--background); }
+body.hero-on.nav-short, body.hero-on.nav-short::before { background: var(--wb-scene-bg, #E8E8E8); }
+.doc-wrap.p-home .wb-stage { background: var(--wb-scene-bg, #E8E8E8); }
+.doc-wrap.p-home { position: relative; background: var(--background) !important; }
+body.hero-on.nav-short .doc-wrap.p-home { background: var(--wb-scene-bg, #E8E8E8) !important; }
+.doc-wrap.p-home::before { content: ""; position: absolute; inset: 0 0 var(--wb-body-overlap, 0px); pointer-events: none; opacity: 0; background: linear-gradient(var(--border), var(--border)) left 32px top / 1px 100% no-repeat, linear-gradient(var(--border), var(--border)) right 32px top / 1px 100% no-repeat, repeating-linear-gradient(-45deg, color-mix(in srgb, var(--foreground) 9%, transparent) 0 1px, transparent 1px 7px) left top / 32px 100% no-repeat, repeating-linear-gradient(-45deg, color-mix(in srgb, var(--foreground) 9%, transparent) 0 1px, transparent 1px 7px) right top / 32px 100% no-repeat; }
+body:not(.hero-on) .doc-wrap.p-home::before { opacity: 1; }
 body { transition: background-color 320ms var(--ease); }
 :root[data-theme="dark"] body.hero-on, :root[data-theme="dark"] body.hero-on .doc-wrap.p-home, :root[data-theme="dark"] body.hero-on::before { background: #050B14; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body.hero-on, :root:not([data-theme="light"]) body.hero-on .doc-wrap.p-home, :root:not([data-theme="light"]) body.hero-on::before { background: #050B14; } }

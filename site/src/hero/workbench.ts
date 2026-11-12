@@ -644,7 +644,7 @@ export class Workbench {
   applyTheme() {
     const theme = document.documentElement.dataset.theme
     const dark = theme === 'dark' || (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)
-    const bg = dark ? T.b900 : '#BFC1BD'
+    const bg = dark ? T.b900 : '#E8E8E8'
     this.scene.background = new THREE.Color(bg)
     ;(this.scene.fog as THREE.Fog).color.set(bg)
     ;(this.mats.hallWall as THREE.MeshBasicMaterial).color.set(bg)
@@ -652,12 +652,12 @@ export class Workbench {
     ;(this.scene.fog as THREE.Fog).far = dark ? 28 : 48
     document.documentElement.style.setProperty('--wb-scene-bg', bg)
     // 深色模式：车间地面、墙面与网格转为深色中性灰，工作台本身不变
-    ;(this.mats.hall as THREE.MeshStandardMaterial).color.set(dark ? '#0E1013' : '#797B75')
-    ;(this.mats.hallDark as THREE.MeshStandardMaterial).color.set(dark ? '#16181C' : '#92948D')
-    this.gridMat.color.set(dark ? '#2A2D33' : '#777A73')
-    this.edgeFar.color.set(dark ? '#3A3E45' : '#82857D')
-    ;(this.mats.scenery as THREE.MeshStandardMaterial).color.set(dark ? '#23262B' : '#999C94')
-    ;(this.mats.sceneryMetal as THREE.MeshStandardMaterial).color.set(dark ? '#2C3036' : '#868981')
+    ;(this.mats.hall as THREE.MeshStandardMaterial).color.set(dark ? '#0E1013' : '#797979')
+    ;(this.mats.hallDark as THREE.MeshStandardMaterial).color.set(dark ? '#16181C' : '#929292')
+    this.gridMat.color.set(dark ? '#2A2D33' : '#777777')
+    this.edgeFar.color.set(dark ? '#3A3E45' : '#828282')
+    ;(this.mats.scenery as THREE.MeshStandardMaterial).color.set(dark ? '#23262B' : '#999999')
+    ;(this.mats.sceneryMetal as THREE.MeshStandardMaterial).color.set(dark ? '#2C3036' : '#868686')
   }
   setProgress(p: number) { this.progress = p }
   /** 每帧渲染前调用：外层在这里同步滚动进度和舞台变换，保证镜头和外框在同一帧更新。 */
