@@ -598,9 +598,14 @@ body.nav-short .app { margin-top: -61px; }
 body.hero-on { background: #050B14; }
 body.hero-on .doc-wrap.p-home { background: #050B14; }
 body.hero-on::before { background: #050B14; }
-body.hero-on:not(.nav-short) .topbar { background: #050B14; border-color: #232b32; color: #fff; }
-body.hero-on:not(.nav-short) .brandmark .logo-light { display: none; }
-body.hero-on:not(.nav-short) .brandmark .logo-dark { display: block; }
+:root[data-theme="dark"] body.hero-on:not(.nav-short) .topbar { background: #050B14; border-color: #232b32; color: #fff; }
+:root[data-theme="dark"] body.hero-on:not(.nav-short) .brandmark .logo-light { display: none; }
+:root[data-theme="dark"] body.hero-on:not(.nav-short) .brandmark .logo-dark { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body.hero-on:not(.nav-short) .topbar { background: #050B14; border-color: #232b32; color: #fff; }
+  :root:not([data-theme="light"]) body.hero-on:not(.nav-short) .brandmark .logo-light { display: none; }
+  :root:not([data-theme="light"]) body.hero-on:not(.nav-short) .brandmark .logo-dark { display: block; }
+}
 @media (max-width: 600px) { .doc-wrap.p-home .home-body { padding: 32px 24px 80px; } .wb-stage { transform: none; } .wb-story { left: 24px; right: 24px; bottom: 24px; } }
 
 
@@ -1206,6 +1211,15 @@ body.hero-on .wb { cursor: none; }
 .sec > h2 .why-tip::after { font: 400 13px/20px var(--font-sans); }
 .tk-row .why-tip::after, .shape-card .why-tip::after { left: 50% !important; top: auto; bottom: calc(100% + 8px) !important; transform: translate(-50%, 4px) !important; }
 .tk-row .why-tip:hover::after, .shape-card .why-tip:hover::after { transform: translate(-50%, 0) !important; }
+/* Keep compact token tooltips inside the viewport on narrow screens. */
+@media (max-width: 640px) {
+  .tk-row .why-tip::after, .shape-card .why-tip::after {
+    left: auto !important; right: -12px; top: auto; bottom: calc(100% + 8px) !important;
+    width: min(320px, calc(100vw - 40px)); max-width: calc(100vw - 40px);
+    transform: translateY(4px) !important;
+  }
+  .tk-row .why-tip:hover::after, .shape-card .why-tip:hover::after { transform: translateY(0) !important; }
+}
 
 /* ---------- 线宽 playground ---------- */
 .bw-bar { display: grid; gap: 12px; }

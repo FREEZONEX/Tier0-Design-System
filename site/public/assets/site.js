@@ -544,8 +544,8 @@
   // [key, 名称, 含义与用途, 亮色 CSS, 暗色 CSS（可省略，省略时用品牌绿低透明度）]
   const TEXTURES = [
     ['fine', '细点阵', '最小单位的规则排列，代表稳定和秩序。', 'background-image: radial-gradient(currentColor 0.7px, transparent 1px); background-size: 6px 6px;'],
-    ['dots', '点阵', '工作台洞洞板的放大版。', 'background-image: radial-gradient(currentColor 1px, transparent 1.5px); background-size: 12px 12px;'],
-    ['peg', '穿孔板', '工位上真实的洞洞板，孔更大、更稀。', 'background-image: radial-gradient(circle, currentColor 2px, transparent 2.6px); background-size: 20px 20px;'],
+    ['dots', '点阵', '细密、均匀的点状纹理，为背景提供轻量的秩序感。', 'background-image: radial-gradient(currentColor 1px, transparent 1.5px); background-size: 12px 12px;'],
+    ['peg', '洞洞板', '源自工业工作台的洞洞板，以更大、更疏的孔位呈现结构感。', 'background-image: radial-gradient(circle, currentColor 2px, transparent 2.6px); background-size: 20px 20px;'],
     ['grid', '网格', '工程图纸的格子，代表结构和对齐。', 'background-image: linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 24px 24px;'],
     ['ruler', '刻度', '量具上的刻度，代表测量和精度。', 'background-image: linear-gradient(90deg, currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px); background-size: 40px 20px, 8px 8px; background-repeat: repeat-x; background-position: 0 0, 0 0;'],
     ['hatch', '斜线', '表示保留、不可用或还没建好的区域。', 'background-image: repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 8px);'],
