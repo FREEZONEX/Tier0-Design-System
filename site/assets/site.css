@@ -1655,3 +1655,4 @@ button.repo-card { font: inherit; text-align: left; cursor: pointer; }
   .ui-dialog { padding: 24px; gap: 24px; }
   .ui-dialog .x { top: 24px; right: 24px; }
 }
+@media (max-width: 640px) { .doc-head-actions { flex: 1 1 100%; flex-wrap: wrap; } }
