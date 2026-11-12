@@ -17,8 +17,9 @@ colors:
   highlight-foreground: "#050B14"
   highlight-deep: "#73B200"
   highlight-ink: "#4B640C"
-  accent: "#F7FDE8"
+  accent: "#F3F3F3"
   ring: "#628210"
+  highlight-subtle: "#F7FDE8"
   success: "#2F7657"
   warning: "#A35C00"
   destructive: "#DC2626"
@@ -186,6 +187,32 @@ motion:
   easing-standard: "cubic-bezier(0.4, 0, 0.2, 1)"
   easing-enter: "cubic-bezier(0, 0, 0.2, 1)"
   easing-exit: "cubic-bezier(0.4, 0, 1, 1)"
+layout:
+  grid.columns: "12"
+  grid.gutter: "24px"
+  grid.gutter-mobile: "16px"
+  shell.header: "48px"
+  shell.sidebar: "256px"
+  shell.sidebar-collapsed: "48px"
+  shell.sidebar-mobile: "288px"
+  shell.page-padding: "24px"
+  shell.page-padding-mobile: "16px"
+  width.measure: "680px"
+  width.dialog-sm: "480px"
+  width.dialog-md: "672px"
+  width.dialog-lg: "1024px"
+  width.content-max: "1440px"
+  width.web-max: "1200px"
+  breakpoint.sm: "640px"
+  breakpoint.md: "768px"
+  breakpoint.lg: "1024px"
+  breakpoint.xl: "1280px"
+  breakpoint.2xl: "1536px"
+border:
+  "0": "0px"
+  "1": "1px"
+  "2": "2px"
+  "3": "3px"
 components:
   button-primary:
     backgroundColor: "{colors.primary}"
@@ -269,8 +296,9 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 | `highlight-foreground` | #050B14 | #050B14 |
 | `highlight-deep` | #73B200 | #73B200 |
 | `highlight-ink` | #4B640C | #B2ED1D |
-| `accent` | #F7FDE8 | #4B640C |
+| `accent` | #F3F3F3 | #1C1F1E |
 | `ring` | #628210 | #B2ED1D |
+| `highlight-subtle` | #F7FDE8 | #4B640C |
 | `success` | #2F7657 | #6AD09D |
 | `warning` | #A35C00 | #FBBC55 |
 | `destructive` | #DC2626 | #EF4444 |
@@ -278,13 +306,13 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 
 ## Typography
 
-- 标题和读数用 Inter，正文用 IBM Plex Sans，代码和命令行用 IBM Plex Mono；中文使用系统字体（苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体）；Tektur 只用于 Logo。
+- 标题和读数用 Inter，正文用 IBM Plex Sans，代码和命令行用 IBM Plex Mono（UNS 数据路径不算代码，用常规字体）；中文使用系统字体（苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体）；Tektur 只用于 Logo。
 - 不引入以上之外的字体。
 - 中文标题和中英混排标题字距为 0；只有纯英文标题使用字阶里的负字距。
 - 最小字号用 caption；更小的字号只用于图表刻度等不需要阅读的文字。
 - 字重只用 400 / 500 / 600 / 700。
 - 读数和统计数字用 metric 字阶（Inter，500 字重），按画面层级在 metric-lg 和 metric 之间选，必要时可按场景放大；数字开启等宽数字（tabular-nums）。等宽字体只用于代码。
-- 只用字阶里的字号，不写任意值。
+- 界面里只用字阶里的字号，不写任意值。海报、Slides 这类固定画幅的物料按画幅放大，字体和字重沿用官网字阶。
 - 段落之间：body-sm 用 paragraph，body 和 body-long 用 paragraph-lg。
 - 连续的中文长文（文档、帮助）使用 body-long（16/28）。
 - 截断：表格单元格、标签、导航单行截断加省略号，并能查看完整内容；卡片说明最多 2 行。
@@ -348,7 +376,7 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 
 ### Logo
 
-- 页面上单独出现 Tier0 标志时，一律用 SVG 文件，不用文字或字体代替：亮底用 `03-brand/logo/assets/tier0-logo-black.svg`；暗底的产品界面用 `tier0-logo-white.svg`，品牌展示（海报、开场）用 `tier0-logo-lime.svg`。
+- 页面上单独出现 Tier0 标志时，一律用 SVG 文件，不用文字或字体代替：亮底用 `03-brand/logo/assets/tier0-logo-black.svg`；暗底的产品界面用 `tier0-logo-white.svg`，暗底的品牌展示（海报、开场）用 `tier0-logo-lime.svg`。亮底一律用黑色版。
 - 产品界面里 Logo 高度不超过 `logo-ui`，四周留白不少于 Logo 高度的一半。
 
 ### 页面标题
@@ -401,7 +429,7 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 
 ### 状态标签
 
-- 用浅底样式：状态色 10% 背景、10% 描边、状态色文字，`radius.full`，`caption` 字阶；暗色下背景 15%、描边 25%。
+- 用浅底样式：状态色 10% 背景、10% 描边、状态色文字，`radius.full`，`caption` 字阶；暗色下背景 15%、描边 25%。前端 `Badge` 目前只有实底变体，需要新增浅底变体后使用。
 - 文字写结果本身（「严重」「警告」「提示」「运行中」），不用纯色实底标签表达普通状态。
 
 ### 告警列表
@@ -413,6 +441,17 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 - 状态筛选放在面板标题行右侧的下拉按钮里（「全部 3」），下拉选项用对应语义的浅底标签带数量；不在标题下面再铺一行筛选。
 - 列对齐：状态标签列固定宽度，标题和来源左对齐在同一条线上，时间右对齐；行高和内边距全列表一致。
 
+### 浮层
+
+- 弹窗遮罩用前端 `Dialog` 的写法：黑色 50% 透明度。弹窗、下拉、提示用 `radius.md`；侧滑面板贴边出现，贴边的两角不做圆角。
+- 危险操作（如停机）先弹确认框，确认按钮用 `destructive`。
+
+### 图表
+
+- 单系列曲线用 `foreground`；多系列用辅助色，并直接在线旁标注名称，少用图例。
+- 阈值线用 destructive 的 `border.1` 线并标注数值；超过阈值的那一段可以改为 destructive。
+- 刻度和坐标文字用 `caption`、`muted-foreground`；网格线用 `border` 色。
+
 ### 交互反馈
 
 - 所有可点击的元素都有悬停状态（颜色变化，fast + standard），按下沿用悬停色；焦点按上面的规则显示；页面不能像一张静态图。
@@ -421,8 +460,8 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 
 ### 加载
 
-- 区块首次加载用骨架：形状与最终内容一致（行数、列宽、指标卡位置接近真实），`muted` 底色，`radius.md`，轻微的透明度脉冲；不用整页转圈。
-- 按钮触发的操作：按钮内图标换成旋转的 `LoaderCircle`，保持按钮宽度并禁用，文字可改为进行中的说法（「保存中」）。
+- 区块首次加载用骨架（前端 `Skeleton` 组件）：形状与最终内容一致（行数、列宽、指标卡位置接近真实），`accent` 浅灰底色，`radius.md`，轻微的透明度脉冲；不用整页转圈。
+- 按钮触发的操作：用按钮组件自带的 loading 状态（旋转的加载图标），保持按钮宽度并禁用，文字可改为进行中的说法（「保存中」）。
 - 已有内容刷新时保留旧内容，只在区块角落显示小的加载指示，不把内容清空再加载。
 
 ### 空状态

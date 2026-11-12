@@ -443,13 +443,13 @@
     "$extensions": {
       "tier0": {
         "rules": [
-          "标题和读数用 Inter，正文用 IBM Plex Sans，代码和命令行用 IBM Plex Mono；中文使用系统字体（苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体）；Tektur 只用于 Logo。",
+          "标题和读数用 Inter，正文用 IBM Plex Sans，代码和命令行用 IBM Plex Mono（UNS 数据路径不算代码，用常规字体）；中文使用系统字体（苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体）；Tektur 只用于 Logo。",
           "不引入以上之外的字体。",
           "中文标题和中英混排标题字距为 0；只有纯英文标题使用字阶里的负字距。",
           "最小字号用 caption；更小的字号只用于图表刻度等不需要阅读的文字。",
           "字重只用 400 / 500 / 600 / 700。",
           "读数和统计数字用 metric 字阶（Inter，500 字重），按画面层级在 metric-lg 和 metric 之间选，必要时可按场景放大；数字开启等宽数字（tabular-nums）。等宽字体只用于代码。",
-          "只用字阶里的字号，不写任意值。",
+          "界面里只用字阶里的字号，不写任意值。海报、Slides 这类固定画幅的物料按画幅放大，字体和字重沿用官网字阶。",
           "段落之间：body-sm 用 paragraph，body 和 body-long 用 paragraph-lg。",
           "连续的中文长文（文档、帮助）使用 body-long（16/28）。",
           "截断：表格单元格、标签、导航单行截断加省略号，并能查看完整内容；卡片说明最多 2 行。",

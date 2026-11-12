@@ -86,6 +86,17 @@ fm += [f'  {k}: {q(val(o["$value"]))}' for k, o in entries(SHADOW['shadow'])]
 fm.append('motion:')
 fm += [f'  duration-{k}: {q(val(o["$value"]))}' for k, o in entries(MOTION['duration'])]
 fm += [f'  easing-{k}: {q("cubic-bezier(" + ", ".join(str(x) for x in val(o["$value"])) + ")")}' for k, o in entries(MOTION['easing'])]
+fm.append('layout:')
+fm.append(f'  grid.columns: {q(LAYOUT["grid"]["columns"]["$value"])}')
+for k in ['gutter', 'gutter-mobile']:
+    fm.append(f'  grid.{k}: {q(val(LAYOUT["grid"][k]["$value"]))}')
+for g in ['shell', 'width', 'breakpoint']:
+    for k, o in entries(LAYOUT[g]):
+        v = o['$value']
+        v = val(v) if not (isinstance(v, str) and v.startswith('{size')) else val(SPACE['size'][v.strip('{}').split('.')[1]]['$value'])
+        fm.append(f'  {g}.{k}: {q(v)}')
+fm.append('border:')
+fm += [f'  "{k}": {q(val(o["$value"]))}' for k, o in entries(BORDER['border'])]
 fm.append('components:')
 for name, props in COMP.items():
     fm.append(f'  {name}:'); fm += [f'    {k}: {q(v)}' for k, v in props.items()]

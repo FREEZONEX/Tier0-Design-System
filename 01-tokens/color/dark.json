@@ -76,12 +76,16 @@
         "$description": "绿色的文字和图标：需要阅读、辨认的绿色元素。"
       },
       "accent": {
-        "$value": "{color.scale.fx-green.900}",
-        "$description": "品牌绿浅底：只用于需要强调的业务高亮（如被选中的数据行、关键提示）。导航、菜单、列表的悬停和选中用 muted 灰，不用这个颜色。"
+        "$value": "{color.scale.black.700}",
+        "$description": "与前端 --accent 一致的浅灰：选中项、悬停项、骨架的底色。"
       },
       "ring": {
         "$value": "{color.scale.fx-green.500}",
         "$description": "键盘焦点：按钮等控件用此色 50% 透明度的 3px 外圈；输入框、选择器用 shadow.focus。"
+      },
+      "highlight-subtle": {
+        "$value": "{color.scale.fx-green.900}",
+        "$description": "品牌绿浅底：只用于需要强调的业务高亮（如被选中的数据行、关键提示）。"
       }
     },
     "status": {
