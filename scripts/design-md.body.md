@@ -70,7 +70,7 @@ Tier0 为制造业构建 Agentic 工业数据平台：工厂设备和业务系�
 
 ## Components
 
-产品界面直接用 Tier0-Frontend `packages/ui` 的组件（副本在 `02-components/packages/ui`），不自己画按钮、侧栏、表格；独立演示页要还原它们的尺寸、颜色和状态。每个组件的逐条用法见 `02-components/guidelines/`。
+凡是产品页面，包括原型、演示页和本地测试页，一律用 Tier0-Frontend `packages/ui` 的组件实现（副本在 `02-components/packages/ui`），不手写 HTML 仿制按钮、侧栏、表格。每个组件的逐条用法见 `02-components/guidelines/`。
 
 - **Buttons**：一个视图只有一个 `primary`（黑底白字，高 32px，左右内边距 16px，圆角 4px）；次要操作用 `outline`；品牌绿的 `default`（`{{colors.button-highlight}}`）只给需要特别强调的工作流操作，写代码时显式写出 variant。危险操作用 `destructive`，并先弹确认框。→ `button.md`
 - **Cards & panels**：白底、1px `border`、6px 圆角、24px 内边距；不整块填灰，不加阴影，不卡片套卡片。面板只有「标题行 → 内容」两层，中间不画线；筛选和视图切换放在标题行右侧。→ `card.md`
