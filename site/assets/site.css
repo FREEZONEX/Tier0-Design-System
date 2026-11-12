@@ -1331,3 +1331,10 @@ body.hero-on .wb { cursor: none; }
 .dm-prose th { color: var(--muted-foreground); font-weight: 500; }
 .dm-prose td:first-child code { white-space: nowrap; }
 button.repo-card { font: inherit; text-align: left; cursor: pointer; }
+.shell-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 16px; }
+.shell-pair figure { margin: 0; display: grid; gap: 8px; }
+.shell-pair figcaption { font-size: 13px; color: var(--muted-foreground); }
+.shell-pair .shell-demo { margin-bottom: 0; }
+.shell-demo.no-top { grid-template-rows: 236px; }
+.shell-demo.no-top .sd-side { grid-row: 1; }
+.sd-top { font-size: 12px; color: var(--muted-foreground); }

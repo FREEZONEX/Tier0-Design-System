@@ -95,6 +95,7 @@
   ];
 
   const SKILLS = [
+    { id: 'tier0-design', zh: '总入口', desc: '任何 Tier0 设计任务都从这里开始：取舍顺序、场景判断、分阶段工作、品牌图形和海报做法。', typo: 'product' },
     { id: 'tier0-ui', zh: 'UI 界面', desc: '按设计系统生成产品界面和页面。', typo: 'product' },
     { id: 'tier0-web', zh: '官网', desc: '生成官网页面与区块。', typo: 'web' },
     { id: 'tier0-slides', zh: 'Slides', desc: '生成符合品牌的演示文稿。', typo: 'web' },
@@ -327,7 +328,7 @@
       : `<div class="fam"><div class="aa" style="font-family:var(--font-${k})">Aa</div><b>${esc(v.$value[0])}</b><span>${esc((v.$description || '').split('——')[0])}</span></div>`;
     const famList = entries(D.typo.font.family);
     const fams = `<div class="fam-latin">${famList.filter(([k]) => k !== 'sc').map(famCard).join('')}</div>${famList.filter(([k]) => k === 'sc').map(famCard).join('')}`;
-    return docHead('字体', '标题用 Inter，正文用 IBM Plex Sans，代码与数据用 IBM Plex Mono。中文不加载 Web 字体，使用系统字体：苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体（Noto Sans CJK）。')
+    return docHead('字体', '标题用 Inter，正文用 IBM Plex Sans，代码和命令行用 IBM Plex Mono，读数用 Inter。中文不加载 Web 字体，使用系统字体：苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体（Noto Sans CJK）。')
       + sec('specimen', '试排', '选择字体，调整字重、字号、行高和字间距，然后直接改写示例文字。正文行高约 1.4–1.5，标题约 1.2；字间距一般为 0，大号标题可收紧到 -0.02em。', `<div class="spec"><div class="spec-bar ty-bar">${seg('tyfam', FAMS, ty.fam)}<div class="ty-ctls">
           <label class="ctl"><span class="ctl-h">字重<b id="ty-wv">${ty.w}</b></span><input type="range" id="ty-w" min="400" max="700" step="100" value="${ty.w}"></label>
           <label class="ctl"><span class="ctl-h">字号<b id="ty-sv">${ty.s}px</b></span><input type="range" id="ty-s" min="12" max="96" value="${ty.s}"></label>
@@ -343,7 +344,8 @@
   let compTheme = 'auto';
   function vComponents() {
     const scope = compTheme === 'dark' ? ' dark-scope' : compTheme === 'light' ? ' light-scope' : '';
-    return docHead('Tier0 平台组件', `Tier0 平台自身使用的组件。生成平台应用模版用的是另一套：<a href="#scaffold">应用脚手架</a>。`)
+    return docHead('Tier0 平台组件', `Tier0 平台自身使用的组件，代码复刻自前端，在仓库的 <code>02-components/packages</code>，可以直接引用。生成平台应用模版用的是另一套：<a href="#scaffold">应用脚手架</a>。`)
+      + `<div class="repo-row">${repoCard('https://github.com/FREEZONEX/Tier0-Design-System/tree/feature/design-system-redesign/02-components', I.github, '组件代码', '02-components/packages')}</div>`
 
       + `<div style="margin:-24px 0 40px">${seg('ctheme', [['auto', '跟随页面'], ['light', '亮色'], ['dark', '暗色']], compTheme)}</div>`
       + COMPONENTS.map(c => sec('c-' + c.id, c.zh, esc(c.desc), `<div class="spec" data-spec>
@@ -700,10 +702,10 @@
   }
 
   // ---------- skills ----------
-  const sk = { id: 'tier0-ui', brief: '做一页展示 Line-01 实时状态的看板' };
+  const sk = { id: 'tier0-design', brief: '做一页展示 Line-01 实时状态的看板' };
   function skPrompt() {
     const s = SKILLS.find(x => x.id === sk.id);
-    return `/${s.id}\n\n需求：${sk.brief}\n\n要求：\n- 先读取 00-foundation/foundation.md 与 01-tokens/README.md\n- 组件使用 Tier0-Frontend 的 @tier0/ui\n- 颜色只用 color/light.json、color/dark.json 主层 token\n- 字体使用 typography.${s.typo}\n- 完成后对照 Foundation 的 Anti 表自查`;
+    return `/${s.id}\n\n需求：${sk.brief}\n\n要求：\n- 先读 04-skills/tier0-design/SKILL.md，再按它的指引读 DESIGN.md 对应章节\n- 产品界面用 02-components 里的 @tier0/ui 组件\n- 颜色、字体、间距只用 DESIGN.md 里的 token\n- 原型的状态切换放进左下角「原型控制」\n- 完成后对照 DESIGN.md 的 Do's and Don'ts 和 skill 的自查清单检查`;
   }
   function vSkills() {
     const s = SKILLS.find(x => x.id === sk.id);
@@ -743,7 +745,7 @@
   }
   // ---------- token 页面公用 ----------
   const px = v => parseFloat(v) || 0;
-  const tokVal = (doc, v) => { let x = v; for (let i = 0; i < 4 && typeof x === 'string' && x[0] === '{'; i++) { const n = walk(doc, x); x = n ? n.$value : x; } return x; };
+  const tokVal = (doc, v) => { let x = v; for (let i = 0; i < 4 && typeof x === 'string' && x[0] === '{'; i++) { const n = walk(doc, x) || walk(D.spacing, x); x = n ? n.$value : x; } return x; };
   const why = o => (ext(o).rationale ? `<span class="why-tip" data-tip="${esc(ext(o).rationale)}" aria-label="${esc(ext(o).rationale)}">${I.info}</span>` : '');
   const feOf = o => { const f = ext(o).frontend; return f ? esc(f.tailwind || f.component || '') : ''; };
   const rulesOf = doc => (doc && ext(doc).rules) || [];
@@ -797,16 +799,17 @@
   function vSpacing() {
     const S = D.spacing, L = D.layout;
     if (!S || !L) return '<p class="muted">没有读取到间距与布局 token。</p>';
-    const levels = [['元素内', '4–6px', '图标 + 文字', 6], ['组内', '8px', '标签 + 输入框；按钮组', 8], ['组与组', '16px', '表单的两组字段；并排的卡片', 16], ['区块内边距', '24px', '卡片、面板', 24], ['区块与区块', '32–48px', '页面里的两个分区', 40]];
+    const sv = k => px(tokVal(S, (S.semantic[k] || {}).$value));
+    const levels = [['元素内', 'inline', '图标 + 文字；标签 + 输入框', sv('inline')], ['组内', 'group-item', '一组指标卡之间；按钮组', sv('group-item')], ['组与组', 'group', '指标卡组和旁边的列表之间', sv('group')], ['区块与区块', 'section', '页面里的两个分区', sv('section')]];
     const bps = entries(L.breakpoint).map(([k, o]) => [k, px(o.$value), o]);
     const maxBp = 1600;
     return docHead('间距与布局', '间距和布局决定信息层级：同一层级用同一档间距，层级越高间距越大。')
       + sec('scale', '间距刻度', '4px 基准。只用下列档位，点击一行复制数值。', tokTable(S, S.space, 'space.', v => `<i class="sp-bar" style="width:${Math.max(px(v), 1)}px"></i>`, true))
-      + sec('levels', '层级与间距', '进入更高一层级时，间距至少升一档。', `<div class="lv-list">${levels.map(([n, v, eg, w]) => `<div class="lv-row"><b>${n}</b><span class="lv-demo"><i></i><em style="width:${w}px"></em><i></i></span><code>${v}</code><span class="muted">${eg}</span></div>`).join('')}</div>`)
+      + sec('levels', '层级与间距', '进入更高一层级时，间距至少升一档；所有区块等间距会让分组消失。', `<div class="lv-list">${levels.map(([n, v, eg, w]) => `<div class="lv-row"><b>${n}</b><span class="lv-demo"><i></i><em style="width:${w}px"></em><i></i></span><code>${v} · ${w}px</code><span class="muted">${eg}</span></div>`).join('')}</div>`)
       + sec('semantic', '按用途的间距', '组件与页面优先用这一层。', tokTable(S, S.semantic, '', v => `<i class="sp-bar" style="width:${Math.max(px(v), 1)}px"></i>`))
-      + sec('size', '控件与行高', '产品界面默认紧凑密度：控件 32px、行高 40px。', tokTable(S, S.size, 'size.', (v, k) => k.startsWith('icon') ? `<i class="sz-icon" style="width:${px(v)}px;height:${px(v)}px"></i>` : `<i class="sz-ctl" style="height:${Math.min(px(v), 64)}px"></i>`))
+      + sec('size', '控件与行高', '产品界面默认紧凑密度：控件 control-sm、表格行 table-row。', tokTable(S, S.size, 'size.', (v, k) => k.startsWith('icon') ? `<i class="sz-icon" style="width:${px(v)}px;height:${px(v)}px"></i>` : `<i class="sz-ctl" style="height:${Math.min(px(v), 64)}px"></i>`))
       + sec('breakpoints', '断点', '产品界面以 1280 为主设计宽度，同时照顾车间手持终端、工控屏和控制室大屏。选一个场景，或拖动右侧边缘，看布局怎么变。', sceneFrame('layout', 1280) + `<div class="bp-ruler">${bps.map(([k, w]) => `<span style="left:${(w / maxBp) * 100}%"><b>${k}</b>${w}</span>`).join('')}</div>` + tokTable(L, L.breakpoint, 'breakpoint.', () => ''))
-      + sec('shell', '页面结构', '顶部栏 64px + 侧栏 256px + 内容区；12 栏栅格。', `<div class="shell-demo"><div class="sd-top">顶部栏 64</div><div class="sd-side">侧栏 256</div><div class="sd-main"><div class="sd-grid">${Array.from({ length: 12 }, () => '<i></i>').join('')}</div><span>内容区 · 内边距 24 · 12 栏 · 沟槽 24</span></div></div>` + tokTable(L, L.shell, 'shell.', () => ''))
+      + sec('shell', '页面结构', '从任务出发决定要不要顶栏和侧栏。常见是左侧导航 + 右侧工作区，不要顶栏；需要顶栏时保持窄，只放有用的内容。', `<div class="shell-pair"><figure><div class="shell-demo no-top"><div class="sd-side">侧栏 · 浅灰</div><div class="sd-main"><div class="sd-grid">${Array.from({ length: 12 }, () => '<i></i>').join('')}</div><span>工作区 · 白底 · 12 栏</span></div></div><figcaption>左侧导航 + 工作区（常见）</figcaption></figure><figure><div class="shell-demo"><div class="sd-top">窄顶栏：面包屑、搜索、当前对象</div><div class="sd-side">侧栏</div><div class="sd-main"><div class="sd-grid">${Array.from({ length: 12 }, () => '<i></i>').join('')}</div><span>工作区</span></div></div><figcaption>顶栏承载内容时才加</figcaption></figure></div>` + tokTable(L, L.shell, 'shell.', () => ''))
       + sec('width', '内容宽度', '连续阅读的文字单行不超过 680px；表格与看板占满内容区。', tokTable(L, L.width, 'width.', v => `<i class="sp-bar" style="width:${Math.min(px(v) / 12, 140)}px"></i>`))
       + sec('rules', '使用规则', '', rulesBox(rulesOf(S).concat(rulesOf(L))));
   }
