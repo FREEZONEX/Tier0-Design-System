@@ -1,9 +1,38 @@
-产品组件以 Tier0-Frontend 的 `packages/ui`（shadcn/ui）为准；下面是用法，取值见 front matter 的 `components`。
+产品界面必须用 Tier0-Frontend 的 `packages/ui`（shadcn/ui）组件，不自己画按钮、侧栏、表格；做独立演示页面时，也要还原这些组件的尺寸、颜色和交互状态。下面是用法，取值见 front matter 的 `components`。
+
+### 页面布局
+
+- 布局从任务出发：先确定这一页最重要的信息和操作，让它们在第一屏、在视线起点；再安排次要内容。不为对称或填满空间加区块。
+- 常见结构是左侧导航 + 右侧工作区。侧栏可以用浅灰（`subtle`）底、工作区用白底，把注意力引到右侧。顶栏只在承载内容时出现，保持窄。
+- 并排的区块高度由各自内容决定，不为了和旁边对齐而拉高、留出大片空白；需要对齐时用真实内容填满，否则顶部对齐即可。
+
+### Logo
+
+- 页面上单独出现 Tier0 标志时，一律用 SVG 文件，不用文字或字体代替：亮底用 `03-brand/logo/assets/tier0-logo-black.svg`，暗底用 `tier0-logo-white.svg` 或 `tier0-logo-lime.svg`。
+
+### 页面标题
+
+- 产品页面标题用 `typo-h3`，紧凑页面用 `typo-h4`；`typo-h1` 只用于官网和文档。
+- 标题下方的状态和元信息用 `body-sm`、`muted-foreground`，和标题间隔 4px 到 8px；状态写成「圆点 + 文字」放在同一行，时间等信息用 `·` 分隔。
+- 页面级操作放在标题行右侧，与标题垂直居中。
+
+### 侧边栏
+
+- 按 Tier0-Frontend 的 sidebar 组件：每项 32px 高，左侧 lucide 图标 16px，图标和文字间隔 8px，文字 `body-sm`。
+- 悬停：`muted` 灰底，过渡用 fast；当前项：`muted` 灰底 + 500 字重 + `foreground` 文字。导航不用品牌绿，绿色留给业务指标和关键操作。
+- 可以收起为只显示图标的窄栏，展开收起用 slow + standard 过渡；分组标题用 `caption`、`muted-foreground`，正常大小写。
+
+### 卡片与区块
+
+- 产品界面的卡片用白底（`card`）+ 1px 细线，不整块填灰；浅灰填充只给侧栏、表头和悬停行。
+- 指标卡高度贴合内容；一排指标卡同高，但不跟旁边的列表或图表对齐拉伸。
+
 
 ### 按钮
 
-- 一个视图只有一个 `button-primary`（黑底）。`button-highlight`（品牌绿底）只给需要特别强调的工作流操作，重要不等于要用绿色。
-- 正例：表单底部「取消」（outline）+「保存」（primary）；工具栏里的「运行」用 highlight，其余用 outline 或 ghost。
+- 用 Tier0-Frontend 的按钮变体：`primary`（黑底）、`default`（品牌绿底，前端的默认值）、`outline`（白底细线）、`secondary`（浅灰底）、`ghost`（无底，悬停变灰）、`destructive`、`link`。尺寸默认 `sm`（32px），表单里用 `md`（36px），页面主操作可用 `lg`（40px）。
+- 一个视图只有一个主操作，用 `primary`；品牌绿的 `default` 只给需要特别强调的工作流操作，使用时显式写出 variant，不依赖默认值。
+- 正例：表单底部「取消」（outline）+「保存」（primary）；列表右上角「导出」用 outline，「运行」用 default。
 
 ### 焦点
 
@@ -32,7 +61,13 @@
 - 每行：状态图标（lucide 16px，状态色：严重 `CircleAlert`、警告 `TriangleAlert`、提示 `Info`）→ 标题（`body-sm`，500，`foreground`）→ 右侧状态标签和时间（`caption`，`muted-foreground`）；第二行是来源（设备或数据路径，`caption`，`muted-foreground`，常规字体）。
 - 行与行之间 1px 细线；悬停用浅灰填充；点击进入详情。
 - 按严重度、再按时间排序；严重告警靠状态图标和标签区分，不给整行上色，不加彩色左边线，标题不用彩色文字。
-- 列表顶部可以有一行汇总（「严重 1 · 警告 1 · 提示 1」）和筛选，不重复画同样的数字卡片。
+- 列表顶部的状态筛选用对应语义的浅底标签（严重用 destructive、警告用 warning、提示用 info），标签里带数量；「全部」用中性的 outline 样式。
+- 每行的图标、标题、标签、时间各自对齐成列：图标列固定宽，标题左对齐，标签和时间右对齐，行高和内边距全列表一致。
+
+### 交互反馈
+
+- 所有可点击的元素都有悬停和按下状态（颜色变化，fast + standard），焦点按上面的规则显示；页面不能像一张静态图。
+- 列表行、侧栏项、按钮的悬停用灰色系，不用品牌绿。
 
 ### 加载
 

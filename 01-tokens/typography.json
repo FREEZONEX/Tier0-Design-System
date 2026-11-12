@@ -121,7 +121,7 @@
           "fontWeight": "{font.weight.bold}",
           "letterSpacing": "-0.456px"
         },
-        "$description": "页面大标题——每页一个，负字距让大字显得紧凑。",
+        "$description": "官网和文档的页面大标题。产品页面标题不用这一级。",
         "$extensions": {
           "tier0": {
             "frontend": {
@@ -157,7 +157,7 @@
           "fontWeight": "{font.weight.semibold}",
           "letterSpacing": "-0.144px"
         },
-        "$description": "子标题、弹窗标题。",
+        "$description": "产品页面标题、弹窗标题。",
         "$extensions": {
           "tier0": {
             "frontend": {
@@ -175,7 +175,7 @@
           "fontWeight": "{font.weight.medium}",
           "letterSpacing": "-0.1px"
         },
-        "$description": "面板、卡片标题——产品界面里最常用的标题。",
+        "$description": "紧凑页面的标题、卡片和区块标题。",
         "$extensions": {
           "tier0": {
             "frontend": {
