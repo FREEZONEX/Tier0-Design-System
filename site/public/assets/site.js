@@ -7,11 +7,11 @@
   const FE = 'Tier0-Frontend/packages/ui/components/';
   const I = {
     copy: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M11 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2"/></svg>',
-    github: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.67.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>',
-    sun: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="3"/><path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3 3l1 1M12 12l1 1M3 13l1-1M12 4l1-1"/></svg>',
-    moon: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7z"/></svg>',
-    auto: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor"/></svg>',
-    menu: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 4h12M2 8h12M2 12h12"/></svg>',
+    github: '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.67.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>',
+    sun: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="3"/><path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3 3l1 1M12 12l1 1M3 13l1-1M12 4l1-1"/></svg>',
+    moon: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7z"/></svg>',
+    auto: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor"/></svg>',
+    menu: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 4h12M2 8h12M2 12h12"/></svg>',
     plus: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>',
     arrow: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>',
     info: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><path d="M8 7v4M8 5v.01"/></svg>',
@@ -345,9 +345,7 @@
   function vComponents() {
     const scope = compTheme === 'dark' ? ' dark-scope' : compTheme === 'light' ? ' light-scope' : '';
     return docHead('Tier0 平台组件', `Tier0 平台自身使用的组件，代码复刻自前端，在仓库的 <code>02-components/packages</code>，可以直接引用。生成平台应用模版用的是另一套：<a href="#scaffold">应用脚手架</a>。`)
-      + `<div class="repo-row">${repoCard('https://github.com/FREEZONEX/Tier0-Design-System/tree/feature/design-system-redesign/02-components', I.github, '组件代码', '02-components/packages')}</div>`
-
-      + `<div style="margin:-24px 0 40px">${seg('ctheme', [['auto', '跟随页面'], ['light', '亮色'], ['dark', '暗色']], compTheme)}</div>`
+      + `<div style="margin:0 0 40px">${seg('ctheme', [['auto', '跟随页面'], ['light', '亮色'], ['dark', '暗色']], compTheme)}</div>`
       + COMPONENTS.map(c => sec('c-' + c.id, c.zh, esc(c.desc), `<div class="spec" data-spec>
           <div class="spec-tabs"><div class="seg sm" role="tablist"><button type="button" data-view="preview" aria-pressed="true">预览</button><button type="button" data-view="code" aria-pressed="false">代码</button></div>
             <div class="src-list">${c.src.split(' · ').map(f => `<button type="button" class="src-chip" data-copy="${esc(FE + f)}" title="复制路径 ${esc(FE + f)}">${esc(f.replace(/^ui\//, ''))}</button>`).join('')}</div></div>
@@ -815,9 +813,9 @@
     if (w < 1536) return { bp: 'xl · 主设计宽度', notes: ['侧栏 256px 常驻', '指标卡四列，图表与列表并排', '正文 14px，标题 20px'] };
     return { bp: '2xl', notes: ['内容区最大 1440px，超出后居中', '站远处看：关键数字放大到 40px', '仍是四列，不为填满而拉宽表格'] };
   }
-  const sceneFrame = (id, w) => `<div class="scene" data-scene="${id}">
+  const sceneFrame = (id, w) => `<div class="scene" data-scene="${id}" data-init="${w}">
       <div class="scene-bar">${seg('scene-' + id, SCENES.map(([v, n]) => [String(v), n]), String(w))}<span class="spacer"></span><span class="scene-w"><b data-sw>${w}px</b><span data-sbp>${sceneOf(w).bp}</span></span></div>
-      <div class="scene-stage"><div class="scene-box" style="width:${w}px"><div class="scene-scale"><div class="sv">
+      <div class="scene-stage"><div class="scene-box"><div class="scene-scale" style="width:${w}px"><div class="sv">
         <header class="sv-top"><span class="sv-menu">${I.menu}</span><b>Factory-A / Line-01</b><span class="sv-status"><i></i>运行中</span></header>
         <aside class="sv-side"><b>Tier0</b><span class="on">产线总览</span><span>设备</span><span>告警</span><span>工单</span></aside>
         <main class="sv-main"><h3>产线总览</h3><p>12 台设备在线，2 条告警待处理。</p>
@@ -827,22 +825,53 @@
       </div>`;
   function sceneSet(root, w) {
     w = Math.round(Math.max(320, Math.min(1600, w)));
-    const box = root.querySelector('.scene-box'), stage = root.querySelector('.scene-stage'), sc0 = root.querySelector('.scene-scale');
-    const fit = Math.min(1, (stage.clientWidth - 32) / w);
-    root.dataset.w = w; sc0.style.width = w + 'px'; sc0.style.setProperty('--fit', fit);
-    box.style.width = (w * fit) + 'px'; box.style.height = (root.querySelector('.sv').offsetHeight * fit) + 'px'; box.dataset.fit = fit;
-    const sc = sceneOf(w); root.querySelector('[data-sw]').textContent = w + 'px' + (fit < 1 ? ` · ${Math.round(fit * 100)}%` : ''); root.querySelector('[data-sbp]').textContent = sc.bp;
-    
+    if (!Number.isFinite(w)) w = 1280;
+    const box = root.querySelector('.scene-box'), stage = root.querySelector('.scene-stage'), sc0 = root.querySelector('.scene-scale'), sv = root.querySelector('.sv');
+    const avail = Math.max(0, stage.clientWidth - 24);
+    if (avail < 80) return;
+    const fit = Math.min(1, avail / w);
+    root.dataset.w = w;
+    sc0.style.width = w + 'px';
+    sc0.style.setProperty('--fit', String(fit));
+    const prevH = box.style.height;
+    box.style.height = 'auto';
+    const raw = sv.offsetHeight;
+    const bw = Math.round(w * fit), bh = Math.max(1, Math.round(raw * fit));
+    const sig = bw + 'x' + bh + '@' + w;
+    if (root._sig === sig) { box.style.height = prevH || (bh + 'px'); return; }
+    root._sig = sig;
+    box.style.width = bw + 'px';
+    box.style.height = bh + 'px';
+    box.dataset.fit = fit;
+    const sc = sceneOf(w);
+    root.querySelector('[data-sw]').textContent = w + 'px' + (fit < 0.995 ? ` · ${Math.round(fit * 100)}%` : '');
+    root.querySelector('[data-sbp]').textContent = sc.bp;
     root.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.v === w)));
   }
   function mountScenes() {
     document.querySelectorAll('[data-scene]').forEach(root => {
       if (root.dataset.on) return; root.dataset.on = '1';
-      const box = root.querySelector('.scene-box'); sceneSet(root, +root.dataset.init || parseInt(box.style.width));
-      root.querySelector('.seg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { e.stopPropagation(); sceneSet(root, +b.dataset.v); } }, true);
+      const box = root.querySelector('.scene-box');
+      const stage = root.querySelector('.scene-stage');
+      const sv = root.querySelector('.sv');
+      const apply = () => sceneSet(root, +root.dataset.w || +root.dataset.init || 1280);
+      apply();
+      requestAnimationFrame(apply);
+      if (typeof ResizeObserver === 'function') {
+        const ro = new ResizeObserver(() => {
+          const sw = stage.clientWidth, sh = sv.offsetHeight;
+          if (root._roW === sw && root._roH === sh) return;
+          root._roW = sw; root._roH = sh;
+          root._sig = '';
+          apply();
+        });
+        ro.observe(stage);
+        ro.observe(sv);
+      }
+      root.querySelector('.seg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { e.stopPropagation(); root._sig = ''; sceneSet(root, +b.dataset.v); } }, true);
       const h = root.querySelector('.scene-handle');
       h.addEventListener('pointerdown', e => { h.setPointerCapture(e.pointerId); const x0 = e.clientX, w0 = +root.dataset.w, fit = +box.dataset.fit || 1;
-        const mv = ev => sceneSet(root, w0 + (ev.clientX - x0) / fit); const up = () => { h.removeEventListener('pointermove', mv); h.removeEventListener('pointerup', up); };
+        const mv = ev => { root._sig = ''; sceneSet(root, w0 + (ev.clientX - x0) / fit); }; const up = () => { h.removeEventListener('pointermove', mv); h.removeEventListener('pointerup', up); };
         h.addEventListener('pointermove', mv); h.addEventListener('pointerup', up); });
     });
   }
@@ -851,21 +880,25 @@
   // ---------- 间距与布局 ----------
   function shellLab() {
     const bars = Array.from({ length: 12 }, () => '<i></i>').join('');
-    return `<div class="shell-lab" data-shell-lab><div class="spec-bar"><span>顶栏</span>${seg('sheader', [['0', '不要'], ['48', '窄顶栏']], '0')}<span>侧栏</span>${seg('sside', [['256', '展开'], ['48', '收起'], ['288', '抽屉'], ['0', '不要']], '256')}<span>内边距</span>${seg('spad', [['24', '桌面'], ['16', '手持']], '24')}</div><div class="shell-stage"><div class="shell-demo shell-live no-top" data-shell-demo style="--sd-side:256px;--sd-top:0px;--sd-pad:24px"><div class="sd-top">窄顶栏：面包屑、搜索、当前对象</div><div class="sd-side" data-shell-side>侧栏</div><div class="sd-main"><div class="sd-grid">${bars}</div><span>工作区 · 白底 · 12 栏</span></div></div><p class="shell-read" data-shell-read>无顶栏 · 侧栏展开 256px · 内边距 24px</p></div></div>`;
+    return `<div class="shell-lab" data-shell-lab><div class="spec-bar"><span>顶栏</span>${seg('sheader', [['0', '不要'], ['48', '窄顶栏']], '0')}<span>侧栏</span>${seg('sside', [['256', '展开'], ['48', '收起'], ['288', '抽屉'], ['0', '不要']], '256')}<span>设备</span>${seg('sdevice', [['desk', '桌面'], ['phone', '手机']], 'desk')}</div><div class="shell-stage"><div class="shell-demo shell-live no-top" data-shell-demo style="--sd-side:256px;--sd-top:0px;--sd-pad:24px"><div class="sd-top">窄顶栏：面包屑、搜索、当前对象</div><div class="sd-side" data-shell-side>侧栏</div><div class="sd-main"><div class="sd-grid">${bars}</div><span>工作区 · 白底 · 12 栏</span></div></div><p class="shell-read" data-shell-read>桌面 · 无顶栏 · 侧栏展开 256px · 内边距 24px</p></div></div>`;
   }
   function paintShell(lab) {
     if (!lab) return;
     const on = name => { const el = lab.querySelector(`[data-seg="${name}"] [aria-pressed="true"]`); return el ? el.dataset.v : ''; };
-    const top = on('sheader') || '0', side = on('sside') || '256', pad = on('spad') || '24';
+    const top = on('sheader') || '0', side = on('sside') || '256', device = on('sdevice') || 'desk';
+    const pad = device === 'phone' ? '16' : '24';
     const demo = lab.querySelector('[data-shell-demo]');
+    const drawer = side === '288';
     demo.style.setProperty('--sd-top', top + 'px');
-    demo.style.setProperty('--sd-side', side + 'px');
+    demo.style.setProperty('--sd-side', (drawer ? '288' : side) + 'px');
     demo.style.setProperty('--sd-pad', pad + 'px');
     demo.classList.toggle('no-top', top === '0');
     demo.classList.toggle('no-side', side === '0');
-    const sideName = { 0: '无侧栏', 48: '侧栏收起 48px', 256: '侧栏展开 256px', 288: '侧栏抽屉 288px' }[side] || `侧栏 ${side}px`;
-    lab.querySelector('[data-shell-side]').textContent = side === '48' ? '' : '侧栏';
-    lab.querySelector('[data-shell-read]').textContent = `${top === '0' ? '无顶栏' : '窄顶栏 48px'} · ${sideName} · 内边距 ${pad}px`;
+    demo.classList.toggle('is-drawer', drawer);
+    demo.classList.toggle('is-phone', device === 'phone');
+    const sideName = { 0: '无侧栏', 48: '侧栏收起 48px', 256: '侧栏展开 256px', 288: '侧栏抽屉 288px，盖在工作区上' }[side] || `侧栏 ${side}px`;
+    lab.querySelector('[data-shell-side]').textContent = side === '48' ? '' : (drawer ? '抽屉' : '侧栏');
+    lab.querySelector('[data-shell-read]').textContent = `${device === 'phone' ? '手机 375px' : '桌面'} · ${top === '0' ? '无顶栏' : '窄顶栏 48px'} · ${sideName} · 内边距 ${pad}px`;
   }
   function vSpacing() {
     const S = D.spacing, L = D.layout;
@@ -1039,7 +1072,7 @@
     const tab = t.closest('[data-tab]'); if (tab) { const w = tab.closest('[data-tabs]'); w.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b === tab)); w.querySelector('.ui-tabs-panel').textContent = tab.dataset.tab; return; }
     const sg = t.closest('[data-seg] button'); if (sg) {
       const k = sg.parentElement.dataset.seg, v = sg.dataset.v;
-      if (k === 'sheader' || k === 'sside' || k === 'spad') { sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); paintShell(sg.closest('[data-shell-lab]')); return; }
+      if (k === 'sheader' || k === 'sside' || k === 'sdevice') { sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); paintShell(sg.closest('[data-shell-lab]')); return; }
       if (k === 'labmode') { lab.mode = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
       if (k === 'bwscene') { const r = BW_SCENES.find(x => x[0] === v)[2]; Object.assign(bw, { scene: v }, r); return route(true); }
       if (k === 'bwstyle' || k === 'bwcolor') { bw[k === 'bwstyle' ? 'style' : 'color'] = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); bwPaint(); return; }
@@ -1099,6 +1132,7 @@
 
   (async function start() {
     renderShell();
+    if (location.hash !== '#home') history.replaceState(null, '', '#home');
     document.getElementById('main').innerHTML = '<div class="loading"><i class="sig"></i>读取中</div>';
     await load(); applyTokens(); route();
   })();
