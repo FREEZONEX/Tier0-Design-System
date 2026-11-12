@@ -1,0 +1,6 @@
+{
+  "$description": "Tier0 对外地址。中文物料用 zh，英文物料用 en。",
+  "website": { "name": "官网", "zh": "tier0.cn", "en": "tier0.app" },
+  "studio": { "name": "Tier0 Cloud Studio", "zh": "https://studio.tier0.cn/login", "en": "tier0.dev", "note": "英文地址暂定" },
+  "qr": { "zh": "qr-tier0-cn.svg", "en": "qr-tier0-app.svg" }
+}

@@ -16,7 +16,8 @@
 | [`sound/`](sound/) | 声音 Logo、提示音、视频配乐方向 |
 | [`imagery/`](imagery/) | 摄影风格、产品截图规范、示意图规范 |
 | [`iconography/`](iconography/) | 图标绘制规范与图标库 |
-| [`templates/`](templates/) | PPT、社媒、海报、名片、邮件签名，以及版式示例 |
+| [`links/`](links/) | 官网、Cloud Studio 地址和官网二维码（中英） |
+| [`templates/`](templates/) | 名片、社媒方图、长图、三折页的尺寸和结构，各平台常用尺寸 |
 
 颜色、字体、动效的数值和用法都在 `01-tokens`，这里只放带素材文件的品牌资产。
 

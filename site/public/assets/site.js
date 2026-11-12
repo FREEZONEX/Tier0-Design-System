@@ -105,7 +105,7 @@
     { zh: '', en: '', items: [['foundation', 'Foundation', 'Foundation']] },
     { zh: 'Tokens', en: 'Tokens', items: [['color', '颜色', 'Color'], ['typography', '字体', 'Typography'], ['spacing', '间距与布局', 'Spacing & layout'], ['shape', '圆角、线宽与阴影', 'Radius, border & shadow'], ['motion', '动效', 'Motion']] },
     { zh: 'Components', en: 'Components', items: [['components', 'Tier0 平台组件', 'Tier0 platform'], ['scaffold', '应用脚手架', 'App scaffold']] },
-    { zh: 'Brand', en: 'Brand', items: [['logo', 'Logo', 'Logo'], ['texture', 'Texture', 'Texture'], ['illustration', '插画与图形', 'Illustration'], ['templates', '模版', 'Templates', 1]] },
+    { zh: 'Brand', en: 'Brand', items: [['logo', 'Logo', 'Logo'], ['texture', 'Texture', 'Texture'], ['illustration', '插画与图形', 'Illustration'], ['templates', '品牌资产', 'Assets']] },
     { zh: 'Skills', en: 'Skills', items: [['skills', 'AI 调用规则', 'AI guidelines'], ['designmd', 'DESIGN.md', 'DESIGN.md']] },
   ];
   const I18N = { tbd: { zh: '待定', en: 'TBD' }, copy: { zh: '复制', en: 'Copy' }, copied: { zh: '已复制', en: 'Copied' } };
@@ -497,6 +497,9 @@
     LabRT.raf = requestAnimationFrame(frame);
   }
   function labInput(e) {
+    const ck = e.target.dataset && e.target.dataset.card;
+    if (ck) { cardData()[ck] = e.target.value; cardStore.set(CARD.data); mountCard(); return true; }
+    if (e.target.matches && e.target.matches('[data-card-qrfile]')) { const f = e.target.files[0]; if (f) { const r = new FileReader(); r.onload = () => { const i = new Image(); i.onload = () => { CARD.qrImg = i; mountCard(); }; i.src = r.result; }; r.readAsDataURL(f); } return true; }
     const dk = e.target.dataset.dl;
     if (dk) { const el = e.target; dl[dk] = el.type === 'color' ? el.value.toUpperCase() : +el.value; const row = el.closest('.lab-sl'), sl = DL_SL.find(x => x[0] === dk); if (sl) { row.style.setProperty('--f', ((dl[dk] - sl[2]) / (sl[3] - sl[2])) * 100 + '%'); row.querySelector('em').textContent = dl[dk] + sl[5]; } else row.querySelector('em').textContent = dl[dk]; return true; }
     if (e.target.matches('[data-lab-ramp]')) { lab.chars = e.target.value; const ti = e.target.parentElement.querySelector('input'); ti.value = lab.chars; return true; }
@@ -535,6 +538,132 @@
   ];
   // 有英文版的宣传图：英文界面下显示英文版
   const IL_EN = ['glow-reuse', 'glow-compare'];
+  // ---------- 品牌资产与模版 ----------
+  const LINKS = [
+    ['官网', 'tier0.cn', 'tier0.app', '讲品牌、引导了解产品'],
+    ['Tier0 Cloud Studio', 'https://studio.tier0.cn/login', 'tier0.dev（暂定）', '引导注册、试用、登录'],
+  ];
+  const QRS = [['qr-tier0-cn.svg', '官网二维码 · 中文', 'tier0.cn'], ['qr-tier0-app.svg', '官网二维码 · 英文', 'tier0.app']];
+  const CARD_W = 1052, CARD_H = 662;
+  // 示例信息：姓名、电话、邮箱为虚构，替换成自己的再导出
+  const CARD_DEF = {
+    zh: { name: '林一', title: '解决方案架构师', addr: '杭州市 · 滨江区宝龙中心 2801室', email: 'lin.yi@freezonex.io', web: 'www.tier0.cn', phone: '+86 138 0000 0000', slogan: '工厂软件工厂造', qr: 'https://tier0.cn' },
+    en: { name: 'Alex Lin', title: 'Solutions Architect', addr: '1 Fusionopolis Link 03-04\nNexus @One-North, Singapore', email: 'alex.lin@freezonex.io', web: 'www.tier0.app', phone: '+65 8000 0000', slogan: 'Factory app that fit', qr: 'https://tier0.app' },
+  };
+  const CARD_FIELDS = [['name', '姓名'], ['title', '职位'], ['addr', '地址', 1], ['email', '邮箱'], ['web', '网址'], ['phone', '电话'], ['qr', '二维码内容'], ['slogan', '背面标语']];
+  const CARD = { lang: 'zh', side: 'front', data: null, qrImg: null };
+  const cardStore = { get() { try { return JSON.parse(localStorage.getItem('t0-card') || 'null'); } catch { return null; } }, set(v) { try { localStorage.setItem('t0-card', JSON.stringify(v)); } catch {} } };
+  function cardData() {
+    if (!CARD.data) CARD.data = cardStore.get() || JSON.parse(JSON.stringify(CARD_DEF));
+    return CARD.data[CARD.lang];
+  }
+  const TPLS = [
+    ['social.jpg', '社媒方图 · Builder 广告组', '1200 × 1200，一组 5 张，中英各一组', '问题 → 描述 → 结果 → 应用场景 → 行动号召。暗底，真实场景或产品界面做主视觉；标题两行，关键词用品牌绿；最后一张放输入框样式的产品画面和行动链接。'],
+    ['long-zh.jpg', '长图 · 中文', '宽 1342，高 8875', '6 张暗色卡片：封面 → 免集成 → 投资回报 → 多场景复用 → 全球部署 → AI Ready。每张两行大标题（一行白、一行品牌绿）+ 说明 + 一张说明图。'],
+    ['long-en.jpg', '长图 · 英文', '宽 1745，高 8875', '和中文版同一结构；英文标题首字母大写。'],
+    ['trifold-zh.jpg', '三折页 · 中文', '6 个面', '内页白底：编号 + 分类 → 标题 → 说明图 → 正文 → 品牌绿浅底结论块。封面和中间页暗底；封底放邮箱、网址和二维码。'],
+    ['trifold-en.jpg', '三折页 · 英文', '6 个面', '和中文版同一结构，网址用 www.tier0.app。'],
+  ];
+  const SIZES = [['LinkedIn / 广告方图', '1200 × 1200'], ['LinkedIn 链接图', '1200 × 627'], ['X（Twitter）', '1600 × 900'], ['Instagram 竖图', '1080 × 1350'], ['小红书', '1080 × 1440'], ['微信公众号头图', '900 × 383'], ['微信长图', '宽 1080'], ['演示 / 视频封面', '1920 × 1080']];
+  function vTemplates() {
+    const d = cardData();
+    const links = `<div class="ba-links">${LINKS.map(([n, zh, en, use]) => `<div class="ba-link"><div class="ba-link-h"><b>${n}</b><span>${use}</span></div>${[['中文', zh], ['英文', en]].map(([l, u]) => `<div class="ba-url"><span>${l}</span><code>${esc(u)}</code>${copyBtn(u.replace('（暂定）', ''))}</div>`).join('')}</div>`).join('')}</div>`;
+    const qrs = `<div class="ba-qrs">${QRS.map(([f, n, u]) => `<div class="ba-qr"><img src="${asset('03-brand/links/' + f)}" alt="${n}"><div class="ba-qr-f"><span><b>${n}</b><small>${u}</small></span><a class="ui-btn ghost" href="${asset('03-brand/links/' + f)}" download="${f}">${I.download}SVG</a></div></div>`).join('')}</div>`;
+    const field = ([k, n, multi]) => `<label class="bc-field"><span>${n}</span>${multi ? `<textarea data-card="${k}" rows="2">${esc(d[k])}</textarea>` : `<input data-card="${k}" value="${esc(d[k])}">`}</label>`;
+    const card = `<div class="bc"><div class="bc-stage"><canvas id="bc-front" width="${CARD_W * 2}" height="${CARD_H * 2}" aria-label="名片正面"></canvas><canvas id="bc-back" width="${CARD_W * 2}" height="${CARD_H * 2}" aria-label="名片背面"></canvas></div>
+      <div class="bc-panel"><div class="bc-top">${seg('cardlang', [['zh', '中文'], ['en', 'English']], CARD.lang)}<button type="button" class="ui-btn ghost" data-card-reset>恢复示例</button></div>
+        <div class="bc-fields">${CARD_FIELDS.map(field).join('')}<label class="bc-field"><span>二维码图片</span><input type="file" accept="image/*" data-card-qrfile><small>不传图时按「二维码内容」生成</small></label></div>
+        <div class="bc-exp"><button type="button" class="ui-btn outline" data-card-png="front">${I.download}正面 PNG</button><button type="button" class="ui-btn outline" data-card-png="back">${I.download}背面 PNG</button><button type="button" class="ui-btn outline" data-card-svg="front">${I.download}正面 SVG</button><button type="button" class="ui-btn outline" data-card-svg="back">${I.download}背面 SVG</button></div>
+        <p class="bc-note">示例信息为虚构，替换成自己的再导出。PNG 为 2104 × 1324（2 倍）；SVG 里的文字需要本机装有 IBM Plex Sans。修改只保存在这个浏览器里。</p></div></div>`;
+    const tpl = `<div class="ba-tpls">${TPLS.map(([f, n, size, desc]) => `<figure class="ba-tpl"><a href="${asset('03-brand/templates/previews/' + f)}" target="_blank" rel="noopener"><img src="${asset('03-brand/templates/previews/' + f)}" alt="${n}" loading="lazy"></a><figcaption><b>${n}</b><span class="muted">${size}</span><p>${desc}</p></figcaption></figure>`).join('')}</div>`;
+    const sizes = `<div class="ba-sizes">${SIZES.map(([p, s]) => `<div><span>${p}</span><code>${s}</code></div>`).join('')}</div>`;
+    return docHead('品牌资产', '网址、二维码、名片和宣传物料模版。物料用哪种语言，就用同一种语言的网址和二维码。')
+      + sec('links', '网址', '印刷物写成 www.tier0.cn / www.tier0.app，不带 https://。', links)
+      + sec('qr', '二维码', '保持白底黑码和四周留白，不改颜色、不加 Logo、不裁切；印刷最小 2 cm。', qrs)
+      + sec('card', '名片', '1052 × 662（约 89 × 56 mm，300 dpi），正面放个人信息，背面放品牌。', card)
+      + sec('materials', '宣传物料', '源文件在 Figma「Tier0 设计素材」。换平台尺寸时保留同一套结构，按画幅重新排，不拉伸原图。', tpl)
+      + sec('sizes', '各平台尺寸', '', sizes);
+  }
+  const imgCache = {};
+  const loadImg = src => imgCache[src] || (imgCache[src] = new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; }));
+  function qrMatrix(text) {
+    if (!window.qrcode) return null;
+    const q = window.qrcode(0, 'M'); q.addData(text || ' '); q.make();
+    const n = q.getModuleCount(); return { n, at: (r, c) => q.isDark(r, c) };
+  }
+  // 名片的版式：坐标取自 Figma 画板（1052 × 662）
+  function cardLayout(side, d, lang) {
+    const L = { side, d, lang };
+    if (side === 'back') return Object.assign(L, { bg: '#050B14', dot: 'rgba(255,255,255,0.07)' });
+    return Object.assign(L, { bg: '#F4F3EF', dot: 'rgba(5,11,20,0.07)' });
+  }
+  async function drawCard(cv, side) {
+    if (!cv) return;
+    const d = cardData(), lang = CARD.lang, s = cv.width / CARD_W, c = cv.getContext('2d');
+    c.setTransform(s, 0, 0, s, 0, 0);
+    const L = cardLayout(side, d, lang);
+    c.fillStyle = L.bg; c.fillRect(0, 0, CARD_W, CARD_H);
+    c.fillStyle = L.dot; for (let y = 6; y < CARD_H; y += 12) for (let x = 6; x < CARD_W; x += 12) c.fillRect(x, y, 1.5, 1.5);
+    const sans = '"IBM Plex Sans", "PingFang SC", "Microsoft YaHei", sans-serif';
+    if (side === 'back') {
+      c.fillStyle = '#B2ED1D'; c.fillRect(46, 78, 18, 18);
+      c.font = `400 24px ${sans}`; c.fillStyle = '#A1A1A1'; c.textAlign = 'right'; c.textBaseline = 'top'; c.fillText(d.web, 1004, 80);
+      c.fillText(d.slogan, 1004, 548);
+      try { const lg = await loadImg(asset('03-brand/logo/assets/tier0-logo-lime.svg')); c.drawImage(lg, 48, 475, 422, 422 * lg.naturalHeight / lg.naturalWidth); } catch {}
+      c.textAlign = 'left'; return;
+    }
+    try { // T0 标记：取标准版 Logo 的首字母 T 和数字 0
+      const lg = await loadImg(asset('03-brand/logo/assets/tier0-logo-black.svg'));
+      const k = lg.naturalWidth / 422, h = 43, sc = h / (104 * k);
+      c.drawImage(lg, 0, 0, 77 * k, lg.naturalHeight, 48, 80, 77 * k * sc, h);
+      c.drawImage(lg, 344 * k, 0, 78 * k, lg.naturalHeight, 48 + 77 * k * sc + 8, 80, 78 * k * sc, h);
+    } catch {}
+    c.textAlign = 'left'; c.textBaseline = 'top';
+    c.font = `600 30px ${sans}`; c.fillStyle = '#73B200'; c.fillText(d.name, 550, 76);
+    c.font = `400 22px ${sans}`; c.fillStyle = '#878787'; c.fillText(d.title, 550, 116);
+    // 二维码
+    const qx = 861, qy = 73, qs = 143;
+    c.fillStyle = '#FFFFFF'; c.fillRect(qx - 6, qy - 6, qs + 12, qs + 12);
+    if (CARD.qrImg) c.drawImage(CARD.qrImg, qx, qy, qs, qs);
+    else { const m = qrMatrix(d.qr); if (m) { const u = qs / m.n; c.fillStyle = '#050B14'; for (let r = 0; r < m.n; r++) for (let q = 0; q < m.n; q++) if (m.at(r, q)) c.fillRect(qx + q * u, qy + r * u, u + 0.3, u + 0.3); } }
+    // 信息行
+    const rows = [['A.', d.addr], ['E.', d.email], ['W.', d.web], ['P.', d.phone]];
+    const lines = rows.map(([, v]) => String(v).split('\n').length);
+    const total = lines.reduce((a, b) => a + b, 0) * 34 + (rows.length - 1) * 10;
+    let y = 582 - total;
+    c.font = `400 24px ${sans}`;
+    rows.forEach(([k, v], i) => { c.fillStyle = '#878787'; c.fillText(k, 48, y); c.fillStyle = '#050B14'; String(v).split('\n').forEach((ln, j) => c.fillText(ln, 550, y + j * 34)); y += lines[i] * 34 + 10; });
+  }
+  function cardSvg(side) {
+    const d = cardData(), esc2 = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    const sans = "'IBM Plex Sans','PingFang SC','Microsoft YaHei',sans-serif";
+    const L = cardLayout(side, d, CARD.lang);
+    let o = `<svg xmlns="http://www.w3.org/2000/svg" width="${CARD_W}" height="${CARD_H}" viewBox="0 0 ${CARD_W} ${CARD_H}"><defs><pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><rect x="6" y="6" width="1.5" height="1.5" fill="${L.dot}"/></pattern></defs><rect width="100%" height="100%" fill="${L.bg}"/><rect width="100%" height="100%" fill="url(#dots)"/>`;
+    if (side === 'back') {
+      o += `<rect x="46" y="78" width="18" height="18" fill="#B2ED1D"/><g font-family="${sans}" font-size="24" fill="#A1A1A1" text-anchor="end"><text x="1004" y="104">${esc2(d.web)}</text><text x="1004" y="572">${esc2(d.slogan)}</text></g><image href="${CARD.logoLime || ''}" x="48" y="475" width="422" height="104"/>`;
+    } else {
+      const m = qrMatrix(d.qr); let qr = '';
+      if (CARD.qrImg) qr = `<image href="${CARD.qrImg.src}" x="861" y="73" width="143" height="143"/>`;
+      else if (m) { const u = 143 / m.n; for (let r = 0; r < m.n; r++) for (let q = 0; q < m.n; q++) if (m.at(r, q)) qr += `<rect x="${(861 + q * u).toFixed(2)}" y="${(73 + r * u).toFixed(2)}" width="${(u + 0.3).toFixed(2)}" height="${(u + 0.3).toFixed(2)}"/>`; qr = `<g fill="#050B14">${qr}</g>`; }
+      const rows = [['A.', d.addr], ['E.', d.email], ['W.', d.web], ['P.', d.phone]];
+      const lines = rows.map(([, v]) => String(v).split('\n').length);
+      let y = 582 - (lines.reduce((a, b) => a + b, 0) * 34 + 30) + 26, txt = '';
+      rows.forEach(([k, v], i) => { txt += `<text x="48" y="${y}" fill="#878787">${k}</text>`; String(v).split('\n').forEach((ln, j) => { txt += `<text x="550" y="${y + j * 34}" fill="#050B14">${esc2(ln)}</text>`; }); y += lines[i] * 34 + 10; });
+      o += `<image href="${CARD.markT0 || ''}" x="48" y="80" width="107" height="43"/><text x="550" y="104" font-family="${sans}" font-size="30" font-weight="600" fill="#73B200">${esc2(d.name)}</text><text x="550" y="140" font-family="${sans}" font-size="22" fill="#878787">${esc2(d.title)}</text><rect x="855" y="67" width="155" height="155" fill="#FFFFFF"/>${qr}<g font-family="${sans}" font-size="24">${txt}</g>`;
+    }
+    return o + '</svg>';
+  }
+  async function mountCard() {
+    const f = document.getElementById('bc-front'); if (!f) return;
+    await Promise.all([drawCard(f, 'front'), drawCard(document.getElementById('bc-back'), 'back')]);
+  }
+  async function svgDataUrl(p) { try { const r = await fetch(asset(p)); return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(await r.text()))); } catch { return asset(p); } }
+  async function exportCardSvg(side) {
+    if (!CARD.logoLime) CARD.logoLime = asset('03-brand/logo/assets/tier0-logo-lime.svg').startsWith('data:') ? asset('03-brand/logo/assets/tier0-logo-lime.svg') : await svgDataUrl('03-brand/logo/assets/tier0-logo-lime.svg');
+    if (!CARD.markT0) { const cv = document.createElement('canvas'); cv.width = 214; cv.height = 86; const lg = await loadImg(asset('03-brand/logo/assets/tier0-logo-black.svg')); const k = lg.naturalWidth / 422, sc = 86 / lg.naturalHeight; const c = cv.getContext('2d'); c.drawImage(lg, 0, 0, 77 * k, lg.naturalHeight, 0, 0, 77 * k * sc, 86); c.drawImage(lg, 344 * k, 0, 78 * k, lg.naturalHeight, 77 * k * sc + 16, 0, 78 * k * sc, 86); CARD.markT0 = cv.toDataURL(); }
+    download(new Blob([cardSvg(side)], { type: 'image/svg+xml' }), `tier0-card-${CARD.lang}-${side}.svg`);
+  }
+
   function vIllustration() {
     return docHead('插画与图形', '三种图形风格，分别用于解释原理、说明架构和品牌宣传。')
       + ILLUS.map(([id, n, d, imgs, rules]) => sec('il-' + id, n, d, `<div class="il-grid il-${id}">${imgs.map(([f0, cap]) => { const f = lang === 'en' && IL_EN.includes(f0) ? f0 + '-en' : f0; return `<figure class="il-fig"><a href="${asset('assets/brand/' + f + '.jpg')}" target="_blank" rel="noopener"><img src="${asset('assets/brand/' + f + '.jpg')}" alt="${esc(cap)}" loading="lazy"></a><figcaption>${esc(cap)}</figcaption></figure>`; }).join('')}</div>`)).join('');
@@ -1010,7 +1139,7 @@
       + sec('rules', '使用规则', '', ruleList(M));
   }
 
-  const VIEWS = { spacing: vSpacing, shape: vShape, motion: vMotion, home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, scaffold: vScaffold, logo: vLogo, texture: vTexture, illustration: vIllustration, designmd: vDesignMd, skills: vSkills };
+  const VIEWS = { spacing: vSpacing, shape: vShape, motion: vMotion, home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, scaffold: vScaffold, templates: vTemplates, logo: vLogo, texture: vTexture, illustration: vIllustration, designmd: vDesignMd, skills: vSkills };
   let current = '';
   function route(keepScroll) {
     if (!location.hash) history.replaceState(null, '', '#home');
@@ -1053,6 +1182,9 @@
     const msp = t.closest('[data-ms-play]'); if (msp) { playMs(msp.closest('.ms-row')); return; }
     if (t.closest('[data-dm-copy]')) { copy(D.designmd); return; }
     if (t.closest('[data-dm-ai]')) { copy(`请按下面的 DESIGN.md 做界面。开头的 token 是唯一数值来源，后面的原则用来判断取舍。不要另造颜色、字号、间距或圆角。\n\n${D.designmd}`); return; }
+    const cpng = t.closest('[data-card-png]'); if (cpng) { const side = cpng.dataset.cardPng; document.getElementById('bc-' + side).toBlob(b => download(b, `tier0-card-${CARD.lang}-${side}.png`)); return; }
+    const csvg = t.closest('[data-card-svg]'); if (csvg) { exportCardSvg(csvg.dataset.cardSvg); return; }
+    if (t.closest('[data-card-reset]')) { cardData(); CARD.data[CARD.lang] = JSON.parse(JSON.stringify(CARD_DEF[CARD.lang])); CARD.qrImg = null; cardStore.set(CARD.data); return route(true); }
     if (t.closest('[data-dl-copy]')) { dlSource().then(copy); return; }
     if (t.closest('[data-dl-dl]')) { dlSource().then(x => download(new Blob([x], { type: 'text/plain' }), 'datalines-grid.tsx')); return; }
     if (t.closest('[data-lab-png]')) { labExportPng(); return; }
@@ -1076,6 +1208,7 @@
       if (k === 'labmode') { lab.mode = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
       if (k === 'bwscene') { const r = BW_SCENES.find(x => x[0] === v)[2]; Object.assign(bw, { scene: v }, r); return route(true); }
       if (k === 'bwstyle' || k === 'bwcolor') { bw[k === 'bwstyle' ? 'style' : 'color'] = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); bwPaint(); return; }
+      if (k === 'cardlang') { CARD.lang = v; CARD.qrImg = null; return route(true); }
       if (k === 'ezmode') { MO.ez = v; return route(true); }
       if (k === 'txgroup') { txGroup = v; return route(true); }
       if (k === 'labcolor') { lab.color = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
@@ -1126,7 +1259,8 @@
     document.getElementById('cc-f').textContent = mode && mode.v === 'equal' ? `inner ${inner} = outer ${ov}（等值，四角间隙不均）` : `inner ${inner} = outer ${ov} − inset ${iv}${ov - iv < 0 ? '（小于 0 取 0）' : ''}`; }
   (() => { const bm = document.querySelector('.brandmark'); if (!bm) return; bm.innerHTML = logoSvg(); })();
   document.addEventListener('change', e => { if (e.target.id === 'lab-file' && e.target.files[0]) { const f = e.target.files[0]; labSource(URL.createObjectURL(f), f.type.startsWith('video')); } });
-  document.addEventListener('portal:render', () => { mountScaffold(); mountScenes(); mountLab(); mountDatalines(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
+  document.addEventListener('t0:qr-ready', () => mountCard());
+  document.addEventListener('portal:render', () => { mountScaffold(); mountScenes(); mountLab(); mountDatalines(); mountCard(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
   window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); heroState(); }, { passive: true });
   window.addEventListener('hashchange', () => route('anchor'));
 
