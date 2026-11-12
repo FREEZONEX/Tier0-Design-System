@@ -14,6 +14,46 @@
 - 有套餐升级入口时，在账户区上方放升级卡片：品牌绿浅底、1px 品牌绿描边（fx-green 300），标题 14px 500 + 说明 12px muted，右侧品牌绿圆形操作图标。收起时隐藏卡片，不挤占图标列。
 - 升级卡片与底部账户行之间保留一条细分隔线，表示套餐区域与个人账户的职责边界；不在头像、用户名和通知之间加线。没有升级区时不保留空分隔线。
 
+### 调用结构
+
+照 `apps/saas-dashboard` 的 `AppSidebar` 写，不在侧栏外层自己加 padding 或容器；否则收起后图标不居中、底部头像和通知对不齐。
+
+```tsx
+<SidebarProvider style={{ '--sidebar-width': '15rem', '--sidebar-width-icon': '4rem' }}>
+  <Sidebar collapsible="icon">
+    <SidebarHeader className="flex h-16 flex-row items-center justify-between p-4">
+      {state !== 'collapsed' && <工作区切换 />}
+      <SidebarTrigger className="size-8 cursor-pointer" />
+    </SidebarHeader>
+    <SidebarContent>
+      {groups.map(g => (<>
+        {state === 'collapsed' && <SidebarSeparator className="mx-auto w-6!" />}
+        <SidebarGroup className="p-0">
+          <SidebarGroupLabel className={state === 'collapsed' ? 'hidden' : 'flex'}>{g.name}</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="px-4">
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild tooltip={label} isActive={active}>
+                  <ComSafeLink href={href} className="h-8 px-2 text-sm"><Icon /><span>{label}</span></ComSafeLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </>))}
+    </SidebarContent>
+    {state !== 'collapsed' && <升级卡片 />}
+    <SidebarFooter>
+      <SidebarMenu className="px-4">{/* 头像和通知也用 SidebarMenuButton，收起时自动居中 */}</SidebarMenu>
+    </SidebarFooter>
+  </Sidebar>
+  <SidebarInset className="h-full min-w-0">…</SidebarInset>
+</SidebarProvider>
+```
+
+- 收起时：分组标题隐藏，组与组之间用 `w-6` 的短分隔线；`SidebarMenuButton` 由组件强制成 32px 方块并居中，不要再给菜单项写宽度或外边距。
+- 底部账户和通知同样放进 `SidebarMenu px-4` 的 `SidebarMenuButton`；收起后分两行（头像、铃铛），未读改成右上角小红点，完整数量放进提示。
+
 ### 宽度来源与接入
 
 - `apps/saas-dashboard/app/ws/[workspaceId]/(pages)/layout.tsx` 和 `apps/platform-admin/app/(pages)/layout.tsx` 均在 `SidebarProvider` 设置 `--sidebar-width: 15rem`、`--sidebar-width-icon: 4rem`（根字号 16px 时为 240px / 64px）。接入时显式传入这两个配置。
