@@ -86,6 +86,14 @@
       "highlight-subtle": {
         "$value": "{color.scale.fx-green.900}",
         "$description": "品牌绿浅底：只用于需要强调的业务高亮（如被选中的数据行、关键提示）。"
+      },
+      "button-highlight": {
+        "$value": "{color.scale.fx-green.300}",
+        "$description": "品牌绿按钮的底色，与前端 --button-highlight 一致。"
+      },
+      "button-highlight-hover": {
+        "$value": "{color.scale.fx-green.200}",
+        "$description": "品牌绿按钮悬停。"
       }
     },
     "status": {

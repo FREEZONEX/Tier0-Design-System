@@ -117,7 +117,7 @@ COMPONENTS_MD = (ROOT / 'scripts/design-md.components.md').read_text(encoding='u
 
 body = ['', '## Overview', '', what, '', '\n'.join(f'- **{t}**：{d}' for t, d in traits), '',
         '## Colors', '', rules(LIGHT['color']), '',
-        '- 状态色的浅底：背景用状态色 10% 透明度（暗色 15%），描边 10%（暗色 25%），文字和图标用状态色本身。整块横幅提示用 4% 底色加 30% 描边。',
+        '- 状态色的浅底（组件没有覆盖时）：背景用状态色 10% 透明度（暗色 15%），描边 10%（暗色 25%），文字和图标用状态色本身。整块横幅提示用 4% 底色加 30% 描边。',
         '- 辅助色（`red-500` 等）只用于图表系列和分类标签；完整色阶见 `01-tokens/color/base.json`。', '',
         '## Themes', '', '亮色和暗色共用同一套 token 名称，深色模式由 `.dark` 类切换。', '', '\n'.join(themes), '',
         '## Typography', '', rules(TYPO['typography']), '',

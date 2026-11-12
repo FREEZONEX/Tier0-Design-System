@@ -16,10 +16,12 @@ colors:
   highlight: "#B2ED1D"
   highlight-foreground: "#050B14"
   highlight-deep: "#73B200"
-  highlight-ink: "#4B640C"
+  highlight-ink: "#48640C"
   accent: "#F3F3F3"
   ring: "#628210"
   highlight-subtle: "#F7FDE8"
+  button-highlight: "#CEF368"
+  button-highlight-hover: "#DCF797"
   success: "#2F7657"
   warning: "#A35C00"
   destructive: "#DC2626"
@@ -267,13 +269,13 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 
 - 组件只使用 light.json / dark.json 主层的 token，不直接使用 base.json 的色值。
 - 使用语义工具类：bg-background、text-muted-foreground、border-border。
-- 组件中不写物理颜色：不用 #fff、gray-500、bg-white。
+- 组件中不写物理颜色（如 gray-500、bg-white）；前端组件里彩色底上的白字（text-white）沿用组件写法。
 - 组件中不写 dark: 分支。深色模式由 .dark 类和 token 层负责。
 - 页面不用彩色大面积背景；白底上需要阅读或辨认的绿色（文字、图标、表达状态的圆点）使用 highlight-ink，纯装饰的绿色圆点和色块可用 highlight。
 - 不用渐变、玻璃质感、渐变文字、渐变描边或大面积色彩晕染。
 - 次要文字（muted-foreground）不放在 muted 背景上；muted 背景上的文字用 foreground。
 
-- 状态色的浅底：背景用状态色 10% 透明度（暗色 15%），描边 10%（暗色 25%），文字和图标用状态色本身。整块横幅提示用 4% 底色加 30% 描边。
+- 状态色的浅底（组件没有覆盖时）：背景用状态色 10% 透明度（暗色 15%），描边 10%（暗色 25%），文字和图标用状态色本身。整块横幅提示用 4% 底色加 30% 描边。
 - 辅助色（`red-500` 等）只用于图表系列和分类标签；完整色阶见 `01-tokens/color/base.json`。
 
 ## Themes
@@ -295,10 +297,12 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 | `highlight` | #B2ED1D | #B2ED1D |
 | `highlight-foreground` | #050B14 | #050B14 |
 | `highlight-deep` | #73B200 | #73B200 |
-| `highlight-ink` | #4B640C | #B2ED1D |
+| `highlight-ink` | #48640C | #B2ED1D |
 | `accent` | #F3F3F3 | #1C1F1E |
 | `ring` | #628210 | #B2ED1D |
-| `highlight-subtle` | #F7FDE8 | #4B640C |
+| `highlight-subtle` | #F7FDE8 | #48640C |
+| `button-highlight` | #CEF368 | #CEF368 |
+| `button-highlight-hover` | #DCF797 | #DCF797 |
 | `success` | #2F7657 | #6AD09D |
 | `warning` | #A35C00 | #FBBC55 |
 | `destructive` | #DC2626 | #EF4444 |
@@ -401,7 +405,7 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 
 ### 按钮
 
-- 用 Tier0-Frontend 的按钮变体：`primary`（黑底）、`default`（品牌绿底，前端的默认值）、`outline`（白底细线）、`secondary`（浅灰底）、`ghost`（无底，悬停变灰）、`destructive`、`link`。尺寸默认 `sm`（`control-sm`），表单里用 `md`（`control-md`），页面主操作可用 `lg`（`control-lg`）。
+- 用 Tier0-Frontend 的按钮变体：`primary`（黑底）、`default`（品牌绿底 `button-highlight`，即 fx-green 300，前端的默认值）、`outline`（白底细线）、`secondary`（浅灰底）、`ghost`（无底，悬停变灰）、`destructive`、`link`。尺寸默认 `sm`（`control-sm`），表单里用 `md`（`control-md`），页面主操作可用 `lg`（`control-lg`）。
 - 一个视图只有一个主操作，用 `primary`；品牌绿的 `default` 只给需要特别强调的工作流操作，使用时显式写出 variant，不依赖默认值。
 - 正例：表单底部「取消」（outline）+「保存」（primary）；列表右上角「导出」用 outline，「运行」用 default。
 
@@ -429,7 +433,7 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 
 ### 状态标签
 
-- 用浅底样式：状态色 10% 背景、10% 描边、状态色文字，`radius.full`，`caption` 字阶；暗色下背景 15%、描边 25%。前端 `Badge` 目前只有实底变体，需要新增浅底变体后使用。
+- 用前端的 `AntTag` 组件（浅底样式：色阶 50 底 + 600 字，`radius.md`）：严重用 `theme="error"`，警告用 `warning`，提示用 `blue`，成功用 `success`，中性用 `default`。`Badge` 只用于计数等实底小标记。
 - 文字写结果本身（「严重」「警告」「提示」「运行中」），不用纯色实底标签表达普通状态。
 
 ### 告警列表
@@ -479,7 +483,7 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 
 ## Motion
 
-- 只对 opacity、transform、颜色做过渡；不对宽高、布局做动画（数据条的长度变化除外）。
+- 过渡沿用组件自带的写法（前端按钮用 transition-all）；自己写的过渡优先只动 opacity、transform 和颜色，不对宽高、布局做动画（数据条的长度变化除外）。
 - 悬停、按下：fast + standard。浮层出现：base + enter；浮层消失：fast + exit。侧滑面板、页面区块移动：slow + standard。
 - 不用回弹、弹性、过冲。
 - 实时数据更新不加数字滚动动画，直接替换；需要提示变化时只闪烁一次背景（base 时长）。

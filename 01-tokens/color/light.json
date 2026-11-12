@@ -6,7 +6,7 @@
         "rules": [
           "组件只使用 light.json / dark.json 主层的 token，不直接使用 base.json 的色值。",
           "使用语义工具类：bg-background、text-muted-foreground、border-border。",
-          "组件中不写物理颜色：不用 #fff、gray-500、bg-white。",
+          "组件中不写物理颜色（如 gray-500、bg-white）；前端组件里彩色底上的白字（text-white）沿用组件写法。",
           "组件中不写 dark: 分支。深色模式由 .dark 类和 token 层负责。",
           "页面不用彩色大面积背景；白底上需要阅读或辨认的绿色（文字、图标、表达状态的圆点）使用 highlight-ink，纯装饰的绿色圆点和色块可用 highlight。",
           "不用渐变、玻璃质感、渐变文字、渐变描边或大面积色彩晕染。",
@@ -86,6 +86,14 @@
       "highlight-subtle": {
         "$value": "{color.scale.fx-green.50}",
         "$description": "品牌绿浅底：只用于需要强调的业务高亮（如被选中的数据行、关键提示）。"
+      },
+      "button-highlight": {
+        "$value": "{color.scale.fx-green.300}",
+        "$description": "品牌绿按钮的底色，与前端 --button-highlight 一致。"
+      },
+      "button-highlight-hover": {
+        "$value": "{color.scale.fx-green.200}",
+        "$description": "品牌绿按钮悬停。"
       }
     },
     "status": {

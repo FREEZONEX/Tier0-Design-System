@@ -3,7 +3,7 @@
   "$extensions": {
     "tier0": {
       "rules": [
-        "只对 opacity、transform、颜色做过渡；不对宽高、布局做动画（数据条的长度变化除外）。",
+        "过渡沿用组件自带的写法（前端按钮用 transition-all）；自己写的过渡优先只动 opacity、transform 和颜色，不对宽高、布局做动画（数据条的长度变化除外）。",
         "悬停、按下：fast + standard。浮层出现：base + enter；浮层消失：fast + exit。侧滑面板、页面区块移动：slow + standard。",
         "不用回弹、弹性、过冲。",
         "实时数据更新不加数字滚动动画，直接替换；需要提示变化时只闪烁一次背景（base 时长）。",
