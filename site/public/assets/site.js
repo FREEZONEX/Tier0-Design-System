@@ -1240,7 +1240,7 @@
     const wb = document.querySelector('.wb');
     // 进入和离开用不同阈值（滞回），停在临界点附近时侧栏和顶栏不会来回切换
     const b = document.body.classList, h = wb ? wb.offsetHeight : 0;
-    b.toggle('hero-on', !!wb && scrollY < h * (b.contains('hero-on') ? 0.12 : 0.08));
+    b.toggle('hero-on', !!wb && scrollY < h * (b.contains('hero-on') ? 0.38 : 0.35));
     b.toggle('nav-short', !!wb && scrollY < (b.contains('nav-short') ? 32 : 16));
     scrollCue.update();
   }

@@ -202,15 +202,9 @@ export class Workbench {
   private io: IntersectionObserver
   private ro: ResizeObserver
   private reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
-  private echo = document.createElement('canvas')
-  private echoCtx = this.echo.getContext('2d')!
-  private lastEcho = 0
 
   constructor(private host: HTMLElement) {
     const canvas = host.querySelector('canvas')!
-    this.echo.className = 'wb-echo'
-    this.echo.setAttribute('aria-hidden', 'true')
-    host.prepend(this.echo)
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
     this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
     this.renderer.outputColorSpace = THREE.SRGBColorSpace
@@ -676,8 +670,6 @@ export class Workbench {
     const h = stage.clientHeight
     if (!w || !h) return
     this.renderer.setSize(w, h, false)
-    this.echo.width = Math.max(1, Math.round(w * 0.5))
-    this.echo.height = Math.max(1, Math.round(h * 0.5))
     this.aspect = w / h
     this.camera.aspect = this.aspect
     this.camera.updateProjectionMatrix()
@@ -717,10 +709,6 @@ export class Workbench {
       this.screens.forEach(s => s.draw(time))
     }
     this.renderer.render(this.scene, this.camera)
-    if (this.progress > 0.16 && this.progress < 0.83 && t - this.lastEcho > 90) {
-      this.lastEcho = t
-      this.echoCtx.drawImage(this.renderer.domElement, 0, 0, this.echo.width, this.echo.height)
-    }
     const stage = this.host.querySelector('.wb-stage') as HTMLElement
     const w = stage.clientWidth
     const h = stage.clientHeight
