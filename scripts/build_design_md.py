@@ -62,6 +62,10 @@ for g in ['surface', 'brand', 'status']:
     for k, o in entries(DARK['color'][g]):
         fm.append(f'  {k}: {q(val(o["$value"]))}')
 
+fm.append('colors-auxiliary:')
+for g, o in entries(BASE['color']['auxiliary']):
+    for k, v in entries(o):
+        fm.append(f'  {g}-{k}: {q(val(v["$value"]))}')
 fm.append('typography:')
 for setname in ['product', 'web']:
     for k, o in entries(TYPO['typography'][setname]):
@@ -85,11 +89,11 @@ for k, o in entries(SPACE['semantic']):
     fm.append(f'  {k}: {q(val(o["$value"]))}')
 fm.append('components:')
 COMP = {
-    'button-primary': {'backgroundColor': '{colors.primary}', 'textColor': '{colors.primary-foreground}', 'typography': '{typography.label}', 'rounded': '{rounded.md}', 'height': val(SPACE['size']['control-md']['$value']), 'padding': '0 ' + val(SPACE['semantic']['button-x']['$value'])},
-    'button-highlight': {'backgroundColor': '{colors.highlight}', 'textColor': '{colors.highlight-foreground}', 'typography': '{typography.label}', 'rounded': '{rounded.md}', 'height': val(SPACE['size']['control-md']['$value'])},
-    'input': {'backgroundColor': '{colors.background}', 'textColor': '{colors.foreground}', 'typography': '{typography.body}', 'rounded': '{rounded.md}', 'height': val(SPACE['size']['control-sm']['$value']), 'padding': '0 ' + val(SPACE['semantic']['control-x']['$value'])},
+    'button-primary': {'backgroundColor': '{colors.primary}', 'textColor': '{colors.primary-foreground}', 'typography': '{typography.label}', 'rounded': '{rounded.md}', 'height': val(SPACE['size']['control-sm']['$value']), 'padding': '0 ' + val(SPACE['semantic']['button-x']['$value'])},
+    'button-highlight': {'backgroundColor': '{colors.highlight}', 'textColor': '{colors.highlight-foreground}', 'typography': '{typography.label}', 'rounded': '{rounded.md}', 'height': val(SPACE['size']['control-sm']['$value'])},
+    'input': {'backgroundColor': '{colors.background}', 'textColor': '{colors.foreground}', 'typography': '{typography.body-sm}', 'rounded': '{rounded.md}', 'height': val(SPACE['size']['control-md']['$value']), 'padding': '0 ' + val(SPACE['semantic']['control-x']['$value'])},
     'card': {'backgroundColor': '{colors.card}', 'textColor': '{colors.foreground}', 'rounded': '{rounded.lg}', 'padding': val(SPACE['semantic']['card-padding']['$value'])},
-    'table-row': {'height': val(SPACE['size']['table-row']['$value']), 'typography': '{typography.body}'},
+    'table-row': {'height': val(SPACE['size']['table-row']['$value']), 'typography': '{typography.body-sm}'},
 }
 for name, props in COMP.items():
     fm.append(f'  {name}:')
@@ -120,6 +124,9 @@ for g in ['surface', 'brand', 'status']:
     grp = LIGHT['color'][g]
     tok += [f'**{first(grp.get("$description", g)).split("。")[0]}**', '',
             table([(f'`{k}`', val(o['$value']), val(DARK['color'][g][k]['$value']), first(o.get('$description', ''))) for k, o in entries(grp)], ['Token', '亮色', '暗色', '用途']), '']
+aux = BASE['color']['auxiliary']
+tok += [f'**{first(aux.get("$description", "辅助色")).split("。")[0]}**（{first(aux.get("$description", "")).split("。", 1)[-1].strip()}）', '',
+        table([(g, *[val(o[k]['$value']) for k in ['100', '300', '500', '700', '900']]) for g, o in entries(aux)], ['色相', '100', '300', '500', '700', '900']), '']
 tok += ['### 字体', '', table([(k, ' / '.join(val(o['$value'])[:2]), first(o.get('$description', ''))) for k, o in entries(TYPO['font']['family'])], ['字体', '首选', '说明']), '']
 for setname, title in [('product', '产品字阶'), ('web', '官网字阶')]:
     rows = []
