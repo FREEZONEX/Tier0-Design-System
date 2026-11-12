@@ -12,7 +12,7 @@ const T = {
   green: '#B2ED1D', green300: '#CBF368', green200: '#DCF797', green700: '#7EA815',
 }
 
-type MatKey = 'ink' | 'peg' | 'alu' | 'laminate' | 'paint' | 'housing' | 'plastic' | 'rubber' | 'bin' | 'led' | 'light' | 'glass' | 'hall' | 'hallDark' | 'scenery' | 'sceneryMetal'
+type MatKey = 'ink' | 'peg' | 'alu' | 'laminate' | 'paint' | 'housing' | 'plastic' | 'rubber' | 'bin' | 'led' | 'light' | 'glass' | 'hall' | 'hallWall' | 'hallDark' | 'scenery' | 'sceneryMetal'
 type Edge = 'near' | 'far' | 'none'
 
 function brushedTexture(base: string) {
@@ -36,6 +36,38 @@ function brushedTexture(base: string) {
   t.repeat.set(3, 3)
   t.colorSpace = THREE.SRGBColorSpace
   return t
+}
+
+function factoryTexture() {
+  const canvas = document.createElement('canvas')
+  canvas.width = canvas.height = 256
+  const ctx = canvas.getContext('2d')!
+  ctx.fillStyle = '#f1f1f1'
+  ctx.fillRect(0, 0, 256, 256)
+  let seed = 17
+  for (let i = 0; i < 2400; i++) {
+    seed = (seed * 1664525 + 1013904223) >>> 0
+    const x = seed & 255
+    const y = (seed >>> 8) & 255
+    ctx.fillStyle = seed & 1 ? 'rgba(50,50,50,.045)' : 'rgba(255,255,255,.13)'
+    ctx.fillRect(x, y, 1, 1)
+  }
+  ctx.strokeStyle = 'rgba(70,70,70,.16)'
+  ctx.lineWidth = 1
+  for (const p of [1, 128, 255]) {
+    ctx.beginPath(); ctx.moveTo(p, 0); ctx.lineTo(p, 256); ctx.stroke()
+  }
+  ctx.strokeStyle = 'rgba(70,70,70,.12)'
+  for (const p of [32, 224]) {
+    ctx.beginPath(); ctx.moveTo(0, p); ctx.lineTo(256, p); ctx.stroke()
+  }
+  ctx.fillStyle = 'rgba(70,70,70,.045)'
+  for (let x = 16; x < 256; x += 32) ctx.fillRect(x, 0, 2, 256)
+  const texture = new THREE.CanvasTexture(canvas)
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+  texture.colorSpace = THREE.SRGBColorSpace
+  texture.anisotropy = 8
+  return texture
 }
 
 /** 屏幕内容。 */
@@ -170,9 +202,15 @@ export class Workbench {
   private io: IntersectionObserver
   private ro: ResizeObserver
   private reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
+  private echo = document.createElement('canvas')
+  private echoCtx = this.echo.getContext('2d')!
+  private lastEcho = 0
 
   constructor(private host: HTMLElement) {
     const canvas = host.querySelector('canvas')!
+    this.echo.className = 'wb-echo'
+    this.echo.setAttribute('aria-hidden', 'true')
+    host.prepend(this.echo)
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
     this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
     this.renderer.outputColorSpace = THREE.SRGBColorSpace
@@ -185,6 +223,9 @@ export class Workbench {
 
     const brushed = brushedTexture(T.g200)
     const brushedDark = brushedTexture(T.g400)
+    const finish = factoryTexture()
+    const concrete = factoryTexture()
+    concrete.repeat.set(18, 38)
     this.mats = {
       alu: new THREE.MeshStandardMaterial({ color: '#ffffff', map: brushed, roughnessMap: brushed, metalness: 0.9, roughness: 0.28, envMapIntensity: 1.6 }),
       ink: new THREE.MeshStandardMaterial({ color: T.b900, metalness: 0.25, roughness: 0.42, envMapIntensity: 0.9 }),
@@ -198,9 +239,10 @@ export class Workbench {
       led: new THREE.MeshBasicMaterial({ color: T.green, toneMapped: false }),
       light: new THREE.MeshBasicMaterial({ color: '#ffffff', toneMapped: false }),
       glass: new THREE.MeshStandardMaterial({ color: '#ffffff', transparent: true, opacity: 0.25, roughness: 0.1, metalness: 0 }),
-      hall: new THREE.MeshStandardMaterial({ color: '#111820', roughness: 1 }),
-      scenery: new THREE.MeshStandardMaterial({ color: T.g50, roughness: 0.85 }),
-      sceneryMetal: new THREE.MeshStandardMaterial({ color: T.g200, metalness: 0.3, roughness: 0.6 }),
+      hall: new THREE.MeshStandardMaterial({ color: '#111820', map: concrete, roughness: 1 }),
+      hallWall: new THREE.MeshBasicMaterial({ color: T.b900, fog: false, toneMapped: false }),
+      scenery: new THREE.MeshStandardMaterial({ color: T.g50, map: finish, roughness: 0.9 }),
+      sceneryMetal: new THREE.MeshStandardMaterial({ color: T.g200, map: finish, metalness: 0.2, roughness: 0.72 }),
       hallDark: new THREE.MeshStandardMaterial({ color: '#232b32', roughness: 1 }),
     }
 
@@ -523,7 +565,7 @@ export class Workbench {
     grid.setAttribute('position', new THREE.Float32BufferAttribute(gp, 3))
     this.root.add(new THREE.LineSegments(grid, this.gridMat))
     const wall = (w: number, h: number, x: number, y: number, z: number, ry: number) => {
-      const m = this.mesh(new THREE.PlaneGeometry(w, h), 'hall', x, y, z, 'far')
+      const m = this.mesh(new THREE.PlaneGeometry(w, h), 'hallWall', x, y, z, 'far')
       m.rotation.y = ry
     }
     wall(W * 2, H, 0, H / 2, Z0, 0)
@@ -606,16 +648,22 @@ export class Workbench {
 
   // ---------- 状态 ----------
   applyTheme() {
-    const bg = T.b900
+    const theme = document.documentElement.dataset.theme
+    const dark = theme === 'dark' || (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)
+    const bg = dark ? T.b900 : '#BFC1BD'
+    this.scene.background = new THREE.Color(bg)
     ;(this.scene.fog as THREE.Fog).color.set(bg)
-    const dark = new THREE.Color(bg).getHSL({ h: 0, s: 0, l: 0 }).l < 0.5
+    ;(this.mats.hallWall as THREE.MeshBasicMaterial).color.set(bg)
+    ;(this.scene.fog as THREE.Fog).near = dark ? 6 : 18
+    ;(this.scene.fog as THREE.Fog).far = dark ? 28 : 48
+    document.documentElement.style.setProperty('--wb-scene-bg', bg)
     // 深色模式：车间地面、墙面与网格转为深色中性灰，工作台本身不变
-    ;(this.mats.hall as THREE.MeshStandardMaterial).color.set(dark ? '#0E1013' : T.g25)
-    ;(this.mats.hallDark as THREE.MeshStandardMaterial).color.set(dark ? '#16181C' : T.g200)
-    this.gridMat.color.set(dark ? '#2A2D33' : T.g300)
-    this.edgeFar.color.set(dark ? '#3A3E45' : T.g400)
-    ;(this.mats.scenery as THREE.MeshStandardMaterial).color.set(dark ? '#23262B' : T.g50)
-    ;(this.mats.sceneryMetal as THREE.MeshStandardMaterial).color.set(dark ? '#2C3036' : T.g200)
+    ;(this.mats.hall as THREE.MeshStandardMaterial).color.set(dark ? '#0E1013' : '#797B75')
+    ;(this.mats.hallDark as THREE.MeshStandardMaterial).color.set(dark ? '#16181C' : '#92948D')
+    this.gridMat.color.set(dark ? '#2A2D33' : '#777A73')
+    this.edgeFar.color.set(dark ? '#3A3E45' : '#82857D')
+    ;(this.mats.scenery as THREE.MeshStandardMaterial).color.set(dark ? '#23262B' : '#999C94')
+    ;(this.mats.sceneryMetal as THREE.MeshStandardMaterial).color.set(dark ? '#2C3036' : '#868981')
   }
   setProgress(p: number) { this.progress = p }
   /** 每帧渲染前调用：外层在这里同步滚动进度和舞台变换，保证镜头和外框在同一帧更新。 */
@@ -628,6 +676,8 @@ export class Workbench {
     const h = stage.clientHeight
     if (!w || !h) return
     this.renderer.setSize(w, h, false)
+    this.echo.width = Math.max(1, Math.round(w * 0.5))
+    this.echo.height = Math.max(1, Math.round(h * 0.5))
     this.aspect = w / h
     this.camera.aspect = this.aspect
     this.camera.updateProjectionMatrix()
@@ -667,6 +717,10 @@ export class Workbench {
       this.screens.forEach(s => s.draw(time))
     }
     this.renderer.render(this.scene, this.camera)
+    if (this.progress > 0.16 && this.progress < 0.83 && t - this.lastEcho > 90) {
+      this.lastEcho = t
+      this.echoCtx.drawImage(this.renderer.domElement, 0, 0, this.echo.width, this.echo.height)
+    }
     const stage = this.host.querySelector('.wb-stage') as HTMLElement
     const w = stage.clientWidth
     const h = stage.clientHeight

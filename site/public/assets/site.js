@@ -256,26 +256,28 @@
   }
 
   // ---------- foundation ----------
-  // 品牌特征配图：统一为 1px 线稿，只有需要强调的那一处用品牌绿；悬停时演示该特征
+  // 品牌特征配图：每张都是一个可读的工程场景，而非缩小的通用图标。
   function traitArt(i) {
     const art = [
-      // 信号灯：一排设备，只有运行中的那个亮起
-      '<svg viewBox="0 0 200 120"><g class="ln">' + [0,1,2,3,4].map(k => `<rect x="${18 + k * 34}" y="38" width="26" height="44" rx="2"/>`).join('') + '</g><g>' + [0,1,2,3,4].map(k => `<rect class="${k === 2 ? 'sig-on' : 'sig-off'}" x="${27 + k * 34}" y="48" width="8" height="8"/>`).join('') + '</g><path class="ln" d="M18 96 H182"/></svg>',
-      // 白底浅灰：白色卡片放在浅灰区块上
-      '<svg viewBox="0 0 200 120"><rect class="fill-sub" x="20" y="18" width="160" height="84" rx="2"/><rect class="fill-card lift" x="40" y="34" width="120" height="52" rx="2"/><path class="ln faint" d="M54 52 H130 M54 64 H112"/></svg>',
-      // 细线为主：表格网格，悬停选中一格
-      '<svg viewBox="0 0 200 120"><rect class="cell" x="80" y="44" width="40" height="32"/><g class="ln"><rect x="40" y="12" width="120" height="96"/><path d="M80 12 V108 M120 12 V108 M40 44 H160 M40 76 H160"/></g></svg>',
-      // 近直角：4px 圆角的放大标注
-      '<svg viewBox="0 0 200 120"><rect class="ln" x="44" y="22" width="112" height="76" rx="4"/><path class="ln faint dim" d="M44 34 H30 M56 22 V8"/><text class="lbl" x="22" y="18">R4</text></svg>',
-      // 产品即展示：界面窗口，数据条在悬停时推进
-      '<svg viewBox="0 0 200 120"><g class="ln"><rect x="30" y="16" width="140" height="88" rx="2"/><path d="M30 30 H170"/></g><g class="bars"><rect x="46" y="72" width="12" height="20"/><rect x="66" y="60" width="12" height="32"/><rect x="86" y="66" width="12" height="26"/><rect class="b-on" x="106" y="48" width="12" height="44"/><rect x="126" y="56" width="12" height="36"/></g></svg>',
-      // 工程气质：UNS 层级树，末端节点亮起
-      '<svg viewBox="0 0 200 120"><g class="ln"><path d="M52 26 V58 H86 M52 58 V90 H86 M98 58 H128 V74 H150"/><rect x="40" y="16" width="24" height="20" rx="2"/><rect x="86" y="48" width="24" height="20" rx="2"/><rect x="86" y="80" width="24" height="20" rx="2"/></g><rect class="node-on" x="150" y="68" width="12" height="12"/></svg>'
+      `<path class="trace" d="M-10 140 H48 V92 H108 V118 H166 V55 H245"/><path class="trace faint" d="M-10 165 H70 V182 H145 V152 H245"/><g class="rack">${[0,1,2,3,4].map(k=>`<rect x="${25+k*40}" y="48" width="31" height="108" rx="3"/><path d="M${32+k*40} 130 H${49+k*40}"/>`).join('')}</g><rect class="signal glow" x="111" y="60" width="14" height="14"/><path class="signal-line" d="M118 60 V42 H190"/>`,
+      `<rect class="plate back" x="9" y="25" width="218" height="159" rx="4"/><rect class="plate mid" x="30" y="42" width="218" height="159" rx="4"/><g class="front"><rect x="51" y="58" width="218" height="159" rx="4"/><path d="M51 94 H269 M130 94 V217"/><rect class="signal" x="73" y="75" width="8" height="8"/><path d="M151 121 H246 M151 140 H221 M151 159 H235"/><rect class="signal" x="151" y="180" width="66" height="5"/></g>`,
+      `<g class="grid-lines"><rect x=".5" y=".5" width="311" height="239"/>${[1,2,3,4,5].map(k=>`<path d="M${k*52} 0 V240 M0 ${k*48} H312"/>`).join('')}</g><rect class="focus" x="104" y="48" width="104" height="96" rx="2"/><path class="trace" d="M0 144 H104 M208 96 H312"/><path class="signal-line" d="M104 48 H208 V144 H104 Z"/><rect class="signal" x="198" y="135" width="10" height="10"/>`,
+      `<path class="trace" d="M-10 190 H45 V55 H172 V32 H320"/><rect class="plate back" x="34" y="38" width="203" height="151" rx="4"/><rect class="plate mid" x="52" y="53" width="203" height="151" rx="4"/><rect class="front" x="70" y="68" width="203" height="151" rx="4"/><path class="signal-line" d="M70 92 V72 Q70 68 74 68 H100 M245 68 H269 Q273 68 273 72 V99"/><path class="measure" d="M73 224 H270 M73 219 V229 M270 219 V229"/>`,
+      `<rect class="front" x="30" y="26" width="254" height="190" rx="4"/><path class="trace" d="M30 62 H284 M111 62 V216"/><rect class="signal" x="47" y="44" width="8" height="8"/><path class="trace" d="M49 88 H91 M49 107 H82 M49 126 H95 M49 145 H76"/><path class="measure" d="M135 138 H261"/><path class="signal-line" d="M135 138 H231"/><rect class="signal" x="135" y="161" width="28" height="35"/><rect class="bar" x="172" y="173" width="28" height="23"/><rect class="bar" x="209" y="155" width="28" height="41"/>`,
+      `<path class="trace" d="M28 49 V191 H114 M28 85 H114 M114 85 H182 V153 H256"/><rect class="front" x="16" y="31" width="42" height="36" rx="3"/><rect class="front" x="101" y="67" width="42" height="36" rx="3"/><rect class="front" x="101" y="172" width="42" height="36" rx="3"/><rect class="front" x="169" y="135" width="42" height="36" rx="3"/><rect class="signal glow" x="243" y="140" width="27" height="27"/><path class="signal-line" d="M212 153 H244"/><text x="24" y="22">FACTORY / LINE / DEVICE</text>`
     ];
-    return `<div class="trait-art art-${i}" aria-hidden="true">${art[i]}</div>`;
+    return `<div class="trait-art art-${i}" aria-hidden="true"><svg viewBox="0 0 312 240" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="trait-bg-${i}" x2="0" y2="1"><stop stop-color="#f2f3f4"/><stop offset="1" stop-color="#e7e9ea"/></linearGradient><filter id="trait-lift-${i}" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#333a3f" flood-opacity=".16"/></filter></defs><rect class="canvas" width="312" height="240" fill="url(#trait-bg-${i})"/><g class="scene" filter="url(#trait-lift-${i})">${art[i].replace(/<text\b[^>]*>.*?<\/text>/g, '')}</g></svg></div>`;
   }
   function vFoundation() {
     const traits = mdRows(mdSection('### 特征'));
+    const traitTeasers = [
+      '品牌绿只点亮运行状态与关键信息。',
+      '白色承载内容，浅灰划分区域。',
+      '细线标明层级和信息边界。',
+      '小圆角让界面利落、精确。',
+      '用真实界面和交互展示产品。',
+      '用层级、连线与焦点标记组织画面。'
+    ];
     const principles = [...mdSection('## 2. 设计原则').matchAll(/\*\*(.+?)\*\*\n(.+)/g)];
     const what = mdSection('### Tier0 是什么');
     const story = mdSection('### 故事');
@@ -284,8 +286,8 @@
     return docHead('Foundation', (opener.split('。')[0] || '设计系统的起点') + '。')
       + sec('brand-story','Tier0 品牌故事','', `<div class="brand-copy">${md([what, story].filter(Boolean).join('\n\n'))}</div><iframe class="brand-story-animation" src="assets/brand-story.html?v=5" title="Tier0 品牌故事：接入、组织与生成" sandbox="allow-scripts" loading="eager"></iframe>`)
 
-      + sec('brand-traits','品牌特征','', `<div class="brand-copy">${md(traitIntro)}</div><div class="trait-grid">${traits.map((t,i)=>{ const full = plain(t[1]); const k = full.indexOf('。'); const head = k >= 0 ? full.slice(0, k + 1) : full; const rest = k >= 0 ? full.slice(k + 1).trim() : ''; return rest ? `<details class="trait-card"><summary>${traitArt(i)}<div class="trait-title"><h3>${esc(plain(t[0]))}</h3><span class="trait-plus" aria-hidden="true">+</span></div><p>${esc(head)}</p></summary><div class="trait-rule">${esc(rest)}</div></details>` : `<div class="trait-card"><div class="trait-static">${traitArt(i)}<div class="trait-title"><h3>${esc(plain(t[0]))}</h3></div><p>${esc(head)}</p></div></div>`; }).join('')}</div>`)
-      + sec('design-principles','设计原则','',`<div class="principle-grid">${principles.map((m)=>`<article><h3>${esc(m[1])}</h3><p>${esc(m[2])}</p></article>`).join('')}</div>`) ;
+      + sec('brand-traits','品牌特征','', `<div class="brand-copy">${md(traitIntro)}</div><div class="trait-grid">${traits.map((t,i)=>`<div class="trait-card">${traitArt(i)}<details class="trait-disclosure"><summary><div class="trait-title"><h3>${esc(plain(t[0]))}</h3><span class="trait-plus" aria-hidden="true">+</span></div><p>${esc(traitTeasers[i])}</p></summary><div class="trait-rule">${esc(plain(t[1]))}</div></details></div>`).join('')}</div>`)
+      + sec('design-principles','设计原则','',`<div class="principle-grid">${principles.map((m,i)=>`<article><h3>${i === 0 ? esc(m[1]).replace('：', '：<br>') : esc(m[1])}</h3><p>${esc(m[2])}</p></article>`).join('')}</div>`) ;
   }
 
   // ---------- color ----------
