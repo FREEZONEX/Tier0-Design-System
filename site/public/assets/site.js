@@ -550,7 +550,7 @@
     zh: { name: '林一', title: '解决方案架构师', addr: '杭州市 · 滨江区宝龙中心 2801室', email: 'lin.yi@freezonex.io', web: 'www.tier0.cn', phone: '+86 138 0000 0000', slogan: '工厂软件工厂造', qr: 'https://tier0.cn' },
     en: { name: 'Alex Lin', title: 'Solutions Architect', addr: '1 Fusionopolis Link 03-04\nNexus @One-North, Singapore', email: 'alex.lin@freezonex.io', web: 'www.tier0.app', phone: '+65 8000 0000', slogan: 'Factory app that fit', qr: 'https://tier0.app' },
   };
-  const CARD_FIELDS = [['name', '姓名'], ['title', '职位'], ['addr', '地址', 1], ['email', '邮箱'], ['web', '网址'], ['phone', '电话'], ['qr', '二维码内容'], ['slogan', '背面标语']];
+  const CARD_FIELDS = [['name', '姓名'], ['title', '职位'], ['addr', '地址', 1], ['email', '邮箱'], ['web', '网址'], ['phone', '电话']];
   const CARD = { lang: 'zh', side: 'front', data: null, qrImg: null };
   const cardStore = { get() { try { return JSON.parse(localStorage.getItem('t0-card') || 'null'); } catch { return null; } }, set(v) { try { localStorage.setItem('t0-card', JSON.stringify(v)); } catch {} } };
   function cardData() {
@@ -572,9 +572,8 @@
     const field = ([k, n, multi]) => `<label class="bc-field"><span>${n}</span>${multi ? `<textarea data-card="${k}" rows="2">${esc(d[k])}</textarea>` : `<input data-card="${k}" value="${esc(d[k])}">`}</label>`;
     const card = `<div class="bc"><div class="bc-stage"><canvas id="bc-front" width="${CARD_W * 2}" height="${CARD_H * 2}" aria-label="名片正面"></canvas><canvas id="bc-back" width="${CARD_W * 2}" height="${CARD_H * 2}" aria-label="名片背面"></canvas></div>
       <div class="bc-panel"><div class="bc-top">${seg('cardlang', [['zh', '中文'], ['en', 'English']], CARD.lang)}<button type="button" class="ui-btn ghost" data-card-reset>恢复示例</button></div>
-        <div class="bc-fields">${CARD_FIELDS.map(field).join('')}<label class="bc-field"><span>二维码图片</span><input type="file" accept="image/*" data-card-qrfile><small>不传图时按「二维码内容」生成</small></label></div>
-        <div class="bc-exp"><button type="button" class="ui-btn outline" data-card-png="front">${I.download}正面 PNG</button><button type="button" class="ui-btn outline" data-card-png="back">${I.download}背面 PNG</button><button type="button" class="ui-btn outline" data-card-svg="front">${I.download}正面 SVG</button><button type="button" class="ui-btn outline" data-card-svg="back">${I.download}背面 SVG</button></div>
-        <p class="bc-note">示例信息为虚构，替换成自己的再导出。PNG 为 2104 × 1324（2 倍）；SVG 里的文字需要本机装有 IBM Plex Sans。修改只保存在这个浏览器里。</p></div></div>`;
+        <div class="bc-fields">${CARD_FIELDS.map(field).join('')}<label class="bc-field"><span>二维码</span><input type="file" accept="image/*" data-card-qrfile></label></div>
+        <div class="bc-exp"><details class="menu"><summary class="ui-btn outline">${I.download}导出<svg class="rb-chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg></summary><div class="menu-pop"><button type="button" data-card-png="front">正面 PNG<small>2104×1324</small></button><button type="button" data-card-png="back">背面 PNG<small>2104×1324</small></button><button type="button" data-card-svg="front">正面 SVG</button><button type="button" data-card-svg="back">背面 SVG</button></div></details><span class="why-tip" data-tip="示例信息为虚构，替换成自己的再导出。PNG 为 2104 × 1324（2 倍）；SVG 里的文字需要本机装有 IBM Plex Sans。修改只保存在这个浏览器里。" aria-label="示例信息为虚构，替换成自己的再导出。PNG 为 2104 × 1324（2 倍）；SVG 里的文字需要本机装有 IBM Plex Sans。修改只保存在这个浏览器里。">${I.info}</span></div></div></div>`;
     const tpl = `<div class="ba-tpls">${TPLS.map(([f, n, size, desc]) => `<figure class="ba-tpl"><a href="${asset('03-brand/templates/previews/' + f)}" target="_blank" rel="noopener"><img src="${asset('03-brand/templates/previews/' + f)}" alt="${n}" loading="lazy"></a><figcaption><b>${n}</b><span class="muted">${size}</span><p>${desc}</p></figcaption></figure>`).join('')}</div>`;
     const sizes = `<div class="ba-sizes">${SIZES.map(([p, s]) => `<div><span>${p}</span><code>${s}</code></div>`).join('')}</div>`;
     return docHead('品牌资产', '网址、二维码、名片和宣传物料模版。物料用哪种语言，就用同一种语言的网址和二维码。')
@@ -608,7 +607,7 @@
     if (side === 'back') {
       c.fillStyle = '#B2ED1D'; c.fillRect(46, 78, 18, 18);
       c.font = `400 24px ${sans}`; c.fillStyle = '#A1A1A1'; c.textAlign = 'right'; c.textBaseline = 'top'; c.fillText(d.web, 1004, 80);
-      c.fillText(d.slogan, 1004, 548);
+      c.fillText(CARD_DEF[lang].slogan, 1004, 548);
       try { const lg = await loadImg(asset('03-brand/logo/assets/tier0-logo-lime.svg')); c.drawImage(lg, 48, 475, 422, 422 * lg.naturalHeight / lg.naturalWidth); } catch {}
       c.textAlign = 'left'; return;
     }
@@ -625,7 +624,7 @@
     const qx = 861, qy = 73, qs = 143;
     c.fillStyle = '#FFFFFF'; c.fillRect(qx - 6, qy - 6, qs + 12, qs + 12);
     if (CARD.qrImg) c.drawImage(CARD.qrImg, qx, qy, qs, qs);
-    else { const m = qrMatrix(d.qr); if (m) { const u = qs / m.n; c.fillStyle = '#050B14'; for (let r = 0; r < m.n; r++) for (let q = 0; q < m.n; q++) if (m.at(r, q)) c.fillRect(qx + q * u, qy + r * u, u + 0.3, u + 0.3); } }
+    else { const m = qrMatrix(CARD_DEF[lang].qr); if (m) { const u = qs / m.n; c.fillStyle = '#050B14'; for (let r = 0; r < m.n; r++) for (let q = 0; q < m.n; q++) if (m.at(r, q)) c.fillRect(qx + q * u, qy + r * u, u + 0.3, u + 0.3); } }
     // 信息行
     const rows = [['A.', d.addr], ['E.', d.email], ['W.', d.web], ['P.', d.phone]];
     const lines = rows.map(([, v]) => String(v).split('\n').length);
@@ -640,9 +639,9 @@
     const L = cardLayout(side, d, CARD.lang);
     let o = `<svg xmlns="http://www.w3.org/2000/svg" width="${CARD_W}" height="${CARD_H}" viewBox="0 0 ${CARD_W} ${CARD_H}"><defs><pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><rect x="6" y="6" width="1.5" height="1.5" fill="${L.dot}"/></pattern></defs><rect width="100%" height="100%" fill="${L.bg}"/><rect width="100%" height="100%" fill="url(#dots)"/>`;
     if (side === 'back') {
-      o += `<rect x="46" y="78" width="18" height="18" fill="#B2ED1D"/><g font-family="${sans}" font-size="24" fill="#A1A1A1" text-anchor="end"><text x="1004" y="104">${esc2(d.web)}</text><text x="1004" y="572">${esc2(d.slogan)}</text></g><image href="${CARD.logoLime || ''}" x="48" y="475" width="422" height="104"/>`;
+      o += `<rect x="46" y="78" width="18" height="18" fill="#B2ED1D"/><g font-family="${sans}" font-size="24" fill="#A1A1A1" text-anchor="end"><text x="1004" y="104">${esc2(d.web)}</text><text x="1004" y="572">${esc2(CARD_DEF[CARD.lang].slogan)}</text></g><image href="${CARD.logoLime || ''}" x="48" y="475" width="422" height="104"/>`;
     } else {
-      const m = qrMatrix(d.qr); let qr = '';
+      const m = qrMatrix(CARD_DEF[CARD.lang].qr); let qr = '';
       if (CARD.qrImg) qr = `<image href="${CARD.qrImg.src}" x="861" y="73" width="143" height="143"/>`;
       else if (m) { const u = 143 / m.n; for (let r = 0; r < m.n; r++) for (let q = 0; q < m.n; q++) if (m.at(r, q)) qr += `<rect x="${(861 + q * u).toFixed(2)}" y="${(73 + r * u).toFixed(2)}" width="${(u + 0.3).toFixed(2)}" height="${(u + 0.3).toFixed(2)}"/>`; qr = `<g fill="#050B14">${qr}</g>`; }
       const rows = [['A.', d.addr], ['E.', d.email], ['W.', d.web], ['P.', d.phone]];

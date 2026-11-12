@@ -1458,7 +1458,7 @@ button.repo-card { font: inherit; text-align: left; cursor: pointer; }
 .bc-field input:not([type=file]), .bc-field textarea { height: 32px; padding: 0 10px; border: 1px solid var(--input); border-radius: 4px; background: var(--background); color: var(--foreground); font: inherit; }
 .bc-field textarea { height: auto; padding: 6px 10px; resize: vertical; }
 .bc-field small { color: var(--muted-foreground); font-size: 12px; }
-.bc-exp { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.bc-exp { display: flex; align-items: center; gap: 8px; }
 .bc-note { font-size: 12px; line-height: 18px; color: var(--muted-foreground); margin: 0; }
 .ba-tpls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .ba-tpl { margin: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; display: grid; grid-template-rows: 280px auto; }
