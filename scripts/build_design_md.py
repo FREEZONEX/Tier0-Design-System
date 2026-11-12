@@ -81,6 +81,11 @@ COMP = {
     'table-row': {'height': '{spacing.table-row}', 'typography': '{typography.body-sm}'},
     'metric': {'textColor': '{colors.foreground}', 'typography': '{typography.metric}'},
 }
+fm.append('shadow:')
+fm += [f'  {k}: {q(val(o["$value"]))}' for k, o in entries(SHADOW['shadow'])]
+fm.append('motion:')
+fm += [f'  duration-{k}: {q(val(o["$value"]))}' for k, o in entries(MOTION['duration'])]
+fm += [f'  easing-{k}: {q("cubic-bezier(" + ", ".join(str(x) for x in val(o["$value"])) + ")")}' for k, o in entries(MOTION['easing'])]
 fm.append('components:')
 for name, props in COMP.items():
     fm.append(f'  {name}:'); fm += [f'    {k}: {q(v)}' for k, v in props.items()]

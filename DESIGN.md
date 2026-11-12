@@ -159,10 +159,25 @@ spacing:
   touch: "44px"
   table-header: "40px"
   table-row: "40px"
-  app-header: "64px"
+  app-header: "48px"
   icon-sm: "16px"
   icon-md: "20px"
   icon-lg: "24px"
+shadow:
+  none: "none"
+  xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)"
+  md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)"
+  lg: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)"
+  focus: "0 0 0 2px rgb(162 216 26 / 0.2)"
+motion:
+  duration-instant: "0ms"
+  duration-fast: "150ms"
+  duration-base: "200ms"
+  duration-slow: "300ms"
+  duration-signal: "2000ms"
+  easing-standard: "cubic-bezier(0.4, 0, 0.2, 1)"
+  easing-enter: "cubic-bezier(0, 0, 0.2, 1)"
+  easing-exit: "cubic-bezier(0.4, 0, 1, 1)"
 components:
   button-primary:
     backgroundColor: "{colors.primary}"
@@ -277,7 +292,7 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 - 层级以 1px 细线为主；表头、悬停、分区可以用浅灰填充，浮层和需要和背景区分的面板可以用阴影。
 - 尽量使用 space 刻度里的档位，少用刻度外的数值（如 10px、14px、18px）。
 - 产品界面默认密度为「紧凑」：控件高 32px、表格行高 40px、卡片内边距 24px；不在同一页面混用两种密度。
-- 页面结构从任务出发：先想清楚用户在这一页要看什么、做什么，再决定要不要顶栏和侧栏。常见做法是左侧导航 + 右侧工作区，不需要顶栏；需要顶栏时保持窄（48px 以内），并且只放有用的内容（面包屑、搜索、当前对象、全局操作），不为划分空间而加。内容区内边距桌面 24px、移动端 16px。
+- 页面结构从任务出发：先想清楚用户在这一页要看什么、做什么，再决定要不要顶栏和侧栏。常见做法是左侧导航 + 右侧工作区，不需要顶栏；需要顶栏时保持窄（不超过 app-header），并且只放有用的内容（面包屑、搜索、当前对象、全局操作），不为划分空间而加。内容区内边距桌面 24px、移动端 16px。
 - 内容区使用 12 栏栅格，沟槽桌面 24px、移动端 16px；卡片与面板的宽度取整数栏。
 - 连续阅读的文字（说明、文档正文）单行最大宽度 680px；表格、看板、拓扑图不受此限，占满内容区。
 - 监控看板按「概览 → 列表 → 详情」从上到下、从左到右排列：关键读数在首屏左上，告警与异常在读数旁，明细在下方。
@@ -319,7 +334,8 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 
 ### Logo
 
-- 页面上单独出现 Tier0 标志时，一律用 SVG 文件，不用文字或字体代替：亮底用 `03-brand/logo/assets/tier0-logo-black.svg`，暗底用 `tier0-logo-white.svg` 或 `tier0-logo-lime.svg`。
+- 页面上单独出现 Tier0 标志时，一律用 SVG 文件，不用文字或字体代替：亮底用 `03-brand/logo/assets/tier0-logo-black.svg`；暗底的产品界面用 `tier0-logo-white.svg`，品牌展示（海报、开场）用 `tier0-logo-lime.svg`。
+- 产品界面里 Logo 高 16px 到 20px，四周留白不少于 Logo 高度的一半。
 
 ### 页面标题
 
@@ -330,7 +346,7 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 ### 侧边栏
 
 - 按 Tier0-Frontend 的 sidebar 组件：每项 32px 高，左侧 lucide 图标 16px，图标和文字间隔 8px，文字 `body-sm`。
-- 悬停：`muted` 灰底，过渡用 fast；当前项：`muted` 灰底 + 500 字重 + `foreground` 文字。导航不用品牌绿，绿色留给业务指标和关键操作。
+- 文字用 `foreground`。悬停：`muted` 灰底，过渡用 fast；当前项：`muted` 灰底 + 500 字重。导航不用品牌绿，绿色留给业务指标和关键操作。
 - 可以收起为只显示图标的窄栏，展开收起用 slow + standard 过渡；分组标题用 `caption`、`muted-foreground`，正常大小写。
 
 ### 卡片与区块
@@ -351,15 +367,20 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 ### 图标
 
 - 统一用 lucide 图标（shadcn/ui 默认图标库），不混用其他图标库，不用 emoji。
-- 尺寸：按钮、表格、输入框里 16px，导航 20px，空状态 24px；线宽保持 lucide 默认；颜色跟随文字（`currentColor`）。
+- 尺寸：按钮、表格、输入框、侧栏里 16px，空状态 24px；线宽保持 lucide 默认；颜色跟随文字（`currentColor`）。
+- 用 lucide 的包（React 项目用 `lucide-react`，独立页面用 lucide 官方的 npm 包或 CDN 脚本），不凭记忆手写图标路径。
 - 图标不放进彩色底块做装饰；只有空状态的图标放在浅灰（`muted`）方块里。
 
 ### 读数与指标
 
 - 结构：上方说明文字（`body-sm`，`muted-foreground`）→ 数值（`metric` 或 `metric-lg`，Inter 500，等宽数字）→ 单位紧跟数值（`body-sm`，`muted-foreground`）。
-- 字号按画面层级选：看板最关键的一个用 `metric-lg`，同一排的同级指标用同一档，不因数值长短改字号。
+- 字号按画面层级选：一排同级指标都用 `metric`；只有画面里单独突出的那一个关键数字用 `metric-lg`。不因数值长短改字号。
 - 数值本身用 `foreground`；只有表达真实状态时才上色（如超限的温度用 destructive），不因为「好」就变绿。
-- 正例：`主轴温度` / `72.4` `°C`；超出阈值时数值变 destructive，并在旁边写明阈值。
+- 正例：`主轴温度` / `72.4` `°C`；有阈值且超出时数值变 destructive，并在旁边写明阈值。不知道阈值时不上色，也不编造阈值。
+
+### 运行状态
+
+- 设备或产线的运行状态写成「圆点 + 文字」，不做成标签：运行中用品牌绿圆点（亮色 `highlight-ink`，暗色 `highlight`），停机、故障用对应状态色圆点。
 
 ### 状态标签
 
@@ -376,8 +397,9 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 
 ### 交互反馈
 
-- 所有可点击的元素都有悬停和按下状态（颜色变化，fast + standard），焦点按上面的规则显示；页面不能像一张静态图。
-- 列表行、侧栏项、按钮的悬停用灰色系，不用品牌绿。
+- 所有可点击的元素都有悬停状态（颜色变化，fast + standard），按下沿用悬停色；焦点按上面的规则显示；页面不能像一张静态图。
+- 悬停用灰色系，不用品牌绿：侧栏项用 `muted`，列表行和表格行用 `subtle`（行内有 `muted-foreground` 文字，不放在 `muted` 上）。
+- 禁用：50% 透明度，不响应悬停和点击。
 
 ### 加载
 
@@ -393,7 +415,7 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 
 ### 错误
 
-- 区块加载失败：在区块内显示 `CircleAlert`（destructive）→ 标题「无法加载告警」→ 一句原因 →「重试」按钮；区块外的内容照常显示。
+- 区块加载失败：在区块内显示 `CircleAlert`（destructive）→ 标题「无法加载告警」→ 一句原因（来自接口的真实原因；拿不到时写「请稍后重试」，不编造原因）→「重试」按钮；区块外的内容照常显示。
 - 表单字段错误：输入框描边改为 destructive 并加对应的焦点外圈，错误文字写在输入框下方（`caption`，destructive），说明怎么改。
 - 影响整个页面的问题（连接中断、权限不足）用页面顶部横幅：状态色 4% 底、30% 描边、状态图标、一句说明和一个操作。
 - 错误文案写发生了什么和怎么办，不写错误码原文作为标题。
@@ -404,7 +426,7 @@ Tier0 为 **制造业** 构建 **Agentic 工业数据平台**。
 - 悬停、按下：fast + standard。浮层出现：base + enter；浮层消失：fast + exit。侧滑面板、页面区块移动：slow + standard。
 - 不用回弹、弹性、过冲。
 - 实时数据更新不加数字滚动动画，直接替换；需要提示变化时只闪烁一次背景（base 时长）。
-- 同一视图只允许一个持续循环的动效（如运行指示灯的 signal 呼吸）。
+- 同一视图只允许一个持续循环的装饰性动效（如运行指示灯的 signal 呼吸）；加载中的骨架和转圈不计入，加载结束即停止。
 - 系统设置为减少动态效果时，所有过渡改为 0ms 或仅透明度变化，循环动效停止。
 
 ## Do's and Don'ts

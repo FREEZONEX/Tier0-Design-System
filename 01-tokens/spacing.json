@@ -284,7 +284,7 @@
       }
     },
     "app-header": {
-      "$value": "64px",
+      "$value": "48px",
       "$description": "需要顶栏时的参考高度；产品页优先用窄顶栏（48px）或不用顶栏。",
       "$extensions": {
         "tier0": {
