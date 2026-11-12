@@ -105,7 +105,7 @@
     { zh: 'Tokens', en: 'Tokens', items: [['color', '颜色', 'Color'], ['typography', '字体', 'Typography'], ['spacing', '间距与布局', 'Spacing & layout'], ['shape', '圆角、线宽与阴影', 'Radius, border & shadow'], ['motion', '动效', 'Motion']] },
     { zh: 'Components', en: 'Components', items: [['components', 'Tier0 平台组件', 'Tier0 platform'], ['scaffold', '应用脚手架', 'App scaffold']] },
     { zh: 'Brand', en: 'Brand', items: [['logo', 'Logo', 'Logo'], ['texture', 'Texture', 'Texture'], ['illustration', '插画与图形', 'Illustration'], ['templates', '模版', 'Templates', 1]] },
-    { zh: 'Skills', en: 'Skills', items: [['skills', 'AI 调用规则', 'AI guidelines'], ['designmd', 'DESIGN.md', 'DESIGN.md', 1]] },
+    { zh: 'Skills', en: 'Skills', items: [['skills', 'AI 调用规则', 'AI guidelines'], ['designmd', 'DESIGN.md', 'DESIGN.md']] },
   ];
   const I18N = { tbd: { zh: '待定', en: 'TBD' }, copy: { zh: '复制', en: 'Copy' }, copied: { zh: '已复制', en: 'Copied' } };
 
@@ -132,8 +132,8 @@
       tryFetch('01-tokens/color/base.json'), tryFetch('01-tokens/color/light.json'), tryFetch('01-tokens/color/dark.json'),
       tryFetch('01-tokens/typography.json'), tryFetch('00-foundation/foundation.md', 'text'),
       tryFetch('01-tokens/spacing.json'), tryFetch('01-tokens/layout.json'), tryFetch('01-tokens/radius.json'),
-      tryFetch('01-tokens/border.json'), tryFetch('01-tokens/shadow.json'), tryFetch('01-tokens/motion.json')]);
-    Object.assign(D, { base: r[0], light: r[1], dark: r[2], typo: r[3], md: r[4] || '', spacing: r[5], layout: r[6], radius: r[7], border: r[8], shadow: r[9], motion: r[10] });
+      tryFetch('01-tokens/border.json'), tryFetch('01-tokens/shadow.json'), tryFetch('01-tokens/motion.json'), tryFetch('DESIGN.md', 'text')]);
+    Object.assign(D, { base: r[0], light: r[1], dark: r[2], typo: r[3], md: r[4] || '', spacing: r[5], layout: r[6], radius: r[7], border: r[8], shadow: r[9], motion: r[10], designmd: r[11] || '' });
   }
   const asset = p => (window.__T0_ASSETS && window.__T0_ASSETS[p]) || (D.root || '../') + p;
   const entries = o => Object.entries(o || {}).filter(([k]) => k[0] !== '$');
@@ -718,6 +718,18 @@
     return docHead(item ? item[1] : id, '这一部分还在梳理中，确定后会出现在这里。');
   }
 
+  // ---------- DESIGN.md ----------
+  function vDesignMd() {
+    const t = D.designmd;
+    if (!t) return docHead('DESIGN.md', '没有读取到 DESIGN.md。');
+    const fm = (t.match(/^---\n([\s\S]*?)\n---/) || [, ''])[1];
+    const body = t.replace(/^---\n[\s\S]*?\n---\n?/, '').replace(/^# .*\n/m, '').replace(/^> 本文件由.*\n/m, '');
+    return docHead('DESIGN.md', '给 AI 和设计工具读的设计说明：开头是机器可读的 token，后面是用途和原则。内容由 token 与 Foundation 自动生成，跟着它们一起更新。')
+      + `<div class="repo-row"><button type="button" class="repo-card" data-copy="${esc(t)}"><span class="rc-ic">${I.copy}</span><span class="rc-tx"><b>复制全文</b><small>${t.split('\n').length} 行</small></span></button><button type="button" class="repo-card" data-dm-dl><span class="rc-ic">${I.download}</span><span class="rc-tx"><b>下载 DESIGN.md</b><small>放到项目根目录</small></span><span class="rc-go">${I.arrow}</span></button></div>`
+      + sec('tokens', 'Token', '', codeBlock(fm))
+      + sec('guide', '说明', '', `<div class="prose dm-prose">${md(body)}</div>`);
+  }
+
   // ---------- router ----------
   function buildToc() {
     const hs = [...document.querySelectorAll('.doc .sec[id] > h2, .prose h2')];
@@ -863,7 +875,7 @@
       + sec('rules', '使用规则', '', ruleList(M));
   }
 
-  const VIEWS = { spacing: vSpacing, shape: vShape, motion: vMotion, home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, scaffold: vScaffold, logo: vLogo, texture: vTexture, illustration: vIllustration, skills: vSkills };
+  const VIEWS = { spacing: vSpacing, shape: vShape, motion: vMotion, home: vHome, foundation: vFoundation, color: vColor, typography: vTypo, components: vComponents, scaffold: vScaffold, logo: vLogo, texture: vTexture, illustration: vIllustration, designmd: vDesignMd, skills: vSkills };
   let current = '';
   function route(keepScroll) {
     if (!location.hash) history.replaceState(null, '', '#home');
@@ -902,6 +914,7 @@
     const bln = t.closest('.bl-nav span'); if (bln) { bln.parentElement.querySelectorAll('span').forEach(x => x.classList.toggle('on', x === bln)); return; }
     const bld = t.closest('.bl-drop'); if (bld) { bld.classList.toggle('on'); bld.textContent = bld.classList.contains('on') ? '已放入：line-01.csv' : '把文件拖到这里'; return; }
     const blc = t.closest('.bl-chart'); if (blc) { blc.classList.toggle('swap'); return; }
+    if (t.closest('[data-dm-dl]')) { download(new Blob([D.designmd], { type: 'text/markdown' }), 'DESIGN.md'); return; }
     if (t.closest('[data-lab-png]')) { labExportPng(); return; }
     const lwb = t.closest('[data-lab-webm]'); if (lwb) { labExportWebm(lwb); return; }
     const lp = t.closest('[data-lab-preset]'); if (lp) { const pr = LAB_PRESETS.find(x => x[0] === lp.dataset.labPreset); Object.assign(lab, pr[2], { preset: pr[0] }); route(true); return; }

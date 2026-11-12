@@ -1324,3 +1324,10 @@ body.hero-on .wb { cursor: none; }
 }
 
 .sc-empty[hidden] { display: none; }
+#tokens .code pre { max-height: 420px; overflow: auto; }
+.dm-prose { max-width: none; }
+.dm-prose table { width: 100%; border-collapse: collapse; margin: 12px 0 24px; font-size: 13px; }
+.dm-prose th, .dm-prose td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.dm-prose th { color: var(--muted-foreground); font-weight: 500; }
+.dm-prose td:first-child code { white-space: nowrap; }
+button.repo-card { font: inherit; text-align: left; cursor: pointer; }
