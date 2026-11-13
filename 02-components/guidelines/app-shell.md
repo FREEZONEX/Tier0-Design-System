@@ -1,5 +1,7 @@
 # 应用外壳
 
+> 摘要（App shell）：左侧导航 + 右侧工作区，用 `SidebarProvider` 覆盖为 `shell.sidebar` / `shell.sidebar-collapsed`，结构照 saas-dashboard 的 `AppSidebar`：顶部工作区切换和 `SidebarTrigger`，底部账户与通知；当前项灰底、不用品牌绿。页面标题用 `typo-h2`，主操作在标题行右侧，下方是下划线页签。
+
 产品页面使用 Tier0-Frontend 的侧栏组件与应用层配置。左侧导航 + 右侧工作区；顶栏只在承载面包屑、搜索或全局操作时出现。宽度以实际应用的 `SidebarProvider` 配置为准，见下方来源；底部账户与通知是产品外壳的补充要求，不代表当前上游应用已全部实现。
 
 ## 左侧导航（AppSidebar）

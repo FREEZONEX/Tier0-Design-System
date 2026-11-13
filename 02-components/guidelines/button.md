@@ -1,5 +1,7 @@
 # 按钮
 
+> 摘要（Buttons）：默认 `sm` 尺寸；页面主操作用品牌绿 `default` 并带前导图标，弹窗和引导确认用黑底 `primary`，并排的次要操作用 `secondary`，工具栏用 `outline`，危险操作用 `destructive` 并先确认。
+
 用 Tier0-Frontend 的按钮变体，默认尺寸 `sm`（高 32px，左右 16px，圆角 4px，14px 500）：
 
 | 变体 | 样子 | 什么时候用 |

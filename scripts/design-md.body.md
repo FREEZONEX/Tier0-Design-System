@@ -29,21 +29,18 @@ Tier0 为制造业构建 Agentic 工业数据平台：工厂设备和业务系�
 
 ## Typography
 
-- **字体**：标题和读数用 Inter；正文用 IBM Plex Sans；代码和命令行用 IBM Plex Mono；中文用系统字体（苹方、微软雅黑、思源黑体），不加载中文 Web 字体；Tektur 只用于 Logo。
 - **产品字阶**：页面标题 `typo-h2` 30/36 Inter 600（前端 `text-3xl font-semibold`），标题下的说明 14/20 500 用 `text-secondary`；区块标题 20/28 Inter 500；弹窗标题 `typo-h3` 24/32；正文 `body-sm` 14/20；标签和按钮 `label` 14/20 500；说明 `caption` 12/16。`typo-h1`、`typo-h2` 只用于官网和文档。
-- **读数**：卡片里的主读数用 `metric-lg` Inter 32/40 500，分母和单位 14px muted；一排紧凑的小读数用 `metric` 22/28。数字开启 `font-variant-numeric: tabular-nums`。
-- **长文**：中文文档和帮助用 `body-long` 16/28，单行不超过 680px。
 - **官网、海报、Slides**：用 `web-*` 字阶，按画幅放大，字体和字重不变。
-- 字重只用 400 / 500 / 600 / 700。中文标题和中英混排标题字距为 0，只有纯英文标题用字阶里的负字距。不用斜体做强调。
+{{rules.typography}}
 
 ## Layout
 
 - **4px 基准**：间距只取 front matter `spacing` 里的档位（4、8、12、16、24、32、48、64、96）；2px、6px 只用于图标与文字之间的微调。
-- **用间距表达分组**：组内并列元素间隔 12px（`group-item`），组与组之间 24px（`group`），区块之间 48px（`section`，官网 96px）。每进入更高一层，间距至少升一档。
-- **紧凑密度**：按钮高 32px（`control-sm`），表单控件 36px（`control-md`），表格行 40px，卡片内边距 24px。同一页面不混用两种密度。
-- **应用骨架**：左侧导航 240px（收起 64px；在 `SidebarProvider` 覆盖基础组件默认值）加右侧工作区，工作区内边距 24px（移动端 16px）。默认不放顶栏；需要时不高于 48px，只放面包屑、搜索、当前对象和全局操作。
-- **栅格与容器**：12 栏，沟槽 24px（移动端 16px）；产品内容区最宽 1440px，官网 1200px；连续阅读的文字单行最宽 680px。
-- **响应式**：宽度小于 768px 时侧栏使用组件自带的抽屉（288px，不超过视口），关闭后不占工作区。桌面工作区与侧栏共享布局并设 `min-width: 0`，不用 `100vw` 或重复左偏移。标题、筛选允许换行，指标卡减列；表格仅在自身容器内横向滚动或改为卡片列表，页面不横向溢出。
+- **用间距表达分组**：组内并列元素间隔 {{spacing.group-item}}（`group-item`），组与组之间 {{spacing.group}}（`group`），区块之间 {{spacing.section}}（`section`，官网 {{spacing.section-web}}）。每进入更高一层，间距至少升一档。
+- **紧凑密度**：按钮高 {{spacing.control-sm}}（`control-sm`），表单控件 {{spacing.control-md}}（`control-md`），表格行 {{spacing.table-row}}，卡片内边距 {{spacing.card-padding}}。同一页面不混用两种密度。
+- **应用骨架**：左侧导航 {{layout.shell.sidebar}}（收起 {{layout.shell.sidebar-collapsed}}）加右侧工作区，工作区内边距 {{layout.shell.page-padding}}（移动端 {{layout.shell.page-padding-mobile}}）。默认不放顶栏。做法见 `02-components/guidelines/app-shell.md`。
+- **栅格与容器**：{{layout.grid.columns}} 栏，沟槽 {{layout.grid.gutter}}（移动端 {{layout.grid.gutter-mobile}}）；产品内容区最宽 {{layout.width.content-max}}，官网 {{layout.width.web-max}}；连续阅读的文字单行最宽 {{layout.width.measure}}。
+- **响应式**：小于 {{layout.breakpoint.md}} 时侧栏变成组件自带的抽屉；表格只在自身容器内横向滚动，页面不横向溢出。做法见 `02-components/guidelines/page-layout.md`。
 - 并排的区块按各自内容定高、顶部对齐，不为对齐拉高、留出空白。
 
 ## Elevation & Depth
@@ -72,18 +69,7 @@ Tier0 为制造业构建 Agentic 工业数据平台：工厂设备和业务系�
 
 凡是产品页面，包括原型、演示页和本地测试页，一律用 Tier0-Frontend `packages/ui` 的组件实现（副本在 `02-components/packages/ui`），不手写 HTML 仿制按钮、侧栏、表格。外壳（侧栏、页面标题、页签、区块）按 `02-components/guidelines/app-shell.md` 搭，它对应 `apps/saas-dashboard` 的写法；只用基础组件拼不出产品的样子。每个组件的逐条用法见 `02-components/guidelines/`。
 
-- **Buttons**：高 32px，左右内边距 16px，圆角 4px。页面主操作用品牌绿 `default`（`{{colors.button-highlight}}`，带前导图标，放在标题行右侧）；弹窗和引导流程的确认用黑底 `primary`；并排的次要操作用灰底 `secondary`，工具栏用 `outline`。危险操作用 `destructive`，并先弹确认框。→ `button.md`
-- **Cards & panels**：白底、1px `border`、6px 圆角、24px 内边距；不整块填灰，不加阴影，不卡片套卡片。面板只有「标题行 → 内容」两层，中间不画线；筛选和视图切换放在标题行右侧。→ `card.md`
-- **Forms**：标签放在输入框上方并保持可见（`label` 14/20 500），不只用占位符；输入框高 36px，边框用 `input`。出错时边框变 `destructive`，错误文字写在输入框下方并说明怎么改。→ `focus.md`、`states.md`
-- **App shell**：左侧导航展开 240px、收起 64px，grey-50 底 + 右侧 1px 线，顶部是工作区切换，右上角用 `SidebarTrigger` 收起；底部用 `SidebarFooter` 放 `ComAvatar`、可省略的用户名和右侧通知入口，未读数只在真实存在时显示；升级卡片在账户行上方，用品牌绿浅底。收起后账户与通知仍可操作。分组标题 12px muted；导航项高 32px、14px 文字、16px 图标，当前项 grey-100 灰底 + 500 字重，不用品牌绿。页面标题下方用下划线页签（选中项 2px 品牌绿下划线）。→ `app-shell.md`
-- **分割线**：侧栏边界、表格外框与行线、页签底线各保留一次；标题与内容、筛选栏与表格用间距分组；升级卡片与底部账户之间保留一条职责分隔线，其余位置不叠加横线。
-- **状态标签**：业务流程状态直接用 `AntTag`（默认无描边、4px 圆角），待处理 `default`、进行中 `blue`、已完成 `success`、警告 `warning`、失败 `error`。沿用组件样式与主题，不用胶囊 `Badge` 仿制、不重配颜色、不叠加同义绿点；`Badge` 仅用于计数。窄屏保留短状态完整宽度，长标签沿用省略并提供完整内容入口。→ `status.md`
-- **Tables & lists**：行高 40px，行间 1px `border`，悬停用 `subtle` 底，点击行进入详情。
-- **Run status**（标志性组件）：设备和产线的运行状态写成「圆点 + 文字」，运行中用品牌绿圆点；告警严重度用 `AntTag` 浅底标签，严重度只表达一次。→ `status.md`、`alert-list.md`
-- **Metric**（标志性组件）：说明（`body-sm`、`muted-foreground`）→ 数值（`metric`）→ 单位。数值默认用 `foreground`，只有超过已知阈值时才变 `destructive`，并写明阈值。→ `metric.md`
-- **Loading / Empty / Error**：加载用和最终内容形状一致的骨架；空状态说明为什么空、下一步做什么；错误写真实原因并给「重试」。→ `states.md`
-- **Icons**：只用 lucide，按钮和列表里 16px，颜色跟随文字。→ `icon.md`
-- **Logo**：用 SVG 文件，亮底用黑色版，产品界面里高度不超过 20px。→ `logo.md`
+{{components}}
 - **Motion**：时长和曲线只从 `01-tokens/motion.json` 的 `surface` 取：悬停 150ms standard；浮层进入 200ms enter、退出 150ms exit；侧滑面板 300ms standard。
 
 ## Do's and Don'ts

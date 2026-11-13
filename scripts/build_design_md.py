@@ -102,7 +102,32 @@ for g in ['surface', 'brand', 'status']:
 body = (ROOT / 'scripts/design-md.body.md').read_text(encoding='utf-8').replace('{{themes}}', '\n'.join(themes))
 VALS = {f'colors.{k}': val(o['$value']) for grp in ['surface', 'brand', 'status'] for k, o in entries(LIGHT['color'][grp])}
 VALS.update({f'shadow.{k}': val(o['$value']) for k, o in entries(SHADOW['shadow'])})
+VALS.update({f'spacing.{k}': val(o['$value']) for grp in ['semantic', 'size'] for k, o in entries(SPACE[grp])})
+for grp in ['shell', 'width', 'breakpoint', 'grid']:
+    for k, o in entries(LAYOUT[grp]):
+        v = o['$value']
+        if isinstance(v, str) and v.startswith('{size'):
+            v = SPACE['size'][v.strip('{}').split('.')[1]]['$value']
+        VALS[f'layout.{grp}.{k}'] = str(val(v) if isinstance(v, str) else v)
+# Components：从 02-components/guidelines 每个文件的「摘要」生成，规则正文只在那里维护
+GUIDE = ROOT / '02-components/guidelines'
+ORDER = ['app-shell', 'page-layout', 'button', 'card', 'form', 'status', 'metric', 'alert-list', 'states', 'overlay', 'chart', 'interaction', 'icon', 'logo']
+comp = []
+for f in ORDER:
+    m = re.search(r'^> 摘要（(.+?)）：(.+)$', (GUIDE / f'{f}.md').read_text(encoding='utf-8'), re.M)
+    if not m:
+        raise SystemExit(f'{f}.md 缺少「> 摘要（名称）：」')
+    comp.append(f'- **{m.group(1)}**：{m.group(2)} → `{f}.md`')
+missing = sorted(set(p.stem for p in GUIDE.glob('*.md')) - set(ORDER) - {'README'})
+if missing:
+    raise SystemExit('guidelines 里有文件没有进入 DESIGN.md：' + ', '.join(missing))
+body = body.replace('{{components}}', '\n'.join(comp))
+# 字体规则原文在 01-tokens/typography.json，这里只引用
+body = body.replace('{{rules.typography}}', '\n'.join(f'- {r}' for r in ext(TYPO['typography']).get('rules', [])))
 body = re.sub(r'\{\{([\w.-]+)\}\}', lambda m: VALS[m.group(1)], body)
+left = re.findall(r'\{\{[^}]+\}\}', body)
+if left:
+    raise SystemExit('未替换的占位：' + ', '.join(left))
 out = re.sub(r'\n{3,}', '\n\n', '\n'.join(fm) + '\n\n' + body.strip() + '\n')
 (ROOT / 'DESIGN.md').write_text(out, encoding='utf-8')
 print('DESIGN.md', len(out.splitlines()), 'lines', len(out), 'chars')

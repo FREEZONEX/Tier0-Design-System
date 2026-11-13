@@ -1,5 +1,7 @@
 # 运行状态与状态标签
 
+> 摘要（Status）：设备运行状态写成「圆点 + 文字」；业务流程状态直接用 `AntTag`（default / blue / success / warning / error），不叠加同义圆点；`Badge` 只用于计数。
+
 ## 运行状态
 
 - 设备或产线的运行状态写成「圆点 + 文字」，不做成标签：运行中用品牌绿圆点（亮色 `highlight-ink`，暗色 `highlight`），停机、故障用对应状态色圆点。

@@ -4,13 +4,11 @@
 
 | 文件 | 内容 |
 |---|---|
-| [`app-shell.md`](app-shell.md) | 应用外壳：实际侧栏配置、账户与通知、窄屏、分割线、页面结构与原型控制 |
+| [`app-shell.md`](app-shell.md) | 应用外壳：侧栏、页面标题、页签、区块、分割线、原型控制 |
 | [`page-layout.md`](page-layout.md) | 页面布局 |
-| [`page-header.md`](page-header.md) | 页面标题 |
-| [`sidebar.md`](sidebar.md) | 侧边栏 |
 | [`card.md`](card.md) | 卡片与面板 |
 | [`button.md`](button.md) | 按钮 |
-| [`focus.md`](focus.md) | 焦点 |
+| [`form.md`](form.md) | 表单与焦点 |
 | [`icon.md`](icon.md) | 图标 |
 | [`metric.md`](metric.md) | 读数与指标 |
 | [`status.md`](status.md) | 运行状态与状态标签 |
