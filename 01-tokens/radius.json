@@ -51,7 +51,7 @@
     },
     "lg": {
       "$value": "6px",
-      "$description": "卡片、面板、侧滑面板。",
+      "$description": "侧滑面板、图片容器、截图框。",
       "$extensions": {
         "tier0": {
           "frontend": {
