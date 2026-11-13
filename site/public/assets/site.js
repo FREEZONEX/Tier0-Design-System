@@ -489,6 +489,8 @@
     LabRT.raf = requestAnimationFrame(frame);
   }
   function labInput(e) {
+    const sk2 = e.target.dataset && e.target.dataset.sig;
+    if (sk2) { sigData()[sk2] = e.target.value; sigStore.set(SIG.data); drawSig(); return true; }
     const ck = e.target.dataset && e.target.dataset.card;
     if (ck) { cardData()[ck] = e.target.value; cardStore.set(CARD.data); mountCard(); return true; }
     if (e.target.matches && e.target.matches('[data-card-qrfile]')) { const f = e.target.files[0]; if (f) { const r = new FileReader(); r.onload = () => { const i = new Image(); i.onload = () => { CARD.qrImg = i; mountCard(); }; i.src = r.result; }; r.readAsDataURL(f); } return true; }
@@ -572,6 +574,7 @@
       + sec('links', '网址', '印刷物写成 www.tier0.cn / www.tier0.app，不带 https://。', links)
       + sec('qr', '二维码', '保持白底黑码和四周留白，不改颜色、不加 Logo、不裁切；印刷最小 2 cm。', qrs)
       + sec('card', '名片', '1052 × 662（约 89 × 56 mm，300 dpi），正面放个人信息，背面放品牌。', card)
+      + sec('signature', '邮件签名', '650 × 165，左侧品牌面，右侧联系信息；版式取自 Figma 邮件模版。', vSignature())
       + sec('materials', '宣传物料', '源文件在 Figma「Tier0 设计素材」。换平台尺寸时保留同一套结构，按画幅重新排，不拉伸原图。', tpl)
       + sec('sizes', '各平台尺寸', '', sizes);
   }
@@ -653,6 +656,69 @@
     if (!CARD.logoLime) CARD.logoLime = asset('03-brand/logo/assets/tier0-logo-lime.svg').startsWith('data:') ? asset('03-brand/logo/assets/tier0-logo-lime.svg') : await svgDataUrl('03-brand/logo/assets/tier0-logo-lime.svg');
     if (!CARD.markT0) { const cv = document.createElement('canvas'); cv.width = 214; cv.height = 86; const lg = await loadImg(asset('03-brand/logo/assets/tier0-logo-black.svg')); const k = lg.naturalWidth / 422, sc = 86 / lg.naturalHeight; const c = cv.getContext('2d'); c.drawImage(lg, 0, 0, 77 * k, lg.naturalHeight, 0, 0, 77 * k * sc, 86); c.drawImage(lg, 344 * k, 0, 78 * k, lg.naturalHeight, 77 * k * sc + 16, 0, 78 * k * sc, 86); CARD.markT0 = cv.toDataURL(); }
     download(new Blob([cardSvg(side)], { type: 'image/svg+xml' }), `tier0-card-${CARD.lang}-${side}.svg`);
+  }
+
+  // ---------- 邮件签名（版式取自 Figma「FREEZONEX 设计素材」邮件模版，650 × 165） ----------
+  // 示例信息为虚构，替换成自己的再导出
+  const SIG_W = 650, SIG_H = 165;
+  const SIG_DEF = {
+    zh: { name: '林一', title: '解决方案架构师', phone: '+86 138 0000 0000', email: 'lin.yi@freezonex.io', web: 'www.tier0.cn', addr: '杭州市滨江区宝龙中心 2801室' },
+    en: { name: 'Alex Lin', title: 'Solutions Architect', phone: '+65 8000 0000', email: 'alex.lin@freezonex.io', web: 'www.tier0.app', addr: '1 Fusionopolis Link #03-03/03-04,\nNexus @One-North, Singapore 138542' },
+  };
+  const SIG_NOTE = { zh: '本邮件含受法律保护的保密信息，未经许可禁止转发或分享。', en: 'This email contains confidential information protected by law. Forwarding or sharing without permission is prohibited.' };
+  const SIG_FIELDS = [['name', '姓名'], ['title', '职位'], ['phone', '电话'], ['email', '邮箱'], ['web', '网址'], ['addr', '地址', 1]];
+  // lucide 图标路径（phone / mail / link / map-pin）
+  const SIG_ICONS = {
+    phone: ['M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384'],
+    mail: ['m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7', 'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z'],
+    link: ['M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71', 'M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'],
+    pin: ['M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0', 'M15 10a3 3 0 1 1-6 0 3 3 0 0 1 6 0z'],
+  };
+  const SIG = { lang: 'zh', data: null };
+  const sigStore = { get() { try { return JSON.parse(localStorage.getItem('t0-sig') || 'null'); } catch { return null; } }, set(v) { try { localStorage.setItem('t0-sig', JSON.stringify(v)); } catch {} } };
+  function sigData() { if (!SIG.data) SIG.data = sigStore.get() || JSON.parse(JSON.stringify(SIG_DEF)); return SIG.data[SIG.lang]; }
+  function vSignature() {
+    const d = sigData();
+    const field = ([k, n, multi]) => `<label class="bc-field"><span>${n}</span>${multi ? `<textarea data-sig="${k}" rows="2">${esc(d[k])}</textarea>` : `<input data-sig="${k}" value="${esc(d[k])}">`}</label>`;
+    const tip = '示例信息为虚构，替换成自己的再导出。PNG 为 1950 × 495（3 倍）；HTML 签名可直接粘贴到邮件客户端的签名设置里，Logo 以图片内嵌。修改只保存在这个浏览器里。';
+    return `<div class="bc bc-sig"><div class="bc-stage"><canvas id="sig-cv" width="${SIG_W * 3}" height="${SIG_H * 3}" aria-label="邮件签名预览"></canvas></div>
+      <div class="bc-panel"><div class="bc-top">${seg('siglang', [['zh', '中文'], ['en', 'English']], SIG.lang)}<button type="button" class="ui-btn ghost" data-sig-reset>恢复示例</button></div>
+        <div class="bc-fields">${SIG_FIELDS.map(field).join('')}</div>
+        <div class="bc-exp"><details class="menu"><summary class="ui-btn outline">${I.download}导出<svg class="rb-chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg></summary><div class="menu-pop"><button type="button" data-sig-png>PNG<small>1950×495</small></button><button type="button" data-sig-copy>复制 HTML 签名</button><button type="button" data-sig-html>下载 HTML</button></div></details><span class="why-tip" data-tip="${tip}" aria-label="${tip}">${I.info}</span></div></div></div>`;
+  }
+  async function drawSig() {
+    const cv = document.getElementById('sig-cv'); if (!cv) return;
+    const d = sigData(), s = cv.width / SIG_W, c = cv.getContext('2d');
+    c.setTransform(s, 0, 0, s, 0, 0);
+    const sans = '"IBM Plex Sans", "PingFang SC", "Microsoft YaHei", sans-serif', mono = '"IBM Plex Mono", "PingFang SC", monospace';
+    c.fillStyle = '#050B14'; c.fillRect(0, 0, SIG_W, SIG_H);
+    c.fillStyle = '#2F343B'; c.fillRect(199, 0, SIG_W - 199, SIG_H);
+    try { const lg = await loadImg(asset('03-brand/logo/assets/tier0-logo-lime.svg')); const w = 111, h = w * lg.naturalHeight / lg.naturalWidth; c.drawImage(lg, 44, (SIG_H - h) / 2, w, h); } catch {}
+    c.textBaseline = 'top'; c.textAlign = 'left';
+    c.fillStyle = '#FFFFFF'; c.font = `400 20px ${sans}`; c.letterSpacing = '0.8px'; c.fillText(String(d.name).toUpperCase(), 230, 15); c.letterSpacing = '0px';
+    c.fillStyle = '#B2ED1D'; c.font = `400 12px ${mono}`; c.fillText(d.title, 230, 43);
+    const icon = (k, x, y) => { c.save(); c.translate(x, y); c.scale(16 / 24, 16 / 24); c.strokeStyle = '#B2ED1D'; c.lineWidth = 2; c.lineCap = 'round'; c.lineJoin = 'round'; SIG_ICONS[k].forEach(p => c.stroke(new Path2D(p))); c.restore(); };
+    c.fillStyle = '#FFFFFF'; c.font = `300 9px ${sans}`;
+    [['phone', d.phone, 72], ['mail', d.email, 94], ['link', d.web, 116]].forEach(([k, v, y]) => { icon(k, 230, y - 2); c.fillText(v, 256, y + 1); });
+    icon('pin', 396, 77); String(d.addr).split('\n').forEach((ln, i) => c.fillText(ln, 422, 73 + i * 14));
+    c.fillStyle = '#C0C0C0'; c.font = `300 7px ${sans}`; c.fillText(SIG_NOTE[SIG.lang], 230, 144);
+  }
+  // HTML 签名：表格 + 行内样式，邮件客户端兼容性最好
+  function sigHtml() {
+    const d = sigData(), e = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    const cv = document.createElement('canvas'); cv.width = 333; cv.height = 81;
+    const lgCanvas = cv.getContext('2d'); const lg = imgCache[asset('03-brand/logo/assets/tier0-logo-lime.svg')];
+    return Promise.resolve(lg).then(img => { if (img) lgCanvas.drawImage(img, 0, 0, 333, 333 * img.naturalHeight / img.naturalWidth); const logo = cv.toDataURL('image/png');
+      const font = "font-family:'IBM Plex Sans',Arial,'PingFang SC','Microsoft YaHei',sans-serif;";
+      const row = (t) => `<tr><td style="padding:3px 0;${font}font-size:12px;color:#ffffff;">${t}</td></tr>`;
+      return `<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;width:650px;"><tr>
+<td width="199" style="background:#050B14;text-align:center;vertical-align:middle;padding:0;"><img src="${logo}" width="111" alt="Tier0" style="display:inline-block;border:0;"></td>
+<td style="background:#2F343B;padding:15px 24px 12px 31px;vertical-align:top;">
+<div style="${font}font-size:20px;letter-spacing:0.8px;color:#ffffff;text-transform:uppercase;">${e(d.name)}</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#B2ED1D;margin:2px 0 12px;">${e(d.title)}</div>
+<table cellpadding="0" cellspacing="0" border="0"><tr><td style="vertical-align:top;padding-right:24px;"><table cellpadding="0" cellspacing="0" border="0">${row('T&nbsp; ' + e(d.phone))}${row('E&nbsp; <a href="mailto:' + e(d.email) + '" style="color:#ffffff;text-decoration:none;">' + e(d.email) + '</a>')}${row('W&nbsp; <a href="https://' + e(String(d.web).replace(/^https?:\/\//, '')) + '" style="color:#ffffff;text-decoration:none;">' + e(d.web) + '</a>')}</table></td>
+<td style="vertical-align:top;${font}font-size:12px;color:#ffffff;padding-top:3px;">${e(d.addr).replace(/\n/g, '<br>')}</td></tr></table>
+<div style="${font}font-size:9px;color:#C0C0C0;margin-top:10px;">${e(SIG_NOTE[SIG.lang])}</div></td></tr></table>`; });
   }
 
   function vIllustration() {
@@ -1164,6 +1230,10 @@
     const msp = t.closest('[data-ms-play]'); if (msp) { playMs(msp.closest('.ms-row')); return; }
     if (t.closest('[data-dm-copy]')) { copy(D.designmd); return; }
     if (t.closest('[data-dm-ai]')) { copy(`请按下面的 DESIGN.md 做界面。开头的 token 是唯一数值来源，后面的原则用来判断取舍。不要另造颜色、字号、间距或圆角。\n\n${D.designmd}`); return; }
+    if (t.closest('[data-sig-png]')) { document.getElementById('sig-cv').toBlob(b => download(b, `tier0-email-signature-${SIG.lang}.png`)); return; }
+    if (t.closest('[data-sig-html]')) { sigHtml().then(h => download(new Blob([`<!doctype html><meta charset="utf-8">${h}`], { type: 'text/html' }), `tier0-email-signature-${SIG.lang}.html`)); return; }
+    if (t.closest('[data-sig-copy]')) { sigHtml().then(h => { try { navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([h], { type: 'text/html' }), 'text/plain': new Blob([h], { type: 'text/plain' }) })]).then(() => toast && toast('已复制，粘贴到邮件客户端的签名设置里')); } catch { copy(h); } }); return; }
+    if (t.closest('[data-sig-reset]')) { sigData(); SIG.data[SIG.lang] = JSON.parse(JSON.stringify(SIG_DEF[SIG.lang])); sigStore.set(SIG.data); return route(true); }
     const cpng = t.closest('[data-card-png]'); if (cpng) { const side = cpng.dataset.cardPng; document.getElementById('bc-' + side).toBlob(b => download(b, `tier0-card-${CARD.lang}-${side}.png`)); return; }
     const csvg = t.closest('[data-card-svg]'); if (csvg) { exportCardSvg(csvg.dataset.cardSvg); return; }
     if (t.closest('[data-card-reset]')) { cardData(); CARD.data[CARD.lang] = JSON.parse(JSON.stringify(CARD_DEF[CARD.lang])); CARD.qrImg = null; cardStore.set(CARD.data); return route(true); }
@@ -1190,6 +1260,7 @@
       if (k === 'labmode') { lab.mode = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); return; }
       if (k === 'bwscene') { const r = BW_SCENES.find(x => x[0] === v)[2]; Object.assign(bw, { scene: v }, r); return route(true); }
       if (k === 'bwstyle' || k === 'bwcolor') { bw[k === 'bwstyle' ? 'style' : 'color'] = v; sg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === sg))); bwPaint(); return; }
+      if (k === 'siglang') { SIG.lang = v; return route(true); }
       if (k === 'cardlang') { CARD.lang = v; CARD.qrImg = null; return route(true); }
       if (k === 'ezmode') { MO.ez = v; return route(true); }
       if (k === 'txgroup') { txGroup = v; return route(true); }
@@ -1242,7 +1313,8 @@
   (() => { const bm = document.querySelector('.brandmark'); if (!bm) return; bm.innerHTML = logoSvg(); })();
   document.addEventListener('change', e => { if (e.target.id === 'lab-file' && e.target.files[0]) { const f = e.target.files[0]; labSource(URL.createObjectURL(f), f.type.startsWith('video')); } });
   document.addEventListener('t0:qr-ready', () => mountCard());
-  document.addEventListener('portal:render', () => { mountScaffold(); mountPreviews(); mountScenes(); mountLab(); mountDatalines(); mountCard(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
+  if (document.fonts) document.fonts.ready.then(() => drawSig());
+  document.addEventListener('portal:render', () => { mountScaffold(); mountPreviews(); mountScenes(); mountLab(); mountDatalines(); mountCard(); drawSig(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
   window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); heroState(); }, { passive: true });
   window.addEventListener('hashchange', () => route('anchor'));
 
