@@ -107,10 +107,10 @@ Tier0 的界面以白色为底，浅灰（`#FAFAFA`）区分区块，1px 细线�
 **依赖方向**
 
 ```
-00-foundation → 01-tokens → 02-components / 03-brand → 04-skills
+00-foundation → 01-tokens → 02-components / 03-brand → .agents/skills
 ```
 
 - `02-components` 与 `03-brand` 只引用 `01-tokens`，彼此不互相引用。
-- `04-skills` 的参考资料由上游生成，不手写。
+- `.agents/skills` 的参考资料由上游生成，不手写。
 
 

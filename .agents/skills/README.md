@@ -1,4 +1,4 @@
-# 04-skills
+# .agents/skills
 
 AI 调用规则。把 `00-foundation`、`01-tokens`、`02-components`、`03-brand` 打包成 AI 可以直接使用的 skill。
 

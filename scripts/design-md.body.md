@@ -7,7 +7,7 @@ Tier0 为制造业构建 Agentic 工业数据平台：工厂设备和业务系�
 - **产品界面**：高密度的工业工作台。紧凑、跟手，用间距和细线分组。
 - **官网与宣传物料**：同一套颜色和字体，字阶放大、留白更多，可以使用品牌图形（方块标记、层级树、点阵）。
 
-数值以 `01-tokens/` 为准，本文件 front matter 是它的摘录；组件的逐条用法见 `02-components/guidelines/`；取舍顺序和分阶段工作法见 `04-skills/tier0-design/SKILL.md`。
+数值以 `01-tokens/` 为准，本文件 front matter 是它的摘录；组件的逐条用法见 `02-components/guidelines/`；取舍顺序和分阶段工作法见 `.agents/skills/tier0-design/SKILL.md`。
 
 ## Colors
 

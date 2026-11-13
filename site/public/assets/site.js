@@ -877,14 +877,14 @@
   const sk = { id: 'tier0-design', brief: '做一页展示 Line-01 实时状态的看板' };
   function skPrompt() {
     const s = SKILLS.find(x => x.id === sk.id);
-    return `/${s.id}\n\n需求：${sk.brief}\n\n要求：\n- 先读 04-skills/tier0-design/SKILL.md，再读 DESIGN.md\n- 产品界面用 02-components 里的 @tier0/ui 组件，用法见 02-components/guidelines\n- 颜色、字体、间距只用 DESIGN.md 里的 token\n- 原型的状态切换放进右下角「原型控制」\n- 完成后对照 DESIGN.md 的 Do's and Don'ts 和 skill 的自查清单检查`;
+    return `/${s.id}\n\n需求：${sk.brief}\n\n要求：\n- 先读 .agents/skills/tier0-design/SKILL.md，再读 DESIGN.md\n- 产品界面用 02-components 里的 @tier0/ui 组件，用法见 02-components/guidelines\n- 颜色、字体、间距只用 DESIGN.md 里的 token\n- 原型的状态切换放进右下角「原型控制」\n- 完成后对照 DESIGN.md 的 Do's and Don'ts 和 skill 的自查清单检查`;
   }
   function vSkills() {
     const s = SKILLS.find(x => x.id === sk.id);
     return docHead('Skills', '把设计系统交给 AI：写下需求，复制指令发给 Agent。Agent 会先读 tier0-design，再按任务读 DESIGN.md 的对应章节。')
       + sec('try', '试用', esc(s.desc), `<div class="spec"><div class="spec-bar">${seg('skill', SKILLS.map(x => [x.id, x.zh]), sk.id)}</div>
           <div class="spec-body" style="display:grid;gap:16px"><div class="ui-field" style="width:100%;max-width:640px"><label class="ui-label" for="sk-brief">需求</label><input class="ui-input" id="sk-brief" value="${esc(sk.brief)}"></div><div id="sk-out">${codeBlock(skPrompt())}</div></div></div>`)
-      + sec('files', '文件结构', '', codeBlock(`04-skills/${s.id}/\n├── SKILL.md\n├── references/\n├── assets/\n├── examples/\n└── gotchas.md`));
+      + sec('files', '文件结构', '', codeBlock(`.agents/skills/${s.id}/\n├── SKILL.md\n├── references/\n├── assets/\n├── examples/\n└── gotchas.md`));
   }
 
   function vSoon(id) {
