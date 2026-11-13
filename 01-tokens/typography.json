@@ -1,0 +1,462 @@
+{
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "display": {
+        "$value": [
+          "Inter",
+          "PingFang SC",
+          "Microsoft YaHei",
+          "Arial",
+          "sans-serif"
+        ],
+        "$description": "标题：页面标题、分区标题、官网与 Deck 大标题——字形紧凑、几何感强；英文标题使用字阶中的负字距（见各字阶 letterSpacing）。中文回落到系统字体。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "cssVar": "--font-display-sans",
+              "tailwind": "font-display"
+            }
+          }
+        }
+      },
+      "sans": {
+        "$value": [
+          "IBM Plex Sans",
+          "PingFang SC",
+          "Microsoft YaHei",
+          "Arial",
+          "sans-serif"
+        ],
+        "$description": "正文与界面文字：段落、按钮、表单、标签、导航——中性、耐读，带一点工程字体的硬朗，长时间阅读不累。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "cssVar": "--font-app-sans",
+              "tailwind": "font-sans",
+              "note": "Tailwind 的 --font-sans 应指向 --font-app-sans，不使用 Geist。前端 tailwind.css 当前为 --font-sans: var(--font-geist-sans)，待前端调整。"
+            }
+          }
+        }
+      },
+      "mono": {
+        "$value": [
+          "IBM Plex Mono",
+          "PingFang SC",
+          "Microsoft YaHei",
+          "ui-monospace",
+          "monospace"
+        ],
+        "$description": "只用于代码和命令行。数值、读数、标签、导航一律不用等宽字体。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "cssVar": "--font-geist-mono",
+              "tailwind": "font-mono",
+              "note": "前端当前为 Geist Mono，需改为 IBM Plex Mono"
+            }
+          }
+        }
+      },
+      "sc": {
+        "$value": [
+          "PingFang SC",
+          "Microsoft YaHei",
+          "Noto Sans CJK SC",
+          "Source Han Sans SC",
+          "sans-serif"
+        ],
+        "$description": "中文：使用系统字体——macOS / iOS 为苹方（PingFang SC），Windows 为微软雅黑（Microsoft YaHei），Android 为思源黑体（Noto Sans CJK SC）。作为以上三种字体的中文回落，不单独指定。",
+        "$extensions": {
+          "tier0": {
+            "rationale": "中文 Web 字体单个字重就有数 MB，按需加载在工厂内网、私有化部署和弱网环境下会明显拖慢首屏，离线部署时还可能加载失败；苹方和微软雅黑覆盖绝大多数办公与工控终端，字形完整、屏幕显示清晰，且与 IBM Plex Sans 的中性气质相近。",
+            "frontend": {
+              "note": "前端未加载中文 Web 字体，与本规定一致。"
+            },
+            "platforms": {
+              "macOS / iOS": "PingFang SC",
+              "Windows": "Microsoft YaHei",
+              "Android": "Noto Sans CJK SC"
+            }
+          }
+        }
+      },
+      "logo": {
+        "$value": [
+          "Tektur"
+        ],
+        "$description": "Logo 字标——方正、带切角的显示字体，只存在于 Logo 中，交付时转为路径。不用于标题、正文或界面文字。"
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": {
+        "$value": 400,
+        "$description": "正文、说明、代码。"
+      },
+      "medium": {
+        "$value": 500,
+        "$description": "按钮、标签、导航、小标题——比正文稍重，用于需要被点击或扫读的文字。"
+      },
+      "semibold": {
+        "$value": 600,
+        "$description": "分区标题、子标题。"
+      },
+      "bold": {
+        "$value": 700,
+        "$description": "页面大标题。只用于标题，不用于正文强调。"
+      }
+    }
+  },
+  "typography": {
+    "$description": "字阶分两套：product 用于产品后台，web 用于官网和宣传物料。",
+    "product": {
+      "$description": "产品字阶：Tier0 平台界面使用。",
+      "typo-h1": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "38px",
+          "lineHeight": "46px",
+          "fontWeight": "{font.weight.bold}",
+          "letterSpacing": "-0.456px"
+        },
+        "$description": "官网和文档的页面大标题。产品页面标题不用这一级。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "typo-h1"
+            }
+          }
+        }
+      },
+      "typo-h2": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "{font.weight.semibold}",
+          "letterSpacing": "-0.225px"
+        },
+        "$description": "产品页面标题（前端 text-3xl font-semibold，SettingComHeader）；官网的分区标题。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "typo-h2"
+            }
+          }
+        }
+      },
+      "typo-h3": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "24px",
+          "lineHeight": "32px",
+          "fontWeight": "{font.weight.semibold}",
+          "letterSpacing": "-0.144px"
+        },
+        "$description": "弹窗标题、子标题。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "typo-h3"
+            }
+          }
+        }
+      },
+      "typo-h4": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "20px",
+          "lineHeight": "28px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "-0.1px"
+        },
+        "$description": "紧凑页面的标题、卡片和区块标题。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "typo-h4"
+            }
+          }
+        }
+      },
+      "body-lg": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "18px",
+          "lineHeight": "28px",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "0px"
+        },
+        "$description": "引导语、空状态说明、卡片里的重点说明——比正文大一级，但不是标题。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "text-lg"
+            }
+          }
+        }
+      },
+      "body": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "16px",
+          "lineHeight": "24px",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "0px"
+        },
+        "$description": "官网正文、长段落——字号和行高更宽松，适合连续阅读。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "text-base"
+            }
+          }
+        }
+      },
+      "body-sm": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "14px",
+          "lineHeight": "20px",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "0px"
+        },
+        "$description": "产品界面正文（默认）——信息密度和可读性的平衡点。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "text-sm"
+            }
+          }
+        }
+      },
+      "label": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "14px",
+          "lineHeight": "20px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "0px"
+        },
+        "$description": "按钮、表单标签、导航——与正文同字号，用 500 字重区分可操作的文字。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "text-sm font-medium"
+            }
+          }
+        }
+      },
+      "caption": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "12px",
+          "lineHeight": "16px",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "0px"
+        },
+        "$description": "辅助说明、时间戳、注释——全系统最小字号。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "text-xs",
+              "note": "前端 .caption 为 9px、.note 为 10px，低于 12px 下限，需改为 text-xs"
+            }
+          }
+        }
+      },
+      "title": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "12px",
+          "lineHeight": "16px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "0px"
+        },
+        "$description": "分组小标题：正常大小写，不加字距。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "text-xs font-medium tracking-wider uppercase",
+              "note": "前端 .title 为 11px，本规范建议 12px。"
+            }
+          }
+        }
+      },
+      "code": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.mono}",
+          "fontSize": "13px",
+          "lineHeight": "20px",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "0px"
+        },
+        "$description": "代码、命令行：13px，比产品正文 14px 小 1px，等宽字形偏宽，并排时视觉大小一致。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "font-mono text-[13px]"
+            }
+          }
+        }
+      },
+      "body-long": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "16px",
+          "lineHeight": "28px",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "0px"
+        },
+        "$description": "连续的中文长文：文档、帮助、说明页。"
+      },
+      "metric-lg": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "32px",
+          "lineHeight": "40px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "0px"
+        },
+        "$description": "关键读数：看板上最需要被看到的数字。"
+      },
+      "metric": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "22px",
+          "lineHeight": "28px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "0px"
+        },
+        "$description": "一般读数：指标卡、统计条里的数字。"
+      }
+    },
+    "web": {
+      "$description": "官网字阶：官网、Deck、宣传物料使用。标题与正文同产品字阶；导航、按钮和分组小标签使用等宽字体，与官网一致。",
+      "display": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.display}",
+          "fontSize": "48px",
+          "lineHeight": "60px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "-0.96px"
+        },
+        "$description": "官网首屏、Deck 封面——全系统最大的字号，每页最多一次。产品界面不使用。",
+        "$extensions": {
+          "tier0": {
+            "frontend": {
+              "tailwind": "text-5xl leading-tight font-medium",
+              "note": "前端 h1 元素的默认样式与此相同；h1 标签不等于 typo-h1，产品页面的页面标题用 typo-h1 类。"
+            }
+          }
+        }
+      },
+      "typo-h1": {
+        "$type": "typography",
+        "$value": "{typography.product.typo-h1}",
+        "$description": "同产品字阶。"
+      },
+      "typo-h2": {
+        "$type": "typography",
+        "$value": "{typography.product.typo-h2}",
+        "$description": "同产品字阶。"
+      },
+      "typo-h3": {
+        "$type": "typography",
+        "$value": "{typography.product.typo-h3}",
+        "$description": "同产品字阶。"
+      },
+      "typo-h4": {
+        "$type": "typography",
+        "$value": "{typography.product.typo-h4}",
+        "$description": "同产品字阶。"
+      },
+      "body-lg": {
+        "$type": "typography",
+        "$value": "{typography.product.body-lg}",
+        "$description": "同产品字阶。"
+      },
+      "body": {
+        "$type": "typography",
+        "$value": "{typography.product.body}",
+        "$description": "官网正文、长段落——同产品字阶。"
+      },
+      "body-sm": {
+        "$type": "typography",
+        "$value": "{typography.product.body-sm}",
+        "$description": "卡片说明、辅助段落——同产品字阶。"
+      },
+      "label": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "14px",
+          "lineHeight": "20px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "0px"
+        },
+        "$description": "导航、按钮、链接：与正文同字号，用 500 字重区分可操作的文字。"
+      },
+      "title": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontSize": "12px",
+          "lineHeight": "16px",
+          "fontWeight": "{font.weight.medium}",
+          "letterSpacing": "0px"
+        },
+        "$description": "分组小标签：正常大小写，不加字距。"
+      },
+      "caption": {
+        "$type": "typography",
+        "$value": "{typography.product.caption}",
+        "$description": "同产品字阶。"
+      },
+      "code": {
+        "$type": "typography",
+        "$value": "{typography.product.code}",
+        "$description": "同产品字阶。"
+      },
+      "body-long": {
+        "$type": "typography",
+        "$value": "{typography.product.body-long}",
+        "$description": "同产品字阶。"
+      }
+    },
+    "$extensions": {
+      "tier0": {
+        "rules": [
+          "标题和读数用 Inter，正文用 IBM Plex Sans，代码和命令行用 IBM Plex Mono（UNS 数据路径不算代码，用常规字体）；中文使用系统字体（苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体）；Tektur 只用于 Logo。",
+          "不引入以上之外的字体。",
+          "中文标题和中英混排标题字距为 0；只有纯英文标题使用字阶里的负字距。",
+          "最小字号用 caption；更小的字号只用于图表刻度等不需要阅读的文字。",
+          "字重只用 400 / 500 / 600 / 700。",
+          "读数和统计数字用 metric 字阶（Inter，500 字重），按画面层级在 metric-lg 和 metric 之间选，必要时可按场景放大；数字开启等宽数字（tabular-nums）。等宽字体只用于代码。",
+          "界面里只用字阶里的字号，不写任意值。海报、Slides 这类固定画幅的物料按画幅放大，字体和字重沿用官网字阶。",
+          "段落之间：body-sm 用 paragraph，body 和 body-long 用 paragraph-lg。",
+          "连续的中文长文（文档、帮助）使用 body-long（16/28）。",
+          "截断：表格单元格、标签、导航单行截断加省略号，并能查看完整内容；卡片说明最多 2 行。",
+          "文字颜色：标题与正文用 foreground；说明、时间戳用 muted-foreground；绿色文字用 highlight-ink。次要文字不放在 muted 背景上，避免对比度不足。",
+          "不用斜体做强调。"
+        ]
+      }
+    }
+  }
+}

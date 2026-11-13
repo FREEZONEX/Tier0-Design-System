@@ -1,0 +1,28 @@
+{
+  "name": "@tier0/theme",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.scss",
+    "./tailwind.css": "./src/tailwind.css",
+    "./themes.scss": "./src/themes.scss",
+    "./variables.scss": "./src/variables.scss",
+    "./override-antd.scss": "./src/override-antd.scss",
+    "./token.ts": "./src/token.ts"
+  },
+  "sideEffects": [
+    "./index.scss",
+    "./tailwind.css",
+    "./themes.scss",
+    "./variables.scss",
+    "./override-antd.scss",
+    "./token.ts"
+  ],
+  "scripts": {
+    "lint:style": "stylelint '**/*.{css,scss}' --fix"
+  },
+  "dependencies": {
+    "sass": "^1.89.2",
+    "tw-animate-css": "^1.3.4"
+  }
+}

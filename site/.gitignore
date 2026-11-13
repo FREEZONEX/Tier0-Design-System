@@ -1,0 +1,16 @@
+# --- 本地依赖与构建产物 ---
+node_modules/
+dist/
+
+# --- 付费组件库：只在本地使用，不进仓库 ---
+components.json
+src/vendor/
+.env.local
+.env*.local
+.mcp.json
+.claude/
+backup-pre-*/
+src/styles/globals.css
+src/components/
+src/local/
+public/scaffold/

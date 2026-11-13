@@ -1,0 +1,268 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@custom-variant dark (&:is(.dark *));
+
+/* 让 Tailwind 看到 哪些需要class需要扫描进去 */
+
+/* UI 组件 */
+@source "../../ui/**/*.{ts,tsx}";
+
+/* uns-agent 抽包组件：saas-dashboard 经 transpilePackages 从包源码消费（不加载包自带
+   style.css），其 Tailwind 类须纳入本扫描，否则包内独有类（arbitrary 尺寸/层级等）不进产物 CSS */
+@source "../../uns-agent-ui/src/**/*.{ts,tsx}";
+
+/* Apps - 只扫描源代码目录 */
+@source "../../../apps/saas-dashboard/app/**/*.{ts,tsx}";
+@source "../../../apps/saas-dashboard/components/**/*.{ts,tsx}";
+@source "../../../apps/platform-admin/app/**/*.{ts,tsx}";
+@source "../../../apps/platform-admin/components/**/*.{ts,tsx}";
+
+@theme inline {
+  /* 自定义变量 */
+  --shadow: 0px 4px 6px 0px rgb(0 0 0 / 9%);
+  --shadow-input: 0 0 0 2px rgb(162 216 26 / 20%);
+
+  /* 校验失败时的 focus 外圈：与 --shadow-input 同形制，但色值从 --destructive 运行时推导，
+     不做快照——invalid 边框本就跟着该语义 token 走，宿主换主题时快照值会和边框对不上。
+     缺了它，invalid 输入框聚焦时会同时出现红边框和品牌绿外圈。 */
+  --shadow-input-invalid: 0 0 0 2px color-mix(in srgb, var(--destructive) 20%, transparent);
+
+  /* 基础背景色 */
+  --color-bg: var(--tier0-bg-color);
+  --color-bg-secondary: var(--tier0-bg-secondary);
+
+  /* grey-200 */
+  --color-bg-accent: var(--tier0-bg-accent);
+
+  /* grey-100 */
+  --color-bg-tertiary: var(--tier0-bg-tertiary);
+
+  /* grey-50 */
+  --color-bg-tertiary-green: var(--tier0-bg-tertiary-green);
+
+  /* near-white 分区底 #fcfcfc */
+  --color-bg-subtle: var(--tier0-bg-subtle);
+
+  /* 基础文案颜色 */
+  --color-text: var(--tier0-text-color);
+
+  /* black-600 */
+  --color-text-secondary: var(--tier0-text-secondary);
+
+  /* black-500 */
+  --color-text-accent: var(--tier0-text-accent);
+
+  /* grey-400 */
+  --color-text-tertiary: var(--tier0-text-tertiary);
+
+  /* grey-300 */
+  --color-text-placeholder: var(--tier0-text-placeholder);
+
+  /* 边框颜色 --color-border直接用shadcn的变量 */
+  --color-border-secondary: var(--tier0-border-secondary);
+
+  /* 主题色-黑色 */
+  --color-theme-primary: var(--tier0-theme-primary);
+
+  /* 高亮色-绿色 */
+  --color-theme-highlight: var(--tier0-theme-highlight);
+
+  /* 高亮色-黑色 */
+  --color-primary-hover: var(--tier0-primary-hover);
+
+  /* 高亮色 - 加深 */
+  --color-highlight: var(--tier0-highlight);
+  --color-highlight-foreground: var(--tier0-highlight-foreground);
+  --color-highlight-deep: var(--tier0-highlight-deep);
+
+  /* 高亮色-背景色 */
+  --color-highlight-bg-primary: var(--tier0-highlight-bg-primary);
+  --color-highlight-bg-secondary: var(--tier0-highlight-bg-secondary);
+  --color-highlight-bg-accent: var(--tier0-highlight-bg-accent);
+  --color-highlight-bg-tertiary: var(--tier0-highlight-bg-tertiary);
+
+  /* 高亮-边框和文案 */
+  --color-highlight-border: var(--tier0-highlight-border);
+  --color-highlight-text: var(--tier0-highlight-text);
+  --color-highlight-text-accent: var(--tier0-highlight-text-accent);
+  --color-highlight-text-deep: var(--tier0-highlight-text-deep);
+
+  /* slash 命令名内联高亮（uns-agent chat 输入框，2026-07-23）：violet 原始色阶的语义封装，
+     与 packages/uns-agent-ui/src/styles/theme-map.css（npm 独立发包用）同名同指向，两处同步改 */
+  --color-command-accent: var(--tier0-v-violet-600);
+  --color-command-accent-bg: var(--tier0-v-violet-50);
+
+  /* success */
+  --color-success: var(--tier0-success-color);
+  --color-success-bg: var(--tier0-success-bg);
+  --color-success-secondary: var(--tier0-success-secondary);
+  --color-success-accent: var(--tier0-success-accent);
+  --color-success-tertiary: var(--tier0-success-tertiary);
+
+  /* error */
+  --color-error: var(--tier0-error-color);
+  --color-error-secondary: var(--tier0-error-secondary);
+  --color-error-accent: var(--tier0-error-accent);
+  --color-error-tertiary: var(--tier0-error-tertiary);
+
+  /* warning */
+  --color-warning: var(--tier0-warning-color);
+  --color-warning-strong: var(--tier0-warning-strong);
+  --color-warning-fill: var(--tier0-warning-fill);
+  --color-warning-secondary: var(--tier0-warning-secondary);
+  --color-warning-accent: var(--tier0-warning-accent);
+  --color-warning-tertiary: var(--tier0-warning-tertiary);
+
+  /* orange */
+  --color-orange-tertiary: var(--tier0-orange-tertiary);
+  --color-orange-secondary: var(--tier0-orange-secondary);
+  --color-orange-color: var(--tier0-orange-color);
+
+  /* fuchsia */
+  --color-fuchsia-tertiary: var(--tier0-fuchsia-tertiary);
+  --color-fuchsia-secondary: var(--tier0-fuchsia-secondary);
+  --color-fuchsia-color: var(--tier0-fuchsia-color);
+
+  /* emerald */
+  --color-emerald-tertiary: var(--tier0-emerald-tertiary);
+  --color-emerald-secondary: var(--tier0-emerald-secondary);
+  --color-emerald-color: var(--tier0-emerald-color);
+
+  /* blue */
+  --color-blue-tertiary: var(--tier0-blue-tertiary);
+  --color-blue-secondary: var(--tier0-blue-secondary);
+  --color-blue-accent: var(--tier0-blue-accent);
+  --color-blue-color: var(--tier0-blue-color);
+
+  /* amber */
+  --color-amber-tertiary: var(--tier0-amber-tertiary);
+  --color-amber-secondary: var(--tier0-amber-secondary);
+  --color-amber-color: var(--tier0-amber-color);
+
+  /* State action Metric Path 图标颜色 */
+  --color-topic-state-border: var(--tier0-topic-state-border);
+  --color-topic-action-border: var(--tier0-topic-action-border);
+  --color-topic-metric-border: var(--tier0-topic-metric-border);
+  --color-path-border: var(--tier0-path-border);
+
+  /* shadcn */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-display-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* sm-2px md-4px lg-6px xl-10px */
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: calc(var(--radius) - 2px);
+  --radius-xl: calc(var(--radius) + 2px);
+
+  /* 自定义 Shadcn 组件变量 */
+  --color-dialog-title: var(--dialog-title);
+  --color-tab-line: var(--tab-line);
+  --color-button-highlight: var(--tier0-highlight-bg-primary);
+  --color-button-highlight-hover: var(--tier0-highlight-bg-secondary);
+  --color-button-destructive: var(--destructive);
+  --color-button-destructive-hover: var(--destructive-hover);
+  --color-button-primary: var(--tier0-primary);
+  --color-button-primary-hover: var(--tier0-primary-hover);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer typography {
+  .font-display {
+    font-family: var(--font-display), Arial, sans-serif;
+  }
+
+  h1 {
+    @apply text-5xl leading-tight font-medium;
+  }
+
+  .typo-h1,
+  .typo-h2,
+  .typo-h3,
+  .typo-h4 {
+    font-family: var(--font-display), Arial, sans-serif;
+
+    /* color: var(--tier0-v-slate-900, #0f172a); */
+  }
+
+  .typo-h1 {
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 46px;
+    letter-spacing: -0.456px;
+  }
+
+  .typo-h2 {
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 36px;
+    letter-spacing: -0.225px;
+  }
+
+  .typo-h3 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+    letter-spacing: -0.144px;
+  }
+
+  .typo-h4 {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
+    letter-spacing: -0.1px;
+  }
+
+  .note {
+    @apply text-[10px] leading-3 font-normal;
+  }
+
+  .caption {
+    @apply text-[9px] leading-4 font-normal text-gray-400;
+  }
+
+  .title {
+    @apply py-2 text-[11px] font-medium tracking-wider uppercase;
+  }
+}

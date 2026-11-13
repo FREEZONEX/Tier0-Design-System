@@ -1,0 +1,247 @@
+:root {
+  /** 自定义主题色 */
+
+  // 基础背景色
+  --tier0-bg-color: var(--tier0-v-primary-white);
+  --tier0-bg-secondary: var(--tier0-v-grey-200); // 较浅灰背景
+  --tier0-bg-accent: var(--tier0-v-grey-100); // 选中项、高亮项背景
+  --tier0-bg-tertiary: var(--tier0-v-grey-50); // 更浅灰
+  --tier0-bg-subtle: var(--tier0-v-bg-white); // near-white 分区底（明细卡/表格区，与纯白容器区分）
+
+  // 基础文案颜色
+  --tier0-text-color: var(--tier0-v-black-900);
+  --tier0-text-secondary: var(--tier0-v-black-600);
+  --tier0-text-accent: var(--tier0-v-black-500);
+  --tier0-text-tertiary: var(--tier0-v-grey-400);
+  --tier0-text-placeholder: var(--tier0-v-grey-300);
+
+  // 边框颜色
+  --tier0-border: var(--tier0-v-grey-200);
+  --tier0-border-secondary: var(--tier0-v-grey-100); // 更浅灰的边框
+
+  // 主题色-黑色
+  --tier0-theme-primary: var(--tier0-v-black-900);
+
+  // 高亮色-绿色
+  --tier0-theme-highlight: var(--tier0-v-fx-green-500);
+
+  /* 主题色（Primary / 黑色系） */
+  --tier0-primary: var(--tier0-theme-primary);
+  --tier0-primary-90: color-mix(in oklab, var(--tier0-theme-primary) 90%, transparent);
+  --tier0-primary-20: color-mix(in oklab, var(--tier0-theme-primary) 20%, transparent);
+  --tier0-primary-foreground: var(--tier0-v-primary-white);
+  --tier0-primary-hover: var(--tier0-v-black-700);
+
+  /* 高亮色（Highlight / 绿色系） */
+  --tier0-highlight: var(--tier0-theme-highlight); /* 主色 */
+  --tier0-highlight-90: color-mix(in oklab, var(--tier0-theme-highlight) 90%, transparent);
+  --tier0-highlight-20: color-mix(in oklab, var(--tier0-theme-highlight) 20%, transparent);
+  --tier0-highlight-foreground: var(--tier0-v-black-900);
+  --tier0-highlight-deep: var(--tier0-v-fx-green-deep);
+
+  /* 高亮色 背景层次 */
+  --tier0-highlight-bg-primary: var(--tier0-v-fx-green-300); /* 常规背景 */
+  --tier0-highlight-bg-secondary: var(--tier0-v-fx-green-200); /* 较浅背景 */
+  --tier0-highlight-bg-accent: var(--tier0-v-fx-green-100); /* 高亮背景 */
+  --tier0-highlight-bg-tertiary: var(--tier0-v-fx-green-50); /* 更浅背景 */
+
+  /* 高亮色 文案与边框 */
+  --tier0-highlight-text: var(--tier0-v-fx-green-600);
+  --tier0-highlight-text-deep: var(--tier0-v-fx-green-800);
+  --tier0-highlight-text-accent: var(--tier0-v-fx-green-700);
+  --tier0-highlight-border: var(--tier0-v-fx-green-300);
+
+  // 状态定义
+  // success
+  --tier0-success-bg: var(--tier0-v-success-500);
+  --tier0-success-color: var(--tier0-v-success-600); // 图标、文字等
+  --tier0-success-secondary: var(--tier0-v-success-300); // 较浅，边框等
+  --tier0-success-accent: var(--tier0-v-success-200); // 更浅，无边框背景等
+  --tier0-success-tertiary: var(--tier0-v-success-100); // 更浅，有边框背景等
+
+  // error
+  --tier0-error-color: var(--tier0-v-error-600); // 图标、文字等
+  --tier0-error-secondary: var(--tier0-v-error-300); // 较浅，边框等
+  --tier0-error-accent: var(--tier0-v-error-200); // 更浅，无边框背景等
+  --tier0-error-tertiary: var(--tier0-v-error-100); // 更浅，有边框背景等
+
+  // warning
+  --tier0-warning-color: var(--tier0-v-warning-500); // 图标、文字等
+  --tier0-warning-strong: var(--tier0-v-warning-700); // 白底上的警示正文（500 太浅，对比度不足）
+  --tier0-warning-fill: var(--tier0-v-warning-600); // 进度条 / 用量条的实心填充（500 作为填充过浅）
+  --tier0-warning-secondary: var(--tier0-v-warning-300); // 较浅，边框等
+  --tier0-warning-accent: var(--tier0-v-warning-200); // 更浅，无边框背景等
+  --tier0-warning-tertiary: var(--tier0-v-warning-100); // 更浅，有边框背景等
+
+  // orange
+  --tier0-orange-tertiary: var(--tier0-v-orange-50); // 更浅，有边框背景等
+  --tier0-orange-secondary: var(--tier0-v-orange-300); // 较浅，边框等
+  --tier0-orange-color: var(--tier0-v-orange-600); // 图标文字
+
+  // fuchsia
+  --tier0-fuchsia-tertiary: var(--tier0-v-fuchsia-50); // 更浅，有边框背景等
+  --tier0-fuchsia-secondary: var(--tier0-v-fuchsia-300); // 较浅，边框等
+  --tier0-fuchsia-color: var(--tier0-v-fuchsia-600); // 图标文字
+
+  // emerald
+  --tier0-emerald-tertiary: var(--tier0-v-emerald-50); // 更浅，有边框背景等
+  --tier0-emerald-secondary: var(--tier0-v-emerald-300); // 较浅，边框等
+  --tier0-emerald-color: var(--tier0-v-emerald-600); // 图标文字
+
+  // blue
+  --tier0-blue-tertiary: var(--tier0-v-blue-50); // 更浅，有边框背景等
+  --tier0-blue-secondary: var(--tier0-v-blue-200); // 较浅，边框等
+  --tier0-blue-accent: var(--tier0-v-blue-300); // 信息标签边框（blue-200 更浅，标签描边偏弱）
+  --tier0-blue-color: var(--tier0-v-blue-600); // 图标文字
+
+  // amber
+  --tier0-amber-tertiary: var(--tier0-v-amber-50); // 更浅，有边框背景等
+  --tier0-amber-secondary: var(--tier0-v-amber-300); // 较浅，边框等
+  --tier0-amber-color: var(--tier0-v-amber-600); // 图标文字
+
+  // 分类标识色板（categorical）：按名称哈希或分组序号取色，用来区分「哪一个」，
+  // 不表达状态。刻意与 success / error / warning 分开——把状态色挪去做标识色，
+  // 会让人以为改报错色只影响报错。不新增色值，全部指向已有原色阶；换配色只改这几行。
+  --tier0-cat-1-bg: var(--tier0-v-error-50);
+  --tier0-cat-1-fg: var(--tier0-v-error-600);
+  --tier0-cat-2-bg: var(--tier0-v-yellow-50);
+  --tier0-cat-2-fg: var(--tier0-v-yellow-600);
+  --tier0-cat-3-bg: var(--tier0-v-violet-50);
+  --tier0-cat-3-fg: var(--tier0-v-violet-600);
+  --tier0-cat-4-bg: var(--tier0-v-fx-green-100);
+  --tier0-cat-4-fg: var(--tier0-v-fx-green-700);
+  --tier0-cat-5-bg: var(--tier0-v-orange-50);
+  --tier0-cat-5-fg: var(--tier0-v-orange-600);
+  --tier0-cat-6-bg: var(--tier0-v-blue-50);
+  --tier0-cat-6-fg: var(--tier0-v-blue-600);
+  --tier0-cat-7-bg: var(--tier0-v-cyan-50);
+  --tier0-cat-7-fg: var(--tier0-v-cyan-600);
+  --tier0-cat-8-bg: var(--tier0-v-fuchsia-50);
+  --tier0-cat-8-fg: var(--tier0-v-fuchsia-600);
+
+  // Topic 文案/背景/边框
+  // State
+  --tier0-topic-state-bg: var(--tier0-v-yellow-50);
+  --tier0-topic-state-border: var(--tier0-v-yellow-600);
+  --tier0-topic-state-text: var(--tier0-v-yellow-800);
+
+  // Active
+  --tier0-topic-action-bg: var(--tier0-v-lime-50);
+  --tier0-topic-action-border: var(--tier0-v-lime-600);
+  --tier0-topic-action-text: var(--tier0-v-lime-800);
+
+  // Metric
+  --tier0-topic-metric-bg: var(--tier0-v-blue-50);
+  --tier0-topic-metric-border: var(--tier0-v-blue-600);
+  --tier0-topic-metric-text: var(--tier0-v-blue-800);
+
+  // Path 文案/背景/边框
+  --tier0-path-bg: var(--tier0-v-grey-50);
+  --tier0-path-border: var(--tier0-v-black-600);
+  --tier0-path-text: var(--tier0-v-black-800);
+
+  // 滚动条
+  --tier0-scrollbar: var(--tier0-v-gray-300);
+  --tier0-scrollbar-hover: var(--tier0-v-gray-400);
+  --tier0-radius: 4px;
+
+  /** shadcn */
+  --radius: 0.5rem;
+  --foreground: var(--tier0-v-black-900);
+  --background: var(--tier0-v-primary-white);
+  --card: var(--tier0-v-primary-white);
+  --card-foreground: var(--tier0-v-black-900);
+  --popover: var(--tier0-v-primary-white);
+  --popover-foreground: var(--tier0-v-black-900);
+  --primary: var(--tier0-primary);
+  --primary-foreground: var(--tier0-primary-foreground);
+  --secondary: oklch(97% 0 0deg);
+  --secondary-foreground: var(--tier0-v-black-900);
+  --muted: oklch(97% 0 0deg);
+  --muted-foreground: var(--tier0-v-grey-400);
+  --accent: var(--tier0-v-grey-100);
+  --accent-foreground: var(--tier0-v-black-900);
+  --destructive: var(--tier0-v-error-600);
+  --border: var(--tier0-v-grey-200);
+  --input: oklch(92.2% 0 0deg);
+  --ring: oklch(70.8% 0 0deg);
+  --chart-1: oklch(64.6% 0.222 41.116deg);
+  --chart-2: oklch(60% 0.118 184.704deg);
+  --chart-3: oklch(39.8% 0.07 227.392deg);
+  --chart-4: oklch(82.8% 0.189 84.429deg);
+  --chart-5: oklch(76.9% 0.188 70.08deg);
+  --sidebar: var(--tier0-v-primary-white);
+  --sidebar-foreground: var(--tier0-v-black-900);
+  --sidebar-primary: var(--tier0-primary);
+  --sidebar-primary-foreground: var(--tier0-primary-foreground);
+  --sidebar-accent: var(--tier0-bg-accent);
+  --sidebar-accent-foreground: var(--tier0-v-black-900);
+  --sidebar-border: var(--tier0-v-grey-200);
+  --sidebar-ring: oklch(70.8% 0 0deg);
+
+  /** 自定义Shadcn组件变量 */
+  --dialog-title: var(--tier0-v-gray-900);
+  --tab-line: var(--tier0-v-fx-green-700);
+  --destructive-hover: var(--tier0-v-error-500);
+
+  //  antd 一些基础主题变量没办法用token配合var()进行覆盖的就直接在这里(.tier0-ant)覆盖ant的变量，其他组件的则再token的components下覆盖
+  // .tier0-ant {
+  //  --ant-color-primary: var(--tier0-primary);
+  // }
+}
+
+.dark {
+  /** 自定义主题色 */
+
+  // 背景色
+  --tier0-bg-color: var(--tier0-v-black-900);
+  --tier0-bg-secondary: var(--tier0-v-black-800); // 较浅灰背景
+  --tier0-bg-accent: var(--tier0-v-black-700); // 选中项、高亮项背景
+  --tier0-bg-tertiary: color-mix(in oklab, var(--tier0-v-black-800) 90%, transparent); // 更浅灰，卡片、边栏背景
+  --tier0-bg-subtle: var(--tier0-v-black-800); // near-white 分区底的暗色对位
+
+  // 文案颜色
+  --tier0-text-color: var(--tier0-v-primary-white);
+  --tier0-text-secondary: var(--tier0-v-black-600);
+  --tier0-text-tertiary: var(--tier0-v-black-400);
+
+  // 滚动条
+  --tier0-scrollbar: var(--tier0-v-gray-700);
+  --tier0-scrollbar-hover: var(--tier0-v-gray-800);
+
+  /** shadcn */
+  --foreground: oklch(98.5% 0 0deg);
+  --background: var(--tier0-v-black-900);
+  --card: var(--tier0-v-black-900);
+  --card-foreground: oklch(98.5% 0 0deg);
+  --popover: var(--tier0-v-black-900);
+  --popover-foreground: oklch(98.5% 0 0deg);
+  --primary: var(--tier0-primary);
+  --primary-foreground: var(--tier0-primary-foreground);
+  --secondary: oklch(26.9% 0 0deg);
+  --secondary-foreground: oklch(98.5% 0 0deg);
+  --muted: oklch(26.9% 0 0deg);
+  --muted-foreground: var(--tier0-v-grey-400);
+  --accent: var(--tier0-v-black-700);
+  --accent-foreground: oklch(98.5% 0 0deg);
+  --destructive: var(--tier0-v-error-600);
+  --border: var(--tier0-v-black-800);
+  --input: oklch(100% 0 0deg / 15%);
+  --ring: oklch(55.6% 0 0deg);
+  --chart-1: oklch(48.8% 0.243 264.376deg);
+  --chart-2: oklch(69.6% 0.17 162.48deg);
+  --chart-3: oklch(76.9% 0.188 70.08deg);
+  --chart-4: oklch(62.7% 0.265 303.9deg);
+  --chart-5: oklch(64.5% 0.246 16.439deg);
+  --sidebar: var(--tier0-v-black-900);
+  --sidebar-foreground: oklch(98.5% 0 0deg);
+  --sidebar-primary: var(--tier0-primary);
+  --sidebar-primary-foreground: var(--tier0-primary-foreground);
+  --sidebar-accent: var(--tier0-bg-accent);
+  --sidebar-accent-foreground: oklch(98.5% 0 0deg);
+  --sidebar-border: var(--tier0-v-black-800);
+  --sidebar-ring: oklch(55.6% 0 0deg);
+
+  /** 自定义Shadcn组件变量 */
+  --dialog-title: var(--tier0-v-primary-white);
+}

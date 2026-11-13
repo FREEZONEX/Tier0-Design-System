@@ -1,18 +1,16 @@
-name: Deploy public site
+name: Deploy design system site
 
 on:
   push:
     branches: [main]
     paths:
       - 'site/**'
-      - 'skills/**'
-      - 'SKILL.md'
+      - '00-foundation/**'
+      - '01-tokens/**'
+      - '03-brand/**'
+      - '02-components/**'
+      - '.agents/skills/**'
       - 'DESIGN.md'
-      - 'foundations/**'
-      - 'references/**'
-      - 'surfaces/**'
-      - 'tokens/**'
-      - 'scripts/build-public-site.mjs'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -32,36 +30,31 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: npm
-          cache-dependency-path: skills/tier0-slide-skill/package-lock.json
-      - name: Install slide-skill deps
-        run: npm ci
-        working-directory: skills/tier0-slide-skill
-      - name: Build public site
-        run: node scripts/build-public-site.mjs
-      - name: Stage Pages artifact under /site
+          cache-dependency-path: site/package-lock.json
+      - name: Build site
+        working-directory: site
         run: |
-          mkdir -p _pages/site
-          cp -R site/. _pages/site/
-          cat > _pages/index.html <<'EOF'
+          npm ci
+          npx vite build
+      - name: Stage
+        run: |
+          mkdir -p _pages
+          cp -R site/dist _pages/site
+          cat > _pages/index.html <<'HTML'
           <!doctype html>
           <html lang="zh-CN">
           <head>
             <meta charset="utf-8">
-            <link rel="icon" href="./site/assets/brand/favicon.png" type="image/png">
             <meta http-equiv="refresh" content="0;url=./site/">
-            <link rel="canonical" href="./site/">
             <title>Tier0 Design System</title>
           </head>
-          <body>
-            <p><a href="./site/">Open Tier0 Design System site</a></p>
-          </body>
+          <body><p><a href="./site/">Open Tier0 Design System</a></p></body>
           </html>
-          EOF
+          HTML
           touch _pages/.nojekyll
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages
 

@@ -1,0 +1,425 @@
+{
+  "color": {
+    "$type": "color",
+    "brand": {
+      "$description": "品牌色。",
+      "fx-green-500": {
+        "$value": "{color.scale.fx-green.500}",
+        "$description": "信号、实时数据、选中、重点区块——亮绿色，品牌主色。",
+        "$extensions": {
+          "tier0": {
+            "displayName": "Light Green"
+          }
+        }
+      },
+      "fx-green-deep": {
+        "$value": "{color.scale.fx-green-deep}",
+        "$description": "Logo、品牌图形和大面积的绿色识别——比 Light Green 深一档。在白底上对比度约 2.6:1，不用于文字和图标。",
+        "$extensions": {
+          "tier0": {
+            "displayName": "Deep Green"
+          }
+        }
+      },
+      "black-900": {
+        "$value": "{color.scale.black.900}",
+        "$description": "正文、标题、主操作、深色背景——接近纯黑的近黑色。",
+        "$extensions": {
+          "tier0": {
+            "displayName": "Black"
+          }
+        }
+      },
+      "primary-white": {
+        "$value": "{color.scale.primary-white}",
+        "$description": "页面画布、卡片表面、深色背景上的反色文字——纯白。",
+        "$extensions": {
+          "tier0": {
+            "displayName": "White"
+          }
+        }
+      },
+      "grey-25": {
+        "$value": "{color.scale.grey.25}",
+        "$description": "卡片区、表格区等大面积区块的底色——极浅的灰，用来托住内容。",
+        "$extensions": {
+          "tier0": {
+            "displayName": "Light Grey"
+          }
+        }
+      }
+    },
+    "scale": {
+      "$description": "品牌色所在色系的色阶。",
+      "fx-green": {
+        "50": {
+          "$value": "#F7FDE8",
+          "$description": "选中行、高亮行的浅绿底——最浅的绿。"
+        },
+        "100": {
+          "$value": "#E7F9B9",
+          "$description": "常用的浅高亮背景。"
+        },
+        "200": {
+          "$value": "#DCF797",
+          "$description": "中等高亮背景。"
+        },
+        "300": {
+          "$value": "#CEF368",
+          "$description": "较深的高亮背景、高亮边框。"
+        },
+        "400": {
+          "$value": "#C1F14A",
+          "$description": "色阶过渡，较少直接使用。"
+        },
+        "500": {
+          "$value": "#B2ED1D",
+          "$description": "同品牌色 Light Green。"
+        },
+        "600": {
+          "$value": "#A2DB1A",
+          "$description": "深色背景上的高亮文字。"
+        },
+        "700": {
+          "$value": "#7EA815",
+          "$description": "浅底上较深的高亮文字。"
+        },
+        "800": {
+          "$value": "#628210",
+          "$description": "浅色模式下的焦点环——在白底上约 4.5:1。"
+        },
+        "900": {
+          "$value": "#48640C",
+          "$description": "浅色模式下的绿色文字和图标、深色模式下的选中底——在白底上约 6.7:1。"
+        }
+      },
+      "fx-green-deep": {
+        "$value": "#73B200",
+        "$description": "同品牌色 Deep Green。"
+      },
+      "black": {
+        "500": {
+          "$value": "#343434",
+          "$description": "介于主文字和次要文字之间的强调说明——深灰。"
+        },
+        "600": {
+          "$value": "#242424",
+          "$description": "次要文字——比主文字浅一档。"
+        },
+        "700": {
+          "$value": "#1C1F1E",
+          "$description": "主按钮悬停；深色模式下的选中背景、边框。"
+        },
+        "800": {
+          "$value": "#151A19",
+          "$description": "深色模式下的卡片、面板、分区底——比近黑略亮，营造层次。"
+        },
+        "900": {
+          "$value": "#050B14",
+          "$description": "同品牌色 Black。"
+        }
+      },
+      "grey": {
+        "25": {
+          "$value": "#FAFAFA",
+          "$description": "同品牌色 Light Grey。"
+        },
+        "50": {
+          "$value": "#F9F9F9",
+          "$description": "更浅的中性背景、侧栏——比 Light Grey 略深。"
+        },
+        "100": {
+          "$value": "#F3F3F3",
+          "$description": "悬停填充、行内代码、较弱的边框——浅灰。"
+        },
+        "200": {
+          "$value": "#EBEBEB",
+          "$description": "卡片边框、分隔线——1px 细线代替阴影区分层级。"
+        },
+        "300": {
+          "$value": "#D9D9D9",
+          "$description": "占位文字、禁用状态、深色模式下的次要文字——中浅灰。"
+        },
+        "400": {
+          "$value": "#878787",
+          "$description": "深色模式下的次要文字、输入框边框——中灰。在白底上只有 3.6:1，浅色模式下不用于需要阅读的文字。"
+        },
+        "500": {
+          "$value": "#737373",
+          "$description": "浅色模式下的次要文字——比 400 深一档，在白底和浅灰底上都达到 4.5:1。"
+        }
+      },
+      "primary-white": {
+        "$value": "#FFFFFF",
+        "$description": "同品牌色 White。"
+      }
+    },
+    "auxiliary": {
+      "$description": "辅助色。按色相区分，不带语义，用于图表、标签等分类较多的场景。",
+      "red": {
+        "$description": "错误状态（error-*）；图表、分类标签——红色。",
+        "50": {
+          "$value": "#FEF2F2"
+        },
+        "100": {
+          "$value": "#FEE2E2"
+        },
+        "200": {
+          "$value": "#FECACA"
+        },
+        "300": {
+          "$value": "#FCA5A5"
+        },
+        "400": {
+          "$value": "#F87171"
+        },
+        "500": {
+          "$value": "#EF4444"
+        },
+        "600": {
+          "$value": "#DC2626"
+        },
+        "700": {
+          "$value": "#B91C1C"
+        },
+        "800": {
+          "$value": "#991B1B"
+        },
+        "900": {
+          "$value": "#7F1D1D"
+        }
+      },
+      "orange": {
+        "$description": "图表、分类标签——橙色。",
+        "50": {
+          "$value": "#FFF7ED"
+        },
+        "100": {
+          "$value": "#FFEDD5"
+        },
+        "200": {
+          "$value": "#FED7AA"
+        },
+        "300": {
+          "$value": "#FDBA74"
+        },
+        "400": {
+          "$value": "#FB923C"
+        },
+        "500": {
+          "$value": "#F97316"
+        },
+        "600": {
+          "$value": "#EA580C"
+        },
+        "700": {
+          "$value": "#C2410C"
+        },
+        "800": {
+          "$value": "#9A3412"
+        },
+        "900": {
+          "$value": "#7C2D12"
+        }
+      },
+      "yellow": {
+        "$description": "警告状态（warning-*）；图表、分类标签——偏橙的黄色。",
+        "50": {
+          "$value": "#FFFCF5"
+        },
+        "100": {
+          "$value": "#FEFAF5"
+        },
+        "200": {
+          "$value": "#FBF2CB"
+        },
+        "300": {
+          "$value": "#FDE57E"
+        },
+        "400": {
+          "$value": "#FFD16A"
+        },
+        "500": {
+          "$value": "#FBBC55"
+        },
+        "600": {
+          "$value": "#E9A23B"
+        },
+        "700": {
+          "$value": "#C8911A"
+        },
+        "800": {
+          "$value": "#A35C00"
+        },
+        "900": {
+          "$value": "#884A00"
+        }
+      },
+      "green": {
+        "$description": "成功状态（success-*）；图表、分类标签——偏薄荷的绿色，与品牌绿不同，不用于品牌强调。",
+        "50": {
+          "$value": "#F6FEF9"
+        },
+        "100": {
+          "$value": "#EFFDF6"
+        },
+        "200": {
+          "$value": "#D9F9E6"
+        },
+        "300": {
+          "$value": "#B8F1D2"
+        },
+        "400": {
+          "$value": "#8EE4BA"
+        },
+        "500": {
+          "$value": "#6AD09D"
+        },
+        "600": {
+          "$value": "#53B483"
+        },
+        "700": {
+          "$value": "#2F9461"
+        },
+        "800": {
+          "$value": "#2F7657"
+        },
+        "900": {
+          "$value": "#255E46"
+        }
+      },
+      "cyan": {
+        "$description": "图表、分类标签——青色。",
+        "50": {
+          "$value": "#ECFEFF"
+        },
+        "100": {
+          "$value": "#CFFAFE"
+        },
+        "200": {
+          "$value": "#A5F3FC"
+        },
+        "300": {
+          "$value": "#67E8F9"
+        },
+        "400": {
+          "$value": "#22D3EE"
+        },
+        "500": {
+          "$value": "#06B6D4"
+        },
+        "600": {
+          "$value": "#0891B2"
+        },
+        "700": {
+          "$value": "#0E7490"
+        },
+        "800": {
+          "$value": "#155E75"
+        },
+        "900": {
+          "$value": "#164E63"
+        }
+      },
+      "blue": {
+        "$description": "信息状态（blue-*）；图表、分类标签——蓝色。",
+        "50": {
+          "$value": "#EFF6FF"
+        },
+        "100": {
+          "$value": "#DBEAFE"
+        },
+        "200": {
+          "$value": "#BFDBFE"
+        },
+        "300": {
+          "$value": "#93C5FD"
+        },
+        "400": {
+          "$value": "#60A5FA"
+        },
+        "500": {
+          "$value": "#3B82F6"
+        },
+        "600": {
+          "$value": "#2563EB"
+        },
+        "700": {
+          "$value": "#1D4ED8"
+        },
+        "800": {
+          "$value": "#1E40AF"
+        },
+        "900": {
+          "$value": "#1E3A8A"
+        }
+      },
+      "violet": {
+        "$description": "图表、分类标签——紫色。",
+        "50": {
+          "$value": "#F5F3FF"
+        },
+        "100": {
+          "$value": "#EDE9FE"
+        },
+        "200": {
+          "$value": "#DDD6FE"
+        },
+        "300": {
+          "$value": "#C4B5FD"
+        },
+        "400": {
+          "$value": "#A78BFA"
+        },
+        "500": {
+          "$value": "#8B5CF6"
+        },
+        "600": {
+          "$value": "#7C3AED"
+        },
+        "700": {
+          "$value": "#6D28D9"
+        },
+        "800": {
+          "$value": "#5B21B6"
+        },
+        "900": {
+          "$value": "#4C1D95"
+        }
+      },
+      "fuchsia": {
+        "$description": "图表、分类标签——品红。",
+        "50": {
+          "$value": "#FDF4FF"
+        },
+        "100": {
+          "$value": "#FAE8FF"
+        },
+        "200": {
+          "$value": "#F5D0FE"
+        },
+        "300": {
+          "$value": "#F0ABFC"
+        },
+        "400": {
+          "$value": "#E879F9"
+        },
+        "500": {
+          "$value": "#D946EF"
+        },
+        "600": {
+          "$value": "#C026D3"
+        },
+        "700": {
+          "$value": "#A21CAF"
+        },
+        "800": {
+          "$value": "#86198F"
+        },
+        "900": {
+          "$value": "#701A75"
+        }
+      }
+    }
+  }
+}

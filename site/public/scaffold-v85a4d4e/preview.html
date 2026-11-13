@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>通用组件交互样例</title>
+    <script>
+      (function () {
+        try {
+          var q = new URLSearchParams(location.search).get("theme");
+          var t = q === "dark" || q === "light" ? q : null;
+          if (!t) t = localStorage.getItem("tier0-gallery-theme");
+          if (t !== "light" && t !== "dark") t = "light";
+          if (t === "dark") document.documentElement.classList.add("dark");
+          document.documentElement.style.colorScheme = t;
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      html.dark,
+      html.dark body {
+        background: #0c0d0f;
+        color-scheme: dark;
+      }
+    </style>
+    <script type="module" crossorigin src="./assets/preview-Cj7q0QH1.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/samples-C0LjqIoG.js">
+    <link rel="stylesheet" crossorigin href="./assets/preview-DeINPg3J.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

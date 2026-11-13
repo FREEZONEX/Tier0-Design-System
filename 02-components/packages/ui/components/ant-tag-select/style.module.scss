@@ -1,0 +1,5 @@
+.AntTagSelect-wrapper {
+  :global(.ant-select-selection-overflow-item > span) {
+    width: 100%;
+  }
+}

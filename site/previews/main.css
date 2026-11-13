@@ -1,0 +1,5 @@
+@import '../../02-components/packages/theme/src/tailwind.css';
+@source "./**/*.tsx";
+:root { --font-geist-sans: 'IBM Plex Sans', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif; --font-app-sans: var(--font-geist-sans); --font-display-sans: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif; --font-geist-mono: 'IBM Plex Mono', monospace; }
+html, body { background: transparent; }
+body { font-family: var(--font-geist-sans); margin: 0; }

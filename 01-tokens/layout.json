@@ -1,0 +1,190 @@
+{
+  "$description": "布局：断点、页面结构、栅格与内容宽度。",
+  "$extensions": {
+    "tier0": {
+      "rules": [
+        "内容区使用 grid.columns 栏栅格，沟槽桌面 grid.gutter、移动端 grid.gutter-mobile；卡片与面板的宽度取整数栏。",
+        "连续阅读的文字（说明、文档正文）单行最大宽度 width.measure；表格、看板、拓扑图不受此限，占满内容区。",
+        "同一页面内对齐线不超过 3 条：内容区左边缘、栅格栏边缘、右侧操作区边缘。",
+        "侧栏宽度、窄屏抽屉和页面布局的做法见 02-components/guidelines/app-shell.md 与 page-layout.md。"
+      ]
+    }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "sm": {
+      "$value": "640px",
+      "$description": "大屏手机横屏。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "sm"
+          }
+        }
+      }
+    },
+    "md": {
+      "$value": "768px",
+      "$description": "平板竖屏、车间手持终端；侧栏从移动端抽屉变为桌面常驻。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "md"
+          }
+        }
+      }
+    },
+    "lg": {
+      "$value": "1024px",
+      "$description": "平板横屏、小尺寸工控屏。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "lg"
+          }
+        }
+      }
+    },
+    "xl": {
+      "$value": "1280px",
+      "$description": "笔记本与常见工位显示器。产品界面以此为主设计宽度。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "xl"
+          },
+          "rationale": "工厂办公室与产线工位最常见的分辨率是 1366×768 与 1920×1080，1280 覆盖前者的可用宽度。"
+        }
+      }
+    },
+    "2xl": {
+      "$value": "1536px",
+      "$description": "大屏显示器、控制室看板。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "2xl"
+          }
+        }
+      }
+    }
+  },
+  "shell": {
+    "$type": "dimension",
+    "header": {
+      "$value": "{size.app-header}",
+      "$description": "需要顶栏时的参考高度；多数产品页不需要顶栏。"
+    },
+    "sidebar": {
+      "$value": "240px",
+      "$description": "产品应用侧栏展开宽度；应用层覆盖基础组件默认值。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "component": "apps/saas-dashboard 与 apps/platform-admin 的 SidebarProvider：--sidebar-width: 15rem"
+          }
+        }
+      }
+    },
+    "sidebar-collapsed": {
+      "$value": "64px",
+      "$description": "侧栏收起为图标列。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "component": "apps/saas-dashboard 与 apps/platform-admin 的 SidebarProvider：--sidebar-width-icon: 4rem"
+          }
+        }
+      }
+    },
+    "sidebar-mobile": {
+      "$value": "288px",
+      "$description": "移动端抽屉宽度。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "component": "SIDEBAR_WIDTH_MOBILE 18rem"
+          }
+        }
+      }
+    },
+    "page-padding": {
+      "$value": "{space.6}",
+      "$description": "内容区内边距（桌面）。"
+    },
+    "page-padding-mobile": {
+      "$value": "{space.4}",
+      "$description": "内容区内边距（< 768px）。"
+    }
+  },
+  "grid": {
+    "columns": {
+      "$value": 12,
+      "$description": "内容区栅格栏数。",
+      "$extensions": {
+        "tier0": {
+          "rationale": "12 可被 2、3、4、6 整除，适合看板里 1/2、1/3、1/4 宽的卡片组合。"
+        }
+      }
+    },
+    "gutter": {
+      "$value": "{space.6}",
+      "$description": "桌面沟槽。"
+    },
+    "gutter-mobile": {
+      "$value": "{space.4}",
+      "$description": "移动端沟槽。"
+    }
+  },
+  "width": {
+    "$type": "dimension",
+    "measure": {
+      "$value": "680px",
+      "$description": "连续阅读文字的最大行宽。",
+      "$extensions": {
+        "tier0": {
+          "rationale": "14–16px 中文约 42–48 字一行，处在 35–50 字的舒适阅读区间。"
+        }
+      }
+    },
+    "dialog-sm": {
+      "$value": "480px",
+      "$description": "确认类弹窗（一句话 + 两个按钮）。"
+    },
+    "dialog-md": {
+      "$value": "672px",
+      "$description": "表单弹窗。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "sm:max-w-2xl"
+          }
+        }
+      }
+    },
+    "dialog-lg": {
+      "$value": "1024px",
+      "$description": "包含表格或预览的弹窗，最大宽度。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "xl:max-w-5xl"
+          }
+        }
+      }
+    },
+    "content-max": {
+      "$value": "1440px",
+      "$description": "内容区最大宽度，超出后居中。",
+      "$extensions": {
+        "tier0": {
+          "rationale": "2xl 大屏上表格和看板拉得过宽时，视线需要大幅横扫，读数难以对照。"
+        }
+      }
+    },
+    "web-max": {
+      "$value": "1200px",
+      "$description": "官网内容最大宽度。"
+    }
+  }
+}

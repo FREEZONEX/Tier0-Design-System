@@ -1,0 +1,243 @@
+{
+  "$description": "动效：时长与曲线。动效用来说明状态变化和层级关系，不用来装饰。",
+  "$extensions": {
+    "tier0": {
+      "rules": [
+        "动效分两种模式：产品界面用高效动效（standard / enter / exit，时长 fast 到 slow），快、不打扰；官网、品牌内容、Logo 动画用表现动效（expressive 曲线，可用 emphasis、hero 时长），更舒展。两种不混用。",
+        "过渡沿用组件自带的写法（前端按钮用 transition-all）；自己写的过渡优先只动 opacity、transform 和颜色，不对宽高、布局做动画（数据条的长度变化除外）。",
+        "元素越大、移动距离越远，时长越长；同一场景按 surface 取值，不临时拼时长和曲线。",
+        "悬停、按下：fast + standard。浮层出现：base + enter；浮层消失：fast + exit。侧滑面板、页面区块移动：slow + standard。",
+        "不用回弹、弹性、过冲。",
+        "实时数据更新不加数字滚动动画，直接替换；需要提示变化时只闪烁一次背景（base 时长）。",
+        "同一视图只允许一个持续循环的装饰性动效（如运行指示灯的 signal 呼吸）；加载中的骨架和转圈不计入，加载结束即停止。",
+        "系统设置为减少动态效果时，所有过渡改为 duration.instant 或仅透明度变化，循环动效停止。"
+      ],
+      "frontend": "曲线取值与 Tailwind 默认一致：standard = ease-in-out，enter = ease-out，exit = ease-in。前端有 10 处 duration-500 超出档位（多为宽度/进度条和预览面板），建议改为 slow（300ms）；progress-bar 用 transition-all，应改为只过渡宽度。"
+    }
+  },
+  "duration": {
+    "$type": "duration",
+    "instant": {
+      "$value": "0ms",
+      "$description": "减少动态效果时、实时数据替换。"
+    },
+    "fast": {
+      "$value": "150ms",
+      "$description": "悬停、按下、颜色变化。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "duration-150（Tailwind 默认过渡时长）"
+          },
+          "rationale": "低于 200ms 的反馈让人感觉是「立刻」响应。"
+        }
+      }
+    },
+    "base": {
+      "$value": "200ms",
+      "$description": "浮层出现和消失：下拉、弹窗、提示。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "duration-200",
+            "component": "dialog duration-200"
+          }
+        }
+      }
+    },
+    "slow": {
+      "$value": "300ms",
+      "$description": "侧滑面板、抽屉、页面区块切换。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "duration-300"
+          },
+          "rationale": "移动距离越大，时长越长，眼睛才能跟上位置变化。"
+        }
+      }
+    },
+    "signal": {
+      "$value": "2000ms",
+      "$description": "运行指示灯的呼吸周期。",
+      "$extensions": {
+        "tier0": {
+          "rationale": "接近设备指示灯的慢闪频率，表示持续运行，不制造紧迫感。"
+        }
+      }
+    },
+    "emphasis": {
+      "$value": "400ms",
+      "$description": "表现动效：官网区块、品牌内容的大幅进入。产品界面不用。"
+    },
+    "hero": {
+      "$value": "700ms",
+      "$description": "表现动效：开场、Logo 动画、背景压暗这类需要沉浸感的变化。产品界面不用。"
+    }
+  },
+  "easing": {
+    "$type": "cubicBezier",
+    "standard": {
+      "$value": [
+        0.4,
+        0,
+        0.2,
+        1
+      ],
+      "$description": "标准：已经在屏幕上的元素改变颜色、位置或大小。悬停、按下、颜色变化搭配 duration.fast（150ms）；侧滑面板推入、面板展开收起搭配 duration.slow（300ms）。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "ease-in-out（Tailwind 默认）"
+          },
+          "rationale": "两端都减速：元素从静止出发、在新位置停稳，用户能看清它从哪里来、到哪里去；移动距离大，所以用最长的一档时长。",
+          "pair": "duration.fast / duration.slow"
+        }
+      }
+    },
+    "enter": {
+      "$value": [
+        0,
+        0,
+        0.2,
+        1
+      ],
+      "$description": "进入：下拉、气泡、弹窗、通知出现。搭配 duration.base（200ms）。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "ease-out"
+          },
+          "rationale": "开始快、结束慢：用户一操作，元素立刻开始响应；结尾减速让它平稳停在最终位置，视线容易落定。",
+          "pair": "duration.base"
+        }
+      }
+    },
+    "exit": {
+      "$value": [
+        0.4,
+        0,
+        1,
+        1
+      ],
+      "$description": "退出：下拉、弹窗、通知关闭，元素被移除。搭配 duration.fast（150ms），退出比进入快，让界面尽快回到可操作状态。",
+      "$extensions": {
+        "tier0": {
+          "frontend": {
+            "tailwind": "ease-in"
+          },
+          "rationale": "开始慢、结束快，比进入更短：用户已经决定关闭，界面应尽快让开，不拖住下一步操作。",
+          "pair": "duration.fast"
+        }
+      }
+    },
+    "expressive-standard": {
+      "$type": "cubicBezier",
+      "$value": [
+        0.4,
+        0.14,
+        0.3,
+        1
+      ],
+      "$description": "表现动效的标准曲线：品牌场合里在画面中移动、变形的元素，比高效曲线更舒展。",
+      "$extensions": {
+        "tier0": {
+          "pair": "duration.emphasis"
+        }
+      }
+    },
+    "expressive-enter": {
+      "$type": "cubicBezier",
+      "$value": [
+        0,
+        0,
+        0.3,
+        1
+      ],
+      "$description": "表现动效的进入曲线。",
+      "$extensions": {
+        "tier0": {
+          "pair": "duration.emphasis"
+        }
+      }
+    },
+    "expressive-exit": {
+      "$type": "cubicBezier",
+      "$value": [
+        0.4,
+        0.14,
+        1,
+        1
+      ],
+      "$description": "表现动效的退出曲线。",
+      "$extensions": {
+        "tier0": {
+          "pair": "duration.emphasis"
+        }
+      }
+    }
+  },
+  "surface": {
+    "$description": "动效场景：每种界面变化固定一组时长和曲线，直接按场景取用。",
+    "hover": {
+      "$value": {
+        "duration": "{duration.fast}",
+        "enter": "{easing.standard}",
+        "exit": "{easing.standard}"
+      },
+      "$description": "悬停、按下、选中态的颜色变化。"
+    },
+    "disclosure": {
+      "$value": {
+        "duration": "{duration.base}",
+        "enter": "{easing.enter}",
+        "exit": "{easing.exit}",
+        "exitDuration": "{duration.fast}"
+      },
+      "$description": "就地展开收起：折叠面板、表格行展开、树节点。"
+    },
+    "contextual": {
+      "$value": {
+        "duration": "{duration.fast}",
+        "enter": "{easing.enter}",
+        "exit": "{easing.exit}",
+        "exitDuration": "{duration.fast}"
+      },
+      "$description": "跟随触发点出现的小浮层：提示、下拉、气泡。淡入并从 96% 放大到 100%。"
+    },
+    "invoke": {
+      "$value": {
+        "duration": "{duration.base}",
+        "enter": "{easing.enter}",
+        "exit": "{easing.exit}",
+        "exitDuration": "{duration.fast}"
+      },
+      "$description": "打断当前流程的弹窗：进入用 base，退出缩短到 fast。"
+    },
+    "panel": {
+      "$value": {
+        "duration": "{duration.slow}",
+        "enter": "{easing.standard}",
+        "exit": "{easing.standard}"
+      },
+      "$description": "侧滑面板、抽屉、侧栏展开收起。"
+    },
+    "notify": {
+      "$value": {
+        "duration": "{duration.base}",
+        "enter": "{easing.enter}",
+        "exit": "{easing.exit}",
+        "exitDuration": "{duration.fast}"
+      },
+      "$description": "轻提示（toast）出现和消失。"
+    },
+    "data": {
+      "$value": {
+        "duration": "{duration.base}",
+        "enter": "{easing.standard}",
+        "exit": "{easing.standard}"
+      },
+      "$description": "实时数据变化：数值直接替换，只闪烁一次背景提示变化。"
+    }
+  }
+}

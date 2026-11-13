@@ -1,0 +1,302 @@
+{
+  "color": {
+    "$type": "color",
+    "$extensions": {
+      "tier0": {
+        "rules": [
+          "组件只使用 light.json / dark.json 主层的 token，不直接使用 base.json 的色值。",
+          "使用语义工具类：bg-background、text-muted-foreground、border-border。",
+          "组件中不写物理颜色（如 gray-500、bg-white）；前端组件里彩色底上的白字（text-white）沿用组件写法。",
+          "组件中不写 dark: 分支。深色模式由 .dark 类和 token 层负责。",
+          "页面不用彩色大面积背景；白底上需要阅读或辨认的绿色（文字、图标、表达状态的圆点）使用 highlight-ink，纯装饰的绿色圆点和色块可用 highlight。",
+          "不用渐变、玻璃质感、渐变文字、渐变描边或大面积色彩晕染。",
+          "次要文字（muted-foreground）不放在 muted 背景上；muted 背景上的文字用 foreground。"
+        ]
+      }
+    },
+    "surface": {
+      "$description": "表面与文字。组件只使用这些语义名称，不直接使用色阶。",
+      "background": {
+        "$value": "{color.scale.primary-white}",
+        "$description": "页面底色。"
+      },
+      "foreground": {
+        "$value": "{color.scale.black.900}",
+        "$description": "正文与标题。"
+      },
+      "card": {
+        "$value": "{color.scale.primary-white}",
+        "$description": "实色表面：面板、弹窗、产品界面截图的容器。"
+      },
+      "subtle": {
+        "$value": "{color.scale.grey.25}",
+        "$description": "大面积分区底色：卡片区、表格区。"
+      },
+      "muted": {
+        "$value": "#F5F5F5",
+        "$description": "悬停填充、行内代码、输入框底。"
+      },
+      "muted-foreground": {
+        "$value": "{color.scale.grey.400}",
+        "$description": "说明、次要标签、时间戳，与前端一致。"
+      },
+      "border": {
+        "$value": "{color.scale.grey.200}",
+        "$description": "单元格之间、卡片周围的细线。"
+      },
+      "input": {
+        "$value": "#E5E5E5",
+        "$description": "输入框、选择器等交互控件的边框，与前端一致。"
+      }
+    },
+    "brand": {
+      "$description": "品牌。品牌绿是品牌层面唯一的颜色，每个区域只有一个绿色焦点。",
+      "primary": {
+        "$value": "{color.scale.black.900}",
+        "$description": "唯一的主操作。"
+      },
+      "primary-foreground": {
+        "$value": "{color.scale.primary-white}",
+        "$description": "主操作上的文字。"
+      },
+      "highlight": {
+        "$value": "{color.scale.fx-green.500}",
+        "$description": "品牌绿：信号、实时数据、选中、重点区块。"
+      },
+      "highlight-foreground": {
+        "$value": "{color.scale.black.900}",
+        "$description": "品牌绿底上的文字。"
+      },
+      "highlight-deep": {
+        "$value": "{color.scale.fx-green-deep}",
+        "$description": "深绿：Logo、品牌图形和大面积的绿色识别。不用于文字和图标（改用 highlight-ink）。"
+      },
+      "highlight-ink": {
+        "$value": "{color.scale.fx-green.900}",
+        "$description": "绿色的文字和图标：需要阅读、辨认的绿色元素。"
+      },
+      "accent": {
+        "$value": "{color.scale.grey.100}",
+        "$description": "与前端 --accent 一致的浅灰：选中项、悬停项、骨架的底色。"
+      },
+      "ring": {
+        "$value": "#A1A1A1",
+        "$description": "键盘焦点：按钮等控件用此色 50% 透明度的 3px 外圈；输入框、选择器用 shadow.focus。"
+      },
+      "highlight-subtle": {
+        "$value": "{color.scale.fx-green.50}",
+        "$description": "品牌绿浅底：只用于需要强调的业务高亮（如被选中的数据行、关键提示）。"
+      },
+      "button-highlight": {
+        "$value": "{color.scale.fx-green.300}",
+        "$description": "品牌绿按钮的底色，与前端 --button-highlight 一致。"
+      },
+      "button-highlight-hover": {
+        "$value": "{color.scale.fx-green.200}",
+        "$description": "品牌绿按钮悬停。"
+      }
+    },
+    "status": {
+      "$description": "状态。只用于真实的结果，并且总是配合图标或文字。",
+      "success": {
+        "$value": "{color.auxiliary.green.800}",
+        "$description": "已完成、已保存、已连接。"
+      },
+      "warning": {
+        "$value": "{color.auxiliary.yellow.800}",
+        "$description": "需要注意、接近上限。"
+      },
+      "destructive": {
+        "$value": "{color.auxiliary.red.600}",
+        "$description": "破坏性操作和错误。"
+      },
+      "info": {
+        "$value": "{color.auxiliary.blue.600}",
+        "$description": "中性提示及提示中的链接。"
+      }
+    },
+    "extended": {
+      "$description": "产品扩展：平台现有的细分 token，保留用于兼容，新组件优先使用上面的主层。",
+      "bg-color": {
+        "$value": "{color.scale.primary-white}",
+        "$description": "用于页面主背景。不用于卡片内再套一层背景。"
+      },
+      "bg-secondary": {
+        "$value": "{color.scale.grey.200}",
+        "$description": "用于较深的中性背景，如分组底色。不用于大面积页面背景。"
+      },
+      "bg-accent": {
+        "$value": "{color.scale.grey.100}",
+        "$description": "用于选中项、悬停项的中性背景。不用于表达状态或品牌强调（改用 highlight-bg-*）。"
+      },
+      "bg-tertiary": {
+        "$value": "{color.scale.grey.50}",
+        "$description": "用于更浅的中性背景，如卡片、侧栏。不用于主内容区背景。"
+      },
+      "bg-subtle": {
+        "$value": "{color.scale.grey.25}",
+        "$description": "用于明细卡、表格区等近白分区底，和纯白容器区分。不用于需要明显对比的区域。"
+      },
+      "text-color": {
+        "$value": "{color.scale.black.900}",
+        "$description": "用于正文、标题。不用于放在品牌绿背景上的文字（改用 highlight-foreground）。"
+      },
+      "text-secondary": {
+        "$value": "{color.scale.black.600}",
+        "$description": "用于次要文字、说明。不用于需要强调的内容。"
+      },
+      "text-accent": {
+        "$value": "{color.scale.black.500}",
+        "$description": "用于介于主文字和次要文字之间的强调说明。不用于大段正文。"
+      },
+      "text-tertiary": {
+        "$value": "{color.scale.grey.400}",
+        "$description": "用于弱文字、元信息、时间戳。不用于承载必要信息的文字。"
+      },
+      "text-placeholder": {
+        "$value": "{color.scale.grey.300}",
+        "$description": "用于输入框占位文字。不用于已填写的内容。"
+      },
+      "border": {
+        "$value": "{color.scale.grey.200}",
+        "$description": "用于标准边框、分隔线。不用于表达状态（改用对应状态色）。"
+      },
+      "border-secondary": {
+        "$value": "{color.scale.grey.100}",
+        "$description": "用于更弱的边框。不用于需要明确区分的边界。"
+      },
+      "primary": {
+        "$value": "{color.scale.black.900}",
+        "$description": "用于主色：主按钮背景、主要操作。不用于大面积背景。"
+      },
+      "primary-hover": {
+        "$value": "{color.scale.black.700}",
+        "$description": "用于主按钮悬停。不用于默认状态。"
+      },
+      "primary-foreground": {
+        "$value": "{color.scale.primary-white}",
+        "$description": "用于主色背景上的文字和图标。不用于浅色背景上的文字。"
+      },
+      "highlight": {
+        "$value": "{color.scale.fx-green.500}",
+        "$description": "用于品牌绿：信号、高亮按钮、重点标记。不用于大面积背景、装饰、图标、箭头。"
+      },
+      "highlight-foreground": {
+        "$value": "{color.scale.black.900}",
+        "$description": "用于品牌绿背景上的文字和图标。不用于白色文字（对比度不足）。"
+      },
+      "highlight-deep": {
+        "$value": "{color.scale.fx-green-deep}",
+        "$description": "用于深品牌绿：描边、图标、大号数字。不用于正文和小字（白底对比度约 2.6:1）。"
+      },
+      "highlight-bg-primary": {
+        "$value": "{color.scale.fx-green.300}",
+        "$description": "用于较深的高亮背景。不用于大面积背景。"
+      },
+      "highlight-bg-secondary": {
+        "$value": "{color.scale.fx-green.200}",
+        "$description": "用于中等高亮背景。不用于大面积背景。"
+      },
+      "highlight-bg-accent": {
+        "$value": "{color.scale.fx-green.100}",
+        "$description": "用于常用浅高亮背景，如选中行。不用于表达成功状态（改用 success-*）。"
+      },
+      "highlight-bg-tertiary": {
+        "$value": "{color.scale.fx-green.50}",
+        "$description": "用于最浅的高亮背景。不用于表达成功状态（改用 success-*）。"
+      },
+      "highlight-text": {
+        "$value": "{color.scale.fx-green.600}",
+        "$description": "用于高亮文字。不用于正文。"
+      },
+      "highlight-text-accent": {
+        "$value": "{color.scale.fx-green.700}",
+        "$description": "用于较深的高亮文字。不用于正文。"
+      },
+      "highlight-text-deep": {
+        "$value": "{color.scale.fx-green.800}",
+        "$description": "用于最深的高亮文字，浅底上可读性最好。不用于大段正文。"
+      },
+      "highlight-border": {
+        "$value": "{color.scale.fx-green.300}",
+        "$description": "用于高亮边框。不用于普通边框。"
+      },
+      "success-color": {
+        "$value": "{color.auxiliary.green.600}",
+        "$description": "用于成功状态的文字、图标。不用于装饰或分类标识。"
+      },
+      "success-secondary": {
+        "$value": "{color.auxiliary.green.300}",
+        "$description": "用于成功状态的边框。不用于文字。"
+      },
+      "success-accent": {
+        "$value": "{color.auxiliary.green.200}",
+        "$description": "用于成功状态的无边框背景。不用于文字。"
+      },
+      "success-tertiary": {
+        "$value": "{color.auxiliary.green.100}",
+        "$description": "用于成功状态的浅背景（最常用）。不用于文字。"
+      },
+      "error-color": {
+        "$value": "{color.auxiliary.red.600}",
+        "$description": "用于错误状态的文字、图标。不用于装饰或分类标识。"
+      },
+      "error-secondary": {
+        "$value": "{color.auxiliary.red.300}",
+        "$description": "用于错误状态的边框。不用于文字。"
+      },
+      "error-accent": {
+        "$value": "{color.auxiliary.red.200}",
+        "$description": "用于错误状态的无边框背景。不用于文字。"
+      },
+      "error-tertiary": {
+        "$value": "{color.auxiliary.red.100}",
+        "$description": "用于错误状态的浅背景（最常用）。不用于文字。"
+      },
+      "warning-color": {
+        "$value": "{color.auxiliary.yellow.500}",
+        "$description": "用于警告状态的文字、图标。不用于装饰或分类标识。"
+      },
+      "warning-secondary": {
+        "$value": "{color.auxiliary.yellow.300}",
+        "$description": "用于警告状态的边框。不用于文字。"
+      },
+      "warning-accent": {
+        "$value": "{color.auxiliary.yellow.200}",
+        "$description": "用于警告状态的无边框背景。不用于文字。"
+      },
+      "warning-tertiary": {
+        "$value": "{color.auxiliary.yellow.100}",
+        "$description": "用于警告状态的浅背景（最常用）。不用于文字。"
+      },
+      "blue-color": {
+        "$value": "{color.auxiliary.blue.600}",
+        "$description": "用于信息状态的文字、图标。不用于装饰或分类标识。"
+      },
+      "blue-secondary": {
+        "$value": "{color.auxiliary.blue.200}",
+        "$description": "用于信息状态的边框。不用于文字。"
+      },
+      "blue-accent": {
+        "$value": "{color.auxiliary.blue.300}",
+        "$description": "用于信息标签边框。不用于文字。"
+      },
+      "blue-tertiary": {
+        "$value": "{color.auxiliary.blue.50}",
+        "$description": "用于信息状态的浅背景（最常用）。不用于文字。"
+      },
+      "success-bg": {
+        "$value": "{color.auxiliary.green.500}",
+        "$description": "用于成功状态的实心背景。不用于文字。"
+      },
+      "warning-strong": {
+        "$value": "{color.auxiliary.yellow.700}",
+        "$description": "用于白底上的警告正文（warning-color 太浅）。不用于背景。"
+      },
+      "warning-fill": {
+        "$value": "{color.auxiliary.yellow.600}",
+        "$description": "用于进度条、用量条的实心填充。不用于文字。"
+      }
+    }
+  }
+}
