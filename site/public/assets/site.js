@@ -964,8 +964,8 @@
     if (!t) return docHead('DESIGN.md', '没有读取到 DESIGN.md。');
     const fm = (t.match(/^---\n([\s\S]*?)\n---/) || [, ''])[1];
     const body = t.replace(/^---\n[\s\S]*?\n---\n?/, '').replace(/^# .*\n/m, '').replace(/^> 本文件由.*\n/m, '');
-    const actions = `<button type="button" class="ui-btn outline" data-dm-copy>${I.copy}复制全文</button><button type="button" class="ui-btn outline" data-dm-ai>${I.copy}发给 AI</button>`;
-    return docHead('DESIGN.md', '给 AI 和设计工具读的设计说明：开头是机器可读的 token，后面按 Overview、Colors、Typography、Layout、Elevation & Depth、Shapes、Components、Do\'s and Don\'ts 八段写取值和规则。组件的逐条用法在 02-components/guidelines。', actions)
+    const actions = `<button type="button" class="ui-btn outline" data-dm-copy>${I.copy}复制</button>`;
+    return docHead('DESIGN.md', '给 AI 和设计工具读的设计说明。', actions)
       + sec('tokens', 'Token', '', codeBlock(fm))
       + sec('guide', '说明', '', `<div class="prose dm-prose">${md(body)}</div>`);
   }
