@@ -10,6 +10,17 @@ AI 调用规则。把 `00-foundation`、`01-tokens`、`02-components`、`03-bran
 | [`tier0-slides`](tier0-slides/) | Slides | 生成 PPT / Slides |
 | [`tier0-marketing`](tier0-marketing/) | 宣传物料 | 生成社媒图、海报等宣传物料 |
 
+## 通用 UI 技能
+
+不只针对 Tier0，用来审查和打磨界面。和上面的 Tier0 技能一起用时，以 Tier0 的规范（`DESIGN.md`、`02-components/guidelines/`）为准。
+
+| Skill | 用途 |
+|---|---|
+| [`baseline-ui`](baseline-ui/SKILL.md) | 快速清理界面：间距、层级、字体和小的布局问题 |
+| [`improve-ui`](improve-ui/SKILL.md) | 只读审查一个界面，找出有依据的问题，写成给其他 Agent 执行的改进计划 |
+| [`create-design-md`](create-design-md/SKILL.md) | 从现有产品或网站整理出 `DESIGN.md`。注意：本仓库的 `DESIGN.md` 由 `scripts/build_design_md.py` 生成，在这里不要用它直接改写，改源文件后重新生成 |
+| [`ui-skills-root`](ui-skills-root/SKILL.md) | 通过 `ui-skills` 命令行挑选最小够用的 UI 技能 |
+
 ## 每个 skill 的结构
 
 ```
