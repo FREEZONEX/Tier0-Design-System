@@ -1656,3 +1656,12 @@ button.repo-card { font: inherit; text-align: left; cursor: pointer; }
   .ui-dialog .x { top: 24px; right: 24px; }
 }
 @media (max-width: 640px) { .doc-head-actions { flex: 1 1 100%; flex-wrap: wrap; } }
+
+/* 状态标签：与 @tier0/ui 的 AntTag 一致（默认无描边，4px 圆角，色阶 50 底 + 600 字，12/20） */
+.ui-tag { gap: 0; height: 22px; padding: 0 7px; border-radius: 4px; font-size: 12px; line-height: 20px; font-weight: 400; border: 0; }
+.ui-tag i { display: none; }
+.ui-tag.ok { background: #F6FEF9; color: #53B483; }
+.ui-tag.warn { background: #FFFCF5; color: #E9A23B; }
+.ui-tag.err { background: #FEF2F2; color: #DC2626; }
+.ui-tag.info { background: #EFF6FF; color: #2563EB; }
+.ui-tag.hl { background: #F7FDE8; color: #7EA815; }

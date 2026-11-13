@@ -51,11 +51,11 @@
         <div class="stack"><label class="ui-check"><input type="checkbox" class="ui-switch" role="switch" checked>自动重连</label><label class="ui-check"><input type="checkbox" class="ui-switch" role="switch">告警通知</label></div>
         <div class="stack"><span class="ui-label">采样频率</span><input type="range" class="ui-slider" value="60" aria-label="采样频率"></div></div>`,
       code: `<Checkbox defaultChecked />\n<RadioGroup defaultValue="device">…</RadioGroup>\n<Switch defaultChecked />` },
-    { id: 'badge', zh: '徽标 · 状态标签', en: 'Badge · Status', src: 'ui/badge.tsx · com-icon-tag.tsx',
-      desc: '状态标签（AntTag 浅底）表达真实的结果，颜色总配合文字；徽标（Badge 实底）只用于计数。同一个状态不再配图标重复表达。',
+    { id: 'badge', zh: '徽标 · 状态标签', en: 'Badge · Status', src: 'ui/badge.tsx · ant-tag',
+      desc: '业务状态用 AntTag（默认无描边、4px 圆角）：待处理 default、进行中 blue、已完成 success、警告 warning、失败 error；文字已经表达状态，不再加圆点或图标。Badge 只用于计数。',
       html: () => `<div class="stack">
         <div class="hstack"><span class="col-label">Badge</span><span class="ui-badge default">default</span><span class="ui-badge secondary">secondary</span><span class="ui-badge outline">outline</span><span class="ui-badge destructive">destructive</span></div>
-        <div class="hstack"><span class="col-label">状态</span><span class="ui-tag ok"><i></i>已连接</span><span class="ui-tag warn"><i></i>接近上限</span><span class="ui-tag err"><i></i>离线</span><span class="ui-tag info"><i></i>同步中</span><span class="ui-tag hl">实时</span></div></div>`,
+        <div class="hstack"><span class="col-label">状态</span><span class="ui-tag ok">已连接</span><span class="ui-tag warn">接近上限</span><span class="ui-tag err">离线</span><span class="ui-tag info">同步中</span><span class="ui-tag hl">实时</span></div></div>`,
       code: `import { Badge } from '@tier0/ui/components/ui/badge';\n\n<Badge variant="secondary">OPC UA</Badge>` },
     { id: 'tabs', zh: '标签页', en: 'Tabs', src: 'ui/tabs.tsx · cn-tabs.tsx',
       desc: '用于在同一对象的几个视图之间切换；表示先后顺序的流程用步骤条，不用标签页。',
@@ -64,9 +64,9 @@
     { id: 'table', zh: '表格', en: 'Table', src: 'ui/table.tsx · cn-table.tsx · ant-table',
       desc: '用于需要比较、排序、筛选的结构化数据。行间细线，悬停浅灰；数字右对齐并用等宽数字。',
       html: () => `<table class="ui-table"><thead><tr><th>设备</th><th>产线</th><th>状态</th><th class="r">温度 °C</th></tr></thead><tbody>
-        <tr><td>CNC-01</td><td>Line-01</td><td><span class="ui-tag ok"><i></i>运行</span></td><td class="r">61.2</td></tr>
-        <tr data-state="selected"><td>CNC-03</td><td>Line-01</td><td><span class="ui-tag warn"><i></i>过热</span></td><td class="r">72.4</td></tr>
-        <tr><td>CNC-04</td><td>Line-02</td><td><span class="ui-tag err"><i></i>离线</span></td><td class="r">—</td></tr></tbody></table>`,
+        <tr><td>CNC-01</td><td>Line-01</td><td><span class="ui-tag ok">运行</span></td><td class="r">61.2</td></tr>
+        <tr data-state="selected"><td>CNC-03</td><td>Line-01</td><td><span class="ui-tag warn">过热</span></td><td class="r">72.4</td></tr>
+        <tr><td>CNC-04</td><td>Line-02</td><td><span class="ui-tag err">离线</span></td><td class="r">—</td></tr></tbody></table>`,
       code: `import { CnTable } from '@tier0/ui/components/cn-table';\n\n<CnTable columns={columns} dataSource={rows} rowKey="id" />` },
     { id: 'card', zh: '卡片 · 统计卡', en: 'Card · Stats', src: 'ui/card.tsx · com-stats-card.tsx',
       desc: '用于把一组相关信息放在一起，如一台设备或一个指标。同组卡片之间用 group-item 间距；卡片里不再套卡片。',
@@ -939,9 +939,9 @@
   const SCENES = [[375, '手机'], [768, '车间手持 / 平板'], [1024, '工控屏 / 平板横屏'], [1280, '工位显示器'], [1600, '控制室大屏']];
   function sceneOf(w) {
     if (w < 640) return { bp: '< sm', notes: ['侧栏收进抽屉，顶部只留菜单和标题', '指标卡单列，图表在下', '页面内边距 16px', '正文 16px，避免手机浏览器自动放大', '可点区域至少 44px 高'] };
-    if (w < 1024) return { bp: w < 768 ? 'sm' : 'md', notes: ['侧栏仍在抽屉里，内容占满宽度', '指标卡两列', '页面内边距 16px → 24px', '正文 14px，数据数字 24px'] };
-    if (w < 1280) return { bp: 'lg', notes: ['侧栏常驻，可收起为 48px 图标列', '指标卡三列', '页面内边距 24px'] };
-    if (w < 1536) return { bp: 'xl · 主设计宽度', notes: ['侧栏 256px 常驻', '指标卡四列，图表与列表并排', '正文 14px，标题 20px'] };
+    if (w < 1024) return { bp: w < 768 ? 'sm' : 'md', notes: ['768px 起侧栏常驻（240px，可收起为 64px），768px 以下在抽屉里', '指标卡两列', '页面内边距 16px → 24px', '正文 14px，卡片读数 32px'] };
+    if (w < 1280) return { bp: 'lg', notes: ['侧栏常驻 240px，可收起为 64px 图标列', '指标卡三列', '页面内边距 24px'] };
+    if (w < 1536) return { bp: 'xl · 主设计宽度', notes: ['侧栏 240px 常驻', '指标卡四列，图表与列表并排', '正文 14px，页面标题 30px'] };
     return { bp: '2xl', notes: ['内容区最大 1440px，超出后居中', '站远处看：关键数字放大到 40px', '仍是四列，不为填满而拉宽表格'] };
   }
   const sceneFrame = (id, w) => `<div class="scene" data-scene="${id}" data-init="${w}">
@@ -1014,10 +1014,10 @@
     const nav = (n, icons) => `<div class="sx-nav${icons ? ' icons' : ''}"><div class="sx-ws"><i></i>${icons ? '' : '<b></b>'}</div>${[3, 2, 4, 2].map((k, g) => `${g && !icons ? '<em></em>' : ''}${Array.from({ length: k }, (_, i) => `<span${g === 1 && i === 0 ? ' class="on"' : ''}></span>`).join('')}`).join('')}${icons ? '' : '<div class="sx-up"></div>'}</div>`;
     const work = (phone) => `<div class="sx-work">${phone ? '<div class="sx-bar"><i></i></div>' : ''}<div class="sx-title"><b></b>${phone ? '' : '<u></u>'}</div><div class="sx-desc"></div><div class="sx-tabs"><i class="on"></i><i></i><i></i></div><div class="sx-cards">${'<div></div>'.repeat(phone ? 2 : 4)}</div><div class="sx-panel"></div></div>`;
     const figs = [
-      ['desk', '桌面 · 侧栏展开', '侧栏 234–240px（grey-50 底，右侧 1px 线）+ 工作区（左右 40px）。默认没有顶栏。', `${nav()}${work()}`],
-      ['desk', '桌面 · 侧栏收起', '侧栏收成 48px 图标栏，悬停显示名称；工作区跟着变宽。', `${nav(0, 1)}${work()}`],
+      ['desk', '桌面 · 侧栏展开', '侧栏 240px（grey-50 底，右侧 1px 线）+ 工作区（内边距 24px）。默认没有顶栏。', `${nav()}${work()}`],
+      ['desk', '桌面 · 侧栏收起', '侧栏收成 64px 图标栏，悬停显示名称；工作区跟着变宽。', `${nav(0, 1)}${work()}`],
       ['desk', '设置类页面', '侧栏 + 二级导航 248px（白底，右侧 1px 线）+ 工作区。', `${nav()}<div class="sx-sub">${'<span></span>'.repeat(6)}</div>${work()}`],
-      ['phone', '手机 · 抽屉', '小于 1024px 时侧栏变成抽屉，标题前放打开按钮；工作区左右 16px。', `${work(1)}<div class="sx-drawer">${nav()}</div>`],
+      ['phone', '手机 · 抽屉', '小于 768px 时侧栏变成抽屉，标题前放打开按钮；工作区左右 16px。', `${work(1)}<div class="sx-drawer">${nav()}</div>`],
     ];
     return `<div class="sx-grid">${figs.map(([k, t, d, inner]) => `<figure class="sx-fig"><div class="sx-frame ${k}"><div class="sx-in">${inner}</div></div><figcaption><b>${t}</b><span>${d}</span></figcaption></figure>`).join('')}</div>`;
   }
