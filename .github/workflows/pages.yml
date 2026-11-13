@@ -8,6 +8,9 @@ on:
       - '00-foundation/**'
       - '01-tokens/**'
       - '03-brand/**'
+      - '02-components/**'
+      - '.agents/skills/**'
+      - 'DESIGN.md'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
