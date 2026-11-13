@@ -336,7 +336,7 @@
   addEventListener('message', e => { if (!e.data || e.data.type !== 't0-preview') return; const f = document.querySelector(`iframe.cp-frame[data-cp="${e.data.id}"]`); if (f) f.style.height = Math.max(120, e.data.h) + 'px'; });
   function vComponents() {
     const scope = compTheme === 'dark' ? ' dark-scope' : compTheme === 'light' ? ' light-scope' : '';
-    return docHead('Tier0 平台组件', `Tier0 平台自身使用的组件，代码复刻自前端，在仓库的 <code>02-components/packages</code>，可以直接引用。生成平台应用模版用的是另一套：<a href="#scaffold">应用脚手架</a>。`)
+    return docHead('Tier0 平台组件', `Tier0 平台自身使用的组件，代码复刻自前端，在仓库的 <code>02-components/packages</code>，可以直接引用。`)
       + `<div style="margin:0 0 40px">${seg('ctheme', [['auto', '跟随页面'], ['light', '亮色'], ['dark', '暗色']], compTheme)}</div>`
       + COMPONENTS.map(c => sec('c-' + c.id, c.zh, esc(guideSummary(c) || c.desc), `<div class="spec" data-spec>
           <div class="spec-tabs"><div class="seg sm" role="tablist"><button type="button" data-view="preview" aria-pressed="true">预览</button><button type="button" data-view="code" aria-pressed="false">代码</button></div>
