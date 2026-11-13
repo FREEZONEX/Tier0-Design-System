@@ -11,6 +11,8 @@
 
 每个组件在 Tier0 里怎么用，见 [`guidelines/`](guidelines/README.md)。
 
+门户「Tier0 平台组件」页的预览直接渲染这里的组件（`site/previews/`，构建产物在 `site/public/previews/index.html`），组件说明取自各 guideline 的摘要；同步组件后运行 `npm run build:previews` 更新预览。
+
 只复制了这四个纯前端包，业务、gRPC、观测和 UNS 相关的包没有复制。
 
 ## 组件命名

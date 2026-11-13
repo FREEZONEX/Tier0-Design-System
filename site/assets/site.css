@@ -1665,3 +1665,7 @@ button.repo-card { font: inherit; text-align: left; cursor: pointer; }
 .ui-tag.err { background: #FEF2F2; color: #DC2626; }
 .ui-tag.info { background: #EFF6FF; color: #2563EB; }
 .ui-tag.hl { background: #F7FDE8; color: #7EA815; }
+
+/* 组件预览：iframe 里是 02-components/packages 的真组件 */
+.cp-body { padding: 0 !important; display: block !important; }
+.cp-frame { display: block; width: 100%; height: 200px; border: 0; background: transparent; color-scheme: normal; }

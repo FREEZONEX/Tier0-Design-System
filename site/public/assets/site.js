@@ -24,73 +24,41 @@
 
   // ---------- components: mirror Tier0-Frontend packages/ui ----------
   const COMPONENTS = [
-    { id: 'button', zh: '按钮', en: 'Button', src: 'ui/button.tsx',
+    { id: 'button', zh: '按钮', en: 'Button', src: 'ui/button.tsx', guide: 'button',
       desc: '用于触发一个操作。一个视图只放一个 primary（黑底）作为主操作；品牌绿 default 只给需要强调的工作流操作。尺寸 sm 32（默认）、md 36、lg 40。跳转到别的页面用链接，不用按钮。',
-      html: () => `<div class="stack">
-        <div class="hstack"><span class="col-label">变体</span><button class="ui-btn default">default</button><button class="ui-btn primary">primary</button><button class="ui-btn secondary">secondary</button><button class="ui-btn outline">outline</button><button class="ui-btn ghost">ghost</button><button class="ui-btn destructive">destructive</button><button class="ui-btn link">link</button></div>
-        <div class="hstack"><span class="col-label">尺寸</span><button class="ui-btn default">sm 32</button><button class="ui-btn default md">md 36</button><button class="ui-btn default lg">lg 40</button><button class="ui-btn outline icon" aria-label="新建">${I.plus}</button></div>
-        <div class="hstack"><span class="col-label">状态</span><button class="ui-btn primary">${I.plus}新建数据源</button><button class="ui-btn default is-loading"><span class="ui-spin"></span>运行中</button><button class="ui-btn outline" disabled>不可用</button></div></div>`,
       code: `import { Button } from '@tier0/ui/components/ui/button';\n\n<Button>运行 Agent</Button>\n<Button variant="primary" size="md">保存</Button>\n<Button variant="outline">取消</Button>\n<Button loading>运行中</Button>` },
-    { id: 'input', zh: '输入框', en: 'Input', src: 'ui/input.tsx · ui/textarea.tsx',
+    { id: 'input', zh: '输入框', en: 'Input', src: 'ui/input.tsx · ui/textarea.tsx', guide: 'form',
       desc: '用于输入一行文字。聚焦时出现品牌绿外圈；校验失败时边框变红，并在下方说明怎么改。',
-      html: () => `<div class="grid2">
-        <div class="ui-field"><label class="ui-label" for="d-in">数据源名称</label><input class="ui-input" id="d-in" placeholder="例如 PLC-S7-01"><span class="ui-hint">点击输入框查看聚焦样式</span></div>
-        <div class="ui-field"><label class="ui-label" for="d-in2">端点地址</label><input class="ui-input" id="d-in2" aria-invalid="true" value="opc.tcp://"><span class="ui-hint err">地址格式不正确</span></div>
-        <div class="ui-field"><label class="ui-label" for="d-ta">描述</label><textarea class="ui-textarea" id="d-ta" placeholder="补充说明"></textarea></div>
-        <div class="ui-field"><label class="ui-label" for="d-dis">只读</label><input class="ui-input" id="d-dis" value="Factory-A / Line-01" disabled></div></div>`,
       code: `import { Input } from '@tier0/ui/components/ui/input';\n\n<Input placeholder="例如 PLC-S7-01" />\n<Input aria-invalid icon={<SearchIcon />} />` },
-    { id: 'select', zh: '选择器', en: 'Select', src: 'ui/select.tsx · cn-select.tsx',
+    { id: 'select', zh: '选择器', en: 'Select', src: 'ui/select.tsx · cn-select.tsx', guide: 'form',
       desc: '用于从较多选项里选一个；只有 2 到 5 个选项时用单选或分段控件更直接。与输入框同一形制。',
-      html: () => `<div class="ui-field"><label class="ui-label" for="d-sel">协议</label><select class="ui-select" id="d-sel"><option>OPC UA</option><option>Modbus TCP</option><option>MQTT</option></select></div>`,
       code: `import { CnSelect } from '@tier0/ui/components/cn-select';\n\n<CnSelect options={[{ label: 'OPC UA', value: 'opcua' }]} />` },
-    { id: 'choice', zh: '复选 · 单选 · 开关', en: 'Checkbox · Radio · Switch', src: 'ui/checkbox.tsx · ui/radio-group.tsx · ui/switch.tsx',
+    { id: 'choice', zh: '复选 · 单选 · 开关', en: 'Checkbox · Radio · Switch', src: 'ui/checkbox.tsx · ui/radio-group.tsx · ui/switch.tsx', guide: 'form',
       desc: '复选用于多选；单选用于 2 到 5 个互斥选项；开关用于立即生效的开和关。选中态统一用 primary。',
-      html: () => `<div class="grid2">
-        <div class="stack"><label class="ui-check"><input type="checkbox" checked>订阅实时数据</label><label class="ui-check"><input type="checkbox">保留历史</label></div>
-        <div class="stack"><label class="ui-check"><input type="radio" name="d-r" checked>按设备</label><label class="ui-check"><input type="radio" name="d-r">按工序</label></div>
-        <div class="stack"><label class="ui-check"><input type="checkbox" class="ui-switch" role="switch" checked>自动重连</label><label class="ui-check"><input type="checkbox" class="ui-switch" role="switch">告警通知</label></div>
-        <div class="stack"><span class="ui-label">采样频率</span><input type="range" class="ui-slider" value="60" aria-label="采样频率"></div></div>`,
       code: `<Checkbox defaultChecked />\n<RadioGroup defaultValue="device">…</RadioGroup>\n<Switch defaultChecked />` },
-    { id: 'badge', zh: '徽标 · 状态标签', en: 'Badge · Status', src: 'ui/badge.tsx · ant-tag',
+    { id: 'badge', zh: '徽标 · 状态标签', en: 'Badge · Status', src: 'ui/badge.tsx · ant-tag', guide: 'status',
       desc: '业务状态用 AntTag（默认无描边、4px 圆角）：待处理 default、进行中 blue、已完成 success、警告 warning、失败 error；文字已经表达状态，不再加圆点或图标。Badge 只用于计数。',
-      html: () => `<div class="stack">
-        <div class="hstack"><span class="col-label">Badge</span><span class="ui-badge default">default</span><span class="ui-badge secondary">secondary</span><span class="ui-badge outline">outline</span><span class="ui-badge destructive">destructive</span></div>
-        <div class="hstack"><span class="col-label">状态</span><span class="ui-tag ok">已连接</span><span class="ui-tag warn">接近上限</span><span class="ui-tag err">离线</span><span class="ui-tag info">同步中</span><span class="ui-tag hl">实时</span></div></div>`,
       code: `import { Badge } from '@tier0/ui/components/ui/badge';\n\n<Badge variant="secondary">OPC UA</Badge>` },
     { id: 'tabs', zh: '标签页', en: 'Tabs', src: 'ui/tabs.tsx · cn-tabs.tsx',
       desc: '用于在同一对象的几个视图之间切换；表示先后顺序的流程用步骤条，不用标签页。',
-      html: () => `<div class="ui-tabs" data-tabs><div class="ui-tabs-list" role="tablist"><button role="tab" aria-selected="true" data-tab="指标：温度、压力、转速">指标</button><button role="tab" aria-selected="false" data-tab="状态：运行、空闲、停机">状态</button><button role="tab" aria-selected="false" data-tab="动作：启动、停止、复位">动作</button></div><div class="ui-tabs-panel">指标：温度、压力、转速</div></div>`,
       code: `<Tabs defaultValue="metrics">\n  <TabsList>\n    <TabsTrigger value="metrics">指标</TabsTrigger>\n    <TabsTrigger value="state">状态</TabsTrigger>\n  </TabsList>\n</Tabs>` },
     { id: 'table', zh: '表格', en: 'Table', src: 'ui/table.tsx · cn-table.tsx · ant-table',
       desc: '用于需要比较、排序、筛选的结构化数据。行间细线，悬停浅灰；数字右对齐并用等宽数字。',
-      html: () => `<table class="ui-table"><thead><tr><th>设备</th><th>产线</th><th>状态</th><th class="r">温度 °C</th></tr></thead><tbody>
-        <tr><td>CNC-01</td><td>Line-01</td><td><span class="ui-tag ok">运行</span></td><td class="r">61.2</td></tr>
-        <tr data-state="selected"><td>CNC-03</td><td>Line-01</td><td><span class="ui-tag warn">过热</span></td><td class="r">72.4</td></tr>
-        <tr><td>CNC-04</td><td>Line-02</td><td><span class="ui-tag err">离线</span></td><td class="r">—</td></tr></tbody></table>`,
       code: `import { CnTable } from '@tier0/ui/components/cn-table';\n\n<CnTable columns={columns} dataSource={rows} rowKey="id" />` },
-    { id: 'card', zh: '卡片 · 统计卡', en: 'Card · Stats', src: 'ui/card.tsx · com-stats-card.tsx',
+    { id: 'card', zh: '卡片 · 统计卡', en: 'Card · Stats', src: 'ui/card.tsx · com-stats-card.tsx', guide: 'card',
       desc: '用于把一组相关信息放在一起，如一台设备或一个指标。同组卡片之间用 group-item 间距；卡片里不再套卡片。',
-      html: () => `<div class="grid2">
-        <div class="ui-card"><div><div class="ui-card-title">Line-01</div><div class="ui-card-desc">3 台设备在线，1 台告警</div></div><div class="ui-card-foot"><button class="ui-btn outline">查看</button><button class="ui-btn default">运行 Agent</button></div></div>
-        <div class="com-stats-card"><div class="l">今日接入数据点</div><div class="v">128,406</div></div></div>`,
       code: `import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@tier0/ui/components/ui/card';\nimport ComStatsCard from '@tier0/ui/components/com-stats-card';\n\n<Card>\n  <CardHeader><CardTitle>Line-01</CardTitle><CardDescription>3 台设备在线，1 台告警</CardDescription></CardHeader>\n  <CardFooter>…</CardFooter>\n</Card>\n\n<ComStatsCard label="今日接入数据点" value="128,406" />` },
-    { id: 'alert', zh: '提示', en: 'Alert', src: 'ui/alert.tsx',
+    { id: 'alert', zh: '提示', en: 'Alert', src: 'ui/alert.tsx', guide: 'states',
       desc: '用于影响整个页面或区块、需要一直看到的提示，问题解决前不消失；一次性的操作结果用轻提示。',
-      html: () => `<div class="stack"><div class="ui-alert">${I.info}<b>数据源已更新</b><span>新配置将在下一次采样时生效。</span></div><div class="ui-alert destructive">${I.alert}<b>连接失败</b><span>无法访问 opc.tcp://10.0.0.12。</span></div><div class="ui-alert error">${I.alert}<b>配额已用完</b><span>升级套餐以继续接入数据点。</span></div></div>`,
       code: `<Alert variant="destructive">\n  <AlertTitle>连接失败</AlertTitle>\n  <AlertDescription>…</AlertDescription>\n</Alert>` },
-    { id: 'feedback', zh: '进度 · 骨架 · 头像 · 气泡', en: 'Progress · Skeleton · Avatar · Tooltip', src: 'ui/progress.tsx · ui/skeleton.tsx · com-avatar.tsx · ui/tooltip.tsx',
+    { id: 'feedback', zh: '进度 · 骨架 · 头像 · 气泡', en: 'Progress · Skeleton · Avatar · Tooltip', src: 'ui/progress.tsx · ui/skeleton.tsx · com-avatar.tsx · ui/tooltip.tsx', guide: 'states',
       desc: '进度条用于能预估的等待；骨架用于首次加载；工具提示只放补充说明，必须看到的信息不放进提示。',
-      html: () => `<div class="grid2">
-        <div class="stack"><div class="ui-progress"><span style="width:68%"></span></div><div class="stack" style="gap:8px;width:240px"><div class="ui-skel" style="height:14px;width:100%"></div><div class="ui-skel" style="height:14px;width:70%"></div></div></div>
-        <div class="stack"><div class="ui-avatars"><span class="ui-avatar">AL</span><span class="ui-avatar">MK</span><span class="ui-avatar">YX</span><span class="ui-avatar">+4</span></div><span class="ui-tooltip">复制数据路径</span></div></div>`,
       code: `<Progress value={68} />\n<Skeleton className="h-4 w-full" />\n<Tooltip><TooltipContent>复制数据路径</TooltipContent></Tooltip>` },
-    { id: 'menu', zh: '下拉菜单', en: 'Dropdown menu', src: 'ui/dropdown-menu.tsx · cn-dropdown-menu.tsx',
+    { id: 'menu', zh: '下拉菜单', en: 'Dropdown menu', src: 'ui/dropdown-menu.tsx · cn-dropdown-menu.tsx', guide: 'overlay',
       desc: '用于收起次要操作和更多选项；危险操作放在最后，用红色文字。',
-      html: () => `<div class="ui-menu"><div>重命名<small>⌘R</small></div><div>复制路径</div><div>导出</div><hr><div class="danger">删除</div></div>`,
       code: `<DropdownMenu>\n  <DropdownMenuTrigger asChild><Button variant="ghost">…</Button></DropdownMenuTrigger>\n  <DropdownMenuContent>…</DropdownMenuContent>\n</DropdownMenu>` },
-    { id: 'dialog', zh: '弹窗', en: 'Dialog', src: 'cn-dialog.tsx · com-confirm-dialog.tsx',
+    { id: 'dialog', zh: '弹窗', en: 'Dialog', src: 'cn-dialog.tsx · com-confirm-dialog.tsx', guide: 'overlay',
       desc: '用于需要确认或集中填写、值得打断当前流程的任务；能就地完成的操作不用弹窗。危险操作的确认按钮用 destructive。',
-      html: () => `<div class="ui-overlay"><div class="ui-dialog light-scope"><span class="x">${I.x}</span><div><h3>断开数据源？</h3><p>PLC-S7-01 的数据将停止同步，已接入的历史数据保留。</p></div><div class="ui-dialog-foot"><button class="ui-btn outline">取消</button><button class="ui-btn destructive">断开</button></div></div></div>`,
       code: `import { ComConfirmDialog } from '@tier0/ui/components/com-confirm-dialog';\n\n<ComConfirmDialog title="断开数据源？" onSubmit={() => disconnect()} />` },
   ];
 
@@ -135,6 +103,7 @@
       tryFetch('01-tokens/spacing.json'), tryFetch('01-tokens/layout.json'), tryFetch('01-tokens/radius.json'),
       tryFetch('01-tokens/border.json'), tryFetch('01-tokens/shadow.json'), tryFetch('01-tokens/motion.json'), tryFetch('DESIGN.md', 'text')]);
     Object.assign(D, { base: r[0], light: r[1], dark: r[2], typo: r[3], md: r[4] || '', spacing: r[5], layout: r[6], radius: r[7], border: r[8], shadow: r[9], motion: r[10], designmd: r[11] || '' });
+    await loadGuides();
   }
   const asset = p => (window.__T0_ASSETS && window.__T0_ASSETS[p]) || (D.root || '../') + p;
   const entries = o => Object.entries(o || {}).filter(([k]) => k[0] !== '$');
@@ -344,14 +313,35 @@
 
   // ---------- components (one page) ----------
   let compTheme = 'auto';
+
+  // ---------- 组件预览：iframe 渲染 02-components/packages 里的真组件（site/previews） ----------
+  const GUIDES = {};
+  const guideSummary = c => { const t = c.guide && GUIDES[c.guide]; const m = t && t.match(/^> 摘要（.+?）：(.+)$/m); return m ? m[1].replace(/`/g, '') + `（用法见 02-components/guidelines/${c.guide}.md）` : ''; };
+  async function loadGuides() { const ids = [...new Set(COMPONENTS.map(c => c.guide).filter(Boolean))]; await Promise.all(ids.map(async g => { if (GUIDES[g] == null) GUIDES[g] = (await tryFetch(`02-components/guidelines/${g}.md`, 'text')) || ''; })); }
+  let previewSrc = null;
+  function previewBase() {
+    if (previewSrc) return previewSrc;
+    const packed = asset('previews/index.html');
+    if (packed.startsWith('data:')) { const b64 = packed.split(',')[1]; const bin = atob(b64); const u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i); previewSrc = URL.createObjectURL(new Blob([u8], { type: 'text/html' })); }
+    else previewSrc = 'previews/index.html';
+    return previewSrc;
+  }
+  const previewDark = () => compTheme === 'dark' || (compTheme === 'auto' && document.documentElement.dataset.theme === 'dark') || (compTheme === 'auto' && !document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+  function mountPreviews() {
+    const frames = document.querySelectorAll('iframe.cp-frame'); if (!frames.length) return;
+    const dark = previewDark();
+    frames.forEach(f => { const want = previewBase() + '#' + f.dataset.cp + (dark ? ':dark' : ''); if (!f.src) f.src = want; else f.contentWindow && f.contentWindow.postMessage({ type: 't0-theme', dark }, '*'); f.onload = () => f.contentWindow.postMessage({ type: 't0-theme', dark: previewDark() }, '*'); });
+  }
+  new MutationObserver(() => mountPreviews()).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  addEventListener('message', e => { if (!e.data || e.data.type !== 't0-preview') return; const f = document.querySelector(`iframe.cp-frame[data-cp="${e.data.id}"]`); if (f) f.style.height = Math.max(120, e.data.h) + 'px'; });
   function vComponents() {
     const scope = compTheme === 'dark' ? ' dark-scope' : compTheme === 'light' ? ' light-scope' : '';
     return docHead('Tier0 平台组件', `Tier0 平台自身使用的组件，代码复刻自前端，在仓库的 <code>02-components/packages</code>，可以直接引用。生成平台应用模版用的是另一套：<a href="#scaffold">应用脚手架</a>。`)
       + `<div style="margin:0 0 40px">${seg('ctheme', [['auto', '跟随页面'], ['light', '亮色'], ['dark', '暗色']], compTheme)}</div>`
-      + COMPONENTS.map(c => sec('c-' + c.id, c.zh, esc(c.desc), `<div class="spec" data-spec>
+      + COMPONENTS.map(c => sec('c-' + c.id, c.zh, esc(guideSummary(c) || c.desc), `<div class="spec" data-spec>
           <div class="spec-tabs"><div class="seg sm" role="tablist"><button type="button" data-view="preview" aria-pressed="true">预览</button><button type="button" data-view="code" aria-pressed="false">代码</button></div>
             <div class="src-list">${c.src.split(' · ').map(f => `<button type="button" class="src-chip" data-copy="${esc(FE + f)}" title="复制路径 ${esc(FE + f)}">${esc(f.replace(/^ui\//, ''))}</button>`).join('')}</div></div>
-          <div class="spec-body center${scope}" data-pane="preview">${c.html()}</div>
+          <div class="spec-body cp-body" data-pane="preview"><iframe class="cp-frame" data-cp="${c.id}" title="${esc(c.zh)} 预览" loading="lazy"></iframe></div>
           <div class="spec-code" data-pane="code" hidden>${codeBlock(c.code)}</div></div>`)).join('');
   }
 
@@ -1252,7 +1242,7 @@
   (() => { const bm = document.querySelector('.brandmark'); if (!bm) return; bm.innerHTML = logoSvg(); })();
   document.addEventListener('change', e => { if (e.target.id === 'lab-file' && e.target.files[0]) { const f = e.target.files[0]; labSource(URL.createObjectURL(f), f.type.startsWith('video')); } });
   document.addEventListener('t0:qr-ready', () => mountCard());
-  document.addEventListener('portal:render', () => { mountScaffold(); mountScenes(); mountLab(); mountDatalines(); mountCard(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
+  document.addEventListener('portal:render', () => { mountScaffold(); mountPreviews(); mountScenes(); mountLab(); mountDatalines(); mountCard(); ccPaint(); const cards = document.querySelectorAll('.ez-card'); if (!cards.length) return; const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { playEz(e.target); io.unobserve(e.target); } }), { threshold: 0.6 }); cards.forEach(c => io.observe(c)); });
   window.addEventListener('scroll', () => { if (buildToc.spy) buildToc.spy(); heroState(); }, { passive: true });
   window.addEventListener('hashchange', () => route('anchor'));
 

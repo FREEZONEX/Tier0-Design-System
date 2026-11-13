@@ -10,5 +10,7 @@ DEST="$ROOT/02-components/packages"
 git -C "$FE" fetch -q origin "$REF"
 rm -rf "$DEST" && mkdir -p "$DEST"
 git -C "$FE" archive "origin/$REF" packages/ui packages/theme packages/utils packages/hooks | tar -x -C "$DEST" --strip-components=1
+# 包里的 tsconfig 继承前端根目录的 tsconfig.base.json（../../tsconfig.base.json），一并复制
+git -C "$FE" show "origin/$REF:tsconfig.base.json" > "$ROOT/02-components/tsconfig.base.json"
 echo "$(git -C "$FE" rev-parse --short "origin/$REF") $(git -C "$FE" log -1 --format=%ad --date=short "origin/$REF")" > "$DEST/SOURCE"
 echo "synced from Tier0-Frontend origin/$REF → $DEST"

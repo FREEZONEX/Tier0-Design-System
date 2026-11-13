@@ -7,7 +7,7 @@ import fs from 'node:fs';
 // 网站运行时读取仓库里的规范文件（00-foundation、01-tokens、03-brand、DESIGN.md）。
 // 开发时直接从仓库根目录提供，构建时复制进 dist。
 const repo = path.resolve(__dirname, '..');
-const DATA_DIRS = ['00-foundation', '01-tokens', '03-brand'];
+const DATA_DIRS = ['00-foundation', '01-tokens', '03-brand', '02-components/guidelines'];
 const DATA_FILES = ['DESIGN.md'];
 function repoData(): Plugin {
   return {
