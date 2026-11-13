@@ -764,7 +764,7 @@
       <div class="dl-panel"><div class="lab-grid">${DL_SL.map(sl).join('')}
         <label class="lab-sl lab-color"><span>光束</span><em>${dl.beamColor}</em><input type="color" data-dl="beamColor" value="${dl.beamColor}"></label>
         <label class="lab-sl lab-color"><span>网格</span><em>${dl.gridColor}</em><input type="color" data-dl="gridColor" value="${dl.gridColor}"></label></div>
-        <div class="dl-act"><button type="button" class="ui-btn outline" data-dl-copy>${I.copy}复制代码</button><button type="button" class="ui-btn ghost" data-dl-dl>${I.download}下载 .js</button><p class="dl-use">不依赖框架：<code>mountDatalinesGrid(容器, 参数)</code>，参数和左边的控件一一对应。</p></div></div></div>`;
+        <div class="dl-act"><button type="button" class="ui-btn outline" data-dl-copy>${I.copy}复制代码</button><button type="button" class="ui-btn ghost" data-dl-dl>${I.download}下载 .js</button></div></div></div>`;
   }
   const DLRT = { raf: 0, open: false };
   document.addEventListener('toggle', e => { if (e.target.classList && e.target.classList.contains('dl-fold')) DLRT.open = e.target.open; }, true);

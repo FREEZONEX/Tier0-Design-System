@@ -1078,10 +1078,6 @@ body { transition: background-color 320ms var(--ease); }
 .p-foundation .trait-disclosure[open] .trait-plus { transform: rotate(45deg); }
 .p-foundation .trait-art { height: 210px; border-radius: var(--radius); background: #FAFAFA; }
 .p-foundation .trait-card > .trait-art { margin-top: 12px; }
-.p-foundation .trait-art::before, .p-foundation .trait-art::after { content: ""; position: absolute; z-index: 2; width: 76px; height: 60px; pointer-events: none; opacity: 0; transition: opacity 180ms ease; }
-.p-foundation .trait-art::before { left: 0; top: 0; border-left: 3px solid var(--highlight); border-top: 3px solid var(--highlight); border-radius: var(--radius) 0 0 0; }
-.p-foundation .trait-art::after { right: 0; bottom: 0; border-right: 3px solid var(--highlight); border-bottom: 3px solid var(--highlight); border-radius: 0 0 var(--radius) 0; }
-.p-foundation .trait-card:hover .trait-art::before, .p-foundation .trait-card:hover .trait-art::after, .p-foundation .trait-card:focus-within .trait-art::before, .p-foundation .trait-card:focus-within .trait-art::after { opacity: 1; }
 .p-foundation .trait-art .canvas { fill: #FAFAFA; }
 .p-foundation .trait-art .scene { transform: scale(.83) !important; transform-origin: 50% 50%; }
 .p-foundation .trait-art.art-0 .scene { transform: translate(27px, 16px) scale(1.35) !important; }
@@ -1638,7 +1634,6 @@ button.repo-card { font: inherit; text-align: left; cursor: pointer; }
 .dl-fold > summary small { font-size: 13px; color: var(--muted-foreground); }
 .dl-fold[open] > summary .rb-chev { transform: rotate(180deg); }
 .dl-fold > .dl { padding: 0 16px 16px; margin: 0; }
-.dl-use { margin: 0; font-size: 12px; color: var(--muted-foreground); line-height: 18px; }
 
 /* 场景按内容区宽度换行，侧栏和目录占位不影响断点判断。 */
 .ms-row > * { min-width: 0; }
