@@ -700,7 +700,7 @@
     const icon = (k, x, y) => { c.save(); c.translate(x, y); c.scale(16 / 24, 16 / 24); c.strokeStyle = '#B2ED1D'; c.lineWidth = 2; c.lineCap = 'round'; c.lineJoin = 'round'; SIG_ICONS[k].forEach(p => c.stroke(new Path2D(p))); c.restore(); };
     c.fillStyle = '#FFFFFF'; c.font = `300 9px ${sans}`;
     [['phone', d.phone, 72], ['mail', d.email, 94], ['link', d.web, 116]].forEach(([k, v, y]) => { icon(k, 230, y - 2); c.fillText(v, 256, y + 1); });
-    icon('pin', 396, 77); String(d.addr).split('\n').forEach((ln, i) => c.fillText(ln, 422, 73 + i * 14));
+    icon('pin', 396, 70); String(d.addr).split('\n').forEach((ln, i) => c.fillText(ln, 422, 73 + i * 14));
     c.fillStyle = '#C0C0C0'; c.font = `300 7px ${sans}`; c.fillText(SIG_NOTE[SIG.lang], 230, 144);
   }
   // HTML 签名：表格 + 行内样式，邮件客户端兼容性最好
