@@ -90,7 +90,7 @@
 ## 区块
 
 - 区块标题：20/28，Inter 500（如「Current Plan」），和下方内容间隔 16px，区块之间 32–40px。
-- 卡片：白底、1px `border`、圆角 6px、内边距 20–24px；底部操作条用 `bg-bg-subtle`（`#FCFCFC`）+ 上边 1px 线。
+- 卡片：白底、1px `border`、圆角 4px（`rounded-md`，见 `card.md`）、内边距 20–24px；底部操作条用 `bg-bg-subtle`（`#FCFCFC`）+ 上边 1px 线。
 - 卡片里的大读数：32px Inter 500，后跟「/ 10」这类分母（14px muted）。
 
 ## 筛选栏和提示

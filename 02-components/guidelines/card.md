@@ -1,7 +1,8 @@
 # 卡片与面板
 
-> 摘要（Cards & panels）：白底、1px `border`、`rounded.lg`、`card-padding`；不整块填灰、不加阴影、不卡片套卡片；面板只有「标题行 → 内容」两层。
+> 摘要（Cards & panels）：白底、1px `border`、`rounded.md`、`card-padding`；不整块填灰、不加阴影、不卡片套卡片；面板只有「标题行 → 内容」两层。
 
+- 用 `@tier0/ui` 的 `Card`，并按产品里的写法覆盖默认样式：`className="border-border rounded-md border shadow-none"`。组件默认的 `rounded-xl`（10px）和阴影在产品里不用。
 - 产品界面的卡片用白底（`card`）+ `border.1` 细线，不整块填灰；浅灰填充只给侧栏、表头和悬停行。
 - 指标卡高度贴合内容；一排指标卡同高，但不跟旁边的列表或图表对齐拉伸。
 - 面板结构只有两层：标题行（左侧标题，右侧操作）→ 内容。标题行和内容之间用间距分开，不画分割线；不叠多层工具栏。

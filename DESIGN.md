@@ -323,8 +323,8 @@ Tier0 为制造业构建 Agentic 工业数据平台：工厂设备和业务系�
 
 形状接近直角，显得利落、精确。
 
-- **4px**（`rounded.md`）：按钮、输入框、标签、弹窗、下拉、提示。
-- **6px**（`rounded.lg`）：卡片、面板、图片容器。
+- **4px**（`rounded.md`）：按钮、输入框、标签、卡片、面板、弹窗、下拉、提示。
+- **6px**（`rounded.lg`）：图片容器、截图框。
 - **8px**（`rounded.xl`）是上限，只给大尺寸的截图、视频、插图框。
 - **全圆角**只给胶囊徽章、进度条、开关、滑块、头像、状态圆点。
 - 嵌套时内层圆角不大于外层；侧滑面板贴边的两角为 0。
@@ -338,7 +338,7 @@ Tier0 为制造业构建 Agentic 工业数据平台：工厂设备和业务系�
 - **App shell**：左侧导航 + 右侧工作区，用 `SidebarProvider` 覆盖为 `shell.sidebar` / `shell.sidebar-collapsed`，结构照 saas-dashboard 的 `AppSidebar`：顶部工作区切换和 `SidebarTrigger`，底部账户与通知；当前项灰底、不用品牌绿。页面标题用 `typo-h2`，主操作在标题行右侧，下方是下划线页签。 → `app-shell.md`
 - **Page layout**：从任务出发安排首屏；用间距档位表达分组；小于 `breakpoint.md` 侧栏变抽屉，表格只在自身容器内横向滚动，页面不横向溢出。 → `page-layout.md`
 - **Buttons**：默认 `sm` 尺寸；页面主操作用品牌绿 `default` 并带前导图标，弹窗和引导确认用黑底 `primary`，并排的次要操作用 `secondary`，工具栏用 `outline`，危险操作用 `destructive` 并先确认。 → `button.md`
-- **Cards & panels**：白底、1px `border`、`rounded.lg`、`card-padding`；不整块填灰、不加阴影、不卡片套卡片；面板只有「标题行 → 内容」两层。 → `card.md`
+- **Cards & panels**：白底、1px `border`、`rounded.md`、`card-padding`；不整块填灰、不加阴影、不卡片套卡片；面板只有「标题行 → 内容」两层。 → `card.md`
 - **Forms**：标签常驻在输入框上方；输入框高 `control-md`；焦点用 `shadow.focus`，出错时描边变 destructive，错误文字写在下方并说明怎么改。 → `form.md`
 - **Status**：设备运行状态写成「圆点 + 文字」；业务流程状态直接用 `AntTag`（default / blue / success / warning / error），不叠加同义圆点；`Badge` 只用于计数。 → `status.md`
 - **Metric**：说明 → 数值 → 单位；卡片主读数用 `metric-lg`，一排小读数用 `metric`；只有超过已知阈值才变 destructive，并写明阈值。 → `metric.md`

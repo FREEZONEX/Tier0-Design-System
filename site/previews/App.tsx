@@ -104,7 +104,8 @@ const PREVIEWS: Record<string, () => ReactNode> = {
   ),
   card: () => (
     <div className="flex flex-wrap gap-6">
-      <Card className="w-80">
+      {/* 产品里的写法：apps/ 中的 Card 几乎都覆盖为 rounded-md + border + shadow-none，不用组件默认的 rounded-xl + shadow */}
+      <Card className="border-border w-80 rounded-md border shadow-none">
         <CardHeader><CardTitle>Line-01</CardTitle><CardDescription>3 台设备在线，1 台告警</CardDescription></CardHeader>
         <CardFooter className="justify-end gap-2"><Button variant="outline">查看</Button><Button>运行 Agent</Button></CardFooter>
       </Card>

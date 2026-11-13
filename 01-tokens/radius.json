@@ -1,16 +1,16 @@
 {
-  "$description": "圆角。以 4px 为主，接近直角；卡片 6px；最大 8px。圆形元素是唯一的例外。",
+  "$description": "圆角。以 4px 为主（控件、卡片、面板），接近直角；图片容器 6px；最大 8px。圆形元素是唯一的例外。",
   "$extensions": {
     "tier0": {
       "rules": [
-        "控件（按钮、输入框、选择器、标签、表格内元素）用 radius.md。",
-        "卡片、面板、侧滑面板、图片容器用 radius.lg。",
+        "卡片、面板、控件（按钮、输入框、选择器、标签、表格内元素）用 radius.md；产品里的 Card 覆盖组件默认的 rounded-xl。",
+        "侧滑面板、图片容器、截图框用 radius.lg。",
         "弹窗、下拉、提示等浮层用 radius.md，与控件一致。",
         "radius.xl 是上限，只用于大尺寸的媒体容器（截图、视频、插图框）。",
         "例外：胶囊徽章、进度条、开关、滑块、头像、状态圆点用 radius.full；除此之外不使用全圆角。",
         "嵌套时内层圆角不大于外层。"
       ],
-      "frontend": "前端 --radius 为 0.5rem，派生 sm 2px / md 4px / lg 6px / xl 10px。card 组件当前为 rounded-xl（10px），按本规范应为 rounded-lg（6px）。 前端还有 rounded-[4px] 145 处、rounded-[3px] 40 处、rounded-[2px] 18 处、rounded-[6px] 10 处：[4px]/[2px]/[6px] 改成 rounded-md/sm/lg，[3px] 改成 rounded-sm 或 rounded-md；rounded-xl（10px）和 rounded-2xl 共 16 处超过 8px 上限。"
+      "frontend": "前端 --radius 为 0.5rem，派生 sm 2px / md 4px / lg 6px / xl 10px。Card 组件默认 rounded-xl（10px），产品页面里统一覆盖为 rounded-md。"
     }
   },
   "radius": {
