@@ -373,12 +373,12 @@
   const repoCard = (href, icon, title, sub) => `<a class="repo-card" href="${href}" target="_blank" rel="noopener"><span class="rc-ic">${icon}</span><span class="rc-tx"><b>${title}</b><small>${sub}</small></span><span class="rc-go">${I.arrow}</span></a>`;
   function vScaffold() {
     return docHead('模版应用脚手架', '用来生成平台应用模版的组件。')
-      + `<div class="repo-row">${repoCard(SCAFFOLD_REPO, I.github, '代码仓库', 'FREEZONEX/Tier0-App-Scaffold')}${repoCard(asset('scaffold-v85a4d4e/index.html'), I.open, '组件门户', '在新窗口中打开')}</div>`
+      + `<div class="repo-row">${repoCard(SCAFFOLD_REPO, I.github, '代码仓库', 'FREEZONEX/Tier0-App-Scaffold')}${repoCard(asset('scaffold-vd489804/index.html'), I.open, '组件门户', '在新窗口中打开')}</div>`
       + `<div class="sc-frame" id="sc-frame"><div class="sc-empty" hidden><p>组件预览暂时无法加载，请在代码仓库中查看。</p></div></div>`;
   }
   function mountScaffold() {
     const box = document.getElementById('sc-frame'); if (!box) return;
-    const packed = asset('scaffold/single.html'); const src = packed.startsWith('data:') ? packed : asset('scaffold-v85a4d4e/index.html');
+    const packed = asset('scaffold/single.html'); const src = packed.startsWith('data:') ? packed : asset('scaffold-vd489804/index.html');
     const show = () => box.insertAdjacentHTML('afterbegin', `<iframe title="应用脚手架组件预览" src="${src}" loading="lazy"></iframe>`);
     if (src.startsWith('data:')) return show();
     if (location.protocol === 'file:') { box.querySelector('.sc-empty').hidden = false; return; }
