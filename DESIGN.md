@@ -286,7 +286,7 @@ Tier0 为制造业构建 Agentic 工业数据平台：工厂设备和业务系�
 
 - **产品字阶**：页面标题 `typo-h2` 30/36 Inter 600（前端 `text-3xl font-semibold`），标题下的说明 14/20 500 用 `text-secondary`；区块标题 20/28 Inter 500；弹窗标题 `typo-h3` 24/32；正文 `body-sm` 14/20；标签和按钮 `label` 14/20 500；说明 `caption` 12/16。`typo-h1`、`typo-h2` 只用于官网和文档。
 - **官网、海报、Slides**：用 `web-*` 字阶，按画幅放大，字体和字重不变。
-- 标题和读数用 Inter，正文用 IBM Plex Sans，代码和命令行用 IBM Plex Mono（UNS 数据路径不算代码，用常规字体）；中文使用系统字体（苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体）；Tektur 只用于 Logo。
+- 标题和读数用 Inter，正文用 IBM Plex Sans，代码和命令行用 IBM Plex Mono（UNS 数据路径不算代码，用常规字体）；中文统一用 IBM Plex Sans SC，不使用系统默认中文字体；Tektur 只用于 Logo。
 - 不引入以上之外的字体。
 - 中文标题和中英混排标题字距为 0；只有纯英文标题使用字阶里的负字距。
 - 最小字号用 caption；更小的字号只用于图表刻度等不需要阅读的文字。

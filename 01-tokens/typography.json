@@ -5,12 +5,10 @@
       "display": {
         "$value": [
           "Inter",
-          "PingFang SC",
-          "Microsoft YaHei",
-          "Arial",
+          "IBM Plex Sans SC",
           "sans-serif"
         ],
-        "$description": "标题：页面标题、分区标题、官网与 Deck 大标题——字形紧凑、几何感强；英文标题使用字阶中的负字距（见各字阶 letterSpacing）。中文回落到系统字体。",
+        "$description": "标题：页面标题、分区标题、官网与 Deck 大标题——字形紧凑、几何感强；英文标题使用字阶中的负字距（见各字阶 letterSpacing）。中文用 IBM Plex Sans SC。",
         "$extensions": {
           "tier0": {
             "frontend": {
@@ -23,9 +21,7 @@
       "sans": {
         "$value": [
           "IBM Plex Sans",
-          "PingFang SC",
-          "Microsoft YaHei",
-          "Arial",
+          "IBM Plex Sans SC",
           "sans-serif"
         ],
         "$description": "正文与界面文字：段落、按钮、表单、标签、导航——中性、耐读，带一点工程字体的硬朗，长时间阅读不累。",
@@ -42,8 +38,7 @@
       "mono": {
         "$value": [
           "IBM Plex Mono",
-          "PingFang SC",
-          "Microsoft YaHei",
+          "IBM Plex Sans SC",
           "ui-monospace",
           "monospace"
         ],
@@ -60,23 +55,15 @@
       },
       "sc": {
         "$value": [
-          "PingFang SC",
-          "Microsoft YaHei",
-          "Noto Sans CJK SC",
-          "Source Han Sans SC",
+          "IBM Plex Sans SC",
           "sans-serif"
         ],
-        "$description": "中文：使用系统字体——macOS / iOS 为苹方（PingFang SC），Windows 为微软雅黑（Microsoft YaHei），Android 为思源黑体（Noto Sans CJK SC）。作为以上三种字体的中文回落，不单独指定。",
+        "$description": "中文统一用 IBM Plex Sans SC。拉丁字母仍用 Inter、IBM Plex Sans 和 IBM Plex Mono，中文不回落到系统默认字体。",
         "$extensions": {
           "tier0": {
-            "rationale": "中文 Web 字体单个字重就有数 MB，按需加载在工厂内网、私有化部署和弱网环境下会明显拖慢首屏，离线部署时还可能加载失败；苹方和微软雅黑覆盖绝大多数办公与工控终端，字形完整、屏幕显示清晰，且与 IBM Plex Sans 的中性气质相近。",
+            "rationale": "中文和正文字体同属 IBM Plex，字重和气质一致，不再按设备换成苹方、微软雅黑或思源黑体。",
             "frontend": {
-              "note": "前端未加载中文 Web 字体，与本规定一致。"
-            },
-            "platforms": {
-              "macOS / iOS": "PingFang SC",
-              "Windows": "Microsoft YaHei",
-              "Android": "Noto Sans CJK SC"
+              "note": "saas-dashboard 与 platform-admin 的 app/fonts.ts 只加载拉丁文 IBM Plex Sans、Inter、Geist、Geist Mono（subsets: latin）。中文目前没有单独的 Web 字体，会落到浏览器默认字体。"
             }
           }
         }
@@ -443,7 +430,7 @@
     "$extensions": {
       "tier0": {
         "rules": [
-          "标题和读数用 Inter，正文用 IBM Plex Sans，代码和命令行用 IBM Plex Mono（UNS 数据路径不算代码，用常规字体）；中文使用系统字体（苹果设备为苹方，Windows 为微软雅黑，Android 为思源黑体）；Tektur 只用于 Logo。",
+          "标题和读数用 Inter，正文用 IBM Plex Sans，代码和命令行用 IBM Plex Mono（UNS 数据路径不算代码，用常规字体）；中文统一用 IBM Plex Sans SC，不使用系统默认中文字体；Tektur 只用于 Logo。",
           "不引入以上之外的字体。",
           "中文标题和中英混排标题字距为 0；只有纯英文标题使用字阶里的负字距。",
           "最小字号用 caption；更小的字号只用于图表刻度等不需要阅读的文字。",
